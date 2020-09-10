@@ -1,0 +1,19 @@
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: auto;
+  }
+  
+  
+tr.is-new {
+  background: burlywood;
+}
+
+tr.is-seen {
+  background: yellowgreen;
+}
+  
+  

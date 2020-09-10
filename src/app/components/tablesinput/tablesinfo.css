@@ -1,0 +1,18 @@
+
+table {
+  text-align: center !important;
+  width: fit-content;
+  min-width: 90%;
+}
+  
+  .mat-header-cell {
+    text-align: center;
+  }
+    
+    
+    .mat-row{
+      background-color: white;
+      }
+      .mat-header-row {
+        background-color: white;
+      }

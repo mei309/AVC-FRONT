@@ -1,0 +1,16 @@
+<h1 style="text-align:center">Cashew Orders</h1>
+<mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
+(selectedIndexChange)="changed($event)">
+    <mat-tab label="Open">
+    </mat-tab>
+    <mat-tab label="Pending(received)">
+    </mat-tab>
+    <mat-tab label="Received">
+    </mat-tab>
+    <mat-tab label="Rejected">
+    </mat-tab>
+    <mat-tab label="All Orders">
+    </mat-tab>
+</mat-tab-group>
+<search-group-details [mainDetailsSource]="cashewSourceColumns" (details)="openDialog($event)">
+</search-group-details>

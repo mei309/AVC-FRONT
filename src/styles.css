@@ -1,0 +1,261 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.one-field {
+    padding-right: 10px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .one-cell-table {
+    border: 1px solid black;
+    /* background-color: blue; */
+  }
+  
+  
+  .array-field {
+    width: fit-content;
+    display: inline-flex;
+    flex-direction: column;
+  }
+  .array-field-grid {
+    width: fit-content;
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, 200px); */
+    grid-template-columns: auto auto auto auto auto;
+  }
+  
+  
+  .div-fit {
+    display: inline-block;
+    padding-right: 10px;
+  }
+  
+  .inside-right {
+    display: inherit;
+    align-self: flex-end;
+    /* text-align: right;
+    width: fit-content; */
+  }
+  
+  .div-inline {
+    /* width: 400px; */
+    display: inline-block;
+    /* width: max-content;*/
+    vertical-align: top;
+  }
+  
+  /* 
+  .div-inline-flex {
+    display: inline;
+  } */
+  
+  .put-down { 
+    margin-right: 10px;
+    border: 2px solid lightgray;
+    float: right;
+  }
+  
+  #putsuprdown {
+    margin-right: 10px;
+    border: 2px solid lightgray;
+    float: right;
+    position: relative;
+    bottom: 0;
+    top: 50px;
+  }
+  
+  
+  .one-group {
+    padding-right: 10px;
+    min-width: fit-content;
+  }
+  
+  .one-group .mat-form-field-infix {
+    display: inherit;
+  }
+  
+  .pad-right {
+    padding-right: 40px;
+  }
+  .margin-top {
+    margin-top: 15px;
+  }
+  .margin-left {
+    margin-left: 10px;
+  }
+  
+  
+  .mat-raised-button.raised-margin {
+    margin-right: 20px !important;
+    margin-left: 20px !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  
+  .form {
+    margin: auto;
+    /**border: 2px solid lightgray;
+    width: 90%;*/
+    padding-left: 15px;
+    margin-top: 10px;
+  }
+  fieldset {
+    position: relative;
+    margin: auto;
+    padding-left: 15px;
+    margin-top: 10px;
+  }
+  
+  
+  .add-button {
+    margin-right: 16px;
+    color: blue;
+  }
+  .mat-button:hover {
+    background: rgb(206, 20, 144);
+  }
+  
+  .mat-spinner {
+    position: relative;
+    margin-left: 50%;
+    margin-right: 50%;
+  }
+  
+  .example-card {
+    display: inline-block;
+    width: fit-content;
+    padding-right: 10px;
+    padding-top: 10px;
+  }
+  
+  ::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+  }
+  
+  .centerButtons {
+    position:relative;
+    left:25%;
+    display: inline-block;
+    width: fit-content;
+  }
+  
+  /* table {
+    width: 90%;
+    margin: auto;
+    max-width: 100vw;
+    overflow-x: scroll;
+  } */
+  .tables {
+    width: fit-content;
+    margin: auto;
+    max-width: 100vw;
+    overflow-x: auto;
+  }
+  .mat-header-cell {
+    min-width: 140px;
+    text-align: center !important;
+  }
+  .is-alert {
+    background-color: pink;
+  }
+  
+  /* 
+  .mat-row:nth-child(even){
+    background-color:rgb(211, 211, 211);
+    }
+    .mat-header-row {
+      background-color: rgba(119, 148, 153, 0.904);
+    }
+  
+    .mat-row:hover {
+      background: tomato;
+      outline: none;
+    } */
+  
+    .mat-cell{
+      border-left: 1px solid rgba(0, 0, 0, 0.12);
+      border-right: 1px solid rgba(0, 0, 0, 0.12);
+    } 
+  
+      
+    .my-toolbar {
+      position: sticky;
+      position: -webkit-sticky; /* For macOS/iOS Safari */
+      top: 0; /* Sets the sticky toolbar to be on top */
+      z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+    }
+    .mat-radio-group {
+      display: inline-flex;
+      flex-direction: column;
+      margin: 15px 0;
+    }  
+  
+    .mat-checbox-group {
+      display: inline-flex;
+      text-align: left;
+      flex-direction: column;
+      margin: 0 15px;
+    } 
+  
+    .pre {
+      font-size: 20px;
+    }
+
+    
+.example-icon {
+    padding: 0 14px;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  
+  .mat-form-field-label {
+    color: green !important;
+  } 
+  
+  @media print {
+    @page {
+      size: A4;
+    }
+    body * {
+      visibility: hidden;
+    }
+    #section-to-print, #section-to-print * {
+      visibility: visible;
+    }
+    #section-to-print {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    
+    #print, #print * {
+      visibility: visible;
+    }
+    #print-child, #print-child * {
+      visibility: visible;
+    }
+    /* .mat-dialog-content {
+      display: block;
+                   width: auto;
+                   height: auto;
+                   overflow: visible; 
+    } */
+    #print {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    #print-child {
+      position: absolute;
+      left: 0;
+      top: 100px;
+    }
+  }
+  
