@@ -92,11 +92,9 @@ export class Genral {
       this.globels.setGlobalProcessAuturtiy(value[11]);
 
       this.shippingPorts.next(value[12]);
-      this.productionLine.next(value[12]);
+      this.productionLine.next(value[13]);
 
-      console.log(value[13]);
-      
-      this.ItemsWasteCashew.next(value[13]);
+      this.ItemsWasteCashew.next(value[14]);
     });
   }
   
