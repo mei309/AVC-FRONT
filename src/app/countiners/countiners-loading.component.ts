@@ -87,7 +87,7 @@ export class CountinersLoadingComponent implements OnInit {
                 var arr = [];
                 val.forEach(element => {
                     if(element['storage']) {
-                        element['amounts'].forEach(elem => {
+                        element['storage']['amounts'].forEach(elem => {
                             elem['item'] = element['item'];
                         });
                         arr = arr.concat(element['storage']);
