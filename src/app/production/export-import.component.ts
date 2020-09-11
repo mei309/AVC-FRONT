@@ -310,6 +310,12 @@ export class ExportImportComponent implements OnInit {
                                 disable: true,
                             },
                             {
+                                type: 'input',
+                                label: 'Used units',
+                                name: 'usedUnits',
+                                disable: true,
+                            },
+                            {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
@@ -462,7 +468,7 @@ export class ExportImportComponent implements OnInit {
                 type: 'bigexpand',
                 name: 'processItemsTable',
                 label: 'Transfer to',
-                options: 'aloneNoAdd',
+                options: 'NoAdd',
                 collections: [
                     {
                         type: 'select',

@@ -286,8 +286,13 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
         type: 'normal',
-        label: 'Time duration',
-        name: 'duration',
+        label: 'Strat time',
+        name: 'startTime',
+    },
+    {
+        type: 'normal',
+        label: 'End time',
+        name: 'endTime',
     },
     {
         type: 'normal',

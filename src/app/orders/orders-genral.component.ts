@@ -127,8 +127,7 @@ export class OrdersGenralComponent implements OnInit {
               label: 'Delivery date',
               search: 'dates',
               compare: {
-                type: '<',
-                pipes: new Date().toISOString().substring(0, 10),
+                type: 'date',
               },
             },
             {
@@ -181,9 +180,8 @@ export class OrdersGenralComponent implements OnInit {
               label: 'Order amount',
               search: 'object',
               compare: {
-                name: 'receiptAmount',
-                type: '>lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -192,9 +190,8 @@ export class OrdersGenralComponent implements OnInit {
               label: 'Receipt amount',
               search: 'object',
               compare: {
-                name: 'orderAmount',
-                type: '<lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -260,9 +257,8 @@ export class OrdersGenralComponent implements OnInit {
               label: 'Order amount',
               search: 'object',
               compare: {
-                name: 'receiptAmount',
-                type: '>lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -271,9 +267,8 @@ export class OrdersGenralComponent implements OnInit {
               label: 'Receipt amount',
               search: 'object',
               compare: {
-                name: 'orderAmount',
-                type: '<lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -357,8 +352,7 @@ export class OrdersGenralComponent implements OnInit {
               label: 'Delivery date',
               search: 'dates',
               compare: {
-                type: '<',
-                pipes: new Date().toISOString().substring(0, 10),
+                type: 'date',
               },
             },
             {

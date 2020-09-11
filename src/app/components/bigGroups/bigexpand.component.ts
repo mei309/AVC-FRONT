@@ -126,6 +126,16 @@ const componentMapper = {
     </fieldset>
   </ng-container>
 
+  <ng-container *ngSwitchCase="'NoAdd'">
+    <fieldset [ngStyle]="{'border': '2px groove'}">
+      <legend><h1>{{field.label}}</h1></legend>
+      <ng-container ngProjectAs="mat-error">
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+      </ng-container>
+      <ng-template #container></ng-template>
+    </fieldset>
+  </ng-container>
+
   <ng-container *ngSwitchCase="'NoFrame'">
       <ng-container ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>

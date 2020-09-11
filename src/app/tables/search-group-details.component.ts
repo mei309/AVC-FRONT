@@ -41,10 +41,11 @@ import {isEqual} from 'lodash-es';
                 </mat-form-field>
             </th>
             <td mat-cell style="vertical-align: top;
-                padding-left: 16px;
+                padding-left: 16px; padding-right: 16px;
                 padding-top: 14px;" *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
-                    [attr.rowspan]="getRowSpan(i, column.group)">
+                    [attr.rowspan]="getRowSpan(i, column.group)"
+                    [ngClass]="{'is-alert': column.compare && compare(element, column)}">
                 <ng-container *ngIf="element[column.name]">
                     {{element[column.name] | tableCellPipe: column.type : column.collections}}
                 </ng-container>
@@ -92,28 +93,27 @@ export class SearchGroupDetailsComponent {
   lastSpan: string;
   spans = [];
   columnsDisplay: string[] = [];
+  groupId: boolean = false;
 
   localGroupOneColumns = [];
 
   constructor() {
   }
   preperData() {
-    // var groupId: boolean = false;
-    // if(element.type === 'idGroup'){
-    //     groupId = true;
-    //   } else 
-    //   if(groupId) {
-    //     this.spanRow(d => d['id'], 'id');
-    //     this.lastSpan = 'id';
-    //   }
     this.oneColumns.forEach(element => {
-      if(element.type === 'kidArray'){
+      if(element.type === 'idGroup'){
+        this.groupId = true;
+      } else if(element.type === 'kidArray'){
           this.takeCareKidArray(element);
       } else {
           this.localGroupOneColumns.push(element);
           this.columnsDisplay.push(element.name);
       }
     });
+    if(this.groupId) {
+      this.spanRow(d => d['id'], 'id');
+      this.lastSpan = 'id';
+    }
     this.localGroupOneColumns.forEach(element => {
       if(element.group === element.name) {
         this.spanRow(d => d[element.name], element.name);
@@ -216,6 +216,10 @@ export class SearchGroupDetailsComponent {
   readySpanData() {
     this.lastSpan = null;
     this.spans = [];
+    if(this.groupId) {
+      this.spanRow(d => d['id'], 'id');
+      this.lastSpan = 'id';
+    }
     this.localGroupOneColumns.forEach(element => {
       if(element.group === element.name) {
         this.spanRowData(d => d[element.name], element.name);
@@ -257,48 +261,28 @@ export class SearchGroupDetailsComponent {
   }
 
 
-//   operators = {
-//     // '+' : function(a: number[]) { return a.reduce((b, c) => { return b + c}, 0); },
-//     '>' : function(a, b) { return a > b; },
-//     '<' : function(a, b) { return a < b; },
-//     // '*' : function(a: number[]) { return a.reduce((b, c) => { return b * c}); },
-//     //'/' : function(a) { return a.reduce((b, c) => { return b + c}, 0); },
-//     // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
-//     '>lbkg' : function(a, b) { 
-//       if(a['measureUnit'] === b['measureUnit']) {
-//         return a['amount'] > b['amount'];
-//       } else if(a['measureUnit'] === 'KG') {
-//           return a['amount'] > b['amount']*0.4536;
-//       } else {
-//         return a['amount']*0.4536 > b['amount'];
-//       }
-//     },
-//     '<lbkg' : function(a, b) {  if(a['measureUnit'] === b['measureUnit']) {
-//         return a['amount'] < b['amount'];
-//       } else if(a['measureUnit'] === 'KG') {
-//         return a['amount'] < b['amount']*0.4536;
-//       } else {
-//         return a['amount']*0.4536 < b['amount'];
-//       }
-//     },
-//   };
-//   compare (element, column) {
-//     if(column.compare.name) {
-//       if(element[column.compare.name] && element[column.name]) {
-//         if(column.compare.pipes) {
-//           return this.operators[column.compare.type](element[column.name][column.compare.pipes], element[column.compare.name][column.compare.pipes]);
-//         } else {
-//           return this.operators[column.compare.type](element[column.name], element[column.compare.name]);
-//         }
-        
-//       }
-//     } else {
-//       if(element[column.name]) {
-//         return this.operators[column.compare.type](element[column.name], column.compare.pipes);
-//       }
-//     }
-//     return false;
-//   }
+  operators = {
+    // '+' : function(a: number[]) { return a.reduce((b, c) => { return b + c}, 0); },
+    '>' : function(a, b) { return a > b; },
+    '<' : function(a, b) { return a < b; },
+    'weight' : function(a) { return a.amount < 0 },
+    'date' : function(a) { return a < new Date().toISOString().substring(0, 10) },
+    // '*' : function(a: number[]) { return a.reduce((b, c) => { return b * c}); },
+    //'/' : function(a) { return a.reduce((b, c) => { return b + c}, 0); },
+    // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
+  };
+  compare (element, column) {
+    if(column.compare.name) {
+      if(element[column.compare.name]) {
+        return this.operators[column.compare.type](element[column.compare.name]);
+      }
+    } else {
+      if(element[column.name]) {
+        return this.operators[column.compare.type](element[column.name]);
+      }
+    }
+    return false;
+  }
 
 //   getTotel(cloumen, index, key) {
 //     if(this.spans[index]) {

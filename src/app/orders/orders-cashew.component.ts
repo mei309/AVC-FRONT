@@ -134,8 +134,7 @@ export class OrdersCashewComponent implements OnInit {
               label: 'Delivery date',
               search: 'dates',
               compare: {
-                type: '<',
-                pipes: new Date().toISOString().substring(0, 10),
+                type: 'date',
               },
             },
             {
@@ -162,10 +161,10 @@ export class OrdersCashewComponent implements OnInit {
           });
           this.type = 'receive';
           this.columnsShow = [
-            // {
-            //   type: 'idGroup',
-            //   name: 'id',
-            // },
+            {
+              type: 'idGroup',
+              name: 'id',
+            },
             {
               type: 'nameId',
               name: 'poCode',
@@ -199,9 +198,8 @@ export class OrdersCashewComponent implements OnInit {
               label: 'Order amount',
               search: 'object',
               compare: {
-                name: 'receiptAmount',
-                type: '>lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -210,9 +208,8 @@ export class OrdersCashewComponent implements OnInit {
               label: 'Receipt amount',
               search: 'object',
               compare: {
-                name: 'orderAmount',
-                type: '<lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -250,11 +247,10 @@ export class OrdersCashewComponent implements OnInit {
           });
           this.type = 'receive';
           this.columnsShow = [
-            // {
-            //   name: 'id',
-            //   label: 'id',
-            //   type: 'idGroup',
-            // },
+            {
+              name: 'id',
+              type: 'idGroup',
+            },
             {
               type: 'nameId',
               name: 'poCode',
@@ -287,22 +283,20 @@ export class OrdersCashewComponent implements OnInit {
               name: 'orderAmount',
               label: 'Order amount',
               search: 'object',
-              // compare: {
-              //   name: 'receiptAmount',
-              //   type: '>lbkg',
-              //   // pipes: 'amount',
-              // },
+              compare: {
+                name: 'orderBalance',
+                type: 'weight',
+              },
             },
             {
               type: 'weight2',
               name: 'receiptAmount',
               label: 'Item amount',
               search: 'object',
-              // compare: {
-              //   name: 'orderAmount',
-              //   type: '<lbkg',
-              //   // pipes: 'amount',
-              // },
+              compare: {
+                name: 'orderBalance',
+                type: 'weight',
+              },
             },
             {
               type: 'weight',
@@ -339,11 +333,10 @@ export class OrdersCashewComponent implements OnInit {
           });
           this.type = 'rejected';
           this.columnsShow = [
-            // {
-            //   name: 'id',
-            //   label: 'id',
-            //   type: 'idGroup',
-            // },
+            {
+              name: 'id',
+              type: 'idGroup',
+            },
             {
               type: 'nameId',
               name: 'poCode',
@@ -377,9 +370,8 @@ export class OrdersCashewComponent implements OnInit {
               label: 'Order amount',
               search: 'object',
               compare: {
-                name: 'receiptAmount',
-                type: '>lbkg',
-                // pipes: 'amount',
+                name: 'orderBalance',
+                type: 'weight',
               },
             },
             {
@@ -387,11 +379,10 @@ export class OrdersCashewComponent implements OnInit {
               name: 'receiptAmount',
               label: 'Item amount',
               search: 'object',
-              // compare: {
-              //   name: 'orderAmount',
-              //   type: '<lbkg',
-              //   // pipes: 'amount',
-              // },
+              compare: {
+                name: 'orderBalance',
+                type: 'weight',
+              },
             },
             {
               type: 'weight',
