@@ -60,12 +60,12 @@ export class TableCellPipe implements PipeTransform {
             case 'amountWithUnit':
                 var str = '';
                 element.forEach(element => {
-                    if(str) {
-                        const tempElement = document.createElement("div");
-                        tempElement.innerHTML = '<br/>';
-                        str += tempElement.innerText;
-                    }
-                    str += [element.item.value] +':'+ element.amountWithUnit[0]['value'] + ' (' + element.amountWithUnit[1]['value'] + ')';
+                    // if(str) {
+                    //     const tempElement = document.createElement("div");
+                    //     tempElement.innerHTML = '<br/>';
+                    //     str += tempElement.innerText;
+                    // }
+                    str += [element.item.value] +':'+ element.amountWithUnit[0]['value'] + ' (' + element.amountWithUnit[1]['value'] + ') ' + [element.warehouses];
                 });
                 return str;
             default:

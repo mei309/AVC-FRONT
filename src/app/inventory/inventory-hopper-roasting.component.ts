@@ -95,7 +95,7 @@ export class InventoryHopperRoastingComponent implements OnInit {
                     });
                     if(arrTable.length) {
                         this.dataSource['usedItemsTable'] = arrTable;
-                        this.dataSource['processItemsTable'] = [{item: val[0]['item']}];
+                        // this.dataSource['processItemsTable'] = [{item: val[0]['item']}];
                         this.isFormAvailable = true;
                     } else {
                         window.alert('dose not have bags for hopper');

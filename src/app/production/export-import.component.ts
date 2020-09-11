@@ -28,7 +28,7 @@ export class ExportImportComponent implements OnInit {
     
     onSubmit(value: any) {
         var arr = [];
-        value['startTime'] = "12:47";
+        // value['startTime'] = "12:47";
         if(value['materialUsed']) {
             var arrMaterial = [];
             value['materialUsed'].forEach(element => {
