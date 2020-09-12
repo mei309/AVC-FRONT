@@ -61,8 +61,8 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getPoCashewCodesInventory');
   }
   
-  getAllPosRaw() {
-    return this.http.get(this.inventorysurl+'getAllPos/RAW');
+  getAllPosRoast() {
+    return this.http.get(this.inventorysurl+'getAllPos/ROAST');
   }
 
 }

@@ -111,7 +111,7 @@ export class InventoryHopperRoastingComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getAllPosRaw(),
+                options: this.localService.getAllPosRoast(),
                 collections: [
                     {
                         type: 'select',
