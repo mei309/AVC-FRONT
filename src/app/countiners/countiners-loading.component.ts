@@ -13,23 +13,32 @@ import { diff } from '../libraries/diffArrayObjects.interface';
 @Component({
     selector: 'countiners-loading',
     template: `
-    <ng-container dynamicField [field]="poConfig" [group]="form">
-    </ng-container>
-    <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to export'" (submit)="submit($event)">
-        </dynamic-form>
+    <div *ngIf="!loading">
+      <dynamic-form [fields]="beginConfig" [mainLabel]="'Continer information'" (submit)="onLoad($event)">
+      </dynamic-form>
+    </div>
+    <div *ngIf="loading">
+        <ng-container dynamicField [field]="poConfig" [group]="form">
+        </ng-container>
+        <div *ngIf="isFormAvailable">
+            <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to export'" (submit)="submit($event)">
+            </dynamic-form>
+        </div>
     </div>
     `
   })
-export class CountinersLoadingComponent implements OnInit {
+export class CountinersLoadingComponent {
     form: FormGroup;
     
     choosedPos = [];
     poConfig: FieldConfig;
     regConfig: FieldConfig[];
+    beginConfig: FieldConfig[];
     
     dataSource = {usedItemsTable: [], usedItemsNormal: []};
-
+    firstData;
+    processData;
+    loading: boolean = false;
     isNew: boolean = true;
     isFormAvailable: boolean = false;
 
@@ -73,36 +82,44 @@ export class CountinersLoadingComponent implements OnInit {
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
-        value['usedItemGroups'] = arr;
+        this.firstData['usedItemGroups'] = arr;
 
-        value['processItems'] = [];
-        if(value['processItemsNormal']) {
-            value['processItems'] = value['processItems'].concat(value['processItemsNormal']);
-            delete value['processItemsNormal'];
-        }
-        if(value['processItemsTable']) {
-            value['processItems'] = value['processItems'].concat(value['processItemsTable']);
-            delete value['processItemsTable'];
-        }
-        console.log(value);
+
+        var proccesItems = [];
+        this.processData.forEach(element => {
+            if(element) {
+                element['storage']['amounts'].forEach(et => {
+                    delete et['id'];
+                    delete et['version'];
+                });
+                // element['storage']['warehouseLocation'] = element['warehouseLocation'];
+                delete element['storage']['item'];
+                var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: element['storage']}
+                proccesItems.push(cpoyProcess);
+            }
+        });
+        this.firstData['processItems'] = proccesItems;
+
         
-        // this.localService.addEditTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
-        //     const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
-        //         width: '80%',
-        //         data: {inventoryItem: val, fromNew: true, type: 'Inventory item'}
-        //     });
-        //     dialogRef.afterClosed().subscribe(result => {
-        //         if (result === 'Edit') {
-        //             this.isFormAvailable = false;
-        //             this.cdRef.detectChanges();
-        //             this.localService.getStorageTransfer(val['id']).pipe(take(1)).subscribe( val1 => {
-        //                 this.fillEdit(val1);
-        //             });
-        //         } else {
-        //             this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
-        //         }
-        //     });
-        // });
+        console.log(this.firstData);
+        
+        this.localService.addEditLoading(this.firstData, this.isNew).pipe(take(1)).subscribe( val => {
+            const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
+                width: '80%',
+                data: {inventoryItem: val, fromNew: true, type: 'Inventory item'}
+            });
+            dialogRef.afterClosed().subscribe(result => {
+                if (result === 'Edit') {
+                    // this.isFormAvailable = false;
+                    // this.cdRef.detectChanges();
+                    // this.localService.getStorageTransfer(val['id']).pipe(take(1)).subscribe( val1 => {
+                    //     this.fillEdit(val1);
+                    // });
+                } else {
+                    this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
+                }
+            });
+        });
       
     }
       
@@ -114,6 +131,8 @@ export class CountinersLoadingComponent implements OnInit {
     
 
     addToForm(val) { 
+        this.processData = val;
+
         var arrNormal = [];
         var arrTable = [];
         val.forEach(element => {
@@ -136,17 +155,19 @@ export class CountinersLoadingComponent implements OnInit {
     }
 
     cleanUnwanted() {
-        // if(!this.dataSource['usedItemsTable'].length) {
-        //     this.regConfig.splice(1, 1);
-        // }
+        if(!this.dataSource['usedItemsTable'].length) {
+            this.regConfig.splice(1, 1);
+        }
         if(!this.dataSource['usedItemsNormal'].length) {
             this.regConfig.splice(0, 1);
         }
     }
 
 
-    ngOnInit() {
+    onLoad(value) {
+        this.firstData = value;
         this.preperReg();
+        this.loading = true;
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
                 // var id = +params.get('id');
@@ -216,6 +237,127 @@ export class CountinersLoadingComponent implements OnInit {
 
             }
         });
+    }
+
+    ngOnInit () {
+        this.beginConfig = [
+            {
+                type: 'date',
+                label: 'Date',
+                value: new Date(),
+                name: 'recordedTime',
+                options: 'withTime',
+                validations: [
+                    {
+                        name: 'required',
+                        validator: Validators.required,
+                        message: 'Date Required',
+                    }
+                ]
+            },
+            {
+              type: 'bignotexpand',
+              label: 'Shipment code',
+              name: 'ShipmentCode',
+              collections: [
+                  {
+                      type: 'input',
+                      label: 'Code',
+                      name: 'code',
+                      validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Code Required',
+                        }
+                      ]
+                  },
+                  {
+                      type: 'select',
+                      label: 'Destination port',
+                      name: 'portOfDischarge',
+                      options: this.genral.getShippingPorts(),
+                      // disable: true,
+                  },
+              ],
+            },
+            {
+              type: 'bignotexpand',
+              label: 'Container details',
+              name: 'containerDetails',
+              collections: [
+                  {
+                      type: 'input',
+                      label: 'Container number',
+                      name: 'containerNumber',
+                  },
+                  {
+                      type: 'input',
+                      label: 'Seal number',
+                      name: 'sealNumber',
+                  },
+                  {
+                      type: 'selectNormal',
+                      label: 'Container type',
+                      name: 'containerType',
+                      value: '20\'',
+                      options: this.genral.getShippingContainerType(),
+                  },
+              ],
+            },
+            {
+              type: 'bignotexpand',
+              label: 'Shiping details',
+              name: 'shipingDetails',
+              value: 'required',
+              collections: [
+                  {
+                      type: 'input',
+                      label: 'Booking number',
+                      name: 'bookingNumber',
+                  },
+                  {
+                      type: 'input',
+                      label: 'Vessel',
+                      name: 'vessel',
+                  },
+                  {
+                      type: 'input',
+                      label: 'Shipping company',
+                      name: 'shippingCompany',
+                  },
+                  {
+                      type: 'select',
+                      label: 'Loading port',
+                      name: 'portOfLoading',
+                      options: this.genral.getShippingPorts(),
+                  },
+                  {
+                      type: 'date',
+                      label: 'Etd',
+                      name: 'etd',
+                      // value: new Date()
+                  },
+                  {
+                      type: 'select',
+                      label: 'Destination port',
+                      name: 'portOfDischarge',
+                      options: this.genral.getShippingPorts(),
+                  },
+                  {
+                    type: 'date',
+                    label: 'Eta',
+                    name: 'eta',
+                    // value: new Date()
+                  },
+              ],
+            },
+            {
+              type: 'button',
+              label: 'Load',
+              name: 'submit',
+            }
+        ];
     }
 
     preperReg(){
