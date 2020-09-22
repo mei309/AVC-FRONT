@@ -104,6 +104,12 @@ export class CashewInventoryComponent implements OnInit {
               options: this.genral.getStorage(),
             },
             {
+                type: 'dateTime',
+                name: 'recordedTime',
+                label: 'Recorded time',
+                search: 'dates',
+            },
+            {
               name: 'poInventoryRows',
               type: 'kidArray',
             },
@@ -152,6 +158,12 @@ export class CashewInventoryComponent implements OnInit {
               label: 'Storage',
               search: 'selectAsyncObject',
               options: this.genral.getStorage(),
+            },
+            {
+                type: 'dateTime',
+                name: 'recordedTime',
+                label: 'Recorded time',
+                search: 'dates',
             },
             {
               name: 'poInventoryRows',

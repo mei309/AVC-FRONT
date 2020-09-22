@@ -30,6 +30,12 @@ import {isEqual} from 'lodash-es';
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
+                    <mat-select *ngSwitchCase="'listAmountWithUnit'" placeholder="Search" (focus)="listAmountWithUnit(column.name)" (selectionChange)="applyFilter($event.value)">
+                        <mat-option value="">--all--</mat-option>
+                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
+                    </mat-select>
+                    
+                    <input *ngSwitchCase="'array2'" matInput readonly>
 
                     <input matInput *ngSwitchCase="'dates'" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value, column.name)">
                     <sat-datepicker #picker2 [rangeMode]="true" ></sat-datepicker>
@@ -47,7 +53,7 @@ import {isEqual} from 'lodash-es';
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
                 <ng-container *ngIf="element[column.name]">
-                    {{element[column.name] | tableCellPipe: column.type : column.collections}}
+                  <div [innerHTML]="element[column.name] | tableCellPipe: column.type : column.collections"></div>
                 </ng-container>
             </td>
         </ng-container>
@@ -155,6 +161,11 @@ export class SearchGroupDetailsComponent {
     this.dataSource.filterPredicate = (d: any, filter: string) => {
       const textToSearch = d[column] && d[column]['value'] && d[column]['value'].toString().toLowerCase() || '';
       return textToSearch.indexOf(filter) !== -1;
+    };
+  }
+  listAmountWithUnit(column: string) {
+    this.dataSource.filterPredicate = (d: any, filter: string) => {
+      return d[column].some(a => a['item']['value'].toString().toLowerCase().indexOf(filter) !== -1);
     };
   }
   applyFilter(filterValue: any) {

@@ -530,6 +530,11 @@ export class ShowDetailsComponent implements OnInit {
       // side: 'left',
       collections: [
         {
+            type: 'nameId',
+            label: 'Item descrption',
+            name: 'item',
+        },
+        {
             type: 'normal',
             label: 'Container weight',
             name: 'containerWeight',

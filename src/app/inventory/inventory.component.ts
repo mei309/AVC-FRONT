@@ -49,13 +49,15 @@ export class InventoryComponent implements OnInit {
             type: 'amountWithUnit',
             name: 'usedItems',
             label: 'Used items',
-            // type: 'object',
+            search: 'listAmountWithUnit',
+            options: this.genral.getAllItemsCashew(),
         },
         {
             type: 'amountWithUnit',
             name: 'producedItems',
             label: 'Produced items',
-            // type: 'object',
+            search: 'listAmountWithUnit',
+            options: this.genral.getAllItemsCashew(),
         },
         {
             type: 'weight2',

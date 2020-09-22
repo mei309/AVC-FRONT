@@ -28,7 +28,6 @@ export class ExportImportComponent implements OnInit {
     
     onSubmit(value: any) {
         var arr = [];
-        // value['startTime'] = "12:47";
         if(value['materialUsed']) {
             var arrMaterial = [];
             value['materialUsed'].forEach(element => {
@@ -149,7 +148,7 @@ export class ExportImportComponent implements OnInit {
                     element['usedItems']?.forEach(ele => {
                         ele['numberExport'] = ele['numberUnits'];
                     });
-                    arrNormal = arrNormal.concat(element);
+                    arrNormal.push(element);
                 } 
             });
             delete this.beginData['usedItemGroups'];

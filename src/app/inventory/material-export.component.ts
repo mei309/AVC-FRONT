@@ -204,7 +204,7 @@ export class MaterialExportComponent implements OnInit {
                 element['usedItems']?.forEach(ele => {
                     ele['numberExport'] = ele['numberUnits'];
                 });
-                arrNormal = arrNormal.concat(element);
+                arrNormal.push(element);
             } 
         });
         delete val['usedItemGroups'];
@@ -471,7 +471,7 @@ export class MaterialExportComponent implements OnInit {
                     {
                         type: 'bignotexpand',
                         name: 'usedItem',
-                        label: 'Transfer from',
+                        // label: 'Transfer from',
                         options: 'aloneNoAdd',
                         collections: [
                             {

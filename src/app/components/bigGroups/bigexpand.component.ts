@@ -88,7 +88,7 @@ const componentMapper = {
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'Inline'">
+  <ng-container *ngSwitchCase="['aloneInline', 'Inline'].includes('field.options') ? field.options : !field.options">
     <div class="div-inline">
       <ng-container ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>

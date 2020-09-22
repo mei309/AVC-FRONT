@@ -8,27 +8,30 @@ import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { InventoryService } from './inventory.service';
+import {cloneDeep} from 'lodash-es';
+import {isEqual} from 'lodash-es';
 @Component({
-    selector: 'inventory-hopper-roasting',
+    selector: 'inventory-sample',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Roasting hopper</h1></legend>
+        <legend><h1>Transfer With Sample</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Roasting hopper'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer With Sample'" (submit)="submit($event)">
         </dynamic-form>
     </div>
     `
   })
-export class InventoryHopperRoastingComponent implements OnInit {
+export class InventorySampleComponent implements OnInit {
     form: FormGroup;
     isDataAvailable: boolean = false
     isFormAvailable: boolean = false;
     poConfig;
     regConfigHopper: FieldConfig[];
     dataSource;
+    keepData;
     poID: number;
     submit(value: any) {
         var arr = [];
@@ -48,15 +51,30 @@ export class InventoryHopperRoastingComponent implements OnInit {
         }
         value['usedItemGroups'] = arr;
         
-        if(value['processItemsTable']) {
-            value['processItems'] = value['processItemsTable'];
-            delete value['processItemsTable'];
+        if(value['itemCounts']) {
+            var proccesItems = [];
+            value['itemCounts'].forEach(element => {
+                var copied = this.keepData.find(ele => (ele['storage'] && isEqual(ele['item'], element['item'])));
+                if(copied) {
+                    copied['storage']['amounts'].forEach(et => {
+                        delete et['id'];
+                        delete et['version'];
+                    });
+                    copied['storage']['warehouseLocation'] = element['warehouseLocation'];
+                    delete copied['storage']['item'];
+                    var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: copied['storage']}
+                    proccesItems.push(cpoyProcess);
+                }
+            });
+            value['processItems'] = proccesItems;
         }
-
+        
         console.log(value);
         
         
         this.localService.addEditTransfer(value, true).pipe(take(1)).subscribe( val => {
+            console.log(val);
+            
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
                 data: {inventoryItem: val, fromNew: true, type: 'Inventory item'}
@@ -83,22 +101,22 @@ export class InventoryHopperRoastingComponent implements OnInit {
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
                 this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                    this.keepData = val;
                     var arrTable = [];
-                    this.dataSource = {poCode: val[0]['poCode']};
-                    this.dataSource['processItemsTable'] = [];
+                    this.dataSource = {poCode: selectedValue};
+                    this.dataSource['itemCounts'] = [];
                     val.forEach(element => {
                         if(element['storage']) {
                             element['storage']['item'] = element['item'];
                             arrTable.push({usedItem: element['storage']});
-                            this.dataSource['processItemsTable'].push({item: element['item']});
+                            this.dataSource['itemCounts'].push({item: element['item']});
                         }
                     });
                     if(arrTable.length) {
                         this.dataSource['usedItemsTable'] = arrTable;
-                        // this.dataSource['processItemsTable'] = [{item: val[0]['item']}];
                         this.isFormAvailable = true;
                     } else {
-                        window.alert('dose not have bags for hopper');
+                        window.alert('dose not have bags for sample');
                         this.isDataAvailable = true;
                     }
                 }); 
@@ -220,24 +238,25 @@ export class InventoryHopperRoastingComponent implements OnInit {
                     },
                 ]
             },
-            {
-                type: 'bigexpand',
-                name: 'processItemsTable',
-                label: 'Transfer to',
-                options: 'aloneNoAdd',
-                collections: [
+            // {
+            //     type: 'bigexpand',
+            //     name: 'processItemsTable',
+            //     label: 'Transfer to',
+            //     options: 'aloneNoAdd',
+            //     collections: [
+            //         
                     {
-                        type: 'select',
-                        label: 'Item descrption',
-                        name: 'item',
-                        disable: true,
-                        // options: this.genral.getAllItemsCashew(),
-                    },
-                    {
-                        type: 'bignotexpand',
-                        name: 'storage',
-                        options: 'Inline',
+                        type: 'bigexpand',
+                        name: 'itemCounts',
+                        label: 'Transfer With Sample',
+                        options: 'aloneNoAdd',
                         collections: [
+                            {
+                                type: 'select',
+                                label: 'Item descrption',
+                                name: 'item',
+                                disable: true,
+                            },
                             {
                                 type: 'selectNormal',
                                 label: 'Weight unit',
@@ -266,8 +285,8 @@ export class InventoryHopperRoastingComponent implements OnInit {
                             },
                         ],
                     },
-                ],
-            },
+            //     ],
+            // },
             {
                 type: 'button',
                 label: 'Submit',

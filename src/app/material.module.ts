@@ -28,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
+// import {MatSliderModule} from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -57,8 +58,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDialogModule,
     MatMenuModule, MatChipsModule, MatAutocompleteModule,
     MatSnackBarModule, MatDividerModule, MatProgressSpinnerModule, MatListModule,
-    MatButtonToggleModule
-    // MatSliderModule, MatExpansionModule, MatSidenavModule
+    MatButtonToggleModule,
+    // MatSliderModule,
+    //MatExpansionModule, MatSidenavModule
   ],
   exports: [
     NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule,
@@ -80,8 +82,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDialogModule,
     MatMenuModule, MatChipsModule, MatAutocompleteModule,
     MatSnackBarModule, MatDividerModule, MatProgressSpinnerModule, MatListModule,
-    MatButtonToggleModule
-    // MatSliderModule, MatExpansionModule, MatSidenavModule,
+    MatButtonToggleModule,
+    // MatSliderModule,
+    //MatExpansionModule, MatSidenavModule,
   ],
   providers: [
   ],
