@@ -11,7 +11,7 @@ import { InventoryService } from './inventory.service';
 import {cloneDeep} from 'lodash-es';
 import {isEqual} from 'lodash-es';
 @Component({
-    selector: 'inventory-sample',
+    selector: 'transfer-count',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
         <legend><h1>Transfer With Sample</h1></legend>
@@ -24,18 +24,18 @@ import {isEqual} from 'lodash-es';
     </div>
     `
   })
-export class InventorySampleComponent implements OnInit {
+export class TransferCountComponent implements OnInit {
     form: FormGroup;
     isDataAvailable: boolean = false
     isFormAvailable: boolean = false;
     poConfig;
     regConfigHopper: FieldConfig[];
     dataSource;
-    keepData;
     poID: number;
     submit(value: any) {
         var arr = [];
         if(value['usedItemsTable']) {
+            var proccesItems = [];
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
                 element['usedItem']['amounts'].forEach(ele => {
@@ -45,29 +45,40 @@ export class InventorySampleComponent implements OnInit {
                     delete ele['version'];
                 });
                 element['groupName'] = 'table';
+
+                var copied = cloneDeep(element['usedItem']);
+                copied['amounts'].forEach(et => {
+                    delete et['storageId'];
+                    delete et['storageVersion'];
+                });
+                copied['warehouseLocation'] = (value['itemCounts'].find(ele => isEqual(ele['item'], copied['item'])))['warehouseLocation'];
+                var cpoyProcess = {item: copied['item'], groupName: element['groupName'], storage: copied};
+                delete copied['item'];
+                proccesItems.push(cpoyProcess);
             });
+            value['processItems'] = proccesItems;
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
         value['usedItemGroups'] = arr;
         
-        if(value['itemCounts']) {
-            var proccesItems = [];
-            value['itemCounts'].forEach(element => {
-                var copied = this.keepData.find(ele => (ele['storage'] && isEqual(ele['item'], element['item'])));
-                if(copied) {
-                    copied['storage']['amounts'].forEach(et => {
-                        delete et['id'];
-                        delete et['version'];
-                    });
-                    copied['storage']['warehouseLocation'] = element['warehouseLocation'];
-                    delete copied['storage']['item'];
-                    var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: copied['storage']}
-                    proccesItems.push(cpoyProcess);
-                }
-            });
-            value['processItems'] = proccesItems;
-        }
+        // if(value['itemCounts']) {
+        //     var proccesItems = [];
+        //     value['itemCounts'].forEach(element => {
+        //         var copied = this.keepData.find(ele => (ele['storage'] && isEqual(ele['item'], element['item'])));
+        //         if(copied) {
+        //             copied['storage']['amounts'].forEach(et => {
+        //                 delete et['id'];
+        //                 delete et['version'];
+        //             });
+        //             copied['storage']['warehouseLocation'] = element['warehouseLocation'];
+        //             delete copied['storage']['item'];
+        //             var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: copied['storage']}
+        //             proccesItems.push(cpoyProcess);
+        //         }
+        //     });
+        //     value['processItems'] = proccesItems;
+        // }
         
         console.log(value);
         
@@ -101,7 +112,6 @@ export class InventorySampleComponent implements OnInit {
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
                 this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                    this.keepData = val;
                     var arrTable = [];
                     this.dataSource = {poCode: selectedValue};
                     this.dataSource['itemCounts'] = [];
@@ -129,7 +139,7 @@ export class InventorySampleComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getAllPosRoast(),
+                options: this.localService.getPoCashewCodesInventory(),
                 collections: [
                     {
                         type: 'select',

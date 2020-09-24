@@ -52,16 +52,29 @@ export class InventoryComponent implements OnInit {
             search: 'listAmountWithUnit',
             options: this.genral.getAllItemsCashew(),
         },
+        // {
+        //     type: 'amountWithUnit',
+        //     name: 'producedItems',
+        //     label: 'Produced items',
+        //     search: 'listAmountWithUnit',
+        //     options: this.genral.getAllItemsCashew(),
+        // },
+        // {
+        //     type: 'weight2',
+        //     name: 'processGain',
+        //     label: 'Difference',
+        //     search: 'object',
+        // },
         {
             type: 'amountWithUnit',
-            name: 'producedItems',
-            label: 'Produced items',
+            name: 'itemCounts',
+            label: 'Counted items',
             search: 'listAmountWithUnit',
             options: this.genral.getAllItemsCashew(),
         },
         {
             type: 'weight2',
-            name: 'processGain',
+            name: 'countDifference',
             label: 'Difference',
             search: 'object',
         },
@@ -83,7 +96,7 @@ export class InventoryComponent implements OnInit {
       if (data === 'Edit') {
           switch (this.tabIndex) {
                 case 0:
-                    this.router.navigate(['../MaterialExport',{id: event['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../TransferCountComponent',{id: event['id']}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;
@@ -105,13 +118,14 @@ export class InventoryComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 1:
-        //   this.mainSourceColumns = null;
-        //   this.localService.getAllRoasting().pipe(take(1)).subscribe(value => {
-        //     this.mainSourceColumns = [<any[]>value, this.columnsShow];
-        //   });
-        //   this.type = 'Roasting';
-        //   this.cdRef.detectChanges();
-        //   break;
+          // this.mainSourceColumns = null;
+          // this.localService.getStorageTransfersTable().pipe(take(1)).subscribe(value => {
+          //   this.mainSourceColumns = [<any[]>value, this.columnsShow];
+          //   console.log(value);
+            
+          // });
+          // this.cdRef.detectChanges();
+          // break;
         case 2:
         //   this.mainSourceColumns = null;
         //   this.localService.getAllPacking().pipe(take(1)).subscribe(value => {

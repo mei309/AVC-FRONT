@@ -76,13 +76,14 @@
         <button mat-menu-item [matMenuTriggerFor]="inventoryreports">Reports</button>
       </mat-menu>
       <mat-menu #inventorysnew="matMenu" >
-        <button mat-menu-item routerLink='invready/MaterialExport'>Material Export</button>
-        <button mat-menu-item routerLink='invready/Sample'>Transfer With Sample</button>
+        <!-- <button mat-menu-item routerLink='invready/MaterialExport'>Material Export</button> -->
+        <button mat-menu-item routerLink='invready/TransferCount'>Transfer With Count</button>
       </mat-menu>
       <mat-menu #inventoryreports="matMenu" >
         <button mat-menu-item routerLink='invready/CashewInventory'>Cashew</button>
         <button mat-menu-item routerLink='invready/GenralInventory'>General</button>
-        <button mat-menu-item routerLink='invready/InventoryReports'>Transfer Reports</button>
+        <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 0}]">Transfer</button>
+        <!-- <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 1}]">Transfers With Samples</button> -->
         <!-- <button mat-menu-item routerLink='invready/CashewCount'>Cashew count</button>
         <button mat-menu-item routerLink='invready/GenralCount'>General count</button>
         <button mat-menu-item routerLink='invready/MaterialExportPo'>Material export by #PO</button>

@@ -20,6 +20,9 @@ export class InventoryService {
   getAllTransfers() {
     return this.getAllProduction('STORAGE_TRANSFER');
   }
+  // getStorageTransfersTable() {
+  //   return this.http.get(this.inventorysurl+'getStorageTransfersTable');
+  // }
 
   addEditTransfer (value, fromNew: boolean) {
     if(fromNew) {

@@ -35,9 +35,8 @@ export class CountinersLoadingComponent {
     regConfig: FieldConfig[];
     beginConfig: FieldConfig[];
     
-    dataSource = {usedItemsTable: [], usedItemsNormal: []};
+    dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
     firstData;
-    processData;
     loading: boolean = false;
     isNew: boolean = true;
     isFormAvailable: boolean = false;
@@ -83,22 +82,22 @@ export class CountinersLoadingComponent {
             delete value['usedItemsTable'];
         }
         this.firstData['usedItemGroups'] = arr;
+        this.firstData['loadedItems'] = value['loadedItems'];
 
-
-        var proccesItems = [];
-        this.processData.forEach(element => {
-            if(element) {
-                element['storage']['amounts'].forEach(et => {
-                    delete et['id'];
-                    delete et['version'];
-                });
-                // element['storage']['warehouseLocation'] = element['warehouseLocation'];
-                delete element['storage']['item'];
-                var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: element['storage']}
-                proccesItems.push(cpoyProcess);
-            }
-        });
-        this.firstData['processItems'] = proccesItems;
+        // var proccesItems = [];
+        // this.processData.forEach(element => {
+        //     if(element) {
+        //         element['storage']['amounts'].forEach(et => {
+        //             delete et['id'];
+        //             delete et['version'];
+        //         });
+        //         // element['storage']['warehouseLocation'] = element['warehouseLocation'];
+        //         delete element['storage']['item'];
+        //         var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: element['storage']}
+        //         proccesItems.push(cpoyProcess);
+        //     }
+        // });
+        // this.firstData['processItems'] = proccesItems;
 
         
         console.log(this.firstData);
@@ -131,10 +130,9 @@ export class CountinersLoadingComponent {
     
 
     addToForm(val) { 
-        this.processData = val;
-
         var arrNormal = [];
         var arrTable = [];
+        var arrDeclared = [];
         val.forEach(element => {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
@@ -145,12 +143,16 @@ export class CountinersLoadingComponent {
                 });
                 arrNormal.push({usedItems: element['storageForms']});
             }
+            arrDeclared.push({poCode: element['poCode'], item: element['item']});
         });
         if(arrTable.length) {
-            this.dataSource['usedItemsTable'] = arrTable;
+            this.dataSource['usedItemsTable'] = this.dataSource['usedItemsTable'].concat(arrTable);
         }
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = this.dataSource['usedItemsNormal'].concat(arrNormal);
+        }
+        if(arrDeclared.length) {
+            this.dataSource['loadedItems'] = this.dataSource['loadedItems'].concat(arrDeclared);
         }
     }
 
@@ -468,6 +470,56 @@ export class CountinersLoadingComponent {
                                 inputType: 'choose',
                                 options: 3,
                                 collections: 30,
+                            },
+                        ]
+                    },
+                ]
+            },
+            {
+                type: 'bigexpand',
+                name: 'loadedItems',
+                label: 'Declared amounts',
+                options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        options: this.localService.getAllPosRoastPacked(),
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Supplier',
+                            },
+                            {
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
+                            },
+                        ]
+                    },
+                    {
+                        type: 'select',
+                        label: 'Item descrption',
+                        name: 'item',
+                        options: this.genral.getAllItemsCashew(),
+                    },
+                    {
+                        type: 'inputselect',
+                        name: 'declaredAmount',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: 'Declared amount',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                                options: ['KG', 'LBS', 'OZ', 'GRAM'],
                             },
                         ]
                     },
