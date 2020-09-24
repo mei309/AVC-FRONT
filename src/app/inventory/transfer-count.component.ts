@@ -32,6 +32,7 @@ export class TransferCountComponent implements OnInit {
     regConfigHopper: FieldConfig[];
     dataSource;
     poID: number;
+    isNew: boolean = true;
     submit(value: any) {
         var arr = [];
         if(value['usedItemsTable']) {
@@ -51,7 +52,7 @@ export class TransferCountComponent implements OnInit {
                     delete et['storageId'];
                     delete et['storageVersion'];
                 });
-                copied['warehouseLocation'] = (value['itemCounts'].find(ele => isEqual(ele['item'], copied['item'])))['warehouseLocation'];
+                copied['warehouseLocation'] = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], copied['item']['id'])))['warehouseLocation'];
                 var cpoyProcess = {item: copied['item'], groupName: element['groupName'], storage: copied};
                 delete copied['item'];
                 proccesItems.push(cpoyProcess);
@@ -83,7 +84,7 @@ export class TransferCountComponent implements OnInit {
         console.log(value);
         
         
-        this.localService.addEditTransfer(value, true).pipe(take(1)).subscribe( val => {
+        this.localService.addEditTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
             console.log(val);
             
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
@@ -105,55 +106,83 @@ export class TransferCountComponent implements OnInit {
          private _Activatedroute:ActivatedRoute, private router: Router,) {
         }
 
+        fillEdit(val) {
+            console.log(val);
+            
+            var arrTable = [];
+            val['usedItemGroups'].forEach(element => {
+                if(element['usedItem']) {
+                    element['usedItem']['amounts'].forEach(ele => {
+                        ele['take'] = true;
+                    });
+                    arrTable.push(element);
+                }
+            });
+            delete val['usedItemGroups'];
+            this.dataSource = val;
+            this.dataSource['usedItemsTable'] = arrTable;
+            this.isNew = false;
+            this.isFormAvailable = true;
+        }
 
     ngOnInit() {
-        this.form = this.fb.group({});
-        this.form.addControl('poCode', this.fb.control(''));
-        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
-                this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                    var arrTable = [];
-                    this.dataSource = {poCode: selectedValue};
-                    this.dataSource['itemCounts'] = [];
-                    val.forEach(element => {
-                        if(element['storage']) {
-                            element['storage']['item'] = element['item'];
-                            arrTable.push({usedItem: element['storage']});
-                            this.dataSource['itemCounts'].push({item: element['item']});
-                        }
-                    });
-                    if(arrTable.length) {
-                        this.dataSource['usedItemsTable'] = arrTable;
-                        this.isFormAvailable = true;
-                    } else {
-                        window.alert('dose not have bags for sample');
-                        this.isDataAvailable = true;
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('id')) {
+                var id = +params.get('id');
+                this.localService.getStorageTransfer(id).pipe(take(1)).subscribe( val => {
+                    this.fillEdit(val);
+                });
+            } else {
+                this.form = this.fb.group({});
+                this.form.addControl('poCode', this.fb.control(''));
+                this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+                    if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+                        this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                            var arrTable = [];
+                            this.dataSource = {poCode: selectedValue};
+                            this.dataSource['itemCounts'] = [];
+                            val.forEach(element => {
+                                if(element['storage']) {
+                                    element['storage']['item'] = element['item'];
+                                    arrTable.push({usedItem: element['storage']});
+                                    this.dataSource['itemCounts'].push({item: element['item']});
+                                }
+                            });
+                            if(arrTable.length) {
+                                this.dataSource['usedItemsTable'] = arrTable;
+                                this.isFormAvailable = true;
+                            } else {
+                                window.alert('dose not have bags for sample');
+                                this.isDataAvailable = true;
+                            }
+                        }); 
+                        this.isDataAvailable = false;
+                        this.poID = selectedValue['id'];
                     }
-                }); 
-                this.isDataAvailable = false;
-                this.poID = selectedValue['id'];
+                });
+                this.isDataAvailable = true;
+                this.poConfig = [
+                    {
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        options: this.localService.getPoCashewCodesInventory(),
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Supplier',
+                            },
+                            {
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
+                            },
+                        ]
+                    },
+                ];
             }
         });
-        this.isDataAvailable = true;
-        this.poConfig = [
-            {
-                type: 'selectgroup',
-                inputType: 'supplierName',
-                options: this.localService.getPoCashewCodesInventory(),
-                collections: [
-                    {
-                        type: 'select',
-                        label: 'Supplier',
-                    },
-                    {
-                        type: 'select',
-                        label: '#PO',
-                        name: 'poCode',
-                        collections: 'somewhere',
-                    },
-                ]
-            },
-        ];
+        
 
         this.regConfigHopper = [
             {

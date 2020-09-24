@@ -96,7 +96,7 @@ export class InventoryComponent implements OnInit {
       if (data === 'Edit') {
           switch (this.tabIndex) {
                 case 0:
-                    this.router.navigate(['../TransferCountComponent',{id: event['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../TransferCount',{id: event['id']}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;
@@ -110,7 +110,7 @@ export class InventoryComponent implements OnInit {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
-          this.localService.getAllTransfers().pipe(take(1)).subscribe(value => {
+          this.localService.getTransferCounts().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
             console.log(value);
             

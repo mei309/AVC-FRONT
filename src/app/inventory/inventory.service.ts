@@ -14,12 +14,10 @@ export class InventoryService {
   constructor(private http: HttpClient) {
   } 
 
-  getAllProduction(processName: string) {
-    return this.http.get(this.inventorysurl+'allProduction/'+processName);
+  getTransferCounts() {
+    return this.http.get(this.inventorysurl+'getTransferCounts');
   }
-  getAllTransfers() {
-    return this.getAllProduction('STORAGE_TRANSFER');
-  }
+  
   // getStorageTransfersTable() {
   //   return this.http.get(this.inventorysurl+'getStorageTransfersTable');
   // }
