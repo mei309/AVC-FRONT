@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import {isEqualWith} from 'lodash-es';
 import { Genral } from '../genral.service';
 import { Globals } from '../global-params.component';
-import { ConfirmationDialog } from './confirm-dialog.component';
+import { ConfirmationDialog } from '../service/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 @Component({
@@ -13,28 +13,40 @@ import { take } from 'rxjs/operators';
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
-            <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject','arrayGroup', 'array', 'detailsUpside'].includes(column.type); else notImportEdit">
-              <ng-container *ngIf="isFullObjects(dataSource[column.name], secondSource[column.name])">
-                <ng-container [ngSwitch]="column.type">
-                  <ng-container *ngIf="!['parent', 'parentArray'].includes(column.type)">
-                    <h4>{{column.label}}</h4>
-                  </ng-container>
-                  <show-details *ngSwitchCase="'object'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                  </show-details>
-                  <show-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                  </show-details>
-                  <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
-                  </show-details>
-                  <show-details *ngSwitchCase="'parentArray'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
-                  </show-details>
-                  <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                  </show-details-table>
-                  <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                  </show-details-group-table>
-                  <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                  </show-details-upside-table>
+            <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside'].includes(column.type); else notImportEdit"> 
+                <ng-container *ngIf="['parent', 'parentArray', 'object', 'arrayOrdinal'].includes(column.type); else legendBoxEdit">
+                      <ng-container *ngIf="'arrayOrdinal' === column.type; else notArrayOrdinalEdit">
+                          <show-details-ordinal [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                          </show-details-ordinal>
+                      </ng-container>
+                      <ng-template #notArrayOrdinalEdit>
+                        <h4 *ngIf="column.type === 'object'">{{column.label}}</h4>
+                        <ng-container *ngIf="['parent', 'object'].includes(column.type); else onlyzero">
+                          <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                          </show-details>
+                        </ng-container>
+                        <ng-template #onlyzero>
+                          <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
+                          </show-details>
+                        </ng-template>
+                      </ng-template>
                 </ng-container>
-              </ng-container>
+                <ng-template #legendBoxEdit>
+                      <fieldset [ngSwitch]="column.type" [ngClass]="{'no-legend': !column.label}">
+                          <legend><h1>{{column.label}}</h1></legend>
+                          <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                          </show-details-table>
+                          <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                          </show-details-group-table>
+                          <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                          </show-details-upside-table>
+                          <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
+                          </show-details>
+
+                          <for-each-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
+                          </for-each-edit> 
+                      </fieldset>
+                </ng-template>
             </ng-container>
             <ng-template #notImportEdit>
                   <mat-form-field appearance="none" provideReadonly>
@@ -54,8 +66,8 @@ import { take } from 'rxjs/operators';
     <ng-template #noSecond>
         <ng-container *ngFor="let column of oneColumns">
             <ng-container *ngIf="checkNotEmpty(dataSource[column.name])">
-              <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject','arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'arrayOrdinal'].includes(column.type); else notImport">
-                  <ng-container *ngIf="['parent', 'parentArray', 'object', 'parentArrayObject', 'arrayOrdinal'].includes(column.type); else legendBox">
+              <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'arrayOrdinal'].includes(column.type); else notImport">
+                  <ng-container *ngIf="['parent', 'parentArray', 'object', 'arrayOrdinal'].includes(column.type); else legendBox">
                         <ng-container *ngIf="'arrayOrdinal' === column.type; else notArrayOrdinal">
                             <show-details-ordinal [dataSource]="dataSource[column.name]" >
                             </show-details-ordinal>
@@ -75,6 +87,8 @@ import { take } from 'rxjs/operators';
                           </show-details-group-table>
                           <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" >
                           </show-details-upside-table>
+                          <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
+                          </show-details>
 
                           <div *ngSwitchCase="'arrayForEach'">
                             <show-details class="change-color" *ngFor="let line of dataSource[column.name]" [dataSource]="line" [withPo]="false">
@@ -258,14 +272,14 @@ export class ShowDetailsComponent implements OnInit {
     })
   }
 
-  isFullObjects(obj1 : any, obj2: any) : boolean {
-    if(!obj1 || !obj1.length) {
-      if(!obj2 || !obj2.length) {
-        return false;
-      }
-    }
-    return true;
-  }
+  // isFullObjects(obj1 : any, obj2: any) : boolean {
+  //   if(!obj1 || !obj1.length) {
+  //     if(!obj2 || !obj2.length) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   regShow = [
     {
@@ -618,6 +632,42 @@ export class ShowDetailsComponent implements OnInit {
       name: 'storage',
       // side: 'right',
       collections: [
+        {
+            type: 'normal',
+            label: 'Container weight',
+            name: 'containerWeight',
+        },
+        {
+            type: 'normal',
+            label: 'Measure unit',
+            name: 'measureUnit',
+        },
+        {
+            type: 'nameId',
+            label: 'Warehouse location',
+            name: 'warehouseLocation',
+        },
+        {
+          type: 'arrayOrdinal',
+          // label: 'Produced amounts',
+          name: 'amounts',
+        },
+      ]
+    },
+
+
+
+
+    {
+      type: 'parentArrayObject',
+      name: 'itemCounts',
+      label: 'Item counts',
+      collections: [
+        {
+            type: 'nameId',
+            label: 'Item descrption',
+            name: 'item',
+        },
         {
             type: 'normal',
             label: 'Container weight',

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { NumericDirective } from './libraries/numeric.directive';
-import { ShowDetailsComponent } from './service/show-details.component';
-import { ShowDetailsTableComponent } from './service/show-details-table.component';
-import { ShowDetailsTableGroupComponent } from './service/show-details-group-table.component';
+import { ShowDetailsComponent } from './detailes/show-details.component';
+import { ShowDetailsTableComponent } from './detailes/show-details-table.component';
+import { ShowDetailsTableGroupComponent } from './detailes/show-details-group-table.component';
 import { DynamicFieldDirective } from './components/dynamic-field/dynamic-field.directive';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { InputComponent } from './components/inputs/input.component';
@@ -37,14 +37,14 @@ import { MaterialModule } from './material.module';
 import { CommonModule } from '@angular/common';
 // import { ExpandableTableComponent } from './search-tables/expandable-table.component';
 // import { NormalTableComponent } from './normal-tables/normal-table.component';
-import { ShowDetailsUpsideTableComponent } from './service/show-details-upside-table.component';
+import { ShowDetailsUpsideTableComponent } from './detailes/show-details-upside-table.component';
 import { TableWithInputComponent } from './components/bigGroups/table-with-input.component';
 import { SelectLineComponent } from './components/selects/slecet-line.component';
 import { TableCellPipe } from './service/table-cell.pipe';
 import { MyDurationPickerDirective } from './libraries/duration.directive';
 import { ConfirmationDialog } from './service/confirm-dialog.component';
 import { ArrayOrdinalComponent } from './components/array/array-ordinal.component';
-import { ShowOrdinalComponent } from './service/show-details-ordinal.component';
+import { ShowOrdinalComponent } from './detailes/show-details-ordinal.component';
 import { SearchDetailsComponent } from './tables/search-details.component';
 import { NormalDetailsComponent } from './tables/normal-details.component';
 import { SearchExpandableComponent } from './tables/search-expanable.component';
@@ -53,6 +53,7 @@ import { NormalGroupDetailsComponent } from './tables/normal-group-details.compo
 import { SumsTableComponent } from './tables/sums-table.component';
 import { PercentInputComponent } from './components/inputs/percent-input.component';
 import { PercentageDirective } from './libraries/percentage.directive';
+import { ForEachEditComponent } from './detailes/for-each-edit.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,8 @@ import { PercentageDirective } from './libraries/percentage.directive';
     ShowDetailsTableComponent,
     ShowDetailsTableGroupComponent,
     ShowDetailsUpsideTableComponent,
+    ForEachEditComponent,
+
     TableCellPipe,
     ConfirmationDialog,
 
@@ -139,6 +142,8 @@ import { PercentageDirective } from './libraries/percentage.directive';
     ShowDetailsTableComponent,
     ShowDetailsTableGroupComponent,
     ShowDetailsUpsideTableComponent,
+    ForEachEditComponent,
+    
     TableCellPipe,
 
     DynamicFieldDirective,

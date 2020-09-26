@@ -45,10 +45,10 @@ export class MaterialExportItemComponent implements OnInit {
             delete ele['id'];
         });
         
-        this.localService.addStorageListTransfer(Object.values(value)).pipe(take(1)).subscribe( val => {
-            console.log(val);
+        // this.localService.addStorageListTransfer(Object.values(value)).pipe(take(1)).subscribe( val => {
+        //     console.log(val);
             
-        });
+        // });
       
     }
     constructor(private _Activatedroute:ActivatedRoute,
@@ -71,7 +71,7 @@ export class MaterialExportItemComponent implements OnInit {
                 type: 'select',
                 label: 'Item descrption',
                 name: 'item',
-                options: this.localService.getAllItems(),
+                // options: this.localService.getAllItems(),
             },
             {
                 type: 'date',
@@ -262,7 +262,7 @@ export class MaterialExportItemComponent implements OnInit {
                                         type: 'select',
                                         label: 'Item descrption',
                                         name: 'item',
-                                        options: this.genral.getItemsCashew(),
+                                        // options: this.genral.getItemsCashew(),
                                     },
                                     {
                                         type: 'bigexpand',

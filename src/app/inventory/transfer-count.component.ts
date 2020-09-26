@@ -35,16 +35,20 @@ export class TransferCountComponent implements OnInit {
     isNew: boolean = true;
     submit(value: any) {
         var arr = [];
+        console.log(value);
+        
         if(value['usedItemsTable']) {
             var proccesItems = [];
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                element['usedItem']['amounts'].forEach(ele => {
-                    ele['storageId'] = ele['id'];
-                    delete ele['id'];
-                    ele['storageVersion'] = ele['version'];
-                    delete ele['version'];
-                });
+                if(this.isNew) {   
+                    element['usedItem']['amounts'].forEach(ele => {
+                        ele['storageId'] = ele['id'];
+                        delete ele['id'];
+                        ele['storageVersion'] = ele['version'];
+                        delete ele['version'];
+                    });
+                }
                 element['groupName'] = 'table';
 
                 var copied = cloneDeep(element['usedItem']);
