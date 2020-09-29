@@ -260,7 +260,7 @@ export class CountinersLoadingComponent {
             {
               type: 'bignotexpand',
               label: 'Shipment code',
-              name: 'ShipmentCode',
+              name: 'shipmentCode',
               collections: [
                   {
                       type: 'input',
