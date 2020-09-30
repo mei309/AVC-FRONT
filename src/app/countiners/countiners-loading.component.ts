@@ -49,14 +49,14 @@ export class CountinersLoadingComponent {
                     var arrNormal = [];
                     element['usedItems'].forEach(elem => {
                         if(elem['numberExport']) {
-                            arrNormal.push({storage: elem, numberUnits: elem['numberExport']});
+                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberExport']});
                         }
                     });
                     element['usedItems'] = arrNormal;
                 } else {
                     element['usedItems'].forEach(elem => {
                         if(elem['numberExport']) {
-                            elem['numberUnits'] = elem['numberExport'];
+                            elem['numberUsedUnits'] = elem['numberExport'];
                         }
                     });
                 } 
@@ -105,7 +105,7 @@ export class CountinersLoadingComponent {
         this.localService.addEditLoading(this.firstData, this.isNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
                 width: '80%',
-                data: {inventoryItem: val, fromNew: true, type: 'Inventory item'}
+                data: {loading: val, fromNew: true, type: 'Inventory item'}
             });
             dialogRef.afterClosed().subscribe(result => {
                 if (result === 'Edit') {

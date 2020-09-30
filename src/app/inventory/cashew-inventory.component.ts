@@ -104,9 +104,15 @@ export class CashewInventoryComponent implements OnInit {
               options: this.genral.getStorage(),
             },
             {
-                type: 'dateTime',
-                name: 'recordedTime',
-                label: 'Recorded time',
+                type: 'date',
+                name: 'receiptDate',
+                label: 'Receipt date',
+                search: 'dates',
+            },
+            {
+                type: 'date',
+                name: 'processDate',
+                label: 'Process date',
                 search: 'dates',
             },
             {

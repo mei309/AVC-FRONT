@@ -117,7 +117,6 @@ export class ExportImportComponent implements OnInit {
                 break;
         }
         this.preper();
-        console.log(this.regConfig);
         
         if (this.type === 'CLEAN') {
             this.regConfig.splice(11, 1);
@@ -138,6 +137,8 @@ export class ExportImportComponent implements OnInit {
                 }
             });
         } else {
+            console.log(this.beginData);
+            
             this.beginData['usedItemGroups'].forEach(element => {
                 if(element['groupName'] === 'table') {
                     element['usedItem']['amounts'].forEach(ele => {
@@ -146,7 +147,7 @@ export class ExportImportComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
                     element['usedItems']?.forEach(ele => {
-                        ele['numberExport'] = ele['numberUnits'];
+                        ele['numberExport'] = ele['numberUsedUnits'];
                     });
                     arrNormal.push(element);
                 } 
@@ -311,7 +312,7 @@ export class ExportImportComponent implements OnInit {
                             {
                                 type: 'input',
                                 label: 'Used units',
-                                name: 'usedUnits',
+                                name: 'numberUsedUnits',
                                 disable: true,
                             },
                             {

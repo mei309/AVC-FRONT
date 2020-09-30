@@ -35,18 +35,18 @@
 
       <button mat-button [matMenuTriggerFor]="menuPOOrder" >Purchase Orders</button>
       <mat-menu #menuPOOrder="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="poordernew">New</button>
-        <button mat-menu-item [matMenuTriggerFor]="poorderreceive">Receive</button>
+        <button mat-menu-item [matMenuTriggerFor]="poordernew">New Order</button>
+        <button mat-menu-item [matMenuTriggerFor]="poorderreceive">New Receive</button>
         <button mat-menu-item [matMenuTriggerFor]="cashewreports">Cashew Reports</button>
         <button mat-menu-item [matMenuTriggerFor]="generalreports">General Reports</button>
       </mat-menu>
       <mat-menu #poordernew="matMenu" >
-        <button mat-menu-item routerLink='ordready/NewCashewOrder'>Cashew Order</button>
-        <button mat-menu-item routerLink='ordready/NewGenralOrder'>General Order</button>
+        <button mat-menu-item routerLink='ordready/NewCashewOrder'>Cashew</button>
+        <button mat-menu-item routerLink='ordready/NewGenralOrder'>General</button>
       </mat-menu>
       <mat-menu #poorderreceive="matMenu" >
-        <button mat-menu-item routerLink='ordready/CashewReceived'>Cashew Order</button>
-        <button mat-menu-item routerLink='ordready/GenralReceived'>General Order</button>
+        <button mat-menu-item routerLink='ordready/CashewReceived'>Cashew</button>
+        <button mat-menu-item routerLink='ordready/GenralReceived'>General</button>
         <button mat-menu-item routerLink='ordready/ProcssReceived'>Cashew Without Order</button>
         <!-- <button mat-menu-item routerLink='ordready/SampleWeights'>Sample weights</button> -->
       </mat-menu>
@@ -78,6 +78,7 @@
       <mat-menu #inventorysnew="matMenu" >
         <!-- <button mat-menu-item routerLink='invready/MaterialExport'>Material Export</button> -->
         <button mat-menu-item routerLink='invready/TransferCount'>Transfer With Count</button>
+        <button mat-menu-item routerLink='invready/RelocationCount'>Relocation Count</button>
       </mat-menu>
       <mat-menu #inventoryreports="matMenu" >
         <button mat-menu-item routerLink='invready/CashewInventory'>Cashew</button>

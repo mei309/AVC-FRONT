@@ -70,6 +70,18 @@ export class ProductionsComponent implements OnInit {
               label: 'Recorded time',
               search: 'dates',
           },
+          // {
+          //     type: 'date',
+          //     name: 'receiptDate',
+          //     label: 'Receipt date',
+          //     search: 'dates',
+          // },
+          // {
+          //     type: 'date',
+          //     name: 'processDate',
+          //     label: 'Process date',
+          //     search: 'dates',
+          // },
       ];
   }
 

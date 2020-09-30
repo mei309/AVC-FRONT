@@ -45,18 +45,18 @@ export class CountinersReportsComponent implements OnInit {
         },
         {
             name: 'usedItems',
-            label: 'Used items',
+            label: 'Loaded items',
             // type: 'object',
             type: 'amountWithUnit',
             // options: 'currency',
         },
-        {
-            name: 'producedItems',
-            label: 'Produced items',
-            // type: 'object',
-            type: 'amountWithUnit',
-            // options: 'currency',
-        },
+        // {
+        //     name: 'producedItems',
+        //     label: 'Produced items',
+        //     // type: 'object',
+        //     type: 'amountWithUnit',
+        //     // options: 'currency',
+        // },
         {
             type: 'dateTime',
             name: 'recordedTime',
@@ -91,6 +91,8 @@ export class CountinersReportsComponent implements OnInit {
           this.mainSourceColumns = null;
           this.localService.getAllLoadings().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
+            console.log(value);
+            
           });
           this.cdRef.detectChanges();
           break;

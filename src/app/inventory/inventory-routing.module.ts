@@ -7,6 +7,7 @@ import { GenralInventoryComponent } from './genral-inventory.component';
 import { MaterialExportComponent } from './material-export.component';
 import { InventoryComponent } from './inventory.component';
 import { TransferCountComponent } from './transfer-count.component';
+import { RelocationCountComponent } from './relocation-count.component';
 
 const routes: Routes = [
       { path: 'CashewInventory', component: CashewInventoryComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'MaterialExport', component: MaterialExportComponent},
       { path: 'InventoryReports', component: InventoryComponent},
       { path: 'TransferCount', component:  TransferCountComponent},
+      { path: 'RelocationCount', component:  RelocationCountComponent},
     ];
 
 @NgModule({

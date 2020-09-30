@@ -30,6 +30,14 @@ export class InventoryService {
     }
   }
 
+  addEditRelocationTransfer (value, fromNew: boolean) {
+    if(fromNew) {
+      return this.http.post(this.inventorysurl+'addRelocationTransfer', value);
+    } else {
+      return this.http.put(this.inventorysurl+'editRelocationTransfer', value);
+    }
+  }
+
   getCashewInventoryItem() {
     return this.http.get(this.inventorysurl+'getCashewInventoryItem');
   }
