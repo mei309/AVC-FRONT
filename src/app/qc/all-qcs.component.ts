@@ -43,7 +43,11 @@ export class AllQcsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
-        this.router.navigate(['../Raw',{id: event['id']}], { relativeTo: this._Activatedroute });
+        if(event['precentage']) {
+          this.router.navigate(['../RawPercntage',{id: event['id']}], { relativeTo: this._Activatedroute });
+        } else {
+          this.router.navigate(['../Raw',{id: event['id']}], { relativeTo: this._Activatedroute });
+        }
       }
       // else if() {
       //   this.router.navigate(['../Bouns'], { relativeTo: this._Activatedroute });
@@ -73,6 +77,11 @@ export class AllQcsComponent implements OnInit {
           });
           this.type = 'Raw';
           this.columnsShow = [
+            {
+              name: 'id',
+              titel: 'id',
+              type: 'idGroup',
+            },
             {
               type: 'nameId',
               name: 'poCode',

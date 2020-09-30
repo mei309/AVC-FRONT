@@ -32,7 +32,7 @@ export class ExportImportComponent implements OnInit {
             var arrMaterial = [];
             value['materialUsed'].forEach(element => {
                 if(element['numberExport']) {
-                    arrMaterial.push({storage: element, numberUnits: element['numberExport']});
+                    arrMaterial.push({storage: element, numberUsedUnits: element['numberExport']});
                 }
             });
             arr.push({usedItems: arrMaterial, groupName: 'meterial'});
@@ -44,14 +44,14 @@ export class ExportImportComponent implements OnInit {
                     var arrNormal = [];
                     element['usedItems'].forEach(elem => {
                         if(elem['numberExport']) {
-                            arrNormal.push({storage: elem, numberUnits: elem['numberExport']});
+                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberExport']});
                         }
                     });
                     element['usedItems'] = arrNormal;
                 } else {
                     element['usedItems'].forEach(elem => {
                         if(elem['numberExport']) {
-                            elem['numberUnits'] = elem['numberExport'];
+                            elem['numberUsedUnits'] = elem['numberExport'];
                         }
                     });
                 } 
