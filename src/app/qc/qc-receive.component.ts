@@ -142,7 +142,7 @@ export class QcReceiveComponent implements OnInit {
                         label: 'Item descrption',
                         name: 'item',
                         options: this.genral.getAllItemsCashew(),
-                        disable: true,
+                        // disable: true,
                     },
                     {
                         type: 'input',

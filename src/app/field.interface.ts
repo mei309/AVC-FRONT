@@ -30,7 +30,7 @@ export interface OneColumn {
   titel?: string;
   options?: string[] | Observable<string[]> | string;
   search?: string;
-  compare?: Compare;
+  compare?: Compare | string;
   collections?: any;
   group?: string;
 }

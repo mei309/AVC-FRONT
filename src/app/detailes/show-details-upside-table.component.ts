@@ -174,10 +174,7 @@ export class ShowDetailsUpsideTableComponent {
                               // pipes: true,
                               options: nameOfRow+'Target'+index,
                               collections: element[headerRow.collections],
-                              compare: {
-                                  name: nameOfRow+'Target'+index,
-                                  type: '>',
-                              },
+                              compare: nameOfRow+'Target'+index,
                               group: element.precentage,
                           },
                         );
@@ -268,39 +265,64 @@ export class ShowDetailsUpsideTableComponent {
     // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
   };
   compare (element, column) {
-    if(column.compare.name) {
-      if(element[column.compare.name] && element[column.name]) {
-        if(column.compare.pipes) {
-          return this.operators[column.compare.type](element[column.name][column.compare.pipes], element[column.compare.name][column.compare.pipes]);
-        } else {
-          switch (element.pipes) {
-            case 'percentCollections':
-              if(element.collections) {
-                return this.operators[column.compare.type]((element[column.name]/element[element.collections+column.name])*100, element[column.compare.name]);
-              } else {
-                return this.operators[column.compare.type]((element[column.name]/column.collections)*100, element[column.compare.name]);
-              }
-            // case 'OK':
-            //   return element[column.name] !== 'OK';
-            default:
-              return this.operators[column.compare.type](element[column.name], element[column.compare.name]);
+    if(column.group) {
+      switch (element.pipes1) {
+        case 'percentCollections':
+          if(element.collections) {
+            return (element[column.name]/element[element.collections+column.name])*100 > element[column.compare];
+          } else {
+            return (element[column.name]/column.collections)*100 > element[column.compare];
           }
-        }
-        
-      } else {
-        switch (element.pipes) {
-          // case 'percentCollections':
-          //   return this.operators[column.compare.type](element[column.name]/column.collections, element[column.compare.name]);
-          case 'OK':
-            return element[column.name] === 'NOT_OK';
-          default:
-            return this.operators[column.compare.type](element[column.name], column.compare.pipes);
-        }
-
+        case 'percent':
+          return element[column.name] > element[column.compare];
+        case 'OK':
+          return element[column.name] !== 'OK';
       }
-    } else if(element[column.name]) {
-      return this.operators[column.compare.type](element[column.name], column.compare.pipes);
+    } else {
+      switch (element.pipes1) {
+        case 'percentCollections':
+          if(element.collections) {
+            return (element[column.name]/element[element.collections+column.name])*100 > element[column.compare];
+          } else {
+            return (element[column.name]/column.collections)*100 > element[column.compare];
+          }
+        case 'percent':
+          return element[column.name] > element[column.compare];
+        case 'OK':
+          return element[column.name] !== 'OK';
+      }
     }
+    // if(column.compare.name) {
+    //   if(element[column.compare.name] && element[column.name]) {
+    //     if(column.compare.pipes) {
+    //       return this.operators[column.compare.type](element[column.name][column.compare.pipes], element[column.compare.name][column.compare.pipes]);
+    //     } else {
+    //       switch (element.pipes) {
+    //         case 'percentCollections':
+    //           if(element.collections) {
+    //             return this.operators[column.compare.type]((element[column.name]/element[element.collections+column.name])*100, element[column.compare.name]);
+    //           } else {
+    //             return this.operators[column.compare.type]((element[column.name]/column.collections)*100, element[column.compare.name]);
+    //           }
+    //         // case 'OK':
+    //         //   return element[column.name] !== 'OK';
+    //         default:
+              
+    //       }
+    //     }
+        
+    //   } else {
+    //     switch (element.pipes) {
+    //       // case 'percentCollections':
+    //       //   return this.operators[column.compare.type](element[column.name]/column.collections, element[column.compare.name]);
+    //       case 'OK':
+    //         return element[column.name] === 'NOT_OK';
+    //       default:
+    //         return this.operators[column.compare.type](element[column.name], column.compare.pipes);
+    //     }
+
+    //   }
+    // }
     return false;
   }
 

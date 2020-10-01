@@ -92,7 +92,7 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'arrayVal',
               name: 'warehouses',
-              label: 'Storage',
+              label: 'Warehouse',
               search: 'selectAsyncObject',
               options: this.genral.getStorage(),
             },
@@ -142,7 +142,7 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'arrayVal',
               name: 'warehouses',
-              label: 'Storage',
+              label: 'Warehouse',
               search: 'selectAsyncObject',
               options: this.genral.getStorage(),
             },

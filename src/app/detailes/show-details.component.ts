@@ -529,7 +529,7 @@ export class ShowDetailsComponent implements OnInit {
           {
               type: 'normal',
               label: 'Number of bags',
-              name: 'numberUnits',
+              name: 'numberUsedUnits',
           },
           {
               type: 'nameId',

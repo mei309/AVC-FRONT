@@ -14,14 +14,14 @@ import { diff } from '../libraries/diffArrayObjects.interface';
     selector: 'countiners-loading',
     template: `
     <div *ngIf="!loading">
-      <dynamic-form [fields]="beginConfig" [mainLabel]="'Continer information'" (submit)="onLoad($event)">
+      <dynamic-form [fields]="beginConfig" [mainLabel]="'Container information'" (submit)="onLoad($event)">
       </dynamic-form>
     </div>
     <div *ngIf="loading">
         <ng-container dynamicField [field]="poConfig" [group]="form">
         </ng-container>
         <div *ngIf="isFormAvailable">
-            <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to export'" (submit)="submit($event)">
+            <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'" (submit)="submit($event)">
             </dynamic-form>
         </div>
     </div>
@@ -302,7 +302,7 @@ export class CountinersLoadingComponent {
                       type: 'selectNormal',
                       label: 'Container type',
                       name: 'containerType',
-                      value: '20\'',
+                    //   value: '20\'',
                       options: this.genral.getShippingContainerType(),
                   },
               ],

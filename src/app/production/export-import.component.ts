@@ -148,6 +148,7 @@ export class ExportImportComponent implements OnInit {
                 } else if(element['groupName'] === 'normal') {
                     element['usedItems']?.forEach(ele => {
                         ele['numberExport'] = ele['numberUsedUnits'];
+                        ele['numberUnits'] = ele['storage']['numberUnits'];
                     });
                     arrNormal.push(element);
                 } 
