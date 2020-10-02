@@ -44,6 +44,8 @@ import { takeUntil } from 'rxjs/operators';
         </mat-form-field>
     </ng-container>
 
+    <ng-container *ngSwitchCase="'none'">
+    </ng-container>
 
     <mat-form-field *ngSwitchDefault class="one-field" appearance="none" provideReadonly [formGroup]="group">
         <mat-label>{{field.label}}</mat-label>   
@@ -91,8 +93,7 @@ export class InputReadonlyComponent implements OnInit {
             break;
         case 'selectgroup':
             this.type = 'selectgroup';
-            const temp1 = this.group.get([this.field.collections[1].name]).value;
-            this.controlText = temp1;
+            this.controlText = this.group.get([this.field.collections[1].name]).value;
             break;
         case 'inputReadonlySelect':
             const temp2 = this.group.get([this.field.name]).value;
@@ -101,6 +102,9 @@ export class InputReadonlyComponent implements OnInit {
             break
         default:
             break;
+    }
+    if(!this.controlText) {
+        this.type = 'none';
     }
   }
 }

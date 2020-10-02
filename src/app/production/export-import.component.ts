@@ -31,8 +31,8 @@ export class ExportImportComponent implements OnInit {
         if(value['materialUsed']) {
             var arrMaterial = [];
             value['materialUsed'].forEach(element => {
-                if(element['numberExport']) {
-                    arrMaterial.push({storage: element, numberUsedUnits: element['numberExport']});
+                if(element['numberUsedUnits']) {
+                    arrMaterial.push({storage: element, numberUsedUnits: element['numberUsedUnits']});
                 }
             });
             arr.push({usedItems: arrMaterial, groupName: 'meterial'});
@@ -43,15 +43,15 @@ export class ExportImportComponent implements OnInit {
                 if(this.isNew) {
                     var arrNormal = [];
                     element['usedItems'].forEach(elem => {
-                        if(elem['numberExport']) {
-                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberExport']});
+                        if(elem['numberUsedUnits']) {
+                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
                         }
                     });
                     element['usedItems'] = arrNormal;
                 } else {
                     element['usedItems'].forEach(elem => {
-                        if(elem['numberExport']) {
-                            elem['numberUsedUnits'] = elem['numberExport'];
+                        if(elem['numberUsedUnits']) {
+                            elem['numberUsedUnits'] = elem['numberUsedUnits'];
                         }
                     });
                 } 
@@ -147,7 +147,6 @@ export class ExportImportComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
                     element['usedItems']?.forEach(ele => {
-                        ele['numberExport'] = ele['numberUsedUnits'];
                         ele['numberUnits'] = ele['storage']['numberUnits'];
                     });
                     arrNormal.push(element);
@@ -278,7 +277,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
-                        options: 'numberExport',
+                        options: 'numberUsedUnits',
                         collections: [
                             {
                                 type: 'select',
@@ -313,7 +312,7 @@ export class ExportImportComponent implements OnInit {
                             {
                                 type: 'input',
                                 label: 'Used units',
-                                name: 'numberUsedUnits',
+                                name: 'otherUsedUnits',
                                 disable: true,
                             },
                             {

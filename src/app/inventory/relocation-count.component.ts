@@ -38,7 +38,6 @@ export class RelocationCountComponent implements OnInit {
         console.log(value);
         
         if(value['usedItemsTable']) {
-            var proccesItems = [];
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
                 if(this.isNew) {   
@@ -51,39 +50,13 @@ export class RelocationCountComponent implements OnInit {
                 }
                 element['groupName'] = 'table';
 
-                var copied = cloneDeep(element['usedItem']);
-                copied['amounts'].forEach(et => {
-                    delete et['storageId'];
-                    delete et['storageVersion'];
-                });
-                copied['warehouseLocation'] = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], copied['item']['id'])))['warehouseLocation'];
-                var cpoyProcess = {item: copied['item'], groupName: element['groupName'], storage: copied};
-                delete copied['item'];
-                proccesItems.push(cpoyProcess);
+                
+                // copied['warehouseLocation'] = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], copied['item']['id'])))['warehouseLocation'];
             });
-            // value['processItems'] = proccesItems;
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
         value['storageMoves'] = arr;
-        
-        // if(value['itemCounts']) {
-        //     var proccesItems = [];
-        //     value['itemCounts'].forEach(element => {
-        //         var copied = this.keepData.find(ele => (ele['storage'] && isEqual(ele['item'], element['item'])));
-        //         if(copied) {
-        //             copied['storage']['amounts'].forEach(et => {
-        //                 delete et['id'];
-        //                 delete et['version'];
-        //             });
-        //             copied['storage']['warehouseLocation'] = element['warehouseLocation'];
-        //             delete copied['storage']['item'];
-        //             var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: copied['storage']}
-        //             proccesItems.push(cpoyProcess);
-        //         }
-        //     });
-        //     value['processItems'] = proccesItems;
-        // }
         
         console.log(value);
         

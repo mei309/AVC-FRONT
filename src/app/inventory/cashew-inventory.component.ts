@@ -78,7 +78,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalStock',
-              label: 'Total stock',
+              label: 'Total item',
               search: 'object',
               group: 'item',
             },
@@ -92,7 +92,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalBalance',
-              label: 'Total balance',
+              label: 'Amount',
               search: 'object',
               // group: 'poCode',
             },
@@ -139,7 +139,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalStock',
-              label: 'Total stock',
+              label: 'Total po',
               search: 'object',
               group: 'poCode',
             },
@@ -154,7 +154,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalBalance',
-              label: 'Total balance',
+              label: 'Amount',
               search: 'object',
               // group: 'item',
             },

@@ -13,8 +13,8 @@ import { diff } from '../libraries/diffArrayObjects.interface';
 @Component({
     selector: 'countiners-loading',
     template: `
-    <div *ngIf="!loading">
-      <dynamic-form [fields]="beginConfig" [mainLabel]="'Container information'" (submit)="onLoad($event)">
+    <div *ngIf="!loading && beginPage">
+      <dynamic-form [fields]="beginConfig" [putData]="firstData" [mainLabel]="'Container information'" (submit)="onLoad($event)">
       </dynamic-form>
     </div>
     <div *ngIf="loading">
@@ -40,12 +40,13 @@ export class CountinersLoadingComponent {
     loading: boolean = false;
     isNew: boolean = true;
     isFormAvailable: boolean = false;
+    beginPage: boolean = true;
 
     submit(value: any) {
         var arr = [];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
-                if(this.isNew) {
+                if(element.isNew) {
                     var arrNormal = [];
                     element['usedItems'].forEach(elem => {
                         if(elem['numberExport']) {
@@ -68,7 +69,7 @@ export class CountinersLoadingComponent {
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                if(this.isNew) {
+                if(element.isNew) {
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['storageId'] = ele['id'];
                         delete ele['id'];
@@ -136,12 +137,12 @@ export class CountinersLoadingComponent {
         val.forEach(element => {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
-                arrTable.push({usedItem: element['storage']});
+                arrTable.push({poCode: element['poCode'], isNew: false, usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     ele['item'] = element['item'];
                 });
-                arrNormal.push({usedItems: element['storageForms']});
+                arrNormal.push({poCode: element['poCode'], isNew: false, usedItems: element['storageForms']});
             }
             arrDeclared.push({poCode: element['poCode'], item: element['item']});
         });
@@ -168,15 +169,8 @@ export class CountinersLoadingComponent {
 
     onLoad(value) {
         this.firstData = value;
-        this.preperReg();
         this.loading = true;
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-            if(params.get('id')) {
-                // var id = +params.get('id');
-                // this.localService.getStorageTransfer(id).pipe(take(1)).subscribe( val => {
-                //     this.fillEdit(val);
-                // });
-            } else {
                 this.form = this.fb.group({});
                 this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
                 
@@ -236,12 +230,52 @@ export class CountinersLoadingComponent {
                             },
                         ]
                     };
-
-            }
         });
     }
 
+
+    fillEdit(val) {
+        var arrNormal = [];
+        var arrTable = [];
+        val['usedItemGroups'].forEach(element => {
+            if(element['groupName'] === 'table') {
+                element['usedItem']['amounts'].forEach(ele => {
+                    ele['take'] = true;
+                });
+                arrTable.push(element);
+            } else if(element['groupName'] === 'normal') {
+                element['usedItems']?.forEach(ele => {
+                    ele['numberExport'] = ele['numberUnits'];
+                });
+                arrNormal.push(element);
+            } 
+        });
+        delete val['usedItemGroups'];
+        this.firstData = val;
+        // this.dataSource = val;
+        if(arrTable.length) {
+            this.dataSource['usedItemsTable'] = arrTable;
+        }
+        if(arrNormal.length) {
+            this.dataSource['usedItemsNormal'] = arrNormal;
+        }
+        this.cleanUnwanted();
+        this.isNew = false;
+        this.beginPage = true;
+        this.isFormAvailable = true;
+    }
+
     ngOnInit () {
+        this.preperReg();
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('id')) {
+                var id = +params.get('id');
+                this.beginPage = false;
+                this.localService.getLoading(id).pipe(take(1)).subscribe( val => {
+                    this.fillEdit(val);   
+                });
+            }
+        });
         this.beginConfig = [
             {
                 type: 'date',
@@ -371,6 +405,23 @@ export class CountinersLoadingComponent {
                 options: 'aloneNoAdd',
                 collections: [
                     {
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        options: this.localService.getAllPosRoastPacked(),
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Supplier',
+                            },
+                            {
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
+                            },
+                        ]
+                    },
+                    {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
@@ -433,6 +484,24 @@ export class CountinersLoadingComponent {
                 label: 'Transfer from',
                 options: 'aloneNoAdd',
                 collections: [
+                    {
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        // options: this.localService.getAllPosRoastPacked(),
+                        disable: true,
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Supplier',
+                            },
+                            {
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
+                            },
+                        ]
+                    },
                     {
                         type: 'bignotexpand',
                         name: 'usedItem',

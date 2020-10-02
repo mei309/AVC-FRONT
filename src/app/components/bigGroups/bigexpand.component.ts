@@ -203,7 +203,8 @@ export class BigexpandComponent implements AfterViewInit {
           this.oldData.push(null);
       }
       this.field.collections.forEach(element => {
-        if(this.edit && element.disable && (this.group.get([this.field.name])  as FormArray).controls[this.longth].get(element.name).value && !['bigexpand', 'bignotexpand', 'bigoutside', 'calculatefew', 'divider', 'popup'].includes( element.type )) {
+        // (this.group.get([this.field.name])  as FormArray).controls[this.longth].get(element.name).value &&
+        if(this.edit && element.disable && !['bigexpand', 'bignotexpand', 'bigoutside', 'calculatefew', 'divider', 'popup'].includes( element.type )) {
           const factory = this.resolver.resolveComponentFactory(
             componentMapper['inputReadonly']
           );

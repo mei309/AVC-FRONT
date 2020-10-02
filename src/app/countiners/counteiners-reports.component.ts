@@ -75,7 +75,7 @@ export class CountinersReportsComponent implements OnInit {
       if (data === 'Edit') {
           switch (this.tabIndex) {
                 case 0:
-                    this.router.navigate(['../MaterialExport',{id: event['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Loading',{id: event['id']}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;
