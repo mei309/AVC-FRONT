@@ -35,6 +35,7 @@ export interface OneColumn {
   group?: string;
 }
 
+
 export interface Compare {
   name?: string;
   type?: string;

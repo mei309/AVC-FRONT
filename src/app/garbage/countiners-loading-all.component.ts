@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { CountinersService } from './countiners.service';
+import { CountinersService } from '../countiners/countiners.service';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import {cloneDeep} from 'lodash-es';

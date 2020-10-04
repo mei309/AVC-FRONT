@@ -18,6 +18,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
       </dynamic-form>
     </div>
     <div *ngIf="loading">
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onBackwards()"><mat-icon>arrow_back</mat-icon>Container information</button>
         <ng-container dynamicField [field]="poConfig" [group]="form">
         </ng-container>
         <div *ngIf="isFormAvailable">
@@ -106,18 +107,28 @@ export class CountinersLoadingComponent {
         this.localService.addEditLoading(this.firstData, this.isNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
                 width: '80%',
-                data: {loading: val, fromNew: true, type: 'Inventory item'}
+                data: {loading: val, fromNew: true, type: 'Loading'}
             });
             dialogRef.afterClosed().subscribe(result => {
-                if (result === 'Edit') {
-                    // this.isFormAvailable = false;
-                    // this.cdRef.detectChanges();
-                    // this.localService.getStorageTransfer(val['id']).pipe(take(1)).subscribe( val1 => {
-                    //     this.fillEdit(val1);
-                    // });
-                } else {
-                    this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
-                }
+                switch (result) {
+                    case 'Edit':
+                        // this.isFormAvailable = false;
+                        // this.cdRef.detectChanges();
+                        // this.localService.getStorageTransfer(val['id']).pipe(take(1)).subscribe( val1 => {
+                        //     this.fillEdit(val1);
+                        // });
+                        break;
+                    case 'Security Doc':
+                        this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
+                        break;
+                    case 'Export Doc':
+                        this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
+                        break;
+                  
+                    default:
+                        this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
+                        break;
+                  }
             });
         });
       
@@ -126,6 +137,10 @@ export class CountinersLoadingComponent {
 
     constructor(private fb: FormBuilder, private _Activatedroute:ActivatedRoute, private router: Router, private cdRef:ChangeDetectorRef,
         private localService: CountinersService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+    }
+
+    onBackwards() {
+        this.loading = false;
     }
 
     
@@ -137,7 +152,8 @@ export class CountinersLoadingComponent {
         val.forEach(element => {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
-                arrTable.push({poCode: element['poCode'], isNew: false, usedItem: element['storage']});
+                element['storage']['itemPo'] = element['poCode'];
+                arrTable.push({isNew: false, usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     ele['item'] = element['item'];
@@ -272,7 +288,7 @@ export class CountinersLoadingComponent {
                 var id = +params.get('id');
                 this.beginPage = false;
                 this.localService.getLoading(id).pipe(take(1)).subscribe( val => {
-                    this.fillEdit(val);   
+                    this.fillEdit(val);
                 });
             }
         });
@@ -407,7 +423,8 @@ export class CountinersLoadingComponent {
                     {
                         type: 'selectgroup',
                         inputType: 'supplierName',
-                        options: this.localService.getAllPosRoastPacked(),
+                        // options: this.localService.getAllPosRoastPacked(),
+                        disable: true,
                         collections: [
                             {
                                 type: 'select',
@@ -427,6 +444,24 @@ export class CountinersLoadingComponent {
                         name: 'usedItems',
                         options: 'numberExport',
                         collections: [
+                            {
+                                type: 'selectgroup',
+                                inputType: 'supplierName',
+                                // options: this.localService.getAllPosRoastPacked(),
+                                disable: true,
+                                collections: [
+                                    {
+                                        type: 'select',
+                                        label: 'Supplier',
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: '#PO',
+                                        name: 'itemPo',
+                                        collections: 'somewhere',
+                                    },
+                                ]
+                            },
                             {
                                 type: 'select',
                                 label: 'Item',
@@ -485,29 +520,29 @@ export class CountinersLoadingComponent {
                 options: 'aloneNoAdd',
                 collections: [
                     {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        // options: this.localService.getAllPosRoastPacked(),
-                        disable: true,
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Supplier',
-                            },
-                            {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
-                            },
-                        ]
-                    },
-                    {
                         type: 'bignotexpand',
                         name: 'usedItem',
                         // label: 'Transfer from',
                         options: 'aloneNoAdd',
                         collections: [
+                            {
+                                type: 'selectgroup',
+                                inputType: 'supplierName',
+                                // options: this.localService.getAllPosRoastPacked(),
+                                disable: true,
+                                collections: [
+                                    {
+                                        type: 'select',
+                                        label: 'Supplier',
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: '#PO',
+                                        name: 'itemPo',
+                                        collections: 'somewhere',
+                                    },
+                                ]
+                            },
                             {
                                 type: 'inputReadonlySelect',
                                 label: 'Item descrption',

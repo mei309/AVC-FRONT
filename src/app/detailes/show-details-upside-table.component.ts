@@ -9,17 +9,20 @@ import { diff } from '../libraries/diffArrayObjects.interface';
   selector: 'show-details-upside-table',
   template: `
  <ng-container *ngIf="noChanges; else elseblock">
-    <table mat-table id="ExampleTable" [dataSource]="newDataSource" class="mat-elevation-z2">
-      <ng-container matColumnDef="{{column.name}}" *ngFor="let column of newOneCloumns">
+    <table mat-table id="ExampleTable" [dataSource]="bottomDataSource" class="mat-elevation-z2">
+      <ng-container matColumnDef="{{column.name}}" *ngFor="let column of bottomCloumns; let iCol = index">
           <th mat-header-cell *matHeaderCellDef>
             <h3>{{column.titel}}</h3>
           </th>
-          <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
+          <td mat-cell *matCellDef="let element; let iRow = index" 
+            [attr.colspan]="getColSpan(iRow, iCol)"
+            [style.display]="getColSpan(iRow, iCol) ? '' : 'none'"
+           [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justText">
               <ng-container *ngIf="element[column.name]">
                   {{element[column.name] | tableCellPipe: column.group? element.pipes1 : element.pipes : element.collections? element[element.collections+column.name] : column.collections}}
               
-                  <ng-container *ngIf="element[column.options]">
+                  <ng-container *ngIf="element[column.compare]">
                     ({{element[column.options] | tableCellPipe: element.pipes : 100}})
                   </ng-container>
               </ng-container>
@@ -34,39 +37,41 @@ import { diff } from '../libraries/diffArrayObjects.interface';
     </table>
  </ng-container>
  <ng-template  #elseblock>
-    <table mat-table [dataSource]="newDataSource" class="mat-elevation-z2">
-        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of newOneCloumns">
-            <th mat-header-cell *matHeaderCellDef>
-                <h3>{{column.titel}}</h3>
-            </th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
-              <ng-container *ngIf="column.collections; else justTextEdit"> 
-                <ng-container *ngIf="element.hasOwnProperty(column.name+'edit'); else notUpdated">
-                        <div class="added-item" *ngIf="element[column.name]">
-                            {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
-                        </div>
-                        <div class="removed-item" *ngIf="element[column.name+'edit']">
-                            {{element[column.name+'edit'] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
-                        </div>
-                </ng-container>
-                <ng-template  #notUpdated>
-                    <ng-container *ngIf="element[column.name]">
-                        {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
-                    </ng-container>
-                </ng-template >
-
-                <ng-container *ngIf="element[column.name] && element[column.options]">
-                  ({{element[column.options] | tableCellPipe: element.pipes : 100}})
-                </ng-container>
+    <table mat-table [dataSource]="bottomDataSource" class="mat-elevation-z2">
+      <ng-container matColumnDef="{{column.name}}" *ngFor="let column of bottomCloumns; let iCol = index">
+          <th mat-header-cell *matHeaderCellDef>
+              <h3>{{column.titel}}</h3>
+          </th>
+          <td mat-cell *matCellDef="let element; let iRow = index" 
+          [attr.colspan]="getColSpan(iRow, iCol)"
+          [style.display]="getColSpan(iRow, iCol) ? '' : 'none'" [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
+            <ng-container *ngIf="column.collections; else justTextEdit"> 
+              <ng-container *ngIf="element.hasOwnProperty(column.name+'edit'); else notUpdated">
+                      <div class="added-item" *ngIf="element[column.name]">
+                          {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
+                      </div>
+                      <div class="removed-item" *ngIf="element[column.name+'edit']">
+                          {{element[column.name+'edit'] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
+                      </div>
               </ng-container>
-              <ng-template  #justTextEdit>
-                {{element[column.name] | tableCellPipe: column.pipes : column.collections}}
-              </ng-template>
-            </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
-        <tr mat-row *matRowDef="let element; columns: columnsDisplay"
-        [ngClass]="{'is-new': element.changeStatus === 'added', 'is-removed': element.changeStatus === 'removed'}"></tr>
+              <ng-template  #notUpdated>
+                  <ng-container *ngIf="element[column.name]">
+                      {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
+                  </ng-container>
+              </ng-template >
+
+              <ng-container *ngIf="element[column.name] && element[column.options]">
+                ({{element[column.options] | tableCellPipe: element.pipes : 100}})
+              </ng-container>
+            </ng-container>
+            <ng-template  #justTextEdit>
+              {{element[column.name] | tableCellPipe: column.pipes : column.collections}}
+            </ng-template>
+          </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsDisplay"
+      [ngClass]="{'is-new': element.changeStatus === 'added', 'is-removed': element.changeStatus === 'removed'}"></tr>
     </table>
  </ng-template>
   `,
@@ -82,10 +87,12 @@ export class ShowDetailsUpsideTableComponent {
   
   noChanges: boolean = true;
 
+  topGroups = [];
+  isWithTop = false;
 
   columnsDisplay: string[] = ['title'];
-  newDataSource;
-  newOneCloumns: OneColumn[] = [
+  bottomDataSource;
+  bottomCloumns: OneColumn[] = [
       {
         titel: '',
         name: 'title',
@@ -96,105 +103,27 @@ export class ShowDetailsUpsideTableComponent {
   }
 
   ngOnInit() {
-    var headerRow = this.oneColumns.splice(0,1)[0];
-    var removingNodes = [];
-    while (this.oneColumns[0]['type'] === 'kidArray') {
-      var node = this.oneColumns.splice(0,1)[0];
-      if(node['baby']) {
-        this.marageArray(node['name']);
-        node['baby'].forEach(element1 => {
-          removingNodes.push(element1);
-          this.marage(element1);
-        });
-      } else {
-        removingNodes.push(node['name']);
-        this.marage(node['name']);
+    if(this.oneColumns[0]['type'] === 'topGroupArray') {
+      this.prepareTopArray(this.oneColumns[0]['collections']);
+      this.marageArray(this.oneColumns[1]['name']);
+      this.marage(this.oneColumns[2]['name']);
+      this.marage(this.oneColumns[3]['name']);
+      this.isWithTop = true;
+      if(this.secondSource) {
+        this.noChanges = false;
+        this.setSecondSourceInit();
       }
+      this.prepareBottomArray(this.oneColumns[5]['collections'], this.oneColumns[4], [this.oneColumns[2]['name'], this.oneColumns[3]['name']]);
+    } else {
+      this.marage(this.oneColumns[0]['name']);
+      this.marage(this.oneColumns[1]['name']);
+      if(this.secondSource) {
+        this.noChanges = false;
+        this.setSecondSourceInit();
+      }
+      this.prepareBottomArray(this.oneColumns[3]['collections'], this.oneColumns[2], [this.oneColumns[0]['name'], this.oneColumns[1]['name']]);
     }
-    if(this.secondSource) {
-      this.noChanges = false;
-      this.setSecondSourceInit();
-    }
-    // headerRow = headerRow[0];
-    var coonection: Observable<any> = headerRow['options'];
-    coonection.pipe(take(1)).subscribe(arg => {
-        this.dataSource.forEach((element, index) => {
-                if(element) {
-                    var nameOfRow;
-                    if(headerRow.pipes === 'object') {
-                      nameOfRow = element[headerRow.type]['value'];
-                    } else {
-                      nameOfRow = element[headerRow.type];
-                    }
-                    if(element['changeStatus'] && element['changeStatus'] !== 'same') {
-                      if(element['changeStatus'] !== 'updated') {
-                        this.oneColumns.forEach(ele => {
-                          ele[nameOfRow+index] = element[0][ele.type];
-                          if(!isEqual(element[0][ele.type], element[1][ele.type])) {
-                            ele[nameOfRow+index+'edit'] = element[1][ele.type];
-                          }
-                        });
-                      }
-                      if(element['changeStatus'] !== 'added') {
-                        this.oneColumns.forEach(ele => {
-                          ele[nameOfRow+index] = element[ele.type];
-                          ele[nameOfRow+index+'edit'] = undefined;
-                        });
-                      }
-                      if(element['changeStatus'] !== 'removed') {
-                        this.oneColumns.forEach(ele => {
-                          ele[nameOfRow+index] = undefined;
-                          ele[nameOfRow+index+'edit'] = element[ele.type];
-                        });
-                      }
-                    } else {
-                      this.oneColumns.forEach(ele => {
-                        ele[nameOfRow+index] = element[ele.type];
-                        if(ele.collections) {
-                          ele[ele.collections+nameOfRow+index] = element[ele.collections];
-                        }
-                        // ele[nameOfRow+'Target'+index] = element[2][ele.type];
-                      });
-                    }
-                    const target = headerRow['accessor'](arg, nameOfRow);
-                    
-                    if(target) {
-                        removingNodes.forEach(element => {
-                          merge(target, target[element]);
-                          delete target[element];
-                        });
-                        this.oneColumns.forEach(ele => {
-                            // ele[nameOfRow+index] = element[1][ele.type];
-                            ele[nameOfRow+'Target'+index] = target[ele.type];
-                        });
-                        this.newOneCloumns.push(
-                          {
-                              titel: nameOfRow,
-                              name: nameOfRow+index,
-                              // pipes: true,
-                              options: nameOfRow+'Target'+index,
-                              collections: element[headerRow.collections],
-                              compare: nameOfRow+'Target'+index,
-                              group: element.precentage,
-                          },
-                        );
-                    } else {
-                      this.newOneCloumns.push(
-                        {
-                            titel: nameOfRow,
-                            name: nameOfRow+index,
-                            // pipes: true,
-                            collections: element[headerRow.collections],
-                            group: element.precentage,
-                        },
-                      );
-                    }
-                    this.columnsDisplay.push(nameOfRow+index);
-                }
-        });
-      });
-      this.newDataSource = this.oneColumns;
-    }
+  }
 
     marage(node) {
       this.dataSource.forEach(element => {
@@ -208,6 +137,7 @@ export class ShowDetailsUpsideTableComponent {
         });
       }
     }
+
     marageArray(node) {
       var arr = [];
       this.dataSource.forEach(element => {
@@ -218,14 +148,18 @@ export class ShowDetailsUpsideTableComponent {
         });
       });
       this.dataSource = arr;
-      // if(this.secondSource) {
-      //   this.secondSource.forEach(element => {
-      //     merge(element, element[node]);
-      //     delete element[node];
-      //   });
-      // }
+      if(this.secondSource) {
+        var arr1 = [];
+        this.secondSource.forEach(element => {
+          element[node].forEach(eleme => {
+            var copied = Object.assign({},element, eleme);
+            delete copied[element.name];
+            arr1.push(copied);
+          });
+        });
+        this.secondSource = arr1;
+      }
     }
-
 
     setSecondSourceInit() {
       var result = diff(this.dataSource, this.secondSource, 'id', { updatedValues: 3, compareFunction: (o1,o2) => {
@@ -292,37 +226,6 @@ export class ShowDetailsUpsideTableComponent {
           return element[column.name] !== 'OK';
       }
     }
-    // if(column.compare.name) {
-    //   if(element[column.compare.name] && element[column.name]) {
-    //     if(column.compare.pipes) {
-    //       return this.operators[column.compare.type](element[column.name][column.compare.pipes], element[column.compare.name][column.compare.pipes]);
-    //     } else {
-    //       switch (element.pipes) {
-    //         case 'percentCollections':
-    //           if(element.collections) {
-    //             return this.operators[column.compare.type]((element[column.name]/element[element.collections+column.name])*100, element[column.compare.name]);
-    //           } else {
-    //             return this.operators[column.compare.type]((element[column.name]/column.collections)*100, element[column.compare.name]);
-    //           }
-    //         // case 'OK':
-    //         //   return element[column.name] !== 'OK';
-    //         default:
-              
-    //       }
-    //     }
-        
-    //   } else {
-    //     switch (element.pipes) {
-    //       // case 'percentCollections':
-    //       //   return this.operators[column.compare.type](element[column.name]/column.collections, element[column.compare.name]);
-    //       case 'OK':
-    //         return element[column.name] === 'NOT_OK';
-    //       default:
-    //         return this.operators[column.compare.type](element[column.name], column.compare.pipes);
-    //     }
-
-    //   }
-    // }
     return false;
   }
 
@@ -334,5 +237,100 @@ export class ShowDetailsUpsideTableComponent {
 
   isArray(obj : any ) {
     return Array.isArray(obj)
+  }
+
+
+  prepareTopArray(kids) {
+    this.topGroups.push(1);
+    this.dataSource.forEach((element, index) => {
+      this.topGroups.push(element.testedItems.length);
+      for (let index = 1; index < element.testedItems.length; index++) {
+        this.topGroups.push(0);
+      }
+    });
+  }
+
+  prepareBottomArray(kids, heder, removingNodes) {
+    var coonection: Observable<any> = heder['options'];
+    coonection.pipe(take(1)).subscribe(arg => {
+        this.dataSource.forEach((element, index) => {
+                if(element) {
+                    var nameOfRow;
+                    if(heder.pipes === 'object') {
+                      nameOfRow = element[heder.name]['value'];
+                    } else {
+                      nameOfRow = element[heder.name];
+                    }
+                    
+                    if(element['changeStatus'] && element['changeStatus'] !== 'same') {
+                      if(element['changeStatus'] !== 'updated') {
+                        kids.forEach(ele => {
+                          ele[nameOfRow+index] = element[0][ele.name];
+                          if(!isEqual(element[0][ele.name], element[1][ele.name])) {
+                            ele[nameOfRow+index+'edit'] = element[1][ele.name];
+                          }
+                        });
+                      }
+                      if(element['changeStatus'] !== 'added') {
+                        kids.forEach(ele => {
+                          ele[nameOfRow+index] = element[ele.name];
+                          ele[nameOfRow+index+'edit'] = undefined;
+                        });
+                      }
+                      if(element['changeStatus'] !== 'removed') {
+                        kids.forEach(ele => {
+                          ele[nameOfRow+index] = undefined;
+                          ele[nameOfRow+index+'edit'] = element[ele.name];
+                        });
+                      }
+                    } else {
+                      kids.forEach(ele => {
+                        ele[nameOfRow+index] = element[ele.name];
+                      });
+                    }
+
+                    const target = heder['accessor'](arg, nameOfRow);
+                    
+                    if(target) {
+                        removingNodes.forEach(element => {
+                          merge(target, target[element]);
+                          delete target[element];
+                        });
+                        kids.forEach(ele => {
+                            ele[nameOfRow+'Target'+index] = target[ele.type];
+                        });
+                        this.bottomCloumns.push(
+                          {
+                              titel: nameOfRow,
+                              name: nameOfRow+index,
+                              // options: nameOfRow+'Target'+index,
+                              collections: element[heder.collections],
+                              compare: nameOfRow+'Target'+index,
+                              group: element.precentage,
+                          },
+                        );
+                    } else {
+                      this.bottomCloumns.push(
+                        {
+                            titel: nameOfRow,
+                            name: nameOfRow+index,
+                            collections: element[heder.collections],
+                            group: element.precentage,
+                        },
+                      );
+                    }
+                    this.columnsDisplay.push(nameOfRow+index);
+                }
+        });
+        this.bottomDataSource = kids;
+    });
+  }
+
+  getColSpan(iRow, iCol) {
+    if(!this.isWithTop || iRow > 7) {
+      return 1;
+    } else {
+      return this.topGroups[iCol];
+    }
   }
 }

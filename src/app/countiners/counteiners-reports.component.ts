@@ -69,17 +69,22 @@ export class CountinersReportsComponent implements OnInit {
   openDialog(event): void {
     const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
       width: '80%',
-      data: {id: event['id'], fromNew: false, type: 'Transfer'},
+      data: {id: event['id'], fromNew: false, type: 'Loading'},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
-          switch (this.tabIndex) {
-                case 0:
-                    this.router.navigate(['../Loading',{id: event['id']}], { relativeTo: this._Activatedroute });
-                    break;
-              default:
-                  break;
-          }
+      switch (data) {
+        case 'Edit':
+          this.router.navigate(['../Loading',{id: event['id']}], { relativeTo: this._Activatedroute });
+          break;
+        case 'Security Doc':
+          this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
+          break;
+        case 'Export Doc':
+          this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
+          break;
+      
+        default:
+          break;
       }
     });
   }

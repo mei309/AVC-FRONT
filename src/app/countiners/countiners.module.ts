@@ -7,12 +7,13 @@ import { CountinersLoadingComponent } from './countiners-loading.component';
 import { CountinersRoutingModule } from './countiners-routing.module';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersReportsComponent } from './counteiners-reports.component';
+import { SecurityExportDocComponent } from './security-export-doc.component';
 
 
 
 @NgModule({
   declarations: [CountinersBookingComponent, CountinersArrivalComponent, CountinersLoadingComponent,
-    CounteinersDetailsDialogComponent, CountinersReportsComponent],
+    CounteinersDetailsDialogComponent, CountinersReportsComponent, SecurityExportDocComponent],
   imports: [
     CommonModule,
     SheardModule,

@@ -13,7 +13,7 @@ import {cloneDeep} from 'lodash-es';
     selector: 'qc-receive',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [mainLabel]="'QC receiving'" [putData]="putData" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfig" [mainLabel]="type" [putData]="putData" (submit)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -24,29 +24,50 @@ export class QcReceiveComponent implements OnInit {
     regConfig: FieldConfig[];
     putData;
     isDataAvailable: boolean = false;
+    type = 'QC receiving';
 
     submit(value: any) {
         if(value.hasOwnProperty('processItems')) {
             value['processItems'][0]['item'] = value['testedItems'][0]['item'];
         }
         const fromNew: boolean = this.putData === null || this.putData === undefined;
-        this.localService.addEditCashewReceiveCheck(value, value['localType'], fromNew).pipe(take(1)).subscribe( val => {
-            const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
-                width: '80%',
-                data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}
+        if(this.type === 'QC receiving') {
+            this.localService.addEditCashewReceiveCheck(value, value['localType'], fromNew).pipe(take(1)).subscribe( val => {
+                const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
+                    width: '80%',
+                    data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}
+                });
+                dialogRef.afterClosed().subscribe(data => {
+                    if (data === 'Edit') { 
+                        this.isDataAvailable = false;
+                        this.putData = val;
+                        this.cdRef.detectChanges();
+                        this.isDataAvailable = true;
+                    } else {
+                        this.router.navigate(['../AllQC', {number:0}], { relativeTo: this._Activatedroute });
+                    }
+                    
+                });
             });
-            dialogRef.afterClosed().subscribe(data => {
-                if (data === 'Edit') { 
-                    this.isDataAvailable = false;
-                    this.putData = val;
-                    this.cdRef.detectChanges();
-                    this.isDataAvailable = true;
-                } else {
-                    this.router.navigate(['../AllQC'], { relativeTo: this._Activatedroute });
-                }
-                
+        } else {
+            this.localService.addEditCashewRoastCheck(value, fromNew).pipe(take(1)).subscribe( val => {
+                const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
+                    width: '80%',
+                    data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Roast cashew check'}
+                });
+                dialogRef.afterClosed().subscribe(data => {
+                    if (data === 'Edit') { 
+                        this.isDataAvailable = false;
+                        this.putData = val;
+                        this.cdRef.detectChanges();
+                        this.isDataAvailable = true;
+                    } else {
+                        this.router.navigate(['../AllQC', {number:1}], { relativeTo: this._Activatedroute });
+                    }
+                    
+                });
             });
-        });
+        }
     }
       
 
@@ -65,7 +86,15 @@ export class QcReceiveComponent implements OnInit {
             } else {
                 this.isDataAvailable = true;
             }
+            this.preperReg();
+            if(params.get('roast')) {
+                this.regConfig.splice(2, 1);
+                this.type = 'QC roasting';
+            }
         });
+    }
+
+    preperReg() {
         this.regConfig = [
             {
                 type: 'selectgroup',

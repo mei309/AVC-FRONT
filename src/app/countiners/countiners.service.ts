@@ -28,6 +28,14 @@ export class CountinersService {
     return this.http.get(this.contianerurl+'getLoading/'+id);
   }
 
+  getLoadingExportDoc (id: number) {
+    return this.http.get(this.contianerurl+'getLoadingExportDoc/'+id);
+  }
+
+  getLoadingSecurityDoc (id: number) {
+    return this.http.get(this.contianerurl+'getLoadingSecurityDoc/'+id);
+  }
+
   getAllLoadings () {
     return this.http.get(this.contianerurl+'getAllLoadings');
   }

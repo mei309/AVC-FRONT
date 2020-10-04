@@ -23,12 +23,24 @@ export class QcService {
     }
   }
 
+  addEditCashewRoastCheck (value, fromNew: boolean): Observable<any> {
+    if(fromNew) {
+      return this.http.post(this.qcurl+'addCashewRoastCheck', value);
+    } else {
+      return this.http.put(this.qcurl+'editCashewReceiveCheck', value);
+    }
+  }
+
   getQcCheck (id: number): Observable<any> {
     return this.http.get(this.qcurl+'getQcCheck/'+ id);
   }
 
   getRawQC (): Observable<any> {
     return this.http.get(this.qcurl+'getRawQC');
+  }
+
+  getRoastQC (): Observable<any> {
+    return this.http.get(this.qcurl+'getRoastQC');
   }
 
   getPoCashewCodesOpenPending (): Observable<any> {

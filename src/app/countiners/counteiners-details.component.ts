@@ -50,15 +50,14 @@ export class CounteinersDetailsDialogComponent {
                 
             });
         }
-        this.buttons.push('Edit');
+        
+        this.buttons.push('Security Doc', 'Export Doc', 'Edit');
     }
     onNoClick(): void {
         this.dialogRef.close('closed');
     }
 
     onClickElement(opartion: string): void {
-        console.log(opartion);
-        
         this.dialogRef.close(opartion);
     }
 

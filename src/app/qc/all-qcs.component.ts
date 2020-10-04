@@ -34,6 +34,57 @@ export class AllQcsComponent implements OnInit {
           this.changed(0);
         }
     });
+    this.columnsShow = [
+      {
+        name: 'id',
+        titel: 'id',
+        type: 'idGroup',
+      },
+      {
+        type: 'nameId',
+        name: 'poCode',
+        label: 'PO#',
+        search: 'object',
+        group: 'poCode',
+      },
+      {
+        name: 'supplierName',
+        label: 'Supplier',
+        search: 'selectAsyncObject',
+        options: this.localService.getSupplierCashew(),
+        group: 'poCode',
+      },
+      {
+        name: 'itemName',
+        label: 'Product descrption',
+        search: 'selectAsyncObject',
+        options: this.genral.getAllItemsCashew(),
+      },
+      {
+        type: 'percentNormal',
+        name: 'totalDamage',
+        label: 'Total damage',
+        search: 'normal',
+      },
+      {
+        type: 'percentNormal',
+        name: 'totalDefects',
+        label: 'Total defects',
+        search: 'normal',
+      },
+      {
+        type: 'percentNormal',
+        name: 'totalDefectsAndDamage',
+        label: 'Total defects + damage',
+        search: 'normal',
+      },
+      {
+        type: 'dateTime',
+        name: 'checkDate',
+        label: 'Check date',
+        search: 'dates',
+      },
+    ];
   }
 
   openDialog(event): void {
@@ -43,11 +94,20 @@ export class AllQcsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
-        if(event['precentage']) {
-          this.router.navigate(['../RawPercntage',{id: event['id']}], { relativeTo: this._Activatedroute });
+        if(this.type === 'Raw') {
+          if(event['precentage']) {
+            this.router.navigate(['../RawPercntage',{id: event['id']}], { relativeTo: this._Activatedroute });
+          } else {
+            this.router.navigate(['../Raw',{id: event['id']}], { relativeTo: this._Activatedroute });
+          }
         } else {
-          this.router.navigate(['../Raw',{id: event['id']}], { relativeTo: this._Activatedroute });
+          if(event['precentage']) {
+            this.router.navigate(['../RawPercntage',{id: event['id'], roast: true}], { relativeTo: this._Activatedroute });
+          } else {
+            this.router.navigate(['../Raw',{id: event['id'], roast: true}], { relativeTo: this._Activatedroute });
+          }
         }
+        
       }
       // else if() {
       //   this.router.navigate(['../Bouns'], { relativeTo: this._Activatedroute });
@@ -72,146 +132,17 @@ export class AllQcsComponent implements OnInit {
           this.cashewSourceColumns = null;
           this.localService.getRawQC().pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = [<any[]>value, this.columnsShow];
-            console.log(value);
-            
           });
           this.type = 'Raw';
-          this.columnsShow = [
-            {
-              name: 'id',
-              titel: 'id',
-              type: 'idGroup',
-            },
-            {
-              type: 'nameId',
-              name: 'poCode',
-              label: 'PO#',
-              search: 'object',
-              group: 'poCode',
-            },
-            {
-              name: 'supplierName',
-              label: 'Supplier',
-              search: 'selectAsyncObject',
-              options: this.localService.getSupplierCashew(),
-              group: 'poCode',
-            },
-            {
-              name: 'itemName',
-              label: 'Product descrption',
-              search: 'selectAsyncObject',
-              options: this.genral.getAllItemsCashew(),
-            },
-            {
-              type: 'percentNormal',
-              name: 'totalDamage',
-              label: 'Total damage',
-              search: 'normal',
-            },
-            {
-              type: 'percentNormal',
-              name: 'totalDefects',
-              label: 'Total defects',
-              search: 'normal',
-            },
-            {
-              type: 'percentNormal',
-              name: 'totalDefectsAndDamage',
-              label: 'Total defects + damage',
-              search: 'normal',
-            },
-            {
-              type: 'dateTime',
-              name: 'checkDate',
-              label: 'Check date',
-              search: 'dates',
-            },
-          ];
           this.cdRef.detectChanges();
           break;
         case 1:
-        //   this.cashewSourceColumns = null;
-        //   this.localService.getPendingCashew().pipe(take(1)).subscribe(value => {
-        //     this.cashewSourceColumns = [<any[]>value, this.columnsShow];
-        //   });
-        //   this.type = 'receive';
-        //   this.columnsShow = [
-        //     {
-        //       name: 'id',
-        //       titel: 'id',
-        //       type: 'idGroup',
-        //     },
-        //     {
-        //       name: 'poCode',
-        //       titel: 'PO#',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       group: 'poCode',
-        //     },
-        //     {
-        //       name: 'totalAmount',
-        //       titel: 'Total amount',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       group: 'poCode',
-        //     },
-        //     {
-        //       name: 'supplierName',
-        //       titel: 'Supplier',
-        //       type: 'selectAsyncObject',
-        //       options: this.localService.getSupplierCashew(),
-        //       group: 'poCode',
-        //     },
-        //     {
-        //       name: 'itemName',
-        //       titel: 'Product descrption',
-        //       type: 'selectAsyncObject',
-        //       options: this.localService.getItemsCashew(),
-        //     },
-        //     {
-        //       name: 'orderAmount',
-        //       titel: 'Order amount',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       compare: {
-        //         name: 'receiptAmount',
-        //         type: '>lbkg',
-        //         // pipes: 'amount',
-        //       },
-        //     },
-        //     {
-        //       name: 'receiptAmount',
-        //       titel: 'Receipt amount',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       compare: {
-        //         name: 'orderAmount',
-        //         type: '<lbkg',
-        //         // pipes: 'amount',
-        //       },
-        //     },
-        //     {
-        //       name: 'receiptDate',
-        //       titel: 'Receipt date',
-        //       type: 'dates',
-        //       pipes: 'datesTime',
-        //     },
-        //     {
-        //       name: 'storage',
-        //       titel: 'Storage',
-        //       type: 'selectAsyncObject',
-        //       options: this.genral.getStorage(),
-        //       pipes: 'array',
-        //     },
-        //     {
-        //       name: 'receiptRows',
-        //       titel: 'Supplier',
-        //       type: 'kidArray',
-        //       collections: [
-        //       ]
-        //     }
-        //   ];
-        //   this.cdRef.detectChanges();
+          this.cashewSourceColumns = null;
+          this.localService.getRoastQC().pipe(take(1)).subscribe(value => {
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+          });
+          this.type = 'Roast';
+          this.cdRef.detectChanges();
           break;
         case 2:
         //   this.cashewSourceColumns = null;
