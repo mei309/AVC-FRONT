@@ -30,6 +30,10 @@ import {isEqual} from 'lodash-es';
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
+                    <mat-select *ngSwitchCase="'selectAsyncObject2'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
+                        <mat-option value="">--all--</mat-option>
+                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
+                    </mat-select>
                     <mat-select *ngSwitchCase="'listAmountWithUnit'" placeholder="Search" (focus)="listAmountWithUnit(column.name)" (selectionChange)="applyFilter($event.value)">
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>

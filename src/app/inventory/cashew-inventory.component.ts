@@ -71,7 +71,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'nameId',
               name: 'item',
               label: 'Product',
-              search: 'selectAsyncObject',
+              search: 'selectAsyncObject2',
               options: this.genral.getAllItemsCashew(),
               group: 'item',
             },

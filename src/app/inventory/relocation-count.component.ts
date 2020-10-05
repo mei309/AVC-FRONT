@@ -84,8 +84,7 @@ export class RelocationCountComponent implements OnInit {
         }
 
         fillEdit(val) {
-            console.log(val);
-            
+            var arrNormal = [];
             var arrTable = [];
             val['usedItemGroups'].forEach(element => {
                 if(element['usedItem']) {
@@ -93,11 +92,25 @@ export class RelocationCountComponent implements OnInit {
                         ele['take'] = true;
                     });
                     arrTable.push(element);
+                } else if(element['usedItems']) {
+                    element['usedItems'].forEach(ele => {
+                        ele['item'] = element['item'];
+                    });
+                    arrNormal.push(element);
                 }
             });
             delete val['usedItemGroups'];
             this.dataSource = val;
-            this.dataSource['usedItemsTable'] = arrTable;
+            if(arrTable.length) {
+                this.dataSource['usedItemsTable'] = arrTable;
+            } else {
+                this.regConfigHopper.splice(4, 1);
+            }
+            if(arrNormal.length) {
+                this.dataSource['usedItemsNormal'] = arrNormal;
+            } else {
+                this.regConfigHopper.splice(3, 1);
+            }
             this.isNew = false;
             this.isFormAvailable = true;
         }
@@ -115,6 +128,7 @@ export class RelocationCountComponent implements OnInit {
                 this.form.get('poCode').valueChanges.subscribe(selectedValue => {
                     if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
                         this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                            var arrNormal = [];
                             var arrTable = [];
                             this.dataSource = {poCode: selectedValue};
                             this.dataSource['itemCounts'] = [];
@@ -123,15 +137,25 @@ export class RelocationCountComponent implements OnInit {
                                     element['storage']['item'] = element['item'];
                                     arrTable.push({usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
+                                } else if(element['storageForms']) {
+                                    element['storageForms'].forEach(ele => {
+                                        ele['item'] = element['item'];
+                                    });
+                                    arrNormal.push({usedItems: element['storageForms']});
                                 }
                             });
                             if(arrTable.length) {
                                 this.dataSource['usedItemsTable'] = arrTable;
-                                this.isFormAvailable = true;
                             } else {
-                                window.alert('dose not have bags for sample');
-                                this.isDataAvailable = true;
+                                this.regConfigHopper.splice(4, 1);
                             }
+                            if(arrNormal.length) {
+                                this.dataSource['usedItemsNormal'] = arrNormal;
+                            } else {
+                                this.regConfigHopper.splice(3, 1);
+                            }
+                            this.isNew = false;
+                            this.isFormAvailable = true;
                         }); 
                         this.isDataAvailable = false;
                         this.poID = selectedValue['id'];
@@ -205,6 +229,69 @@ export class RelocationCountComponent implements OnInit {
                 label: 'Production line',
                 name: 'productionLine',
                 options: this.genral.getProductionLine(),
+            },
+            {
+                type: 'bigexpand',
+                name: 'usedItemsNormal',
+                label: 'Transfer from',
+                options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'tableWithInput',
+                        // label: 'Transfer from',
+                        name: 'usedItems',
+                        options: 'numberExport',
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Item',
+                                name: 'item',
+                                disable: true,
+                            },
+                            {
+                                type: 'inputselect',
+                                name: 'unitAmount',
+                                label: 'Unit weight',
+                                disable: true,
+                                collections: [
+                                    {
+                                        type: 'input',
+                                        label: 'Unit weight',
+                                        name: 'amount',
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Weight unit',
+                                        name: 'measureUnit',
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'input',
+                                label: 'Number of units',
+                                name: 'numberUnits',
+                                disable: true,
+                            },
+                            {
+                                type: 'input',
+                                label: 'Used units',
+                                name: 'usedUnits',
+                                disable: true,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Warehouse location',
+                                name: 'warehouseLocation',
+                                disable: true,
+                            },
+                            {
+                                type: 'nothing',
+                                name: 'storage',
+                                // disable: true,
+                            },
+                        ]
+                    },
+                ],
             },
             {
                 type: 'bigexpand',

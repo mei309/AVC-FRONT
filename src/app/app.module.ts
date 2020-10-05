@@ -1,5 +1,5 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -13,11 +13,16 @@ import { Globals } from './global-params.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingService } from './service/loading-service.service';
 
+import localeENVI from '@angular/common/locales/en-VI';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeENVI);
+
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     LoginComponent,
+    // LocaleService,
   ],
   exports: [
     LoginComponent,
@@ -36,7 +41,7 @@ import { LoadingService } from './service/loading-service.service';
   entryComponents: [],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
-    // { provide: LOCALE_ID, useValue: "he" }, 
+    { provide: LOCALE_ID, useValue: "en-IL" }, 
     //otherProviders...
     Globals,
     LoadingService,
