@@ -12,7 +12,7 @@ import { SchedulesService } from './schedules.service';
     Receiving cashew schedule
   </h1>
   <div class="centerButtons">
-    <mat-form-field floatLabel="never">
+    <mat-form-field>
         <input matInput placeholder="Choose dates" [satDatepicker]="picker3" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
         <sat-datepicker #picker3 [rangeMode]="true"></sat-datepicker>
         <sat-datepicker-toggle  matSuffix [for]="picker3"></sat-datepicker-toggle>
@@ -46,8 +46,6 @@ export class ReceivingCashewScheduleComponent implements OnInit {
   ngOnInit() {
     this.showWeek();
     this.localService.getCashewOrdersOpen().pipe(take(1)).subscribe(value => {
-      console.log(value);
-      
       this.mainSource = <any[]>value;
       this.inlineRangeChange(this.dateRangeDisp);
     });

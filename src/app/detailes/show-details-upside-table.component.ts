@@ -297,7 +297,7 @@ export class ShowDetailsUpsideTableComponent {
                           delete target[element];
                         });
                         kids.forEach(ele => {
-                            ele[nameOfRow+'Target'+index] = target[ele.type];
+                            ele[nameOfRow+'Target'+index] = target[ele.name];
                         });
                         this.bottomCloumns.push(
                           {

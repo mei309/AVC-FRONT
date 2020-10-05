@@ -22,11 +22,11 @@ import {isEqual} from 'lodash-es';
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item">{{item}}</mat-option>
                     </mat-select>
-                    <mat-select *ngSwitchCase="'selectObject'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
+                    <mat-select *ngSwitchCase="'selectObject'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
-                    <mat-select *ngSwitchCase="'selectAsyncObject'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
+                    <mat-select *ngSwitchCase="'selectAsyncObject'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
@@ -228,8 +228,8 @@ export class SearchGroupDetailsComponent {
     this.lastSpan = null;
     this.spans = [];
     if(this.groupId) {
-      this.spanRow(d => d['id'], 'id');
-      this.lastSpan = 'id';
+      // this.spanRow(d => d['id'], 'id');
+      // this.lastSpan = 'id';
     }
     this.localGroupOneColumns.forEach(element => {
       if(element.group === element.name) {

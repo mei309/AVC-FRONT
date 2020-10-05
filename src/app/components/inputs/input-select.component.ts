@@ -74,9 +74,16 @@ export class InputSelectComponent implements OnInit {
     if(this.field.name) {
       this.group = this.group.get(this.field.name) as FormGroup;
     }
-    if(this.group.controls[this.field.collections[1].name].value === null){
+    if(this.group.controls[this.field.collections[1].name].value === null) {
       this.group.controls[this.field.collections[1].name].setValue(this.field.collections[1].options[0]);
     }
+    this.group.get([this.field.collections[1].name]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
+      console.log('llll');
+      
+      if(!val) {
+        this.group.controls[this.field.collections[1].name].setValue(this.field.collections[1].options[0]);
+      }
+    });
   }
 
   ngOnDestroy() {

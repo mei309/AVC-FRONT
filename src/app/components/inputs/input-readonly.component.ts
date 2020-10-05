@@ -75,7 +75,11 @@ export class InputReadonlyComponent implements OnInit {
             } else {
                 const temp = this.group.get([this.field.name]).value;
                 this.controlText = temp['value'];
-                this.type = 'object';
+                if(!this.controlText) {
+                    this.type = 'none';
+                } else {
+                    this.type = 'object';
+                }
             }
             break;
         case 'inputselect':
@@ -89,22 +93,31 @@ export class InputReadonlyComponent implements OnInit {
             if(this.group.get(this.field.collections[1].name).value) {
                 this.controlText += this.group.get(this.field.collections[1].name).value
             }
-            this.type = 'inputselect';
+            if(!this.controlText) {
+                this.type = 'none';
+            } else {
+                this.type = 'inputselect';
+            }
             break;
         case 'selectgroup':
-            this.type = 'selectgroup';
             this.controlText = this.group.get([this.field.collections[1].name]).value;
+            if(!this.controlText) {
+                this.type = 'none';
+            } else {
+                this.type = 'selectgroup';
+            }
             break;
         case 'inputReadonlySelect':
             const temp2 = this.group.get([this.field.name]).value;
             this.controlText = temp2['value'];
-            this.type = 'object';
+            if(!this.controlText) {
+                this.type = 'none';
+            } else {
+                this.type = 'object';
+            }
             break
         default:
             break;
-    }
-    if(!this.controlText) {
-        this.type = 'none';
     }
   }
 }

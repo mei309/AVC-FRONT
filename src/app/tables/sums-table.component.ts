@@ -5,12 +5,19 @@ import { groupBy, mapValues } from 'lodash-es';
   template: `
 <table mat-table [dataSource]="sumDataSource">
     
-    <ng-container matColumnDef="{{column}}" *ngFor="let column of sumClumensTable">
+    <ng-container matColumnDef="key">
+      <th mat-header-cell *matHeaderCellDef>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.key === 'null'? 'none' : element.key}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of sumClumensshow">
         <th mat-header-cell *matHeaderCellDef>
           <h3>{{column}}</h3>
         </th>
         <td mat-cell *matCellDef="let element">
-          {{element[column]}}
+          {{element[column] | number : '1.0-3'}}
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="sumClumensTable"></tr>
@@ -24,6 +31,7 @@ export class SumsTableComponent {
   sumDataSource = [];
   sumCloumns = [];
   sumClumensTable: string[];
+  sumClumensshow: string[];
 
   @Input() set mainDetailsSource(value) {
     if(value) {
@@ -42,6 +50,7 @@ export class SumsTableComponent {
             };
             const tempTable = nest(this.dataSource, this.sumCloumns);
             this.sumClumensTable = ['key'];
+            
             Object.keys(tempTable).forEach(key => {
               var newLine = {key: key};
               var sum = 0;
@@ -66,7 +75,7 @@ export class SumsTableComponent {
               }
             });
             this.sumDataSource.push(newSumLine);
-            console.log(this.sumDataSource);
+            this.sumClumensshow = this.sumClumensTable.slice(1);
         }
     }
   }

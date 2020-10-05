@@ -51,10 +51,10 @@ export class DynamicFormComponent implements OnInit {
     if(this.putData) {
       this.edit = true;
       this.form = this.createControlWithData();
-      this.putData = JSON.parse(JSON.stringify(this.form.value));
     } else {
       this.form = this.createControl();
     }
+    this.putData = JSON.parse(JSON.stringify(this.form.value));
   }
 
   reset(){
@@ -193,11 +193,11 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onReset() {
-    if(this.putData) {
-      this.form.reset(this.putData);
-    } else {
-      this.form.reset();
-    }
+    // if(this.putData) {
+    this.form.reset(this.putData);
+    // } else {
+    //   this.form.reset();
+    // }
     //this.cancel.emit();
   }
 
