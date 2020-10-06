@@ -13,9 +13,9 @@ import { Globals } from './global-params.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingService } from './service/loading-service.service';
 
-import localeENVI from '@angular/common/locales/en-VI';
-import { registerLocaleData } from '@angular/common';
-registerLocaleData(localeENVI);
+// import localeENVI from '@angular/common/locales/en-VI';
+// import { registerLocaleData } from '@angular/common';
+// registerLocaleData(localeENVI);
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ registerLocaleData(localeENVI);
   entryComponents: [],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
-    { provide: LOCALE_ID, useValue: "en-IL" }, 
+    // { provide: LOCALE_ID, useValue: "en-IL" }, 
     //otherProviders...
     Globals,
     LoadingService,

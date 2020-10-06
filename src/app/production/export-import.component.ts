@@ -48,13 +48,7 @@ export class ExportImportComponent implements OnInit {
                         }
                     });
                     element['usedItems'] = arrNormal;
-                } else {
-                    element['usedItems'].forEach(elem => {
-                        if(elem['numberUsedUnits']) {
-                            elem['numberUsedUnits'] = elem['numberUsedUnits'];
-                        }
-                    });
-                } 
+                }
                 element['groupName'] = 'normal';
             });
             arr = arr.concat(value['usedItemsNormal']);

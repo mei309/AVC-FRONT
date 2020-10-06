@@ -35,10 +35,38 @@ export class TransferCountComponent implements OnInit {
     isNew: boolean = true;
     submit(value: any) {
         var arr = [];
-        console.log(value);
-        
+        var proccesItems = [];
+        if(value['usedItemsNormal']) {
+            value['usedItemsNormal'].forEach(element => {
+                var item = element['usedItems'][0]['item'];
+                var copied = cloneDeep(element['usedItems']);
+                var warehouseLocation = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], item['id'])))['warehouseLocation'];
+                copied.forEach(et => {
+                    et['warehouseLocation'] = warehouseLocation;
+                    delete et['id'];
+                    delete et['version'];
+                    delete et['numberUsedUnits'];
+                 });
+                
+                var cpoyProcess = {item: item, groupName: element['groupName'], storageForms: copied};
+                delete copied['item'];
+                proccesItems.push(cpoyProcess);
+
+                if(this.isNew) {
+                    var arrNormal = [];
+                    element['usedItems'].forEach(elem => {
+                        if(elem['numberUsedUnits']) {
+                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
+                        }
+                    });
+                    element['usedItems'] = arrNormal;
+                }
+                element['groupName'] = 'normal';
+            });
+            arr = arr.concat(value['usedItemsNormal']);
+            delete value['usedItemsNormal'];
+        }
         if(value['usedItemsTable']) {
-            var proccesItems = [];
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
                 if(this.isNew) {   
@@ -61,12 +89,11 @@ export class TransferCountComponent implements OnInit {
                 delete copied['item'];
                 proccesItems.push(cpoyProcess);
             });
-            value['processItems'] = proccesItems;
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
         value['usedItemGroups'] = arr;
-        
+        value['processItems'] = proccesItems;
         // if(value['itemCounts']) {
         //     var proccesItems = [];
         //     value['itemCounts'].forEach(element => {
@@ -112,19 +139,34 @@ export class TransferCountComponent implements OnInit {
 
         fillEdit(val) {
             console.log(val);
-            
+
             var arrTable = [];
+            var arrNormal = [];
             val['usedItemGroups'].forEach(element => {
                 if(element['usedItem']) {
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['take'] = true;
                     });
                     arrTable.push(element);
-                }
+                } else if(element['usedItems']) {
+                    element['usedItems']?.forEach(ele => {
+                        ele['numberUnits'] = ele['storage']['numberUnits'];
+                    });
+                    arrNormal.push(element);
+                } 
             });
             delete val['usedItemGroups'];
             this.dataSource = val;
-            this.dataSource['usedItemsTable'] = arrTable;
+            if(arrTable.length) {
+                this.dataSource['usedItemsTable'] = arrTable;
+            } else {
+                this.regConfigHopper.splice(5, 1);
+            }
+            if(arrNormal.length) {
+                this.dataSource['usedItemsNormal'] = arrNormal;
+            } else {
+                this.regConfigHopper.splice(4, 1);
+            }
             this.isNew = false;
             this.isFormAvailable = true;
         }
@@ -142,6 +184,7 @@ export class TransferCountComponent implements OnInit {
                 this.form.get('poCode').valueChanges.subscribe(selectedValue => {
                     if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
                         this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                            var arrNormal = [];
                             var arrTable = [];
                             this.dataSource = {poCode: selectedValue};
                             this.dataSource['itemCounts'] = [];
@@ -150,15 +193,26 @@ export class TransferCountComponent implements OnInit {
                                     element['storage']['item'] = element['item'];
                                     arrTable.push({usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
+                                } else if(element['storageForms']) {
+                                    element['storageForms'].forEach(ele => {
+                                        ele['item'] = element['item'];
+                                        ele['otherUsedUnits'] = ele['numberUsedUnits'];
+                                    });
+                                    arrNormal.push({usedItems: element['storageForms']});
+                                    this.dataSource['itemCounts'].push({item: element['item']});
                                 }
                             });
                             if(arrTable.length) {
                                 this.dataSource['usedItemsTable'] = arrTable;
-                                this.isFormAvailable = true;
                             } else {
-                                window.alert('dose not have bags for sample');
-                                this.isDataAvailable = true;
+                                this.regConfigHopper.splice(5, 1);
                             }
+                            if(arrNormal.length) {
+                                this.dataSource['usedItemsNormal'] = arrNormal;
+                            } else {
+                                this.regConfigHopper.splice(4, 1);
+                            }
+                            this.isFormAvailable = true;
                         }); 
                         this.isDataAvailable = false;
                         this.poID = selectedValue['id'];
@@ -234,6 +288,76 @@ export class TransferCountComponent implements OnInit {
                 options: this.genral.getProductionLine(),
             },
             {
+                type: 'input',
+                label: 'All bags weight',
+                name: 'accessWeight',
+                inputType: 'numeric',
+                options: 3,
+            },
+            {
+                type: 'bigexpand',
+                name: 'usedItemsNormal',
+                label: 'Transfer from',
+                options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'tableWithInput',
+                        // label: 'Transfer from',
+                        name: 'usedItems',
+                        options: 'numberUsedUnits',
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Item',
+                                name: 'item',
+                                disable: true,
+                            },
+                            {
+                                type: 'inputselect',
+                                name: 'unitAmount',
+                                label: 'Unit weight',
+                                disable: true,
+                                collections: [
+                                    {
+                                        type: 'input',
+                                        label: 'Unit weight',
+                                        name: 'amount',
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Weight unit',
+                                        name: 'measureUnit',
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'input',
+                                label: 'Number of units',
+                                name: 'numberUnits',
+                                disable: true,
+                            },
+                            {
+                                type: 'input',
+                                label: 'Used units',
+                                name: 'otherUsedUnits',
+                                disable: true,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Warehouse location',
+                                name: 'warehouseLocation',
+                                disable: true,
+                            },
+                            {
+                                type: 'nothing',
+                                name: 'storage',
+                                // disable: true,
+                            },
+                        ]
+                    },
+                ],
+            },
+            {
                 type: 'bigexpand',
                 name: 'usedItemsTable',
                 label: 'Transfer from',
@@ -291,7 +415,7 @@ export class TransferCountComponent implements OnInit {
                     {
                         type: 'bigexpand',
                         name: 'itemCounts',
-                        label: 'Transfer With Sample',
+                        label: 'Count',
                         options: 'aloneNoAdd',
                         collections: [
                             {

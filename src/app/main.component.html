@@ -83,14 +83,24 @@
         <!-- <button mat-menu-item routerLink='invready/RelocationCount'>Relocation Count</button> -->
       </mat-menu>
       <mat-menu #inventoryreports="matMenu" >
-        <button mat-menu-item routerLink='invready/CashewInventory'>Cashew</button>
-        <button mat-menu-item routerLink='invready/GenralInventory'>General</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventorycashews">Cashew</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventorygeneral">General</button>
         <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 0}]">Transfer</button>
         <!-- <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 1}]">Transfers With Samples</button> -->
         <!-- <button mat-menu-item routerLink='invready/CashewCount'>Cashew count</button>
         <button mat-menu-item routerLink='invready/GenralCount'>General count</button>
         <button mat-menu-item routerLink='invready/MaterialExportPo'>Material export by #PO</button>
         <button mat-menu-item routerLink='invready/MaterialExportItem'>Material export by item</button> -->
+      </mat-menu>
+
+      <mat-menu #inventorycashews="matMenu" >
+        <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 0}]">By Item</button>
+        <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 1}]">By PO#</button>
+      </mat-menu>
+
+      <mat-menu #inventorygeneral="matMenu" >
+        <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 0}]">By Item</button>
+        <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 1}]">By PO#</button>
       </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>

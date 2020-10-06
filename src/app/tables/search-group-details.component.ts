@@ -65,7 +65,7 @@ import {isEqual} from 'lodash-es';
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    
   </div>
   <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2>No records found</h2></div>
@@ -73,7 +73,8 @@ import {isEqual} from 'lodash-es';
 })
 export class SearchGroupDetailsComponent {
     @ViewChild(MatSort, {static: true}) sort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+    // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+    // <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 
     dataSource;
 
@@ -88,7 +89,7 @@ export class SearchGroupDetailsComponent {
             this.preperData();
             this.dataSource = new MatTableDataSource(this.dataSource);
             this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
+            // this.dataSource.paginator = this.paginator;
         } else {
           this.dataSource = null;
           this.oneColumns = [];

@@ -324,6 +324,11 @@ export class ShowDetailsComponent implements OnInit {
         name: 'item',
     },
     {
+        type: 'normal',
+        label: 'All bags weight',
+        name: 'accessWeight',
+    },
+    {
         type: 'array',
         label: 'Orderd products',
         name: 'orderItems',

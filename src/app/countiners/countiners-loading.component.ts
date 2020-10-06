@@ -42,26 +42,21 @@ export class CountinersLoadingComponent {
     isNew: boolean = true;
     isFormAvailable: boolean = false;
     beginPage: boolean = true;
-
     submit(value: any) {
         var arr = [];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
-                if(element.isNew) {
+                if(!element.id) {
+                    console.log('kkkkk');
+                    
                     var arrNormal = [];
                     element['usedItems'].forEach(elem => {
-                        if(elem['numberExport']) {
-                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberExport']});
+                        if(elem['numberUsedUnits']) {
+                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
                         }
                     });
                     element['usedItems'] = arrNormal;
-                } else {
-                    element['usedItems'].forEach(elem => {
-                        if(elem['numberExport']) {
-                            elem['numberUsedUnits'] = elem['numberExport'];
-                        }
-                    });
-                } 
+                }
                 element['groupName'] = 'normal';
             });
             arr = arr.concat(value['usedItemsNormal']);
@@ -70,7 +65,7 @@ export class CountinersLoadingComponent {
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                if(element.isNew) {
+                if(!element.id) {
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['storageId'] = ele['id'];
                         delete ele['id'];
@@ -119,10 +114,10 @@ export class CountinersLoadingComponent {
                         // });
                         break;
                     case 'Security Doc':
-                        this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
                         break;
                     case 'Export Doc':
-                        this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
                         break;
                   
                     default:
@@ -153,12 +148,13 @@ export class CountinersLoadingComponent {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
-                arrTable.push({isNew: false, usedItem: element['storage']});
+                arrTable.push({isNew: true, usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     ele['item'] = element['item'];
+                    ele['otherUsedUnits'] = ele['numberUsedUnits'];
                 });
-                arrNormal.push({poCode: element['poCode'], isNew: false, usedItems: element['storageForms']});
+                arrNormal.push({poCode: element['poCode'], isNew: true, usedItems: element['storageForms']});
             }
             arrDeclared.push({poCode: element['poCode'], item: element['item']});
         });
@@ -421,47 +417,11 @@ export class CountinersLoadingComponent {
                 options: 'aloneNoAdd',
                 collections: [
                     {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        // options: this.localService.getAllPosRoastPacked(),
-                        disable: true,
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Supplier',
-                            },
-                            {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
-                            },
-                        ]
-                    },
-                    {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
-                        options: 'numberExport',
+                        options: 'numberUsedUnits',
                         collections: [
-                            {
-                                type: 'selectgroup',
-                                inputType: 'supplierName',
-                                // options: this.localService.getAllPosRoastPacked(),
-                                disable: true,
-                                collections: [
-                                    {
-                                        type: 'select',
-                                        label: 'Supplier',
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: '#PO',
-                                        name: 'itemPo',
-                                        collections: 'somewhere',
-                                    },
-                                ]
-                            },
                             {
                                 type: 'select',
                                 label: 'Item',
@@ -495,7 +455,7 @@ export class CountinersLoadingComponent {
                             {
                                 type: 'input',
                                 label: 'Used units',
-                                name: 'usedUnits',
+                                name: 'otherUsedUnits',
                                 disable: true,
                             },
                             {
@@ -507,12 +467,110 @@ export class CountinersLoadingComponent {
                             {
                                 type: 'nothing',
                                 name: 'storage',
-                                // disable: true,
                             },
-                        ]
+                        ],
                     },
-                ],
+                ]
             },
+            // {
+            //     type: 'bigexpand',
+            //     name: 'usedItemsNormal',
+            //     label: 'Transfer from',
+            //     options: 'aloneNoAdd',
+            //     collections: [
+            //         // {
+            //         //     type: 'selectgroup',
+            //         //     inputType: 'supplierName',
+            //         //     // options: this.localService.getAllPosRoastPacked(),
+            //         //     disable: true,
+            //         //     collections: [
+            //         //         {
+            //         //             type: 'select',
+            //         //             label: 'Supplier',
+            //         //         },
+            //         //         {
+            //         //             type: 'select',
+            //         //             label: '#PO',
+            //         //             name: 'poCode',
+            //         //             collections: 'somewhere',
+            //         //         },
+            //         //     ]
+            //         // },
+            //         {
+            //             type: 'tableWithInput',
+            //             // label: 'Transfer from',
+            //             name: 'usedItems',
+            //             options: 'numberUsedUnits',
+            //             collections: [
+            //                 // {
+            //                 //     type: 'selectgroup',
+            //                 //     inputType: 'supplierName',
+            //                 //     // options: this.localService.getAllPosRoastPacked(),
+            //                 //     disable: true,
+            //                 //     collections: [
+            //                 //         {
+            //                 //             type: 'select',
+            //                 //             label: 'Supplier',
+            //                 //         },
+            //                 //         {
+            //                 //             type: 'select',
+            //                 //             label: '#PO',
+            //                 //             name: 'itemPo',
+            //                 //             collections: 'somewhere',
+            //                 //         },
+            //                 //     ]
+            //                 // },
+            //                 {
+            //                     type: 'select',
+            //                     label: 'Item',
+            //                     name: 'item',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'inputselect',
+            //                     name: 'unitAmount',
+            //                     label: 'Unit weight',
+            //                     disable: true,
+            //                     collections: [
+            //                         {
+            //                             type: 'input',
+            //                             label: 'Unit weight',
+            //                             name: 'amount',
+            //                         },
+            //                         {
+            //                             type: 'select',
+            //                             label: 'Weight unit',
+            //                             name: 'measureUnit',
+            //                         },
+            //                     ]
+            //                 },
+            //                 {
+            //                     type: 'input',
+            //                     label: 'Number of units',
+            //                     name: 'numberUnits',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'input',
+            //                     label: 'Used units',
+            //                     name: 'usedUnits',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'select',
+            //                     label: 'Warehouse location',
+            //                     name: 'warehouseLocation',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'nothing',
+            //                     name: 'storage',
+            //                     // disable: true,
+            //                 },
+            //             ]
+            //         },
+            //     ],
+            // },
             {
                 type: 'bigexpand',
                 name: 'usedItemsTable',
