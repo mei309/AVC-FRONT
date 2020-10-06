@@ -101,18 +101,20 @@ export class ExportImportComponent implements OnInit {
     ngOnInit() {
         switch (this.mainLabel) {
             case 'Cleaning cashew process':
-                this.type = 'CLEAN';
+                this.type = 'Clean';
                 break;
             case 'Roasting cashew process':
+                this.type = 'Roast';
+                break;
             case 'Packing cashew process':
-                this.type = 'ROASTPACKED';
+                this.type = 'Packed';
                 break;
             default:
                 break;
         }
         this.preper();
         
-        if (this.type === 'CLEAN') {
+        if (this.type === 'Clean') {
             this.regConfig.splice(11, 1);
         }
         var arrNormal = [];
@@ -132,8 +134,6 @@ export class ExportImportComponent implements OnInit {
                 }
             });
         } else {
-            console.log(this.beginData);
-            
             this.beginData['usedItemGroups'].forEach(element => {
                 if(element['groupName'] === 'table') {
                     element['usedItem']['amounts'].forEach(ele => {
@@ -265,7 +265,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'usedItemsNormal',
-                label: 'Transfer from',
+                label: this.type+'ing amounts',
                 options: 'aloneNoAdd',
                 collections: [
                     {
@@ -327,7 +327,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'usedItemsTable',
-                label: 'Transfer from',
+                label: this.type+'ing amounts',
                 options: 'aloneNoAdd',
                 collections: [
                     {
@@ -375,7 +375,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'processItemsNormal',
-                label: 'Transfer to',
+                label: this.type+'d amounts',
                 options: 'alone',
                 collections: [
                     {
@@ -462,7 +462,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'processItemsTable',
-                label: 'Transfer to',
+                label: this.type+'d amounts',
                 options: 'NoAdd',
                 collections: [
                     {

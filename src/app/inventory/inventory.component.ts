@@ -74,7 +74,7 @@ export class InventoryComponent implements OnInit {
         },
         {
             type: 'weight2',
-            name: 'countDifference',
+            name: 'usedCountDifference',
             label: 'Difference',
             search: 'object',
         },

@@ -14,12 +14,12 @@ import {isEqual} from 'lodash-es';
     selector: 'transfer-count',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Transfer With Sample</h1></legend>
+        <legend><h1>Transfer with weighing</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer With Sample'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer with weighing'" (submit)="submit($event)">
         </dynamic-form>
     </div>
     `
