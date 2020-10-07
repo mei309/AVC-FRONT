@@ -34,7 +34,9 @@ export class QcReceivePercentageComponent implements OnInit {
             element['precentage'] = true;
         });
         const fromNew: boolean = this.putData === null || this.putData === undefined;
-        if(this.type === 'QC receiving') {
+        if(this.type === 'QC receiving (percentage)') {
+            console.log('juhytff');
+            
             this.localService.addEditCashewReceiveCheck(value, value['localType'], fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
@@ -92,7 +94,7 @@ export class QcReceivePercentageComponent implements OnInit {
             this.preperReg();
             if(params.get('roast')) {
                 this.regConfig.splice(2, 1);
-                this.type = 'QC roasting';
+                this.type = 'QC roasting (percentage)';
             }
         });
     }
