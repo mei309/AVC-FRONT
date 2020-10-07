@@ -26,7 +26,8 @@
         <button mat-menu-item [routerLink]="['qcready/RawPercntage', {roast: true}]">Roast Check (percntage)</button>
       </mat-menu>
       <mat-menu #qcreports="matMenu" >
-        <button mat-menu-item routerLink='qcready/AllQC'>Raw Check</button>
+        <button mat-menu-item [routerLink]="['qcready/AllQC', {number: 0}]">Raw Checks</button>
+        <button mat-menu-item [routerLink]="['qcready/AllQC', {number: 1}]">Roast Checks</button>
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="menuSupp" >Suppliers</button>

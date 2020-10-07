@@ -17,13 +17,13 @@ import { diff } from '../libraries/diffArrayObjects.interface';
           <td mat-cell *matCellDef="let element; let iRow = index" 
             [attr.colspan]="getColSpan(iRow, iCol)"
             [style.display]="getColSpan(iRow, iCol) ? '' : 'none'"
-           [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
+           [ngClass]="{'is-alert': column.compare && element[column.compare] && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justText">
               <ng-container *ngIf="element[column.name]">
                   {{element[column.name] | tableCellPipe: column.group? element.pipes1 : element.pipes : element.collections? element[element.collections+column.name] : column.collections}}
               
                   <ng-container *ngIf="element[column.compare]">
-                    ({{element[column.options] | tableCellPipe: element.pipes : 100}})
+                    ({{element[column.compare] | tableCellPipe: element.pipes : 100}})
                   </ng-container>
               </ng-container>
             </ng-container>
@@ -61,7 +61,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
               </ng-template >
 
               <ng-container *ngIf="element[column.name] && element[column.options]">
-                ({{element[column.options] | tableCellPipe: element.pipes : 100}})
+                ({{element[column.compare] | tableCellPipe: element.pipes : 100}})
               </ng-container>
             </ng-container>
             <ng-template  #justTextEdit>
@@ -199,6 +199,9 @@ export class ShowDetailsUpsideTableComponent {
     // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
   };
   compare (element, column) {
+    if (element) {
+      
+    }
     if(column.group) {
       switch (element.pipes1) {
         case 'percentCollections':
@@ -213,7 +216,7 @@ export class ShowDetailsUpsideTableComponent {
           return element[column.name] !== 'OK';
       }
     } else {
-      switch (element.pipes1) {
+      switch (element.pipes) {
         case 'percentCollections':
           if(element.collections) {
             return (element[column.name]/element[element.collections+column.name])*100 > element[column.compare];

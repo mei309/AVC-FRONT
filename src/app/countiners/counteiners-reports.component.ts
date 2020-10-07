@@ -38,10 +38,10 @@ export class CountinersReportsComponent implements OnInit {
     this.columnsShow = [
         {
           type: 'object',
-          name: 'poCode',
-          label: 'PO#',
+          name: 'shipmentCode',
+          label: 'Shipment code',
           search: 'object',
-          group: 'poCode',
+          group: 'shipmentCode',
         },
         {
             name: 'usedItems',
