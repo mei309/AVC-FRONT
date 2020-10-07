@@ -45,6 +45,13 @@ export class ProductionsComponent implements OnInit {
               group: 'poCode',
           },
           {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+          },
+          {
               type: 'amountWithUnit',
               name: 'usedItems',
               label: 'Used items',

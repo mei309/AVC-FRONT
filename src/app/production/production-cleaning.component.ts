@@ -16,7 +16,7 @@ import { ProductionService } from './production.service';
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <export-import [beginData]="putData" [isNew]="isNew" [mainLabel]="'Cleaning cashew process'" (submit)="submit($event)">
+        <export-import [beginData]="putData" [isNew]="isNew" [mainLabel]="'Clean'" (submit)="submit($event)">
         </export-import>
     </div>
     `

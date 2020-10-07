@@ -31,6 +31,12 @@ export class MassagesListComponent {
         search: 'object',
       },
       {
+        name: 'supplierName',
+        label: 'Supplier',
+        search: 'selectAsyncObject',
+        options: this.genral.getSupplierCashew(),
+      },
+      {
         name: 'title',
         label: 'Title',
         search: 'normal',

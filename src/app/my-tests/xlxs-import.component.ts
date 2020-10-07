@@ -142,7 +142,7 @@ export class XlxsImportsComponent {
     }
 
     setOrdersCashew() {
-        this.ordersService.getSupplierCashew().pipe(take(1)).subscribe(value1 => {
+        this.genral.getSupplierCashew().pipe(take(1)).subscribe(value1 => {
             this.genral.getItemsRawCashew().pipe(take(1)).subscribe(value2 => {
                 this.genral.getContractType().pipe(take(1)).subscribe(value3 => {
                     this.data.forEach(element => {

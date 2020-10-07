@@ -65,7 +65,7 @@ export class GenralInventoryComponent implements OnInit {
               name: 'item',
               label: 'Product',
               search: 'selectAsyncObject',
-              options: this.genral.getAllItemsCashew(),
+              options: this.genral.getItemsGeneral(),
               group: 'item',
             },
             {
@@ -80,6 +80,13 @@ export class GenralInventoryComponent implements OnInit {
               name: 'poCode',
               label: 'PO#',
               search: 'object',
+              group: 'poCode',
+            },
+            {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
               group: 'poCode',
             },
             {
@@ -118,6 +125,13 @@ export class GenralInventoryComponent implements OnInit {
               group: 'poCode',
             },
             {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+            },
+            {
               type: 'weight2',
               name: 'totalStock',
               label: 'Total stock',
@@ -129,7 +143,7 @@ export class GenralInventoryComponent implements OnInit {
               name: 'item',
               label: 'Product',
               search: 'selectAsyncObject',
-              options: this.genral.getAllItemsCashew(),
+              options: this.genral.getItemsGeneral(),
               group: 'item',
             },
             {

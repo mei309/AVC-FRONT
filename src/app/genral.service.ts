@@ -203,10 +203,11 @@ export class Genral {
     switch (type) {
       case 'RAW':
         return this.getItemsRawCashew();
-      case 'CLEAN':
+      case 'Clean':
         return this.getItemsCleanCashew();
-      case 'ROAST':
+      case 'Roast':
         return this.getItemsRoastCashew();
+      case 'Pack':
       case 'ROASTPACKED':
         return this.getItemsRoastPackedCashew();
       case 'WASTE':
@@ -233,6 +234,10 @@ export class Genral {
   }
   getProductionLine (): Observable<any> {
     return this.productionLine.asObservable();
+  }
+
+  getSupplierCashew (): Observable<any> {
+    return this.http.get(this.mainurl+'getCashewSuppliers');
   }
 
   

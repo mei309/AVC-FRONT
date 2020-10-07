@@ -16,7 +16,7 @@ export class OrdersTestComponent implements OnInit {
   constructor(private LocalService: OrdersService, private genral: Genral) { }
   
   ngOnInit(): void {
-    this.LocalService.getSupplierCashew().pipe(take(1)).subscribe(value1 => {
+    this.genral.getSupplierCashew().pipe(take(1)).subscribe(value1 => {
       this.genral.getItemsRawCashew().pipe(take(1)).subscribe(value2 => {
         this.genral.getContractType().pipe(take(1)).subscribe(value3 => {
           this.genral.getStorage().pipe(take(1)).subscribe(value4 => {
@@ -159,8 +159,8 @@ export class OrdersTestComponent implements OnInit {
                     this.LocalService.getPoCashewCodesOpenPending().pipe(take(1)).subscribe(value20 => {
 
                       var mainSample = { "poCode": value20[0], "recordedTime": "2020-05-27T10:18:59.290Z", "sampleItems": [ 
-                        { "item": value2[0], "emptyContainerWeight": "222", "measureUnit": "KG", "itemWeights": [ { "numberOfSamples": "2323", "avgTestedWeight": "2222", "unitAmount": "55.44" } ] },
-                        { "item": value2[1], "emptyContainerWeight": "444", "measureUnit": "KG", "itemWeights": [ { "numberOfSamples": "33", "avgTestedWeight": "23.999", "unitAmount": "51.44" } ] } ] };
+                        { "item": value2[0], "sampleContainerWeight": "222", "measureUnit": "KG", "itemWeights": [ { "numberOfSamples": "2323", "avgTestedWeight": "2222", "unitAmount": "55.44" } ] },
+                        { "item": value2[1], "sampleContainerWeight": "444", "measureUnit": "KG", "itemWeights": [ { "numberOfSamples": "33", "avgTestedWeight": "23.999", "unitAmount": "51.44" } ] } ] };
                         // console.log(mainSample);
                         
                       // this.LocalService.addEditReceiveSample(mainSample, true).pipe(take(1)).subscribe(value21 => {

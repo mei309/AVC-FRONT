@@ -83,17 +83,17 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+            },
+            {
               type: 'weight2',
               name: 'totalAmount',
               label: 'Total amount',
               search: 'object',
-              group: 'poCode',
-            },
-            {
-              name: 'supplierName',
-              label: 'Supplier',
-              search: 'selectAsyncObject',
-              options: this.localService.getSupplierCashew(),
               group: 'poCode',
             },
             {
@@ -154,17 +154,17 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+            },
+            {
               type: 'weight2',
               name: 'totalAmount',
               label: 'Total amount',
               search: 'object',
-              group: 'poCode',
-            },
-            {
-              name: 'supplierName',
-              label: 'Supplier',
-              search: 'selectAsyncObject',
-              options: this.localService.getSupplierCashew(),
               group: 'poCode',
             },
             {
@@ -231,17 +231,17 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+            },
+            {
               type: 'weight2',
               name: 'totalAmount',
               label: 'Total amount',
               search: 'object',
-              group: 'poCode',
-            },
-            {
-              name: 'supplierName',
-              label: 'Supplier',
-              search: 'selectAsyncObject',
-              options: this.localService.getSupplierCashew(),
               group: 'poCode',
             },
             {
@@ -308,17 +308,17 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+            },
+            {
               type: 'weight2',
               name: 'totalAmount',
               label: 'Total amount',
               search: 'object',
-              group: 'poCode',
-            },
-            {
-              name: 'supplierName',
-              label: 'Supplier',
-              search: 'selectAsyncObject',
-              options: this.localService.getSupplierCashew(),
               group: 'poCode',
             },
             {

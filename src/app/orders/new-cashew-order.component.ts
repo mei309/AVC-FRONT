@@ -48,7 +48,7 @@ export class NewCashewOrderComponent implements OnInit {
                                type: 'select',
                                label: 'Supplier',
                                name: 'supplier',
-                               options: this.localService.getSupplierCashew(),
+                               options: this.genral.getSupplierCashew(),
                                validations: [
                                    {
                                        name: 'required',

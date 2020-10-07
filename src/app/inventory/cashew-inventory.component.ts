@@ -94,6 +94,13 @@ export class CashewInventoryComponent implements OnInit {
               group: 'poCode',
             },
             {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
+              group: 'poCode',
+            },
+            {
               type: 'weight2',
               name: 'totalBalance',
               label: 'Amount',
@@ -138,6 +145,13 @@ export class CashewInventoryComponent implements OnInit {
               name: 'poCode',
               label: 'PO#',
               search: 'object',
+              group: 'poCode',
+            },
+            {
+              name: 'supplierName',
+              label: 'Supplier',
+              search: 'selectAsyncObject',
+              options: this.genral.getSupplierCashew(),
               group: 'poCode',
             },
             {

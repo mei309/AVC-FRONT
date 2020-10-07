@@ -111,9 +111,6 @@ export class OrdersService {
   }
 
   
-  getSupplierCashew (): Observable<any> {
-    return this.http.get(this.ordersurl+'getCashewSuppliers');
-  }
   getPoCashewCodesOpen (): Observable<any> {
     return this.http.get(this.ordersurl+'getCashewPoOpen');
   }

@@ -429,7 +429,7 @@ export class ShowDetailsComponent implements OnInit {
                   {
                     type: 'normal',
                     label: 'Empty bag weight',
-                    name: 'emptyContainerWeight',
+                    name: 'sampleContainerWeight',
                   },
                   {
                       type: 'normal',

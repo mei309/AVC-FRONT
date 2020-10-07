@@ -159,8 +159,8 @@ export class ReceiveCashewComponent implements OnInit {
                     if(storage['className'] === 'ExtraAdded') {
                         newArray.push(element['storageForms'].splice(element['storageForms'].indexOf(storage), 1));
                     } else {
-                        storage['samplesWeight'] = {emptyContainerWeight: [{value: storage['emptyContainerWeight']}], numberOfSamples: storage['numberOfSamples'], avgWeight: storage['avgTestedWeight']};
-                        delete storage['emptyContainerWeight'];
+                        storage['samplesWeight'] = {sampleContainerWeight: [{value: storage['sampleContainerWeight']}], numberOfSamples: storage['numberOfSamples'], avgWeight: storage['avgTestedWeight']};
+                        delete storage['sampleContainerWeight'];
                         delete storage['numberOfSamples'];
                         delete storage['avgTestedWeight'];
                     }
@@ -293,7 +293,7 @@ export class ReceiveCashewComponent implements OnInit {
                                     {
                                         type: 'array',
                                         label: 'Empty bag weight',
-                                        name: 'emptyContainerWeight',
+                                        name: 'sampleContainerWeight',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
@@ -543,7 +543,7 @@ export class ReceiveCashewComponent implements OnInit {
                 }
                 element['storageForms'].forEach(ele => {
                     if(ele['samplesWeight']) {
-                        ele['emptyContainerWeight'] = (ele['samplesWeight']['emptyContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['emptyContainerWeight'].length;
+                        ele['sampleContainerWeight'] = (ele['samplesWeight']['sampleContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['sampleContainerWeight'].length;
                     
                         if(ele['samplesWeight'].hasOwnProperty('avgWeight')) {
                             ele['avgTestedWeight'] = ele['samplesWeight']['avgWeight'];
@@ -670,7 +670,7 @@ export class ReceiveCashewComponent implements OnInit {
                             {
                                 type: 'normal',
                                 label: 'Empty bag weight',
-                                name: 'emptyContainerWeight',
+                                name: 'sampleContainerWeight',
                             },
                             {
                                 type: 'normal',

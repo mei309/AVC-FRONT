@@ -10,7 +10,7 @@ import { ProductionService } from './production.service';
     selector: 'export-import',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="mainLabel" (submit)="onSubmit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="mainLabel+ 'ing cashew process'" (submit)="onSubmit($event)">
         </dynamic-form>
     </div>
     `
@@ -21,7 +21,6 @@ export class ExportImportComponent implements OnInit {
     @Input() beginData;
     @Input() isNew: boolean = true;
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
-    type: string;
     regConfig: FieldConfig[];
 
     dataSource;
@@ -99,22 +98,8 @@ export class ExportImportComponent implements OnInit {
         }
 
     ngOnInit() {
-        switch (this.mainLabel) {
-            case 'Cleaning cashew process':
-                this.type = 'Clean';
-                break;
-            case 'Roasting cashew process':
-                this.type = 'Roast';
-                break;
-            case 'Packing cashew process':
-                this.type = 'Packed';
-                break;
-            default:
-                break;
-        }
         this.preper();
-        
-        if (this.type === 'Clean') {
+        if (this.mainLabel === 'Clean') {
             this.regConfig.splice(11, 1);
         }
         var arrNormal = [];
@@ -265,7 +250,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'usedItemsNormal',
-                label: this.type+'ing amounts',
+                label: this.mainLabel+'ing amounts',
                 options: 'aloneNoAdd',
                 collections: [
                     {
@@ -327,7 +312,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'usedItemsTable',
-                label: this.type+'ing amounts',
+                label: this.mainLabel+'ing amounts',
                 options: 'aloneNoAdd',
                 collections: [
                     {
@@ -375,7 +360,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'processItemsNormal',
-                label: this.type+'d amounts',
+                label: this.mainLabel+'d amounts',
                 options: 'alone',
                 collections: [
                     {
@@ -383,7 +368,7 @@ export class ExportImportComponent implements OnInit {
                         label: 'Item descrption',
                         name: 'item',
                         // disable: true,
-                        options: this.genral.getItemsCashew(this.type),
+                        options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
                         type: 'bigexpand',
@@ -462,7 +447,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'processItemsTable',
-                label: this.type+'d amounts',
+                label: this.mainLabel+'d amounts',
                 options: 'NoAdd',
                 collections: [
                     {
@@ -470,7 +455,7 @@ export class ExportImportComponent implements OnInit {
                         label: 'Item descrption',
                         name: 'item',
                         // disable: true,
-                        options: this.genral.getItemsCashew(this.type),
+                        options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
                         type: 'bignotexpand',

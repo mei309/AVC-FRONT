@@ -34,7 +34,7 @@ export class ReceiveProcssComponent implements OnInit {
                         type: 'select',
                         label: 'Supplier',
                         name: 'supplier',
-                        options: this.localService.getSupplierCashew(),
+                        options: this.genral.getSupplierCashew(),
                         disable: true,
                         validations: [
                             {
@@ -140,7 +140,7 @@ export class ReceiveProcssComponent implements OnInit {
                                     {
                                         type: 'array',
                                         label: 'Empty bag weight',
-                                        name: 'emptyContainerWeight',
+                                        name: 'sampleContainerWeight',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
@@ -380,7 +380,7 @@ export class ReceiveProcssComponent implements OnInit {
             }
             element['storageForms'].forEach(ele => {
                 if(ele['samplesWeight']) {
-                    ele['emptyContainerWeight'] = (ele['samplesWeight']['emptyContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['emptyContainerWeight'].length;
+                    ele['sampleContainerWeight'] = (ele['samplesWeight']['sampleContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['sampleContainerWeight'].length;
                 
                     if(ele['samplesWeight'].hasOwnProperty('avgWeight')) {
                         ele['avgTestedWeight'] = ele['samplesWeight']['avgWeight'];
@@ -397,7 +397,6 @@ export class ReceiveProcssComponent implements OnInit {
                 }
             });
         }); 
-        
         this.localService.addReceiveCashewNoOrder(value).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
                 width: '80%',

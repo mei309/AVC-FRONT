@@ -47,8 +47,4 @@ export class QcService {
     return this.http.get(this.qcurl+'getPoCashewCodesOpenPending');
   }
 
-  getSupplierCashew (): Observable<any> {
-    return this.http.get(this.qcurl+'getCashewSuppliers');
-  }
-
 }
