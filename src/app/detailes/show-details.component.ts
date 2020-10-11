@@ -38,7 +38,7 @@ import { take } from 'rxjs/operators';
                           </show-details-table>
                           <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
                           </show-details-group-table>
-                          <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                          <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]" [processName]="column.processName">
                           </show-details-upside-table>
                           <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
                           </show-details>
@@ -67,35 +67,39 @@ import { take } from 'rxjs/operators';
         <ng-container *ngFor="let column of oneColumns">
             <ng-container *ngIf="checkNotEmpty(dataSource[column.name])">
               <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'arrayOrdinal'].includes(column.type); else notImport">
-                  <ng-container *ngIf="['parent', 'parentArray', 'object', 'arrayOrdinal'].includes(column.type); else legendBox">
-                        <ng-container *ngIf="'arrayOrdinal' === column.type; else notArrayOrdinal">
-                            <show-details-ordinal [dataSource]="dataSource[column.name]" >
-                            </show-details-ordinal>
-                        </ng-container>
-                        <ng-template #notArrayOrdinal>
-                          <h4 *ngIf="column.type === 'object'">{{column.label}}</h4>
-                          <show-details [oneColumns]="column.collections" [dataSource]="['parent', 'object'].includes(column.type)? dataSource[column.name] : dataSource[column.name][0]">
-                          </show-details>
-                        </ng-template>
-                  </ng-container>
-                  <ng-template #legendBox>
-                        <fieldset [ngSwitch]="column.type" [ngClass]="{'no-legend': !column.label}">
-                          <legend><h1>{{column.label}}</h1></legend>
-                          <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
-                          </show-details-table>
-                          <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
-                          </show-details-group-table>
-                          <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" >
-                          </show-details-upside-table>
-                          <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
-                          </show-details>
-
-                          <div *ngSwitchCase="'arrayForEach'">
-                            <show-details class="change-color" *ngFor="let line of dataSource[column.name]" [dataSource]="line" [withPo]="false">
+                  <ng-container [ngSwitch]="column.type">
+                        <show-details-ordinal *ngSwitchCase="'arrayOrdinal'" [dataSource]="dataSource[column.name]" >
+                        </show-details-ordinal>
+                        <ng-container *ngSwitchCase="'object'">
+                            <h4>{{column.label}}</h4>
+                            <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                             </show-details>
-                          </div> 
+                        </ng-container>
+                        <show-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
+                        </show-details>
+                        <show-details *ngSwitchCase="'parentArray'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
+                        </show-details>
+
+                        
+
+                        <fieldset *ngSwitchDefault [ngClass]="{'no-legend': !column.label}">
+                          <legend><h1>{{column.label}}</h1></legend>
+                          <ng-container [ngSwitch]="column.type">
+                            <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
+                            </show-details-table>
+                            <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
+                            </show-details-group-table>
+                            <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [processName]="column.processName">
+                            </show-details-upside-table>
+                            <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
+                            </show-details>
+                            <ng-container *ngSwitchCase="'arrayForEach'">
+                              <show-details class="change-color" *ngFor="let line of dataSource[column.name]" [dataSource]="line" [withPo]="false">
+                              </show-details>
+                            </ng-container>
+                          </ng-container>
                         </fieldset>
-                  </ng-template>
+                  </ng-container>
               </ng-container>
               <ng-template #notImport>
                     <mat-form-field appearance="none" provideReadonly>
@@ -206,7 +210,6 @@ export class ShowDetailsComponent implements OnInit {
     } else {
       return false;
     }
-    
   }
 
   ngOnInit() {
@@ -325,8 +328,18 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
         type: 'normal',
-        label: 'All bags weight',
-        name: 'accessWeight',
+        label: 'Inspector',
+        name: 'inspector',
+    },
+    {
+        type: 'normal',
+        label: 'Sample taker',
+        name: 'sampleTaker',
+    },
+    {
+        type: 'normal',
+        label: 'Checked by',
+        name: 'checkedBy',
     },
     {
         type: 'array',
@@ -687,6 +700,11 @@ export class ShowDetailsComponent implements OnInit {
             type: 'nameId',
             label: 'Warehouse location',
             name: 'warehouseLocation',
+        },
+        {
+            type: 'normal',
+            label: 'All bags weight',
+            name: 'accessWeight',
         },
         {
           type: 'arrayOrdinal',

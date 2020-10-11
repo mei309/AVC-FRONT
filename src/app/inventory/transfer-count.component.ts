@@ -42,6 +42,7 @@ export class TransferCountComponent implements OnInit {
                 var copied = cloneDeep(element['usedItems']);
                 var warehouseLocation = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], item['id'])))['warehouseLocation'];
                 copied.forEach(et => {
+                    et['numberUnits'] = et['numberUsedUnits'];
                     et['warehouseLocation'] = warehouseLocation;
                     delete et['id'];
                     delete et['version'];
@@ -160,12 +161,12 @@ export class TransferCountComponent implements OnInit {
             if(arrTable.length) {
                 this.dataSource['usedItemsTable'] = arrTable;
             } else {
-                this.regConfigHopper.splice(5, 1);
+                this.regConfigHopper.splice(4, 1);
             }
             if(arrNormal.length) {
                 this.dataSource['usedItemsNormal'] = arrNormal;
             } else {
-                this.regConfigHopper.splice(4, 1);
+                this.regConfigHopper.splice(3, 1);
             }
             this.isNew = false;
             this.isFormAvailable = true;
@@ -197,6 +198,7 @@ export class TransferCountComponent implements OnInit {
                                     element['storageForms'].forEach(ele => {
                                         ele['item'] = element['item'];
                                         ele['otherUsedUnits'] = ele['numberUsedUnits'];
+                                        delete ele['numberUsedUnits'];
                                     });
                                     arrNormal.push({usedItems: element['storageForms']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
@@ -205,12 +207,12 @@ export class TransferCountComponent implements OnInit {
                             if(arrTable.length) {
                                 this.dataSource['usedItemsTable'] = arrTable;
                             } else {
-                                this.regConfigHopper.splice(5, 1);
+                                this.regConfigHopper.splice(4, 1);
                             }
                             if(arrNormal.length) {
                                 this.dataSource['usedItemsNormal'] = arrNormal;
                             } else {
-                                this.regConfigHopper.splice(4, 1);
+                                this.regConfigHopper.splice(3, 1);
                             }
                             this.isFormAvailable = true;
                         }); 
@@ -286,13 +288,6 @@ export class TransferCountComponent implements OnInit {
                 label: 'Production line',
                 name: 'productionLine',
                 options: this.genral.getProductionLine(),
-            },
-            {
-                type: 'input',
-                label: 'All bags weight',
-                name: 'accessWeight',
-                inputType: 'numeric',
-                options: 3,
             },
             {
                 type: 'bigexpand',
@@ -440,6 +435,13 @@ export class TransferCountComponent implements OnInit {
                                 type: 'input',
                                 label: 'Empty container weight',
                                 name: 'containerWeight',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'input',
+                                label: 'All bags weight',
+                                name: 'accessWeight',
                                 inputType: 'numeric',
                                 options: 3,
                             },

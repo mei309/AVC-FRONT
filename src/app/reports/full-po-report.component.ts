@@ -104,13 +104,10 @@ export class fullPoReportComponent {
             {type: 'hedear', name: 'item', title: 'Item descrption', options: this.genral.getStandarts(), pipes: 'object', collections: 'sampleWeight', accessor: (arr, elem) => arr.find(d => d['items'].some(el => {if(el['value'] === elem){return true;}}))},
             {type: 'bottomArray', collections: [
                 {name: 'recordedTime', title: 'Date and time', pipes: 'dateTime'},
-                {name: 'personInCharge', title: 'Person in charge'},
-                {name: 'duration', title: 'Time duration'},
                 {name: 'approvals', title: 'Approvals'},
-                {name: 'numOfWorkers', title: 'Number of workers'},
                 {name: 'inspector', title: 'Inspector'},
                 {name: 'sampleTaker', title: 'Sample taker'},
-                {name: 'processName', title: 'Checked by'},
+                {name: 'checkedBy', title: 'Checked by'},
 
                 {name: 'numberOfSamples', title: 'Number of samples'},
                 {name: 'wholeCountPerLb', title: 'Whole count per Lb'},

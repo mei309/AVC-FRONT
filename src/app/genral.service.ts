@@ -248,10 +248,12 @@ export class Genral {
   getProcess(): string[] {
     return ['CASHEW_ORDER', 'GENERAL_ORDER', 'CASHEW_RECEIPT', 'GENERAL_RECEIPT',
       'CASHEW_RECEIPT_QC', 'VINA_CONTROL_QC', 'SAMPLE_QC', 'SUPPLIER_QC',
-      'STORAGE_TRANSFER', 
+      'ROASTED_CASHEW_QC',
+      'STORAGE_TRANSFER', 'STORAGE_RELOCATION',
       'CASHEW_CLEANING',
       'CASHEW_ROASTING',
-      'PACKING', 'CONTAINER_LOADING'];
+      'PACKING',
+      'CONTAINER_LOADING', 'CONTAINER_BOOKING'];
   }
 
   getDecisionType(): string[] {

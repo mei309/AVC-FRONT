@@ -37,11 +37,11 @@ export class CountinersReportsComponent implements OnInit {
     });
     this.columnsShow = [
         {
-          type: 'object',
-          name: 'shipmentCode',
-          label: 'Shipment code',
-          search: 'object',
-          group: 'shipmentCode',
+            type: 'nameId',
+            name: 'shipmentCode',
+            label: 'Shipment code',
+            search: 'object',
+            group: 'shipmentCode',
         },
         {
             name: 'usedItems',

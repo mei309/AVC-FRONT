@@ -35,7 +35,8 @@ export class QcReceivePercentageComponent implements OnInit {
         });
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         if(this.type === 'QC receiving (percentage)') {
-            this.localService.addEditCashewReceiveCheck(value, value['localType'], fromNew).pipe(take(1)).subscribe( val => {
+            // value['localType']
+            this.localService.addEditCashewReceiveCheck(value, null, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
                     data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}
@@ -141,7 +142,7 @@ export class QcReceivePercentageComponent implements OnInit {
             },
             {
               type: 'radiobutton',
-              name: 'localType',
+              name: 'checkedBy',
               label: 'Checked by',
               value: 'avc lab',
               options: this.genral.getQcCheckOrganzition(),

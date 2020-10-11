@@ -1,19 +1,35 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import {uniq} from 'lodash-es';
 import { OneColumn } from '../field.interface';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {merge, isEqualWith, isEqual} from 'lodash-es';
 import { diff } from '../libraries/diffArrayObjects.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { Globals } from '../global-params.component';
+import { ConfirmationDialog } from '../service/confirm-dialog.component';
+import { Genral } from '../genral.service';
 @Component({
   selector: 'show-details-upside-table',
   template: `
  <ng-container *ngIf="noChanges; else elseblock">
     <table mat-table id="ExampleTable" [dataSource]="bottomDataSource" class="mat-elevation-z2">
+
+    <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+        <ng-container matColumnDef="manage{{iCol1}}" *ngFor="let column1 of topGroups; let iCol1 = index">
+            <th mat-header-cell *matHeaderCellDef
+              [attr.colspan]="column1.lSize"
+              [style.display]="column1.lSize ? '' : 'none'">
+              <button *ngIf="iCol1" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(column1, iCol1)">Managment</button>
+            </th>
+        </ng-container>
+    </ng-container>
+
       <ng-container matColumnDef="{{column.name}}" *ngFor="let column of bottomCloumns; let iCol = index">
           <th mat-header-cell *matHeaderCellDef>
             <h3>{{column.titel}}</h3>
           </th>
+
           <td mat-cell *matCellDef="let element; let iRow = index" 
             [attr.colspan]="getColSpan(iRow, iCol)"
             [style.display]="getColSpan(iRow, iCol) ? '' : 'none'"
@@ -33,11 +49,28 @@ import { diff } from '../libraries/diffArrayObjects.interface';
           </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
+
+      <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+        <tr mat-header-row *matHeaderRowDef="numArray"></tr>
+      </ng-container>
+
       <tr mat-row *matRowDef="let row; columns: columnsDisplay"></tr>
     </table>
  </ng-container>
  <ng-template  #elseblock>
     <table mat-table [dataSource]="bottomDataSource" class="mat-elevation-z2">
+    
+      <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+          <ng-container matColumnDef="manage{{iCol1}}" *ngFor="let column1 of topGroups; let iCol1 = index">
+              <th mat-header-cell *matHeaderCellDef
+                [attr.colspan]="column1.lSize"
+                [style.display]="column1.lSize ? '' : 'none'">
+                <button *ngIf="iCol1" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(column1, iCol1)">Managment</button>
+              </th>
+          </ng-container>
+      </ng-container>
+    
+    
       <ng-container matColumnDef="{{column.name}}" *ngFor="let column of bottomCloumns; let iCol = index">
           <th mat-header-cell *matHeaderCellDef>
               <h3>{{column.titel}}</h3>
@@ -70,6 +103,11 @@ import { diff } from '../libraries/diffArrayObjects.interface';
           </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
+
+      <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+        <tr mat-header-row *matHeaderRowDef="numArray"></tr>
+      </ng-container>
+
       <tr mat-row *matRowDef="let element; columns: columnsDisplay"
       [ngClass]="{'is-new': element.changeStatus === 'added', 'is-removed': element.changeStatus === 'removed'}"></tr>
     </table>
@@ -85,9 +123,11 @@ export class ShowDetailsUpsideTableComponent {
 
   @Input() oneColumns;
   
+  @Input() processName;
   noChanges: boolean = true;
 
-  topGroups = [];
+  topGroups: {lSize: number, editStatus?: string, processStatus?: string, pId?: number}[] = [];
+  numArray = [];
   isWithTop = false;
 
   columnsDisplay: string[] = ['title'];
@@ -99,7 +139,8 @@ export class ShowDetailsUpsideTableComponent {
       },
   ];
 
-  constructor() {
+
+  constructor(private genral: Genral, private globels: Globals, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -114,6 +155,8 @@ export class ShowDetailsUpsideTableComponent {
         this.setSecondSourceInit();
       }
       this.prepareBottomArray(this.oneColumns[5]['collections'], this.oneColumns[4], [this.oneColumns[2]['name'], this.oneColumns[3]['name']]);
+      console.log(this.bottomDataSource);
+      
     } else {
       this.marage(this.oneColumns[0]['name']);
       this.marage(this.oneColumns[1]['name']);
@@ -244,13 +287,16 @@ export class ShowDetailsUpsideTableComponent {
 
 
   prepareTopArray(kids) {
-    this.topGroups.push(1);
-    this.dataSource.forEach((element, index) => {
-      this.topGroups.push(element.testedItems.length);
+    this.topGroups.push({lSize: 1});
+    this.dataSource.forEach(element => {
+      this.topGroups.push({lSize: element.testedItems.length, editStatus: element['editStatus'], processStatus: element['processStatus'], pId: element['id']});
       for (let index = 1; index < element.testedItems.length; index++) {
-        this.topGroups.push(0);
+        this.topGroups.push({lSize: 0});
       }
     });
+    for (let index = 0; index < this.topGroups.length; index++) {
+      this.numArray.push('manage'+index);
+    }
   }
 
   prepareBottomArray(kids, heder, removingNodes) {
@@ -292,6 +338,12 @@ export class ShowDetailsUpsideTableComponent {
                       });
                     }
 
+                    kids.forEach(ele => {
+                      if(ele.collections) {
+                        ele[ele.collections+nameOfRow+index] = element[ele.collections];
+                      }
+                    });
+
                     const target = heder['accessor'](arg, nameOfRow);
                     
                     if(target) {
@@ -330,10 +382,55 @@ export class ShowDetailsUpsideTableComponent {
   }
 
   getColSpan(iRow, iCol) {
-    if(!this.isWithTop || iRow > 7) {
+    if(!this.isWithTop || iRow > 5) {
       return 1;
     } else {
-      return this.topGroups[iCol];
+      return this.topGroups[iCol]['lSize'];
     }
+  }
+
+  getPremmisions(process) {
+    if(this.globels.getGlobalProcessAuturtiy(process)) {
+      return (this.globels.getGlobalProcessAuturtiy(process)).some(r=> ['APPROVAL', 'MANAGER'].indexOf(r) >= 0);
+    } else {
+      return false;
+    }
+  }
+
+  openManagment(col, indexNum) {
+    console.log(indexNum);
+    console.log(this.bottomDataSource[1]);
+    
+    const keyToChange = Object.keys(this.bottomDataSource[1]).find(key => key.endsWith((indexNum-1).toString()));
+    console.log(keyToChange);
+    
+    const dialogRef = this.dialog.open(ConfirmationDialog, {
+      width: '80%',
+      data: {
+        premmisions: this.globels.getGlobalProcessAuturtiy(this.processName),
+        toLock: col['editStatus'] === 'LOCKED',
+        toFinal: col['processStatus'] === 'FINAL',
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result != 'closed') {
+        result['id'] = col['pId'];
+        result['processName'] = this.processName;
+        if(result['process'] === 'confirm') {
+          result['snapshot'] = this.dataSource;
+          this.genral.approveTaskAndManagment('APPROVED' , result).pipe(take(1)).subscribe(value => {
+            this.bottomDataSource[1][keyToChange] = value['approvals'];
+          });
+        } else if(result['process'] === 'reject') {
+          result['snapshot'] = this.dataSource;
+          this.genral.approveTaskAndManagment('DECLINED' , result).pipe(take(1)).subscribe(value => {
+            this.bottomDataSource[1][keyToChange] = value['approvals'];
+          });
+        } else if(result['process'] === 'onSave') {
+          this.genral.taskManagment(result).pipe(take(1)).subscribe(value => {
+          });
+        }
+      }
+    });
   }
 }

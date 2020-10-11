@@ -62,6 +62,20 @@ import {isEqual} from 'lodash-es';
             </td>
         </ng-container>
 
+        
+          <ng-container matColumnDef="totealCol" *ngIf="totelColumn">
+              <th mat-header-cell *matHeaderCellDef>
+                <h3>{{totelColumn.label}}</h3>
+              </th>
+              <td mat-cell style="vertical-align: top;
+              padding-left: 16px; padding-right: 16px;
+              padding-top: 14px;" *matCellDef="let element; let i = index"
+                  [style.display]="getRowSpan(i, totelColumn.group) ? '' : 'none'"
+                  [attr.rowspan]="getRowSpan(i, totelColumn.group)">
+                  {{getTotel(i) | tableCellPipe: totelColumn.type : totelColumn.collections}}
+              </td>
+          </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
     </table>
@@ -108,6 +122,8 @@ export class SearchGroupDetailsComponent {
 
   localGroupOneColumns = [];
 
+  @Input() totelColumn: OneColumn;
+
   constructor() {
   }
   preperData() {
@@ -121,6 +137,10 @@ export class SearchGroupDetailsComponent {
           this.columnsDisplay.push(element.name);
       }
     });
+    if(this.totelColumn) {
+      // this.columnsDisplay.splice(index, 0, 'totealCol');
+      this.columnsDisplay.push('totealCol');
+    }
     if(this.groupId) {
       this.spanRow(d => d['id'], 'id');
       this.lastSpan = 'id';
@@ -233,8 +253,8 @@ export class SearchGroupDetailsComponent {
     this.lastSpan = null;
     this.spans = [];
     if(this.groupId) {
-      // this.spanRow(d => d['id'], 'id');
-      // this.lastSpan = 'id';
+      this.spanRow(d => d['id'], 'id');
+      this.lastSpan = 'id';
     }
     this.localGroupOneColumns.forEach(element => {
       if(element.group === element.name) {
@@ -300,15 +320,23 @@ export class SearchGroupDetailsComponent {
     return false;
   }
 
-//   getTotel(cloumen, index, key) {
-//     if(this.spans[index]) {
-//       var number = 0;
-//       for (let ind = index; ind < index+this.spans[index][key]; ind++) {
-//         number += this.dataSource.data[ind][cloumen]['amount'];
-//       }
-//       return number + ' ' + this.dataSource.data[index][cloumen]['measureUnit'];
-//     }
-//   }
+  getTotel(index) {
+    if(this.spans[index]) {
+      switch (this.totelColumn.type) {
+        case 'weight2':
+          var numberOne = 0;
+          var numberTow = 0;
+          for (let ind = index; ind < index+this.spans[index][this.totelColumn.group]; ind++) {
+            numberOne += this.dataSource.data[ind][this.totelColumn.name][0]['amount'];
+            numberTow += this.dataSource.data[ind][this.totelColumn.name][1]['amount'];
+          }
+          return [{amount: numberOne, measureUnit: this.dataSource.data[index][this.totelColumn.name][0]['measureUnit']},
+            {amount: numberOne, measureUnit: this.dataSource.data[index][this.totelColumn.name][1]['measureUnit']}]
+        default:
+          break;
+      }
+    }
+  }
 }
 
 // <ng-container matColumnDef="position">

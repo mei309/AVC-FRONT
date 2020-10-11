@@ -28,7 +28,7 @@ export class TableCellPipe implements PipeTransform {
                 return new CurrencyPipe(this.locale).transform(element['amount'], element['currency']);
             case 'weight':
                 if (Array.isArray(element)) {
-                    return '';
+                    return 'zvi why array';
                 }
                 return new DecimalPipe(this.locale).transform(element['amount'])+' '+element['measureUnit'];
             case 'weight2':
@@ -59,20 +59,16 @@ export class TableCellPipe implements PipeTransform {
                 return uniq(element.split(',')).toString();
             case 'amountWithUnit':
                 var str = '';
-                element.forEach(element => {
+                element.forEach(elem => {
                     if(str) {
                         str += '<br/>';
                     }
-                    str += [element.item.value] +':'+ element.amountWithUnit[0]['value'] + ' (' + element.amountWithUnit[1]['value'] + ') ' + [element.warehouses];
+                    str += [elem.item.value] +':'+ elem.amountWithUnit[0]['value'] + ' (' + elem.amountWithUnit[1]['value'] + ') ' + [elem.warehouses];
                 });
                 return str;
             default:
                 return element;
         }
     }
-    // <ng-container  *ngFor="let parcel of element[column.name]"> 
-//                             <li>{{parcel.item.value}}: {{parcel.amountWithUnit[0]['value']}} ({{parcel.amountWithUnit[1]['value']}})</li>
-//                       </ng-container>
-
   
 }

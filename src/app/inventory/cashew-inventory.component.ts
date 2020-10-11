@@ -22,7 +22,7 @@ export class CashewInventoryComponent implements OnInit {
 
   itemCategory;
 
-  sumsSource;
+  // sumsSource;
   
 
   constructor(private router: Router, public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
@@ -68,7 +68,7 @@ export class CashewInventoryComponent implements OnInit {
             
             this.cashewSource = <any[]>value;
             this.cashewSourceColumns = [this.cashewSource, this.columnsShow];
-            this.sumsSource = [this.cashewSource, ['personInCharge', 'itemName']];
+            // this.sumsSource = [this.cashewSource, ['personInCharge', 'itemName']];
           });
           this.columnsShow = [
             {

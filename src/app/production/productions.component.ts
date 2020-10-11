@@ -17,7 +17,12 @@ export class ProductionsComponent implements OnInit {
 
   columnsShow: OneColumn[];
 
-  columnsOpenPending: OneColumn[];
+  totelColumn: OneColumn = {
+      type: 'weight2',
+      name: 'processGain',
+      label: 'Total difference',
+      group: 'poCode',
+  };
   type: string = '';
   
   cashewSourceColumns;

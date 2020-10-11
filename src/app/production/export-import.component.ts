@@ -114,6 +114,7 @@ export class ExportImportComponent implements OnInit {
                     element['storageForms'].forEach(ele => {
                         ele['item'] = element['item'];
                         ele['otherUsedUnits'] = ele['numberUsedUnits'];
+                        delete ele['numberUsedUnits'];
                     });
                     arrNormal.push({usedItems: element['storageForms']});
                 }
