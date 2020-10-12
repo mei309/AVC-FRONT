@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -11,15 +11,17 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'receive-procss',
     template: `
-    <dynamic-form [fields]="regConfig" [mainLabel]="'Receive Cashew Without Order'" (submit)="submit($event)">
+    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'Receive Cashew Without Order'" (submit)="submit($event)">
     </dynamic-form>
     `
   })
 export class ReceiveProcssComponent implements OnInit {
+    navigationSubscription;
+    isRealodReady: boolean = true;
 
     regConfig: FieldConfig[];
 
-    constructor(private router: Router, private _Activatedroute:ActivatedRoute,
+    constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
         private localService: OrdersService, private genral: Genral, private location: Location, public dialog: MatDialog) {
     }
 
@@ -361,6 +363,14 @@ export class ReceiveProcssComponent implements OnInit {
                 name: 'submit',
             }
         ];
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+              this.isRealodReady = false;
+              this.cdRef.detectChanges();
+              this.isRealodReady = true;
+            }
+        });
     }
 
     submit(value: any) {
@@ -415,6 +425,12 @@ export class ReceiveProcssComponent implements OnInit {
             });
         });
     }
+
+    ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
+      }
     
   }
 

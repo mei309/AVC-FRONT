@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -25,6 +25,8 @@ import {isEqual} from 'lodash-es';
     `
   })
 export class TransferCountComponent implements OnInit {
+    navigationSubscription;
+
     form: FormGroup;
     isDataAvailable: boolean = false
     isFormAvailable: boolean = false;
@@ -462,6 +464,22 @@ export class TransferCountComponent implements OnInit {
                 name: 'submit',
             }
         ];
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+                this.isDataAvailable = false;
+                this.isFormAvailable = false;
+                this.dataSource = null;
+                this.cdRef.detectChanges();
+                this.isDataAvailable = true;
+            }
+        });
     }
+
+    ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
+      }
 
   }

@@ -10,7 +10,7 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
 const routes: Routes = [
     { path: 'Booking', component: CountinersBookingComponent},
     { path: 'Arrival', component: CountinersArrivalComponent},
-    { path: 'Loading', component: CountinersLoadingComponent},
+    { path: 'Loading', component: CountinersLoadingComponent, runGuardsAndResolvers: 'always'},
     { path: 'CountinerReports', component: CountinersReportsComponent},
     { path: 'SecurityExportDoc', component: SecurityExportDocComponent},
 ];

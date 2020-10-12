@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -21,6 +21,8 @@ import {cloneDeep} from 'lodash-es';
 
 // tslint:disable-next-line: component-class-suffix
 export class QcReceivePercentageComponent implements OnInit {
+    navigationSubscription;
+
     regConfig: FieldConfig[];
     putData;
     isDataAvailable: boolean = false;
@@ -94,6 +96,41 @@ export class QcReceivePercentageComponent implements OnInit {
             if(params.get('roast')) {
                 this.regConfig.splice(2, 1);
                 this.type = 'QC roasting (percentage)';
+            }
+        });
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+                this.isDataAvailable = false;
+                this.putData = null;
+                this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+                    if(params.get('roast')) {
+                        if(this.type === 'QC receiving (percentage)') {
+                            this.regConfig.splice(2, 1);
+                            this.type = 'QC roasting (percentage)';
+                        }
+                    } else {
+                        if(this.type === 'QC roasting (percentage)') {
+                            this.regConfig.splice(2, 0, {
+                                            type: 'radiobutton',
+                                            name: 'checkedBy',
+                                            label: 'Checked by',
+                                            value: 'avc lab',
+                                            options: this.genral.getQcCheckOrganzition(),
+                                            validations: [
+                                                {
+                                                    name: 'required',
+                                                    validator: Validators.required,
+                                                    message: 'Required',
+                                                }
+                                            ]
+                                        });
+                            this.type = 'QC receiving (percentage)';
+                        }
+                    }
+                });
+                this.cdRef.detectChanges();
+                this.isDataAvailable = true;
             }
         });
     }
@@ -399,6 +436,12 @@ export class QcReceivePercentageComponent implements OnInit {
             }
         ];
           
+      }
+
+      ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
       }
 
 }

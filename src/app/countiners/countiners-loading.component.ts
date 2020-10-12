@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { isEqual } from 'lodash-es';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
@@ -29,6 +29,8 @@ import { diff } from '../libraries/diffArrayObjects.interface';
     `
   })
 export class CountinersLoadingComponent {
+    navigationSubscription;
+
     form: FormGroup;
     
     choosedPos = [];
@@ -47,8 +49,6 @@ export class CountinersLoadingComponent {
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
                 if(!element.id) {
-                    console.log('kkkkk');
-                    
                     var arrNormal = [];
                     element['usedItems'].forEach(elem => {
                         if(elem['numberUsedUnits']) {
@@ -406,6 +406,17 @@ export class CountinersLoadingComponent {
               name: 'submit',
             }
         ];
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+                this.beginPage = false;
+                this.loading = false;
+                this.choosedPos = [];
+                this.choosedPos = [];
+                this.cdRef.detectChanges();
+                this.beginPage = true;
+            }
+        });
     }
 
     preperReg(){
@@ -696,5 +707,11 @@ export class CountinersLoadingComponent {
         
         
      }
+
+     ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
+      }
 
 }

@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
@@ -23,6 +23,8 @@ import { ProductionService } from './production.service';
     `
 })
 export class ProductionRoastingComponent implements OnInit {
+    navigationSubscription;
+
     form: FormGroup;
     isDataAvailable: boolean = false;
     isFormAvailable: boolean = false;
@@ -104,6 +106,22 @@ export class ProductionRoastingComponent implements OnInit {
                 ];
             }
         });
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+                this.isDataAvailable = false;
+                this.isFormAvailable = false;
+                this.putData = null;
+                this.cdRef.detectChanges();
+                this.isDataAvailable = true;
+            }
+        });
     }
+
+    ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
+      }
 
 }

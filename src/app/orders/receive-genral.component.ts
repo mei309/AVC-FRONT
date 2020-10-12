@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -22,6 +22,7 @@ import { ReplaySubject, Observable } from 'rxjs';
     `
   })
 export class ReceiveGenralComponent implements OnInit {
+    navigationSubscription;
 
     OrderdItems = new ReplaySubject<any[]>();
     putData: any = null;
@@ -78,6 +79,16 @@ export class ReceiveGenralComponent implements OnInit {
                         name: 'submit',
                     }
                 ];
+                this.isFirstDataAvailable = true;
+            }
+        });
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+                this.isDataAvailable = false;
+                this.isFirstDataAvailable = false;
+                this.putData =  null;
+                this.cdRef.detectChanges();
                 this.isFirstDataAvailable = true;
             }
         });
@@ -294,5 +305,11 @@ export class ReceiveGenralComponent implements OnInit {
                 });
             });
     }
+
+    ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
+      }
 
 }

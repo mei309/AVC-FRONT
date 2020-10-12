@@ -10,13 +10,13 @@ import { ReceiveProcssComponent } from './receive-procss.component';
 // import { SampleWeightsComponent } from './sample-weights.component';
 
 const routes: Routes = [
-      { path: 'NewCashewOrder', component: NewCashewOrderComponent},
-      { path: 'NewGenralOrder', component: NewGenralOrderComponent},
+      { path: 'NewCashewOrder', component: NewCashewOrderComponent, runGuardsAndResolvers: 'always'},
+      { path: 'NewGenralOrder', component: NewGenralOrderComponent, runGuardsAndResolvers: 'always'},
       { path: 'CashewOrders', component: OrdersCashewComponent},
       { path: 'GenralOrders', component: OrdersGenralComponent},
-      { path: 'CashewReceived', component: ReceiveCashewComponent},
-      { path: 'GenralReceived', component: ReceiveGenralComponent},
-      { path: 'ProcssReceived', component: ReceiveProcssComponent},
+      { path: 'CashewReceived', component: ReceiveCashewComponent, runGuardsAndResolvers: 'always'},
+      { path: 'GenralReceived', component: ReceiveGenralComponent, runGuardsAndResolvers: 'always'},
+      { path: 'ProcssReceived', component: ReceiveProcssComponent, runGuardsAndResolvers: 'always'},
       // { path: 'SampleWeights', component: SampleWeightsComponent},
 
     ];

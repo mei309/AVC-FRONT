@@ -15,8 +15,8 @@ const routes: Routes = [
   { path: 'Packing', component:  QcPackingComponent},
   { path: 'Toffee', component:  QcToffeeComponent},
   { path: 'Machins', component:  QcMachinsComponent},
-  { path: 'Raw', component:  QcReceiveComponent},
-  { path: 'RawPercntage', component:  QcReceivePercentageComponent},
+  { path: 'Raw', component:  QcReceiveComponent, runGuardsAndResolvers: 'always'},
+  { path: 'RawPercntage', component:  QcReceivePercentageComponent, runGuardsAndResolvers: 'always'},
   { path: 'AllQC', component: AllQcsComponent},
 ];
 

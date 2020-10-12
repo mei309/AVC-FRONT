@@ -16,10 +16,10 @@ const routes: Routes = [
       { path: 'GenralCount', component: GenralCountComponent},
       // { path: 'MaterialExportPo', component: MaterialExportPoComponent},
       // { path: 'MaterialExportItem', component: MaterialExportItemComponent},
-      { path: 'MaterialExport', component: MaterialExportComponent},
+      // { path: 'MaterialExport', component: MaterialExportComponent},
       { path: 'InventoryReports', component: InventoryComponent},
-      { path: 'TransferCount', component:  TransferCountComponent},
-      { path: 'RelocationCount', component:  RelocationCountComponent},
+      { path: 'TransferCount', component:  TransferCountComponent, runGuardsAndResolvers: 'always'},
+      { path: 'RelocationCount', component:  RelocationCountComponent, runGuardsAndResolvers: 'always'},
     ];
 
 @NgModule({

@@ -6,7 +6,7 @@ import { SuppliersComponent } from './suppliers.component';
 
 const routes: Routes = [
       { path: 'Suppliers', component: SuppliersComponent },
-      { path: 'NewSupplier', component: NewSupplierComponent },
+      { path: 'NewSupplier', component: NewSupplierComponent, runGuardsAndResolvers: 'always'},
       { path: 'EditSupplier', component: EditSupplierComponent },
     ];
 

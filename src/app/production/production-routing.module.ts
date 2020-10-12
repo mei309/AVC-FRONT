@@ -7,10 +7,10 @@ import { ProductionToffyComponent } from './production-toffy.component';
 import { ProductionsComponent } from './productions.component';
 
 const routes: Routes = [
-  { path: 'Cleaning', component: ProductionCleaningComponent },
-  { path: 'Roasting', component: ProductionRoastingComponent },
-  { path: 'Packing', component:  ProductionPackingComponent},
-  { path: 'Toffy', component:  ProductionToffyComponent},
+  { path: 'Cleaning', component: ProductionCleaningComponent, runGuardsAndResolvers: 'always'},
+  { path: 'Roasting', component: ProductionRoastingComponent, runGuardsAndResolvers: 'always'},
+  { path: 'Packing', component:  ProductionPackingComponent, runGuardsAndResolvers: 'always'},
+  { path: 'Toffy', component:  ProductionToffyComponent, runGuardsAndResolvers: 'always'},
   { path: 'Productions', component:  ProductionsComponent},
 ];
 

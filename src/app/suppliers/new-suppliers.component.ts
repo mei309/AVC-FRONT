@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
@@ -12,21 +12,30 @@ import { SuppliersService } from './suppliers.service';
 @Component({
     selector: 'new-supplier',
     template: `
-    <dynamic-form [fields]="regConfig" [mainLabel]="'New supplier'" (submit)="submit($event)">
+    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'New supplier'" (submit)="submit($event)">
     </dynamic-form>
-    
     `
   })
 export class NewSupplierComponent implements OnInit {
-  @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+  navigationSubscription;
+  isRealodReady: boolean = true;
 
   regConfig: FieldConfig[];
 
-  constructor(private _Activatedroute:ActivatedRoute, private router: Router,
-    private LocalService: SuppliersService, private genral: Genral, public dialog: MatDialog) {
+  constructor(private _Activatedroute:ActivatedRoute, private router: Router, private cdRef:ChangeDetectorRef,
+    private LocalService: SuppliersService, private genral: Genral, private dialog: MatDialog) {
+      
   }
 
   ngOnInit() {
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.isRealodReady = false;
+        this.cdRef.detectChanges();
+        this.isRealodReady = true;
+      }
+    });
     this.regConfig = [
       {
         type: 'input',
@@ -403,6 +412,12 @@ export class NewSupplierComponent implements OnInit {
             }
         });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {  
+       this.navigationSubscription.unsubscribe();
+    }
   }
 
 }
