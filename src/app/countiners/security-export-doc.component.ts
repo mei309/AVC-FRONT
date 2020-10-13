@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { OneColumn, FieldConfig } from '../field.interface';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { CountinersService } from './countiners.service';
 

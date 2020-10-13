@@ -78,8 +78,6 @@ export class InputSelectComponent implements OnInit {
       this.group.controls[this.field.collections[1].name].setValue(this.field.collections[1].options[0]);
     }
     this.group.get([this.field.collections[1].name]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
-      console.log('llll');
-      
       if(!val) {
         this.group.controls[this.field.collections[1].name].setValue(this.field.collections[1].options[0]);
       }

@@ -17,7 +17,7 @@ import { ProductionService } from './production.service';
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <export-import [beginData]="putData" [isNew]="isNew" [mainLabel]="'Roast'" (submit)="submit($event)">
+        <export-import [beginData]="putData" [newUsed]="newUsed" [mainLabel]="'Roast'" (submit)="submit($event)">
         </export-import>
     </div>
     `
@@ -30,10 +30,11 @@ export class ProductionRoastingComponent implements OnInit {
     isFormAvailable: boolean = false;
     poConfig;
     putData;
+    newUsed;
+
     poID: number;
-    isNew: boolean = true;
     submit(value: any) {
-        this.localService.addEditRoastingTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
+        this.localService.addEditRoastingTransfer(value, this.putData? true : false).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
                 width: '80%',
                 data: {productionCheck: val, fromNew: true, type: 'Roasting'}
@@ -41,7 +42,6 @@ export class ProductionRoastingComponent implements OnInit {
             dialogRef.afterClosed().subscribe(result => {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
-                    this.isNew = false;
                     this.cdRef.detectChanges();
                     this.localService.getTransferProduction(val['id']).pipe(take(1)).subscribe( val1 => {
                         this.putData = val1;
@@ -63,11 +63,11 @@ export class ProductionRoastingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.localService.getTransferProduction(+params.get('id')).pipe(take(1)).subscribe( val => {
-                    this.putData = val;
+                this.localService.getTransferProductionWithStorage(+params.get('id'), +params.get('poCode'), 'clean').pipe(take(1)).subscribe( val => {
+                    this.putData = val[0];
+                    this.newUsed = val[1]
                     this.isFormAvailable = true;
-                }); 
-                this.isNew = false;
+                });
                 this.poID = +params.get('id');
             } else {
                 this.form = this.fb.group({});
@@ -75,7 +75,7 @@ export class ProductionRoastingComponent implements OnInit {
                 this.form.get('poCode').valueChanges.subscribe(selectedValue => {
                     if(selectedValue && selectedValue.hasOwnProperty('code') && this.poID !== selectedValue['id']) { 
                         this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                            this.putData = val;
+                            this.newUsed = val;
                             console.log(val);
                             
                             this.isFormAvailable = true;
@@ -85,25 +85,7 @@ export class ProductionRoastingComponent implements OnInit {
                     }
                 });
                 this.isDataAvailable = true;
-                this.poConfig = [
-                    {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        options: this.localService.getAllPosClean(),
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Supplier',
-                            },
-                            {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
-                            },
-                        ]
-                    },
-                ];
+                this.setPoConfig();
             }
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -112,10 +94,35 @@ export class ProductionRoastingComponent implements OnInit {
                 this.isDataAvailable = false;
                 this.isFormAvailable = false;
                 this.putData = null;
+                this.newUsed = null;
                 this.cdRef.detectChanges();
+                if(!this.poConfig) {
+                    this.setPoConfig();
+                }
                 this.isDataAvailable = true;
             }
         });
+    }
+    setPoConfig() {
+        this.poConfig = [
+            {
+                type: 'selectgroup',
+                inputType: 'supplierName',
+                options: this.localService.getAllPosClean(),
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Supplier',
+                    },
+                    {
+                        type: 'select',
+                        label: '#PO',
+                        name: 'poCode',
+                        collections: 'somewhere',
+                    },
+                ]
+            },
+        ];
     }
 
     ngOnDestroy() {

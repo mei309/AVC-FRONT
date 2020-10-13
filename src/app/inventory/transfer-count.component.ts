@@ -38,7 +38,14 @@ export class TransferCountComponent implements OnInit {
     submit(value: any) {
         var arr = [];
         var proccesItems = [];
+
         if(value['usedItemsNormal']) {
+            value['usedItemsNormal'].forEach(element => {
+                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
+                element['groupName'] = 'normal';
+            });
+            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
+
             value['usedItemsNormal'].forEach(element => {
                 var item = element['usedItems'][0]['item'];
                 var copied = cloneDeep(element['usedItems']);
@@ -54,17 +61,6 @@ export class TransferCountComponent implements OnInit {
                 var cpoyProcess = {item: item, groupName: element['groupName'], storageForms: copied};
                 delete copied['item'];
                 proccesItems.push(cpoyProcess);
-
-                if(this.isNew) {
-                    var arrNormal = [];
-                    element['usedItems'].forEach(elem => {
-                        if(elem['numberUsedUnits']) {
-                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
-                        }
-                    });
-                    element['usedItems'] = arrNormal;
-                }
-                element['groupName'] = 'normal';
             });
             arr = arr.concat(value['usedItemsNormal']);
             delete value['usedItemsNormal'];
@@ -72,14 +68,6 @@ export class TransferCountComponent implements OnInit {
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                if(this.isNew) {   
-                    element['usedItem']['amounts'].forEach(ele => {
-                        ele['storageId'] = ele['id'];
-                        delete ele['id'];
-                        ele['storageVersion'] = ele['version'];
-                        delete ele['version'];
-                    });
-                }
                 element['groupName'] = 'table';
 
                 var copied = cloneDeep(element['usedItem']);
@@ -146,17 +134,14 @@ export class TransferCountComponent implements OnInit {
             var arrTable = [];
             var arrNormal = [];
             val['usedItemGroups'].forEach(element => {
-                if(element['usedItem']) {
+                if(element['groupName'] === 'table') {
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['take'] = true;
                     });
                     arrTable.push(element);
-                } else if(element['usedItems']) {
-                    element['usedItems']?.forEach(ele => {
-                        ele['numberUnits'] = ele['storage']['numberUnits'];
-                    });
+                } else if(element['groupName'] === 'normal') {
                     arrNormal.push(element);
-                } 
+                }
             });
             delete val['usedItemGroups'];
             this.dataSource = val;
@@ -197,12 +182,12 @@ export class TransferCountComponent implements OnInit {
                                     arrTable.push({usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
                                 } else if(element['storageForms']) {
+                                    var arrUsedItems = [];
                                     element['storageForms'].forEach(ele => {
-                                        ele['item'] = element['item'];
-                                        ele['otherUsedUnits'] = ele['numberUsedUnits'];
+                                        arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
                                         delete ele['numberUsedUnits'];
                                     });
-                                    arrNormal.push({usedItems: element['storageForms']});
+                                    arrNormal.push({usedItems: arrUsedItems});
                                     this.dataSource['itemCounts'].push({item: element['item']});
                                 }
                             });

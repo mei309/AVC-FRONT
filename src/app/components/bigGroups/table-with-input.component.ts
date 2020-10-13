@@ -45,27 +45,15 @@ export class TableWithInputComponent implements OnInit {
   kidSetup(tempField) {
     tempField.collections.forEach(element => {
         switch (element.type) {
-            // case 'kidInput':
-            //     var arr = [];
-            //     this.dataSource.forEach(line => {
-            //             line[element.name].forEach(obj => {
-            //                 var copied = Object.assign({}, obj, line);
-            //                 delete copied[element.name];
-            //                 arr.push(copied);
-            //             });
+            // case 'array':
+            //     this.dataSource.forEach(ele => {
+            //         ele[element.name] = 'arr';
             //     });
-            //     this.dataSource = arr;
-            //     this.kidSetup(element);
+            //     this.oneColumns.push(element);
+            //     this.displayedColumns.push(element.name);
             //     break;
-            case 'array':
-                this.dataSource.forEach(ele => {
-                    ele[element.name] = 'arr';
-                });
-                this.oneColumns.push(element);
-                this.displayedColumns.push(element.name);
-                break;
             case 'select' || 'selectNormal':
-                if(this.field.inputType === 'multiple') {
+                if(element.inputType === 'multiple') {
                     this.dataSource.forEach(ele => {
                         ele[element.name] = 'arr';
                     });
@@ -92,14 +80,43 @@ export class TableWithInputComponent implements OnInit {
                     this.displayedColumns.push(element.collections[1].name);
                 }
                 break;
-            // case 'bignotexpand':
-            //     this.dataSource.forEach(ele => {
-            //         ele[element.name] = 'arr';
-            //     });
-            //     this.oneColumns.push(element);
-            //     this.displayedColumns.push(element.name);
-            //     break;
-            case 'nothing':
+            case 'bignotexpand':
+                this.dataSource.forEach(ele => {
+                    const biggroup = ele[element.name];
+                    element.collections.forEach(el => {
+                        switch (el.type) {
+                            case 'select' || 'selectNormal':
+                                if(el.inputType === 'multiple') {
+                                    ele[el.name] = 'arr';
+                                } else {
+                                    ele[el.name] = biggroup[el.name]? biggroup[el.name]['value'] : '';
+                                }
+                                break;
+                            case 'inputselect':
+                                if(el.name) {
+                                    const newGroup = biggroup[el.name];
+                                    ele[el.name] = newGroup[el.collections[0].name] + ' ' + newGroup[el.collections[1].name];
+                                } else {
+                                    ele[el.name] = biggroup[el.name];
+                                }
+                                break;
+                            default:
+                                ele[el.name] = biggroup[el.name];
+                                break;
+                        }
+                    });
+                });
+                element.collections.forEach(el => {
+                    // if(el.type === 'inputselect' && !el.name) {
+                    //     this.oneColumns.push(el.collections[0]);
+                    //     this.displayedColumns.push(el.collections[0].name);
+                    //     this.oneColumns.push(el.collections[1]);
+                    //     this.displayedColumns.push(el.collections[1].name);
+                    // } else {
+                        this.oneColumns.push(el);
+                        this.displayedColumns.push(el.name);
+                    // }
+                });
                 break;
             default:
                 this.oneColumns.push(element);

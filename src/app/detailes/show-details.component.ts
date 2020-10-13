@@ -20,7 +20,7 @@ import { take } from 'rxjs/operators';
                           </show-details-ordinal>
                       </ng-container>
                       <ng-template #notArrayOrdinalEdit>
-                        <h4 *ngIf="column.type === 'object'">{{column.label}}</h4>
+                        <h3 *ngIf="column.type === 'object'">{{column.label}}</h3>
                         <ng-container *ngIf="['parent', 'object'].includes(column.type); else onlyzero">
                           <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
                           </show-details>
@@ -71,7 +71,7 @@ import { take } from 'rxjs/operators';
                         <show-details-ordinal *ngSwitchCase="'arrayOrdinal'" [dataSource]="dataSource[column.name]" >
                         </show-details-ordinal>
                         <ng-container *ngSwitchCase="'object'">
-                            <h4>{{column.label}}</h4>
+                            <h3>{{column.label}}</h3>
                             <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                             </show-details>
                         </ng-container>
@@ -289,6 +289,12 @@ export class ShowDetailsComponent implements OnInit {
         type: 'name2',
         label: '#PO',
         name: 'poCode',
+        collections: 'supplierName',
+    },
+    {
+        type: 'nameId',
+        label: 'Shipment code',
+        name: 'shipmentCode',
         collections: 'supplierName',
     },
     {
@@ -521,6 +527,74 @@ export class ShowDetailsComponent implements OnInit {
         }
       ]
     },
+
+    {
+      type: 'object',
+      name: 'containerDetails',
+      label: 'Container details',
+      // side: 'left',
+      collections: [
+        {
+            type: 'normal',
+            label: 'Container number',
+            name: 'containerNumber',
+        },
+        {
+            type: 'normal',
+            label: 'Container type',
+            name: 'containerType',
+        },
+        {
+            type: 'normal',
+            label: 'Seal number',
+            name: 'sealNumber',
+        },
+      ]
+    },
+    {
+      type: 'object',
+      name: 'shipingDetails',
+      label: 'Shiping details',
+      // side: 'left',
+      collections: [
+        {
+            type: 'normal',
+            label: 'Booking number',
+            name: 'bookingNumber',
+        },
+        {
+            type: 'normal',
+            label: 'Vessel',
+            name: 'vessel',
+        },
+        {
+            type: 'normal',
+            label: 'Shipping company',
+            name: 'shippingCompany',
+        },
+        {
+            type: 'nameId',
+            label: 'Port of loading',
+            name: 'portOfLoading',
+        },
+        {
+            type: 'date',
+            label: 'etd',
+            name: 'etd',
+        },
+        {
+            type: 'nameId',
+            label: 'Port of discharge',
+            name: 'portOfDischarge',
+        },
+        {
+            type: 'date',
+            label: 'eta',
+            name: 'eta',
+        },
+      ]
+    },
+
     {
       type: 'arrayForEach',
       label: 'Used amounts',
@@ -533,6 +607,12 @@ export class ShowDetailsComponent implements OnInit {
       // side: 'left',
       // processName: this.globelType+'_CLEANING',
       collections: [
+          // {
+          //     type: 'name2',
+          //     label: '#PO',
+          //     name: 'itemPo',
+          //     collections: 'supplierName',
+          // },
           {
               type: 'nameId',
               label: 'Item descrption',
@@ -561,6 +641,12 @@ export class ShowDetailsComponent implements OnInit {
       name: 'usedItem',
       // side: 'left',
       collections: [
+        // {
+        //     type: 'name2',
+        //     label: '#PO',
+        //     name: 'itemPo',
+        //     collections: 'supplierName',
+        // },
         {
             type: 'nameId',
             label: 'Item descrption',

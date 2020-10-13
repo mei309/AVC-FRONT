@@ -1,4 +1,4 @@
-
+import { forkJoin } from 'rxjs'; 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -71,6 +71,27 @@ export class ProductionService {
   }
   getStorageRoastPo (poCode: number): Observable<any> {
     return this.http.get(this.productionurl+'getStorageRoastPo/'+poCode);
+  }
+
+  getTransferProductionWithStorage(id: number, poCode: number, processType: string) {
+    this.http.get(this.productionurl+'getTransferProduction/'+id);
+    let response1 = this.http.get(this.productionurl+'getTransferProduction/'+id);
+    let response2;
+    switch (processType) {
+      case 'raw':
+        response2 = this.http.get(this.productionurl+'getStorageRawPo/'+poCode);
+        break;
+      case 'clean':
+        response2 = this.http.get(this.productionurl+'getStorageCleanPo/'+poCode);
+        break;
+      case 'roast':
+        response2 = this.http.get(this.productionurl+'getStorageRoastPo/'+poCode);
+        break;
+    
+      default:
+        break;
+    }
+    return forkJoin([response1, response2]);
   }
 
 }

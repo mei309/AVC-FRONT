@@ -46,33 +46,27 @@ export class CountinersLoadingComponent {
     beginPage: boolean = true;
     submit(value: any) {
         var arr = [];
+
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
-                if(!element.id) {
-                    var arrNormal = [];
-                    element['usedItems'].forEach(elem => {
-                        if(elem['numberUsedUnits']) {
-                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
-                        }
-                    });
-                    element['usedItems'] = arrNormal;
-                }
+                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
                 element['groupName'] = 'normal';
             });
+            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
             arr = arr.concat(value['usedItemsNormal']);
             delete value['usedItemsNormal'];
         }
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                if(!element.id) {
-                    element['usedItem']['amounts'].forEach(ele => {
+                element['usedItem']['amounts'].forEach(ele => {
+                    if(!ele['storageId']) {
                         ele['storageId'] = ele['id'];
                         delete ele['id'];
                         ele['storageVersion'] = ele['version'];
                         delete ele['version'];
-                    });
-                }
+                    }
+                });
                 element['groupName'] = 'table';
             });
             arr = arr.concat(value['usedItemsTable']);
@@ -148,13 +142,14 @@ export class CountinersLoadingComponent {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
-                arrTable.push({isNew: true, usedItem: element['storage']});
+                arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
+                var arrUsedItems = [];
                 element['storageForms'].forEach(ele => {
-                    ele['item'] = element['item'];
-                    ele['otherUsedUnits'] = ele['numberUsedUnits'];
+                    arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
+                    delete ele['numberUsedUnits'];
                 });
-                arrNormal.push({poCode: element['poCode'], isNew: true, usedItems: element['storageForms']});
+                arrNormal.push({poCode: element['poCode'], usedItems: arrUsedItems});
             }
             arrDeclared.push({poCode: element['poCode'], item: element['item']});
         });
@@ -256,11 +251,8 @@ export class CountinersLoadingComponent {
                 });
                 arrTable.push(element);
             } else if(element['groupName'] === 'normal') {
-                element['usedItems']?.forEach(ele => {
-                    ele['numberExport'] = ele['numberUnits'];
-                });
                 arrNormal.push(element);
-            } 
+            }
         });
         delete val['usedItemGroups'];
         this.firstData = val;
@@ -312,6 +304,7 @@ export class CountinersLoadingComponent {
                       type: 'input',
                       label: 'Code',
                       name: 'code',
+                      disable: true,
                       validations: [
                         {
                             name: 'required',
@@ -325,7 +318,13 @@ export class CountinersLoadingComponent {
                       label: 'Destination port',
                       name: 'portOfDischarge',
                       options: this.genral.getShippingPorts(),
-                      // disable: true,
+                      validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: 'Destination port Required',
+                            }
+                        ]
                   },
               ],
             },
@@ -338,11 +337,25 @@ export class CountinersLoadingComponent {
                       type: 'input',
                       label: 'Container number',
                       name: 'containerNumber',
+                      validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Container number Required',
+                        }
+                      ]
                   },
                   {
                       type: 'input',
                       label: 'Seal number',
                       name: 'sealNumber',
+                      validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Seal number Required',
+                        }
+                      ]
                   },
                   {
                       type: 'selectNormal',
@@ -350,6 +363,13 @@ export class CountinersLoadingComponent {
                       name: 'containerType',
                     //   value: '20\'',
                       options: this.genral.getShippingContainerType(),
+                      validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Container type Required',
+                        }
+                      ]
                   },
               ],
             },
@@ -385,6 +405,13 @@ export class CountinersLoadingComponent {
                       label: 'Etd',
                       name: 'etd',
                       // value: new Date()
+                      validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Etd Required',
+                        }
+                      ]
                   },
                   {
                       type: 'select',
@@ -397,6 +424,13 @@ export class CountinersLoadingComponent {
                     label: 'Eta',
                     name: 'eta',
                     // value: new Date()
+                    validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Eta Required',
+                        }
+                      ]
                   },
               ],
             },
@@ -412,7 +446,8 @@ export class CountinersLoadingComponent {
                 this.beginPage = false;
                 this.loading = false;
                 this.choosedPos = [];
-                this.choosedPos = [];
+                this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                this.firstData = null;
                 this.cdRef.detectChanges();
                 this.beginPage = true;
             }
@@ -440,44 +475,46 @@ export class CountinersLoadingComponent {
                                 disable: true,
                             },
                             {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                label: 'Unit weight',
-                                disable: true,
+                                type: 'bignotexpand',
+                                name: 'storage',
                                 collections: [
                                     {
-                                        type: 'input',
+                                        type: 'inputselect',
+                                        name: 'unitAmount',
                                         label: 'Unit weight',
-                                        name: 'amount',
+                                        disable: true,
+                                        collections: [
+                                            {
+                                                type: 'input',
+                                                label: 'Unit weight',
+                                                name: 'amount',
+                                            },
+                                            {
+                                                type: 'select',
+                                                label: 'Weight unit',
+                                                name: 'measureUnit',
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
+                                        label: 'Warehouse location',
+                                        name: 'warehouseLocation',
+                                        disable: true,
                                     },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Number of units',
-                                name: 'numberUnits',
-                                disable: true,
                             },
                             {
                                 type: 'input',
                                 label: 'Used units',
                                 name: 'otherUsedUnits',
                                 disable: true,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Warehouse location',
-                                name: 'warehouseLocation',
-                                disable: true,
-                            },
-                            {
-                                type: 'nothing',
-                                name: 'storage',
                             },
                         ],
                     },

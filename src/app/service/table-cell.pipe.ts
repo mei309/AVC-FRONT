@@ -28,12 +28,12 @@ export class TableCellPipe implements PipeTransform {
                 return new CurrencyPipe(this.locale).transform(element['amount'], element['currency']);
             case 'weight':
                 if (Array.isArray(element)) {
-                    return 'zvi why array';
+                    return '';
                 }
                 return new DecimalPipe(this.locale).transform(element['amount'])+' '+element['measureUnit'];
             case 'weight2':
                 if (!Array.isArray(element)) {
-                    return 'zvi array';
+                    return '';
                 }
                 return new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit']
                 + ' (' + new DecimalPipe(this.locale).transform(element[1]['amount'])+' '+element[1]['measureUnit'] + ')';

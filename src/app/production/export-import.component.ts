@@ -19,13 +19,16 @@ export class ExportImportComponent implements OnInit {
     isDataAvailable: boolean = false
     @Input() mainLabel: string;
     @Input() beginData;
-    @Input() isNew: boolean = true;
+    @Input() newUsed;
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     regConfig: FieldConfig[];
 
     dataSource;
-    
     onSubmit(value: any) {
+    //     console.log(value);
+        
+    // }
+    // onSubmit1(value: any) {
         var arr = [];
         if(value['materialUsed']) {
             var arrMaterial = [];
@@ -39,31 +42,24 @@ export class ExportImportComponent implements OnInit {
         }
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
-                if(this.isNew) {
-                    var arrNormal = [];
-                    element['usedItems'].forEach(elem => {
-                        if(elem['numberUsedUnits']) {
-                            arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
-                        }
-                    });
-                    element['usedItems'] = arrNormal;
-                }
+                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
                 element['groupName'] = 'normal';
             });
+            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
             arr = arr.concat(value['usedItemsNormal']);
             delete value['usedItemsNormal'];
         }
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                if(this.isNew) {
-                    element['usedItem']['amounts'].forEach(ele => {
+                element['usedItem']['amounts'].forEach(ele => {
+                    if(!ele['storageId']) {
                         ele['storageId'] = ele['id'];
                         delete ele['id'];
                         ele['storageVersion'] = ele['version'];
                         delete ele['version'];
-                    });
-                }
+                    }
+                });
                 element['groupName'] = 'table';
             });
             arr = arr.concat(value['usedItemsTable']);
@@ -77,6 +73,9 @@ export class ExportImportComponent implements OnInit {
             delete value['processItemsNormal'];
         }
         if(value['processItemsTable']) {
+            value['processItemsTable'].forEach(eleme => {
+                eleme['storage']['amounts'] = eleme['storage']['amounts'].filter(amou => amou.amount);
+            });
             value['processItems'] = value['processItems'].concat(value['processItemsTable']);
             delete value['processItemsTable'];
         }
@@ -104,22 +103,7 @@ export class ExportImportComponent implements OnInit {
         }
         var arrNormal = [];
         var arrTable = [];
-        if(this.isNew) {
-            this.dataSource = {poCode: this.beginData[0]['poCode']};
-            this.beginData.forEach(element => {
-                if(element['storage']) {
-                    element['storage']['item'] = element['item'];
-                    arrTable.push({usedItem: element['storage']});
-                } else if(element['storageForms']) {
-                    element['storageForms'].forEach(ele => {
-                        ele['item'] = element['item'];
-                        ele['otherUsedUnits'] = ele['numberUsedUnits'];
-                        delete ele['numberUsedUnits'];
-                    });
-                    arrNormal.push({usedItems: element['storageForms']});
-                }
-            });
-        } else {
+        if(this.beginData) {
             this.beginData['usedItemGroups'].forEach(element => {
                 if(element['groupName'] === 'table') {
                     element['usedItem']['amounts'].forEach(ele => {
@@ -127,9 +111,6 @@ export class ExportImportComponent implements OnInit {
                     });
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
-                    element['usedItems']?.forEach(ele => {
-                        ele['numberUnits'] = ele['storage']['numberUnits'];
-                    });
                     arrNormal.push(element);
                 } 
             });
@@ -163,7 +144,22 @@ export class ExportImportComponent implements OnInit {
             if(wasteNormal.length) {
                 this.dataSource['wasteItems'] = wasteNormal;
             }
+        } else {
+            this.dataSource = {poCode: this.newUsed[0]['poCode']};
         }
+        this.newUsed.forEach(element => {
+            if(element['storage']) {
+                element['storage']['item'] = element['item'];
+                arrTable.push({usedItem: element['storage']});
+            } else if(element['storageForms']) {
+                var arrUsedItems = [];
+                element['storageForms'].forEach(ele => {
+                    arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
+                    delete ele['numberUsedUnits'];
+                });
+                arrNormal.push({usedItems: arrUsedItems});
+            }
+        });
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = arrTable;
         } else {
@@ -267,44 +263,46 @@ export class ExportImportComponent implements OnInit {
                                 disable: true,
                             },
                             {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                label: 'Unit weight',
-                                disable: true,
+                                type: 'bignotexpand',
+                                name: 'storage',
                                 collections: [
                                     {
-                                        type: 'input',
+                                        type: 'inputselect',
+                                        name: 'unitAmount',
                                         label: 'Unit weight',
-                                        name: 'amount',
+                                        disable: true,
+                                        collections: [
+                                            {
+                                                type: 'input',
+                                                label: 'Unit weight',
+                                                name: 'amount',
+                                            },
+                                            {
+                                                type: 'select',
+                                                label: 'Weight unit',
+                                                name: 'measureUnit',
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
+                                        label: 'Warehouse location',
+                                        name: 'warehouseLocation',
+                                        disable: true,
                                     },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Number of units',
-                                name: 'numberUnits',
-                                disable: true,
                             },
                             {
                                 type: 'input',
                                 label: 'Used units',
                                 name: 'otherUsedUnits',
                                 disable: true,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Warehouse location',
-                                name: 'warehouseLocation',
-                                disable: true,
-                            },
-                            {
-                                type: 'nothing',
-                                name: 'storage',
                             },
                         ],
                     },
