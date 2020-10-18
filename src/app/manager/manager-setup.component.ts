@@ -55,14 +55,14 @@ export class ManagmentSetupComponent {
         this.columnsSetup = [
             {
                 name: 'value',
-                label: 'value',
+                label: 'Descrption',
                 search: 'normal',
             }
         ];
         this.regConfigTemp = [
             {
                 name: 'value',
-                label: 'value',
+                label: 'Descrption',
                 type: 'input',
             }
         ];
