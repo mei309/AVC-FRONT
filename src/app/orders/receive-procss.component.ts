@@ -95,108 +95,7 @@ export class ReceiveProcssComponent implements OnInit {
                         name: 'item',
                         options: this.genral.getItemsRawCashew(),
                     },
-                    {
-                        type: 'bigexpand',
-                        label: 'Amounts',
-                        name: 'storageForms',
-                        options: 'Inline',
-                        collections: [
-                            {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Bag weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
-                                        options: ['KG', 'LBS'],
-                                    },
-                                ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Number of bags',
-                                name: 'numberUnits',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Warehouse location',
-                                name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
-                            },
-                            {
-                                type: 'popup',
-                                label: 'Samples',
-                                name: 'samplesWeight',
-                                inputType: true,
-                                collections: [
-                                    {
-                                        type: 'array',
-                                        label: 'Empty bag weight',
-                                        name: 'sampleContainerWeight',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'array',
-                                        label: 'Samples (+-from unit weight)',
-                                        inputType: 'numeric',
-                                        name: 'aLotSamples',
-                                        options: 3,
-                                        collections: 30,
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Avrage weight (full weight)',
-                                        name: 'avgWeight',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'number of samples (if put avrage)',
-                                        name: 'numberOfSamples',
-                                        inputType: 'numeric',
-                                    },
-                                    {
-                                        type: 'button',
-                                        label: 'Submit',
-                                        name: 'submit',
-                                    }
-                                ]
-                            },
-                            {
-                                type: 'divider',
-                                inputType: 'divide'
-                            },
-                        ],
-                        validations: [
-                            {
-                                name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
-                                message: 'a received storage must have weight, measure unit and number of bags',
-                            },
-                            {
-                                name: 'numberUnits',
-                            },
-                        ]
-                    },
+                    
                     {
                         type: 'inputselect',
                         name: 'receivedOrderUnits',
@@ -324,6 +223,108 @@ export class ReceiveProcssComponent implements OnInit {
                                 label: 'Save',
                                 name: 'submit',
                             }
+                        ]
+                    },
+                    {
+                        type: 'bigexpand',
+                        label: 'Amounts',
+                        name: 'storageForms',
+                        options: 'Inline',
+                        collections: [
+                            {
+                                type: 'inputselect',
+                                name: 'unitAmount',
+                                collections: [
+                                    {
+                                        type: 'input',
+                                        label: 'Bag weight',
+                                        name: 'amount',
+                                        inputType: 'numeric',
+                                        options: 3,
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Weight unit',
+                                        name: 'measureUnit',
+                                        options: ['KG', 'LBS'],
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'input',
+                                label: 'Number of bags',
+                                name: 'numberUnits',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Warehouse location',
+                                name: 'warehouseLocation',
+                                options: this.genral.getStorage(),
+                            },
+                            {
+                                type: 'popup',
+                                label: 'Samples',
+                                name: 'samplesWeight',
+                                inputType: true,
+                                collections: [
+                                    {
+                                        type: 'array',
+                                        label: 'Empty bag weight',
+                                        name: 'sampleContainerWeight',
+                                        inputType: 'numeric',
+                                        options: 3,
+                                    },
+                                    {
+                                        type: 'array',
+                                        label: 'Samples (+-from unit weight)',
+                                        inputType: 'numeric',
+                                        name: 'aLotSamples',
+                                        options: 3,
+                                        collections: 30,
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Avrage weight (full weight)',
+                                        name: 'avgWeight',
+                                        inputType: 'numeric',
+                                        options: 3,
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'number of samples (if put avrage)',
+                                        name: 'numberOfSamples',
+                                        inputType: 'numeric',
+                                    },
+                                    {
+                                        type: 'button',
+                                        label: 'Submit',
+                                        name: 'submit',
+                                    }
+                                ]
+                            },
+                            {
+                                type: 'divider',
+                                inputType: 'divide'
+                            },
+                        ],
+                        validations: [
+                            {
+                                name: 'unitAmount',
+                                validator: [
+                                    {
+                                        name: 'amount',
+                                    },
+                                    {
+                                        name: 'measureUnit',
+                                    },
+                                ],
+                                message: 'a received storage must have weight, measure unit and number of bags',
+                            },
+                            {
+                                name: 'numberUnits',
+                            },
                         ]
                     },
                     {

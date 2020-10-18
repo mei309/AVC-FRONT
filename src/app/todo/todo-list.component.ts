@@ -37,7 +37,7 @@ export class TodoListComponent {
         search: 'normal',
       },
       {
-        name: 'processName',
+        name: 'processType',
         label: 'Process type',
         search: 'select',
         options: this.genral.getProcess(),

@@ -14,7 +14,15 @@ export class TableCellPipe implements PipeTransform {
                 return element;
             case 'nameId':
                 if(Array.isArray(element)) {
-                    return element.map(value => value.value);
+                    var str = '';
+                    element.forEach(elem => {
+                        if(str) {
+                            str += '\n';
+                        }
+                        str += elem.value;
+                    });
+                    return str;
+                    // return element.map(va => va.value);
                 } else {
                     return element['value'];
                 }
@@ -61,7 +69,7 @@ export class TableCellPipe implements PipeTransform {
                 var str = '';
                 element.forEach(elem => {
                     if(str) {
-                        str += '<br/>';
+                        str += '\n';
                     }
                     str += [elem.item.value] +':'+ elem.amountWithUnit[0]['value'] + ' (' + elem.amountWithUnit[1]['value'] + ') ' + [elem.warehouses];
                 });

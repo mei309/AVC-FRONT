@@ -19,9 +19,9 @@ import {isEqual} from 'lodash-es';
                 padding-top: 14px;" *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)">
-                <ng-container *ngIf="element[column.name]">
+                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                     {{element[column.name] | tableCellPipe: column.type : column.collections}}
-                </ng-container>
+                </span>
             </td>
         </ng-container>
 

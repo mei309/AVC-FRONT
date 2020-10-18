@@ -51,6 +51,8 @@ export class ManagmentSetupComponent {
     updateNew() {
         this.localService.getAllSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
             this.setupSource = <any[]>value;
+            console.log(value);
+            
         });
         this.columnsSetup = [
             {

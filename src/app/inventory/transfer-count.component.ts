@@ -52,10 +52,14 @@ export class TransferCountComponent implements OnInit {
                 var warehouseLocation = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], item['id'])))['warehouseLocation'];
                 copied.forEach(et => {
                     et['numberUnits'] = et['numberUsedUnits'];
-                    et['warehouseLocation'] = warehouseLocation;
-                    delete et['id'];
-                    delete et['version'];
                     delete et['numberUsedUnits'];
+                    et['warehouseLocation'] = warehouseLocation;
+                    et['unitAmount'] = et['storage']['unitAmount'];
+                    delete et['storage'];
+                    // delete et['id'];
+                    // delete et['version'];
+                    // delete et['storage']['id'];
+                    // delete et['storage']['version'];
                  });
                 
                 var cpoyProcess = {item: item, groupName: element['groupName'], storageForms: copied};

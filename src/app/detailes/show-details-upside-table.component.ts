@@ -35,13 +35,13 @@ import { Genral } from '../genral.service';
             [style.display]="getColSpan(iRow, iCol) ? '' : 'none'"
            [ngClass]="{'is-alert': column.compare && element[column.compare] && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justText">
-              <ng-container *ngIf="element[column.name]">
+              <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                   {{element[column.name] | tableCellPipe: column.group? element.pipes1 : element.pipes : element.collections? element[element.collections+column.name] : column.collections}}
               
                   <ng-container *ngIf="element[column.compare]">
                     ({{element[column.compare] | tableCellPipe: element.pipes : 100}})
                   </ng-container>
-              </ng-container>
+              </span>
             </ng-container>
             <ng-template  #justText>
               {{element[column.name] | tableCellPipe: column.pipes : column.collections}}
@@ -80,17 +80,17 @@ import { Genral } from '../genral.service';
           [style.display]="getColSpan(iRow, iCol) ? '' : 'none'" [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justTextEdit"> 
               <ng-container *ngIf="element.hasOwnProperty(column.name+'edit'); else notUpdated">
-                      <div class="added-item" *ngIf="element[column.name]">
+                      <span class="added-item" *ngIf="element[column.name]" style="white-space: pre-wrap;">
                           {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
-                      </div>
-                      <div class="removed-item" *ngIf="element[column.name+'edit']">
+                      </span>
+                      <span class="removed-item" *ngIf="element[column.name+'edit']" style="white-space: pre-wrap;">
                           {{element[column.name+'edit'] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
-                      </div>
+                      </span>
               </ng-container>
               <ng-template  #notUpdated>
-                  <ng-container *ngIf="element[column.name]">
+                  <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                       {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
-                  </ng-container>
+                  </span>
               </ng-template >
 
               <ng-container *ngIf="element[column.name] && element[column.options]">

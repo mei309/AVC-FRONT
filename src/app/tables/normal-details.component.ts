@@ -11,9 +11,9 @@ import { OneColumn } from '../field.interface';
           <h3>{{column.titel}}</h3>
         </th>
         <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
-          <ng-container *ngIf="element[column.name]">
+          <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
             {{element[column.name] | tableCellPipe: column.type : column.collections}}
-          </ng-container>
+          </span>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>

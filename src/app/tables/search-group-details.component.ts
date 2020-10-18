@@ -56,9 +56,9 @@ import {isEqual} from 'lodash-es';
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
-                <ng-container *ngIf="element[column.name]">
-                  <div [innerHTML]="element[column.name] | tableCellPipe: column.type : column.collections"></div>
-                </ng-container>
+                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                  {{element[column.name] | tableCellPipe: column.type : column.collections}}
+                </span>
             </td>
         </ng-container>
 

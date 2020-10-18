@@ -46,9 +46,9 @@ import { OneColumn } from '../field.interface';
           </mat-form-field>
         </th>
         <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element[column.name]">
+          <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
             {{element[column.name] | tableCellPipe: column.type : column.collections}}
-          </ng-container>
+          </span>
         </td>
     </ng-container>
 

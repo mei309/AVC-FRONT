@@ -28,49 +28,49 @@ import { MatAccordion } from '@angular/material/expansion';
                     <mat-accordion multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All orders</mat-panel-title>
+                                <mat-panel-title>Orders</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{orderItemsObj: poDetails['orderItemsObj']}" [oneColumns]="[regShow[0]]">
                             </show-details>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All receipts</mat-panel-title>
+                                <mat-panel-title>Receipts</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{receiptItemsObj: poDetails['receiptItemsObj']}" [oneColumns]="[regShow[1]]">
                             </show-details>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All tests</mat-panel-title>
+                                <mat-panel-title>Tests</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{testedItemsObj: poDetails['testedItemsObj']}" [oneColumns]="[regShow[2]]">
                             </show-details>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All transfers</mat-panel-title>
+                                <mat-panel-title>Transfers</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{transferItemsObj: poDetails['transferItemsObj']}" [oneColumns]="[regShow[3]]">
                             </show-details>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All cleanings</mat-panel-title>
+                                <mat-panel-title>Cleanings</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{cleaningItemsObj: poDetails['cleaningItemsObj']}" [oneColumns]="[regShow[4]]">
                             </show-details>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All roastings</mat-panel-title>
+                                <mat-panel-title>Roastings</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{roastingItemsObj: poDetails['roastingItemsObj']}" [oneColumns]="[regShow[5]]">
                             </show-details>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>All packings</mat-panel-title>
+                                <mat-panel-title>Packings</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{packingItemsObj: poDetails['packingItemsObj']}" [oneColumns]="[regShow[6]]">
                             </show-details>
@@ -170,7 +170,7 @@ export class fullPoReportComponent {
             {type: 'kidObject', name: 'damage'},
             {type: 'hedear', name: 'item', title: 'Item descrption', options: this.genral.getStandarts(), pipes: 'object', collections: 'sampleWeight', accessor: (arr, elem) => arr.find(d => d['items'].some(el => {if(el['value'] === elem){return true;}}))},
             {type: 'bottomArray', collections: [
-                {name: 'recordedTime', title: 'Date and time', pipes: 'dateTime'},
+                {name: 'recordedTime', title: 'Date and time', pipes: 'dateTime', pipes1: 'dateTime'},
                 {name: 'approvals', title: 'Approvals'},
                 {name: 'inspector', title: 'Inspector'},
                 {name: 'sampleTaker', title: 'Sample taker'},

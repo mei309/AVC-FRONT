@@ -11,9 +11,9 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                 <h3>{{column.label}}</h3>
             </th>
             <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
-                <ng-container *ngIf="element[column.name]">
+                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                     {{element[column.name] | tableCellPipe: column.type : column.collections}}
-                </ng-container>
+                </span>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
@@ -29,23 +29,23 @@ import { diff } from '../libraries/diffArrayObjects.interface';
             <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element[0], column)}">
                 <ng-container *ngIf="element.changeStatus === 'updated'; else notUpdated">
                     <ng-container *ngIf="isEqualObj(element[1][column.name], element[0][column.name]); else notEqual">
-                        <ng-container *ngIf="element[0][column.name]">
+                        <span *ngIf="element[0][column.name]" style="white-space: pre-wrap;">
                             {{element[0][column.name] | tableCellPipe: column.type : column.collections}}
-                        </ng-container>
+                        </span>
                     </ng-container>
                     <ng-template  #notEqual>
-                        <div class="added-item" *ngIf="element[0][column.name]">
+                        <span class="added-item" *ngIf="element[0][column.name]" style="white-space: pre-wrap;">
                             {{element[0][column.name] | tableCellPipe: column.type : column.collections}}
-                        </div>
-                        <div class="removed-item" *ngIf="element[1][column.name]">
+                        </span>
+                        <span class="removed-item" *ngIf="element[1][column.name]" style="white-space: pre-wrap;">
                             {{element[1][column.name] | tableCellPipe: column.type : column.collections}}
-                        </div>
+                        </span>
                     </ng-template>
                 </ng-container>
                 <ng-template  #notUpdated>
-                    <ng-container *ngIf="element[column.name]">
+                    <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                         {{element[column.name] | tableCellPipe: column.type : column.collections}}
-                    </ng-container>
+                    </span>
                 </ng-template >
             </td>
         </ng-container>

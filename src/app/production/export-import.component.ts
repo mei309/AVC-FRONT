@@ -221,14 +221,14 @@ export class ExportImportComponent implements OnInit {
             // },
             {
                 type: 'input',
-                label: 'startTime',
+                label: 'Start time',
                 name: 'startTime',
                 // inputType: 'datetime-local',
                 inputType: 'time',
             },
             {
                 type: 'input',
-                label: 'endTime',
+                label: 'End time',
                 name: 'endTime',
                 inputType: 'time',
             },
