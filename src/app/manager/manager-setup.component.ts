@@ -358,7 +358,7 @@ export class ManagmentSetupComponent {
                 //     name: 'flavour',
                 // },
             );
-            this.regConfigTemp = [
+            this.regConfigTemp.push(
                 {
                     type: 'select',
                     label: 'Item descrption',
@@ -541,7 +541,7 @@ export class ManagmentSetupComponent {
                 //     name: 'flavour',
                 //     options: ['NOT_OK', 'OK'],
                 // },
-            ];
+            );
         }
         this.regConfigTemp.push(
             {

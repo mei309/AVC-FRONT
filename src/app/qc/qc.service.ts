@@ -15,9 +15,9 @@ export class QcService {
   } 
 
 
-  addEditCashewReceiveCheck (value, type: string, fromNew: boolean): Observable<any> {
+  addEditCashewReceiveCheck (value, fromNew: boolean): Observable<any> {
     if(fromNew) {
-      return this.http.post(this.qcurl+'addCashewReceiveCheck/'+ type, value);
+      return this.http.post(this.qcurl+'addCashewReceiveCheck', value);
     } else {
       return this.http.put(this.qcurl+'editCashewReceiveCheck', value);
     }

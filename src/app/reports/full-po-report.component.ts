@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ReportsService } from './reports.service';
 import { take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { OneColumn, FieldConfig } from '../field.interface';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Genral } from '../genral.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'full-po-report',
@@ -14,13 +15,79 @@ import { Genral } from '../genral.service';
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
         <div *ngIf="isDataAvailable">
-            <show-details [dataSource]="poDetails" [oneColumns]="regShow">
-            </show-details>
+            <mat-tab-group>
+                <mat-tab label="Without expanding">
+                    <show-details [dataSource]="poDetails" [oneColumns]="regShow">
+                    </show-details>
+                </mat-tab>
+                <mat-tab label="With expanding">
+                    <div class="example-action-buttons">
+                        <button mat-button (click)="accordion.openAll()">Expand All</button>
+                        <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+                    </div>
+                    <mat-accordion multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All orders</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{orderItemsObj: poDetails['orderItemsObj']}" [oneColumns]="[regShow[0]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All receipts</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{receiptItemsObj: poDetails['receiptItemsObj']}" [oneColumns]="[regShow[1]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All tests</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{testedItemsObj: poDetails['testedItemsObj']}" [oneColumns]="[regShow[2]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All transfers</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{transferItemsObj: poDetails['transferItemsObj']}" [oneColumns]="[regShow[3]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All cleanings</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{cleaningItemsObj: poDetails['cleaningItemsObj']}" [oneColumns]="[regShow[4]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All roastings</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{roastingItemsObj: poDetails['roastingItemsObj']}" [oneColumns]="[regShow[5]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>All packings</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <show-details [dataSource]="{packingItemsObj: poDetails['packingItemsObj']}" [oneColumns]="[regShow[6]]">
+                            </show-details>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-tab>
+                <mat-tab label="Graphs">
+                    <app-dash-board>
+                    </app-dash-board>
+                </mat-tab>
+            </mat-tab-group>
         </div>
     </fieldset>
   ` ,
 })
 export class fullPoReportComponent {
+    @ViewChild(MatAccordion) accordion: MatAccordion;
     
     form: FormGroup;
     poCode: number;

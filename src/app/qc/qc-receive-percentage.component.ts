@@ -38,7 +38,7 @@ export class QcReceivePercentageComponent implements OnInit {
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         if(this.type === 'QC receiving (percentage)') {
             // value['localType']
-            this.localService.addEditCashewReceiveCheck(value, null, fromNew).pipe(take(1)).subscribe( val => {
+            this.localService.addEditCashewReceiveCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
                     data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}

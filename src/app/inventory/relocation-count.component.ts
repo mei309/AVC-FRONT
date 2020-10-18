@@ -35,22 +35,33 @@ export class RelocationCountComponent implements OnInit {
     isNew: boolean = true;
     submit(value: any) {
         var arr = [];
-        console.log(value);
-        
-        if(value['usedItemsNormal']) {
-            value['usedItemsNormal'].forEach(element => {
-                element['warehouseLocation'] = value['itemCounts'][0]['warehouseLocation'];
+        if(value['usedItems']) {
+            value['usedItems'] = value['usedItems'].filter(amou => amou.numberUsedUnits);
+            value['usedItems'].forEach(ele => {
+                if(!ele['storageId']) {
+                    ele['storageId'] = ele['id'];
+                    delete ele['id'];
+                    ele['storageVersion'] = ele['version'];
+                    delete ele['version'];
+                }
             });
-            arr = arr.concat(value['usedItemsNormal']);
-            delete value['usedItemsNormal'];
+            arr = arr.concat(value['usedItems']);
+            delete value['usedItems'];
         }
-        if(value['usedItemsTable']) {
-            value['usedItemsTable'].forEach(element => {
-                element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                element['warehouseLocation'] = value['itemCounts'][0]['warehouseLocation'];
+        if(value['usedItem']) {
+            value['usedItem'].forEach(element => {
+                element['amounts'] = element['amounts'].filter(amou => amou.take);
+                element['amounts'].forEach(ele => {
+                    if(!ele['storageId']) {
+                        ele['storageId'] = ele['id'];
+                        delete ele['id'];
+                        ele['storageVersion'] = ele['version'];
+                        delete ele['version'];
+                    }
+                });
             });
-            arr = arr.concat(value['usedItemsTable']);
-            delete value['usedItemsTable'];
+            arr = arr.concat(value['usedItem']);
+            delete value['usedItem'];
         }
         value['storageMoves'] = arr;
         
@@ -84,28 +95,28 @@ export class RelocationCountComponent implements OnInit {
 
            var arrTable = [];
            var arrNormal = [];
-           val['usedItemGroups'].forEach(element => {
-               if(element['usedItem']) {
-                   element['usedItem']['amounts'].forEach(ele => {
-                       ele['take'] = true;
-                   });
-                   arrTable.push(element);
-               } else if(element['usedItems']) {
-                   element['usedItems']?.forEach(ele => {
-                       ele['numberUnits'] = ele['storage']['numberUnits'];
-                   });
-                   arrNormal.push(element);
-               } 
+           val['storageMoves'].forEach(element => {
+                if(element['storage']) {
+                    element['storage']['item'] = element['item'];
+                    arrTable.push(element['storage']);
+                    this.dataSource['itemCounts'].push({item: element['item']});
+                } else if(element['storageForms']) {
+                    element['storageForms'].forEach(ele => {
+                        arrNormal.push(ele);
+                        delete ele['numberUsedUnits'];
+                    });
+                    this.dataSource['itemCounts'].push({item: element['item']});
+                }
            });
-           delete val['usedItemGroups'];
+           delete val['storageMoves'];
            this.dataSource = val;
            if(arrTable.length) {
-               this.dataSource['usedItemsTable'] = arrTable;
+               this.dataSource['usedItem'] = arrTable;
            } else {
                this.regConfigHopper.splice(4, 1);
            }
            if(arrNormal.length) {
-               this.dataSource['usedItemsNormal'] = arrNormal;
+               this.dataSource['usedItems'] = arrNormal;
            } else {
                this.regConfigHopper.splice(3, 1);
            }
@@ -136,23 +147,20 @@ export class RelocationCountComponent implements OnInit {
                                    arrTable.push(element['storage']);
                                    this.dataSource['itemCounts'].push({item: element['item']});
                                } else if(element['storageForms']) {
-                                   element['storageForms'].forEach(ele => {
-                                       ele['item'] = element['item'];
-                                       ele['otherUsedUnits'] = ele['numberUsedUnits'];
-                                   });
-                                   arrNormal = arrNormal.concat(element['storageForms']);
-                                   console.log(arrNormal);
-                                   
+                                    element['storageForms'].forEach(ele => {
+                                        arrNormal.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']});
+                                        delete ele['numberUsedUnits'];
+                                    });
                                    this.dataSource['itemCounts'].push({item: element['item']});
                                }
                            });
                            if(arrTable.length) {
-                               this.dataSource['usedItemsTable'] = arrTable;
+                               this.dataSource['usedItem'] = arrTable;
                            } else {
                                this.regConfigHopper.splice(4, 1);
                            }
                            if(arrNormal.length) {
-                               this.dataSource['usedItemsNormal'] = arrNormal;
+                               this.dataSource['usedItems'] = arrNormal;
                            } else {
                                this.regConfigHopper.splice(3, 1);
                            }
@@ -240,7 +248,7 @@ export class RelocationCountComponent implements OnInit {
                    {
                        type: 'tableWithInput',
                        label: 'Transfer from',
-                       name: 'usedItemsNormal',
+                       name: 'usedItems',
                        options: 'numberUsedUnits',
                        collections: [
                            {
@@ -250,46 +258,47 @@ export class RelocationCountComponent implements OnInit {
                                disable: true,
                            },
                            {
-                               type: 'inputselect',
-                               name: 'unitAmount',
-                               label: 'Unit weight',
-                               disable: true,
-                               collections: [
-                                   {
-                                       type: 'input',
-                                       label: 'Unit weight',
-                                       name: 'amount',
-                                   },
-                                   {
-                                       type: 'select',
-                                       label: 'Weight unit',
-                                       name: 'measureUnit',
-                                   },
-                               ]
-                           },
-                           {
-                               type: 'input',
-                               label: 'Number of units',
-                               name: 'numberUnits',
-                               disable: true,
-                           },
-                           {
-                               type: 'input',
-                               label: 'Used units',
-                               name: 'otherUsedUnits',
-                               disable: true,
-                           },
-                           {
-                               type: 'select',
-                               label: 'Warehouse location',
-                               name: 'warehouseLocation',
-                               disable: true,
-                           },
-                           {
-                               type: 'nothing',
-                               name: 'storage',
-                               // disable: true,
-                           },
+                                type: 'bignotexpand',
+                                name: 'storage',
+                                collections: [
+                                    {
+                                        type: 'inputselect',
+                                        name: 'unitAmount',
+                                        label: 'Unit weight',
+                                        disable: true,
+                                        collections: [
+                                            {
+                                                type: 'input',
+                                                label: 'Unit weight',
+                                                name: 'amount',
+                                            },
+                                            {
+                                                type: 'select',
+                                                label: 'Weight unit',
+                                                name: 'measureUnit',
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Warehouse location',
+                                        name: 'warehouseLocation',
+                                        disable: true,
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'input',
+                                label: 'Used units',
+                                name: 'otherUsedUnits',
+                                disable: true,
+                            },
                        ]
                    },
         //        ],
@@ -301,8 +310,8 @@ export class RelocationCountComponent implements OnInit {
         //        options: 'aloneNoAdd',
         //        collections: [
                    {
-                       type: 'bignotexpand',
-                       name: 'usedItemsTable',
+                       type: 'bigexpand',
+                       name: 'usedItem',
                        label: 'Transfer from',
                        options: 'aloneNoAdd',
                        collections: [

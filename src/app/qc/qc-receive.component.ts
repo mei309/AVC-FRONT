@@ -32,10 +32,16 @@ export class QcReceiveComponent implements OnInit {
         if(value.hasOwnProperty('processItems')) {
             value['processItems'][0]['item'] = value['testedItems'][0]['item'];
         }
+        value['testedItemsP'].forEach(element => {
+            element['precentage'] = true;
+        });
+        value['testedItemsW'] = value['testedItemsW'].concat(value['testedItemsP']);
+        delete value['testedItemsP'];
+        delete value['testedItemsW'];
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         if(this.type === 'QC receiving') {
             // value['localType']
-            this.localService.addEditCashewReceiveCheck(value, null, fromNew).pipe(take(1)).subscribe( val => {
+            this.localService.addEditCashewReceiveCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
                     data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}
@@ -83,6 +89,18 @@ export class QcReceiveComponent implements OnInit {
             if(params.get('id')) {
                 var id = +params.get('id');
                 this.localService.getQcCheck(id).pipe(take(1)).subscribe( val => {
+                    var arrWeight = [];
+                    var arrPercentage = [];
+                    val['testedItems'].forEach(element => {
+                        if(element['precentage']) {
+                            arrWeight.push(element);
+                        } else {
+                            arrPercentage.push(element);
+                        }
+                    });
+                    delete val['testedItems'];
+                    val['testedItemsW'] = arrWeight;
+                    val['testedItemsP'] = arrPercentage;
                     this.putData = val;
                     this.isDataAvailable = true;
                 });
@@ -200,8 +218,8 @@ export class QcReceiveComponent implements OnInit {
             },
             {
                 type: 'bigexpand',
-                name: 'testedItems',
-                label: 'Testes',
+                name: 'testedItemsW',
+                label: 'Weights',
                 options: 'tabs',
                 collections: [
                     {
@@ -390,6 +408,183 @@ export class QcReceiveComponent implements OnInit {
                         inputType: 'measureUnit',
                         options: 3,
                         collections: 'sampleWeight',
+                    },
+                    {
+                        type: 'radiobutton',
+                        label: 'Rosted color',
+                        name: 'colour',
+                        options: ['NOT_OK', 'OK'],
+                    },
+                    {
+                        type: 'radiobutton',
+                        label: 'Flavour',
+                        name: 'flavour',
+                        options: ['NOT_OK', 'OK'],
+                    },
+                ],
+                validations: [
+                    {
+                      name: 'item',
+                      message: 'a check must have a item and sample weight',
+                    },
+                    {
+                      name: 'sampleWeight',
+                    },
+                    {
+                        name: 'measureUnit',
+                    }
+                ]
+            },
+            {
+                type: 'bigexpand',
+                name: 'testedItemsP',
+                label: 'Percentage',
+                options: 'tabs',
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Item descrption',
+                        name: 'item',
+                        options: this.genral.getAllItemsCashew(),
+                        disable: true,
+                    },
+                    {
+                        type: 'input',
+                        label: 'Number of samples',
+                        name: 'numberOfSamples',
+                        inputType: 'numeric',
+                    },
+                    {
+                        type: 'input',
+                        label: 'Sample Weight',
+                        name: 'sampleWeight',
+                        inputType: 'numeric',
+                        options: 3,
+                    },
+                    {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: ['OZ', 'GRAM'],
+                    },
+                    {
+                        type: 'input',
+                        label: 'Whole count per Lb',
+                        name: 'wholeCountPerLb',
+                        inputType: 'numeric',
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'Small size',
+                        name: 'smallSize',
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'WS',
+                        name: 'ws',
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'LP',
+                        name: 'lp',
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'Humidity',
+                        name: 'humidity',
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'Breakage',
+                        name: 'breakage',
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'Foreign material',
+                        name: 'foreignMaterial',
+                    },
+                    {
+                        type: 'calculatefew',
+                        name: 'damage',
+                        label: 'Damage (%)',
+                        inputType: '+',
+                        options: 'box',
+                        collections: [
+                            {
+                                type: 'percentinput',
+                                label: 'Mold',
+                                name: 'mold',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Dirty',
+                                name: 'dirty',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Light dirty',
+                                name: 'lightDirty',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Deacy',
+                                name: 'decay',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Insect damage',
+                                name: 'insectDamage',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Testa',
+                                name: 'testa',
+                            },  
+                        ]
+                    },
+                    {
+                        type: 'calculatefew',
+                        name: 'defects',
+                        label: 'Defects',
+                        inputType: '+',
+                        options: 'box',
+                        collections: [
+                            {
+                                type: 'percentinput',
+                                label: 'Scrohed',
+                                name: 'scorched',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Deep cut',
+                                name: 'deepCut',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Off colour',
+                                name: 'offColour',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Shrivel',
+                                name: 'shrivel',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Desert/dark',
+                                name: 'desert',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Deep spot',
+                                name: 'deepSpot',
+                            },
+                        ]
+                    },
+                    {
+                        type: 'percentinput',
+                        label: 'Totel weight lost after roasting',
+                        name: 'rostingWeightLoss',
                     },
                     {
                         type: 'radiobutton',

@@ -68,6 +68,14 @@ export class TransferCountComponent implements OnInit {
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
                 element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
+                element['usedItem']['amounts'].forEach(ele => {
+                    if(!ele['storageId']) {
+                        ele['storageId'] = ele['id'];
+                        delete ele['id'];
+                        ele['storageVersion'] = ele['version'];
+                        delete ele['version'];
+                    }
+                });
                 element['groupName'] = 'table';
 
                 var copied = cloneDeep(element['usedItem']);
@@ -295,45 +303,46 @@ export class TransferCountComponent implements OnInit {
                                 disable: true,
                             },
                             {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                label: 'Unit weight',
-                                disable: true,
+                                type: 'bignotexpand',
+                                name: 'storage',
                                 collections: [
                                     {
-                                        type: 'input',
+                                        type: 'inputselect',
+                                        name: 'unitAmount',
                                         label: 'Unit weight',
-                                        name: 'amount',
+                                        disable: true,
+                                        collections: [
+                                            {
+                                                type: 'input',
+                                                label: 'Unit weight',
+                                                name: 'amount',
+                                            },
+                                            {
+                                                type: 'select',
+                                                label: 'Weight unit',
+                                                name: 'measureUnit',
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
+                                        label: 'Warehouse location',
+                                        name: 'warehouseLocation',
+                                        disable: true,
                                     },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Number of units',
-                                name: 'numberUnits',
-                                disable: true,
                             },
                             {
                                 type: 'input',
                                 label: 'Used units',
                                 name: 'otherUsedUnits',
                                 disable: true,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Warehouse location',
-                                name: 'warehouseLocation',
-                                disable: true,
-                            },
-                            {
-                                type: 'nothing',
-                                name: 'storage',
-                                // disable: true,
                             },
                         ]
                     },

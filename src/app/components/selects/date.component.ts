@@ -1,5 +1,6 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../field.interface';
 
 @Component({
@@ -32,14 +33,16 @@ import { FieldConfig } from '../../field.interface';
       </ng-container>
     </mat-form-field>
 </ng-container>
+
 `,
 })
 export class DateComponent implements OnInit {
-
+  // date = new FormControl(Date());
   field: FieldConfig;
   group: FormGroup;
   
-  constructor() {}
+  constructor() {
+  }
   ngOnInit() {
     if(this.field.options !== 'withTime') {
       if(this.group.get(this.field.name).value && typeof this.group.get(this.field.name).value !== 'string'){
@@ -48,7 +51,6 @@ export class DateComponent implements OnInit {
     }
   }
 
-  
 }
 
 
@@ -121,3 +123,14 @@ export class DateComponent implements OnInit {
 //          zz(d.getMilliseconds()) +
 //          sign + z(off/60|0) + ':' + z(off%60); 
 // }
+
+
+
+
+
+// <mat-form-field *ngSwitchDefault class="one-field margin-top" [formGroup]="group">
+//       <input matInput type="date" [formControlName]="field.name" [placeholder]="field.label">
+//       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+//         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
+//       </ng-container>
+//     </mat-form-field>
