@@ -32,11 +32,11 @@ export class QcReceiveComponent implements OnInit {
         if(value.hasOwnProperty('processItems')) {
             value['processItems'][0]['item'] = value['testedItems'][0]['item'];
         }
-        value['testedItemsP'].forEach(element => {
+        value['percentageItems']['testedItemsP'].forEach(element => {
             element['precentage'] = true;
         });
-        value['testedItemsW'] = value['testedItemsW'].concat(value['testedItemsP']);
-        delete value['testedItemsP'];
+        value['testedItemsW'] = value['testedItemsW'].concat(value['percentageItems']['testedItemsP']);
+        delete value['percentageItems'];
         delete value['testedItemsW'];
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         if(this.type === 'QC receiving') {
@@ -100,7 +100,8 @@ export class QcReceiveComponent implements OnInit {
                     });
                     delete val['testedItems'];
                     val['testedItemsW'] = arrWeight;
-                    val['testedItemsP'] = arrPercentage;
+                    // val['testedItemsP'] = arrPercentage;
+                    val['percentageItems'] = {testedItemsP: arrPercentage};
                     this.putData = val;
                     this.isDataAvailable = true;
                 });
@@ -436,179 +437,191 @@ export class QcReceiveComponent implements OnInit {
                 ]
             },
             {
-                type: 'bigexpand',
-                name: 'testedItemsP',
-                label: 'Percentage',
-                options: 'tabs',
+                type: 'popup',
+                label: 'Percentage testes',
+                name: 'percentageItems',
                 collections: [
                     {
-                        type: 'select',
-                        label: 'Item descrption',
-                        name: 'item',
-                        options: this.genral.getAllItemsCashew(),
-                        disable: true,
-                    },
-                    {
-                        type: 'input',
-                        label: 'Number of samples',
-                        name: 'numberOfSamples',
-                        inputType: 'numeric',
-                    },
-                    {
-                        type: 'input',
-                        label: 'Sample Weight',
-                        name: 'sampleWeight',
-                        inputType: 'numeric',
-                        options: 3,
-                    },
-                    {
-                        type: 'selectNormal',
-                        label: 'Weight unit',
-                        name: 'measureUnit',
-                        options: ['OZ', 'GRAM'],
-                    },
-                    {
-                        type: 'input',
-                        label: 'Whole count per Lb',
-                        name: 'wholeCountPerLb',
-                        inputType: 'numeric',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Small size',
-                        name: 'smallSize',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'WS',
-                        name: 'ws',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'LP',
-                        name: 'lp',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Humidity',
-                        name: 'humidity',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Breakage',
-                        name: 'breakage',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Foreign material',
-                        name: 'foreignMaterial',
-                    },
-                    {
-                        type: 'calculatefew',
-                        name: 'damage',
-                        label: 'Damage (%)',
-                        inputType: '+',
-                        options: 'box',
+                        type: 'bigexpand',
+                        name: 'testedItemsP',
+                        label: 'Percentage',
+                        options: 'tabs',
                         collections: [
                             {
-                                type: 'percentinput',
-                                label: 'Mold',
-                                name: 'mold',
+                                type: 'select',
+                                label: 'Item descrption',
+                                name: 'item',
+                                options: this.genral.getAllItemsCashew(),
+                                disable: true,
+                            },
+                            {
+                                type: 'input',
+                                label: 'Number of samples',
+                                name: 'numberOfSamples',
+                                inputType: 'numeric',
+                            },
+                            {
+                                type: 'input',
+                                label: 'Sample Weight',
+                                name: 'sampleWeight',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'selectNormal',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                                options: ['OZ', 'GRAM'],
+                            },
+                            {
+                                type: 'input',
+                                label: 'Whole count per Lb',
+                                name: 'wholeCountPerLb',
+                                inputType: 'numeric',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Dirty',
-                                name: 'dirty',
+                                label: 'Small size',
+                                name: 'smallSize',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Light dirty',
-                                name: 'lightDirty',
+                                label: 'WS',
+                                name: 'ws',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Deacy',
-                                name: 'decay',
+                                label: 'LP',
+                                name: 'lp',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Insect damage',
-                                name: 'insectDamage',
+                                label: 'Humidity',
+                                name: 'humidity',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Testa',
-                                name: 'testa',
-                            },  
+                                label: 'Breakage',
+                                name: 'breakage',
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Foreign material',
+                                name: 'foreignMaterial',
+                            },
+                            {
+                                type: 'calculatefew',
+                                name: 'damage',
+                                label: 'Damage (%)',
+                                inputType: '+',
+                                options: 'box',
+                                collections: [
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Mold',
+                                        name: 'mold',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Dirty',
+                                        name: 'dirty',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Light dirty',
+                                        name: 'lightDirty',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Deacy',
+                                        name: 'decay',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Insect damage',
+                                        name: 'insectDamage',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Testa',
+                                        name: 'testa',
+                                    },  
+                                ]
+                            },
+                            {
+                                type: 'calculatefew',
+                                name: 'defects',
+                                label: 'Defects',
+                                inputType: '+',
+                                options: 'box',
+                                collections: [
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Scrohed',
+                                        name: 'scorched',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Deep cut',
+                                        name: 'deepCut',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Off colour',
+                                        name: 'offColour',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Shrivel',
+                                        name: 'shrivel',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Desert/dark',
+                                        name: 'desert',
+                                    },
+                                    {
+                                        type: 'percentinput',
+                                        label: 'Deep spot',
+                                        name: 'deepSpot',
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'percentinput',
+                                label: 'Totel weight lost after roasting',
+                                name: 'rostingWeightLoss',
+                            },
+                            {
+                                type: 'radiobutton',
+                                label: 'Rosted color',
+                                name: 'colour',
+                                options: ['NOT_OK', 'OK'],
+                            },
+                            {
+                                type: 'radiobutton',
+                                label: 'Flavour',
+                                name: 'flavour',
+                                options: ['NOT_OK', 'OK'],
+                            },
+                        ],
+                        validations: [
+                            {
+                            name: 'item',
+                            message: 'a check must have a item and sample weight',
+                            },
+                            {
+                            name: 'sampleWeight',
+                            },
+                            {
+                                name: 'measureUnit',
+                            }
                         ]
                     },
                     {
-                        type: 'calculatefew',
-                        name: 'defects',
-                        label: 'Defects',
-                        inputType: '+',
-                        options: 'box',
-                        collections: [
-                            {
-                                type: 'percentinput',
-                                label: 'Scrohed',
-                                name: 'scorched',
-                            },
-                            {
-                                type: 'percentinput',
-                                label: 'Deep cut',
-                                name: 'deepCut',
-                            },
-                            {
-                                type: 'percentinput',
-                                label: 'Off colour',
-                                name: 'offColour',
-                            },
-                            {
-                                type: 'percentinput',
-                                label: 'Shrivel',
-                                name: 'shrivel',
-                            },
-                            {
-                                type: 'percentinput',
-                                label: 'Desert/dark',
-                                name: 'desert',
-                            },
-                            {
-                                type: 'percentinput',
-                                label: 'Deep spot',
-                                name: 'deepSpot',
-                            },
-                        ]
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Totel weight lost after roasting',
-                        name: 'rostingWeightLoss',
-                    },
-                    {
-                        type: 'radiobutton',
-                        label: 'Rosted color',
-                        name: 'colour',
-                        options: ['NOT_OK', 'OK'],
-                    },
-                    {
-                        type: 'radiobutton',
-                        label: 'Flavour',
-                        name: 'flavour',
-                        options: ['NOT_OK', 'OK'],
-                    },
-                ],
-                validations: [
-                    {
-                      name: 'item',
-                      message: 'a check must have a item and sample weight',
-                    },
-                    {
-                      name: 'sampleWeight',
-                    },
-                    {
-                        name: 'measureUnit',
+                        type: 'button',
+                        label: 'Submit',
+                        name: 'submit',
                     }
                 ]
             },

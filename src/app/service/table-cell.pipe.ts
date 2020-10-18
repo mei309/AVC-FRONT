@@ -47,9 +47,7 @@ export class TableCellPipe implements PipeTransform {
                 + ' (' + new DecimalPipe(this.locale).transform(element[1]['amount'])+' '+element[1]['measureUnit'] + ')';
             case 'check':
                 if(element === second){
-                    const tempElement = document.createElement("div");
-                    tempElement.innerHTML = '&#x2713';
-                    return tempElement.innerText;
+                    return '\u2713';
                 } else {
                     return ;
                 }

@@ -51,13 +51,13 @@ export class SpecialOrdersDialogComponent {
 
     
     public printWindow(): void { 
-        let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
-        virtualWindow.document.write('<html><head><title>Print</title>');
-        virtualWindow.document.write('</head><body>' + document.getElementById('mmss').innerHTML + '</body></html>');
-        virtualWindow.document.close();
-        virtualWindow.focus();
-        setTimeout(t => { virtualWindow.print();
-        virtualWindow.close(); }, 1000);
+        // let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
+        // virtualWindow.document.write('<html><head><title>Print</title>');
+        // virtualWindow.document.write('</head><body>' + document.getElementById('mmss').innerHTML + '</body></html>');
+        // virtualWindow.document.close();
+        // virtualWindow.focus();
+        // setTimeout(t => { virtualWindow.print();
+        // virtualWindow.close(); }, 1000);
     }
         
     
