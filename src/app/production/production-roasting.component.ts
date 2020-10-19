@@ -34,7 +34,7 @@ export class ProductionRoastingComponent implements OnInit {
 
     poID: number;
     submit(value: any) {
-        this.localService.addEditRoastingTransfer(value, this.putData? true : false).pipe(take(1)).subscribe( val => {
+        this.localService.addEditRoastingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
                 width: '80%',
                 data: {productionCheck: val, fromNew: true, type: 'Roasting'}

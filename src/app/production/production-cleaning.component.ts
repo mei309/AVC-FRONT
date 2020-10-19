@@ -33,7 +33,7 @@ export class ProductionCleaningComponent implements OnInit {
 
     poID: number;
     submit(value: any) {
-        this.localService.addEditCleaningTransfer(value, this.putData? true : false).pipe(take(1)).subscribe( val => {
+        this.localService.addEditCleaningTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
                 width: '80%',
                 data: {productionCheck: val, fromNew: true, type: 'Cleaning'}
