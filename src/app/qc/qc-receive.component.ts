@@ -35,7 +35,11 @@ export class QcReceiveComponent implements OnInit {
         value['percentageItems']['testedItemsP'].forEach(element => {
             element['precentage'] = true;
         });
-        value['testedItemsW'] = value['testedItemsW'].concat(value['percentageItems']['testedItemsP']);
+        if(value['testedItemsW']){
+            value['testedItems'] = value['testedItemsW'].concat(value['percentageItems']['testedItemsP']);
+        } else {
+            value['testedItems'] = value['percentageItems']['testedItemsP'];
+        }
         delete value['percentageItems'];
         delete value['testedItemsW'];
         const fromNew: boolean = this.putData === null || this.putData === undefined;
@@ -452,7 +456,7 @@ export class QcReceiveComponent implements OnInit {
                                 label: 'Item descrption',
                                 name: 'item',
                                 options: this.genral.getAllItemsCashew(),
-                                disable: true,
+                                // disable: true,
                             },
                             {
                                 type: 'input',
