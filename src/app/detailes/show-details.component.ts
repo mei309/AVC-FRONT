@@ -82,7 +82,7 @@ import { take } from 'rxjs/operators';
 
                         
 
-                        <fieldset *ngSwitchDefault [ngClass]="{'no-legend': !column.label}">
+                        <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
                           <ng-container [ngSwitch]="column.type">
                             <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
