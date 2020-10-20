@@ -468,6 +468,8 @@ export class TransferCountComponent implements OnInit {
                 this.isDataAvailable = false;
                 this.isFormAvailable = false;
                 this.dataSource = null;
+                this.poID = null;
+                this.form.get('poCode').setValue(null);
                 this.cdRef.detectChanges();
                 this.isDataAvailable = true;
             }

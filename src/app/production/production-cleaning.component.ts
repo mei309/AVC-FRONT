@@ -95,6 +95,8 @@ export class ProductionCleaningComponent implements OnInit {
                 this.isFormAvailable = false;
                 this.putData = null;
                 this.newUsed = null;
+                this.poID = null;
+                this.form.get('poCode').setValue(null);
                 this.cdRef.detectChanges();
                 if(!this.poConfig) {
                     this.setPoConfig();
