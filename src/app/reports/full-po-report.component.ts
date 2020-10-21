@@ -26,49 +26,49 @@ import { MatAccordion } from '@angular/material/expansion';
                         <button mat-button (click)="accordion.closeAll()">Collapse All</button>
                     </div>
                     <mat-accordion multi>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['orderItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Orders</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{orderItemsObj: poDetails['orderItemsObj']}" [oneColumns]="[regShow[0]]">
                             </show-details>
                         </mat-expansion-panel>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['receiptItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Receipts</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{receiptItemsObj: poDetails['receiptItemsObj']}" [oneColumns]="[regShow[1]]">
                             </show-details>
                         </mat-expansion-panel>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['testedItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Tests</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{testedItemsObj: poDetails['testedItemsObj']}" [oneColumns]="[regShow[2]]">
                             </show-details>
                         </mat-expansion-panel>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['transferItemsObj'].length">
                             <mat-expansion-panel-header>
-                                <mat-panel-title>Transfers</mat-panel-title>
+                                <mat-panel-title>transport cashew</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{transferItemsObj: poDetails['transferItemsObj']}" [oneColumns]="[regShow[3]]">
                             </show-details>
                         </mat-expansion-panel>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['cleaningItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Cleanings</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{cleaningItemsObj: poDetails['cleaningItemsObj']}" [oneColumns]="[regShow[4]]">
                             </show-details>
                         </mat-expansion-panel>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['roastingItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Roastings</mat-panel-title>
                             </mat-expansion-panel-header>
                             <show-details [dataSource]="{roastingItemsObj: poDetails['roastingItemsObj']}" [oneColumns]="[regShow[5]]">
                             </show-details>
                         </mat-expansion-panel>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="poDetails['packingItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Packings</mat-panel-title>
                             </mat-expansion-panel-header>
@@ -150,12 +150,12 @@ export class fullPoReportComponent {
     regShow = [
         {
             type: 'arrayForEach',
-            label: 'All orders',
+            label: 'Orders',
             name: 'orderItemsObj',
         },
         {
             type: 'arrayForEach',
-            label: 'All receiving',
+            label: 'Receiving',
             name: 'receiptItemsObj',
         },
         {
@@ -208,22 +208,22 @@ export class fullPoReportComponent {
         },
         {
             type: 'arrayForEach',
-            label: 'All transfers',
+            label: 'Transfers',
             name: 'transferItemsObj',
         },
         {
             type: 'arrayForEach',
-            label: 'All cleanings',
+            label: 'Cleanings',
             name: 'cleaningItemsObj',
         },
         {
             type: 'arrayForEach',
-            label: 'All roasting',
+            label: 'Roasting',
             name: 'roastingItemsObj',
         },
         {
             type: 'arrayForEach',
-            label: 'All packing',
+            label: 'Packing',
             name: 'packingItemsObj',
         },
       ];

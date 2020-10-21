@@ -18,9 +18,9 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getTransferCounts');
   }
   
-  // getStorageTransfersTable() {
-  //   return this.http.get(this.inventorysurl+'getStorageTransfersTable');
-  // }
+  getStorageRelocations() {
+    return this.http.get(this.inventorysurl+'getStorageRelocations');
+  }
 
   addEditTransfer (value, fromNew: boolean) {
     if(fromNew) {

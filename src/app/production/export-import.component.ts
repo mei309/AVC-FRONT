@@ -148,7 +148,9 @@ export class ExportImportComponent implements OnInit {
             this.dataSource = {poCode: this.newUsed[0]['poCode']};
         }
         this.newUsed.forEach(element => {
-            if(element['storage']) {
+            if(element['groupName'] = 'waste'){
+
+            } else if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {

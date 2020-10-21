@@ -137,14 +137,14 @@ export class InventoryComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 1:
-          // this.mainSourceColumns = null;
-          // this.localService.getStorageTransfersTable().pipe(take(1)).subscribe(value => {
-          //   this.mainSourceColumns = [<any[]>value, this.columnsShow];
-          //   console.log(value);
+          this.mainSourceColumns = null;
+          this.localService.getStorageRelocations().pipe(take(1)).subscribe(value => {
+            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+            console.log(value);
             
-          // });
-          // this.cdRef.detectChanges();
-          // break;
+          });
+          this.cdRef.detectChanges();
+          break;
         case 2:
         //   this.mainSourceColumns = null;
         //   this.localService.getAllPacking().pipe(take(1)).subscribe(value => {

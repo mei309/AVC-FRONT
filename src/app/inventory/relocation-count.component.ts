@@ -25,6 +25,8 @@ import {isEqual} from 'lodash-es';
     `
   })
 export class RelocationCountComponent implements OnInit {
+    navigationSubscription;
+
     form: FormGroup;
     isDataAvailable: boolean = false
     isFormAvailable: boolean = false;
@@ -33,17 +35,20 @@ export class RelocationCountComponent implements OnInit {
     dataSource;
     poID: number;
     isNew: boolean = true;
+  
     submit(value: any) {
         var arr = [];
         if(value['usedItems']) {
             value['usedItems'] = value['usedItems'].filter(amou => amou.numberUsedUnits);
             value['usedItems'].forEach(ele => {
-                if(!ele['storageId']) {
-                    ele['storageId'] = ele['id'];
-                    delete ele['id'];
-                    ele['storageVersion'] = ele['version'];
-                    delete ele['version'];
-                }
+                ele['unitAmount'] = ele['storage']['unitAmount'];
+                ele['numberUnits'] = ele['numberUsedUnits'];
+                // if(!ele['storageId']) {
+                //     ele['storageId'] = ele['id'];
+                //     delete ele['id'];
+                //     ele['storageVersion'] = ele['version'];
+                //     delete ele['version'];
+                // }
             });
             arr = arr.concat(value['usedItems']);
             delete value['usedItems'];
@@ -77,7 +82,12 @@ export class RelocationCountComponent implements OnInit {
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
-                    this.router.navigate(['../MaterialExport',{id: val['id']}], { relativeTo: this._Activatedroute });
+                    this.isDataAvailable = false;
+                    this.isFormAvailable = false;
+                    this.dataSource = null;
+                    this.fillEdit(val);
+                    this.cdRef.detectChanges();
+                    this.isDataAvailable = true;
                 } else {
                     this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
                 }
@@ -142,7 +152,9 @@ export class RelocationCountComponent implements OnInit {
                            this.dataSource = {poCode: selectedValue};
                            this.dataSource['itemCounts'] = [];
                            val.forEach(element => {
-                               if(element['storage']) {
+                                if(element['groupName'] = 'waste'){
+
+                                } else if(element['storage']) {
                                    element['storage']['item'] = element['item'];
                                    arrTable.push(element['storage']);
                                    this.dataSource['itemCounts'].push({item: element['item']});
@@ -417,103 +429,4 @@ export class RelocationCountComponent implements OnInit {
 
   }
 
-
-
-    // submit(value: any) {
-    //     var arr = [];
-    //     var proccesItems = [];
-    //     if(value['usedItemsNormal']) {
-    //         value['usedItemsNormal'].forEach(element => {
-    //             var item = element['usedItems'][0]['item'];
-    //             var copied = cloneDeep(element['usedItems']);
-    //             var warehouseLocation = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], item['id'])))['warehouseLocation'];
-    //             copied.forEach(et => {
-    //                 et['warehouseLocation'] = warehouseLocation;
-    //                 delete et['id'];
-    //                 delete et['version'];
-    //                 delete et['numberUsedUnits'];
-    //              });
-                
-    //             var cpoyProcess = {item: item, groupName: element['groupName'], storageForms: copied};
-    //             delete copied['item'];
-    //             proccesItems.push(cpoyProcess);
-
-    //             if(this.isNew) {
-    //                 var arrNormal = [];
-    //                 element['usedItems'].forEach(elem => {
-    //                     if(elem['numberUsedUnits']) {
-    //                         arrNormal.push({storage: elem, numberUsedUnits: elem['numberUsedUnits']});
-    //                     }
-    //                 });
-    //                 element['usedItems'] = arrNormal;
-    //             }
-    //             element['groupName'] = 'normal';
-    //         });
-    //         arr = arr.concat(value['usedItemsNormal']);
-    //         delete value['usedItemsNormal'];
-    //     }
-    //     if(value['usedItemsTable']) {
-    //         value['usedItemsTable'].forEach(element => {
-    //             element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-    //             if(this.isNew) {   
-    //                 element['usedItem']['amounts'].forEach(ele => {
-    //                     ele['storageId'] = ele['id'];
-    //                     delete ele['id'];
-    //                     ele['storageVersion'] = ele['version'];
-    //                     delete ele['version'];
-    //                 });
-    //             }
-    //             element['groupName'] = 'table';
-
-    //             var copied = cloneDeep(element['usedItem']);
-    //             copied['amounts'].forEach(et => {
-    //                 delete et['storageId'];
-    //                 delete et['storageVersion'];
-    //             });
-    //             copied['warehouseLocation'] = (value['itemCounts'].find(ele => isEqual(ele['item']['id'], copied['item']['id'])))['warehouseLocation'];
-    //             var cpoyProcess = {item: copied['item'], groupName: element['groupName'], storage: copied};
-    //             delete copied['item'];
-    //             proccesItems.push(cpoyProcess);
-    //         });
-    //         arr = arr.concat(value['usedItemsTable']);
-    //         delete value['usedItemsTable'];
-    //     }
-    //     value['usedItemGroups'] = arr;
-    //     value['processItems'] = proccesItems;
-    //     // if(value['itemCounts']) {
-    //     //     var proccesItems = [];
-    //     //     value['itemCounts'].forEach(element => {
-    //     //         var copied = this.keepData.find(ele => (ele['storage'] && isEqual(ele['item'], element['item'])));
-    //     //         if(copied) {
-    //     //             copied['storage']['amounts'].forEach(et => {
-    //     //                 delete et['id'];
-    //     //                 delete et['version'];
-    //     //             });
-    //     //             copied['storage']['warehouseLocation'] = element['warehouseLocation'];
-    //     //             delete copied['storage']['item'];
-    //     //             var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: copied['storage']}
-    //     //             proccesItems.push(cpoyProcess);
-    //     //         }
-    //     //     });
-    //     //     value['processItems'] = proccesItems;
-    //     // }
-        
-    //     console.log(value);
-        
-        
-    //     this.localService.addEditTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
-    //         console.log(val);
-            
-    //         const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
-    //             width: '80%',
-    //             data: {inventoryItem: val, fromNew: true, type: 'Inventory item'}
-    //         });
-    //         dialogRef.afterClosed().subscribe(result => {
-    //             if(result === 'Edit') {
-    //                 this.router.navigate(['../MaterialExport',{id: val['id']}], { relativeTo: this._Activatedroute });
-    //             } else {
-    //                 this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
-    //             }
-    //         });
-    //     });
-    // }
+  

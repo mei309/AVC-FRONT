@@ -139,7 +139,9 @@ export class CountinersLoadingComponent {
         var arrTable = [];
         var arrDeclared = [];
         val.forEach(element => {
-            if(element['storage']) {
+            if(element['groupName'] = 'waste'){
+
+            } else if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
                 arrTable.push({usedItem: element['storage']});

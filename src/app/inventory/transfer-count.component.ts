@@ -127,7 +127,12 @@ export class TransferCountComponent implements OnInit {
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
-                    this.router.navigate(['../MaterialExport',{id: val['id']}], { relativeTo: this._Activatedroute });
+                    this.isDataAvailable = false;
+                    this.isFormAvailable = false;
+                    this.dataSource = null;
+                    this.fillEdit(val);
+                    this.cdRef.detectChanges();
+                    this.isDataAvailable = true;
                 } else {
                     this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
                 }
@@ -189,7 +194,9 @@ export class TransferCountComponent implements OnInit {
                             this.dataSource = {poCode: selectedValue};
                             this.dataSource['itemCounts'] = [];
                             val.forEach(element => {
-                                if(element['storage']) {
+                                if(element['groupName'] = 'waste'){
+
+                                } else if(element['storage']) {
                                     element['storage']['item'] = element['item'];
                                     arrTable.push({usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});

@@ -331,15 +331,10 @@ export class SearchGroupDetailsComponent {
             numberTow += this.dataSource.data[ind][this.totelColumn.name][1]['amount'];
           }
           return [{amount: numberOne, measureUnit: this.dataSource.data[index][this.totelColumn.name][0]['measureUnit']},
-            {amount: numberOne, measureUnit: this.dataSource.data[index][this.totelColumn.name][1]['measureUnit']}]
+            {amount: numberTow, measureUnit: this.dataSource.data[index][this.totelColumn.name][1]['measureUnit']}]
         default:
           break;
       }
     }
   }
 }
-
-// <ng-container matColumnDef="position">
-//             <th mat-header-cell *matHeaderCellDef mat-sort-header><h3>N.O.</h3> </th>
-//             <td mat-cell *matCellDef="let i = index">{{ this.paginator.pageIndex == 0 ?  1 + i : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}</td>
-//         </ng-container>
