@@ -4,7 +4,6 @@ import { CashewCountComponent } from './cashew-count.component';
 import { CashewInventoryComponent } from './cashew-inventory.component';
 import { GenralCountComponent } from './genral-count.component';
 import { GenralInventoryComponent } from './genral-inventory.component';
-import { MaterialExportComponent } from './material-export.component';
 import { InventoryComponent } from './inventory.component';
 import { TransferCountComponent } from './transfer-count.component';
 import { RelocationCountComponent } from './relocation-count.component';
