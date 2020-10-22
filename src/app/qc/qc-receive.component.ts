@@ -43,7 +43,7 @@ export class QcReceiveComponent implements OnInit {
         // delete value['percentageItems'];
         // delete value['testedItemsW'];
         const fromNew: boolean = this.putData === null || this.putData === undefined;
-        if(this.type === 'QC receiving') {
+        if(this.type === 'QC receiving (weights)') {
             // value['localType']
             this.localService.addEditCashewReceiveCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {

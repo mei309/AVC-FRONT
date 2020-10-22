@@ -228,6 +228,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       visibility: hidden;
     }
     #section-to-print, #section-to-print * {
+      overflow: visible;
       visibility: visible;
     }
     #section-to-print {
@@ -237,9 +238,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
     
     #print, #print * {
+      overflow: visible;
       visibility: visible;
     }
     #print-child, #print-child * {
+      overflow: visible;
       visibility: visible;
     }
     #print {
@@ -250,6 +253,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     #print-child {
       position: absolute;
       left: 0;
-      top: 100px;
+      top: 0;
     }
   }
