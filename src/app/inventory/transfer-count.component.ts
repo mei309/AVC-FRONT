@@ -198,7 +198,7 @@ export class TransferCountComponent implements OnInit {
 
                                 } else if(element['storage']) {
                                     element['storage']['item'] = element['item'];
-                                    arrTable.push({usedItem: element['storage']});
+                                    arrTable.push({processDate: element['processDate'], usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
                                 } else if(element['storageForms']) {
                                     var arrUsedItems = [];
@@ -206,7 +206,7 @@ export class TransferCountComponent implements OnInit {
                                         arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
                                         delete ele['numberUsedUnits'];
                                     });
-                                    arrNormal.push({usedItems: arrUsedItems});
+                                    arrNormal.push({processDate: element['processDate'], usedItems: arrUsedItems});
                                     this.dataSource['itemCounts'].push({item: element['item']});
                                 }
                             });
@@ -302,6 +302,12 @@ export class TransferCountComponent implements OnInit {
                 options: 'aloneNoAdd',
                 collections: [
                     {
+                        type: 'date',
+                        label: 'Process date',
+                        name: 'processDate',
+                        disable: true,
+                    },
+                    {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
@@ -365,6 +371,12 @@ export class TransferCountComponent implements OnInit {
                 label: 'Transfer from',
                 options: 'aloneNoAdd',
                 collections: [
+                    {
+                        type: 'date',
+                        label: 'Process date',
+                        name: 'processDate',
+                        disable: true,
+                    },
                     {
                         type: 'bignotexpand',
                         name: 'usedItem',

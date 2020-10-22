@@ -74,22 +74,7 @@ export class ProductionRoastingComponent implements OnInit {
                 });
                 this.poID = +params.get('id');
             } else {
-                this.form = this.fb.group({});
-                this.form.addControl('poCode', this.fb.control(''));
-                this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-                    if(selectedValue && selectedValue.hasOwnProperty('code') && this.poID !== selectedValue['id']) { 
-                        this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                            this.newUsed = val;
-                            console.log(val);
-                            
-                            this.isFormAvailable = true;
-                        }); 
-                        this.isDataAvailable = false;
-                        this.poID = selectedValue['id'];
-                    }
-                });
-                this.isDataAvailable = true;
-                this.setPoConfig();
+                this.setBeginChoose();
             }
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -100,16 +85,32 @@ export class ProductionRoastingComponent implements OnInit {
                 this.putData = null;
                 this.newUsed = null;
                 this.poID = null;
-                this.form.get('poCode').setValue(null);
-                this.cdRef.detectChanges();
-                if(!this.poConfig) {
-                    this.setPoConfig();
+                if(this.poConfig) {
+                    this.form.get('poCode').setValue(null);
+                } else {
+                    this.setBeginChoose();
                 }
+                this.cdRef.detectChanges();
                 this.isDataAvailable = true;
             }
         });
     }
-    setPoConfig() {
+    setBeginChoose() {
+        this.form = this.fb.group({});
+        this.form.addControl('poCode', this.fb.control(''));
+        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+            if(selectedValue && selectedValue.hasOwnProperty('code') && this.poID !== selectedValue['id']) { 
+                this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                    this.newUsed = val;
+                    console.log(val);
+                    
+                    this.isFormAvailable = true;
+                }); 
+                this.isDataAvailable = false;
+                this.poID = selectedValue['id'];
+            }
+        });
+        this.isDataAvailable = true;
         this.poConfig = [
             {
                 type: 'selectgroup',

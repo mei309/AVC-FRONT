@@ -65,27 +65,12 @@ export class ProductionCleaningComponent implements OnInit {
             if(params.get('id')) {
                 this.localService.getTransferProductionWithStorage(+params.get('id'), +params.get('poCode'), 'raw').pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
-                    this.newUsed = val[1]
+                    this.newUsed = val[1];
                     this.isFormAvailable = true;
                 });
                 this.poID = +params.get('id');
             } else {
-                this.form = this.fb.group({});
-                this.form.addControl('poCode', this.fb.control(''));
-                this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-                    if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
-                        this.localService.getStorageRawPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                            this.newUsed = val;
-                            console.log(val);
-                            
-                            this.isFormAvailable = true;
-                        }); 
-                        this.isDataAvailable = false;
-                        this.poID = selectedValue['id'];
-                    }
-                });
-                this.isDataAvailable = true;
-                this.setPoConfig();   
+                this.setBeginChoose(); 
             } 
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -96,16 +81,32 @@ export class ProductionCleaningComponent implements OnInit {
                 this.putData = null;
                 this.newUsed = null;
                 this.poID = null;
-                this.form.get('poCode').setValue(null);
-                this.cdRef.detectChanges();
-                if(!this.poConfig) {
-                    this.setPoConfig();
+                if(this.poConfig) {
+                    this.form.get('poCode').setValue(null);
+                } else {
+                    this.setBeginChoose();
                 }
+                this.cdRef.detectChanges();
                 this.isDataAvailable = true;
             }
         });
     }
-    setPoConfig() {
+    setBeginChoose() {
+        this.form = this.fb.group({});
+        this.form.addControl('poCode', this.fb.control(''));
+        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+                this.localService.getStorageRawPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                    this.newUsed = val;
+                    console.log(val);
+                    
+                    this.isFormAvailable = true;
+                }); 
+                this.isDataAvailable = false;
+                this.poID = selectedValue['id'];
+            }
+        });
+        this.isDataAvailable = true;
         this.poConfig = [
             {
                 type: 'selectgroup',

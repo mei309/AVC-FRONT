@@ -9,7 +9,7 @@ import { Globals } from './global-params.component';
   providedIn: 'root'
 })
 export class Genral {
-// version 2
+// version 3
   cities = new ReplaySubject<DropNormal[]>();
   countries = new ReplaySubject<DropNormal[]>();
   companyPosition = new ReplaySubject<DropNormal[]>();

@@ -152,14 +152,14 @@ export class ExportImportComponent implements OnInit {
                 
             } else if(element['storage']) {
                 element['storage']['item'] = element['item'];
-                arrTable.push({usedItem: element['storage']});
+                arrTable.push({processDate: element['processDate'], usedItem: element['storage']});
             } else if(element['storageForms']) {
                 var arrUsedItems = [];
                 element['storageForms'].forEach(ele => {
-                    arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
+                    arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']});
                     delete ele['numberUsedUnits'];
                 });
-                arrNormal.push({usedItems: arrUsedItems});
+                arrNormal.push({processDate: element['processDate'], usedItems: arrUsedItems});
             }
         });
         if(arrTable.length) {
@@ -253,6 +253,12 @@ export class ExportImportComponent implements OnInit {
                 options: 'aloneNoAdd',
                 collections: [
                     {
+                        type: 'date',
+                        label: 'Process date',
+                        name: 'processDate',
+                        disable: true,
+                    },
+                    {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
@@ -316,6 +322,12 @@ export class ExportImportComponent implements OnInit {
                 label: this.mainLabel+'ing amounts',
                 options: 'aloneNoAdd',
                 collections: [
+                    {
+                        type: 'date',
+                        label: 'Process date',
+                        name: 'processDate',
+                        disable: true,
+                    },
                     {
                         type: 'bignotexpand',
                         name: 'usedItem',
