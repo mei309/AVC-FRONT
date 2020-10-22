@@ -152,7 +152,7 @@ export class RelocationCountComponent implements OnInit {
                            this.dataSource = {poCode: selectedValue};
                            this.dataSource['itemCounts'] = [];
                            val.forEach(element => {
-                                if(element['groupName'] = 'waste'){
+                                if(element['groupName'] === 'waste'){
 
                                 } else if(element['storage']) {
                                    element['storage']['item'] = element['item'];

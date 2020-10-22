@@ -43,6 +43,8 @@ export class ManagmentNotificationsComponent implements OnInit {
     ngOnInit() {
       this.localService.getAllProcessTypeAlerts().pipe(take(1)).subscribe(value => {
         this.putNotfictions = value;
+        console.log(value);
+        
       });
       this.proccesTypes = this.genral.getProcess();
     }

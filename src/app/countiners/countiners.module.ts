@@ -19,6 +19,6 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
     SheardModule,
     CountinersRoutingModule
   ],
-  entryComponents: [CounteinersDetailsDialogComponent]
+  entryComponents: [CounteinersDetailsDialogComponent, SecurityExportDocComponent]
 })
 export class CountinersModule { }

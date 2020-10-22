@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
@@ -8,44 +9,56 @@ import { CountinersService } from './countiners.service';
 @Component({
   selector: 'security-export-doc',
   template:`
-<fieldset *ngIf="readyForm" [ngStyle]="{'width':'90%'}">
-    <ng-container *ngIf="isSecurity; else noSecurity">
-        <legend><h1>Security Doc</h1></legend>
-        <show-details [dataSource]="dataSource" [oneColumns]="regSecurity">
+  <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
+      <mat-icon>print</mat-icon>
+    </button>
+    <h1 mat-dialog-title id="print">
+        <span *ngIf="isSecurity">Security Doc</span>
+        <span *ngIf="!isSecurity">Export Doc</span>
+         details
+    </h1>
+    <mat-dialog-content>
+        <show-details [dataSource]="dataSource" [oneColumns]="isSecurity? regSecurity : regExport" id="print-child">
         </show-details>
-    </ng-container>
-    <ng-template #noSecurity>
-        <legend><h1>Export Doc</h1></legend>
-        <show-details [dataSource]="dataSource" [oneColumns]="regExport">
-        </show-details>
-    </ng-template>
-</fieldset>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+    </mat-dialog-actions>
   ` ,
 })
 export class SecurityExportDocComponent {
-    
+    id: number;
     dataSource;
 
     isSecurity = false;
     readyForm = false;
-    constructor(private fb: FormBuilder, private localService: CountinersService, private _Activatedroute: ActivatedRoute, private genral: Genral) {}
-
+    constructor(private localService: CountinersService, public dialogRef: MatDialogRef<SecurityExportDocComponent>,
+        @Inject(MAT_DIALOG_DATA)
+        public data: any) {
+            this.id = data.id;
+            this.isSecurity = data.isSecurity;
+        }
     ngOnInit() {
-        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-            var id = +params.get('id');
-            if('Security' === params.get('docType')) {
-                this.localService.getLoadingSecurityDoc(id).pipe(take(1)).subscribe( val => {
-                    this.dataSource = val;
-                    this.readyForm = true;
-                    this.isSecurity = true;
-                });
-            } else {
-                this.localService.getLoadingExportDoc(id).pipe(take(1)).subscribe( val => {
-                    this.dataSource = val;
-                    this.readyForm = true;
-                });
-            }
-        });
+        if(this.isSecurity) {
+            this.localService.getLoadingSecurityDoc(this.id).pipe(take(1)).subscribe( val => {
+                this.dataSource = val;
+                this.isSecurity = true;
+            });
+        } else {
+            this.localService.getLoadingExportDoc(this.id).pipe(take(1)).subscribe( val => {
+                this.dataSource = val;
+            });
+        }
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close('closed');
+    }
+
+    public printWindow(): void { 
+        document.getElementById("section-to-print").setAttribute("id", "newDivId");
+        window.print();
+        document.getElementById("newDivId").setAttribute("id", "section-to-print");
     }
 
 

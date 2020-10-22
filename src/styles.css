@@ -242,12 +242,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     #print-child, #print-child * {
       visibility: visible;
     }
-    /* .mat-dialog-content {
-      display: block;
-                   width: auto;
-                   height: auto;
-                   overflow: visible; 
-    } */
     #print {
       position: absolute;
       left: 0;

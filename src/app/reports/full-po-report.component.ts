@@ -22,6 +22,10 @@ import { MatAccordion } from '@angular/material/expansion';
                 </mat-tab>
                 <mat-tab label="With expanding">
                     <div class="example-action-buttons">
+                                <mat-checkbox 
+                            (change)="setAll($event.checked)">
+                            Expand All
+                            </mat-checkbox>
                         <button mat-button (click)="accordion.openAll()">Expand All</button>
                         <button mat-button (click)="accordion.closeAll()">Collapse All</button>
                     </div>
@@ -144,6 +148,11 @@ export class fullPoReportComponent {
                 ]
             },
         ]; 
+    }
+
+    setAll($event){
+        console.log($event);
+        window.alert($event);
     }
 
 

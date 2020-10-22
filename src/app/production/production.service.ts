@@ -74,24 +74,25 @@ export class ProductionService {
   }
 
   getTransferProductionWithStorage(id: number, poCode: number, processType: string) {
-    this.http.get(this.productionurl+'getTransferProduction/'+id);
+    // this.http.get(this.productionurl+'getTransferProduction/'+id);
     let response1 = this.http.get(this.productionurl+'getTransferProduction/'+id);
-    let response2;
     switch (processType) {
       case 'raw':
-        response2 = this.http.get(this.productionurl+'getStorageRawPo/'+poCode);
-        break;
+        return forkJoin([response1, this.http.get(this.productionurl+'getStorageRawPo/'+poCode)]);
       case 'clean':
-        response2 = this.http.get(this.productionurl+'getStorageCleanPo/'+poCode);
-        break;
+        this.getStorageCleanPo(poCode).subscribe(params => {
+          console.log('lololo');
+          console.log(params);
+          
+        })
+        
+        return forkJoin([response1, this.http.get(this.productionurl+'getStorageCleanPo/'+poCode)]);
       case 'roast':
-        response2 = this.http.get(this.productionurl+'getStorageRoastPo/'+poCode);
-        break;
-    
+        return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPo/'+poCode)]);
       default:
         break;
     }
-    return forkJoin([response1, response2]);
+    // return forkJoin([response1, response2]);
   }
 
 }

@@ -6,6 +6,7 @@ import { Genral } from './../genral.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CountinersService } from './countiners.service';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
+import { SecurityExportDocComponent } from './security-export-doc.component';
 @Component({
   selector: 'app-counteiners-reports',
   templateUrl: './counteiners-reports.component.html',
@@ -76,13 +77,6 @@ export class CountinersReportsComponent implements OnInit {
         case 'Edit':
           this.router.navigate(['../Loading',{id: event['id']}], { relativeTo: this._Activatedroute });
           break;
-        case 'Security Doc':
-          this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
-          break;
-        case 'Export Doc':
-          this.router.navigate(['../SecurityExportDoc',{id: event['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
-          break;
-      
         default:
           break;
       }
