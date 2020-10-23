@@ -157,10 +157,10 @@ export class RelocationCountComponent implements OnInit {
                                 } else if(element['storage']) {
                                    element['storage']['item'] = element['item'];
                                    arrTable.push(element['storage']);
-                                   this.dataSource['itemCounts'].push({item: element['item']});
+                                   this.dataSource['itemCounts'].push({itemProcessDate: element['processDate'], item: element['item']});
                                } else if(element['storageForms']) {
                                     element['storageForms'].forEach(ele => {
-                                        arrNormal.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']});
+                                        arrNormal.push({item: element['item'], storage: ele});
                                         delete ele['numberUsedUnits'];
                                     });
                                    this.dataSource['itemCounts'].push({item: element['item']});
@@ -274,6 +274,12 @@ export class RelocationCountComponent implements OnInit {
                                 name: 'storage',
                                 collections: [
                                     {
+                                        type: 'date',
+                                        label: 'Process date',
+                                        name: 'itemProcessDate',
+                                        disable: true,
+                                    },
+                                    {
                                         type: 'inputselect',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
@@ -303,13 +309,13 @@ export class RelocationCountComponent implements OnInit {
                                         name: 'warehouseLocation',
                                         disable: true,
                                     },
+                                    {
+                                        type: 'input',
+                                        label: 'Number available units',
+                                        name: 'numberAvailableUnits',
+                                        disable: true,
+                                    },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Used units',
-                                name: 'otherUsedUnits',
-                                disable: true,
                             },
                        ]
                    },

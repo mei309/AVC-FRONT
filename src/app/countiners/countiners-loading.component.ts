@@ -144,11 +144,11 @@ export class CountinersLoadingComponent {
             } else if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
-                arrTable.push({usedItem: element['storage']});
+                arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});
             } else if(element['storageForms']) {
                 var arrUsedItems = [];
                 element['storageForms'].forEach(ele => {
-                    arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
+                    arrUsedItems.push({item: element['item'], storage: ele})
                     delete ele['numberUsedUnits'];
                 });
                 arrNormal.push({poCode: element['poCode'], usedItems: arrUsedItems});
@@ -481,6 +481,12 @@ export class CountinersLoadingComponent {
                                 name: 'storage',
                                 collections: [
                                     {
+                                        type: 'date',
+                                        label: 'Process date',
+                                        name: 'itemProcessDate',
+                                        disable: true,
+                                    },
+                                    {
                                         type: 'inputselect',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
@@ -510,13 +516,13 @@ export class CountinersLoadingComponent {
                                         name: 'warehouseLocation',
                                         disable: true,
                                     },
+                                    {
+                                        type: 'input',
+                                        label: 'Number available units',
+                                        name: 'numberAvailableUnits',
+                                        disable: true,
+                                    },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Used units',
-                                name: 'otherUsedUnits',
-                                disable: true,
                             },
                         ],
                     },

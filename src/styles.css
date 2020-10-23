@@ -253,6 +253,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     #print-child {
       position: absolute;
       left: 0;
-      top: 0;
+      top: 75px;
     }
+    
   }

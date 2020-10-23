@@ -198,15 +198,15 @@ export class TransferCountComponent implements OnInit {
 
                                 } else if(element['storage']) {
                                     element['storage']['item'] = element['item'];
-                                    arrTable.push({processDate: element['processDate'], usedItem: element['storage']});
+                                    arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
                                 } else if(element['storageForms']) {
                                     var arrUsedItems = [];
                                     element['storageForms'].forEach(ele => {
-                                        arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']})
+                                        arrUsedItems.push({item: element['item'], storage: ele})
                                         delete ele['numberUsedUnits'];
                                     });
-                                    arrNormal.push({processDate: element['processDate'], usedItems: arrUsedItems});
+                                    arrNormal.push({usedItems: arrUsedItems});
                                     this.dataSource['itemCounts'].push({item: element['item']});
                                 }
                             });
@@ -302,12 +302,6 @@ export class TransferCountComponent implements OnInit {
                 options: 'aloneNoAdd',
                 collections: [
                     {
-                        type: 'date',
-                        label: 'Process date',
-                        name: 'processDate',
-                        disable: true,
-                    },
-                    {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
@@ -323,6 +317,12 @@ export class TransferCountComponent implements OnInit {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
+                                    {
+                                        type: 'date',
+                                        label: 'Process date',
+                                        name: 'itemProcessDate',
+                                        disable: true,
+                                    },
                                     {
                                         type: 'inputselect',
                                         name: 'unitAmount',
@@ -353,13 +353,13 @@ export class TransferCountComponent implements OnInit {
                                         name: 'warehouseLocation',
                                         disable: true,
                                     },
+                                    {
+                                        type: 'input',
+                                        label: 'Number available units',
+                                        name: 'numberAvailableUnits',
+                                        disable: true,
+                                    },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Used units',
-                                name: 'otherUsedUnits',
-                                disable: true,
                             },
                         ]
                     },
@@ -374,7 +374,7 @@ export class TransferCountComponent implements OnInit {
                     {
                         type: 'date',
                         label: 'Process date',
-                        name: 'processDate',
+                        name: 'itemProcessDate',
                         disable: true,
                     },
                     {

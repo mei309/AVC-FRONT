@@ -47,6 +47,8 @@ export class SecurityExportDocComponent {
         } else {
             this.localService.getLoadingExportDoc(this.id).pipe(take(1)).subscribe( val => {
                 this.dataSource = val;
+                console.log(val);
+                
             });
         }
     }
@@ -148,7 +150,7 @@ export class SecurityExportDocComponent {
                     collections: 'supplierName',
                 },
                 {
-                    type: 'normal',
+                    type: 'nameId',
                     label: 'Item descrption',
                     name: 'item',
                 },

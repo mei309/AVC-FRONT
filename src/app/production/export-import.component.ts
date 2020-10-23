@@ -152,14 +152,15 @@ export class ExportImportComponent implements OnInit {
                 
             } else if(element['storage']) {
                 element['storage']['item'] = element['item'];
-                arrTable.push({processDate: element['processDate'], usedItem: element['storage']});
+                arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});
             } else if(element['storageForms']) {
                 var arrUsedItems = [];
                 element['storageForms'].forEach(ele => {
-                    arrUsedItems.push({item: element['item'], storage: ele, otherUsedUnits: ele['numberUsedUnits']});
+                    // ele['itemProcessDate'] = element['processDate'], 
+                    arrUsedItems.push({item: element['item'], storage: ele});
                     delete ele['numberUsedUnits'];
                 });
-                arrNormal.push({processDate: element['processDate'], usedItems: arrUsedItems});
+                arrNormal.push({usedItems: arrUsedItems});
             }
         });
         if(arrTable.length) {
@@ -253,12 +254,6 @@ export class ExportImportComponent implements OnInit {
                 options: 'aloneNoAdd',
                 collections: [
                     {
-                        type: 'date',
-                        label: 'Process date',
-                        name: 'processDate',
-                        disable: true,
-                    },
-                    {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
                         name: 'usedItems',
@@ -274,6 +269,12 @@ export class ExportImportComponent implements OnInit {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
+                                    {
+                                        type: 'date',
+                                        label: 'Process date',
+                                        name: 'itemProcessDate',
+                                        disable: true,
+                                    },
                                     {
                                         type: 'inputselect',
                                         name: 'unitAmount',
@@ -304,13 +305,13 @@ export class ExportImportComponent implements OnInit {
                                         name: 'warehouseLocation',
                                         disable: true,
                                     },
+                                    {
+                                        type: 'input',
+                                        label: 'Number available units',
+                                        name: 'numberAvailableUnits',
+                                        disable: true,
+                                    },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Used units',
-                                name: 'otherUsedUnits',
-                                disable: true,
                             },
                         ],
                     },
@@ -325,7 +326,7 @@ export class ExportImportComponent implements OnInit {
                     {
                         type: 'date',
                         label: 'Process date',
-                        name: 'processDate',
+                        name: 'itemProcessDate',
                         disable: true,
                     },
                     {

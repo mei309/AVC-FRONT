@@ -45,10 +45,24 @@ export class CountinersReportsComponent implements OnInit {
             group: 'shipmentCode',
         },
         {
-            name: 'usedItems',
-            label: 'Loaded items',
+            type: 'nameId',
+            name: 'poCode',
+            label: 'PO#',
+            search: 'object',
+            group: 'poCode',
+        },
+        {
+            type: 'nameId',
+            name: 'item',
+            label: 'Product descrption',
+            search: 'selectAsyncObject',
+            options: this.genral.getItemsRawCashew(),
+        },
+        {
+            type: 'weight2',
+            name: 'totalRow',
+            label: 'Loaded amounts',
             // type: 'object',
-            type: 'amountWithUnit',
             // options: 'currency',
         },
         // {
@@ -64,6 +78,12 @@ export class CountinersReportsComponent implements OnInit {
             label: 'Recorded time',
             search: 'dates',
         },
+        {
+          name: 'loadedTotals',
+          type: 'kidArray',
+          collections: [
+          ]
+        }
       ];
   }
 
