@@ -54,6 +54,7 @@ import { SumsTableComponent } from './tables/sums-table.component';
 import { PercentInputComponent } from './components/inputs/percent-input.component';
 import { PercentageDirective } from './libraries/percentage.directive';
 import { ForEachEditComponent } from './detailes/for-each-edit.component';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,8 @@ import { ForEachEditComponent } from './detailes/for-each-edit.component';
     // NormalGroupTableComponent,
     // GroupTableSearchComponent,
 
+    NgxPrintModule,
+
     NormalDetailsComponent,
     SearchDetailsComponent,
     SearchExpandableComponent,
@@ -186,6 +189,7 @@ import { ForEachEditComponent } from './detailes/for-each-edit.component';
     // BrowserModule,
 ],
   imports: [
+    NgxPrintModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,

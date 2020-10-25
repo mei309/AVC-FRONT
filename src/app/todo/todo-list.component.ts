@@ -32,6 +32,12 @@ export class TodoListComponent {
         options: this.genral.getSupplierCashew(),
       },
       {
+        type: 'dateTime',
+        name: 'createdDate',
+        label: 'Created date',
+        search: 'dates',
+      },
+      {
         name: 'title',
         label: 'Title',
         search: 'normal',
@@ -52,12 +58,6 @@ export class TodoListComponent {
         label: 'Decision type',
         search: 'select',
         options: this.genral.getDecisionType(),
-      },
-      {
-        type: 'dateTime',
-        name: 'createdDate',
-        label: 'Created date',
-        search: 'dates',
       },
     ];
 

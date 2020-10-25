@@ -101,11 +101,15 @@ export class CountinersLoadingComponent {
             dialogRef.afterClosed().subscribe(result => {
                 switch (result) {
                     case 'Edit':
-                        // this.isFormAvailable = false;
-                        // this.cdRef.detectChanges();
-                        // this.localService.getStorageTransfer(val['id']).pipe(take(1)).subscribe( val1 => {
-                        //     this.fillEdit(val1);
-                        // });
+                        this.beginPage = false;
+                        this.loading = false;
+                        this.choosedPos = [];
+                        this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                        this.firstData = null;
+                        this.cdRef.detectChanges();
+                        this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
+                            this.fillEdit(val1);
+                        });
                         break;
                     case 'Security Doc':
                         this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
@@ -139,9 +143,7 @@ export class CountinersLoadingComponent {
         var arrTable = [];
         var arrDeclared = [];
         val.forEach(element => {
-            if(element['groupName'] === 'waste'){
-
-            } else if(element['storage']) {
+            if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
                 arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});

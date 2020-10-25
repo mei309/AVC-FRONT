@@ -82,13 +82,12 @@ export class OrdersCashewComponent implements OnInit {
               options: this.genral.getSupplierCashew(),
               group: 'poCode',
             },
-            // {
-            //   type: 'weight2',
-            //   name: 'lots',
-            //   label: 'Total lots',
-            //   search: 'object',
-            //   group: 'poCode',
-            // },
+            {
+              type: 'dateTime',
+              name: 'contractDate',
+              label: 'Contract date',
+              search: 'dates',
+            },
             {
               name: 'itemName',
               label: 'Product descrption',
@@ -96,13 +95,6 @@ export class OrdersCashewComponent implements OnInit {
               options: this.genral.getItemsRawCashew(),
               group: 'itemName',
             },
-            // {
-            //   name: 'lots',
-            //   titel: 'Total lots',
-            //   type: 'object',
-            //   pipes: 'group',
-            //   group: 'poCode',
-            // },
             {
               type: 'weight2',
               name: 'numberUnits',
@@ -121,12 +113,6 @@ export class OrdersCashewComponent implements OnInit {
               name: 'defects',
               label: '% defects',
               search: 'normal',
-            },
-            {
-              type: 'dateTime',
-              name: 'contractDate',
-              label: 'Contract date',
-              search: 'dates',
             },
             {
               type: 'date',
@@ -215,7 +201,7 @@ export class OrdersCashewComponent implements OnInit {
             {
               type: 'weight',
               name: 'extraAdded',
-              label: 'Extra added',
+              label: 'Extra requsted',
               search: 'object',
             },
             {
@@ -301,7 +287,7 @@ export class OrdersCashewComponent implements OnInit {
             {
               type: 'weight',
               name: 'extraAdded',
-              label: 'Extra added',
+              label: 'Extra requsted',
               search: 'object',
             },
             {
@@ -387,7 +373,7 @@ export class OrdersCashewComponent implements OnInit {
             {
               type: 'weight',
               name: 'extraAdded',
-              label: 'Extra added',
+              label: 'Extra requsted',
               search: 'object',
             },
             {
@@ -433,13 +419,12 @@ export class OrdersCashewComponent implements OnInit {
               options: this.genral.getSupplierCashew(),
               group: 'poCode',
             },
-            // {
-            //   type: 'weight2',
-            //   name: 'totalAmount',
-            //   label: 'Total amount',
-            //   search: 'object',
-            //   group: 'poCode',
-            // },
+            {
+              type: 'dateTime',
+              name: 'contractDate',
+              label: 'Contract date',
+              search: 'dates',
+            },
             {
               name: 'itemName',
               label: 'Product descrption',
@@ -447,13 +432,6 @@ export class OrdersCashewComponent implements OnInit {
               options: this.genral.getItemsRawCashew(),
               group: 'itemName',
             },
-            // {
-            //   name: 'lots',
-            //   titel: 'Total lots',
-            //   type: 'object',
-            //   pipes: 'group',
-            //   group: 'poCode',
-            // },
             {
               type: 'weight2',
               name: 'numberUnits',
@@ -472,12 +450,6 @@ export class OrdersCashewComponent implements OnInit {
               name: 'defects',
               label: '% defects',
               search: 'normal',
-            },
-            {
-              type: 'dateTime',
-              name: 'contractDate',
-              label: 'Contract date',
-              search: 'dates',
             },
             {
               type: 'date',

@@ -166,19 +166,24 @@ export class ReceiveCashewComponent implements OnInit {
                     element['orderItem'] = value['orderItems'].find(xx => xx.id === element['orderItem']['id']);
                 }
                 var newArray = [];
+                var newArrayExtra = [];
                 element['storageForms'].forEach(storage => {
                     if(storage['className'] === 'ExtraAdded') {
-                        newArray.push(element['storageForms'].splice(element['storageForms'].indexOf(storage), 1));
+                        newArrayExtra.push(storage);
                     } else {
-                        storage['samplesWeight'] = {sampleContainerWeight: [{value: storage['sampleContainerWeight']}], numberOfSamples: storage['numberOfSamples'], avgWeight: storage['avgTestedWeight']};
-                        delete storage['sampleContainerWeight'];
-                        delete storage['numberOfSamples'];
-                        delete storage['avgTestedWeight'];
+                        if (storage['avgTestedWeight']) {
+                            storage['samplesWeight'] = {sampleContainerWeight: [{value: storage['sampleContainerWeight']}], numberOfSamples: storage['numberOfSamples'], avgWeight: storage['avgTestedWeight']};
+                            delete storage['sampleContainerWeight'];
+                            delete storage['numberOfSamples'];
+                            delete storage['avgTestedWeight'];
+                        }
+                        newArray.push(storage);
                     }
                 });
-                if(newArray.length) {
-                    element['bouns'] = {'extraAdded': newArray};
+                if(newArrayExtra.length) {
+                    element['bouns'] = {extraAdded: newArrayExtra};
                 }
+                element['storageForms'] = newArray;
                 recivingItems.push(element);
             });
             val['receiptItems'] = recivingItems;
@@ -572,6 +577,7 @@ export class ReceiveCashewComponent implements OnInit {
                     }
                 });
             }); 
+            console.log(value);
             
             this.localService.addEditRecivingCashewOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {

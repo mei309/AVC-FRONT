@@ -451,6 +451,14 @@ export class BigexpandComponent implements AfterViewInit {
           }
           break;
         }
+        case 'arrayordinal': {
+          group2.addControl(temp.name, this.fb.array([this.fb.group({ordinal: [1], amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )})]));
+          const num = temp.collections+1;
+          for(let i = 2; i < num; i++) {
+            (group2.get([temp.name]) as FormArray).push(this.fb.group({ordinal: [i], amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )}));
+          }
+          break;
+        }
         case 'array': {
           group2.addControl(temp.name, this.fb.array([this.fb.group({value: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )})]));
           break;
@@ -526,6 +534,14 @@ export class BigexpandComponent implements AfterViewInit {
             group2.addControl(temp.name, this.createItemOnly(temp));
           } else {
             this.createCalculateFew(group2, temp);
+          }
+          break;
+        }
+        case 'arrayordinal': {
+          group2.addControl(temp.name, this.fb.array([this.fb.group({ordinal: [1], amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )})]));
+          const num = temp.collections+1;
+          for(let i = 2; i < num; i++) {
+            (group2.get([temp.name]) as FormArray).push(this.fb.group({ordinal: [i], amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )}));
           }
           break;
         }

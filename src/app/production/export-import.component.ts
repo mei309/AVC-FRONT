@@ -104,6 +104,7 @@ export class ExportImportComponent implements OnInit {
         var arrNormal = [];
         var arrTable = [];
         if(this.beginData) {
+            var arrMaterial = [];
             this.beginData['usedItemGroups'].forEach(element => {
                 if(element['groupName'] === 'table') {
                     element['usedItem']['amounts'].forEach(ele => {
@@ -112,9 +113,14 @@ export class ExportImportComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
                     arrNormal.push(element);
+                } else if(element['groupName'] === 'meterial') {
+                    arrMaterial.push(element);
                 } 
             });
             delete this.beginData['usedItemGroups'];
+            if(arrMaterial.length) {
+                this.dataSource['materialUsed'] = arrMaterial;
+            } 
             
             var processNormal = [];
             var processTable = [];
@@ -147,22 +153,22 @@ export class ExportImportComponent implements OnInit {
         } else {
             this.dataSource = {poCode: this.newUsed[0]['poCode']};
         }
+        var arrUsedItems = [];
         this.newUsed.forEach(element => {
-            if(element['groupName'] === 'waste'){
-                
-            } else if(element['storage']) {
+            if(element['storage']) {
                 element['storage']['item'] = element['item'];
-                arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});
+                element['storage']['itemProcessDate'] = element['itemProcessDate'];
+                arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
-                var arrUsedItems = [];
-                element['storageForms'].forEach(ele => {
-                    // ele['itemProcessDate'] = element['processDate'], 
-                    arrUsedItems.push({item: element['item'], storage: ele});
+                element['storageForms'].forEach(ele => { 
+                    arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
                     delete ele['numberUsedUnits'];
                 });
-                arrNormal.push({usedItems: arrUsedItems});
             }
         });
+        if(arrUsedItems.length) {
+            arrNormal.push({usedItems: arrUsedItems});
+        }
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = arrTable;
         } else {
@@ -266,15 +272,15 @@ export class ExportImportComponent implements OnInit {
                                 disable: true,
                             },
                             {
+                                type: 'date',
+                                label: 'Process date',
+                                name: 'itemProcessDate',
+                                disable: true,
+                            },
+                            {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
-                                    {
-                                        type: 'date',
-                                        label: 'Process date',
-                                        name: 'itemProcessDate',
-                                        disable: true,
-                                    },
                                     {
                                         type: 'inputselect',
                                         name: 'unitAmount',
@@ -324,12 +330,6 @@ export class ExportImportComponent implements OnInit {
                 options: 'aloneNoAdd',
                 collections: [
                     {
-                        type: 'date',
-                        label: 'Process date',
-                        name: 'itemProcessDate',
-                        disable: true,
-                    },
-                    {
                         type: 'bignotexpand',
                         name: 'usedItem',
                         // label: 'Transfer from',
@@ -339,6 +339,12 @@ export class ExportImportComponent implements OnInit {
                                 type: 'inputReadonlySelect',
                                 label: 'Item descrption',
                                 name: 'item',
+                                disable: true,
+                            },
+                            {
+                                type: 'date',
+                                label: 'Process date',
+                                name: 'itemProcessDate',
                                 disable: true,
                             },
                             {
@@ -462,7 +468,7 @@ export class ExportImportComponent implements OnInit {
                 type: 'bigexpand',
                 name: 'processItemsTable',
                 label: this.mainLabel+'d amounts',
-                options: 'NoAdd',
+                // options: 'NoAdd',
                 collections: [
                     {
                         type: 'select',
@@ -500,7 +506,7 @@ export class ExportImportComponent implements OnInit {
                                 label: 'Unit weight',
                                 name: 'amounts',
                                 options: 3,
-                                collections: 30,
+                                collections: 15,
                             },
                         ],
                         // validations: [

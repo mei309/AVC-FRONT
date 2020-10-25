@@ -227,6 +227,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     body * {
       visibility: hidden;
     }
+    /* mat-form-field {
+      display: none !important;
+    } */
+    button {
+      display: none !important;
+    }
     #section-to-print, #section-to-print * {
       overflow: visible;
       visibility: visible;
@@ -255,5 +261,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       left: 0;
       top: 75px;
     }
-    
   }

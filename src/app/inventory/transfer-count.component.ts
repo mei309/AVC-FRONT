@@ -132,7 +132,7 @@ export class TransferCountComponent implements OnInit {
                     this.dataSource = null;
                     this.fillEdit(val);
                     this.cdRef.detectChanges();
-                    this.isDataAvailable = true;
+                    // this.isDataAvailable = true;
                 } else {
                     this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
                 }
@@ -176,14 +176,8 @@ export class TransferCountComponent implements OnInit {
             this.isFormAvailable = true;
         }
 
-    ngOnInit() {
-        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-            if(params.get('id')) {
-                var id = +params.get('id');
-                this.localService.getStorageTransfer(id).pipe(take(1)).subscribe( val => {
-                    this.fillEdit(val);
-                });
-            } else {
+
+    setBeginChoose(){
                 this.form = this.fb.group({});
                 this.form.addControl('poCode', this.fb.control(''));
                 this.form.get('poCode').valueChanges.subscribe(selectedValue => {
@@ -194,8 +188,8 @@ export class TransferCountComponent implements OnInit {
                             this.dataSource = {poCode: selectedValue};
                             this.dataSource['itemCounts'] = [];
                             val.forEach(element => {
-                                if(element['groupName'] === 'waste'){
-
+                                if(element['item']['category'] === 'WASTE'){
+                
                                 } else if(element['storage']) {
                                     element['storage']['item'] = element['item'];
                                     arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});
@@ -246,6 +240,17 @@ export class TransferCountComponent implements OnInit {
                         ]
                     },
                 ];
+    }
+
+    ngOnInit() {
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('id')) {
+                var id = +params.get('id');
+                this.localService.getStorageTransfer(id).pipe(take(1)).subscribe( val => {
+                    this.fillEdit(val);
+                });
+            } else {
+                this.setBeginChoose();
             }
         });
         
@@ -488,7 +493,11 @@ export class TransferCountComponent implements OnInit {
                 this.isFormAvailable = false;
                 this.dataSource = null;
                 this.poID = null;
-                this.form.get('poCode').setValue(null);
+                if(this.poConfig) {
+                    this.form.get('poCode').setValue(null);
+                } else {
+                    this.setBeginChoose();
+                }
                 this.cdRef.detectChanges();
                 this.isDataAvailable = true;
             }

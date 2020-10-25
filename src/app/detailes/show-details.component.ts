@@ -94,7 +94,7 @@ import { take } from 'rxjs/operators';
                             <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
                             </show-details>
                             <ng-container *ngSwitchCase="'arrayForEach'">
-                              <show-details class="change-color" *ngFor="let line of dataSource[column.name]" [dataSource]="line" [withPo]="false">
+                              <show-details class="change-color" *ngFor="let line of dataSource[column.name]" [dataSource]="line" [withPo]="column.collections? true : false" [oneColumns]="column.collections">
                               </show-details>
                             </ng-container>
                           </ng-container>
@@ -419,6 +419,23 @@ export class ShowDetailsComponent implements OnInit {
               // collections: 'measureUnit',
             },
             {
+              type: 'weight',
+              label: 'Payable units',
+              name: 'receivedOrderUnits',
+              // collections: 'measureUnit',
+            },
+            {
+              type: 'currency',
+              label: 'Unit price',
+              name: 'unitPrice',
+              // collections: 'measureUnit',
+            },
+            {
+                type: 'normal',
+                label: 'Remarks',
+                name: 'remarks',
+            },
+            {
               type: 'kidArray',
               name: 'storageForms',
               label: 'Amounts and storage',
@@ -467,23 +484,6 @@ export class ShowDetailsComponent implements OnInit {
                     // collections: 'measureUnit',
                   },
                 ]
-            },
-            {
-              type: 'weight',
-              label: 'Payable units',
-              name: 'receivedOrderUnits',
-              // collections: 'measureUnit',
-            },
-            {
-              type: 'currency',
-              label: 'Unit price',
-              name: 'unitPrice',
-              // collections: 'measureUnit',
-            },
-            {
-                type: 'normal',
-                label: 'Remarks',
-                name: 'remarks',
             },
         ]
     },
@@ -763,7 +763,7 @@ export class ShowDetailsComponent implements OnInit {
 
 
     {
-      type: 'parentArrayObject',
+      type: 'arrayForEach',
       name: 'itemCounts',
       label: 'Item counts',
       collections: [

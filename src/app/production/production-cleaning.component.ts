@@ -67,8 +67,6 @@ export class ProductionCleaningComponent implements OnInit {
                     this.putData = val[0];
                     this.newUsed = val[1];
                     this.isFormAvailable = true;
-                    console.log(val[0]);
-                    
                 });
                 this.poID = +params.get('id');
             } else {

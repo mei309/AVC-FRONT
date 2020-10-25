@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../field.interface';
 
@@ -36,7 +37,7 @@ export class TableWithInputComponent implements OnInit {
   displayedColumns = [];
   oneColumns = [];
 
-  constructor() {}
+  constructor(@Inject(LOCALE_ID) private locale: string) {}
   ngOnInit() {
     this.dataSource = this.group.get(this.field.name).value; 
     this.kidSetup(this.field);
@@ -118,6 +119,10 @@ export class TableWithInputComponent implements OnInit {
                     // }
                 });
                 break;
+            case 'date':
+                this.dataSource.forEach(ele => {
+                    ele[element.name] = new DatePipe(this.locale).transform(ele[element.name]);
+                });
             default:
                 this.oneColumns.push(element);
                 this.displayedColumns.push(element.name);

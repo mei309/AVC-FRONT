@@ -90,6 +90,12 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
+              type: 'dateTime',
+              name: 'contractDate',
+              label: 'Contract date',
+              search: 'dates',
+            },
+            {
               type: 'weight2',
               name: 'totalAmount',
               label: 'Total amount',
@@ -114,12 +120,6 @@ export class OrdersGenralComponent implements OnInit {
               name: 'unitPrice',
               label: 'Price per unit',
               search: 'object',
-            },
-            {
-              type: 'dateTime',
-              name: 'contractDate',
-              label: 'Contract date',
-              search: 'dates',
             },
             {
               type: 'date',
@@ -315,6 +315,12 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
+              type: 'dateTime',
+              name: 'contractDate',
+              label: 'Contract date',
+              search: 'dates',
+            },
+            {
               type: 'weight2',
               name: 'totalAmount',
               label: 'Total amount',
@@ -339,12 +345,6 @@ export class OrdersGenralComponent implements OnInit {
               name: 'unitPrice',
               label: 'Price per unit',
               search: 'object',
-            },
-            {
-              type: 'dateTime',
-              name: 'contractDate',
-              label: 'Contract date',
-              search: 'dates',
             },
             {
               type: 'date',
