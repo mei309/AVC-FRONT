@@ -43,7 +43,7 @@ import { take } from 'rxjs/operators';
                           <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
                           </show-details>
 
-                          <for-each-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
+                          <for-each-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]" [oneColumns]="column.collections">
                           </for-each-edit> 
                       </fieldset>
                 </ng-template>

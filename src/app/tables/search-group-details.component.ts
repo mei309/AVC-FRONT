@@ -13,7 +13,7 @@ import {isEqual} from 'lodash-es';
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
-                <mat-form-field style="width:90%" [ngSwitch]="column.search">
+                <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print">
                     <mat-select *ngSwitchCase="'select'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>

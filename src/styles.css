@@ -230,7 +230,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     /* mat-form-field {
       display: none !important;
     } */
-    button {
+    .no-print, .raised-margin {
       display: none !important;
     }
     #section-to-print, #section-to-print * {
