@@ -34,6 +34,7 @@ import { FieldConfig } from '../../field.interface';
       </ng-container>
     </mat-form-field>
 </ng-container>
+
 `,
 })
 export class DateComponent implements OnInit {
@@ -53,7 +54,9 @@ export class DateComponent implements OnInit {
 
 }
 
-
+// <input matInput [matDatepicker]="picker1" [formControlName]="field.name" [placeholder]="field.label">
+//       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+//       <mat-datepicker #picker1></mat-datepicker>
 // ngOnDestroy() {
 //   this.destroySubject$.next();
 // }

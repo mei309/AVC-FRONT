@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ReportsService } from './reports.service';
 import { take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { OneColumn, FieldConfig } from '../field.interface';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Genral } from '../genral.service';
@@ -14,18 +14,17 @@ import { MatAccordion } from '@angular/material/expansion';
         <legend><h1>PO# Details</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
-        <div *ngIf="isDataAvailable">
-            <mat-tab-group>
-                <mat-tab label="Without expanding">
+        <mat-tab-group *ngIf="isDataAvailable">
+            <mat-tab label="Without expanding">
+                <ng-template matTabContent>
                     <show-details [dataSource]="poDetails" [oneColumns]="regShow">
                     </show-details>
-                </mat-tab>
-                <mat-tab label="With expanding">
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="With expanding">
+                <ng-template matTabContent>
                     <div class="example-action-buttons">
-                                <mat-checkbox 
-                            (change)="setAll($event.checked)">
-                            Expand All
-                            </mat-checkbox>
+                        <mat-checkbox (change)="setAll($event.checked)">Expand All</mat-checkbox>
                         <button mat-button (click)="accordion.openAll()">Expand All</button>
                         <button mat-button (click)="accordion.closeAll()">Collapse All</button>
                     </div>
@@ -80,26 +79,36 @@ import { MatAccordion } from '@angular/material/expansion';
                             </show-details>
                         </mat-expansion-panel>
                     </mat-accordion>
-                </mat-tab>
-                <mat-tab label="Graphs">
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Graphs">
+                <ng-template matTabContent>
                     <app-dash-board>
                     </app-dash-board>
-                </mat-tab>
-            </mat-tab-group>
-        </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Final report">
+                <ng-template matTabContent>
+                    {{finalReport['receipt'][0] | json}}
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
     </fieldset>
   ` ,
 })
 export class fullPoReportComponent {
     @ViewChild(MatAccordion) accordion: MatAccordion;
+    navigationSubscription;
+
     
     form: FormGroup;
     poCode: number;
     poConfig: FieldConfig[];
     poDetails;
+    finalReport;
     isDataAvailable = false;
 
-    constructor(private fb: FormBuilder, private localService: ReportsService, private _Activatedroute: ActivatedRoute, private genral: Genral) {}
+    constructor(private router: Router, private cdRef:ChangeDetectorRef, private fb: FormBuilder, private localService: ReportsService, private _Activatedroute: ActivatedRoute, private genral: Genral) {}
 
     ngOnInit() {
         this.form = this.fb.group({poCode: this.fb.control('')});
@@ -109,6 +118,10 @@ export class fullPoReportComponent {
                 this.localService.getAllProcesses(this.poCode).pipe(take(1)).subscribe( val => {
                     this.poDetails = val;
                     this.isDataAvailable = true;
+                });
+                this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
+                    this.finalReport = val1;
+                    // this.isDataAvailable = true;
                 });
                 this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
@@ -121,9 +134,11 @@ export class fullPoReportComponent {
                     this.poCode = selectedValue['id'];
                     this.localService.getAllProcesses(this.poCode).pipe(take(1)).subscribe( val => {
                         this.poDetails = val;
-                        console.log(val);
-                    
                         this.isDataAvailable = true;
+                    });
+                    this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
+                        this.finalReport = val1;
+                        // this.isDataAvailable = true;
                     });
                 }
                 
@@ -147,7 +162,18 @@ export class fullPoReportComponent {
                     },
                 ]
             },
-        ]; 
+        ];
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+              this.isDataAvailable = false;
+              this.poDetails =  null;
+              this.finalReport = null;
+              this.form.get('poCode').setValue(null);
+              this.cdRef.detectChanges();
+              this.isDataAvailable = true;
+            }
+        }); 
     }
 
     setAll($event){
@@ -237,4 +263,9 @@ export class fullPoReportComponent {
         },
       ];
 
+      ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
+      }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable, forkJoin } from 'rxjs';
 import { DropNormal } from '../field.interface';
 import { take } from 'rxjs/operators';
 @Injectable({
@@ -65,6 +65,10 @@ export class InventoryService {
   getStorageTransfer (id: number): Observable<any> {
     return this.http.get(this.inventorysurl+'getStorageTransfer/'+id);
   }
+  
+  getStorageRelocation (id: number): Observable<any> {
+    return this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
+  }
 
   getPoCashewCodesInventory (): Observable<any> {
     return this.http.get(this.inventorysurl+'getPoCashewCodesInventory');
@@ -72,6 +76,11 @@ export class InventoryService {
   
   getAllPosRoast() {
     return this.http.get(this.inventorysurl+'getAllPos/ROAST');
+  }
+
+  getStorageTransferWithStorage(id: number, poCode: number) {
+    let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
+    return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageTransferPo/'+poCode)]);
   }
 
 }

@@ -120,7 +120,7 @@ export class ExportImportComponent implements OnInit {
             delete this.beginData['usedItemGroups'];
             if(arrMaterial.length) {
                 this.dataSource['materialUsed'] = arrMaterial;
-            } 
+            }
             
             var processNormal = [];
             var processTable = [];

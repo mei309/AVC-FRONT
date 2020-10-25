@@ -19,6 +19,10 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getAllProcesses/'+po);
   }
 
+  getPoFinalReport (po: number) {
+    return this.http.get(this.reportsurl+'getPoFinalReport/'+po);
+  }
+
   getAllPoCodes (): Observable<any> {
     return this.http.get(this.reportsurl+'getAllPoCodes');
   }

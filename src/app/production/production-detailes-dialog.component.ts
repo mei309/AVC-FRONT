@@ -7,14 +7,13 @@ import { ProductionService } from './production.service';
 @Component({
     selector: 'app-production-details-dialog',
     template: `
-    <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
+    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-production" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title id="print">
-        {{type}} details
-    </h1>
-    <mat-dialog-content>
-        <show-details [dataSource]="productionCheck" id="print-child">
+    <h1 mat-dialog-title>{{type}} details</h1>
+    <mat-dialog-content id="print-section-production">
+        <h1 class="only-print">{{type}} details</h1>
+        <show-details [dataSource]="productionCheck">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -58,12 +57,4 @@ export class ProductionDetailsDialogComponent {
         
         this.dialogRef.close(opartion);
     }
-
-    public printWindow(): void { 
-        document.getElementById("section-to-print").setAttribute("id", "newDivId");
-        window.print();
-        document.getElementById("newDivId").setAttribute("id", "section-to-print");
-    }
-
-    
 }

@@ -10,8 +10,7 @@ import { FieldConfig } from '../../field.interface';
 @Component({
   selector: 'app-select-line',
   template: `
-<div>
-    <mat-form-field [formGroup]="group">
+    <mat-form-field [formGroup]="group" class="one-field margin-top">
         <mat-label>{{field.label}}</mat-label>
         <mat-select [formControlName]="field.name">
             <mat-option *ngFor="let option of options" [value]="option">
@@ -26,7 +25,6 @@ import { FieldConfig } from '../../field.interface';
             </mat-option>
         </mat-select>
     </mat-form-field>
-</div>
 `,
 })
 export class SelectLineComponent implements OnInit {

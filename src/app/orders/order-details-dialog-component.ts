@@ -6,14 +6,13 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-order-details-dialog',
     template: `
-    <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
+    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-orders" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title id="print">
-        {{type}} details
-    </h1>
-    <mat-dialog-content>
-        <show-details [dataSource]="order" id="print-child">
+    <h1 mat-dialog-title>{{type}} details</h1>
+    <mat-dialog-content id="print-section-orders">
+        <h1 class="only-print">{{type}} details</h1>
+        <show-details [dataSource]="order">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">       
@@ -86,12 +85,6 @@ export class OrderDetailsDialogComponent {
 
     onClickElement(opartion: string): void {
         this.dialogRef.close(opartion);
-    }
-
-    public printWindow(): void { 
-        document.getElementById("section-to-print").setAttribute("id", "newDivId");
-        window.print();
-        document.getElementById("newDivId").setAttribute("id", "section-to-print");
     }
 }
 

@@ -32,10 +32,6 @@ export class MainComponent {
     this.visibility = this.loadingService.visibility;
   }
 
-  onPrint() {
-    window.print();
-  }
-
   onInitilRefresh() {
     this.genral.backToInitil();
   }

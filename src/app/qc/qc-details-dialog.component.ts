@@ -6,16 +6,15 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-qc-details-dialog',
     template: `
-    <button [useExistingCss]="true" printSectionId="print-section" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-qc" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <div id="print-section">
-        <h1 mat-dialog-title id="print">{{type}} details</h1>
-        <mat-dialog-content>
-            <show-details [dataSource]="qcCheck" id="print-child">
-            </show-details>
-        </mat-dialog-content>
-        </div>
+    <h1 mat-dialog-title>{{type}} details</h1>
+    <mat-dialog-content id="print-section-qc">
+        <h1 class="only-print">{{type}} details</h1>
+        <show-details [dataSource]="qcCheck">
+        </show-details>
+    </mat-dialog-content>
     <mat-dialog-actions align="end">
         <ng-container *ngFor="let butt of buttons;">
             <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>

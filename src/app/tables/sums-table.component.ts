@@ -9,7 +9,7 @@ import { groupBy, mapValues } from 'lodash-es';
       <th mat-header-cell *matHeaderCellDef>
       </th>
       <td mat-cell *matCellDef="let element">
-        {{element.key === 'null'? 'none' : element.key}}
+        {{element.key === 'null'? '' : element.key}}
       </td>
     </ng-container>
     <ng-container matColumnDef="{{column}}" *ngFor="let column of sumClumensshow">

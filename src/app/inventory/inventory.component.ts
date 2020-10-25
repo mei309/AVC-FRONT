@@ -118,7 +118,7 @@ export class InventoryComponent implements OnInit {
                     this.router.navigate(['../TransferCount',{id: event['id']}], { relativeTo: this._Activatedroute });
                     break;
                 case 1:
-                    this.router.navigate(['../RelocationCount',{id: event['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../RelocationCount',{id: event['id'], poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;

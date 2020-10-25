@@ -398,6 +398,10 @@ export class ReceiveCashewComponent implements OnInit {
                         ]
                     },
                     {
+                        type: 'divider',
+                        inputType: 'divide'
+                    },
+                    {
                         type: 'bigexpand',
                         label: 'Amounts',
                         name: 'storageForms',

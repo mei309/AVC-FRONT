@@ -6,14 +6,13 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-supplier-details-dialog',
     template: `
-    <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
+    <button printTitle="Supplier Details" [useExistingCss]="true" printSectionId="print-section-supplier" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title id="print">
-        Supplier Details
-    </h1>
-    <mat-dialog-content>
-        <show-details [oneColumns]="regShow" [dataSource]="supllier" id="print-child">
+    <h1 mat-dialog-title>Supplier Details</h1>
+    <mat-dialog-content id="print-section-supplier">
+        <h1 class="only-print">Supplier Details</h1>
+        <show-details [oneColumns]="regShow" [dataSource]="supllier">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">       
@@ -250,20 +249,5 @@ export class SupplierDetailsDialogComponent {
     editClick(): void {
       this.dialogRef.close('edit');
     }
-
-    
-    public printWindow(): void {
-        // let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
-        // virtualWindow.document.write('<html><head><title>Print</title>');
-        // virtualWindow.document.write('</head><body>' + document.getElementById('mmss').innerHTML + '</body></html>');
-        // virtualWindow.document.close();
-        // virtualWindow.focus();
-        // setTimeout(t => { virtualWindow.print();
-        // virtualWindow.close(); }, 1000);
-        document.getElementById("section-to-print").setAttribute("id", "newDivId");
-        window.print();
-        document.getElementById("newDivId").setAttribute("id", "section-to-print");
-    }
-        
     
 }

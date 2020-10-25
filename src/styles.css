@@ -219,21 +219,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mat-form-field-label {
     color: green !important;
   } 
-  
+  .only-print {
+    display: none;
+  }
+
   @media print {
     @page {
       size: A4;
     }
-    body * {
-      visibility: hidden;
+    .only-print {
+      display: block;
     }
+    /* body * {
+      visibility: hidden;
+    } */
     /* mat-form-field {
       display: none !important;
     } */
     .no-print, .raised-margin {
       display: none !important;
     }
-    #section-to-print, #section-to-print * {
+    /* #section-to-print, #section-to-print * {
       overflow: visible;
       visibility: visible;
     }
@@ -260,5 +266,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       position: absolute;
       left: 0;
       top: 75px;
-    }
+    } */
   }

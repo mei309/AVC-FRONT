@@ -8,18 +8,16 @@ import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { InventoryService } from './inventory.service';
-import {cloneDeep} from 'lodash-es';
-import {isEqual} from 'lodash-es';
 @Component({
     selector: 'relocation-count',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Transfer with weighing</h1></legend>
+        <legend><h1>Transfer with weighing(relocation)</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer with weighing'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer with weighing(relocation)'" (submit)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -38,25 +36,23 @@ export class RelocationCountComponent implements OnInit {
   
     submit(value: any) {
         var arr = [];
-        if(value['usedItems']) {
-            value['usedItems'] = value['usedItems'].filter(amou => amou.numberUsedUnits);
-            value['usedItems'].forEach(ele => {
-                ele['unitAmount'] = ele['storage']['unitAmount'];
-                ele['numberUnits'] = ele['numberUsedUnits'];
-                // if(!ele['storageId']) {
-                //     ele['storageId'] = ele['id'];
-                //     delete ele['id'];
-                //     ele['storageVersion'] = ele['version'];
-                //     delete ele['version'];
-                // }
+        if(value['usedItemsNormal']) {
+            value['usedItemsNormal'].forEach(element => {
+                element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
+                element['groupName'] = 'normal';
+                element['storageMoves'].forEach(ele => {
+                    ele['unitAmount'] = ele['storage']['unitAmount'];
+                    ele['numberUnits'] = ele['numberUsedUnits'];
+                });
             });
-            arr = arr.concat(value['usedItems']);
-            delete value['usedItems'];
+            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.storageMoves.length);
+            arr = arr.concat(value['usedItemsNormal']);
+            delete value['usedItemsNormal'];
         }
-        if(value['usedItem']) {
-            value['usedItem'].forEach(element => {
-                element['amounts'] = element['amounts'].filter(amou => amou.take);
-                element['amounts'].forEach(ele => {
+        if(value['usedItemsTable']) {
+            value['usedItemsTable'].forEach(element => {
+                element['storageMove']['amounts'] = element['storageMove']['amounts'].filter(amou => amou.take);
+                element['storageMove']['amounts'].forEach(ele => {
                     if(!ele['storageId']) {
                         ele['storageId'] = ele['id'];
                         delete ele['id'];
@@ -64,11 +60,12 @@ export class RelocationCountComponent implements OnInit {
                         delete ele['version'];
                     }
                 });
+                element['groupName'] = 'table';
             });
-            arr = arr.concat(value['usedItem']);
-            delete value['usedItem'];
+            arr = arr.concat(value['usedItemsTable']);
+            delete value['usedItemsTable'];
         }
-        value['storageMoves'] = arr;
+        value['storageMovesGroups'] = arr;
         
         console.log(value);
         
@@ -99,109 +96,119 @@ export class RelocationCountComponent implements OnInit {
         private localService: InventoryService, private genral: Genral, private location: Location, public dialog: MatDialog,
         private _Activatedroute:ActivatedRoute, private router: Router,) {
        }
-
+    
        fillEdit(val) {
-           console.log(val);
-
            var arrTable = [];
            var arrNormal = [];
-           val['storageMoves'].forEach(element => {
-                if(element['storage']) {
-                    element['storage']['item'] = element['item'];
-                    arrTable.push(element['storage']);
-                    this.dataSource['itemCounts'].push({item: element['item']});
-                } else if(element['storageForms']) {
-                    element['storageForms'].forEach(ele => {
-                        arrNormal.push(ele);
-                        delete ele['numberUsedUnits'];
+           val[0]['storageMovesGroups'].forEach(element => {
+                if(element['storageMove']) {
+                    element['storageMove']['amounts'].forEach(ele => {
+                        ele['take'] = true;
                     });
-                    this.dataSource['itemCounts'].push({item: element['item']});
+                    arrTable.push(element);
+                } else if(element['storageMoves']) {
+                    arrNormal.push(element);
                 }
            });
-           delete val['storageMoves'];
-           this.dataSource = val;
+           delete val[0]['storageMovesGroups'];
+           this.dataSource = val[0];
+           this.dataSource['usedItemsTable'] = [];
+           this.dataSource['usedItemsNormal'] = [];
+           this.setAfterChoose(val[1]);
            if(arrTable.length) {
-               this.dataSource['usedItem'] = arrTable;
-           } else {
-               this.regConfigHopper.splice(4, 1);
+               this.dataSource['usedItemsTable'] = this.dataSource['usedItemsTable'].concat(arrTable);
            }
            if(arrNormal.length) {
-               this.dataSource['usedItems'] = arrNormal;
-           } else {
-               this.regConfigHopper.splice(3, 1);
+                this.dataSource['usedItemsNormal'] = this.dataSource['usedItemsNormal'].concat(arrNormal);
            }
+           this.cleanUnwanted();
            this.isNew = false;
            this.isFormAvailable = true;
        }
 
+
+    setBeginChoose(){
+        this.form = this.fb.group({});
+        this.form.addControl('poCode', this.fb.control(''));
+        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+                this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                    this.dataSource = {poCode: selectedValue, usedItemsTable: [], usedItemsNormal: [], itemCounts: []};
+                    this.setAfterChoose(val);
+                    this.cleanUnwanted();
+                }); 
+                this.isDataAvailable = false;
+                this.poID = selectedValue['id'];
+            }
+        });
+        this.isDataAvailable = true;
+        this.poConfig = [
+            {
+                type: 'selectgroup',
+                inputType: 'supplierName',
+                options: this.localService.getPoCashewCodesInventory(),
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Supplier',
+                    },
+                    {
+                        type: 'select',
+                        label: '#PO',
+                        name: 'poCode',
+                        collections: 'somewhere',
+                    },
+                ]
+            },
+        ];
+    }
+    setAfterChoose(val) {
+        var arrNormal = [];
+        var arrTable = [];
+        var arrUsedItems = [];
+        val.forEach(element => {
+            if(element['item']['category'] === 'WASTE'){
+
+            } else if(element['storage']) {
+                element['storage']['item'] = element['item'];
+                element['storage']['itemProcessDate'] = element['itemProcessDate'];
+                arrTable.push({storageMove: element['storage']});
+                this.dataSource['itemCounts'].push({item: element['item']});
+            } else if(element['storageForms']) {
+                element['storageForms'].forEach(ele => { 
+                    arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
+                    delete ele['numberUsedUnits'];
+                });
+                this.dataSource['itemCounts'].push({item: element['item']});
+            }
+        });
+        if(arrUsedItems.length) {
+            arrNormal.push({storageMoves: arrUsedItems});
+        }
+        if(arrTable.length) {
+            this.dataSource['usedItemsTable'] = arrTable;
+        }
+        if(arrNormal.length) {
+            this.dataSource['usedItemsNormal'] = arrNormal;
+        }
+        this.isFormAvailable = true;
+    }
+    cleanUnwanted() {
+        if(!this.dataSource['usedItemsTable'].length) {
+            this.regConfigHopper.splice(4, 1);
+        }
+        if(!this.dataSource['usedItemsNormal'].length) {
+            this.regConfigHopper.splice(3, 1);
+        }
+    }
    ngOnInit() {
        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
            if(params.get('id')) {
-               var id = +params.get('id');
-               this.localService.getStorageTransfer(id).pipe(take(1)).subscribe( val => {
+               this.localService.getStorageTransferWithStorage(+params.get('id'), +params.get('poCode')).pipe(take(1)).subscribe( val => {
                    this.fillEdit(val);
                });
            } else {
-               this.form = this.fb.group({});
-               this.form.addControl('poCode', this.fb.control(''));
-               this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-                   if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
-                       this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                           var arrNormal = [];
-                           var arrTable = [];
-                           this.dataSource = {poCode: selectedValue};
-                           this.dataSource['itemCounts'] = [];
-                           val.forEach(element => {
-                                if(element['groupName'] === 'waste'){
-
-                                } else if(element['storage']) {
-                                   element['storage']['item'] = element['item'];
-                                   arrTable.push(element['storage']);
-                                   this.dataSource['itemCounts'].push({itemProcessDate: element['processDate'], item: element['item']});
-                               } else if(element['storageForms']) {
-                                    element['storageForms'].forEach(ele => {
-                                        arrNormal.push({item: element['item'], storage: ele});
-                                        delete ele['numberUsedUnits'];
-                                    });
-                                   this.dataSource['itemCounts'].push({item: element['item']});
-                               }
-                           });
-                           if(arrTable.length) {
-                               this.dataSource['usedItem'] = arrTable;
-                           } else {
-                               this.regConfigHopper.splice(4, 1);
-                           }
-                           if(arrNormal.length) {
-                               this.dataSource['usedItems'] = arrNormal;
-                           } else {
-                               this.regConfigHopper.splice(3, 1);
-                           }
-                           this.isFormAvailable = true;
-                       }); 
-                       this.isDataAvailable = false;
-                       this.poID = selectedValue['id'];
-                   }
-               });
-               this.isDataAvailable = true;
-               this.poConfig = [
-                   {
-                       type: 'selectgroup',
-                       inputType: 'supplierName',
-                       options: this.localService.getPoCashewCodesInventory(),
-                       collections: [
-                           {
-                               type: 'select',
-                               label: 'Supplier',
-                           },
-                           {
-                               type: 'select',
-                               label: '#PO',
-                               name: 'poCode',
-                               collections: 'somewhere',
-                           },
-                       ]
-                   },
-               ];
+                this.setBeginChoose();
            }
        });
        
@@ -251,34 +258,34 @@ export class RelocationCountComponent implements OnInit {
                name: 'productionLine',
                options: this.genral.getProductionLine(),
            },
-        //    {
-        //        type: 'bigexpand',
-        //        name: 'usedItemsNormal',
-        //        label: 'Transfer from',
-        //        options: 'aloneNoAdd',
-        //        collections: [
-                   {
-                       type: 'tableWithInput',
-                       label: 'Transfer from',
-                       name: 'usedItems',
-                       options: 'numberUsedUnits',
-                       collections: [
-                           {
-                               type: 'select',
-                               label: 'Item',
-                               name: 'item',
-                               disable: true,
-                           },
-                           {
+           {
+                type: 'bigexpand',
+                name: 'usedItemsNormal',
+                label: 'Transfering amounts',
+                options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'tableWithInput',
+                        // label: 'Transfer from',
+                        name: 'storageMoves',
+                        options: 'numberUsedUnits',
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Item',
+                                name: 'item',
+                                disable: true,
+                            },
+                            {
+                                type: 'date',
+                                label: 'Process date',
+                                name: 'itemProcessDate',
+                                disable: true,
+                            },
+                            {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
-                                    {
-                                        type: 'date',
-                                        label: 'Process date',
-                                        name: 'itemProcessDate',
-                                        disable: true,
-                                    },
                                     {
                                         type: 'inputselect',
                                         name: 'unitAmount',
@@ -317,114 +324,111 @@ export class RelocationCountComponent implements OnInit {
                                     },
                                 ]
                             },
-                       ]
-                   },
-        //        ],
-        //    },
-        //    {
-        //        type: 'bigexpand',
-        //        name: 'usedItemsTable',
-        //        label: 'Transfer from',
-        //        options: 'aloneNoAdd',
-        //        collections: [
-                   {
-                       type: 'bigexpand',
-                       name: 'usedItem',
-                       label: 'Transfer from',
-                       options: 'aloneNoAdd',
-                       collections: [
-                           {
-                               type: 'inputReadonlySelect',
-                               label: 'Item descrption',
-                               name: 'item',
-                               disable: true,
-                           },
-                           {
-                               type: 'inputReadonly',
-                               label: 'Weight unit',
-                               name: 'measureUnit',
-                               disable: true,
-                           },
-                           {
-                               type: 'inputReadonlySelect',
-                               label: 'Warehouse location',
-                               name: 'warehouseLocation',
-                               disable: true,
-                           },
-                           {
-                               type: 'inputReadonly',
-                               label: 'Empty container weight',
-                               name: 'containerWeight',
-                               disable: true,
-                           },
-                           {
-                               type: 'arrayordinal',
-                               label: 'Unit weight',
-                               name: 'amounts',
-                               inputType: 'choose',
-                               options: 3,
-                               collections: 30,
-                           },
-                       ]
-                   },
-        //        ]
-        //    },
-           // {
-           //     type: 'bigexpand',
-           //     name: 'processItemsTable',
-           //     label: 'Transfer to',
-           //     options: 'aloneNoAdd',
-           //     collections: [
-           //         
-                   {
-                       type: 'bigexpand',
-                       name: 'itemCounts',
-                       label: 'Count',
-                       options: 'aloneNoAdd',
-                       collections: [
-                           {
-                               type: 'select',
-                               label: 'Item descrption',
-                               name: 'item',
-                               disable: true,
-                           },
-                           {
-                               type: 'selectNormal',
-                               label: 'Weight unit',
-                               name: 'measureUnit',
-                               options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                           },
-                           {
-                               type: 'select',
-                               label: 'Warehouse location',
-                               name: 'warehouseLocation',
-                               options: this.genral.getStorage(),
-                           },
-                           {
-                               type: 'input',
-                               label: 'Empty container weight',
-                               name: 'containerWeight',
-                               inputType: 'numeric',
-                               options: 3,
-                           },
-                           {
-                               type: 'input',
-                               label: 'All bags weight',
-                               name: 'accessWeight',
-                               inputType: 'numeric',
-                               options: 3,
-                           },
-                           {
-                               type: 'arrayordinal',
-                               label: 'Unit weight',
-                               name: 'amounts',
-                               options: 3,
-                               collections: 30,
-                           },
-                       ],
-                   },
-           //     ],
-           // },
+                        ],
+                    },
+                ]
+            },
+            {
+                type: 'bigexpand',
+                name: 'usedItemsTable',
+                label: 'Transfering amounts',
+                options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'bignotexpand',
+                        name: 'storageMove',
+                        // label: 'Transfer from',
+                        options: 'aloneNoAdd',
+                        collections: [
+                            {
+                                type: 'inputReadonlySelect',
+                                label: 'Item descrption',
+                                name: 'item',
+                                disable: true,
+                            },
+                            {
+                                type: 'date',
+                                label: 'Process date',
+                                name: 'itemProcessDate',
+                                disable: true,
+                            },
+                            {
+                                type: 'inputReadonly',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                                disable: true,
+                            },
+                            {
+                                type: 'inputReadonlySelect',
+                                label: 'Warehouse location',
+                                name: 'warehouseLocation',
+                                disable: true,
+                            },
+                            {
+                                type: 'inputReadonly',
+                                label: 'Empty container weight',
+                                name: 'containerWeight',
+                                disable: true,
+                            },
+                            {
+                                type: 'arrayordinal',
+                                label: 'Unit weight',
+                                name: 'amounts',
+                                inputType: 'choose',
+                                options: 3,
+                                collections: 30,
+                            },
+                        ]
+                    },
+                ]
+            },
+            {
+                type: 'bigexpand',
+                name: 'itemCounts',
+                label: 'Count',
+                options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Item descrption',
+                        name: 'item',
+                        disable: true,
+                    },
+                    {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                    },
+                    {
+                        type: 'select',
+                        label: 'Warehouse location',
+                        name: 'warehouseLocation',
+                        options: this.genral.getStorage(),
+                    },
+                    {
+                        type: 'input',
+                        label: 'Empty container weight',
+                        name: 'containerWeight',
+                        inputType: 'numeric',
+                        options: 3,
+                    },
+                    {
+                        type: 'input',
+                        label: 'All bags weight',
+                        name: 'accessWeight',
+                        inputType: 'numeric',
+                        options: 3,
+                    },
+                    {
+                        type: 'arrayordinal',
+                        label: 'Unit weight',
+                        name: 'amounts',
+                        options: 3,
+                        collections: 30,
+                    },
+                ],
+            },
            {
                type: 'button',
                label: 'Submit',

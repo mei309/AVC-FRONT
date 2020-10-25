@@ -18,6 +18,7 @@ import { MyPieChartComponent } from './my-pie-chart.component';
     SheardModule,
     ReportsRoutingModule,
     ChartsModule,
+
   ]
 })
 export class ReportsModule { }

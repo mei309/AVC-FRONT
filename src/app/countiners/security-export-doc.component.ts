@@ -9,16 +9,13 @@ import { CountinersService } from './countiners.service';
 @Component({
   selector: 'security-export-doc',
   template:`
-  <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
+  <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-continers" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title id="print">
-        <span *ngIf="isSecurity">Security Doc</span>
-        <span *ngIf="!isSecurity">Export Doc</span>
-         details
-    </h1>
-    <mat-dialog-content>
-        <show-details [dataSource]="dataSource" [oneColumns]="isSecurity? regSecurity : regExport" id="print-child">
+    <h1 mat-dialog-title id="print">{{type}} details</h1>
+    <mat-dialog-content id="print-section-continers">
+        <h1 class="only-print">{{type}} details</h1>
+        <show-details [dataSource]="dataSource" [oneColumns]="isSecurity? regSecurity : regExport">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -29,7 +26,7 @@ import { CountinersService } from './countiners.service';
 export class SecurityExportDocComponent {
     id: number;
     dataSource;
-
+    type;
     isSecurity = false;
     readyForm = false;
     constructor(private localService: CountinersService, public dialogRef: MatDialogRef<SecurityExportDocComponent>,
@@ -44,23 +41,19 @@ export class SecurityExportDocComponent {
                 this.dataSource = val;
                 this.isSecurity = true;
             });
+            this.type = 'Security Doc';
         } else {
             this.localService.getLoadingExportDoc(this.id).pipe(take(1)).subscribe( val => {
                 this.dataSource = val;
                 console.log(val);
                 
             });
+            this.type = 'Export Doc';
         }
     }
 
     onNoClick(): void {
         this.dialogRef.close('closed');
-    }
-
-    public printWindow(): void { 
-        document.getElementById("section-to-print").setAttribute("id", "newDivId");
-        window.print();
-        document.getElementById("newDivId").setAttribute("id", "section-to-print");
     }
 
 

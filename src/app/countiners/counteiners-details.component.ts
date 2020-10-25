@@ -7,14 +7,13 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
 @Component({
     selector: 'counteiners-details-dialog',
     template: `
-    <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
+    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-continers" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title id="print">
-        {{type}} details
-    </h1>
-    <mat-dialog-content>
-        <show-details [dataSource]="loading" id="print-child">
+    <h1 mat-dialog-title>{{type}} details</h1>
+    <mat-dialog-content id="print-section-continers">
+        <h1 class="only-print">{{type}} details</h1>
+        <show-details [dataSource]="loading">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -60,37 +59,22 @@ export class CounteinersDetailsDialogComponent {
 
     onClickElement(opartion: string): void {
         if('Security Doc' === opartion) {
-            document.getElementById("print").setAttribute("id", "newChild");
-            document.getElementById("print-child").setAttribute("id", "newChildPrint");
             const dialogRef1 = this.dialog.open(SecurityExportDocComponent, {
                 width: '80%',
                 data: {id: this.id, isSecurity: true},
             });
             dialogRef1.afterClosed().subscribe(data => {
-                document.getElementById("newChild").setAttribute("id", "print");
-            document.getElementById("newChildPrint").setAttribute("id", "print-child");
+
             });
         } else if('Export Doc' === opartion) {
-            document.getElementById("print").setAttribute("id", "newChild");
-            document.getElementById("print-child").setAttribute("id", "newChildPrint");
             const dialogRef2 = this.dialog.open(SecurityExportDocComponent, {
                 width: '80%',
                 data: {id: this.id, isSecurity: false},
             });
             dialogRef2.afterClosed().subscribe(data => {
-                document.getElementById("newChild").setAttribute("id", "print");
-            document.getElementById("newChildPrint").setAttribute("id", "print-child");
             });
         } else {
             this.dialogRef.close(opartion);
         }
     }
-
-    public printWindow(): void { 
-        document.getElementById("section-to-print").setAttribute("id", "newDivId");
-        window.print();
-        document.getElementById("newDivId").setAttribute("id", "section-to-print");
-    }
-
-    
 }

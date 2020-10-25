@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { SuppliersService } from '../suppliers/suppliers.service';
 import {uniq} from 'lodash-es';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ManagerService } from '../manager/manager.service';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
