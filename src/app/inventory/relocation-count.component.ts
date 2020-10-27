@@ -82,9 +82,10 @@ export class RelocationCountComponent implements OnInit {
                     this.isDataAvailable = false;
                     this.isFormAvailable = false;
                     this.dataSource = null;
-                    this.fillEdit(val);
                     this.cdRef.detectChanges();
-                    this.isDataAvailable = true;
+                    this.localService.getStorageByPo(val['poCode']['id']).pipe(take(1)).subscribe( val1 => {
+                        this.fillEdit([val, val1]);
+                    }); 
                 } else {
                     this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
                 }
@@ -167,9 +168,7 @@ export class RelocationCountComponent implements OnInit {
         var arrTable = [];
         var arrUsedItems = [];
         val.forEach(element => {
-            if(element['item']['category'] === 'WASTE'){
-
-            } else if(element['storage']) {
+            if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 arrTable.push({storageMove: element['storage']});

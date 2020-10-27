@@ -89,7 +89,7 @@ import { MatAccordion } from '@angular/material/expansion';
             </mat-tab>
             <mat-tab label="Final report">
                 <ng-template matTabContent>
-                    {{finalReport['receipt'][0] | json}}
+                    {{finalReport | json}}
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
@@ -119,10 +119,10 @@ export class fullPoReportComponent {
                     this.poDetails = val;
                     this.isDataAvailable = true;
                 });
-                this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
-                    this.finalReport = val1;
-                    // this.isDataAvailable = true;
-                });
+                // this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
+                //     this.finalReport = val1;
+                //     // this.isDataAvailable = true;
+                // });
                 this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
                 });
@@ -136,10 +136,10 @@ export class fullPoReportComponent {
                         this.poDetails = val;
                         this.isDataAvailable = true;
                     });
-                    this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
-                        this.finalReport = val1;
-                        // this.isDataAvailable = true;
-                    });
+                    // this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
+                    //     this.finalReport = val1;
+                    //     // this.isDataAvailable = true;
+                    // });
                 }
                 
             }

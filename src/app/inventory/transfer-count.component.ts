@@ -188,9 +188,7 @@ export class TransferCountComponent implements OnInit {
                             this.dataSource = {poCode: selectedValue};
                             this.dataSource['itemCounts'] = [];
                             val.forEach(element => {
-                                if(element['item']['category'] === 'WASTE'){
-                
-                                } else if(element['storage']) {
+                                if(element['storage']) {
                                     element['storage']['item'] = element['item'];
                                     arrTable.push({itemProcessDate: element['processDate'], usedItem: element['storage']});
                                     this.dataSource['itemCounts'].push({item: element['item']});
