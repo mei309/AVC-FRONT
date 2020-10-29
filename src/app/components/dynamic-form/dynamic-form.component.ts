@@ -66,6 +66,9 @@ export class DynamicFormComponent implements OnInit {
   enable() {
     this.form.enable();
   }
+  markDirty() {
+    this.form.markAsDirty();
+  }
 
   onSubmit(event: Event) {
     event.preventDefault();
@@ -128,15 +131,15 @@ export class DynamicFormComponent implements OnInit {
              
             if(!Object.values((fa as FormGroup).controls).length) {
               fc.removeAt(fc.controls.indexOf(fa));
-            } else if(fa.pristine && !(fa as FormGroup).contains('id')) {
+            } else if(fa.pristine) {
+              //  && !(fa as FormGroup).contains('id')
               fc.removeAt(fc.controls.indexOf(fa));
             }
           });
           if(!fc.controls.length) {
             formValue.removeControl(this.getControlName(fc));
           }
-        } 
-        else if(fc.value == null) {
+        } else if(fc.value == null) {
           formValue.removeControl(this.getControlName(fc));
         }
       });
@@ -518,6 +521,7 @@ export class DynamicFormComponent implements OnInit {
               (group.get([field.name]) as FormArray).push(this.fb.group({id: groupJson[i].id, version: groupJson[i].version,
                 value: this.fb.control(groupJson[i].value, this.bindValidationsNoReqierd(field.validations || []) )}));
             }
+            (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
           } else {
             group.addControl(field.name, this.fb.array([this.fb.group({value: this.fb.control(field.value, this.bindValidations(field.validations || []) )})]));
           }
@@ -534,7 +538,7 @@ export class DynamicFormComponent implements OnInit {
               for(let i = 1; i < groupJson.length; i++) {  
                   (group.get([field.name]) as FormArray).push(this.fb.group({storageId: groupJson[i].storageId, storageVersion: groupJson[i].storageVersion, take: groupJson[i].take? true: false, id: groupJson[i].id, version: groupJson[i].version, ordinal: groupJson[i].ordinal, amount: this.fb.control(groupJson[i].amount, this.bindValidations(field.validations || []) )}));
               }
-              // (group.get([field.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
+              (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
             }
           } else {
             if(groupJson && groupJson.length !== 0) {
@@ -561,6 +565,7 @@ export class DynamicFormComponent implements OnInit {
                 (group.get([field.name]) as FormArray).push(this.fb.group({id: groupJson[groupLocation].id, version: groupJson[groupLocation].version, ordinal: groupJson[groupLocation].ordinal, amount: this.fb.control(groupJson[groupLocation].amount, this.bindValidations(field.validations || []) )}));
                 groupLocation++;
               }
+              (group.get([field.name]) as FormArray).controls.forEach(lm => {if((lm as FormGroup).contains('id')){lm.markAsDirty()}});
             } else {
               group.addControl(field.name, this.fb.array([this.fb.group({ordinal: [1], amount: this.fb.control(field.value, this.bindValidations(field.validations || []) )})]));
               const num = field.collections+1;
@@ -588,6 +593,7 @@ export class DynamicFormComponent implements OnInit {
             );
             ((group.get([field.name]) as FormArray).at(i) as FormGroup).addControl(field.options, control);
           }
+          (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
           break;
         } 
         case 'bigexpand': {
@@ -601,6 +607,7 @@ export class DynamicFormComponent implements OnInit {
               for(let i = 1; i < groupJson.length; i++) {
                 (group.get([field.name]) as FormArray).push(this.createItemWithData(field, groupJson[i]));
               }
+              (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
             } else {
               group.addControl(field.name, this.fb.array([this.createItemWithData(field, {})], atLeastOneRequired()));
             }
@@ -610,6 +617,7 @@ export class DynamicFormComponent implements OnInit {
               for(let i = 1; i < groupJson.length; i++) {
                 (group.get([field.name]) as FormArray).push(this.createItemWithData(field, groupJson[i]));
               }
+              (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
             } else {
               group.addControl(field.name, this.fb.array([this.createItemWithData(field, {})]));
             }
@@ -697,6 +705,7 @@ export class DynamicFormComponent implements OnInit {
               (group2.get([temp.name]) as FormArray).push(this.fb.group({id: groupJson[i].id, version: groupJson[i].version,
                 value: this.fb.control(groupJson[i].value, this.bindValidationsNoReqierd(temp.validations || []) )}));
             }
+            (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
           } else {
             group2.addControl(temp.name, this.fb.array([this.fb.group({value: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )})]));
           }
@@ -713,7 +722,7 @@ export class DynamicFormComponent implements OnInit {
               for(let i = 1; i < groupJson.length; i++) {  
                   (group2.get([temp.name]) as FormArray).push(this.fb.group({storageId: groupJson[i].storageId, storageVersion: groupJson[i].storageVersion, take: groupJson[i].take? true: false, id: groupJson[i].id, version: groupJson[i].version, ordinal: groupJson[i].ordinal, amount: this.fb.control(groupJson[i].amount, this.bindValidations(temp.validations || []) )}));
               }
-              // (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
+              (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
             }
           } else {
             if(groupJson && groupJson.length !== 0) {
@@ -740,6 +749,7 @@ export class DynamicFormComponent implements OnInit {
                 (group2.get([temp.name]) as FormArray).push(this.fb.group({id: groupJson[groupLocation].id, version: groupJson[groupLocation].version, ordinal: groupJson[groupLocation].ordinal, amount: this.fb.control(groupJson[groupLocation].amount, this.bindValidations(temp.validations || []) )}));
                 groupLocation++;
               }
+              (group2.get([temp.name]) as FormArray).controls.forEach(lm => {if((lm as FormGroup).contains('id')){lm.markAsDirty()}});
             } else {
               group2.addControl(temp.name, this.fb.array([this.fb.group({ordinal: [1], amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )})]));
               const num = temp.collections+1;
@@ -767,6 +777,7 @@ export class DynamicFormComponent implements OnInit {
               );
               ((group2.get([temp.name]) as FormArray).at(i) as FormGroup).addControl(temp.options, control);
             }
+            (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
           break;
         }
         case 'bigexpand': {
@@ -780,6 +791,7 @@ export class DynamicFormComponent implements OnInit {
               for(let i = 1; i < groupJson.length; i++) {
                 (group2.get([temp.name]) as FormArray).push(this.createItemWithData(temp, groupJson[i]));
               }
+              (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
             } else {
               group2.addControl(temp.name, this.fb.array([this.createItemWithData(temp, {})], atLeastOneRequired()));
             }
@@ -789,6 +801,7 @@ export class DynamicFormComponent implements OnInit {
               for(let i = 1; i < groupJson.length; i++) {
                 (group2.get([temp.name]) as FormArray).push(this.createItemWithData(temp, groupJson[i]));
               }
+              (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
             } else {
               group2.addControl(temp.name, this.fb.array([this.createItemWithData(temp, {})]));
             }

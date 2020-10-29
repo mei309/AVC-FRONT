@@ -224,6 +224,10 @@ export class ReceiveGenralComponent implements OnInit {
                         ]
                     },
                     {
+                        type: 'divider',
+                        inputType: 'newlinespace'
+                    },
+                    {
                         type: 'bigexpand',
                         label: 'Amounts',
                         name: 'storageForms',

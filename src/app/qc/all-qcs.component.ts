@@ -55,10 +55,11 @@ export class AllQcsComponent implements OnInit {
         group: 'poCode',
       },
       {
-        name: 'itemName',
+        type: 'nameId',
+        name: 'item',
         label: 'Product descrption',
-        search: 'selectAsyncObject',
-        options: this.genral.getAllItemsCashew(),
+        search: 'selectAsyncObject2',
+        options: this.genral.getItemsRawCashew(),
       },
       {
         type: 'percentNormal',
