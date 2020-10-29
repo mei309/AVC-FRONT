@@ -157,48 +157,48 @@ export class NormalGroupDetailsComponent {
     return this.spans[index] && this.spans[index][key];
   }
 
-  readySpanData() {
-    this.lastSpan = null;
-    this.spans = [];
-    this.localGroupOneColumns.forEach(element => {
-      if(element.group === element.name) {
-        this.spanRowData(d => d[element.name], element.name);
-        this.lastSpan = element.name;
-      }
-    });
-  }
+  // readySpanData() {
+  //   this.lastSpan = null;
+  //   this.spans = [];
+  //   this.localGroupOneColumns.forEach(element => {
+  //     if(element.group === element.name) {
+  //       this.spanRowData(d => d[element.name], element.name);
+  //       this.lastSpan = element.name;
+  //     }
+  //   });
+  // }
 
-  spanRowData(accessor, key) {
-    if(this.lastSpan) {
-      var start: number = 0;
-      var end: number = this.spans[0]? this.spans[0][this.lastSpan] : 0;
-      while (end < this.dataSource.filteredData.length) {
-        this.spanWorkData(accessor, key, start, end);
-        start = end;
-        end += this.spans[start][this.lastSpan];
-      }
-      this.spanWorkData(accessor, key, start, this.dataSource.filteredData.length);
-    } else {
-      this.spanWorkData(accessor, key, 0, this.dataSource.filteredData.length);
-    }
-  }
-  spanWorkData(accessor, key, start, end) {
-    for (let i = start; i < end;) {
-      let currentValue = accessor(this.dataSource.filteredData[i]);
-      let count = 1;
-      for (let j = i + 1; j < end; j++) {
-        if (!isEqual(currentValue, accessor(this.dataSource.filteredData[j]))) {
-          break;
-        }
-        count++;
-      }
-      if (!this.spans[i]) {
-        this.spans[i] = {};
-      }
-      this.spans[i][key] = count;
-      i += count;
-    }  
-  }
+  // spanRowData(accessor, key) {
+  //   if(this.lastSpan) {
+  //     var start: number = 0;
+  //     var end: number = this.spans[0]? this.spans[0][this.lastSpan] : 0;
+  //     while (end < this.dataSource.filteredData.length) {
+  //       this.spanWorkData(accessor, key, start, end);
+  //       start = end;
+  //       end += this.spans[start][this.lastSpan];
+  //     }
+  //     this.spanWorkData(accessor, key, start, this.dataSource.filteredData.length);
+  //   } else {
+  //     this.spanWorkData(accessor, key, 0, this.dataSource.filteredData.length);
+  //   }
+  // }
+  // spanWorkData(accessor, key, start, end) {
+  //   for (let i = start; i < end;) {
+  //     let currentValue = accessor(this.dataSource.filteredData[i]);
+  //     let count = 1;
+  //     for (let j = i + 1; j < end; j++) {
+  //       if (!isEqual(currentValue, accessor(this.dataSource.filteredData[j]))) {
+  //         break;
+  //       }
+  //       count++;
+  //     }
+  //     if (!this.spans[i]) {
+  //       this.spans[i] = {};
+  //     }
+  //     this.spans[i][key] = count;
+  //     i += count;
+  //   }  
+  // }
 
 
 //   operators = {

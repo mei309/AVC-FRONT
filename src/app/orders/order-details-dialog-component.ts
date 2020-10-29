@@ -38,8 +38,8 @@ export class OrderDetailsDialogComponent {
             this.order = data.order;
         }
 
-    ngOnInit() {
-        if(this.type.includes('order')){
+    ngOnInit() {  
+        if(this.type.includes('order')){    
             if(!this.fromNew) {
                 this.LocalService.getOrder(this.id).pipe(take(1)).subscribe( val => {
                     this.order = val;
@@ -76,6 +76,12 @@ export class OrderDetailsDialogComponent {
             }
             if(this.type.includes('Cashew')) {
                 this.buttons.push('Receive extra', 'Sample weights');
+            }
+        } else {
+            if(!this.fromNew) {
+                this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
+                    console.log(val);
+                });
             }
         }
     }

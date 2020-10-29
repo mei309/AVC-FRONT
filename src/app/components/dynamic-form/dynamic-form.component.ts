@@ -554,8 +554,8 @@ export class DynamicFormComponent implements OnInit {
                   (group.get([field.name]) as FormArray).push(this.fb.group({ordinal: i, amount: this.fb.control(field.value, this.bindValidations(field.validations || []) )}));
                 }
               }
-              while(groupLocation < groupJson.length-1) {
-                for(let i = (group.get([field.name]) as FormArray).length; i < groupJson[groupLocation].ordinal ; i++) {
+              while(groupLocation < groupJson.length) {
+                for(let i = (group.get([field.name]) as FormArray).length+1; i < groupJson[groupLocation].ordinal ; i++) {
                   (group.get([field.name]) as FormArray).push(this.fb.group({ordinal: i, amount: this.fb.control(field.value, this.bindValidations(field.validations || []) )}));
                 }
                 (group.get([field.name]) as FormArray).push(this.fb.group({id: groupJson[groupLocation].id, version: groupJson[groupLocation].version, ordinal: groupJson[groupLocation].ordinal, amount: this.fb.control(groupJson[groupLocation].amount, this.bindValidations(field.validations || []) )}));
@@ -733,8 +733,8 @@ export class DynamicFormComponent implements OnInit {
                   (group2.get([temp.name]) as FormArray).push(this.fb.group({ordinal: i, amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )}));
                 }
               }
-              while(groupLocation < groupJson.length-1) {
-                for(let i = (group2.get([temp.name]) as FormArray).length; i < groupJson[groupLocation].ordinal ; i++) {
+              while(groupLocation < groupJson.length) {
+                for(let i = (group2.get([temp.name]) as FormArray).length+1; i < groupJson[groupLocation].ordinal ; i++) {
                   (group2.get([temp.name]) as FormArray).push(this.fb.group({ordinal: i, amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )}));
                 }
                 (group2.get([temp.name]) as FormArray).push(this.fb.group({id: groupJson[groupLocation].id, version: groupJson[groupLocation].version, ordinal: groupJson[groupLocation].ordinal, amount: this.fb.control(groupJson[groupLocation].amount, this.bindValidations(temp.validations || []) )}));

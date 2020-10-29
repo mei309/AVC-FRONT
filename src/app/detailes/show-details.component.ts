@@ -66,7 +66,7 @@ import { take } from 'rxjs/operators';
     <ng-template #noSecond>
         <ng-container *ngFor="let column of oneColumns">
             <ng-container *ngIf="checkNotEmpty(dataSource[column.name])">
-              <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'arrayOrdinal'].includes(column.type); else notImport">
+              <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'arrayOrdinal', 'putArray'].includes(column.type); else notImport">
                   <ng-container [ngSwitch]="column.type">
                         <show-details-ordinal *ngSwitchCase="'arrayOrdinal'" [dataSource]="dataSource[column.name]" >
                         </show-details-ordinal>
@@ -86,6 +86,8 @@ import { take } from 'rxjs/operators';
                           <legend><h1>{{column.label}}</h1></legend>
                           <ng-container [ngSwitch]="column.type">
                             <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
+                            </show-details-table>
+                            <show-details-table *ngSwitchCase="'putArray'" [oneColumns]="column.collections" [dataSource]="[dataSource[column.name]]">
                             </show-details-table>
                             <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                             </show-details-group-table>
@@ -799,5 +801,6 @@ export class ShowDetailsComponent implements OnInit {
         },
       ]
     },
+
   ];
 }

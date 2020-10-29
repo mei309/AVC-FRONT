@@ -69,9 +69,9 @@ fxShow="true" fxHide.lt-md="true" -->
       </mat-menu>
       <mat-menu #generalreports="matMenu" >
         <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 0}]">Open</button>
-        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 1}]">Pending (Received)</button>
-        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 2}]">Received</button>
-        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 3}]">Rejected</button>
+        <!-- <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 1}]">Pending (Received)</button> -->
+        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 1}]">Received</button>
+        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 2}]">Rejected</button>
       </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuOrder" >Orders</button>
@@ -94,7 +94,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [matMenuTriggerFor]="inventorycashews">Cashew</button>
         <button mat-menu-item [matMenuTriggerFor]="inventorygeneral">General</button>
         <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 0}]">Transfer</button>
-        <!-- <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 1}]">Transfers With Samples</button> -->
+        <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 1}]">Relocation With Samples</button>
         <!-- <button mat-menu-item routerLink='invready/CashewCount'>Cashew count</button>
         <button mat-menu-item routerLink='invready/GenralCount'>General count</button>
         <button mat-menu-item routerLink='invready/MaterialExportPo'>Material export by #PO</button>

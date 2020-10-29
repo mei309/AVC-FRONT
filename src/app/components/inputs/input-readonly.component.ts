@@ -69,16 +69,17 @@ export class InputReadonlyComponent implements OnInit {
         case 'array':
             this.type = 'array';
             break;
-        case 'select' || 'selectNormal':
+        case 'select':
+        case 'inputReadonlySelect':
             if(this.field.inputType === 'multiple') {
                 this.type = 'array';
             } else {
-                const temp = this.group.get([this.field.name]).value;
-                this.controlText = temp['value'];
-                if(!this.controlText) {
-                    this.type = 'none';
-                } else {
+                if(this.group.get([this.field.name]).value) {
+                    const temp = this.group.get([this.field.name]).value;
+                    this.controlText = temp['value'];
                     this.type = 'object';
+                } else {
+                    this.type = 'none';
                 }
             }
             break;
@@ -107,15 +108,15 @@ export class InputReadonlyComponent implements OnInit {
                 this.type = 'selectgroup';
             }
             break;
-        case 'inputReadonlySelect':
-            const temp2 = this.group.get([this.field.name]).value;
-            this.controlText = temp2['value'];
-            if(!this.controlText) {
-                this.type = 'none';
-            } else {
-                this.type = 'object';
-            }
-            break
+        // case 'inputReadonlySelect':
+        //     const temp2 = this.group.get([this.field.name]).value;
+        //     this.controlText = temp2['value'];
+        //     if(!this.controlText) {
+        //         this.type = 'none';
+        //     } else {
+        //         this.type = 'object';
+        //     }
+        //     break
         default:
             break;
     }

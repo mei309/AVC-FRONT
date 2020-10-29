@@ -103,11 +103,11 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
-              options: this.genral.getItemsGeneral(),
-              group: 'itemName',
+              search: 'selectAsyncObject2',
+              options: this.genral.getItemsRawCashew(),
             },
             {
               type: 'weight',
@@ -168,11 +168,11 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
-              options: this.genral.getItemsGeneral(),
-              group: 'itemName',
+              search: 'selectAsyncObject2',
+              options: this.genral.getItemsRawCashew(),
             },
             {
               type: 'weight',
@@ -240,16 +240,16 @@ export class OrdersGenralComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalAmount',
-              label: 'Total amount',
+              label: 'Total receipt',
               search: 'object',
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
-              options: this.genral.getItemsGeneral(),
-              group: 'itemName',
+              search: 'selectAsyncObject2',
+              options: this.genral.getItemsRawCashew(),
             },
             {
               type: 'weight',
@@ -262,14 +262,20 @@ export class OrdersGenralComponent implements OnInit {
               },
             },
             {
-              type: 'weight',
+              type: 'weight2',
               name: 'receiptAmount',
-              label: 'Receipt amount',
+              label: 'Item amount',
               search: 'object',
               compare: {
                 name: 'orderBalance',
                 type: 'weight',
               },
+            },
+            {
+              type: 'weight',
+              name: 'extraAdded',
+              label: 'Extra requsted',
+              search: 'object',
             },
             {
               type: 'dateTime',
@@ -284,12 +290,12 @@ export class OrdersGenralComponent implements OnInit {
               search: 'selectAsyncObject',
               options: this.genral.getStorage(),
             },
-            {
-              name: 'receiptRows',
-              type: 'kidArray',
-              collections: [
-              ]
-            }
+            // {
+            //   name: 'receiptRows',
+            //   type: 'kidArray',
+            //   collections: [
+            //   ]
+            // }
           ];
           this.cdRef.detectChanges();
           break;
@@ -328,11 +334,11 @@ export class OrdersGenralComponent implements OnInit {
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
-              options: this.genral.getItemsGeneral(),
-              group: 'itemName',
+              search: 'selectAsyncObject2',
+              options: this.genral.getItemsRawCashew(),
             },
             {
               type: 'weight',

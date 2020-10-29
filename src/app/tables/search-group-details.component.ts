@@ -253,7 +253,7 @@ export class SearchGroupDetailsComponent {
     this.lastSpan = null;
     this.spans = [];
     if(this.groupId) {
-      this.spanRow(d => d['id'], 'id');
+      this.spanRowData(d => d['id'], 'id');
       this.lastSpan = 'id';
     }
     this.localGroupOneColumns.forEach(element => {

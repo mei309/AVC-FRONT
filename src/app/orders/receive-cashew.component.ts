@@ -399,7 +399,7 @@ export class ReceiveCashewComponent implements OnInit {
                     },
                     {
                         type: 'divider',
-                        inputType: 'divide'
+                        inputType: 'space'
                     },
                     {
                         type: 'bigexpand',

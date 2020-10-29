@@ -72,6 +72,15 @@ export class TableCellPipe implements PipeTransform {
                     str += [elem.item.value] +':'+ elem.amountWithUnit[0]['value'] + ' (' + elem.amountWithUnit[1]['value'] + ') ' + [elem.warehouses];
                 });
                 return str;
+            case 'listDates':
+                var str = '';
+                element.forEach(elem => {
+                    if(str) {
+                        str += '\n';
+                    }
+                    str += new DatePipe(this.locale).transform(elem);
+                });
+                return str;
             default:
                 return element;
         }

@@ -75,7 +75,8 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
       //   group: 'value',
       // },
       {
-        name: 'itemName',
+        type: 'nameId',
+        name: 'item',
         label: 'Product descrption',
       },
       {

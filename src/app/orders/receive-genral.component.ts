@@ -16,7 +16,7 @@ import { ReplaySubject, Observable } from 'rxjs';
         </dynamic-form>
     </div>
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving cashew order'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving general order'" (submit)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -135,7 +135,7 @@ export class ReceiveGenralComponent implements OnInit {
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
-                disable: disable,
+                // disable: disable,
                 validations: [
                     {
                         name: 'required',
@@ -178,7 +178,50 @@ export class ReceiveGenralComponent implements OnInit {
                         type: 'select',
                         label: 'Item reciving',
                         name: 'item',
-                        options: this.genral.getItemsRawCashew(),
+                        options: this.genral.getItemsGeneral(),
+                    },
+                    
+                    {
+                        type: 'inputselect',
+                        name: 'receivedOrderUnits',
+                        options: 'orderItem',
+                        inputType: 'parentnumberUnits',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: ' Received weight',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Measure unit',
+                                name: 'measureUnit',
+                                options: ['LBS', 'KG'],
+                            },
+                        ]
+                    },
+                    {
+                        type: 'inputselect',
+                        name: 'unitPrice',
+                        options: 'orderItem',
+                        inputType: 'parentunitPrice',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: 'Price per unit',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 2,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Currency',
+                                name: 'currency',
+                                options: ['USD', 'VND'],
+                            },
+                        ]
                     },
                     {
                         type: 'bigexpand',
@@ -284,7 +327,14 @@ export class ReceiveGenralComponent implements OnInit {
     }
 
     submit(value: any) {
-            this.localService.addEditRecivingCashewOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
+            value['receiptItems'].forEach(element => {
+                if(!element['unitPrice']['amount']) {
+                    delete element['unitPrice'];
+                }
+            });
+            console.log(value);
+            
+            this.localService.addEditRecivingGenralOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
                     width: '80%',
                     data: {order: val, fromNew: true, type: 'general receive'}

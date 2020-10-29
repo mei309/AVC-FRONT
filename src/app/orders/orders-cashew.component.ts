@@ -89,11 +89,11 @@ export class OrdersCashewComponent implements OnInit {
               search: 'dates',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsRawCashew(),
-              group: 'itemName',
             },
             {
               type: 'weight2',
@@ -173,9 +173,10 @@ export class OrdersCashewComponent implements OnInit {
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsRawCashew(),
             },
             {
@@ -259,9 +260,10 @@ export class OrdersCashewComponent implements OnInit {
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsRawCashew(),
             },
             {
@@ -345,9 +347,10 @@ export class OrdersCashewComponent implements OnInit {
               group: 'poCode',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsRawCashew(),
             },
             {
@@ -426,11 +429,11 @@ export class OrdersCashewComponent implements OnInit {
               search: 'dates',
             },
             {
-              name: 'itemName',
+              type: 'nameId',
+              name: 'item',
               label: 'Product descrption',
-              search: 'selectAsyncObject',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsRawCashew(),
-              group: 'itemName',
             },
             {
               type: 'weight2',

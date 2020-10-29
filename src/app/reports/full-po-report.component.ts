@@ -89,7 +89,9 @@ import { MatAccordion } from '@angular/material/expansion';
             </mat-tab>
             <mat-tab label="Final report">
                 <ng-template matTabContent>
-                    {{finalReport | json}}
+                {{finalReport['relocationItems'] | json}}
+                    <show-details [dataSource]="finalReport" [oneColumns]="finalShow">
+                    </show-details>
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
@@ -119,10 +121,10 @@ export class fullPoReportComponent {
                     this.poDetails = val;
                     this.isDataAvailable = true;
                 });
-                // this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
-                //     this.finalReport = val1;
-                //     // this.isDataAvailable = true;
-                // });
+                this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
+                    this.finalReport = val1;
+                    // this.isDataAvailable = true;
+                });
                 this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
                 });
@@ -136,10 +138,10 @@ export class fullPoReportComponent {
                         this.poDetails = val;
                         this.isDataAvailable = true;
                     });
-                    // this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
-                    //     this.finalReport = val1;
-                    //     // this.isDataAvailable = true;
-                    // });
+                    this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
+                        this.finalReport = val1;
+                        // this.isDataAvailable = true;
+                    });
                 }
                 
             }
@@ -262,6 +264,153 @@ export class fullPoReportComponent {
             name: 'packingItemsObj',
         },
       ];
+
+
+      finalShow = [
+        {
+            type: 'putArray',
+            label: 'Receiving',
+            name: 'receiving',
+            collections: [
+                {
+                    type: 'amountWithUnit',
+                    name: 'amountItems',
+                    label: 'Amounts',
+                },
+                {
+                    type: 'listDates',
+                    name: 'listDates',
+                    label: 'Receiving dates',
+                },
+            ]
+        },
+        {
+            type: 'array',
+            label: 'QC raw',
+            name: 'qcRaw',
+            collections: [
+                {
+                    type: 'percent',
+                    label: 'Humidity',
+                    name: 'humidity',
+                },
+                {
+                    type: 'percent',
+                    label: 'Breakage',
+                    name: 'breakage',
+                    // collections: 'measureUnit',
+                },
+                {
+                    type: 'currency',
+                    label: 'Total damage',
+                    name: 'totalDamage',
+                    // collections: 'currency',
+                },
+                {
+                    type: 'normal',
+                    label: 'Total defects',
+                    name: 'totalDefects',
+                },
+            ]
+        },
+        {
+            type: 'putArray',
+            label: 'Relocation',
+            name: 'relocationItems',
+            collections: [
+                {
+                    type: 'amountWithUnit',
+                    name: 'usedItems',
+                    label: 'Amounts count',
+                },
+                {
+                    type: 'amountWithUnit',
+                    name: 'amountItems',
+                    label: 'Counted amounts',
+                },
+            ]
+        },
+        {
+            type: 'putArray',
+            label: 'Cleaning',
+            name: 'cleaning',
+            collections: [
+                {
+                    type: 'amountWithUnit',
+                    name: 'amountItems',
+                    label: 'Amounts',
+                },
+                {
+                    type: 'listDates',
+                    name: 'listDates',
+                    label: 'Cleaning dates',
+                },
+            ]
+        },
+        {
+            type: 'putArray',
+            label: 'Roasting',
+            name: 'roasting',
+            collections: [
+                {
+                    type: 'amountWithUnit',
+                    name: 'amountItems',
+                    label: 'Amounts',
+                },
+                {
+                    type: 'listDates',
+                    name: 'listDates',
+                    label: 'Roasting dates',
+                },
+            ]
+        },
+        {
+            type: 'array',
+            label: 'QC roasting',
+            name: 'qcRoast',
+            collections: [
+                {
+                    type: 'percent',
+                    label: 'Humidity',
+                    name: 'humidity',
+                },
+                {
+                    type: 'percent',
+                    label: 'Breakage',
+                    name: 'breakage',
+                    // collections: 'measureUnit',
+                },
+                {
+                    type: 'currency',
+                    label: 'Total damage',
+                    name: 'totalDamage',
+                    // collections: 'currency',
+                },
+                {
+                    type: 'normal',
+                    label: 'Total defects',
+                    name: 'totalDefects',
+                },
+            ]
+        },
+        {
+            type: 'putArray',
+            label: 'Packing',
+            name: 'packing',
+            collections: [
+                {
+                    type: 'amountWithUnit',
+                    name: 'amountItems',
+                    label: 'Amounts',
+                },
+                {
+                    type: 'listDates',
+                    name: 'listDates',
+                    label: 'Packing dates',
+                },
+            ]
+        },
+    ];
 
       ngOnDestroy() {
         if (this.navigationSubscription) {  

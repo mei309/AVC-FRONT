@@ -240,6 +240,11 @@ export class NewGenralOrderComponent implements OnInit {
    }
 
     submit(value: any) { 
+        value['orderItems'].forEach(element => {
+            if(!element['unitPrice']['amount']) {
+                delete element['unitPrice'];
+            }
+        });
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         this.localService.addEditGenralOrder(value, fromNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {

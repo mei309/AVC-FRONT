@@ -78,7 +78,8 @@ export class ReceivingCashewScheduleComponent implements OnInit {
       //   group: 'value',
       // },
       {
-        name: 'itemName',
+        type: 'nameId',
+        name: 'item',
         label: 'Product descrption',
       },
       {
