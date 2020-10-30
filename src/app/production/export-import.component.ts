@@ -103,6 +103,7 @@ export class ExportImportComponent implements OnInit {
         }
         var arrNormal = [];
         var arrTable = [];
+        var removeIds = [];
         if(this.beginData) {
             var arrMaterial = [];
             this.beginData['usedItemGroups'].forEach(element => {
@@ -113,10 +114,15 @@ export class ExportImportComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
                     arrNormal.push(element);
+                    element['usedItems'].forEach(el => {
+                        removeIds.push(el['storage']['id']);
+                    });
                 } else if(element['groupName'] === 'meterial') {
                     arrMaterial.push(element);
                 } 
             });
+
+
             delete this.beginData['usedItemGroups'];
             if(arrMaterial.length) {
                 this.dataSource['materialUsed'] = arrMaterial;
@@ -141,12 +147,13 @@ export class ExportImportComponent implements OnInit {
             }
             if(processNormal.length) {
                 this.dataSource['processItemsNormal'] = processNormal;
-            } else {
-                this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
-            }
-            if(!processTable.length) {
-                this.dataSource['processItemsTable'] = [{item: this.dataSource['processItemsNormal'][0]['item']}];
-            }
+            } 
+            // else {
+            //     this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
+            // }
+            // if(!processTable.length) {
+            //     this.dataSource['processItemsTable'] = [{item: this.dataSource['processItemsNormal'][0]['item']}];
+            // }
             if(wasteNormal.length) {
                 this.dataSource['wasteItems'] = wasteNormal;
             }
@@ -161,8 +168,10 @@ export class ExportImportComponent implements OnInit {
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
-                    arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
-                    delete ele['numberUsedUnits'];
+                    if(!removeIds.includes(ele['id'])) {
+                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
+                        delete ele['numberUsedUnits'];
+                    }
                 });
             }
         });

@@ -234,6 +234,11 @@ export class QcReceivePercentageComponent implements OnInit {
                         options: ['OZ', 'GRAM'],
                     },
                     {
+                        type: 'percentinput',
+                        label: 'Humidity',
+                        name: 'humidity',
+                    },
+                    {
                         type: 'input',
                         label: 'Whole count per Lb',
                         name: 'wholeCountPerLb',
@@ -253,11 +258,6 @@ export class QcReceivePercentageComponent implements OnInit {
                         type: 'percentinput',
                         label: 'LP',
                         name: 'lp',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Humidity',
-                        name: 'humidity',
                     },
                     {
                         type: 'percentinput',

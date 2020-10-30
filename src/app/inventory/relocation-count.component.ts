@@ -62,9 +62,11 @@ export class RelocationCountComponent implements OnInit {
                 });
                 element['groupName'] = 'table';
             });
+            value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
+        value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts);
         value['storageMovesGroups'] = arr;
         
         console.log(value);
@@ -87,7 +89,7 @@ export class RelocationCountComponent implements OnInit {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {
-                    this.router.navigate(['../InventoryReports'], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../InventoryReports', {number: 1}], { relativeTo: this._Activatedroute });
                 }
             });
         });
@@ -101,21 +103,28 @@ export class RelocationCountComponent implements OnInit {
        fillEdit(val) {
            var arrTable = [];
            var arrNormal = [];
+           var removeIdsNormal = [];
+           var removeIdsTable = [];
            val[0]['storageMovesGroups'].forEach(element => {
                 if(element['storageMove']) {
                     element['storageMove']['amounts'].forEach(ele => {
                         ele['take'] = true;
+                        removeIdsTable.push(ele['id']);
                     });
                     arrTable.push(element);
                 } else if(element['storageMoves']) {
                     arrNormal.push(element);
+                    element['storageMoves'].forEach(el => {
+                        removeIdsNormal.push(el['id']);
+                        removeIdsNormal.push(el['storage']['id']);
+                    });
                 }
            });
            delete val[0]['storageMovesGroups'];
            this.dataSource = val[0];
            this.dataSource['usedItemsTable'] = [];
            this.dataSource['usedItemsNormal'] = [];
-           this.setAfterChoose(val[1]);
+           this.setAfterChoose(val[1], removeIdsNormal, removeIdsTable);
            if(arrTable.length) {
                this.dataSource['usedItemsTable'] = this.dataSource['usedItemsTable'].concat(arrTable);
            }
@@ -163,20 +172,24 @@ export class RelocationCountComponent implements OnInit {
             },
         ];
     }
-    setAfterChoose(val) {
+    setAfterChoose(val, removeIdsNormal?, removeIdsTable?) {
         var arrNormal = [];
         var arrTable = [];
         var arrUsedItems = [];
         val.forEach(element => {
             if(element['storage']) {
-                element['storage']['item'] = element['item'];
-                element['storage']['itemProcessDate'] = element['itemProcessDate'];
-                arrTable.push({storageMove: element['storage']});
-                this.dataSource['itemCounts'].push({item: element['item']});
+                if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {
+                    element['storage']['item'] = element['item'];
+                    element['storage']['itemProcessDate'] = element['itemProcessDate'];
+                    arrTable.push({storageMove: element['storage']});
+                    this.dataSource['itemCounts'].push({item: element['item']});
+                }
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
-                    arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
-                    delete ele['numberUsedUnits'];
+                    if(!removeIdsNormal || !removeIdsNormal.includes(ele['id'])) {
+                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
+                        delete ele['numberUsedUnits'];
+                    }
                 });
                 this.dataSource['itemCounts'].push({item: element['item']});
             }
@@ -381,6 +394,7 @@ export class RelocationCountComponent implements OnInit {
                     },
                 ]
             },
+
             {
                 type: 'bigexpand',
                 name: 'itemCounts',

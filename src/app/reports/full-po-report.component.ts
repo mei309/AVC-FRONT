@@ -89,7 +89,6 @@ import { MatAccordion } from '@angular/material/expansion';
             </mat-tab>
             <mat-tab label="Final report">
                 <ng-template matTabContent>
-                {{finalReport['relocationItems'] | json}}
                     <show-details [dataSource]="finalReport" [oneColumns]="finalShow">
                     </show-details>
                 </ng-template>

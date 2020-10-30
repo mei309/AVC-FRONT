@@ -254,6 +254,11 @@ export class QcReceiveComponent implements OnInit {
                         options: ['OZ', 'GRAM'],
                     },
                     {
+                        type: 'percentinput',
+                        label: 'Humidity',
+                        name: 'humidity',
+                    },
+                    {
                         type: 'input',
                         label: 'Whole count per Lb',
                         name: 'wholeCountPerLb',
@@ -280,11 +285,6 @@ export class QcReceiveComponent implements OnInit {
                         inputType: 'measureUnit',
                         options: 3,
                         collections: 'sampleWeight',
-                    },
-                    {
-                        type: 'percentinput',
-                        label: 'Humidity',
-                        name: 'humidity',
                     },
                     {
                         type: 'inputtopercentage',

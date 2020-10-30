@@ -33,7 +33,7 @@ export class XlxsImportsComponent {
     choosedOne: string;
     data;
 
-    constructor(private suppliersService: SuppliersService, private managerService: ManagerService, private genral: Genral,
+    constructor(private genral: Genral,
         private ordersService: OrdersService, private qcService: QcService, private localservice: XlxsService) { }
     onFileChange(evt: any) {
         /* wire up file reader */
@@ -120,6 +120,7 @@ export class XlxsImportsComponent {
     putSupplyType() {
         var newArr = [];
         newArr.push({supplyGroup: 'CASHEW', value: 'CASHEW'});
+        newArr.push({supplyGroup: 'GENERAL', value: 'GENERAL'});
         this.localservice.addAllNewSetup('SupplyCategories', newArr).pipe(take(1)).subscribe(value4 => {
             console.log(value4);
         });

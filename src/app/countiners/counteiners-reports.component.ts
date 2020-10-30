@@ -52,6 +52,13 @@ export class CountinersReportsComponent implements OnInit {
             group: 'poCode',
         },
         {
+            type: 'dateTime',
+            name: 'recordedTime',
+            label: 'Recorded time',
+            search: 'dates',
+            group: 'poCode',
+        },
+        {
             type: 'nameId',
             name: 'item',
             label: 'Product descrption',
@@ -72,12 +79,6 @@ export class CountinersReportsComponent implements OnInit {
         //     type: 'amountWithUnit',
         //     // options: 'currency',
         // },
-        {
-            type: 'dateTime',
-            name: 'recordedTime',
-            label: 'Recorded time',
-            search: 'dates',
-        },
         {
           name: 'loadedTotals',
           type: 'kidArray',
