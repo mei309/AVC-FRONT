@@ -10,26 +10,36 @@ import { isEqual, map } from 'lodash-es';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
 import { diff } from '../libraries/diffArrayObjects.interface';
+import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 @Component({
     selector: 'countiners-loading',
     template: `
-    <div *ngIf="!loading && beginPage">
-      <dynamic-form [fields]="beginConfig" [putData]="firstData" [mainLabel]="'Container information'" (submit)="onLoad($event)">
-      </dynamic-form>
-    </div>
-    <div *ngIf="loading">
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onBackwards()"><mat-icon>arrow_back</mat-icon>Container information</button>
-        <ng-container dynamicField [field]="poConfig" [group]="form">
-        </ng-container>
-        <div *ngIf="isFormAvailable">
-            <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'" (submit)="submit($event)">
+    <h1 style="text-align:center">Loading</h1>
+    <mat-tab-group *ngIf="beginPage" mat-stretch-tabs>
+        <mat-tab label="Container information">
+            <dynamic-form #first [fields]="beginConfig" [putData]="putFirstData" [mainLabel]="'Container information'">
             </dynamic-form>
-        </div>
+        </mat-tab>
+        <mat-tab label="Material to load">
+            <ng-container dynamicField [field]="poConfig" [group]="form">
+            </ng-container>
+            <div *ngIf="isFormAvailable">
+                <dynamic-form #second [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'">
+                </dynamic-form>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    <div class="margin-top" style="text-align:right">
+        <button type="button" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" (click)="onSubmitBoth()">Submit</button>
+        <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onResetBoth()">Reset</button>
     </div>
     `
   })
 export class CountinersLoadingComponent {
     navigationSubscription;
+
+    @ViewChild('first', {static: false}) formFirst: DynamicFormComponent;
+    @ViewChild('second', {static: false}) formSecond: DynamicFormComponent;
 
     form: FormGroup;
     
@@ -39,92 +49,119 @@ export class CountinersLoadingComponent {
     beginConfig: FieldConfig[];
     
     dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
-    firstData;
-    loading: boolean = false;
     isNew: boolean = true;
     isFormAvailable: boolean = false;
     beginPage: boolean = true;
-    submit(value: any) {
-        var arr = [];
+    putFirstData;
 
-        if(value['usedItemsNormal']) {
-            value['usedItemsNormal'].forEach(element => {
-                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'normal';
-            });
-            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
-            arr = arr.concat(value['usedItemsNormal']);
-            delete value['usedItemsNormal'];
-        }
-        if(value['usedItemsTable']) {
-            value['usedItemsTable'].forEach(element => {
-                element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                element['usedItem']['amounts'].forEach(ele => {
-                    if(!ele['storageId']) {
-                        ele['storageId'] = ele['id'];
-                        delete ele['id'];
-                        ele['storageVersion'] = ele['version'];
-                        delete ele['version'];
-                    }
-                });
-                element['groupName'] = 'table';
-            });
-            arr = arr.concat(value['usedItemsTable']);
-            delete value['usedItemsTable'];
-        }
-        this.firstData['usedItemGroups'] = arr;
-        this.firstData['loadedItems'] = value['loadedItems'];
-
-        // var proccesItems = [];
-        // this.processData.forEach(element => {
-        //     if(element) {
-        //         element['storage']['amounts'].forEach(et => {
-        //             delete et['id'];
-        //             delete et['version'];
-        //         });
-        //         // element['storage']['warehouseLocation'] = element['warehouseLocation'];
-        //         delete element['storage']['item'];
-        //         var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: element['storage']}
-        //         proccesItems.push(cpoyProcess);
-        //     }
-        // });
-        // this.firstData['processItems'] = proccesItems;
-
-        
-        console.log(this.firstData);
-        
-        this.localService.addEditLoading(this.firstData, this.isNew).pipe(take(1)).subscribe( val => {
-            const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
-                width: '80%',
-                data: {loading: val, fromNew: true, type: 'Loading'}
-            });
-            dialogRef.afterClosed().subscribe(result => {
-                switch (result) {
-                    case 'Edit':
-                        this.beginPage = false;
-                        this.loading = false;
-                        this.choosedPos = [];
-                        this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
-                        this.firstData = null;
-                        this.cdRef.detectChanges();
-                        this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
-                            this.fillEdit(val1);
+    onSubmitBoth() {
+        if(this.formSecond) {
+            var firstData = this.formFirst.onSubmitOutside();
+            var secondData = this.formSecond.onSubmitOutside();
+            if(secondData && firstData) {
+                var arr = [];
+                if(secondData['usedItemsNormal']) {
+                    secondData['usedItemsNormal'].forEach(element => {
+                        element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
+                        element['groupName'] = 'normal';
+                    });
+                    secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.usedItems.length);
+                    arr = arr.concat(secondData['usedItemsNormal']);
+                    delete secondData['usedItemsNormal'];
+                }
+                if(secondData['usedItemsTable']) {
+                    secondData['usedItemsTable'].forEach(element => {
+                        element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
+                        element['usedItem']['amounts'].forEach(ele => {
+                            if(!ele['storageId']) {
+                                ele['storageId'] = ele['id'];
+                                delete ele['id'];
+                                ele['storageVersion'] = ele['version'];
+                                delete ele['version'];
+                            }
                         });
-                        break;
-                    case 'Security Doc':
-                        this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
-                        break;
-                    case 'Export Doc':
-                        this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
-                        break;
-                  
-                    default:
-                        this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
-                        break;
-                  }
-            });
-        });
+                        element['groupName'] = 'table';
+                    });
+                    secondData['usedItemsTable'] = secondData['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
+                    arr = arr.concat(secondData['usedItemsTable']);
+                    delete secondData['usedItemsTable'];
+                }
+                firstData['usedItemGroups'] = arr;
+                firstData['loadedItems'] = secondData['loadedItems'];
+
+                // var proccesItems = [];
+                // this.processData.forEach(element => {
+                //     if(element) {
+                //         element['storage']['amounts'].forEach(et => {
+                //             delete et['id'];
+                //             delete et['version'];
+                //         });
+                //         // element['storage']['warehouseLocation'] = element['warehouseLocation'];
+                //         delete element['storage']['item'];
+                //         var cpoyProcess = {item: element['item'], groupName: element['groupName'], storage: element['storage']}
+                //         proccesItems.push(cpoyProcess);
+                //     }
+                // });
+                // this.firstData['processItems'] = proccesItems;
+
+                
+                console.log(firstData);
+                
+                this.localService.addEditLoading(firstData, this.isNew).pipe(take(1)).subscribe( val => {
+                    const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
+                        width: '80%',
+                        data: {loading: val, fromNew: true, type: 'Loading'}
+                    });
+                    dialogRef.afterClosed().subscribe(result => {
+                        switch (result) {
+                            case 'Edit':
+                                this.beginPage = false;
+                                this.choosedPos = [];
+                                this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                                this.putFirstData = null;
+                                this.cdRef.detectChanges();
+                                this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
+                                    this.fillEdit(val1);
+                                });
+                                break;
+                            case 'Security Doc':
+                                this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
+                                break;
+                            case 'Export Doc':
+                                this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
+                                break;
+                        
+                            default:
+                                this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
+                                break;
+                        }
+                    });
+                });
+            }
+        }
       
+    }
+
+    onResetBoth() {
+        this.formFirst.onReset();
+        if(this.formSecond) {
+            this.formSecond.onReset();
+        }
+    }
+
+    setRawSecondValue() {
+        if(this.formSecond) {
+            this.dataSource = this.formSecond.value;
+            if(!this.dataSource['usedItemsTable']){
+                this.dataSource['usedItemsTable'] = [];
+            }
+            if(!this.dataSource['usedItemsNormal']){
+                this.dataSource['usedItemsNormal'] = [];
+            }
+            if(!this.dataSource['loadedItems']){
+                this.dataSource['loadedItems'] = [];
+            }
+        }
     }
       
 
@@ -132,9 +169,6 @@ export class CountinersLoadingComponent {
         private localService: CountinersService, private genral: Genral, private location: Location, public dialog: MatDialog) {
     }
 
-    onBackwards() {
-        this.loading = false;
-    }
 
     addToForm(val) { 
         var arrNormal = [];
@@ -149,7 +183,7 @@ export class CountinersLoadingComponent {
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
-                    arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele})
+                    arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele})
                     delete ele['numberUsedUnits'];
                 });
             }
@@ -200,72 +234,69 @@ export class CountinersLoadingComponent {
     }
 
 
-    onLoad(value) {
-        this.firstData = value;
-        this.loading = true;
-        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-                this.form = this.fb.group({});
-                this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
-                
-                this.form.get('poCodes').valueChanges.subscribe(selectedValue => {
-                    selectedValue = selectedValue.filter(ele => ele.poCode);
-                    selectedValue = map(selectedValue, 'poCode'); 
-                    if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {
-                        this.isFormAvailable = false;
-                        var result = diff(this.choosedPos, selectedValue, 'id', { updatedValues: 1});
-                        var numberOfObsrevers = result['added'].length + result['removed'].length;
-                        result['added'].forEach(el => {
-                            this.localService.getStorageRoastPackedPo(el.id).pipe(take(1)).subscribe( val => {
-                                this.addToForm(val);
-                                numberOfObsrevers--;
-                                if(!numberOfObsrevers) {
-                                    this.addWanted();
-                                    this.isFormAvailable = true;
-                                }
-                            });
-                        });
-                        result['removed'].forEach(el => {
-                            numberOfObsrevers--;
-                            if(!numberOfObsrevers) {
-                                this.addWanted();
-                                this.isFormAvailable = true;
-                            }
-                        });
-                        this.choosedPos = selectedValue;
-                    }
+    preperChoosingPO() {
+        this.form = this.fb.group({});
+        this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
+        
+        this.form.get('poCodes').valueChanges.subscribe(selectedValue => {
+            selectedValue = selectedValue.filter(ele => ele.poCode);
+            selectedValue = map(selectedValue, 'poCode'); 
+            if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {
+                this.setRawSecondValue();
+                this.isFormAvailable = false;
+                var result = diff(this.choosedPos, selectedValue, 'id', { updatedValues: 1});
+                var numberOfObsrevers = result['added'].length;// + result['removed'].length;
+                result['added'].forEach(el => {
+                    this.localService.getStorageRoastPackedPo(el.id).pipe(take(1)).subscribe( val => {
+                        this.addToForm(val);
+                        numberOfObsrevers--;
+                        if(!numberOfObsrevers) {
+                            this.addWanted();
+                            this.isFormAvailable = true;
+                        }
+                    });
                 });
-                
-                this.poConfig =
+                // result['removed'].forEach(el => {
+                //     numberOfObsrevers--;
+                //     if(!numberOfObsrevers) {
+                //         this.addWanted();
+                //         this.isFormAvailable = true;
+                //     }
+                // });
+                this.choosedPos = selectedValue;
+            }
+        });
+        
+        this.poConfig =
+            {
+                type: 'bigexpand',
+                name: 'poCodes',
+                label: 'Loading PO#s',
+                options: 'aloneInline',
+                collections: [
                     {
-                        type: 'bigexpand',
-                        name: 'poCodes',
-                        label: 'Loading PO#s',
-                        options: 'aloneInline',
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        options: this.localService.getAllPosRoastPacked(),
                         collections: [
                             {
-                                type: 'selectgroup',
-                                inputType: 'supplierName',
-                                options: this.localService.getAllPosRoastPacked(),
-                                collections: [
-                                    {
-                                        type: 'select',
-                                        label: 'Supplier',
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: '#PO',
-                                        name: 'poCode',
-                                        collections: 'somewhere',
-                                    },
-                                ]
+                                type: 'select',
+                                label: 'Supplier',
                             },
                             {
-                                type: 'divider',
-                                inputType: 'divide'
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
                             },
                         ]
-                    };
-        });
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'divide'
+                    },
+                ]
+            };
     }
 
 
@@ -283,7 +314,9 @@ export class CountinersLoadingComponent {
             }
         });
         delete val['usedItemGroups'];
-        this.firstData = val;
+        this.dataSource['loadedItems'] = val['loadedItems'];
+        delete val['loadedItems'];
+        this.putFirstData = val;
         // this.dataSource = val;
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = arrTable;
@@ -462,20 +495,15 @@ export class CountinersLoadingComponent {
                   },
               ],
             },
-            {
-              type: 'button',
-              label: 'Load',
-              name: 'submit',
-            }
         ];
+        this.preperChoosingPO();
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
                 this.beginPage = false;
-                this.loading = false;
                 this.choosedPos = [];
                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
-                this.firstData = null;
+                this.putFirstData = null;
                 this.cdRef.detectChanges();
                 this.beginPage = true;
             }
@@ -538,11 +566,6 @@ export class CountinersLoadingComponent {
                     },
                 ]
             },
-            {
-                type: 'button',
-                label: 'Submit',
-                name: 'submit',
-            }
         ];
         
         
@@ -562,6 +585,24 @@ export class CountinersLoadingComponent {
                         name: 'usedItems',
                         options: 'numberUsedUnits',
                         collections: [
+                            {
+                                type: 'selectgroup',
+                                inputType: 'supplierName',
+                                // options: this.localService.getAllPosRoastPacked(),
+                                disable: true,
+                                collections: [
+                                    {
+                                        type: 'select',
+                                        label: 'Supplier',
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: '#PO',
+                                        name: 'itemPo',
+                                        collections: 'somewhere',
+                                    },
+                                ]
+                            },
                             {
                                 type: 'select',
                                 label: 'Item',

@@ -13,9 +13,9 @@ import { allOrNoneRequired, FieldConfig, checkEmpty, atLeastOneRequired } from '
   <legend *ngIf="mainLabel"><h1>{{mainLabel}}</h1></legend>
   <ng-container *ngFor="let field of fields;" dynamicField [edit]="edit" [field]="field" [group]="form">
   </ng-container>
-  <div class="margin-top" style="text-align:right">
-  <button type="submit" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary">{{submitText}}</button>
-  <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onReset()">Reset</button>
+  <div *ngIf="submitText" class="margin-top" style="text-align:right">
+    <button type="submit" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary">{{submitText}}</button>
+    <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onReset()">Reset</button>
   </div>
   </fieldset>
   </form>
@@ -70,6 +70,23 @@ export class DynamicFormComponent implements OnInit {
     this.form.markAsDirty();
   }
 
+  onSubmitOutside() {
+    if (this.form.valid) {
+      const mmm = cloneDeep(this.form) as FormGroup;
+      mmm.enable();
+      this.emptyEmptyArray(mmm);
+      return mmm.getRawValue();
+    } else {
+      this._snackBar.open('please fill in all required fields', 'ok', {
+        duration: 5000,
+        // panelClass: 'blue-snackbar',
+        verticalPosition:'top'
+      });
+      // alert('please fill in all required fields'+this.form.errors);
+    }
+    this.form.markAllAsTouched();
+    return false;
+  }
   onSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -131,8 +148,7 @@ export class DynamicFormComponent implements OnInit {
              
             if(!Object.values((fa as FormGroup).controls).length) {
               fc.removeAt(fc.controls.indexOf(fa));
-            } else if(fa.pristine) {
-              //  && !(fa as FormGroup).contains('id')
+            } else if(fa.pristine && !(fa as FormGroup).contains('id')) {
               fc.removeAt(fc.controls.indexOf(fa));
             }
           });

@@ -66,6 +66,18 @@ export class TableWithInputComponent implements OnInit {
                 this.oneColumns.push(element);
                 this.displayedColumns.push(element.name);
                 break;
+            case 'selectgroup':
+                element.collections[0]['name'] = element.inputType;
+                this.dataSource.forEach(ele => {
+                    const newGroup = ele[element.collections[1].name];
+                    ele[element.collections[0].name] = newGroup[element.inputType];
+                    ele[element.collections[1].name] = newGroup.value;
+                });
+                this.oneColumns.push(element.collections[0]);
+                this.displayedColumns.push(element.collections[0].name);
+                this.oneColumns.push(element.collections[1]);
+                this.displayedColumns.push(element.collections[1].name);
+                break;
             case 'inputselect':
                 if(element.name) {
                     this.dataSource.forEach(ele => {

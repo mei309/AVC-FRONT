@@ -49,6 +49,8 @@ export class CounteinersDetailsDialogComponent {
                 console.log(val);
                 
             });
+        } else {
+            this.id = this.loading['id'];
         }
         
         this.buttons.push('Security Doc', 'Export Doc', 'Edit');

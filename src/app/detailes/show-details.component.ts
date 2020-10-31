@@ -766,6 +766,86 @@ export class ShowDetailsComponent implements OnInit {
 
     {
       type: 'arrayForEach',
+      label: 'Storage moved',
+      name: 'storageMovesGroups',
+    },
+    {
+      type: 'array',
+      // label: 'Used amounts',
+      name: 'storageMoves',
+      // side: 'left',
+      // processName: this.globelType+'_CLEANING',
+      collections: [
+          // {
+          //     type: 'name2',
+          //     label: '#PO',
+          //     name: 'itemPo',
+          //     collections: 'supplierName',
+          // },
+          {
+              type: 'nameId',
+              label: 'Item descrption',
+              name: 'item',
+          },
+          {
+              type: 'nameId',
+              label: 'Bag weight',
+              name: 'unitAmount',
+              // collections: 'measureUnit',
+          },
+          {
+              type: 'normal',
+              label: 'Number of bags',
+              name: 'numberUsedUnits',
+          },
+          {
+              type: 'nameId',
+              label: 'Warehouse location',
+              name: 'warehouseLocation',
+          },
+        ]
+    },
+    {
+      type: 'parent',
+      name: 'storageMove',
+      // side: 'left',
+      collections: [
+        // {
+        //     type: 'name2',
+        //     label: '#PO',
+        //     name: 'itemPo',
+        //     collections: 'supplierName',
+        // },
+        {
+            type: 'nameId',
+            label: 'Item descrption',
+            name: 'item',
+        },
+        {
+            type: 'normal',
+            label: 'Container weight',
+            name: 'containerWeight',
+        },
+        {
+            type: 'normal',
+            label: 'Measure unit',
+            name: 'measureUnit',
+        },
+        {
+            type: 'nameId',
+            label: 'Warehouse location',
+            name: 'warehouseLocation',
+        },
+        {
+          type: 'arrayOrdinal',
+          // label: 'Produced amounts',
+          name: 'amounts',
+        },
+      ]
+    },
+
+    {
+      type: 'arrayForEach',
       name: 'itemCounts',
       label: 'Item counts',
       collections: [
@@ -801,6 +881,7 @@ export class ShowDetailsComponent implements OnInit {
         },
       ]
     },
+
 
   ];
 }

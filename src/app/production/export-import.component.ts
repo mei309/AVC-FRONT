@@ -62,6 +62,7 @@ export class ExportImportComponent implements OnInit {
                 });
                 element['groupName'] = 'table';
             });
+            value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }

@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -448,8 +448,31 @@ export class RelocationCountComponent implements OnInit {
                name: 'submit',
            }
        ];
+
+       this.navigationSubscription = this.router.events.subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+            this.isDataAvailable = false;
+            this.isFormAvailable = false;
+            this.dataSource = null;
+            this.poID = null;
+            if(this.poConfig) {
+                this.form.get('poCode').setValue(null);
+            } else {
+                this.setBeginChoose();
+            }
+            this.cdRef.detectChanges();
+            this.isDataAvailable = true;
+        }
+    });
    }
 
+
+   ngOnDestroy() {
+        if (this.navigationSubscription) {  
+        this.navigationSubscription.unsubscribe();
+        }
+    }
   }
 
   

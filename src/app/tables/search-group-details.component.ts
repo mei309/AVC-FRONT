@@ -327,11 +327,11 @@ export class SearchGroupDetailsComponent {
           var numberOne = 0;
           var numberTow = 0;
           for (let ind = index; ind < index+this.spans[index][this.totelColumn.group]; ind++) {
-            numberOne += this.dataSource.data[ind][this.totelColumn.name][0]['amount'];
-            numberTow += this.dataSource.data[ind][this.totelColumn.name][1]['amount'];
+            numberOne += this.dataSource.filteredData[ind][this.totelColumn.name][0]['amount'];
+            numberTow += this.dataSource.filteredData[ind][this.totelColumn.name][1]['amount'];
           }
-          return [{amount: numberOne, measureUnit: this.dataSource.data[index][this.totelColumn.name][0]['measureUnit']},
-            {amount: numberTow, measureUnit: this.dataSource.data[index][this.totelColumn.name][1]['measureUnit']}]
+          return [{amount: numberOne, measureUnit: this.dataSource.filteredData[index][this.totelColumn.name][0]['measureUnit']},
+            {amount: numberTow, measureUnit: this.dataSource.filteredData[index][this.totelColumn.name][1]['measureUnit']}]
         default:
           break;
       }

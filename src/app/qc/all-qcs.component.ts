@@ -96,6 +96,8 @@ export class AllQcsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
         if(this.type === 'Raw') {
+          console.log(event);
+          
           if(event['precentage']) {
             this.router.navigate(['../RawPercntage',{id: event['id']}], { relativeTo: this._Activatedroute });
           } else {
