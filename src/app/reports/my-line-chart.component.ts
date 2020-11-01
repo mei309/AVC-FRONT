@@ -1,46 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
+import { Component, Input, OnInit } from '@angular/core';
+import { log } from 'console';
+// import { multi } from './data';
 
 @Component({
   selector: 'app-my-line-chart',
   template:`
-  <div style="display: block;">
-    <canvas baseChart width="400" height="400"
-      [datasets]="lineChartData"
-      [labels]="lineChartLabels"
-      [options]="lineChartOptions"
-      [colors]="lineChartColors"
-      [legend]="lineChartLegend"
-      [chartType]="lineChartType"
-      [plugins]="lineChartPlugins">
-    </canvas>
-  </div>
+  <ngx-charts-area-chart-stacked
+    [view]="view"
+    [scheme]="colorScheme"
+    [legend]="legend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [timeline]="timeline"
+    [results]="multi"
+    (select)="onSelect($event)">
+  </ngx-charts-area-chart-stacked>
   ` ,
 })
-export class MyLineChartComponent implements OnInit {
+export class MyLineChartComponent {
+  @Input() multi: any[];
+  view: any[] = [700, 300];
 
-  public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55], label: 'This #PO' },
-    { data: [28, 48, 40, 19, 86, 27], label: 'Avrage all' }
-  ];
-  public lineChartLabels: Label[] = ['order', 'reciving', 'fork(cleaning)', 'cleand', 'roasted', 'packed'];
-  public lineChartOptions: ChartOptions = {
-    responsive: true,
+  // options
+  legend: boolean = true;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Process';
+  yAxisLabel: string = 'Weight';
+  timeline: boolean = true;
+
+  colorScheme = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
-  public lineChartColors: Color[] = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'rgba(255,0,0,0.3)',
-    },
-  ];
-  public lineChartLegend = true;
-  public lineChartType: ChartType = 'line';
-  public lineChartPlugins = [];
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
+    // Object.assign(this, { multi });
   }
 
+  onSelect(event) {
+    console.log(event);
+  }
 }

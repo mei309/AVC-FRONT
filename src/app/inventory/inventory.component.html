@@ -8,7 +8,7 @@
     <mat-tab label="History">
         not implemnted yet
         <mat-form-field floatLabel="never" >
-            <input matInput placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
+            <input matInput readonly (focus)="picker2.open()" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
             <sat-datepicker #picker2 [rangeMode]="true"></sat-datepicker>
             <sat-datepicker-toggle  matSuffix [for]="picker2"></sat-datepicker-toggle>
         </mat-form-field>

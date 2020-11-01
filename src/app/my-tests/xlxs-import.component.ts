@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx/dist/xlsx.mini.min'
 import { SuppliersService } from '../suppliers/suppliers.service';
 import {uniq} from 'lodash-es';
 import { ManagerService } from '../manager/manager.service';

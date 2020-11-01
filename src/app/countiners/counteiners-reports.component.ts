@@ -22,6 +22,13 @@ export class CountinersReportsComponent implements OnInit {
   
   mainSourceColumns;
 
+  totelColumn: OneColumn = {
+    type: 'weight2',
+    name: 'totalRow',
+    label: 'Total loaded',
+    group: 'poCode',
+  };
+
   constructor(private router: Router, private dialog: MatDialog, private localService: CountinersService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
   }

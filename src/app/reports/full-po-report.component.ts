@@ -25,8 +25,6 @@ import { MatAccordion } from '@angular/material/expansion';
                 <ng-template matTabContent>
                     <div class="example-action-buttons">
                         <mat-checkbox (change)="setAll($event.checked)">Expand All</mat-checkbox>
-                        <button mat-button (click)="accordion.openAll()">Expand All</button>
-                        <button mat-button (click)="accordion.closeAll()">Collapse All</button>
                     </div>
                     <mat-accordion multi>
                         <mat-expansion-panel *ngIf="poDetails['orderItemsObj'].length">
@@ -83,7 +81,7 @@ import { MatAccordion } from '@angular/material/expansion';
             </mat-tab>
             <mat-tab label="Graphs">
                 <ng-template matTabContent>
-                    <app-dash-board>
+                    <app-dash-board [finalReport]="finalReport">
                     </app-dash-board>
                 </ng-template>
             </mat-tab>
@@ -139,7 +137,8 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        // this.isDataAvailable = true;
+                        console.log(val1);
+                        
                     });
                 }
                 
@@ -178,11 +177,30 @@ export class fullPoReportComponent {
     }
 
     setAll($event){
-        console.log($event);
-        window.alert($event);
+        if($event) {
+            this.accordion.openAll();
+        } else {
+            this.accordion.closeAll();
+        }
     }
 
-
+    // {
+    //     "name": "Germany",
+    //     "series": [
+    //       {
+    //         "name": "1990",
+    //         "value": 62000000
+    //       },
+    //       {
+    //         "name": "2010",
+    //         "value": 73000000
+    //       },
+    //       {
+    //         "name": "2011",
+    //         "value": 89400000
+    //       }
+    //     ]
+    //   },
     regShow = [
         {
             type: 'arrayForEach',
@@ -300,13 +318,13 @@ export class fullPoReportComponent {
                     // collections: 'measureUnit',
                 },
                 {
-                    type: 'currency',
+                    type: 'percent',
                     label: 'Total damage',
                     name: 'totalDamage',
                     // collections: 'currency',
                 },
                 {
-                    type: 'normal',
+                    type: 'percent',
                     label: 'Total defects',
                     name: 'totalDefects',
                 },
@@ -380,13 +398,13 @@ export class fullPoReportComponent {
                     // collections: 'measureUnit',
                 },
                 {
-                    type: 'currency',
+                    type: 'percent',
                     label: 'Total damage',
                     name: 'totalDamage',
                     // collections: 'currency',
                 },
                 {
-                    type: 'normal',
+                    type: 'percent',
                     label: 'Total defects',
                     name: 'totalDefects',
                 },

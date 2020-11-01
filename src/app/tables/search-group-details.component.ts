@@ -41,7 +41,7 @@ import {isEqual} from 'lodash-es';
                     
                     <input *ngSwitchCase="'array2'" matInput readonly>
 
-                    <input matInput *ngSwitchCase="'dates'" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value, column.name)">
+                    <input matInput *ngSwitchCase="'dates'" readonly (focus)="picker2.open()" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value, column.name)">
                     <sat-datepicker #picker2 [rangeMode]="true" ></sat-datepicker>
                     <sat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker2"></sat-datepicker-toggle>
 

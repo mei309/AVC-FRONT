@@ -13,7 +13,7 @@ import { SchedulesService } from './schedules.service';
   </h1>
   <div class="centerButtons">
     <mat-form-field>
-        <input matInput placeholder="Choose dates" [satDatepicker]="picker3" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
+        <input matInput readonly (focus)="picker3.open()" placeholder="Choose dates" [satDatepicker]="picker3" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
         <sat-datepicker #picker3 [rangeMode]="true"></sat-datepicker>
         <sat-datepicker-toggle  matSuffix [for]="picker3"></sat-datepicker-toggle>
     </mat-form-field>

@@ -1,41 +1,61 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { multi } from './data';
 
 @Component({
   selector: 'app-my-bar-chart',
   template:`
-  <div style="display: block;">
-    <canvas baseChart
-      [datasets]="barChartData"
-      [labels]="barChartLabels"
-      [options]="barChartOptions"
-      [plugins]="barChartPlugins"
-      [legend]="barChartLegend"
-      [chartType]="barChartType">
-    </canvas>
-  </div>
+  <ngx-charts-bar-vertical-2d
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="multi"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [legendTitle]="legendTitle"
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)">
+    </ngx-charts-bar-vertical-2d>
   ` ,
 })
-export class MyBarChartComponent implements OnInit {
-
-  public barChartOptions: ChartOptions = {
-    responsive: true,
-  };
-  public barChartLabels: Label[] = ['order', 'reciving', 'cleaning', 'roasting', 'packing', 'loading'];
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
-  public barChartPlugins = [];
-
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55], label: 'This #PO' },
-    { data: [28, 48, 40, 19, 86, 27], label: 'Avrage all' },
-    { data: [43, 48, 40, 45, 67, 37], label: 'Offical max' }
-  ];
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class MyBarChartComponent  {
+    multi: any[];
+    view: any[] = [700, 400];
+  
+    // options
+    showXAxis: boolean = true;
+    showYAxis: boolean = true;
+    gradient: boolean = true;
+    showLegend: boolean = true;
+    showXAxisLabel: boolean = true;
+    xAxisLabel: string = 'Country';
+    showYAxisLabel: boolean = true;
+    yAxisLabel: string = 'Population';
+    legendTitle: string = 'Years';
+  
+    colorScheme = {
+      domain: ['#5AA454', '#C7B42C', '#AAAAAA']
+    };
+  
+    constructor() {
+      Object.assign(this, { multi })
+    }
+  
+   onSelect(data): void {
+      console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    }
+  
+    onActivate(data): void {
+      console.log('Activate', JSON.parse(JSON.stringify(data)));
+    }
+  
+    onDeactivate(data): void {
+      console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+    }
 
 }
