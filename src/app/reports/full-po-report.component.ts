@@ -137,7 +137,7 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        console.log(val1);
+                        console.log(val1['loading']);
                         
                     });
                 }
@@ -244,16 +244,16 @@ export class fullPoReportComponent {
                 {name: 'decay', title: 'Decay', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'insectDamage', title: 'Insect damage', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'testa', title: 'Testa', pipes: 'percentCollections', pipes1: 'percent'},
-                {name: 'totalDamage', title: 'Totel damage', pipes: 'percentCollections', pipes1: 'percent', bold: 'true'},
+                {name: 'totalDamage', title: 'Total damage', pipes: 'percentCollections', pipes1: 'percent', bold: 'true'},
                 {name: 'scorched', title: 'Scorched', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'deepCut', title: 'Deep cut', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'offColour', title: 'Off colour', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'shrivel', title: 'Shrivel', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'desert', title: 'Desert/dark', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'deepSpot', title: 'Deep spot', pipes: 'percentCollections', pipes1: 'percent'},
-                {name: 'totalDefects', title: 'Totel defects', pipes: 'percentCollections', pipes1: 'percent', bold: 'true'},
-                {name: 'totalDefectsAndDamage', title: 'Totel defects + damage', pipes: 'percentCollections', pipes1: 'percent', bold: 'true'},
-                {name: 'rostingWeightLoss', title: 'Totel weight lost after roasting', pipes: 'percentCollections', pipes1: 'percent'},
+                {name: 'totalDefects', title: 'Total defects', pipes: 'percentCollections', pipes1: 'percent', bold: 'true'},
+                {name: 'totalDefectsAndDamage', title: 'Total defects + damage', pipes: 'percentCollections', pipes1: 'percent', bold: 'true'},
+                {name: 'rostingWeightLoss', title: 'Total weight lost after roasting', pipes: 'percentCollections', pipes1: 'percent'},
                 {name: 'colour', title: 'Rosted color', pipes: 'OK', pipes1: 'OK'},
                 {name: 'flavour', title: 'Flavour', pipes: 'OK', pipes1: 'OK'},
               ]
@@ -279,6 +279,11 @@ export class fullPoReportComponent {
             type: 'arrayForEach',
             label: 'Packing',
             name: 'packingItemsObj',
+        },
+        {
+            type: 'arrayForEach',
+            label: 'Loading',
+            name: 'loadingItemsObj',
         },
       ];
 
@@ -312,19 +317,19 @@ export class fullPoReportComponent {
                     name: 'humidity',
                 },
                 {
-                    type: 'percent',
+                    type: 'percentNormal',
                     label: 'Breakage',
                     name: 'breakage',
                     // collections: 'measureUnit',
                 },
                 {
-                    type: 'percent',
+                    type: 'percentNormal',
                     label: 'Total damage',
                     name: 'totalDamage',
                     // collections: 'currency',
                 },
                 {
-                    type: 'percent',
+                    type: 'percentNormal',
                     label: 'Total defects',
                     name: 'totalDefects',
                 },
@@ -392,19 +397,19 @@ export class fullPoReportComponent {
                     name: 'humidity',
                 },
                 {
-                    type: 'percent',
+                    type: 'percentNormal',
                     label: 'Breakage',
                     name: 'breakage',
                     // collections: 'measureUnit',
                 },
                 {
-                    type: 'percent',
+                    type: 'percentNormal',
                     label: 'Total damage',
                     name: 'totalDamage',
                     // collections: 'currency',
                 },
                 {
-                    type: 'percent',
+                    type: 'percentNormal',
                     label: 'Total defects',
                     name: 'totalDefects',
                 },

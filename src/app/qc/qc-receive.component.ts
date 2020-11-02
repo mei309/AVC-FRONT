@@ -408,7 +408,7 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'Totel weight lost after roasting',
+                        label: 'Total weight lost after roasting',
                         name: 'rostingWeightLoss',
                         inputType: 'measureUnit',
                         options: 3,
@@ -593,7 +593,7 @@ export class QcReceiveComponent implements OnInit {
             //                 },
             //                 {
             //                     type: 'percentinput',
-            //                     label: 'Totel weight lost after roasting',
+            //                     label: 'Total weight lost after roasting',
             //                     name: 'rostingWeightLoss',
             //                 },
             //                 {

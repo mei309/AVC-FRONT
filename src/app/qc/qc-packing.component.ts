@@ -179,7 +179,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
             },
             {
                 type: 'radiobutton',
-                label: 'do buckets have locks ?',
+                label: 'Do buckets have locks ?',
                 name: 'do buckets have locks',
                 options: ['yes', 'no'],
             },

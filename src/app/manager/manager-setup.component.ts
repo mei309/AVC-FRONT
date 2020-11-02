@@ -296,7 +296,7 @@ export class ManagmentSetupComponent {
                 // },
                 {
                     name: 'totalDamage',
-                    label: 'Totel damage',
+                    label: 'Total damage',
                     search: 'normal',
                 },
                 // {
@@ -336,17 +336,17 @@ export class ManagmentSetupComponent {
                 // },
                 { 
                     name: 'totalDefects',
-                    label: 'Totel defects',
+                    label: 'Total defects',
                     search: 'normal',
                 },
                 {
                     name: 'totalDefectsAndDamage',
-                    label: 'Totel defects + damage',
+                    label: 'Total defects + damage',
                     search: 'normal',
                 },
                 {
                     name: 'rostingWeightLoss',
-                    label: 'Totel weight lost after roasting',
+                    label: 'Total weight lost after roasting',
                     type: 'normal',
                 },
                 // {
@@ -511,22 +511,22 @@ export class ManagmentSetupComponent {
                     collections: [
                         {
                             type: 'percentinput',
-                            label: 'Totel damage',
+                            label: 'Total damage',
                             name: 'totalDamage',
                         }, 
                         {
                             type: 'input',
-                            label: 'Totel defects',
+                            label: 'Total defects',
                             name: 'totalDefects',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Totel defects + damage',
+                            label: 'Total defects + damage',
                             name: 'totalDefectsAndDamage',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Totel weight lost after roasting',
+                            label: 'Total weight lost after roasting',
                             name: 'rostingWeightLoss',
                         },
                     ]

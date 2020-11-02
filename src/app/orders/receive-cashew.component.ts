@@ -272,7 +272,7 @@ export class ReceiveCashewComponent implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: ' Received weight',
+                                label: 'Received weight',
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 3,

@@ -68,7 +68,7 @@ export class QcMachinsComponent implements OnInit, OnDestroy {
             },
             {
                 type: 'input',
-                label: 'Cleanins',
+                label: 'Cleanings',
                 name: 'EC',
                 inputType: 'text'
             },

@@ -349,7 +349,7 @@ export class QcReceivePercentageComponent implements OnInit {
                     },
                     {
                         type: 'percentinput',
-                        label: 'Totel weight lost after roasting',
+                        label: 'Total weight lost after roasting',
                         name: 'rostingWeightLoss',
                     },
                     {

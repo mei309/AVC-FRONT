@@ -114,7 +114,7 @@ export class PlanReceivingComponent implements OnInit, OnDestroy {
     },
     {
       name: 'PO',
-      label: 'PO',
+      label: '#PO',
       type: 'normal',
     },
     {

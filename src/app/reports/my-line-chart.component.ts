@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { log } from 'console';
 // import { multi } from './data';
 
 @Component({
