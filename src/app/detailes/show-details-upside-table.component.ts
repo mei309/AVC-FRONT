@@ -1,14 +1,13 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import {uniq} from 'lodash-es';
-import { OneColumn } from '../field.interface';
+import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { isEqual, isEqualWith, merge, uniq } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import {merge, isEqualWith, isEqual} from 'lodash-es';
-import { diff } from '../libraries/diffArrayObjects.interface';
-import { MatDialog } from '@angular/material/dialog';
-import { Globals } from '../global-params.component';
-import { ConfirmationDialog } from '../service/confirm-dialog.component';
+import { OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
+import { Globals } from '../global-params.component';
+import { diff } from '../libraries/diffArrayObjects.interface';
+import { ConfirmationDialog } from '../service/confirm-dialog.component';
 @Component({
   selector: 'show-details-upside-table',
   template: `

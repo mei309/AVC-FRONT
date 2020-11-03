@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import * as XLSX from 'xlsx/dist/xlsx.mini.min'
-import { SuppliersService } from '../suppliers/suppliers.service';
-import {uniq} from 'lodash-es';
-import { ManagerService } from '../manager/manager.service';
+import { uniq } from 'lodash-es';
 import { take } from 'rxjs/operators';
+import * as XLSX from 'xlsx/dist/xlsx.mini.min';
 import { Genral } from '../genral.service';
 import { OrdersService } from '../orders/orders.service';
 import { QcService } from '../qc/qc.service';

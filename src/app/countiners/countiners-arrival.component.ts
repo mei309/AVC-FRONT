@@ -2,13 +2,10 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { CountinersService } from './countiners.service';
 
 @Component({
     // tslint:disable-next-line: component-selector
@@ -36,8 +33,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
         this.location.back();
        }
 
-      constructor(private _Activatedroute:ActivatedRoute,
-         private localService: CountinersService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+      constructor(private genral: Genral, private location: Location, public dialog: MatDialog) {
         }
 
 

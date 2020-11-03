@@ -1,15 +1,13 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { cloneDeep, isEqual } from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { InventoryService } from './inventory.service';
-import {cloneDeep} from 'lodash-es';
-import {isEqual} from 'lodash-es';
 @Component({
     selector: 'transfer-count',
     template: `
@@ -141,7 +139,7 @@ export class TransferCountComponent implements OnInit {
     }
 
       constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,
-         private localService: InventoryService, private genral: Genral, private location: Location, public dialog: MatDialog,
+         private localService: InventoryService, private genral: Genral, public dialog: MatDialog,
          private _Activatedroute:ActivatedRoute, private router: Router,) {
         }
 

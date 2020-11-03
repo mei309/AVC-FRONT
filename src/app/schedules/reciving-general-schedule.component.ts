@@ -36,7 +36,7 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
   ordersSource: any[];
   mainSource: any[];
 
-  constructor(private router: Router, public dialog: MatDialog, private localService: SchedulesService) {
+  constructor(public dialog: MatDialog, private localService: SchedulesService) {
     
   }
 

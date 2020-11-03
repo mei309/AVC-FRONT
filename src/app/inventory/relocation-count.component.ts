@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,6 +35,8 @@ export class RelocationCountComponent implements OnInit {
   
     submit(value: any) {
         var arr = [];
+        var newWarehouse = value['newWarehouse']['warehouseLocation'];
+        delete value['newWarehouse'];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
                 element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
@@ -43,6 +44,7 @@ export class RelocationCountComponent implements OnInit {
                 element['storageMoves'].forEach(ele => {
                     ele['unitAmount'] = ele['storage']['unitAmount'];
                     ele['numberUnits'] = ele['numberUsedUnits'];
+                    ele['warehouseLocation'] = newWarehouse;
                 });
             });
             value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.storageMoves.length);
@@ -60,16 +62,18 @@ export class RelocationCountComponent implements OnInit {
                         delete ele['version'];
                     }
                 });
+                element['storageMove']['newWarehouseLocation'] = newWarehouse;
                 element['groupName'] = 'table';
             });
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
-        value['itemCounts'].forEach(eleme => {
-            eleme['amounts'] = eleme['amounts'].filter(amou => amou.amount);
-        });
         value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts);
+        value['itemCounts'].forEach(eleme => {
+                eleme['amounts'] = eleme['amounts'].filter(amou => amou.amount);
+        });
+        value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
         value['storageMovesGroups'] = arr;
         
         console.log(value);
@@ -99,7 +103,7 @@ export class RelocationCountComponent implements OnInit {
     }
 
     constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,
-        private localService: InventoryService, private genral: Genral, private location: Location, public dialog: MatDialog,
+        private localService: InventoryService, private genral: Genral, public dialog: MatDialog,
         private _Activatedroute:ActivatedRoute, private router: Router,) {
        }
     
@@ -123,6 +127,14 @@ export class RelocationCountComponent implements OnInit {
                     });
                 }
            });
+
+           const temp = val[0]['storageMovesGroups'][0];
+           if(temp['storageMove']){
+                val[0]['newWarehouse'] = {warehouseLocation: temp['storageMove']['newWarehouseLocation']};
+           } else {
+                val[0]['newWarehouse'] = {warehouseLocation: temp['storageMoves'][0]['warehouseLocation']};
+           }
+
            delete val[0]['storageMovesGroups'];
            this.dataSource = val[0];
            this.dataSource['usedItemsTable'] = [];
@@ -397,7 +409,19 @@ export class RelocationCountComponent implements OnInit {
                     },
                 ]
             },
-
+            {
+                type: 'bignotexpand',
+                name: 'newWarehouse',
+                label: 'New warehouse location',
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Warehouse location',
+                        name: 'warehouseLocation',
+                        options: this.genral.getStorage(),
+                    },
+                ]
+            },
             {
                 type: 'bigexpand',
                 name: 'itemCounts',
@@ -415,12 +439,6 @@ export class RelocationCountComponent implements OnInit {
                         label: 'Weight unit',
                         name: 'measureUnit',
                         options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                    },
-                    {
-                        type: 'select',
-                        label: 'Warehouse location',
-                        name: 'warehouseLocation',
-                        options: this.genral.getStorage(),
                     },
                     {
                         type: 'input',

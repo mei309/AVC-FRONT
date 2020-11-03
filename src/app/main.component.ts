@@ -1,7 +1,6 @@
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { Component, EventEmitter } from '@angular/core';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { map, shareReplay, takeUntil } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Genral } from './genral.service';
 import { AuthenticateService } from './service/authenticate.service';
 import { LoadingService } from './service/loading-service.service';
@@ -20,7 +19,7 @@ export class MainComponent {
   todo: number = 0;
   massages: number = 0;
 
-  constructor(private breakpointObserver: BreakpointObserver, private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {}
+  constructor(private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {}
   
   ngOnInit() {
     this.genral.getNumOfTodo().pipe(takeUntil(this.destroySubject$)).subscribe(value => {

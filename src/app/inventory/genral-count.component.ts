@@ -1,12 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from './../genral.service';
-import { InventoryService } from './inventory.service';
 @Component({
     // tslint:disable-next-line: component-selector
     selector: 'genral-count',
@@ -35,8 +33,7 @@ export class GenralCountComponent implements OnInit, OnDestroy {
         this.location.back();
        }
 
-      constructor(private _Activatedroute:ActivatedRoute,
-         private localService: InventoryService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+      constructor(private genral: Genral, private location: Location, public dialog: MatDialog) {
         }
 
 

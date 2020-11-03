@@ -1,7 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from './../field.interface';
@@ -140,7 +139,7 @@ export class PlanReceivingComponent implements OnInit, OnDestroy {
   ];
 
   
-  constructor(private _Activatedroute: ActivatedRoute, private router: Router, public dialog: MatDialog, private localService: SchedulesService) {
+  constructor(public dialog: MatDialog, private localService: SchedulesService) {
   }
 
   ngOnInit() {

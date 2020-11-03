@@ -1,12 +1,7 @@
 
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { CountinersService } from './countiners.service';
 @Component({
     selector: 'countiners-booking-component',
     template: `
@@ -20,8 +15,7 @@ export class CountinersBookingComponent implements OnInit {
     regConfig: FieldConfig[];
 
 
-    constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
-        private localService: CountinersService, private genral: Genral, private dialog: MatDialog) {
+    constructor(private genral: Genral) {
        }
 
 

@@ -11,6 +11,7 @@ import { MyPieChartComponent } from './my-pie-chart.component';
 
 
 
+
 @NgModule({
   declarations: [fullPoReportComponent, DashComponent,
     MyPieChartComponent, MyLineChartComponent, MyBarChartComponent, MyBubbleChartComponent],
@@ -18,7 +19,6 @@ import { MyPieChartComponent } from './my-pie-chart.component';
     SheardModule,
     ReportsRoutingModule,
     NgxChartsModule,
-
   ]
 })
 export class ReportsModule { }

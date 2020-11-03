@@ -1,9 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { TodoMassagesService } from './massages-todo.service';
-import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'app-massages-todo-popup',
     template: `
@@ -31,7 +29,7 @@ export class TodoMassagesPopupComponent {
     lineData = null;
     task: any;
     
-    constructor(private LocalService: TodoMassagesService, private _Activatedroute: ActivatedRoute, private router: Router, public dialog: MatDialog, public dialogRef: MatDialogRef<TodoMassagesPopupComponent>,
+    constructor(private LocalService: TodoMassagesService, public dialog: MatDialog, public dialogRef: MatDialogRef<TodoMassagesPopupComponent>,
       @Inject(MAT_DIALOG_DATA)
       public data: any) {
         this.processId = data.allLine['processId'];

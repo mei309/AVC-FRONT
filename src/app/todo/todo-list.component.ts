@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
 import { TodoMassagesPopupComponent } from './todo-massagess-popup.component';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-list',
@@ -64,7 +64,7 @@ export class TodoListComponent {
   tasksSource: any[];
   
 
-  constructor(private genral: Genral, public dialog: MatDialog, private _Activatedroute: ActivatedRoute, private router: Router) {}
+  constructor(private genral: Genral, public dialog: MatDialog, private router: Router) {}
   
   ngOnInit() {
     this.genral.getUserTasks().pipe(take(1)).subscribe(value => {

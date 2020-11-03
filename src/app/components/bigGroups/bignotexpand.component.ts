@@ -1,26 +1,26 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-
+import { FormArray, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../field.interface';
+import { ArrayOrdinalComponent } from '../array/array-ordinal.component';
 import { ArrayComponent } from '../array/array.component';
+import { CalculateFewComponent } from '../calculateFew/calculate-few.component';
+import { DividerComponent } from '../divider-text/divider.component';
+import { InputReadonlyComponent } from '../inputs/input-readonly.component';
+import { InputSelectComponent } from '../inputs/input-select.component';
+import { InputToPercentageComponent } from '../inputs/input-to-percentage.component';
+import { InputComponent } from '../inputs/input.component';
+import { PercentInputComponent } from '../inputs/percent-input.component';
+import { PopupformComponent } from '../popupform/popupform.component';
 import { CheckboxComponent } from '../selects/checkbox.component';
 import { DateComponent } from '../selects/date.component';
-import { DividerComponent } from '../divider-text/divider.component';
-import { InputComponent } from '../inputs/input.component';
 import { RadiobuttonComponent } from '../selects/radio-button.component';
-import { SelectComponent } from '../selects/select.component';
 import { SelectgroupComponent } from '../selects/select-group.component';
 import { SelectNormalComponent } from '../selects/select-normal.component';
-import { TextarryComponent } from '../textarry/textarry.component';
-import { CalculateFewComponent } from '../calculateFew/calculate-few.component';
-import { InputToPercentageComponent } from '../inputs/input-to-percentage.component';
-import { InputSelectComponent } from '../inputs/input-select.component';
-import { PopupformComponent } from '../popupform/popupform.component';
-import { UploadComponent } from '../selects/upload.component';
-import { InputReadonlyComponent } from '../inputs/input-readonly.component';
+import { SelectComponent } from '../selects/select.component';
 import { SelectLineComponent } from '../selects/slecet-line.component';
-import { ArrayOrdinalComponent } from '../array/array-ordinal.component';
-import { PercentInputComponent } from '../inputs/percent-input.component';
+import { UploadComponent } from '../selects/upload.component';
+import { TextarryComponent } from '../textarry/textarry.component';
+
 
 const componentMapper = {
   input: InputComponent,
@@ -64,7 +64,7 @@ export class BignotexpandComponent implements OnInit {
   resolver: ComponentFactoryResolver;
   componentRef: any;
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
   ngOnInit() {
       this.field.collections.forEach(element => {
         // this.group.get([this.field.name]).get(element.name).value &&

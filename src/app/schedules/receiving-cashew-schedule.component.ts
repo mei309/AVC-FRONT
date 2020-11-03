@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { SchedulesService } from './schedules.service';
@@ -39,7 +38,7 @@ export class ReceivingCashewScheduleComponent implements OnInit {
   mainSource: any[];
   dataSum: any[] = [];
 
-  constructor(private router: Router, public dialog: MatDialog, private localService: SchedulesService) {
+  constructor(public dialog: MatDialog, private localService: SchedulesService) {
     
   }
 

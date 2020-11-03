@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from './../field.interface';
@@ -52,7 +51,7 @@ export class ProductionScheduleComponent implements OnInit, OnDestroy {
       type: 'normal',
     },
   ];
-  constructor(private _Activatedroute: ActivatedRoute, private router: Router, public dialog: MatDialog, private localService: SchedulesService) {
+  constructor(public dialog: MatDialog, private localService: SchedulesService) {
   }
 
   ngOnInit() {

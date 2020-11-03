@@ -3,11 +3,9 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { ManagerService } from './manager.service';
 @Component({
   selector: 'plan-production',
   template: `
@@ -324,8 +322,7 @@ export class PlanProductionComponent implements OnInit, OnDestroy {
   destroySubject$: Subject<void> = new Subject();
 
   
-  constructor(private _Activatedroute: ActivatedRoute, private router: Router, public dialog: MatDialog, private localService: ManagerService,
-    private location: Location, private genral: Genral) {
+  constructor(public dialog: MatDialog, private location: Location, private genral: Genral) {
   }
 
   ngOnInit() {

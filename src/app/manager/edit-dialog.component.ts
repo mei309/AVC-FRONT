@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FieldConfig } from '../field.interface';
-import { ManagerService } from './manager.service';
 
 @Component({
     selector: 'app-edit-dialog',
@@ -27,7 +26,7 @@ export class EditDialogComponent {
         //  });<button mat-raised-button color="primary" (click)="remove()">Remove</button>
     }
     
-    constructor(private localService: ManagerService, public dialogRef: MatDialogRef<EditDialogComponent>,
+    constructor(public dialogRef: MatDialogRef<EditDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.putData = data.putData;

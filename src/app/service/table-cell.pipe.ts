@@ -1,6 +1,6 @@
-import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe, KeyValuePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
-import {uniq} from 'lodash-es';
+import { uniq } from 'lodash-es';
 @Pipe({
   name: 'tableCellPipe'
 })

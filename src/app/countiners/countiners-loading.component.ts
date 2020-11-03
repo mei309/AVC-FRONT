@@ -1,16 +1,15 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
-import { FieldConfig } from '../field.interface';
-import { Genral } from '../genral.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { isEqual, map } from 'lodash-es';
+import { take } from 'rxjs/operators';
+import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
+import { FieldConfig } from '../field.interface';
+import { Genral } from '../genral.service';
+import { diff } from '../libraries/diffArrayObjects.interface';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
-import { diff } from '../libraries/diffArrayObjects.interface';
-import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 @Component({
     selector: 'countiners-loading',
     template: `
@@ -166,7 +165,7 @@ export class CountinersLoadingComponent {
       
 
     constructor(private fb: FormBuilder, private _Activatedroute:ActivatedRoute, private router: Router, private cdRef:ChangeDetectorRef,
-        private localService: CountinersService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+        private localService: CountinersService, private genral: Genral, public dialog: MatDialog) {
     }
 
 

@@ -1,11 +1,10 @@
-import { Component, ComponentFactoryResolver, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-import {isEqual} from 'lodash-es';
-import { PopupformDialog } from '../popupform/popupform.component';
-import { OneColumn } from 'src/app/field.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { isEqual } from 'lodash-es';
+import { PopupformDialog } from '../popupform/popupform.component';
+
 
 @Component({
   selector: 'table-info-group',
@@ -121,7 +120,7 @@ export class TableInfoGroupComponent implements OnInit {
   localGroupOneColumns = [];
 
 //   componentRef: any;
-  constructor(private resolver: ComponentFactoryResolver, public dialog: MatDialog, private fb: FormBuilder,
+  constructor(public dialog: MatDialog, private fb: FormBuilder,
     private _snackBar: MatSnackBar) {
   }
 

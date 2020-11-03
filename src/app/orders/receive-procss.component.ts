@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +21,7 @@ export class ReceiveProcssComponent implements OnInit {
     regConfig: FieldConfig[];
 
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
-        private localService: OrdersService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+        private localService: OrdersService, private genral: Genral, public dialog: MatDialog) {
     }
 
 

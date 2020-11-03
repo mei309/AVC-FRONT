@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import {isEqualWith} from 'lodash-es';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { isEqualWith } from 'lodash-es';
+import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { Globals } from '../global-params.component';
 import { ConfirmationDialog } from '../service/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
 @Component({
   selector: 'show-details',
   template: `
@@ -831,10 +831,15 @@ export class ShowDetailsComponent implements OnInit {
             label: 'Measure unit',
             name: 'measureUnit',
         },
+        // {
+        //     type: 'nameId',
+        //     label: 'Old warehouse location',
+        //     name: 'warehouseLocation',
+        // },
         {
             type: 'nameId',
             label: 'Warehouse location',
-            name: 'warehouseLocation',
+            name: 'newWarehouseLocation',
         },
         {
           type: 'arrayOrdinal',

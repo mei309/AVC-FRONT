@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ReportsService } from './reports.service';
-import { take } from 'rxjs/operators';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { OneColumn, FieldConfig } from '../field.interface';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Genral } from '../genral.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { take } from 'rxjs/operators';
+import { FieldConfig } from '../field.interface';
+import { Genral } from '../genral.service';
+import { ReportsService } from './reports.service';
 
 @Component({
   selector: 'full-po-report',
@@ -429,6 +429,28 @@ export class fullPoReportComponent {
                     type: 'listDates',
                     name: 'listDates',
                     label: 'Packing dates',
+                },
+            ]
+        },
+        {
+            type: 'array',
+            label: 'Loading',
+            name: 'loading',
+            collections: [
+                {
+                    type: 'amountWithUnit',
+                    name: 'amountWithUnitItem',
+                    label: 'Amounts',
+                },
+                {
+                    type: 'normal',
+                    name: 'container',
+                    label: 'Container number',
+                },
+                {
+                    type: 'normal',
+                    name: 'seal',
+                    label: 'Seal number',
                 },
             ]
         },

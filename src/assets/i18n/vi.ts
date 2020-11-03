@@ -141,6 +141,7 @@
 //     "name":
 //     "nationality":
 //     "net_total":
+//      "new_warehouse_location":
 //     "next":
 //     "non_fee(.)":
 //     "number_available_units":

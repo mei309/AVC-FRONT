@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { forkJoin, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ReplaySubject, Observable, forkJoin } from 'rxjs';
-import { DropNormal } from '../field.interface';
-import { take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })

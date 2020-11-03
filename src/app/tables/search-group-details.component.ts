@@ -1,9 +1,8 @@
-import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { isEqual } from 'lodash-es';
 import { OneColumn } from '../field.interface';
-import {isEqual} from 'lodash-es';
 @Component({
   selector: 'search-group-details',
   template: `

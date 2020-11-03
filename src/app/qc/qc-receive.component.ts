@@ -1,14 +1,13 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { cloneDeep } from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { QcService } from './qc.service';
 import { QcDetailsDialogComponent } from './qc-details-dialog.component';
-import {cloneDeep} from 'lodash-es';
+import { QcService } from './qc.service';
 @Component({
     selector: 'qc-receive',
     template: `
@@ -85,7 +84,7 @@ export class QcReceiveComponent implements OnInit {
       
 
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef: ChangeDetectorRef,
-        private localService: QcService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+        private localService: QcService, private genral: Genral, public dialog: MatDialog) {
        }
 
       ngOnInit() {

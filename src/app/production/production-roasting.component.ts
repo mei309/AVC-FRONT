@@ -1,11 +1,9 @@
 
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { Genral } from '../genral.service';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
 @Component({
@@ -56,7 +54,7 @@ export class ProductionRoastingComponent implements OnInit {
     }
 
     constructor(private _Activatedroute:ActivatedRoute, private router: Router, private fb: FormBuilder, private cdRef:ChangeDetectorRef,
-        private localService: ProductionService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+        private localService: ProductionService, public dialog: MatDialog) {
         }
 
 

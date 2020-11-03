@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';

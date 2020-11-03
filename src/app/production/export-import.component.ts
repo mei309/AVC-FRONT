@@ -1,11 +1,8 @@
-import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { ProductionService } from './production.service';
 @Component({
     selector: 'export-import',
     template: `
@@ -74,9 +71,11 @@ export class ExportImportComponent implements OnInit {
             delete value['processItemsNormal'];
         }
         if(value['processItemsTable']) {
+            value['processItemsTable'] = value['processItemsTable'].filter(amou => amou.storage.amounts);
             value['processItemsTable'].forEach(eleme => {
-                eleme['storage']['amounts'] = eleme['storage']['amounts'].filter(amou => amou.amount);
+                    eleme['storage']['amounts'] = eleme['storage']['amounts'].filter(amou => amou.amount);
             });
+            value['processItemsTable'] = value['processItemsTable'].filter(amou => amou.storage.amounts.length);
             value['processItems'] = value['processItems'].concat(value['processItemsTable']);
             delete value['processItemsTable'];
         }
@@ -93,8 +92,7 @@ export class ExportImportComponent implements OnInit {
         this.submit.emit(value);
     }
 
-      constructor(private _Activatedroute:ActivatedRoute, private router: Router, private fb: FormBuilder, private cdRef: ChangeDetectorRef,
-         private localService: ProductionService, private genral: Genral, private location: Location, public dialog: MatDialog) {
+      constructor(private genral: Genral, public dialog: MatDialog) {
         }
 
     ngOnInit() {

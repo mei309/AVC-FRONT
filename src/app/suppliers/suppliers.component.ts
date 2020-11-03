@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { Genral } from '../genral.service';
 import { OneColumn } from './../field.interface';
 import { SupplierDetailsDialogComponent } from './supplier-details-dialog-component';
 import { SuppliersService } from './suppliers.service';
-import { Genral } from '../genral.service';
 
 @Component({
   selector: 'app-suppliers',

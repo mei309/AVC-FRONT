@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { OneColumn } from './../field.interface';
-import { InventoryService } from './inventory.service';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
+import { InventoryService } from './inventory.service';
 
 @Component({
   selector: 'app-genral-inventory',
@@ -20,7 +20,7 @@ export class GenralInventoryComponent implements OnInit {
   generalSource: any[];
   generalSourceColumns: any[];
 
-  constructor(private router: Router, public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
+  constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
     private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef) {
   }
 

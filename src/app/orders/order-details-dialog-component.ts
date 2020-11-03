@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OrdersService } from './orders.service';
-import { Globals } from '../global-params.component';
 import { take } from 'rxjs/operators';
+import { OrdersService } from './orders.service';
 @Component({
     selector: 'app-order-details-dialog',
     template: `

@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from './../genral.service';
 import { SupplierDetailsDialogComponent } from './supplier-details-dialog-component';

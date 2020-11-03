@@ -142,6 +142,7 @@
     "name": "Name",
     "nationality": "Nationality",
     "net_total": "Net total",
+    "new_warehouse_location": "New warehouse location",
     "next": "Next",
     "non_fee(.)": "non fee(.)",
     "number_available_units": "Number available units",
