@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FieldConfig } from '../../field.interface';
 
 @Component({
@@ -7,7 +9,7 @@ import { FieldConfig } from '../../field.interface';
   template: `
 <div [formGroup]="group" *ngIf="!field.inputType">
   {{field.label}}
-  <div [formArrayName]="field.name" class="array-field-grid">
+  <div *ngIf="notDeleted" [formArrayName]="field.name" class="array-field-grid">
     <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
       <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
       <mat-form-field style="width: 100px">
@@ -34,10 +36,11 @@ import { FieldConfig } from '../../field.interface';
 })
 export class ArrayOrdinalComponent implements OnInit {
   @ViewChildren('input') inputs: QueryList<ElementRef>;
+  destroySubject$: Subject<void> = new Subject();
   
   field: FieldConfig;
   group: FormGroup;
-
+  notDeleted: boolean = true;
 
   allComplete: boolean = false;
 
@@ -56,6 +59,13 @@ export class ArrayOrdinalComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
   
   ngOnInit() {
+    this.formArray.at(0).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
+      if(!val['ordinal']) {
+        this.notDeleted = false;
+      } else {
+        this.notDeleted = true;
+      }
+    });
   }
   
   get formArray() { return <FormArray>this.group.get(this.field.name); }
@@ -113,5 +123,9 @@ keyDown(event: KeyboardEvent, ind) {
           break;
   }
 }
+
+  ngOnDestroy() {
+    this.destroySubject$.next();
+  }
 
 }

@@ -137,7 +137,7 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        console.log(val1['loading']);
+                        console.log(val1['relocationItems']);
                         
                     });
                 }
@@ -290,18 +290,23 @@ export class fullPoReportComponent {
 
       finalShow = [
         {
-            type: 'putArray',
+            type: 'array',
             label: 'Receiving',
             name: 'receiving',
             collections: [
                 {
-                    type: 'amountWithUnit',
-                    name: 'amountItems',
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'weight2',
+                    name: 'amounts',
                     label: 'Amounts',
                 },
                 {
                     type: 'listDates',
-                    name: 'listDates',
+                    name: 'dates',
                     label: 'Receiving dates',
                 },
             ]
@@ -312,6 +317,16 @@ export class fullPoReportComponent {
             name: 'qcRaw',
             collections: [
                 {
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'normal',
+                    name: 'checkedBy',
+                    label: 'Checked by',
+                },
+                {
                     type: 'percent',
                     label: 'Humidity',
                     name: 'humidity',
@@ -336,53 +351,73 @@ export class fullPoReportComponent {
             ]
         },
         {
-            type: 'putArray',
+            type: 'array',
             label: 'Relocation',
             name: 'relocationItems',
             collections: [
                 {
-                    type: 'amountWithUnit',
-                    name: 'usedItems',
-                    label: 'Amounts count',
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
                 },
                 {
-                    type: 'amountWithUnit',
-                    name: 'amountItems',
-                    label: 'Counted amounts',
+                    type: 'weight2',
+                    name: 'usedAmounts',
+                    label: 'Used amounts',
+                },
+                {
+                    type: 'weight2',
+                    name: 'amounts',
+                    label: 'Amounts',
+                },
+                {
+                    type: 'date',
+                    name: 'date',
+                    label: 'Date',
                 },
             ]
         },
         {
-            type: 'putArray',
+            type: 'array',
             label: 'Cleaning',
             name: 'cleaning',
             collections: [
                 {
-                    type: 'amountWithUnit',
-                    name: 'amountItems',
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'weight2',
+                    name: 'amounts',
                     label: 'Amounts',
                 },
                 {
                     type: 'listDates',
-                    name: 'listDates',
-                    label: 'Cleaning dates',
+                    name: 'dates',
+                    label: 'Receiving dates',
                 },
             ]
         },
         {
-            type: 'putArray',
+            type: 'array',
             label: 'Roasting',
             name: 'roasting',
             collections: [
                 {
-                    type: 'amountWithUnit',
-                    name: 'amountItems',
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'weight2',
+                    name: 'amounts',
                     label: 'Amounts',
                 },
                 {
                     type: 'listDates',
-                    name: 'listDates',
-                    label: 'Roasting dates',
+                    name: 'dates',
+                    label: 'Receiving dates',
                 },
             ]
         },
@@ -392,6 +427,16 @@ export class fullPoReportComponent {
             name: 'qcRoast',
             collections: [
                 {
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'normal',
+                    name: 'checkedBy',
+                    label: 'Checked by',
+                },
+                {
                     type: 'percent',
                     label: 'Humidity',
                     name: 'humidity',
@@ -416,19 +461,24 @@ export class fullPoReportComponent {
             ]
         },
         {
-            type: 'putArray',
+            type: 'array',
             label: 'Packing',
             name: 'packing',
             collections: [
                 {
-                    type: 'amountWithUnit',
-                    name: 'amountItems',
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'weight2',
+                    name: 'amounts',
                     label: 'Amounts',
                 },
                 {
                     type: 'listDates',
-                    name: 'listDates',
-                    label: 'Packing dates',
+                    name: 'dates',
+                    label: 'Receiving dates',
                 },
             ]
         },
@@ -438,9 +488,19 @@ export class fullPoReportComponent {
             name: 'loading',
             collections: [
                 {
-                    type: 'amountWithUnit',
-                    name: 'amountWithUnitItem',
+                    type: 'nameId',
+                    label: 'Item descrption',
+                    name: 'item',
+                },
+                {
+                    type: 'weight2',
+                    name: 'amounts',
                     label: 'Amounts',
+                },
+                {
+                    type: 'date',
+                    name: 'date',
+                    label: 'Receiving dates',
                 },
                 {
                     type: 'normal',

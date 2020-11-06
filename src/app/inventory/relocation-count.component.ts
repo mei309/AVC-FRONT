@@ -197,7 +197,10 @@ export class RelocationCountComponent implements OnInit {
                     element['storage']['item'] = element['item'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
                     arrTable.push({storageMove: element['storage']});
-                    this.dataSource['itemCounts'].push({item: element['item']});
+                    
+                    if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
+                        this.dataSource['itemCounts'].push({item: element['item']});
+                    }
                 }
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
@@ -206,7 +209,9 @@ export class RelocationCountComponent implements OnInit {
                         delete ele['numberUsedUnits'];
                     }
                 });
-                this.dataSource['itemCounts'].push({item: element['item']});
+                if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
+                    this.dataSource['itemCounts'].push({item: element['item']});
+                }
             }
         });
         if(arrUsedItems.length) {

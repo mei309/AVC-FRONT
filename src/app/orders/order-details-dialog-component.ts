@@ -51,9 +51,9 @@ export class OrderDetailsDialogComponent {
             } else {
                 this.buttons.push('Edit order', 'Receive');
             }
-            if(this.type.includes('Cashew')) {
-                this.buttons.push('Sample weights');
-            }
+            // if(this.type.includes('Cashew')) {
+            //     this.buttons.push('Sample weights');
+            // }
         } else if(this.type.includes('receive')) {
             if(!this.fromNew) {
                 this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
@@ -74,7 +74,8 @@ export class OrderDetailsDialogComponent {
                 this.buttons.push('Edit receive');
             }
             if(this.type.includes('Cashew')) {
-                this.buttons.push('Receive extra', 'Sample weights');
+                this.buttons.push('Receive extra');
+                // , 'Sample weights'
             }
         } else {
             if(!this.fromNew) {

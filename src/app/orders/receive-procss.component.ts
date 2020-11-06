@@ -280,17 +280,17 @@ export class ReceiveProcssComponent implements OnInit {
                                         options: 3,
                                     },
                                     {
-                                        type: 'array',
+                                        type: 'arrayordinal',
                                         label: 'Samples (+-from unit weight)',
-                                        inputType: 'numeric',
-                                        name: 'aLotSamples',
+                                        // inputType: 'numeric',
+                                        name: 'sampleWeights',
                                         options: 3,
                                         collections: 30,
                                     },
                                     {
                                         type: 'input',
                                         label: 'Avrage weight (full weight)',
-                                        name: 'avgWeight',
+                                        name: 'avgTestedWeight',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
@@ -395,18 +395,20 @@ export class ReceiveProcssComponent implements OnInit {
             element['storageForms'].forEach(ele => {
                 if(ele['samplesWeight']) {
                     ele['sampleContainerWeight'] = (ele['samplesWeight']['sampleContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['sampleContainerWeight'].length;
-                
-                    if(ele['samplesWeight'].hasOwnProperty('avgWeight')) {
-                        ele['avgTestedWeight'] = ele['samplesWeight']['avgWeight'];
-                        ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
-                        if(ele['samplesWeight']['aLotSamples'] && ele['samplesWeight']['aLotSamples'].length) {
-                            ele['avgTestedWeight'] = (+ele['avgTestedWeight'] + ((ele['samplesWeight']['aLotSamples'].reduce((b, c) => +b + +c['value'] + +ele['unitAmount']['amount'], 0))/ele['samplesWeight']['aLotSamples'].length))/2;
-                            ele['numberOfSamples'] = ele['numberOfSamples'] + ele['samplesWeight']['aLotSamples'].length;
-                        }
-                    } else if(ele['samplesWeight'].hasOwnProperty('aLotSamples')) {
-                        ele['avgTestedWeight'] = (ele['samplesWeight']['aLotSamples'].reduce((b, c) => +b + +c['value'] + +ele['unitAmount']['amount'], 0))/ele['samplesWeight']['aLotSamples'].length;
-                        ele['numberOfSamples'] = ele['samplesWeight']['aLotSamples'].length;
-                    }
+                    ele['avgTestedWeight'] = ele['samplesWeight']['avgTestedWeight'];
+                    ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
+                    ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'];
+                    // if(ele['samplesWeight'].hasOwnProperty('avgWeight')) {
+                    //     ele['avgTestedWeight'] = ele['samplesWeight']['avgWeight'];
+                    //     ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
+                    //     if(ele['samplesWeight']['aLotSamples'] && ele['samplesWeight']['aLotSamples'].length) {
+                    //         ele['avgTestedWeight'] = (+ele['avgTestedWeight'] + ((ele['samplesWeight']['aLotSamples'].reduce((b, c) => +b + +c['value'] + +ele['unitAmount']['amount'], 0))/ele['samplesWeight']['aLotSamples'].length))/2;
+                    //         ele['numberOfSamples'] = ele['numberOfSamples'] + ele['samplesWeight']['aLotSamples'].length;
+                    //     }
+                    // } else if(ele['samplesWeight'].hasOwnProperty('aLotSamples')) {
+                    //     ele['avgTestedWeight'] = (ele['samplesWeight']['aLotSamples'].reduce((b, c) => +b + +c['value'] + +ele['unitAmount']['amount'], 0))/ele['samplesWeight']['aLotSamples'].length;
+                    //     ele['numberOfSamples'] = ele['samplesWeight']['aLotSamples'].length;
+                    // }
                     delete ele['samplesWeight'];
                 }
             });
