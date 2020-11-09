@@ -368,7 +368,12 @@ export class fullPoReportComponent {
                 {
                     type: 'weight2',
                     name: 'amounts',
-                    label: 'Amounts',
+                    label: 'Amounts counted',
+                },
+                {
+                    type: 'weight2',
+                    name: 'changeGain',
+                    label: 'Amounts gained',
                 },
                 {
                     type: 'date',

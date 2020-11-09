@@ -289,4 +289,32 @@ export class Genral {
     return ['40\'', '20\''];
   }
 
+
+
+//   poConfig = [
+//     {
+//       type: 'date',
+//       label: 'Delivery date',
+//       name: 'deliveryDate',
+//       // options: 'withTime',
+//   },
+//   {
+//     type: 'button',
+//     label: 'Submit',
+//     name: 'submit',
+// }
+//   ];
+//   submit(val) {
+//     this.submit(val).pipe(take(1)).subscribe(value => {
+//       console.log(value);
+      
+//     });
+//   }
+//   <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submit)="submit($event)">
+//     </dynamic-form>
+//   checkDate(snapshot): Observable<any> {
+//     console.log(snapshot);
+//     return this.http.post(this.mainurl+'checkDate', snapshot);
+//   }
+
 }

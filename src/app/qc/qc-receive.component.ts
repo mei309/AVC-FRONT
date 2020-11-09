@@ -159,7 +159,7 @@ export class QcReceiveComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getPoCashewCodesOpenPending(),
+                options: this.localService.getPoCashew(this.type.startsWith('QC roasting')),
                 disable: true,
                 collections: [
                     {

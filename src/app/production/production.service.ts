@@ -80,12 +80,6 @@ export class ProductionService {
       case 'raw':
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageRawPo/'+poCode)]);
       case 'clean':
-        this.getStorageCleanPo(poCode).subscribe(params => {
-          console.log('lololo');
-          console.log(params);
-          
-        })
-        
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageCleanPo/'+poCode)]);
       case 'roast':
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPo/'+poCode)]);

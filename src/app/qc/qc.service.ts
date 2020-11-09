@@ -41,8 +41,8 @@ export class QcService {
     return this.http.get(this.qcurl+'getRoastQC');
   }
 
-  getPoCashewCodesOpenPending (): Observable<any> {
-    return this.http.get(this.qcurl+'getPoCashewCodesOpenPending');
+  getPoCashew (roast: boolean): Observable<any> {
+    return this.http.get(this.qcurl+'getPoCashew/'+roast);
   }
 
 }

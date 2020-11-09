@@ -176,7 +176,7 @@ export class XlxsImportsComponent {
     setQcRawCashew() {
         // po	deliveryDate
         var arr = [];
-        this.qcService.getPoCashewCodesOpenPending().pipe(take(1)).subscribe(value1 => {
+        this.qcService.getPoCashew(false).pipe(take(1)).subscribe(value1 => {
             this.genral.getItemsRawCashew().pipe(take(1)).subscribe(value2 => {
                 this.data.forEach(element => {
                     var damage = {mold: (element['mold']*16)/100, dirty: (element['dirty']*16)/100, lightDirty: (element['lightDirty']*16)/100, decay: (element['decay']*16)/100, insectDamage: (element['insectDamage']*16)/100, testa: (element['testa']*16)/100};
@@ -212,7 +212,7 @@ export class XlxsImportsComponent {
     setRostedQcCashew() {
         // po	deliveryDate
         var arr = [];
-        this.qcService.getPoCashewCodesOpenPending().pipe(take(1)).subscribe(value1 => {
+        this.qcService.getPoCashew(false).pipe(take(1)).subscribe(value1 => {
             this.genral.getItemsRawCashew().pipe(take(1)).subscribe(value2 => {
                 this.data.forEach(element => {
                     var damage = {mold: (element['mold']*16)/100, dirty: (element['dirty']*16)/100, lightDirty: (element['lightDirty']*16)/100, decay: (element['decay']*16)/100, insectDamage: (element['insectDamage']*16)/100, testa: (element['testa']*16)/100};

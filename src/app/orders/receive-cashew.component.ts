@@ -567,7 +567,7 @@ export class ReceiveCashewComponent implements OnInit {
                         ele['sampleContainerWeight'] = (ele['samplesWeight']['sampleContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['sampleContainerWeight'].length;
                         ele['avgTestedWeight'] = ele['samplesWeight']['avgTestedWeight'];
                         ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
-                        ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'];
+                        ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'].filter(amou => amou.amount);
                         
                         // if(ele['samplesWeight'].hasOwnProperty('avgWeight')) {
                         //     ele['avgTestedWeight'] = ele['samplesWeight']['avgWeight'];

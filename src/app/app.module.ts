@@ -38,17 +38,8 @@ import { SheardModule } from './sheard.module';
 // enGBConfig.setLocale(enGB);
 // export class AppDateAdapter extends NativeDateAdapter {
 //   format(date: Date, displayFormat: Object): string {
-//     console.log(displayFormat);
-    
-//     if (displayFormat === 'input') {
-//       let day: string = date.getDate().toString();
-//       day = +day < 10 ? '0' + day : day;
-//       let month: string = (date.getMonth() + 1).toString();
-//       month = +month < 10 ? '0' + month : month;
-//       let year = date.getFullYear();
-//       return `${year}-${month}-${day}`;
-//     }
-//     return date.toDateString();
+//     console.log(date.toUTCString());
+//       return date.toUTCString();
 //   }
 // }
 export const APP_DATE_FORMATS: MatDateFormats = {
@@ -57,7 +48,7 @@ export const APP_DATE_FORMATS: MatDateFormats = {
   },
   display: {
     dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
-    monthYearLabel: 'MMMM YYYY',
+    monthYearLabel: { month: 'short', year: 'numeric', day: 'numeric' },
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY'
   }
@@ -72,7 +63,7 @@ export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
       },
       display: { 
         dateInput: { month: 'short', year: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' },
-        monthYearLabel: 'MMMM YYYY',
+        monthYearLabel: { month: 'short', year: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' },
         dateA11yLabel: 'LL',
         monthYearA11yLabel: 'MMMM YYYY'
       }
