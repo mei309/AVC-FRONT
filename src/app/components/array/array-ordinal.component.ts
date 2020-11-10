@@ -7,31 +7,47 @@ import { FieldConfig } from '../../field.interface';
 @Component({
   selector: 'app-array-ordinal',
   template: `
-<div [formGroup]="group" *ngIf="!field.inputType">
-  {{field.label}}
-  <div *ngIf="notDeleted" [formArrayName]="field.name" class="array-field-grid">
-    <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
-      <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
-      <mat-form-field style="width: 100px">
-        <input matInput style="text-align: center" #input numeric formControlName="amount" [decimals]="field.options" minus="true" type="text" maxlength="255">
-      </mat-form-field>
+  <ng-container [ngSwitch]="field.inputType">
+    <div [formGroup]="group" *ngSwitchCase="'choose'">
+      {{field.label}}
+      <mat-checkbox [checked]="allComplete" (change)="setAll($event.checked)">Choose all</mat-checkbox>
+      <div [formArrayName]="field.name" class="array-field-grid">
+        <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
+          <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
+          <mat-form-field appearance="none" provideReadonly style="width: 100px">  
+            <input readonly style="text-align: center" matInput formControlName="amount">
+          </mat-form-field>
+          &nbsp;<mat-checkbox matSuffix formControlName="take" (ngModelChange)="updateAllComplete()"></mat-checkbox>
+        </div>
+      </div>
     </div>
-  </div>
-  <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
-</div>
-<div [formGroup]="group" *ngIf="field.inputType">
-  {{field.label}}
-  <mat-checkbox [checked]="allComplete" (change)="setAll($event.checked)">Choose all</mat-checkbox>
-  <div [formArrayName]="field.name" class="array-field-grid">
-    <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
-      <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
-      <mat-form-field appearance="none" provideReadonly style="width: 100px">  
-        <input readonly style="text-align: center" matInput formControlName="amount">
-      </mat-form-field>
-      &nbsp;<mat-checkbox matSuffix formControlName="take" (ngModelChange)="updateAllComplete()"></mat-checkbox>
+
+    <div class="array-field" [formGroup]="group" *ngSwitchCase="'inline'">
+      {{field.label}}
+      <div *ngIf="notDeleted" [formArrayName]="field.name" >
+        <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDownInline($event, i)" class="one-cell-table">
+          <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
+          <mat-form-field style="width: 100px">
+            <input matInput style="text-align: center" #input numeric formControlName="amount" [decimals]="field.options" minus="true" type="text" maxlength="255">
+          </mat-form-field>
+        </div>
+      </div>
+      <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
     </div>
-  </div>
-</div>
+
+    <div [formGroup]="group" *ngSwitchDefault>
+      {{field.label}}
+      <div *ngIf="notDeleted" [formArrayName]="field.name" class="array-field-grid">
+        <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
+          <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
+          <mat-form-field style="width: 100px">
+            <input matInput style="text-align: center" #input numeric formControlName="amount" [decimals]="field.options" minus="true" type="text" maxlength="255">
+          </mat-form-field>
+        </div>
+      </div>
+      <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+    </div>
+  </ng-container>
 `,
 })
 export class ArrayOrdinalComponent implements OnInit {
@@ -94,34 +110,49 @@ export class ArrayOrdinalComponent implements OnInit {
 keyDown(event: KeyboardEvent, ind) {
   switch (event.keyCode) {
       case 37: // this is the ascii of left
-          if(!ind) {
-            break;
+          if(ind) {
+            const elem = this.inputs.find((element, index) => index === ind-1);
+            elem.nativeElement.focus();
           }
-          const elem = this.inputs.find((element, index) => index === ind-1);
-          elem.nativeElement.focus();
           break;
       case 38: // this is the ascii of arrow up
-          if(ind < 5) {
-            break;
+          if(ind >= 5) {
+            const elem1 = this.inputs.find((element, index) => index === ind-5);
+            elem1.nativeElement.focus();   
           }
-          const elem1 = this.inputs.find((element, index) => index === ind-5);
-          elem1.nativeElement.focus();   
           break;
         case 39: // this is the ascii of right
-          if(ind === this.inputs.length) {
-            break;
+          if(ind !== this.inputs.length) {
+            const elem2 = this.inputs.find((element, index) => index === ind+1);
+            elem2.nativeElement.focus();
           }
-          const elem2 = this.inputs.find((element, index) => index === ind+1);
-          elem2.nativeElement.focus();
           break;
       case 40: // this is the ascii of arrow down
-          if(ind > this.inputs.length-5) {
-            break;
-          }
-          const elem3 = this.inputs.find((element, index) => index === ind+5);
-          elem3.nativeElement.focus();   
+          if(this.inputs.length-5 >= ind) {
+            const elem3 = this.inputs.find((element, index) => index === ind+5);
+            elem3.nativeElement.focus();
+          } 
           break;
   }
+}
+
+keyDownInline(event: KeyboardEvent, ind) {
+  switch (event.keyCode) {
+    case 37: // this is the ascii of left
+    case 38: // this is the ascii of arrow up
+        if(ind) {
+          const elem = this.inputs.find((element, index) => index === ind-1);
+          elem.nativeElement.focus();
+        }
+        break;
+    case 39: // this is the ascii of right
+    case 40: // this is the ascii of arrow down
+        if(ind !== this.inputs.length) {
+          const elem2 = this.inputs.find((element, index) => index === ind+1);
+          elem2.nativeElement.focus();
+        }
+        break;
+    }
 }
 
   ngOnDestroy() {

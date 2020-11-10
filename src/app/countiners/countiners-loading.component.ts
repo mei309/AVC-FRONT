@@ -619,6 +619,12 @@ export class CountinersLoadingComponent {
                                 name: 'storage',
                                 collections: [
                                     {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
+                                    },
+                                    {
                                         type: 'inputselect',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
@@ -635,12 +641,6 @@ export class CountinersLoadingComponent {
                                                 name: 'measureUnit',
                                             },
                                         ]
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Number of units',
-                                        name: 'numberUnits',
-                                        disable: true,
                                     },
                                     {
                                         type: 'select',

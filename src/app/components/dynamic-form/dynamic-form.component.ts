@@ -567,7 +567,7 @@ export class DynamicFormComponent implements OnInit {
               }
               const num = field.collections+1;
               for(let i = 2; i < num; i++) {
-                if(groupJson[groupLocation].ordinal === i) {
+                if(groupLocation < groupJson.length && groupJson[groupLocation].ordinal === i) {
                   (group.get([field.name]) as FormArray).push(this.fb.group({id: groupJson[groupLocation].id, version: groupJson[groupLocation].version, ordinal: i, amount: this.fb.control(groupJson[groupLocation].amount, this.bindValidations(field.validations || []) )}));
                   groupLocation++;
                 } else {

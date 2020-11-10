@@ -272,12 +272,20 @@ export class ReceiveProcssComponent implements OnInit {
                                 name: 'samplesWeight',
                                 inputType: true,
                                 collections: [
+                                    // {
+                                    //     type: 'array',
+                                    //     label: 'Empty bag weight',
+                                    //     name: 'sampleContainerWeight',
+                                    //     inputType: 'numeric',
+                                    //     options: 3,
+                                    // },
                                     {
-                                        type: 'array',
-                                        label: 'Empty bag weight',
-                                        name: 'sampleContainerWeight',
-                                        inputType: 'numeric',
+                                        type: 'arrayordinal',
+                                        label: 'Empty bag weights',
+                                        inputType: 'inline',
+                                        name: 'sampleContainerWeights',
                                         options: 3,
+                                        collections: 1,
                                     },
                                     {
                                         type: 'arrayordinal',
@@ -394,7 +402,7 @@ export class ReceiveProcssComponent implements OnInit {
             }
             element['storageForms'].forEach(ele => {
                 if(ele['samplesWeight']) {
-                    ele['sampleContainerWeight'] = (ele['samplesWeight']['sampleContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['sampleContainerWeight'].length;
+                    ele['sampleContainerWeights'] = ele['samplesWeight']['sampleContainerWeights'].filter(amou => amou.amount);
                     ele['avgTestedWeight'] = ele['samplesWeight']['avgTestedWeight'];
                     ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
                     ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'].filter(amou => amou.amount);

@@ -290,6 +290,12 @@ export class ExportImportComponent implements OnInit {
                                 name: 'storage',
                                 collections: [
                                     {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
+                                    },
+                                    {
                                         type: 'inputselect',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
@@ -306,12 +312,6 @@ export class ExportImportComponent implements OnInit {
                                                 name: 'measureUnit',
                                             },
                                         ]
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Number of units',
-                                        name: 'numberUnits',
-                                        disable: true,
                                     },
                                     {
                                         type: 'select',
@@ -405,6 +405,13 @@ export class ExportImportComponent implements OnInit {
                         options: 'Inline',
                         collections: [
                             {
+                                type: 'input',
+                                label: 'Number of units',
+                                name: 'numberUnits',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
                                 type: 'inputselect',
                                 name: 'unitAmount',
                                 collections: [
@@ -422,13 +429,6 @@ export class ExportImportComponent implements OnInit {
                                         options: ['KG', 'LBS', 'OZ', 'GRAM'],
                                     },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Number of units',
-                                name: 'numberUnits',
-                                inputType: 'numeric',
-                                options: 3,
                             },
                             {
                                 type: 'select',
@@ -545,6 +545,14 @@ export class ExportImportComponent implements OnInit {
                         options: 'aloneNoAddNoFrameInline',
                         collections: [
                             {
+                                type: 'input',
+                                label: 'Number of units',
+                                name: 'numberUnits',
+                                // value: 1,
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
                                 type: 'inputselect',
                                 name: 'unitAmount',
                                 options: ['item'],
@@ -564,14 +572,6 @@ export class ExportImportComponent implements OnInit {
                                         options: ['LBS', 'KG', 'OZ', 'GRAM'],
                                     },
                                 ]
-                            },
-                            {
-                                type: 'input',
-                                label: 'Number of units',
-                                name: 'numberUnits',
-                                // value: 1,
-                                inputType: 'numeric',
-                                options: 3,
                             },
                             {
                                 type: 'select',
@@ -600,6 +600,14 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsGeneral(),
                     },
                     {
+                        type: 'input',
+                        label: 'Number of units',
+                        name: 'numberUnits',
+                        // value: 1,
+                        inputType: 'numeric',
+                        options: 3,
+                    },
+                    {
                         type: 'inputselect',
                         name: 'unitAmount',
                         options: 'item',
@@ -620,14 +628,6 @@ export class ExportImportComponent implements OnInit {
                                 options: ['KG', 'LBS', 'OZ', 'GRAM'],
                             },
                         ]
-                    },
-                    {
-                        type: 'input',
-                        label: 'Number of units',
-                        name: 'numberUnits',
-                        // value: 1,
-                        inputType: 'numeric',
-                        options: 3,
                     },
                     {
                         type: 'divider',

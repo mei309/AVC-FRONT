@@ -171,11 +171,14 @@ export class ReceiveCashewComponent implements OnInit {
                     if(storage['className'] === 'ExtraAdded') {
                         newArrayExtra.push(storage);
                     } else {
-                        if (storage['avgTestedWeight']) {
-                            storage['samplesWeight'] = {sampleContainerWeight: [{value: storage['sampleContainerWeight']}], numberOfSamples: storage['numberOfSamples'], avgTestedWeight: storage['avgTestedWeight'], sampleWeights: storage['sampleWeights']};
-                            delete storage['sampleContainerWeight'];
+                        console.log(storage['sampleWeights']);
+                        
+                        if (storage['avgTestedWeight'] || storage['sampleWeights']) {
+                            storage['samplesWeight'] = {sampleContainerWeights: storage['sampleContainerWeights'], numberOfSamples: storage['numberOfSamples'], avgTestedWeight: storage['avgTestedWeight'], sampleWeights: storage['sampleWeights']};
+                            delete storage['sampleContainerWeights'];
                             delete storage['numberOfSamples'];
                             delete storage['avgTestedWeight'];
+                            delete storage['sampleWeights'];
                         }
                         newArray.push(storage);
                     }
@@ -444,12 +447,20 @@ export class ReceiveCashewComponent implements OnInit {
                                 name: 'samplesWeight',
                                 inputType: true,
                                 collections: [
+                                    // {
+                                    //     type: 'array',
+                                    //     label: 'Empty bag weight',
+                                    //     name: 'sampleContainerWeight',
+                                    //     inputType: 'numeric',
+                                    //     options: 3,
+                                    // },
                                     {
-                                        type: 'array',
-                                        label: 'Empty bag weight',
-                                        name: 'sampleContainerWeight',
-                                        inputType: 'numeric',
+                                        type: 'arrayordinal',
+                                        label: 'Empty bag weights',
+                                        inputType: 'inline',
+                                        name: 'sampleContainerWeights',
                                         options: 3,
+                                        collections: 1,
                                     },
                                     {
                                         type: 'arrayordinal',
@@ -564,7 +575,7 @@ export class ReceiveCashewComponent implements OnInit {
                 }
                 element['storageForms'].forEach(ele => {
                     if(ele['samplesWeight']) {
-                        ele['sampleContainerWeight'] = (ele['samplesWeight']['sampleContainerWeight'].reduce((b, c) => +b + +c['value'], 0))/ele['samplesWeight']['sampleContainerWeight'].length;
+                        ele['sampleContainerWeights'] = ele['samplesWeight']['sampleContainerWeights'].filter(amou => amou.amount);
                         ele['avgTestedWeight'] = ele['samplesWeight']['avgTestedWeight'];
                         ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
                         ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'].filter(amou => amou.amount);

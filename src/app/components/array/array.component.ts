@@ -5,7 +5,7 @@ import { FieldConfig } from '../../field.interface';
 @Component({
   selector: 'app-array',
   template: `
-<div class="array-field" [formGroup]="group" *ngIf="!field.collections">
+<div class="array-field" [formGroup]="group">
   <ng-container [formArrayName]="field.name">
     <div *ngFor="let item of formArray.controls; let i = index;">
       <mat-form-field class="one-field" [formGroupName]="i">
@@ -25,18 +25,7 @@ import { FieldConfig } from '../../field.interface';
 </div>
 
 
-<div [formGroup]="group" *ngIf="field.collections">
-  {{field.label}}
-  <div [formArrayName]="field.name" class="array-field-grid">
-    <div *ngFor="let item of formArray.controls; let i = index;" (keydown)="keyDown($event, i)" class="one-cell-table">
-      <span matPrefix>&nbsp; {{i+1}} &nbsp;</span>
-      <mat-form-field [formGroupName]="i" style="width: 100px">
-        <input matInput #input numeric formControlName="value" [decimals]="field.options" minus="true" type="text" maxlength="255">
-      </mat-form-field>
-    </div>
-  </div>
-  <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
-</div>
+
 `,
 })
 export class ArrayComponent implements OnInit {
@@ -47,25 +36,16 @@ export class ArrayComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
   ngOnInit() {
-    const num = this.field.collections;
-    for(let i = 1; i < num; i++) {
-      this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
-    }
+    
   }
   
   get formArray() { return <FormArray>this.group.get(this.field.name); }
 
   addItem(): void {
-    if(this.field.collections) {
-      for (let index = 0; index < this.field.collections; index++) {
-        this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
-      }
-    } else {
       this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
       setTimeout(() => {
         this.inputs.last.nativeElement.focus();
       }, 2);
-    }
   }
 
   removeItem(index): void {
@@ -120,3 +100,31 @@ keyDown(event: KeyboardEvent, ind) {
 }
 
 }
+
+// *ngIf="!field.collections"
+
+// <div [formGroup]="group" *ngIf="field.collections">
+//   {{field.label}}
+//   <div [formArrayName]="field.name" class="array-field-grid">
+//     <div *ngFor="let item of formArray.controls; let i = index;" (keydown)="keyDown($event, i)" class="one-cell-table">
+//       <span matPrefix>&nbsp; {{i+1}} &nbsp;</span>
+//       <mat-form-field [formGroupName]="i" style="width: 100px">
+//         <input matInput #input numeric formControlName="value" [decimals]="field.options" minus="true" type="text" maxlength="255">
+//       </mat-form-field>
+//     </div>
+//   </div>
+//   <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+// </div>
+
+
+// const num = this.field.collections;
+//     for(let i = 1; i < num; i++) {
+//       this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
+//     }
+
+//     if(this.field.collections) {
+//       for (let index = 0; index < this.field.collections; index++) {
+//         this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
+//       }
+//     } else {
+//     }

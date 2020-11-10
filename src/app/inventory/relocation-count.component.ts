@@ -319,6 +319,12 @@ export class RelocationCountComponent implements OnInit {
                                 name: 'storage',
                                 collections: [
                                     {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
+                                    },
+                                    {
                                         type: 'inputselect',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
@@ -335,12 +341,6 @@ export class RelocationCountComponent implements OnInit {
                                                 name: 'measureUnit',
                                             },
                                         ]
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Number of units',
-                                        name: 'numberUnits',
-                                        disable: true,
                                     },
                                     {
                                         type: 'select',

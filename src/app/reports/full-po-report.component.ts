@@ -400,7 +400,7 @@ export class fullPoReportComponent {
                 {
                     type: 'listDates',
                     name: 'dates',
-                    label: 'Receiving dates',
+                    label: 'Cleaning dates',
                 },
             ]
         },
@@ -422,7 +422,7 @@ export class fullPoReportComponent {
                 {
                     type: 'listDates',
                     name: 'dates',
-                    label: 'Receiving dates',
+                    label: 'Roasting dates',
                 },
             ]
         },
@@ -483,7 +483,7 @@ export class fullPoReportComponent {
                 {
                     type: 'listDates',
                     name: 'dates',
-                    label: 'Receiving dates',
+                    label: 'Packing dates',
                 },
             ]
         },
@@ -505,7 +505,7 @@ export class fullPoReportComponent {
                 {
                     type: 'date',
                     name: 'date',
-                    label: 'Receiving dates',
+                    label: 'Loading dates',
                 },
                 {
                     type: 'normal',
