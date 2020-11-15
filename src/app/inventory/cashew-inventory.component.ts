@@ -220,7 +220,7 @@ export class CashewInventoryComponent implements OnInit {
       if($event === '') {
         this.cashewSourceColumns = [this.cashewSource, this.columnsShow];
       } else {
-        this.cashewSourceColumns = [this.cashewSource.filter(aa => aa.item.category === $event), this.columnsShow];
+        this.cashewSourceColumns = [this.cashewSource.filter(aa => aa.item.productionUse === $event), this.columnsShow];
       }
     }
     

@@ -43,10 +43,7 @@
 //               </mat-select>
 
 
-//               <input matInput *ngSwitchCase="'dates'" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value, column.name)">
-//               <sat-datepicker #picker2 [rangeMode]="true" ></sat-datepicker>
-//               <sat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker2"></sat-datepicker-toggle>
-
+ 
 //               <input *ngSwitchCase="'object'" autocomplete="off" matInput type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilterObject(column.name)" placeholder="Search">
 
 //               <input *ngSwitchDefault matInput autocomplete="off" type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(column.name)" placeholder="Search">

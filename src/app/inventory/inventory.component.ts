@@ -6,6 +6,7 @@ import { Genral } from './../genral.service';
 import { InventoryService } from './inventory.service';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup, FormControl } from '@angular/forms';
 // import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 // import { MatDialog } from '@angular/material/dialog';
 @Component({
@@ -15,7 +16,10 @@ import { MatDialog } from '@angular/material/dialog';
 export class InventoryComponent implements OnInit {
   tabIndex: number;
 
-  dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
+  dateRangeDisp= new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
 
   columnsShow: OneColumn[];
 

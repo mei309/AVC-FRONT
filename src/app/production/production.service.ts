@@ -54,7 +54,7 @@ export class ProductionService {
   }
 
   getAllPosRaw() {
-    return this.http.get(this.productionurl+'getAllPos/RAW');
+    return this.http.get(this.productionurl+'getAllPos/RAW_KERNEL');
   }
   getAllPosClean() {
     return this.http.get(this.productionurl+'getAllPos/CLEAN');

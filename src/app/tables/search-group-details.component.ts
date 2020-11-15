@@ -40,9 +40,12 @@ import { OneColumn } from '../field.interface';
                     
                     <input *ngSwitchCase="'array2'" matInput readonly>
 
-                    <input matInput *ngSwitchCase="'dates'" readonly (focus)="picker2.open()" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value, column.name)">
-                    <sat-datepicker #picker2 [rangeMode]="true" ></sat-datepicker>
-                    <sat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker2"></sat-datepicker-toggle>
+                    <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value, column.name)" [rangePicker]="picker4">
+                      <input matStartDate formControlName="start" placeholder="Start date">
+                      <input matEndDate formControlName="end" placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker4></mat-date-range-picker>
 
                     <input *ngSwitchCase="'object'"  autocomplete="off" matInput type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilterObject(column.name)" placeholder="Search">
 

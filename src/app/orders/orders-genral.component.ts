@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -13,8 +14,11 @@ import { OrdersService } from './orders.service';
 export class OrdersGenralComponent implements OnInit {
   tabIndex: number;
 
-  dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
-
+  dateRangeDisp= new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+  
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];

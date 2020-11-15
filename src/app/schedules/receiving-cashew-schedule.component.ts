@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
@@ -12,9 +13,13 @@ import { SchedulesService } from './schedules.service';
   </h1>
   <div class="centerButtons">
     <mat-form-field>
-        <input matInput readonly (focus)="picker3.open()" placeholder="Choose dates" [satDatepicker]="picker3" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
-        <sat-datepicker #picker3 [rangeMode]="true"></sat-datepicker>
-        <sat-datepicker-toggle  matSuffix [for]="picker3"></sat-datepicker-toggle>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value)" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker4></mat-date-range-picker>
     </mat-form-field>
     <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek()">See all</mat-checkbox>
   </div>
@@ -26,7 +31,10 @@ import { SchedulesService } from './schedules.service';
 })
 export class ReceivingCashewScheduleComponent implements OnInit {
 
-  dateRangeDisp;
+  dateRangeDisp= new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
   
   cashewSourceColumns;
   sumsSource;
@@ -46,7 +54,7 @@ export class ReceivingCashewScheduleComponent implements OnInit {
     this.showWeek();
     this.localService.getCashewOrdersOpen().pipe(take(1)).subscribe(value => {
       this.mainSource = <any[]>value;
-      this.inlineRangeChange(this.dateRangeDisp);
+      this.inlineRangeChange(this.dateRangeDisp.value);
     });
     this.columnsShow = [
       {
@@ -132,16 +140,16 @@ export class ReceivingCashewScheduleComponent implements OnInit {
     tempDate.setHours(0,0,0,0);
     const beginDate: Date = new Date();
     beginDate.setHours(0,0,0,0);
-    this.dateRangeDisp = {begin: beginDate, end: tempDate};
+    this.dateRangeDisp.setValue({start: beginDate, end: tempDate});
   }
 
   inlineRangeChange($event) {
-      const begin = $event.begin.getTime();
+      const start = $event.start.getTime();
       const finalEnd: Date = new Date($event.end);
       finalEnd.setDate(finalEnd.getDate() + 1);
       const end = finalEnd.getTime();
       this.ordersSource = this.mainSource.filter(e=> 
-        (new Date(e['deliveryDate'])).getTime() > begin && (new Date(e['deliveryDate'])).getTime() < end ) ; 
+        (new Date(e['deliveryDate'])).getTime() > start && (new Date(e['deliveryDate'])).getTime() < end ) ; 
         this.cashewSourceColumns = [this.ordersSource, this.columnsShow];
         this.sumsSource = [this.ordersSource, ['personInCharge', 'itemName']];
   }
@@ -153,7 +161,7 @@ export class ReceivingCashewScheduleComponent implements OnInit {
       this.sumsSource = [this.mainSource, ['personInCharge', 'itemName']];
     } else {
       this.showWeek();
-      this.inlineRangeChange(this.dateRangeDisp);
+      this.inlineRangeChange(this.dateRangeDisp.value);
     }
   }
 

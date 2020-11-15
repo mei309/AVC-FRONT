@@ -9,10 +9,14 @@
     </mat-tab>
     <mat-tab label="History">
         not implemnted yet
-        <mat-form-field floatLabel="never" >
-            <input matInput readonly (focus)="picker2.open()" placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
-            <sat-datepicker #picker2 [rangeMode]="true"></sat-datepicker>
-            <sat-datepicker-toggle  matSuffix [for]="picker2"></sat-datepicker-toggle>
+        <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value)" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
+              <input matStartDate formControlName="start" placeholder="Start date">
+              <input matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker4></mat-date-range-picker>
         </mat-form-field>
         
     </mat-tab>

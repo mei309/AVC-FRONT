@@ -483,17 +483,4 @@ export class OrdersCashewComponent implements OnInit {
       }
     }
 
-    
-    // not implemnted yet
-    // <mat-form-field floatLabel="never" >
-    //     <input matInput placeholder="Choose dates" [satDatepicker]="picker2" (dateChange)="inlineRangeChange($event.value)" [value]="dateRangeDisp">
-    //     <sat-datepicker #picker2 [rangeMode]="true"></sat-datepicker>
-    //     <sat-datepicker-toggle  matSuffix [for]="picker2"></sat-datepicker-toggle>
-    // </mat-form-field>
-    // inlineRangeChange($event) {
-    //   let begin = $event.begin.value;
-    //   let end = $event.end.value;
-    //   // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
-    // }
-
 }

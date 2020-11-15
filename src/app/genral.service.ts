@@ -76,11 +76,12 @@ export class Genral {
       this.banks.next(value[3]);
       this.ContractType.next(value[4]);
       this.storage.next(value[5]);
+      console.log(value[6]);
       
-      this.ItemsRawCashew.next(value[6].filter(word => word.category === 'RAW'));
-      this.ItemsCleanCashew.next(value[6].filter(word => word.category === 'CLEAN'));
-      this.ItemsRoastCashew.next(value[6].filter(word => word.category === 'ROAST'));
-      this.ItemsRoastPackedCashew.next(value[6].filter(word => ['ROAST', 'PACKED'].includes(word.category)));
+      this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
+      this.ItemsCleanCashew.next(value[6].filter(w => w.productionUse === 'CLEAN'));
+      this.ItemsRoastCashew.next(value[6].filter(w => w.productionUse === 'ROAST'));
+      this.ItemsRoastPackedCashew.next(value[6].filter(w => ['ROAST', 'PACKED'].includes(w.productionUse)));
       // value[6].filter(word => {log['ROAST', 'PACKED'].includes(word.category)});
       this.allItemsCashew.next(value[6]);
 
@@ -257,7 +258,7 @@ export class Genral {
   }
 
   getDecisionType(): string[] {
-    return ['NOT_ATTENDED', 'EDIT_NOT_ATTENDED', 'APPROVED', 'DECLINED', 'FINALIZED', 'SUSPENDED'	];
+    return ['NOT_ATTENDED', 'EDIT_NOT_ATTENDED', 'APPROVED', 'DECLINED'	];
   }
 
   getApprovalType(): string[] {
@@ -269,21 +270,20 @@ export class Genral {
   }
   
   getItemCategory(): string[] {
-    return ['RAW', 'CLEAN', 'ROAST', 'PACKED', 'INGREDIENTS', 'PACKING_SUPPLYES', 'WASTE'];
+    return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED', 'INGREDIENTS', 'PACKING_SUPPLYES', 'WASTE'];
   }
 
   getMeasureUnit(): string[] {
-    return ['KG', 'LBS', 'OZ', 'GRAM'];
+    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'UNIT'];
   }
-
+  
   getQcCheckOrganzition(): string[] {
     return ['avc lab', 'supllier sample', 'supllier check', 'vina control'];
   }
 
   getProcessStatus(): string[] {
-    return ['REJECTED', 'OPEN', 'CANCELLED', 'PARTLY RECEIVED', 'RECEIVED'];
+    return ['PENDING', 'FINAL', 'CANCELLED'];
   }
-	
 
   getShippingContainerType(): string[] {
     return ['40\'', '20\''];
