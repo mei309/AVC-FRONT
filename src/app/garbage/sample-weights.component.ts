@@ -10,7 +10,7 @@
 // @Component({
 //     selector: 'sample-weight',
 //     template: `
-//     <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Sample weights'" (submit)="submit($event)">
+//     <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Sample weights'" (submitForm)="submit($event)">
 //     </dynamic-form> 
 //     `
 //   })

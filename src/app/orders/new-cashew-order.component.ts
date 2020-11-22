@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
     selector: 'new-cashew-order',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submit)="submit($event)">
+        <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `

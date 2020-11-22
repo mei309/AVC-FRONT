@@ -22,7 +22,7 @@
 //         </div>
 //     </fieldset>
 //     <div *ngIf="isFormAvailable">
-//         <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to export'" (submit)="submit($event)">
+//         <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to export'" (submitForm)="submit($event)">
 //         </dynamic-form>
 //     </div>
 //     `
@@ -559,7 +559,7 @@
 //                                 type: 'select',
 //                                 label: 'Warehouse location',
 //                                 name: 'warehouseLocation',
-//                                 options: this.genral.getStorage(),
+//                                 options: this.genral.getWearhouses(),
 //                             },
 //                             {
 //                                 type: 'input',
@@ -604,7 +604,7 @@
 //                                 type: 'select',
 //                                 label: 'Warehouse location',
 //                                 name: 'warehouseLocation',
-//                                 options: this.genral.getStorage(),
+//                                 options: this.genral.getWearhouses(),
 //                             },
 //                             {
 //                                 type: 'input',

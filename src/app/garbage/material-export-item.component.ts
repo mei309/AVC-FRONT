@@ -11,11 +11,11 @@ import { MatDialog } from '@angular/material/dialog';
     selector: 'material-export-item',
     template: `
     <div *ngIf="isFirstDataAvailable">
-        <dynamic-form [fields]="poConfig" [mainLabel]="'Item export'" (submit)="goNext($event)">
+        <dynamic-form [fields]="poConfig" [mainLabel]="'Item export'" (submitForm)="goNext($event)">
         </dynamic-form>
     </div>
     <div *ngIf="isDataAvailable">
-        <just-show [oneColumns]="regConfig" [dataSource]="putData" [mainLabel]="'Material to export'" (submit)="submit($event)">
+        <just-show [oneColumns]="regConfig" [dataSource]="putData" [mainLabel]="'Material to export'" (submitForm)="submit($event)">
         </just-show>
     </div>
     `
@@ -92,7 +92,7 @@ export class MaterialExportItemComponent implements OnInit {
             //     type: 'select',
             //     label: 'To warehouse location',
             //     name: 'warehouseLocation',
-            //     options: this.genral.getStorage(),
+            //     options: this.genral.getWearhouses(),
             // },
             {
                 type: 'button',
@@ -239,7 +239,7 @@ export class MaterialExportItemComponent implements OnInit {
                                         label: 'Warehouse location',
                                         name: 'warehouseLocation',
                                         disable: 'true',
-                                        // options: this.genral.getStorage(),
+                                        // options: this.genral.getWearhouses(),
                                     },
                                     // {
                                     //     type: 'input',
@@ -300,7 +300,7 @@ export class MaterialExportItemComponent implements OnInit {
                                                 type: 'select',
                                                 label: 'Warehouse location',
                                                 name: 'warehouseLocation',
-                                                options: this.genral.getStorage(),
+                                                options: this.genral.getWearhouses(),
                                             },
                                             {
                                                 type: 'divider',

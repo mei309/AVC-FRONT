@@ -7,7 +7,7 @@ import { Genral } from '../genral.service';
     selector: 'export-import',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="mainLabel+ 'ing cashew process'" (submit)="onSubmit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="mainLabel+ 'ing cashew process'" (submitForm)="onSubmit($event)">
         </dynamic-form>
     </div>
     `
@@ -17,7 +17,7 @@ export class ExportImportComponent implements OnInit {
     @Input() mainLabel: string;
     @Input() beginData;
     @Input() newUsed;
-    @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+    @Output() submitExIm: EventEmitter<any> = new EventEmitter<any>();
     regConfig: FieldConfig[];
 
     dataSource;
@@ -89,7 +89,7 @@ export class ExportImportComponent implements OnInit {
         
         console.log(value);
         
-        this.submit.emit(value);
+        this.submitExIm.emit(value);
     }
 
       constructor(private genral: Genral, public dialog: MatDialog) {
@@ -286,6 +286,12 @@ export class ExportImportComponent implements OnInit {
                                 disable: true,
                             },
                             {
+                                type: 'selectNormal',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                                disable: true,
+                            },
+                            {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
@@ -295,24 +301,24 @@ export class ExportImportComponent implements OnInit {
                                         name: 'numberUnits',
                                         disable: true,
                                     },
-                                    {
-                                        type: 'inputselect',
-                                        name: 'unitAmount',
-                                        label: 'Unit weight',
-                                        disable: true,
-                                        collections: [
-                                            {
-                                                type: 'input',
-                                                label: 'Unit weight',
-                                                name: 'amount',
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: 'Weight unit',
-                                                name: 'measureUnit',
-                                            },
-                                        ]
-                                    },
+                                    // {
+                                    //     type: 'inputselect',
+                                    //     name: 'unitAmount',
+                                    //     label: 'Unit weight',
+                                    //     disable: true,
+                                    //     collections: [
+                                    //         {
+                                    //             type: 'input',
+                                    //             label: 'Unit weight',
+                                    //             name: 'amount',
+                                    //         },
+                                    //         {
+                                    //             type: 'select',
+                                    //             label: 'Weight unit',
+                                    //             name: 'measureUnit',
+                                    //         },
+                                    //     ]
+                                    // },
                                     {
                                         type: 'select',
                                         label: 'Warehouse location',
@@ -399,6 +405,12 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: this.genral.getMeasureUnit(),
+                    },
+                    {
                         type: 'bigexpand',
                         label: 'Amounts',
                         name: 'storageForms',
@@ -411,30 +423,30 @@ export class ExportImportComponent implements OnInit {
                                 inputType: 'numeric',
                                 options: 3,
                             },
-                            {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Unit weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
-                                        options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                                    },
-                                ]
-                            },
+                            // {
+                            //     type: 'inputselect',
+                            //     name: 'unitAmount',
+                            //     collections: [
+                            //         {
+                            //             type: 'input',
+                            //             label: 'Unit weight',
+                            //             name: 'amount',
+                            //             inputType: 'numeric',
+                            //             options: 3,
+                            //         },
+                            //         {
+                            //             type: 'select',
+                            //             label: 'Weight unit',
+                            //             name: 'measureUnit',
+                            //             options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                            //         },
+                            //     ]
+                            // },
                             {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'input',
@@ -486,21 +498,27 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: this.genral.getMeasureUnit(),
+                    },
+                    {
                         type: 'bignotexpand',
                         name: 'storage',
                         options: 'Inline',
                         collections: [
-                            {
-                                type: 'selectNormal',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                                options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                            },
+                            // {
+                            //     type: 'selectNormal',
+                            //     label: 'Weight unit',
+                            //     name: 'measureUnit',
+                            //     options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                            // },
                             {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'input',
@@ -539,6 +557,12 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashew('WASTE'),
                     },
                     {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: this.genral.getMeasureUnit(),
+                    },
+                    {
                         type: 'bigexpand',
                         label: 'Amounts',
                         name: 'storageForms',
@@ -552,32 +576,32 @@ export class ExportImportComponent implements OnInit {
                                 inputType: 'numeric',
                                 options: 3,
                             },
-                            {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                options: ['item'],
-                                inputType: 'second',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Unit weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
-                                        options: ['LBS', 'KG', 'OZ', 'GRAM'],
-                                    },
-                                ]
-                            },
+                            // {
+                            //     type: 'inputselect',
+                            //     name: 'unitAmount',
+                            //     options: ['item'],
+                            //     inputType: 'second',
+                            //     collections: [
+                            //         {
+                            //             type: 'input',
+                            //             label: 'Unit weight',
+                            //             name: 'amount',
+                            //             inputType: 'numeric',
+                            //             options: 3,
+                            //         },
+                            //         {
+                            //             type: 'select',
+                            //             label: 'Weight unit',
+                            //             name: 'measureUnit',
+                            //             options: ['LBS', 'KG', 'OZ', 'GRAM'],
+                            //         },
+                            //     ]
+                            // },
                             {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                         ]
                     },
@@ -600,6 +624,12 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsGeneral(),
                     },
                     {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: this.genral.getMeasureUnit(),
+                    },
+                    {
                         type: 'input',
                         label: 'Number of units',
                         name: 'numberUnits',
@@ -607,28 +637,28 @@ export class ExportImportComponent implements OnInit {
                         inputType: 'numeric',
                         options: 3,
                     },
-                    {
-                        type: 'inputselect',
-                        name: 'unitAmount',
-                        options: 'item',
-                        inputType: 'second',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: 'Unit weight',
-                                name: 'amount',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Weight unit',
-                                value: 'GRAM',
-                                name: 'measureUnit',
-                                options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                            },
-                        ]
-                    },
+                    // {
+                    //     type: 'inputselect',
+                    //     name: 'unitAmount',
+                    //     options: 'item',
+                    //     inputType: 'second',
+                    //     collections: [
+                    //         {
+                    //             type: 'input',
+                    //             label: 'Unit weight',
+                    //             name: 'amount',
+                    //             inputType: 'numeric',
+                    //             options: 3,
+                    //         },
+                    //         {
+                    //             type: 'select',
+                    //             label: 'Weight unit',
+                    //             value: 'GRAM',
+                    //             name: 'measureUnit',
+                    //             options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                    //         },
+                    //     ]
+                    // },
                     {
                         type: 'divider',
                         inputType: 'divide'

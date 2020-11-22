@@ -15,7 +15,7 @@ import { Genral } from '../genral.service';
 <mat-horizontal-stepper [linear]="true" #stepper>
   <mat-step label="Orders and productivty">
     <div class="form">
-        <dynamic-form [fields]="regConfig" (submit)="goNext($event)" (cancel)="cancel()">
+        <dynamic-form [fields]="regConfig" (submitForm)="goNext($event)" (cancel)="cancel()">
         </dynamic-form>
     </div>
   </mat-step>

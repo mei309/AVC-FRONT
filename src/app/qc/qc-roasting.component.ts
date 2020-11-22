@@ -18,25 +18,25 @@ import { QcService } from './qc.service';
     </h1>
     <mat-horizontal-stepper linear #stepper>
         <mat-step >
-            <dynamic-form [fields]="regConfig" (submit)="goNext($event)" (cancel)="cancel()">
+            <dynamic-form [fields]="regConfig" (submitForm)="goNext($event)" (cancel)="cancel()">
             </dynamic-form>
         </mat-step>
         <mat-step >
             <mat-tab-group (selectedIndexChange)="changed($event)">
                 <mat-tab label="Roaster tempeture and times">
-                    <dynamic-form [fields]="regConfigTempeture" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigTempeture" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Roaster oil test">
-                    <dynamic-form [fields]="regConfigOiltest" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigOiltest" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Roasted product check">
-                    <dynamic-form [fields]="regConfigProductCheck" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigProductCheck" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Bacteria check">
-                    <dynamic-form [fields]="regConfigBactria" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigBactria" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
             </mat-tab-group>

@@ -13,7 +13,7 @@ import { QcService } from './qc.service';
     // tslint:disable-next-line: component-selector
     selector: 'qc-machins',
     template: `
-    <dynamic-form [fields]="regConfig" [mainLabel]="'Machins check'" (submit)="submit($event)" (cancel)="cancel()">
+    <dynamic-form [fields]="regConfig" [mainLabel]="'Machins check'" (submitForm)="submit($event)" (cancel)="cancel()">
     </dynamic-form>
     `
   })

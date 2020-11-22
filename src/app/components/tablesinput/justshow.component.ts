@@ -51,28 +51,28 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
               <ng-container *ngSwitchCase="'object'">
                 <ng-container *ngIf="dataSource[column.name]['id']">
                   <h4>{{column.label}}</h4>
-                  <just-show [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" (submit)="onSubmit($event)">
+                  <just-show [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" (submitForm)="onSubmit($event)">
                   </just-show>
                 </ng-container>
               </ng-container>
               <ng-container *ngSwitchCase="'parent'">
                 <ng-container *ngIf="dataSource[column.name]['id']">
-                  <just-show [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" (submit)="onSubmit($event)">
+                  <just-show [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" (submitForm)="onSubmit($event)">
                   </just-show>
                 </ng-container>
               </ng-container>
               <ng-container *ngSwitchCase="'parentArray'">
                 <ng-container *ngIf="dataSource[column.name].length">
-                  <just-show [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" (submit)="onSubmit($event)">
+                  <just-show [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" (submitForm)="onSubmit($event)">
                   </just-show>
                 </ng-container>
               </ng-container>
               <ng-container *ngSwitchCase="'array'">
-                <table-info *ngIf="dataSource[column.name].length" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [titel]="column.label" (submit)="onSubmit($event)">
+                <table-info *ngIf="dataSource[column.name].length" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [titel]="column.label" (submitForm)="onSubmit($event)">
                 </table-info>
               </ng-container>
               <ng-container *ngSwitchCase="'arrayGroup'">
-                <table-info-group *ngIf="dataSource[column.name].length" [mainDetailsSource]="[dataSource[column.name], column.collections]" [titel]="column.label" (submit)="onSubmit($event)">
+                <table-info-group *ngIf="dataSource[column.name].length" [mainDetailsSource]="[dataSource[column.name], column.collections]" [titel]="column.label" (submitForm)="onSubmit($event)">
                 </table-info-group>
               </ng-container>
               
@@ -86,7 +86,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['tablesinfo.css'],
 })
 export class JustShowComponent implements OnInit {
-    @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+    @Output() submitForm: EventEmitter<any> = new EventEmitter<any>();
     
   @Input() mainLabel: string = null;
   dataTable;
@@ -112,6 +112,6 @@ export class JustShowComponent implements OnInit {
   }
 
     onSubmit(event: Event) {
-          this.submit.emit(event);
+          this.submitForm.emit(event);
       }
 }

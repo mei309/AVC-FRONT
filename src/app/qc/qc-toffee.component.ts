@@ -18,17 +18,17 @@ import { QcService } from './qc.service';
     </h1>
     <mat-horizontal-stepper [linear]="true" #stepper>
         <mat-step >
-            <dynamic-form [fields]="regConfig" (submit)="goNext($event)" (cancel)="cancel()">
+            <dynamic-form [fields]="regConfig" (submitForm)="goNext($event)" (cancel)="cancel()">
             </dynamic-form>
         </mat-step>
         <mat-step >
             <mat-tab-group (selectedIndexChange)="changed($event)">
                 <mat-tab label="Bacteria check???">
-                    <dynamic-form [fields]="regConfigBactria" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigBactria" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Magnets check???">
-                    <dynamic-form [fields]="regConfigMagnets" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigMagnets" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
             </mat-tab-group>

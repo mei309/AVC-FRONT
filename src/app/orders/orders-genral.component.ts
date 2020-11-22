@@ -209,7 +209,7 @@ export class OrdersGenralComponent implements OnInit {
               name: 'storage',
               label: 'Storage',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
               name: 'receiptRows',
@@ -292,7 +292,7 @@ export class OrdersGenralComponent implements OnInit {
               name: 'storage',
               label: 'Storage',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             // {
             //   name: 'receiptRows',

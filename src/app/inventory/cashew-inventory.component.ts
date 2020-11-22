@@ -112,7 +112,7 @@ export class CashewInventoryComponent implements OnInit {
               name: 'warehouses',
               label: 'Warehouse',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
@@ -181,7 +181,7 @@ export class CashewInventoryComponent implements OnInit {
               name: 'warehouses',
               label: 'Warehouse',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',

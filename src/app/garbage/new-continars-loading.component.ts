@@ -15,7 +15,7 @@
 //     selector: 'countiners-loading',
 //     template: `
 //     <div *ngIf="!loading && beginPage">
-//       <dynamic-form [fields]="beginConfig" [putData]="firstData" [mainLabel]="'Container information'" (submit)="onLoad($event)">
+//       <dynamic-form [fields]="beginConfig" [putData]="firstData" [mainLabel]="'Container information'" (submitForm)="onLoad($event)">
 //       </dynamic-form>
 //     </div>
 //     <div *ngIf="loading">
@@ -23,7 +23,7 @@
 //         <ng-container dynamicField [field]="poConfig" [group]="form">
 //         </ng-container>
 //         <div *ngIf="isFormAvailable">
-//             <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'" (submit)="submit($event)">
+//             <dynamic-form [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'" (submitForm)="submit($event)">
 //             </dynamic-form>
 //         </div>
 //     </div>

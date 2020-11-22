@@ -5,7 +5,7 @@ import { Genral } from '../genral.service';
 @Component({
     selector: 'countiners-booking-component',
     template: `
-    <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submit)="submit($event)">
+    <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submitForm)="submit($event)">
     </dynamic-form>
     `
   })

@@ -11,7 +11,7 @@ import { Genral } from '../genral.service';
     // tslint:disable-next-line: component-selector
     selector: 'countiners-arrival',
     template: `
-      <dynamic-form [fields]="regConfig" [mainLabel]="'Countiners arrival'" (submit)="submit($event)" (cancel)="cancel()">
+      <dynamic-form [fields]="regConfig" [mainLabel]="'Countiners arrival'" (submitForm)="submit($event)" (cancel)="cancel()">
       </dynamic-form>
     `
   })

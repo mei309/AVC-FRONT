@@ -86,7 +86,7 @@ import { PopupformDialog } from '../popupform/popupform.component';
 })
 export class TableInfoGroupComponent implements OnInit {
 
-    @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+    @Output() submitForm: EventEmitter<any> = new EventEmitter<any>();
     
     @Input() titel: string;
     arrayControl = new FormGroup({});
@@ -296,7 +296,7 @@ export class TableInfoGroupComponent implements OnInit {
               delete final[element];
           }
       });
-      this.submit.emit(final);
+      this.submitForm.emit(final);
     } else {
       this._snackBar.open('please fill in all required fields', 'ok', {
         duration: 5000,

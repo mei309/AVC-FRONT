@@ -16,7 +16,7 @@ import {cloneDeep} from 'lodash-es';
     selector: 'countiners-loading',
     template: `
     <div *ngIf="!loading">
-      <dynamic-form [fields]="regConfig" [mainLabel]="'Continer information'" (submit)="onLoad($event)">
+      <dynamic-form [fields]="regConfig" [mainLabel]="'Continer information'" (submitForm)="onLoad($event)">
       </dynamic-form>
     </div>
     <div cdkDropListGroup *ngIf="loading" >

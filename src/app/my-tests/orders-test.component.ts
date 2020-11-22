@@ -19,7 +19,7 @@ export class OrdersTestComponent implements OnInit {
     this.genral.getSupplierCashew().pipe(take(1)).subscribe(value1 => {
       this.genral.getItemsRawCashew().pipe(take(1)).subscribe(value2 => {
         this.genral.getContractType().pipe(take(1)).subscribe(value3 => {
-          this.genral.getStorage().pipe(take(1)).subscribe(value4 => {
+          this.genral.getWearhouses().pipe(take(1)).subscribe(value4 => {
               const mainOrder = { "poCode": { "supplier": value1[0], "contractType": value3[0], "code": null }, "recordedTime": "2020-05-05T13:12:29.855Z", "orderItems": [ 
                   { "item": value2[0], "numberUnits": {"amount": "232", "measureUnit": "KG"}, "unitPrice": {"amount": "343", "currency": "USD"}, "deliveryDate": "2020-05-05", "defects": "12%", "remarks": "ertyf cvbnjytr bvvghh" },
                     { "item": value2[0], "numberUnits": {"amount": "4444", "measureUnit": "KG"}, "unitPrice": {"amount": "44", "currency": "USD"}, "deliveryDate": "2020-05-05", "defects": "By standard", "remarks": null },
@@ -196,7 +196,7 @@ export class OrdersTestComponent implements OnInit {
     // this.LocalService.getSupplierGeneral().pipe(take(1)).subscribe(value51 => {
     //   this.LocalService.getItemsGeneral().pipe(take(1)).subscribe(value52 => {
     //     this.genral.getContractType().pipe(take(1)).subscribe(value53 => {
-    //       this.genral.getStorage().pipe(take(1)).subscribe(value54 => {
+    //       this.genral.getWearhouses().pipe(take(1)).subscribe(value54 => {
     //           const mainOrder1 = { "poCode": { "supplier": value51[0], "contractType": value53[0], "code": null }, "recordedTime": "2020-05-05T13:12:29.855Z", "orderItems": [ 
     //               { "item": value52[0], "numberUnits": {"amount": "232", "measureUnit": "KG"}, "unitPrice": {"amount": "343", "currency": "USD"}, "deliveryDate": "2020-05-05", "remarks": "ertyf cvbnjytr bvvghh" },
     //                 { "item": value52[0], "numberUnits": {"amount": "4444", "measureUnit": "KG"}, "unitPrice": {"amount": "44", "currency": "USD"}, "deliveryDate": "2020-05-05", "remarks": null },

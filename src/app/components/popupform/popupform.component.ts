@@ -53,7 +53,7 @@ export class PopupformComponent implements OnInit {
 @Component({
   selector: 'app-popupform-dialog',
   template: `
-    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="info" (submit)="submit($event)">
+    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="info" (submitForm)="submit($event)">
     </dynamic-form>
   `,
 })

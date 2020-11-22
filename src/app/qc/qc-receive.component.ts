@@ -12,7 +12,7 @@ import { QcService } from './qc.service';
     selector: 'qc-receive',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [mainLabel]="type" [putData]="putData" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfig" [mainLabel]="type" [putData]="putData" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -669,7 +669,7 @@ export class QcReceiveComponent implements OnInit {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'divider',

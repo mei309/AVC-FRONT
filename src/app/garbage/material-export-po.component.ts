@@ -11,11 +11,11 @@ import { MatDialog } from '@angular/material/dialog';
     selector: 'material-export-po',
     template: `
     <div *ngIf="isFirstDataAvailable">
-        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# export'" (submit)="goNext($event)">
+        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# export'" (submitForm)="goNext($event)">
         </dynamic-form>
     </div>
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Material to export'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Material to export'" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -99,7 +99,7 @@ export class MaterialExportPoComponent implements OnInit {
             //     type: 'select',
             //     label: 'To warehouse location',
             //     name: 'warehouseLocation',
-            //     options: this.genral.getStorage(),
+            //     options: this.genral.getWearhouses(),
             // },
             {
                 type: 'button',
@@ -266,7 +266,7 @@ export class MaterialExportPoComponent implements OnInit {
                                         type: 'select',
                                         label: 'Item descrption',
                                         name: 'item',
-                                        options: this.genral.getItemsCashew(),
+                                        options: this.genral.getItemsCashew('ALL'),
                                     },
                                     {
                                         type: 'bigexpand',
@@ -304,7 +304,7 @@ export class MaterialExportPoComponent implements OnInit {
                                                 type: 'select',
                                                 label: 'Warehouse location',
                                                 name: 'warehouseLocation',
-                                                options: this.genral.getStorage(),
+                                                options: this.genral.getWearhouses(),
                                             },
                                             {
                                                 type: 'divider',
@@ -392,11 +392,11 @@ export class MaterialExportPoComponent implements OnInit {
 //     selector: 'material-export-po',
 //     template: `
 //     <div *ngIf="isFirstDataAvailable">
-//         <dynamic-form [fields]="poConfig" [mainLabel]="'PO# export'" (submit)="goNext($event)">
+//         <dynamic-form [fields]="poConfig" [mainLabel]="'PO# export'" (submitForm)="goNext($event)">
 //         </dynamic-form>
 //     </div>
 //     <div *ngIf="isDataAvailable">
-//         <just-show [oneColumns]="regConfig" [dataSource]="putData" [mainLabel]="'Material to export'" (submit)="submit($event)">
+//         <just-show [oneColumns]="regConfig" [dataSource]="putData" [mainLabel]="'Material to export'" (submitForm)="submit($event)">
 //         </just-show>
 //     </div>
 //     `
@@ -480,7 +480,7 @@ export class MaterialExportPoComponent implements OnInit {
 //             //     type: 'select',
 //             //     label: 'To warehouse location',
 //             //     name: 'warehouseLocation',
-//             //     options: this.genral.getStorage(),
+//             //     options: this.genral.getWearhouses(),
 //             // },
 //             {
 //                 type: 'button',
@@ -598,7 +598,7 @@ export class MaterialExportPoComponent implements OnInit {
 //                                         label: 'Warehouse location',
 //                                         name: 'warehouseLocation',
 //                                         disable: 'true',
-//                                         // options: this.genral.getStorage(),
+//                                         // options: this.genral.getWearhouses(),
 //                                     },
 //                                     {
 //                                         type: 'divider',
@@ -654,7 +654,7 @@ export class MaterialExportPoComponent implements OnInit {
 //                                                 type: 'select',
 //                                                 label: 'Warehouse location',
 //                                                 name: 'warehouseLocation',
-//                                                 options: this.genral.getStorage(),
+//                                                 options: this.genral.getWearhouses(),
 //                                             },
 //                                             {
 //                                                 type: 'divider',

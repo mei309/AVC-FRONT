@@ -9,7 +9,7 @@ import { Genral } from './../genral.service';
     // tslint:disable-next-line: component-selector
     selector: 'genral-count',
     template: `
-      <dynamic-form [fields]="regConfig" [mainLabel]="'Genral count'" (submit)="submit($event)" (cancel)="cancel()">
+      <dynamic-form [fields]="regConfig" [mainLabel]="'Genral count'" (submitForm)="submit($event)" (cancel)="cancel()">
       </dynamic-form>
     `
   })

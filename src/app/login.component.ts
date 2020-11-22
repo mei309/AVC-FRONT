@@ -9,7 +9,7 @@ import { AuthenticateService } from './service/authenticate.service';
   selector: 'app-login',
   template:`
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}">
-    <dynamic-form [fields]="regConfig" [mainLabel]="'Login Form'" (submit)="doLogin($event)">
+    <dynamic-form [fields]="regConfig" [mainLabel]="'Login Form'" (submitForm)="doLogin($event)">
     </dynamic-form>
   </div>
   ` ,

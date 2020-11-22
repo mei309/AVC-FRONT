@@ -10,7 +10,7 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'receive-procss',
     template: `
-    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'Receive Cashew Without Order'" (submit)="submit($event)">
+    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'Receive Cashew Without Order'" (submitForm)="submit($event)">
     </dynamic-form>
     `
   })
@@ -94,7 +94,12 @@ export class ReceiveProcssComponent implements OnInit {
                         name: 'item',
                         options: this.genral.getItemsRawCashew(),
                     },
-                    
+                    {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: this.genral.getMeasureUnit(),
+                    },
                     {
                         type: 'inputselect',
                         name: 'receivedOrderUnits',
@@ -163,23 +168,11 @@ export class ReceiveProcssComponent implements OnInit {
                                 options: 'Inline',
                                 collections: [
                                     {
-                                        type: 'inputselect',
+                                        type: 'input',
+                                        label: 'Bag weight',
                                         name: 'unitAmount',
-                                        collections: [
-                                            {
-                                                type: 'input',
-                                                label: 'Bag weight',
-                                                name: 'amount',
-                                                inputType: 'numeric',
-                                                options: 3,
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: 'Weight unit',
-                                                name: 'measureUnit',
-                                                options: ['KG', 'LBS'],
-                                            },
-                                        ]
+                                        inputType: 'numeric',
+                                        options: 3,
                                     },
                                     {
                                         type: 'input',
@@ -192,7 +185,7 @@ export class ReceiveProcssComponent implements OnInit {
                                         type: 'select',
                                         label: 'Warehouse location',
                                         name: 'warehouseLocation',
-                                        options: this.genral.getStorage(),
+                                        options: this.genral.getWearhouses(),
                                     },
                                     {
                                         type: 'divider',
@@ -202,15 +195,7 @@ export class ReceiveProcssComponent implements OnInit {
                                 validations: [
                                     {
                                         name: 'unitAmount',
-                                        validator: [
-                                            {
-                                                name: 'amount',
-                                            },
-                                            {
-                                                name: 'measureUnit',
-                                            },
-                                        ],
-                                        message: 'a received storage must have unit weight, measure unit and number of bags',
+                                        message: 'a received storage must have unit weight and number of bags',
                                     },
                                     {
                                         name: 'numberUnits',
@@ -235,23 +220,11 @@ export class ReceiveProcssComponent implements OnInit {
                         options: 'Inline',
                         collections: [
                             {
-                                type: 'inputselect',
+                                type: 'input',
+                                label: 'Bag weight',
                                 name: 'unitAmount',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Bag weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
-                                        options: ['KG', 'LBS'],
-                                    },
-                                ]
+                                inputType: 'numeric',
+                                options: 3,
                             },
                             {
                                 type: 'input',
@@ -264,7 +237,7 @@ export class ReceiveProcssComponent implements OnInit {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'popup',
@@ -323,15 +296,7 @@ export class ReceiveProcssComponent implements OnInit {
                         validations: [
                             {
                                 name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
-                                message: 'a received storage must have weight, measure unit and number of bags',
+                                message: 'a received storage must have weight and number of bags',
                             },
                             {
                                 name: 'numberUnits',
@@ -349,18 +314,13 @@ export class ReceiveProcssComponent implements OnInit {
                         message: 'a received item must have an item, and at least one storage',
                     },
                     {
+                        name: 'measureUnit',
+                    },
+                    {
                         name: 'storageForms',
                         validator: [
                             {
                                 name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
                             },
                             {
                                 name: 'numberUnits',

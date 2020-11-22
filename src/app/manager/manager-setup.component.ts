@@ -68,7 +68,7 @@ export class ManagmentSetupComponent {
                 type: 'input',
             }
         ];
-        if(['Items' , 'SupplyCategories'].includes(this.choosedOne)) {
+        if('SupplyCategories' === this.choosedOne) {
             this.columnsSetup.push(
                 {
                     name: 'supplyGroup',
@@ -85,36 +85,86 @@ export class ManagmentSetupComponent {
                     options: this.genral.getSupplyGroup(),
                 },
             );
-            if('Items' === this.choosedOne) {
-                this.columnsSetup.push(
-                    {
-                        name: 'measureUnit',
-                        label: 'Measure unit',
-                        search: 'select',
-                        options: this.genral.getMeasureUnit(),
-                    },
-                    {
-                        name: 'category',
-                        label: 'Category',
-                        search: 'select',
-                        options: this.genral.getItemCategory(),
-                    }
-                );
-                this.regConfigTemp.push(
-                    {
-                        name: 'measureUnit',
-                        label: 'Measure unit',
-                        type: 'selectNormal',
-                        options: this.genral.getMeasureUnit(),
-                    },
-                    {
-                        name: 'category',
-                        label: 'Category',
-                        type: 'selectNormal',
-                        options: this.genral.getItemCategory(),
-                    }
-                );
-            }
+        } else if('Items' === this.choosedOne) {
+            this.columnsSetup.push(
+                // {
+                //     name: 'itemType',
+                //     label: 'Item type',
+                //     search: 'select',
+                //     options: ['bulkItem', 'PackedItem'],
+                // },
+                {
+                    name: 'defaultMeasureUnit',
+                    label: 'Default measure unit',
+                    search: 'select',
+                    options: this.genral.getMeasureUnit(),
+                },
+                {
+                    type: 'weight',
+                    label: 'Bag weight',
+                    name: 'unit',
+                    // collections: 'measureUnit',
+                },
+                {
+                    name: 'itemGroup',
+                    label: 'Item group',
+                    search: 'select',
+                    options: this.genral.getItemGroup(),
+                },
+                {
+                    name: 'productionUse',
+                    label: 'Production use',
+                    search: 'select',
+                    options: this.genral.getProductionUse(),
+                }
+            );
+            this.regConfigTemp.push(
+                {
+                    type: 'radiobutton',
+                    name: 'itemType',
+                    label: 'Item type',
+                    value: 'bulkItem',
+                    options: ['bulkItem', 'packedItem'],
+                },
+                {
+                    name: 'defaultMeasureUnit',
+                    label: 'Default measure unit (only for bulk)',
+                    type: 'selectNormal',
+                    options: this.genral.getMeasureUnit(),
+                },
+                {
+                    type: 'inputselect',
+                    name: 'unit',
+                    // disable: true,
+                    collections: [
+                        {
+                            type: 'input',
+                            label: 'Unit weight (only for packed)',
+                            name: 'amount',
+                        },
+                        {
+                            type: 'select',
+                            label: 'Weight unit',
+                            name: 'measureUnit',
+                            options: this.genral.getMeasureUnit(),
+                        },
+                    ]
+                },
+                {
+                    name: 'itemGroup',
+                    label: 'Item group',
+                    type: 'selectNormal',
+                    options: this.genral.getItemGroup(),
+                },
+                {
+                    name: 'productionUse',
+                    label: 'Production use',
+                    type: 'selectNormal',
+                    // inputType: 'multiple',
+                    options: this.genral.getProductionUse(),
+
+                }
+            );
         } else if('ContractTypes' === this.choosedOne) {
             this.columnsSetup.push(
                 {

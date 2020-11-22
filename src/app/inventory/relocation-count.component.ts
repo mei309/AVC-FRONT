@@ -16,7 +16,7 @@ import { InventoryService } from './inventory.service';
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer with weighing(relocation)'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer with weighing(relocation)'" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -423,7 +423,7 @@ export class RelocationCountComponent implements OnInit {
                         type: 'select',
                         label: 'Warehouse location',
                         name: 'warehouseLocation',
-                        options: this.genral.getStorage(),
+                        options: this.genral.getWearhouses(),
                     },
                 ]
             },
@@ -443,7 +443,7 @@ export class RelocationCountComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                        disable: true,
                     },
                     {
                         type: 'input',

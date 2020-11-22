@@ -216,7 +216,7 @@ export class OrdersCashewComponent implements OnInit {
               name: 'storage',
               label: 'Storage',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
               name: 'receiptRows',
@@ -303,7 +303,7 @@ export class OrdersCashewComponent implements OnInit {
               name: 'storage',
               label: 'Storage',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
               name: 'receiptRows',
@@ -390,7 +390,7 @@ export class OrdersCashewComponent implements OnInit {
               name: 'storage',
               label: 'Storage',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
               name: 'receiptRows',

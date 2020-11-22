@@ -17,7 +17,7 @@ export class QcTestComponent implements OnInit {
   ngOnInit(): void {
     this.LocalService.getPoCashew(false).pipe(take(1)).subscribe(value1 => {
       this.genral.getAllItemsCashew().pipe(take(1)).subscribe(value2 => {
-        this.genral.getStorage().pipe(take(1)).subscribe(value3 => {
+        this.genral.getWearhouses().pipe(take(1)).subscribe(value3 => {
             const mainRecivingQc = { "poCode": value1[0], "recordedTime": "2020-05-25T06:24:41.489Z", "processItems": [ { "item": value2[1], "storageForms": [ { "unitAmount": {"amount": "111", "measureUnit": "OZ"}, "numberUnits": "11", "warehouseLocation": value3[1] } ] }], "testedItems": [{"item": value2[1], "humidity": "2", "count": "222", "breakage": "2", "foreignMaterial": "2", "smallKernels": "2", "mold": "2", "dirty": "2", "decay": "2", "insectDamage": "2", "testa": "2", "scorched": "2", "deepCut": "2", "offColour": "2", "shrivel": "2", "deepSpot": "2", "desert": "2", "weightLoss": "2", "defectsAfterRoasting": "2", "colour": "OK", "flavour": "NOT_OK" } ] };
             this.LocalService.addEditCashewReceiveCheck(mainRecivingQc, true).pipe(take(1)).subscribe(value4 => {
 

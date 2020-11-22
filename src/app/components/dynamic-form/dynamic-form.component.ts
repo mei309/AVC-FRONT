@@ -31,7 +31,7 @@ export class DynamicFormComponent implements OnInit {
   }
   get putData() { return this.infoEdit; }
 
-  @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() submitForm: EventEmitter<any> = new EventEmitter<any>();
 
   edit: boolean = false;
 
@@ -115,7 +115,7 @@ export class DynamicFormComponent implements OnInit {
       const mmm = cloneDeep(this.form) as FormGroup;
       mmm.enable();
       this.emptyEmptyArray(mmm);
-      this.submit.emit(mmm.getRawValue());
+      this.submitForm.emit(mmm.getRawValue());
       // var emptyNull = mmm.getRawValue();
       // this.emptyNull(emptyNull)
       // this.submit.emit(emptyNull);

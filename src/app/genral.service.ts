@@ -15,7 +15,7 @@ export class Genral {
   companyPosition = new ReplaySubject<DropNormal[]>();
   banks = new ReplaySubject<DropNormal[]>();
   ContractType = new ReplaySubject<DropNormal[]>();
-  storage = new ReplaySubject<DropNormal[]>();
+  wearhouses = new ReplaySubject<DropNormal[]>();
   standarts = new ReplaySubject<DropNormal[]>();
   ItemsRawCashew = new ReplaySubject<DropNormal[]>();
   ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
@@ -51,7 +51,7 @@ export class Genral {
     this.companyPosition = new ReplaySubject<DropNormal[]>();
     this.banks = new ReplaySubject<DropNormal[]>();
     this.ContractType = new ReplaySubject<DropNormal[]>();
-    this.storage = new ReplaySubject<DropNormal[]>();
+    this.wearhouses = new ReplaySubject<DropNormal[]>();
     this.standarts = new ReplaySubject<DropNormal[]>();
     this.ItemsRawCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
@@ -75,7 +75,7 @@ export class Genral {
       this.companyPosition.next(value[2]);
       this.banks.next(value[3]);
       this.ContractType.next(value[4]);
-      this.storage.next(value[5]);
+      this.wearhouses.next(value[5]);
       console.log(value[6]);
       
       this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
@@ -179,8 +179,8 @@ export class Genral {
   getContractType (): Observable<any> {
     return this.ContractType.asObservable();
   }
-  getStorage (): Observable<any> {
-    return this.storage.asObservable();
+  getWearhouses (): Observable<any> {
+    return this.wearhouses.asObservable();
   }
   getStandarts (): Observable<any> {
     return this.standarts.asObservable();
@@ -289,6 +289,14 @@ export class Genral {
     return ['40\'', '20\''];
   }
 
+  getItemGroup(): string[] {
+    return ['PRODUCT', 'GENERAL', 'WASTE', 'QC'];
+  }
+
+  getProductionUse(): string[] {
+    return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED', 'WASTE', 'INGREDIENTS', 'PACKING_SUPPLYES'];
+  }
+
 
 
 //   poConfig = [
@@ -310,7 +318,7 @@ export class Genral {
       
 //     });
 //   }
-//   <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submit)="submit($event)">
+//   <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="submit($event)">
 //     </dynamic-form>
 //   checkDate(snapshot): Observable<any> {
 //     console.log(snapshot);

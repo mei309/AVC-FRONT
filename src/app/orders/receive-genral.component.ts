@@ -12,11 +12,11 @@ import { ReplaySubject, Observable } from 'rxjs';
     selector: 'receive-genral',
     template: `
     <div *ngIf="isFirstDataAvailable">
-        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submit)="goNext($event)">
+        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="goNext($event)">
         </dynamic-form>
     </div>
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving general order'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving general order'" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -46,13 +46,13 @@ export class ReceiveGenralComponent implements OnInit {
                         this.localService.getReceive(+params.get('id')).pipe(take(1)).subscribe( val => {
                             this.setUpOrderItems(po, false);
                             this.putData = val;
-                            this.setUpRegConfig(true);
+                            this.setUpRegConfig();
                             this.isDataAvailable = true;
                         });
                         this.fromNew = false;
                     } else {
                         this.setUpOrderItems(po, true);
-                        this.setUpRegConfig(false);
+                        this.setUpRegConfig();
                     }
             } else {
                 this.poConfig = [
@@ -97,7 +97,7 @@ export class ReceiveGenralComponent implements OnInit {
     goNext($event) {
         this.setUpOrderItems($event['poCode']['id'], true);
         this.isFirstDataAvailable = false;
-        this.setUpRegConfig(false);
+        this.setUpRegConfig();
     }
 
     setUpOrderItems(idnum: number, setPutData: boolean) {
@@ -111,7 +111,7 @@ export class ReceiveGenralComponent implements OnInit {
     }
     
 
-    setUpRegConfig (disable: boolean) {
+    setUpRegConfig () {
         this.regConfig = [
             {
                 type: 'selectgroup',
@@ -180,7 +180,12 @@ export class ReceiveGenralComponent implements OnInit {
                         name: 'item',
                         options: this.genral.getItemsGeneral(),
                     },
-                    
+                    {
+                        type: 'selectNormal',
+                        label: 'Measure unit',
+                        name: 'measureUnit',
+                        options: ['LBS', 'KG'],
+                    },
                     {
                         type: 'inputselect',
                         name: 'receivedOrderUnits',
@@ -234,23 +239,11 @@ export class ReceiveGenralComponent implements OnInit {
                         options: 'Inline',
                         collections: [
                             {
-                                type: 'inputselect',
+                                type: 'input',
+                                label: 'Bag weight',
                                 name: 'unitAmount',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Bag weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Measure unit',
-                                        name: 'measureUnit',
-                                        options: ['KG', 'LBS'],
-                                    },
-                                ]
+                                inputType: 'numeric',
+                                options: 3,
                             },
                             {
                                 type: 'input',
@@ -262,7 +255,7 @@ export class ReceiveGenralComponent implements OnInit {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'divider',
@@ -272,15 +265,7 @@ export class ReceiveGenralComponent implements OnInit {
                         validations: [
                             {
                                 name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
-                                message: 'a received storage must have weight, measure unit and number of bags',
+                                message: 'a received storage must have weight and number of bags',
                             },
                             {
                                 name: 'numberUnits',
@@ -302,14 +287,6 @@ export class ReceiveGenralComponent implements OnInit {
                         validator: [
                             {
                                 name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
                             },
                             {
                                 name: 'numberUnits',

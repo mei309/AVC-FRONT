@@ -19,19 +19,19 @@ import { diff } from '../libraries/diffArrayObjects.interface';
     <div *ngIf="isDataAvalible">
       <mat-tab-group [(selectedIndex)]="tabIndex">
           <mat-tab label="Supplier">
-              <dynamic-form [putData]="putData" [fields]="regConfig" (submit)="submitMain($event)">
+              <dynamic-form [putData]="putData" [fields]="regConfig" (submitForm)="submitMain($event)">
               </dynamic-form>
           </mat-tab>
           <mat-tab label="Contact details">
-              <dynamic-form [putData]="putData1" [fields]="regConfigContact" (submit)="submitContact($event)">
+              <dynamic-form [putData]="putData1" [fields]="regConfigContact" (submitForm)="submitContact($event)">
               </dynamic-form>
           </mat-tab>
           <mat-tab label="Contact people">
-              <dynamic-form [putData]="putData2" [fields]="regConfigPeople" (submit)="submitPeople($event)">
+              <dynamic-form [putData]="putData2" [fields]="regConfigPeople" (submitForm)="submitPeople($event)">
               </dynamic-form>
           </mat-tab>
           <mat-tab label="Bank accounts">
-              <dynamic-form [putData]="putData3" [fields]="regConfigBanks" (submit)="submitAccounts($event)">
+              <dynamic-form [putData]="putData3" [fields]="regConfigBanks" (submitForm)="submitAccounts($event)">
               </dynamic-form>
           </mat-tab>
       </mat-tab-group>

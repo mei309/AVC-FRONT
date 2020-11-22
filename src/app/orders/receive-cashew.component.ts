@@ -12,15 +12,15 @@ import { ReplaySubject, Observable } from 'rxjs';
     selector: 'receive-cashew',
     template: `
     <div *ngIf="isFirstDataAvailable">
-        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submit)="goNext($event)">
+        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="goNext($event)">
         </dynamic-form>
     </div>
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving cashew order'" (submit)="submit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving cashew order'" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     <div *ngIf="onlyBouns">
-        <just-show [oneColumns]="regConfig" [dataSource]="putData" [mainLabel]="'Receive bonus'" (submit)="submitBouns($event)">
+        <just-show [oneColumns]="regConfig" [dataSource]="putData" [mainLabel]="'Receive bonus'" (submitForm)="submitBouns($event)">
         </just-show>
     </div>
     `
@@ -153,7 +153,7 @@ export class ReceiveCashewComponent implements OnInit {
             this.putData = {poCode: val['poCode']};
             this.isDataAvailable = true;
         });
-        this.setUpRegConfig(false);
+        this.setUpRegConfig();
     }
 
 
@@ -191,13 +191,13 @@ export class ReceiveCashewComponent implements OnInit {
             });
             val['receiptItems'] = recivingItems;
             this.putData = val;
-            this.setUpRegConfig(true);
+            this.setUpRegConfig();
             this.isDataAvailable = true;
         });
     }
     
 
-    setUpRegConfig (disable: boolean) {
+    setUpRegConfig () {
         this.regConfig = [
             {
                 type: 'selectgroup',
@@ -266,7 +266,12 @@ export class ReceiveCashewComponent implements OnInit {
                         name: 'item',
                         options: this.genral.getItemsRawCashew(),
                     },
-                    
+                    {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: ['KG', 'LBS'],
+                    },
                     {
                         type: 'inputselect',
                         name: 'receivedOrderUnits',
@@ -339,23 +344,11 @@ export class ReceiveCashewComponent implements OnInit {
                                 options: 'Inline',
                                 collections: [
                                     {
-                                        type: 'inputselect',
+                                        type: 'input',
+                                        label: 'Bag weight',
                                         name: 'unitAmount',
-                                        collections: [
-                                            {
-                                                type: 'input',
-                                                label: 'Bag weight',
-                                                name: 'amount',
-                                                inputType: 'numeric',
-                                                options: 3,
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: 'Weight unit',
-                                                name: 'measureUnit',
-                                                options: ['KG', 'LBS'],
-                                            },
-                                        ]
+                                        inputType: 'numeric',
+                                        options: 3,
                                     },
                                     {
                                         type: 'input',
@@ -368,7 +361,7 @@ export class ReceiveCashewComponent implements OnInit {
                                         type: 'select',
                                         label: 'Warehouse location',
                                         name: 'warehouseLocation',
-                                        options: this.genral.getStorage(),
+                                        options: this.genral.getWearhouses(),
                                     },
                                     {
                                         type: 'divider',
@@ -378,15 +371,7 @@ export class ReceiveCashewComponent implements OnInit {
                                 validations: [
                                     {
                                         name: 'unitAmount',
-                                        validator: [
-                                            {
-                                                name: 'amount',
-                                            },
-                                            {
-                                                name: 'measureUnit',
-                                            },
-                                        ],
-                                        message: 'a received storage must have unit weight, measure unit and number of bags',
+                                        message: 'a received storage must have unit weight and number of bags',
                                     },
                                     {
                                         name: 'numberUnits',
@@ -411,23 +396,11 @@ export class ReceiveCashewComponent implements OnInit {
                         options: 'Inline',
                         collections: [
                             {
-                                type: 'inputselect',
+                                type: 'input',
+                                label: 'Bag weight',
                                 name: 'unitAmount',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Bag weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Measure unit',
-                                        name: 'measureUnit',
-                                        options: ['KG', 'LBS'],
-                                    },
-                                ]
+                                inputType: 'numeric',
+                                options: 3,
                             },
                             {
                                 type: 'input',
@@ -439,7 +412,7 @@ export class ReceiveCashewComponent implements OnInit {
                                 type: 'select',
                                 label: 'Warehouse location',
                                 name: 'warehouseLocation',
-                                options: this.genral.getStorage(),
+                                options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'popup',
@@ -498,15 +471,7 @@ export class ReceiveCashewComponent implements OnInit {
                         validations: [
                             {
                                 name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
-                                message: 'a received storage must have weight, measure unit and number of bags',
+                                message: 'a received storage must have weight and number of bags',
                             },
                             {
                                 name: 'numberUnits',
@@ -521,21 +486,16 @@ export class ReceiveCashewComponent implements OnInit {
                 validations: [
                     {
                         name: 'item',
-                        message: 'a received item must have an item, and at least one storage',
+                        message: 'a received item must have an item, measure unit and at least one storage',
+                    },
+                    {
+                        name: 'measureUnit',
                     },
                     {
                         name: 'storageForms',
                         validator: [
                             {
                                 name: 'unitAmount',
-                                validator: [
-                                    {
-                                        name: 'amount',
-                                    },
-                                    {
-                                        name: 'measureUnit',
-                                    },
-                                ],
                             },
                             {
                                 name: 'numberUnits',
@@ -682,7 +642,7 @@ export class ReceiveCashewComponent implements OnInit {
                         name: 'storageForms',
                         collections: [
                             {
-                                type: 'nameId',
+                                type: 'normal',
                                 label: 'Bag weight',
                                 name: 'unitAmount',
                                 // collections: 'measureUnit',
@@ -739,23 +699,11 @@ export class ReceiveCashewComponent implements OnInit {
                                 options: 'NoFrame',
                                 collections: [
                                     {
-                                        type: 'inputselect',
+                                        type: 'input',
+                                        label: 'Bag weight',
                                         name: 'unitAmount',
-                                        collections: [
-                                            {
-                                                type: 'input',
-                                                label: 'Bag weight',
-                                                name: 'amount',
-                                                inputType: 'numeric',
-                                                options: 3,
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: 'Weight unit',
-                                                name: 'measureUnit',
-                                                options: ['KG', 'LBS'],
-                                            },
-                                        ]
+                                        inputType: 'numeric',
+                                        options: 3,
                                     },
                                     {
                                         type: 'input',
@@ -768,7 +716,7 @@ export class ReceiveCashewComponent implements OnInit {
                                         type: 'select',
                                         label: 'Warehouse location',
                                         name: 'warehouseLocation',
-                                        options: this.genral.getStorage(),
+                                        options: this.genral.getWearhouses(),
                                     },
                                     {
                                         type: 'divider',
@@ -778,15 +726,7 @@ export class ReceiveCashewComponent implements OnInit {
                                 validations: [
                                     {
                                         name: 'unitAmount',
-                                        validator: [
-                                            {
-                                                name: 'amount',
-                                            },
-                                            {
-                                                name: 'measureUnit',
-                                            },
-                                        ],
-                                        message: 'a received storage must have weight, measure unit and number of bags',
+                                        message: 'a received storage must have weight and number of bags',
                                     },
                                     {
                                         name: 'numberUnits',

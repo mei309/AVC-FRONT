@@ -5,7 +5,7 @@ import { FieldConfig } from '../field.interface';
 @Component({
     selector: 'app-edit-dialog',
     template: `
-    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="mainLabel" (submit)="submit($event)">
+    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="mainLabel" (submitForm)="submit($event)">
     </dynamic-form>
     `,
 })

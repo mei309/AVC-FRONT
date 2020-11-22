@@ -101,7 +101,7 @@ export class GenralInventoryComponent implements OnInit {
               name: 'warehouses',
               label: 'Warehouse',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
               name: 'poInventoryRows',
@@ -158,7 +158,7 @@ export class GenralInventoryComponent implements OnInit {
               name: 'warehouses',
               label: 'Warehouse',
               search: 'selectAsyncObject',
-              options: this.genral.getStorage(),
+              options: this.genral.getWearhouses(),
             },
             {
               name: 'poInventoryRows',

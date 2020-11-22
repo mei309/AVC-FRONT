@@ -12,7 +12,7 @@ import { SpecialOrdersService } from './special-orders.service';
     // tslint:disable-next-line: component-selector
     selector: 'new-special-order',
     template: `
-    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="'special order'" (submit)="submit($event)" (cancel)="cancel()">
+    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="'special order'" (submitForm)="submit($event)" (cancel)="cancel()">
     </dynamic-form>
     `
   })

@@ -19,29 +19,29 @@ import { QcService } from './qc.service';
     </h1>
     <mat-horizontal-stepper linear #stepper>
         <mat-step >
-            <dynamic-form [fields]="regConfig" (submit)="goNext($event)" (cancel)="cancel()">
+            <dynamic-form [fields]="regConfig" (submitForm)="goNext($event)" (cancel)="cancel()">
             </dynamic-form>
         </mat-step>
         <mat-step >
             <mat-tab-group (selectedIndexChange)="changed($event)">
                 <mat-tab label="X-ray check">
-                    <dynamic-form [fields]="regConfigXray" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigXray" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Matel detector check">
-                    <dynamic-form [fields]="regConfigMatel" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigMatel" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="bag product check">
-                    <dynamic-form [fields]="regConfigBagProduct" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigBagProduct" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Didnt pass ditactor 3 times">
-                    <dynamic-form [fields]="regConfig3Pass" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfig3Pass" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Bacteria check">
-                    <dynamic-form [fields]="regConfigBactria" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigBactria" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
             </mat-tab-group>

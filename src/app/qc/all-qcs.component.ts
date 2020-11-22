@@ -218,7 +218,7 @@ export class AllQcsComponent implements OnInit {
         //       name: 'storage',
         //       titel: 'Storage',
         //       type: 'selectAsyncObject',
-        //       options: this.genral.getStorage(),
+        //       options: this.genral.getWearhouses(),
         //       pipes: 'array',
         //     },
         //     {

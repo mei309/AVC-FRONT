@@ -18,21 +18,21 @@ import { ProductionService } from './production.service';
     </h1>
     <mat-horizontal-stepper [linear]="true" #stepper>
         <mat-step >
-            <dynamic-form [fields]="regConfig" (submit)="goNext($event)" (cancel)="cancel()">
+            <dynamic-form [fields]="regConfig" (submitForm)="goNext($event)" (cancel)="cancel()">
             </dynamic-form>
         </mat-step>
         <mat-step >
             <mat-tab-group (selectedIndexChange)="changed($event)">
                 <mat-tab label="Wearhouse export amounts">
-                    <dynamic-form [fields]="regConfigWearhouse" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigWearhouse" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Toffy products">
-                    <dynamic-form [fields]="regConfigToffy" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigToffy" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
                 <mat-tab label="Waste & resources">
-                    <dynamic-form [fields]="regConfigWaste" (submit)="submit($event)" (cancel)="cancel()">
+                    <dynamic-form [fields]="regConfigWaste" (submitForm)="submit($event)" (cancel)="cancel()">
                     </dynamic-form>
                 </mat-tab>
             </mat-tab-group>

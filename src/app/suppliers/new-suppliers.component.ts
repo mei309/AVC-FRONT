@@ -11,7 +11,7 @@ import { SuppliersService } from './suppliers.service';
 @Component({
     selector: 'new-supplier',
     template: `
-    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'New supplier'" (submit)="submit($event)">
+    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'New supplier'" (submitForm)="submit($event)">
     </dynamic-form>
     `
   })

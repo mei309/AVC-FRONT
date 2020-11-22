@@ -9,7 +9,7 @@ import { Genral } from './../genral.service';
     // tslint:disable-next-line: component-selector
     selector: 'cashew-count',
     template: `
-      <dynamic-form [fields]="regConfig" [mainLabel]="'Cashew count'" (submit)="submit($event)" (cancel)="cancel()">
+      <dynamic-form [fields]="regConfig" [mainLabel]="'Cashew count'" (submitForm)="submit($event)" (cancel)="cancel()">
       </dynamic-form>
     `
   })
