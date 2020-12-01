@@ -49,8 +49,8 @@ export class ProductionService {
   }
 
 
-  getTransferProduction (id: number): Observable<any> {
-    return this.http.get(this.productionurl+'getTransferProduction/'+id);
+  getProduction (id: number): Observable<any> {
+    return this.http.get(this.productionurl+'getProduction/'+id);
   }
 
   getAllPosRaw() {
@@ -73,9 +73,9 @@ export class ProductionService {
     return this.http.get(this.productionurl+'getStorageRoastPo/'+poCode);
   }
 
-  getTransferProductionWithStorage(id: number, poCode: number, processType: string) {
+  getProductionWithStorage(id: number, poCode: number, processType: string) {
     // this.http.get(this.productionurl+'getTransferProduction/'+id);
-    let response1 = this.http.get(this.productionurl+'getTransferProduction/'+id);
+    let response1 = this.http.get(this.productionurl+'getProduction/'+id);
     switch (processType) {
       case 'raw':
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageRawPo/'+poCode)]);

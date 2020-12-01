@@ -178,11 +178,12 @@ export class CountinersLoadingComponent {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
+                element['storage']['measureUnit'] = element['measureUnit'];
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
-                    arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele})
+                    arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele})
                     delete ele['numberUsedUnits'];
                 });
             }
@@ -615,6 +616,11 @@ export class CountinersLoadingComponent {
                                 disable: true,
                             },
                             {
+                                type: 'input',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                            },
+                            {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
@@ -625,22 +631,22 @@ export class CountinersLoadingComponent {
                                         disable: true,
                                     },
                                     {
-                                        type: 'inputselect',
+                                        type: 'input',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
                                         disable: true,
-                                        collections: [
-                                            {
-                                                type: 'input',
-                                                label: 'Unit weight',
-                                                name: 'amount',
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: 'Weight unit',
-                                                name: 'measureUnit',
-                                            },
-                                        ]
+                                        // collections: [
+                                        //     {
+                                        //         type: 'input',
+                                        //         label: 'Unit weight',
+                                        //         name: 'amount',
+                                        //     },
+                                        //     {
+                                        //         type: 'select',
+                                        //         label: 'Weight unit',
+                                        //         name: 'measureUnit',
+                                        //     },
+                                        // ]
                                     },
                                     {
                                         type: 'select',

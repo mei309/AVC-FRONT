@@ -397,7 +397,7 @@ export class NewSupplierComponent implements OnInit {
     ];
   }
 
-  submit(value: any) {
+  submit(value: any) {       
     this.LocalService.addSupplier(value).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
           width: '80%',

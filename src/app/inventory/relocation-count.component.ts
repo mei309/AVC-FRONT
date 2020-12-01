@@ -195,6 +195,7 @@ export class RelocationCountComponent implements OnInit {
             if(element['storage']) {
                 if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {
                     element['storage']['item'] = element['item'];
+                    element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
                     arrTable.push({storageMove: element['storage']});
                     
@@ -205,7 +206,7 @@ export class RelocationCountComponent implements OnInit {
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
                     if(!removeIdsNormal || !removeIdsNormal.includes(ele['id'])) {
-                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
+                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                     }
                 });
@@ -315,6 +316,11 @@ export class RelocationCountComponent implements OnInit {
                                 disable: true,
                             },
                             {
+                                type: 'input',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                            },
+                            {
                                 type: 'bignotexpand',
                                 name: 'storage',
                                 collections: [
@@ -325,22 +331,22 @@ export class RelocationCountComponent implements OnInit {
                                         disable: true,
                                     },
                                     {
-                                        type: 'inputselect',
+                                        type: 'input',
                                         name: 'unitAmount',
                                         label: 'Unit weight',
                                         disable: true,
-                                        collections: [
-                                            {
-                                                type: 'input',
-                                                label: 'Unit weight',
-                                                name: 'amount',
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: 'Weight unit',
-                                                name: 'measureUnit',
-                                            },
-                                        ]
+                                        // collections: [
+                                        //     {
+                                        //         type: 'input',
+                                        //         label: 'Unit weight',
+                                        //         name: 'amount',
+                                        //     },
+                                        //     {
+                                        //         type: 'select',
+                                        //         label: 'Weight unit',
+                                        //         name: 'measureUnit',
+                                        //     },
+                                        // ]
                                     },
                                     {
                                         type: 'select',
@@ -443,7 +449,8 @@ export class RelocationCountComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        disable: true,
+                        options: this.genral.getMeasureUnit(),
+                        // disable: true,
                     },
                     {
                         type: 'input',

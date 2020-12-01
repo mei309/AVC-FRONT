@@ -41,7 +41,7 @@ export class ProductionRoastingComponent implements OnInit {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getTransferProduction(val['id']).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getProduction(val['id']).pipe(take(1)).subscribe( val1 => {
                         this.putData = val1;
                         this.isFormAvailable = true;
                     });
@@ -63,7 +63,7 @@ export class ProductionRoastingComponent implements OnInit {
             if(params.get('id')) {
                 console.log(params.get('poCode'));
                 
-                this.localService.getTransferProductionWithStorage(+params.get('id'), +params.get('poCode'), 'clean').pipe(take(1)).subscribe( val => {
+                this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'clean').pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
                     this.newUsed = val[1];
                     this.isFormAvailable = true;

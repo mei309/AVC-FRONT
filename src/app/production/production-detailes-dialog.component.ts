@@ -42,7 +42,7 @@ export class ProductionDetailsDialogComponent {
 
     ngOnInit() {
         if(!this.fromNew) {
-            this.LocalService.getTransferProduction(this.id).pipe(take(1)).subscribe( val => {
+            this.LocalService.getProduction(this.id).pipe(take(1)).subscribe( val => {
                 this.productionCheck = val;
             });
         }

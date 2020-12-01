@@ -113,6 +113,8 @@ export class ExportImportComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
                     arrNormal.push(element);
+                    console.log(element);
+                    
                     element['usedItems'].forEach(el => {
                         removeIds.push(el['storage']['id']);
                     });
@@ -163,12 +165,13 @@ export class ExportImportComponent implements OnInit {
         this.newUsed.forEach(element => {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
+                element['storage']['measureUnit'] = element['measureUnit'];
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
                     if(!removeIds.includes(ele['id'])) {
-                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], storage: ele});
+                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                     }
                 });
@@ -286,10 +289,9 @@ export class ExportImportComponent implements OnInit {
                                 disable: true,
                             },
                             {
-                                type: 'selectNormal',
+                                type: 'input',
                                 label: 'Weight unit',
                                 name: 'measureUnit',
-                                disable: true,
                             },
                             {
                                 type: 'bignotexpand',
@@ -301,11 +303,11 @@ export class ExportImportComponent implements OnInit {
                                         name: 'numberUnits',
                                         disable: true,
                                     },
-                                    // {
-                                    //     type: 'inputselect',
-                                    //     name: 'unitAmount',
-                                    //     label: 'Unit weight',
-                                    //     disable: true,
+                                    {
+                                        type: 'input',
+                                        name: 'unitAmount',
+                                        label: 'Unit weight',
+                                        disable: true,
                                     //     collections: [
                                     //         {
                                     //             type: 'input',
@@ -318,7 +320,7 @@ export class ExportImportComponent implements OnInit {
                                     //             name: 'measureUnit',
                                     //         },
                                     //     ]
-                                    // },
+                                    },
                                     {
                                         type: 'select',
                                         label: 'Warehouse location',

@@ -87,12 +87,12 @@ export class ManagmentSetupComponent {
             );
         } else if('Items' === this.choosedOne) {
             this.columnsSetup.push(
-                // {
-                //     name: 'itemType',
-                //     label: 'Item type',
-                //     search: 'select',
-                //     options: ['bulkItem', 'PackedItem'],
-                // },
+                {
+                    name: 'dtype',
+                    label: 'Item type',
+                    search: 'select',
+                    options: ['bulk', 'packed'],
+                },
                 {
                     name: 'defaultMeasureUnit',
                     label: 'Default measure unit',
@@ -121,10 +121,11 @@ export class ManagmentSetupComponent {
             this.regConfigTemp.push(
                 {
                     type: 'radiobutton',
-                    name: 'itemType',
+                    name: 'dtype',
                     label: 'Item type',
-                    value: 'bulkItem',
-                    options: ['bulkItem', 'packedItem'],
+                    value: 'bulk',
+                    options: ['bulk', 'packed'],
+                    disable: true,
                 },
                 {
                     name: 'defaultMeasureUnit',

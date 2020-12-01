@@ -40,7 +40,7 @@ export class ProductionPackingComponent implements OnInit {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getTransferProduction(val['id']).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getProduction(val['id']).pipe(take(1)).subscribe( val1 => {
                         this.putData = val1;
                         this.isFormAvailable = true;
                     });
@@ -60,7 +60,7 @@ export class ProductionPackingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.localService.getTransferProductionWithStorage(+params.get('id'), +params.get('poCode'), 'roast').pipe(take(1)).subscribe( val => {
+                this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'roast').pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
                     this.newUsed = val[1]
                     this.isFormAvailable = true;

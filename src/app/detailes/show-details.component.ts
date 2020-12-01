@@ -443,7 +443,7 @@ export class ShowDetailsComponent implements OnInit {
               label: 'Amounts and storage',
               collections: [
                   {
-                      type: 'weight',
+                      type: 'normal',
                       label: 'Bag amount',
                       name: 'unitAmount',
                       // collections: 'measureUnit',
