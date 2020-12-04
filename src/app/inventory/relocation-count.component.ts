@@ -39,6 +39,7 @@ export class RelocationCountComponent implements OnInit {
         delete value['newWarehouse'];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
+                element['measureUnit'] = element['storageMoves'][0]['measureUnit'];
                 element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
                 element['groupName'] = 'normal';
                 element['storageMoves'].forEach(ele => {
@@ -64,6 +65,7 @@ export class RelocationCountComponent implements OnInit {
                 });
                 element['storageMove']['newWarehouseLocation'] = newWarehouse;
                 element['groupName'] = 'table';
+                element['measureUnit'] = element['storageMove']['measureUnit'];
             });
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
@@ -71,7 +73,7 @@ export class RelocationCountComponent implements OnInit {
         }
         value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts);
         value['itemCounts'].forEach(eleme => {
-                eleme['amounts'] = eleme['amounts'].filter(amou => amou.amount);
+            eleme['amounts'] = eleme['amounts'].filter(amou => amou.amount);
         });
         value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
         value['storageMovesGroups'] = arr;

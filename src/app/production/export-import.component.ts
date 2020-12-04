@@ -480,10 +480,10 @@ export class ExportImportComponent implements OnInit {
                         //     },
                         // ]
                     },
-                    // {
-                    //     type: 'divider',
-                    //     inputType: 'divide'
-                    // },
+                    {
+                        type: 'divider',
+                        inputType: 'divide'
+                    },
                 ],
             },
             {

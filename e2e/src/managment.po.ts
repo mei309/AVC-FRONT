@@ -5,42 +5,93 @@ export class ManagmentPo {
     return browser.get(browser.baseUrl+'Main/manager/ManagerSetup') as Promise<unknown>;
   }
 
-  putItemFileds(): TestField[] {
+  putSupplyCategoriesFileds(supplyName: string, supplyGroup: string): TestField[] {
     return [
       {
         type: 'input',
-        value: 'w-320-raw',
+        value: supplyName,
+        placeholder: 'Descrption',
+      },
+      {
+        type: 'select',
+        value: supplyGroup,
+        placeholder: 'Supply group',
+      },
+      {
+        type: 'button',
+        text: 'Submit',
+      }
+    ];
+  }
+
+  putItemFileds(itemName: string, measureUnit: string, itemGroup: string, itemProduction: string): TestField[] {
+    return [
+      {
+        type: 'input',
+        value: itemName,
+        placeholder: 'Descrption',
+      },
+      {
+        type: 'select',
+        value: measureUnit,
+        placeholder: 'Default measure unit (only for bulk)',
+      },
+      // {
+      //   type: 'input',
+      //   value: '',
+      //   placeholder: 'Unit weight (only for packed)',
+      // },
+      // {
+      //   type: 'select',
+      //   value: 'KG',
+      //   beginvalue: 'KG',
+      //   placeholder: 'Weight unit',
+      // },
+      {
+        type: 'select',
+        value: itemGroup,
+        placeholder: 'Item group',
+      },
+      {
+        type: 'select',
+        value: itemProduction,
+        placeholder: 'Production use',
+      },
+      {
+        type: 'button',
+        text: 'Submit',
+      }
+    ];
+  }
+
+  putContractTypesFileds(contractName: string, code: string, currency: string, suffix?: string): TestField[] {
+    return [
+      {
+        type: 'input',
+        value: contractName,
         placeholder: 'Descrption',
       },
       {
         type: 'input',
-        value: '',
-        placeholder: 'Unit weight (only for packed)',
+        value: code,
+        placeholder: 'Code',
       },
       {
-        type: 'select',
-        value: 'KG',
-        beginvalue: 'KG',
+        type: 'input',
+        value: currency,
+        placeholder: 'Currency',
       },
       {
-        type: 'select',
-        value: 'KG',
-        beginvalue: '',
-      },
-      {
-        type: 'select',
-        value: 'PRODUCT',
-        beginvalue: '',
-      },
-      {
-        type: 'select',
-        value: 'RAW_KERNEL',
-        beginvalue: '',
+        type: 'input',
+        value: suffix,
+        placeholder: 'Suffix',
       },
       {
         type: 'button',
-        text: 'Login',
+        text: 'Submit',
       }
     ];
   }
+
+
 }

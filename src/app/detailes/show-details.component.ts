@@ -408,7 +408,7 @@ export class ShowDetailsComponent implements OnInit {
               // collections: 'measureUnit',
             },
             {
-              type: 'weight',
+              type: 'normal',
               label: 'Totel sample difference',
               name: 'totalDifferance',
               bold: 'true',
@@ -480,7 +480,7 @@ export class ShowDetailsComponent implements OnInit {
                     name: 'avgTestedWeight',
                   },
                   {
-                    type: 'weight',
+                    type: 'normal',
                     label: 'Difference',
                     name: 'weighedDifferance',
                     // collections: 'measureUnit',
@@ -621,9 +621,14 @@ export class ShowDetailsComponent implements OnInit {
               name: 'item',
           },
           {
-              type: 'nameId',
+              type: 'normal',
+              label: 'Measure unit',
+              name: 'measureUnit',
+          },
+          {
+              type: 'normal',
               label: 'Bag weight',
-              name: 'unitAmount',
+              name: 'storageUnitAmount',
               // collections: 'measureUnit',
           },
           {
@@ -634,7 +639,7 @@ export class ShowDetailsComponent implements OnInit {
           {
               type: 'nameId',
               label: 'Warehouse location',
-              name: 'warehouseLocation',
+              name: 'storageWarehouseLocation',
           },
         ]
     },
@@ -788,7 +793,12 @@ export class ShowDetailsComponent implements OnInit {
               name: 'item',
           },
           {
-              type: 'nameId',
+              type: 'normal',
+              label: 'Measure unit',
+              name: 'measureUnit',
+          },
+          {
+              type: 'normal',
               label: 'Bag weight',
               name: 'unitAmount',
               // collections: 'measureUnit',

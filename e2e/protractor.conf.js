@@ -1,7 +1,7 @@
 // @ts-check
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-
+// import failFast from 'protractor-fail-fast';
 const { SpecReporter, StacktraceOption } = require('jasmine-spec-reporter');
 
 /**
@@ -18,6 +18,12 @@ exports.config = {
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
+  // plugins: [
+  //   failFast.init(),
+  // ],
+  // afterLaunch: function() {
+  //   failFast.clean(); // Removes the fail file once all test runners have completed.
+  // },
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,

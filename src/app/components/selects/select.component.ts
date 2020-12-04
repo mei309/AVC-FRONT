@@ -29,7 +29,7 @@ import { FieldConfig } from '../../field.interface';
         {{fruit.value}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [formControl]="searchControl"
+    <input matInput #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [formControl]="searchControl"
       [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
   </mat-chip-list>
   <mat-autocomplete autoActiveFirstOption  #auto1="matAutocomplete" (optionSelected)="selected($event)">

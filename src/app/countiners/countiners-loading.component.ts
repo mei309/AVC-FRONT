@@ -86,7 +86,7 @@ export class CountinersLoadingComponent {
                     delete secondData['usedItemsTable'];
                 }
                 firstData['usedItemGroups'] = arr;
-                firstData['loadedItems'] = secondData['loadedItems'];
+                // firstData['loadedItems'] = secondData['loadedItems'];
 
                 // var proccesItems = [];
                 // this.processData.forEach(element => {
@@ -512,60 +512,60 @@ export class CountinersLoadingComponent {
 
     addLoaded(){
         this.regConfig = [
-            {
-                type: 'bigexpand',
-                name: 'loadedItems',
-                label: 'Declared amounts',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        options: this.localService.getAllPosRoastPacked(),
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Supplier',
-                            },
-                            {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
-                            },
-                        ]
-                    },
-                    {
-                        type: 'select',
-                        label: 'Item descrption',
-                        name: 'item',
-                        options: this.genral.getAllItemsCashew(),
-                    },
-                    {
-                        type: 'inputselect',
-                        name: 'declaredAmount',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: 'Declared amount',
-                                name: 'amount',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                                options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                            },
-                        ]
-                    },
-                    {
-                        type: 'divider',
-                        inputType: 'divide'
-                    },
-                ]
-            },
+            // {
+            //     type: 'bigexpand',
+            //     name: 'loadedItems',
+            //     label: 'Declared amounts',
+            //     options: 'aloneNoAdd',
+            //     collections: [
+            //         {
+            //             type: 'selectgroup',
+            //             inputType: 'supplierName',
+            //             options: this.localService.getAllPosRoastPacked(),
+            //             collections: [
+            //                 {
+            //                     type: 'select',
+            //                     label: 'Supplier',
+            //                 },
+            //                 {
+            //                     type: 'select',
+            //                     label: '#PO',
+            //                     name: 'poCode',
+            //                     collections: 'somewhere',
+            //                 },
+            //             ]
+            //         },
+            //         {
+            //             type: 'select',
+            //             label: 'Item descrption',
+            //             name: 'item',
+            //             options: this.genral.getAllItemsCashew(),
+            //         },
+            //         {
+            //             type: 'inputselect',
+            //             name: 'declaredAmount',
+            //             collections: [
+            //                 {
+            //                     type: 'input',
+            //                     label: 'Declared amount',
+            //                     name: 'amount',
+            //                     inputType: 'numeric',
+            //                     options: 3,
+            //                 },
+            //                 {
+            //                     type: 'select',
+            //                     label: 'Weight unit',
+            //                     name: 'measureUnit',
+            //                     options: ['KG', 'LBS', 'OZ', 'GRAM'],
+            //                 },
+            //             ]
+            //         },
+            //         {
+            //             type: 'divider',
+            //             inputType: 'divide'
+            //         },
+            //     ]
+            // },
         ];
         
         

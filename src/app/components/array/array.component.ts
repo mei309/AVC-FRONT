@@ -23,9 +23,6 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
   <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
 </div>
-
-
-
 `,
 })
 export class ArrayComponent implements OnInit {
