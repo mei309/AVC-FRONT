@@ -5,7 +5,7 @@ import { FieldConfig } from '../../field.interface';
 @Component({
   selector: 'app-array',
   template: `
-<div class="array-field" [formGroup]="group">
+<div class="array-field" [formGroup]="group" [id]="field.collections">
   <ng-container [formArrayName]="field.name">
     <div *ngFor="let item of formArray.controls; let i = index;">
       <mat-form-field class="one-field" [formGroupName]="i">

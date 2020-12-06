@@ -90,10 +90,11 @@ export class RelocationCountComponent implements OnInit {
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
-                    this.isDataAvailable = false;
+                    // this.isDataAvailable = false;
                     this.isFormAvailable = false;
                     this.dataSource = null;
                     this.cdRef.detectChanges();
+                    this.setRegConfig();
                     this.localService.getStorageByPo(val['poCode']['id']).pipe(take(1)).subscribe( val1 => {
                         this.fillEdit([val, val1]);
                     }); 
@@ -237,6 +238,7 @@ export class RelocationCountComponent implements OnInit {
         }
     }
    ngOnInit() {
+    this.setRegConfig();
        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
            if(params.get('id')) {
                this.localService.getStorageTransferWithStorage(+params.get('id'), +params.get('poCode')).pipe(take(1)).subscribe( val => {
@@ -247,243 +249,9 @@ export class RelocationCountComponent implements OnInit {
            }
        });
        
+       
 
-       this.regConfigHopper = [
-           {
-               type: 'selectgroup',
-               inputType: 'supplierName',
-               disable: true,
-               collections: [
-                   {
-                       type: 'select',
-                       label: 'Supllier',
-                   },
-                   {
-                       type: 'select',
-                       label: '#PO',
-                       name: 'poCode',
-                       collections: 'somewhere',
-                       validations: [
-                           {
-                               name: 'required',
-                               validator: Validators.required,
-                               message: '#PO Required',
-                           }
-                       ]
-                   },
-               ]
-           },
-           {
-               type: 'date',
-               label: 'Date',
-               value: new Date(),
-               name: 'recordedTime',
-               options: 'withTime',
-               validations: [
-                   {
-                       name: 'required',
-                       validator: Validators.required,
-                       message: 'Date Required',
-                   }
-               ]
-           },
-           {
-               type: 'select',
-               label: 'Production line',
-               name: 'productionLine',
-               options: this.genral.getProductionLine(),
-           },
-           {
-                type: 'bigexpand',
-                name: 'usedItemsNormal',
-                label: 'Transfering amounts',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'tableWithInput',
-                        // label: 'Transfer from',
-                        name: 'storageMoves',
-                        options: 'numberUsedUnits',
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Item',
-                                name: 'item',
-                                disable: true,
-                            },
-                            {
-                                type: 'date',
-                                label: 'Process date',
-                                name: 'itemProcessDate',
-                                disable: true,
-                            },
-                            {
-                                type: 'input',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                            },
-                            {
-                                type: 'bignotexpand',
-                                name: 'storage',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Number of units',
-                                        name: 'numberUnits',
-                                        disable: true,
-                                    },
-                                    {
-                                        type: 'input',
-                                        name: 'unitAmount',
-                                        label: 'Unit weight',
-                                        disable: true,
-                                        // collections: [
-                                        //     {
-                                        //         type: 'input',
-                                        //         label: 'Unit weight',
-                                        //         name: 'amount',
-                                        //     },
-                                        //     {
-                                        //         type: 'select',
-                                        //         label: 'Weight unit',
-                                        //         name: 'measureUnit',
-                                        //     },
-                                        // ]
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Warehouse location',
-                                        name: 'warehouseLocation',
-                                        disable: true,
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Number available units',
-                                        name: 'numberAvailableUnits',
-                                        disable: true,
-                                    },
-                                ]
-                            },
-                        ],
-                    },
-                ]
-            },
-            {
-                type: 'bigexpand',
-                name: 'usedItemsTable',
-                label: 'Transfering amounts',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'bignotexpand',
-                        name: 'storageMove',
-                        // label: 'Transfer from',
-                        options: 'aloneNoAdd',
-                        collections: [
-                            {
-                                type: 'inputReadonlySelect',
-                                label: 'Item descrption',
-                                name: 'item',
-                                disable: true,
-                            },
-                            {
-                                type: 'date',
-                                label: 'Process date',
-                                name: 'itemProcessDate',
-                                disable: true,
-                            },
-                            {
-                                type: 'inputReadonly',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                                disable: true,
-                            },
-                            {
-                                type: 'inputReadonlySelect',
-                                label: 'Warehouse location',
-                                name: 'warehouseLocation',
-                                disable: true,
-                            },
-                            {
-                                type: 'inputReadonly',
-                                label: 'Empty container weight',
-                                name: 'containerWeight',
-                                disable: true,
-                            },
-                            {
-                                type: 'arrayordinal',
-                                label: 'Unit weight',
-                                name: 'amounts',
-                                inputType: 'choose',
-                                options: 3,
-                                collections: 30,
-                            },
-                        ]
-                    },
-                ]
-            },
-            {
-                type: 'bignotexpand',
-                name: 'newWarehouse',
-                label: 'New warehouse location',
-                collections: [
-                    {
-                        type: 'select',
-                        label: 'Warehouse location',
-                        name: 'warehouseLocation',
-                        options: this.genral.getWearhouses(),
-                    },
-                ]
-            },
-            {
-                type: 'bigexpand',
-                name: 'itemCounts',
-                label: 'Count',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'select',
-                        label: 'Item descrption',
-                        name: 'item',
-                        disable: true,
-                    },
-                    {
-                        type: 'selectNormal',
-                        label: 'Weight unit',
-                        name: 'measureUnit',
-                        options: this.genral.getMeasureUnit(),
-                        // disable: true,
-                    },
-                    {
-                        type: 'input',
-                        label: 'Empty container weight',
-                        name: 'containerWeight',
-                        inputType: 'numeric',
-                        options: 3,
-                    },
-                    {
-                        type: 'input',
-                        label: 'All bags weight',
-                        name: 'accessWeight',
-                        inputType: 'numeric',
-                        options: 3,
-                    },
-                    {
-                        type: 'arrayordinal',
-                        label: 'Unit weight',
-                        name: 'amounts',
-                        options: 3,
-                        collections: 30,
-                    },
-                ],
-            },
-           {
-               type: 'button',
-               label: 'Submit',
-               name: 'submit',
-           }
-       ];
-
+       
        this.navigationSubscription = this.router.events.subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
@@ -500,6 +268,245 @@ export class RelocationCountComponent implements OnInit {
             this.isDataAvailable = true;
         }
     });
+   }
+
+   setRegConfig() {
+    this.regConfigHopper = [
+        {
+            type: 'selectgroup',
+            inputType: 'supplierName',
+            disable: true,
+            collections: [
+                {
+                    type: 'select',
+                    label: 'Supllier',
+                },
+                {
+                    type: 'select',
+                    label: '#PO',
+                    name: 'poCode',
+                    collections: 'somewhere',
+                    validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: '#PO Required',
+                        }
+                    ]
+                },
+            ]
+        },
+        {
+            type: 'date',
+            label: 'Date',
+            value: new Date(),
+            name: 'recordedTime',
+            options: 'withTime',
+            validations: [
+                {
+                    name: 'required',
+                    validator: Validators.required,
+                    message: 'Date Required',
+                }
+            ]
+        },
+        {
+            type: 'select',
+            label: 'Production line',
+            name: 'productionLine',
+            options: this.genral.getProductionLine(),
+        },
+        {
+             type: 'bigexpand',
+             name: 'usedItemsNormal',
+             label: 'Transfering amounts',
+             options: 'aloneNoAdd',
+             collections: [
+                 {
+                     type: 'tableWithInput',
+                     // label: 'Transfer from',
+                     name: 'storageMoves',
+                     options: 'numberUsedUnits',
+                     collections: [
+                         {
+                             type: 'select',
+                             label: 'Item',
+                             name: 'item',
+                             disable: true,
+                         },
+                         {
+                             type: 'date',
+                             label: 'Process date',
+                             name: 'itemProcessDate',
+                             disable: true,
+                         },
+                         {
+                             type: 'input',
+                             label: 'Weight unit',
+                             name: 'measureUnit',
+                         },
+                         {
+                             type: 'bignotexpand',
+                             name: 'storage',
+                             collections: [
+                                 {
+                                     type: 'input',
+                                     label: 'Number of units',
+                                     name: 'numberUnits',
+                                     disable: true,
+                                 },
+                                 {
+                                     type: 'input',
+                                     name: 'unitAmount',
+                                     label: 'Unit weight',
+                                     disable: true,
+                                     // collections: [
+                                     //     {
+                                     //         type: 'input',
+                                     //         label: 'Unit weight',
+                                     //         name: 'amount',
+                                     //     },
+                                     //     {
+                                     //         type: 'select',
+                                     //         label: 'Weight unit',
+                                     //         name: 'measureUnit',
+                                     //     },
+                                     // ]
+                                 },
+                                 {
+                                     type: 'select',
+                                     label: 'Warehouse location',
+                                     name: 'warehouseLocation',
+                                     disable: true,
+                                 },
+                                 {
+                                     type: 'input',
+                                     label: 'Number available units',
+                                     name: 'numberAvailableUnits',
+                                     disable: true,
+                                 },
+                             ]
+                         },
+                     ],
+                 },
+             ]
+         },
+         {
+             type: 'bigexpand',
+             name: 'usedItemsTable',
+             label: 'Transfering amounts',
+             options: 'aloneNoAdd',
+             collections: [
+                 {
+                     type: 'bignotexpand',
+                     name: 'storageMove',
+                     // label: 'Transfer from',
+                     options: 'aloneNoAdd',
+                     collections: [
+                         {
+                             type: 'inputReadonlySelect',
+                             label: 'Item descrption',
+                             name: 'item',
+                             disable: true,
+                         },
+                         {
+                             type: 'date',
+                             label: 'Process date',
+                             name: 'itemProcessDate',
+                             disable: true,
+                         },
+                         {
+                             type: 'inputReadonly',
+                             label: 'Weight unit',
+                             name: 'measureUnit',
+                             disable: true,
+                         },
+                         {
+                             type: 'inputReadonlySelect',
+                             label: 'Warehouse location',
+                             name: 'warehouseLocation',
+                             disable: true,
+                         },
+                         {
+                             type: 'inputReadonly',
+                             label: 'Empty container weight',
+                             name: 'containerWeight',
+                             disable: true,
+                         },
+                         {
+                             type: 'arrayordinal',
+                             label: 'Unit weight',
+                             name: 'amounts',
+                             inputType: 'choose',
+                             options: 3,
+                             collections: 30,
+                         },
+                     ]
+                 },
+             ]
+         },
+         {
+             type: 'bignotexpand',
+             name: 'newWarehouse',
+             label: 'New warehouse location',
+             collections: [
+                 {
+                     type: 'select',
+                     label: 'Warehouse location',
+                     name: 'warehouseLocation',
+                     options: this.genral.getWearhouses(),
+                 },
+             ]
+         },
+         {
+             type: 'bigexpand',
+             name: 'itemCounts',
+             label: 'Count',
+             options: 'aloneNoAdd',
+             collections: [
+                 {
+                     type: 'select',
+                     label: 'Item descrption',
+                     name: 'item',
+                     disable: true,
+                 },
+                 {
+                     type: 'selectNormal',
+                     label: 'Weight unit',
+                     name: 'measureUnit',
+                     options: this.genral.getMeasureUnit(),
+                     // disable: true,
+                 },
+                 {
+                     type: 'input',
+                     label: 'Empty container weight',
+                     name: 'containerWeight',
+                     inputType: 'numeric',
+                     options: 3,
+                 },
+                 {
+                     type: 'input',
+                     label: 'All bags weight',
+                     name: 'accessWeight',
+                     inputType: 'numeric',
+                     options: 3,
+                 },
+                 {
+                     type: 'arrayordinal',
+                     label: 'Unit weight',
+                     name: 'amounts',
+                     options: 3,
+                     collections: 30,
+                 },
+             ],
+         },
+        {
+            type: 'button',
+            label: 'Submit',
+            name: 'submit',
+        }
+    ];
+
    }
 
 

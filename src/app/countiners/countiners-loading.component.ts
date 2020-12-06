@@ -205,28 +205,28 @@ export class CountinersLoadingComponent {
 
     addWanted() {
         if(this.dataSource['usedItemsNormal'].length) {
-            if(this.regConfig[0]['name'] !== 'usedItemsNormal') {
+            if(!this.regConfig[0] || this.regConfig[0]['name'] !== 'usedItemsNormal') {
                 this.addNormal();
             }
             if(this.dataSource['usedItemsTable'].length) {
-                if(this.regConfig[1]['name'] !== 'usedItemsTable') {
+                if(!this.regConfig[1] || this.regConfig[1]['name'] !== 'usedItemsTable') {
                     this.addTable();
                 }
             } else {
-                if(this.regConfig[1]['name'] === 'usedItemsTable') {
+                if(this.regConfig[1] && this.regConfig[1]['name'] === 'usedItemsTable') {
                     this.regConfig.splice(1, 1);
                 }
             }
         } else {
-            if(this.regConfig[0]['name'] === 'usedItemsNormal') {
+            if(this.regConfig[0] && this.regConfig[0]['name'] === 'usedItemsNormal') {
                 this.regConfig.splice(0, 1);
             }
             if(this.dataSource['usedItemsTable'].length) {
-                if(this.regConfig[0]['name'] !== 'usedItemsTable') {
+                if(!this.regConfig[0] || this.regConfig[0]['name'] !== 'usedItemsTable') {
                     this.addTable();
                 }
             } else {
-                if(this.regConfig[0]['name'] === 'usedItemsTable') {
+                if(this.regConfig[0] && this.regConfig[0]['name'] === 'usedItemsTable') {
                     this.regConfig.splice(0, 1);
                 }
             }
@@ -669,7 +669,7 @@ export class CountinersLoadingComponent {
          );
     }
      addTable(){
-         var index = this.regConfig[0]['name'] === 'usedItemsNormal'? 1 : 0;
+         var index = (this.regConfig[0] && this.regConfig[0]['name'] === 'usedItemsNormal')? 1 : 0;
          this.regConfig.splice(index, 0,   
              {
                 type: 'bigexpand',

@@ -17,9 +17,10 @@ describe('test 3', () => {
 
     it('should add new cashew supplier', async () => {
         page.navigateTo();
-        await putDataTest(page.newSupplierFileds('Nah Trang', ['cashew']), loader);
-        expect(browser.getCurrentUrl()).toEqual(browser.baseUrl+'Main/supready/NewSupplier');
-        let popupLoader = await loader.getHarness(MatDialogHarness.with({selector: '.app-supplier-details-dialog'}));
+        await putDataTest(page.newSupplierFileds('Nah Trang15', ['cashew']), loader);
+        // expect(browser.getCurrentUrl()).toEqual(browser.baseUrl+'Main/supready/NewSupplier');
+        let popupLoader = await loader.getChildLoader(MatDialogHarness.hostSelector);
+        // let popupLoader = await loader.getHarness(MatDialogHarness.with({selector: '.app-supplier-details-dialog'}));
         expect(popupLoader).toBeTruthy();
     });
 

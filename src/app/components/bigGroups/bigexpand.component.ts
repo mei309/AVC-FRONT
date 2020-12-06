@@ -57,7 +57,7 @@ const componentMapper = {
 @Component({
   selector: 'app-bigexpand',
   template: `
-<ng-container [ngSwitch]="field.options">
+<div style="display: contents" [ngSwitch]="field.options" [id]="field.name">
 
   <ng-container *ngSwitchCase="'tabs'">
     <div style="background-color: lightGrey;">
@@ -158,7 +158,7 @@ const componentMapper = {
       </div>
     </fieldset>
   </ng-container>
-</ng-container>
+</div>
 
 `,
 })

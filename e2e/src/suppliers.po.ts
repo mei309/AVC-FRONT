@@ -42,27 +42,28 @@ export class SuppliersPo {
             placeholder: 'Registered location',
             value: 'registration location',
         },
-        {
-            type: 'input',
-            placeholder: 'Street address',
-            value: 'street address',
-        },
+        // {
+        //     type: 'input',
+        //     placeholder: 'Street address',
+        //     value: 'street address',
+        // },
         // {
         //     type: 'select',
         //     value: 'Vietnam',
         // },
-        {
-            type: 'select',
-            value: 'Da Nang',
-            placeholder: 'City/State',
-        },
+        // {
+        //     type: 'select',
+        //     value: 'Da Nang',
+        //     placeholder: 'City/State',
+        // },
 
-        //   {
-        //     type: 'array',
-        //     label: 'Phone',
-        //     inputType: 'number',
-        //     name: 'phones',
-        //   },
+
+
+          {
+            type: 'array',
+            placeholder: 'phonesmain',
+            multiValue: ['234'],
+          },
         //   {
         //     type: 'array',
         //     label: 'Email',
@@ -75,49 +76,38 @@ export class SuppliersPo {
         //     inputType: 'number',
         //     name: 'faxes',
         //   },
-    //       {
-    //         type: 'bigexpand',
-    //         label: 'bank accounts',
-    //         name: 'paymentAccounts',
-    //         collections: [
-    //           {
-    //             type: 'bignotexpand',
-    //             name: 'bankAccount',
-    //             collections: [
-    //               {
-    //                 type: 'input',
-    //                 label: 'Owner name',
-    //                 name: 'ownerName',
-    //               },
-    //               {
-    //                 type: 'input',
-    //                 label: 'Account number',
-    //                 name: 'accountNo',
-    //               },
-    //               {
-    //                 type: 'selectgroup',
-    //                 inputType: 'bankName',
-    //                 options: this.genral.getBranches(),
-    //                 collections: [
-    //                   {
-    //                     type: 'select',
-    //                     label: 'Bank',
-    //                   },
-    //                   {
-    //                     type: 'select',
-    //                     label: 'Branch',
-    //                     name: 'branch',
-    //                   },
-    //                 ]
-    //               },
-    //             ]
-    //           },
-    //           {
-    //             type: 'divider',
-    //             inputType: 'divide'
-    //           },
-    //         ],
-    //     },
+        //   {
+        //     type: 'bigexpand',
+        //     placeholder: 'bank accounts',
+        //     collections: [
+        //           {
+        //             type: 'input',
+        //             placeholder: 'Owner name',
+        //             value: 'ownerName',
+        //           },
+        //           {
+        //             type: 'input',
+        //             placeholder: 'Account number',
+        //             value: 'accountNo',
+        //           },
+        //           // {
+        //           //   type: 'selectgroup',
+        //           //   inputType: 'bankName',
+        //           //   options: this.genral.getBranches(),
+        //           //   collections: [
+        //           //     {
+        //           //       type: 'select',
+        //           //       label: 'Bank',
+        //           //     },
+        //           //     {
+        //           //       type: 'select',
+        //           //       label: 'Branch',
+        //           //       name: 'branch',
+        //           //     },
+        //           //   ]
+        //           // },
+        //     ],
+        // },
        
     //   {
     //     type: 'bigexpand',

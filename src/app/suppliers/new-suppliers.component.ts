@@ -137,6 +137,7 @@ export class NewSupplierComponent implements OnInit {
             label: 'Phone',
             inputType: 'number',
             name: 'phones',
+            collections: 'phonesmain',
             // validations: [
             //   {
             //     name: 'pattern',
@@ -300,6 +301,7 @@ export class NewSupplierComponent implements OnInit {
                     label: 'Phone',
                     inputType: 'number',
                     name: 'phones',
+                    collections: 'phoneschild'
                   },
                   {
                     type: 'array',

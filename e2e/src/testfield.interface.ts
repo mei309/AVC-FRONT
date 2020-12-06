@@ -5,4 +5,5 @@ export interface TestField {
     multiValue?: string[];
     placeholder?: string;
     text?: string;
+    collections?: TestField[];
 }

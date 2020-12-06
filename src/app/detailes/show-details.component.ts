@@ -401,6 +401,11 @@ export class ShowDetailsComponent implements OnInit {
                 name: 'item',
             },
             {
+                type: 'normal',
+                label: 'Measure unit',
+                name: 'measureUnit',
+            },
+            {
               type: 'weight2',
               label: 'Sum',
               name: 'totalAmount',
