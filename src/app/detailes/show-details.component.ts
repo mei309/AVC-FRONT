@@ -336,6 +336,11 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
         type: 'normal',
+        label: 'Measure unit',
+        name: 'measureUnit',
+    },
+    {
+        type: 'normal',
         label: 'Inspector',
         name: 'inspector',
     },
@@ -608,7 +613,7 @@ export class ShowDetailsComponent implements OnInit {
       name: 'usedItemGroups',
     },
     {
-      type: 'array',
+      type: 'arrayGroup',
       // label: 'Used amounts',
       name: 'usedItems',
       // side: 'left',
@@ -631,21 +636,29 @@ export class ShowDetailsComponent implements OnInit {
               name: 'measureUnit',
           },
           {
-              type: 'normal',
-              label: 'Bag weight',
-              name: 'storageUnitAmount',
-              // collections: 'measureUnit',
+            type: 'parent',
+            name: 'storage',
+            label: 'Amounts and storage',
+            collections: [
+                {
+                    type: 'normal',
+                    label: 'Bag weight',
+                    name: 'unitAmount',
+                    // collections: 'measureUnit',
+                },
+                {
+                    type: 'nameId',
+                    label: 'Warehouse location',
+                    name: 'warehouseLocation',
+                },
+              ]
           },
           {
               type: 'normal',
               label: 'Number of bags',
               name: 'numberUsedUnits',
           },
-          {
-              type: 'nameId',
-              label: 'Warehouse location',
-              name: 'storageWarehouseLocation',
-          },
+          
         ]
     },
     {
@@ -664,11 +677,11 @@ export class ShowDetailsComponent implements OnInit {
             label: 'Item descrption',
             name: 'item',
         },
-        {
-            type: 'normal',
-            label: 'Container weight',
-            name: 'containerWeight',
-        },
+        // {
+        //     type: 'normal',
+        //     label: 'Container weight',
+        //     name: 'containerWeight',
+        // },
         {
             type: 'normal',
             label: 'Measure unit',
@@ -714,7 +727,7 @@ export class ShowDetailsComponent implements OnInit {
     //           name: 'item',
     //       },
     {
-      type: 'array',
+      type: 'arrayGroup',
       name: 'storageForms',
       // label: 'Amounts and storage',
       collections: [
@@ -723,8 +736,13 @@ export class ShowDetailsComponent implements OnInit {
               //     label: 'Name',
               //     name: 'name',
               // },
+              // {
+              //     type: 'normal',
+              //     label: 'Measure unit',
+              //     name: 'measureUnit',
+              // },
               {
-                  type: 'nameId',
+                  type: 'normal',
                   label: 'Unit weight',
                   name: 'unitAmount',
                   // collections: 'measureUnit',
@@ -748,16 +766,16 @@ export class ShowDetailsComponent implements OnInit {
       name: 'storage',
       // side: 'right',
       collections: [
-        {
-            type: 'normal',
-            label: 'Container weight',
-            name: 'containerWeight',
-        },
-        {
-            type: 'normal',
-            label: 'Measure unit',
-            name: 'measureUnit',
-        },
+        // {
+        //     type: 'normal',
+        //     label: 'Container weight',
+        //     name: 'containerWeight',
+        // },
+        // {
+        //     type: 'normal',
+        //     label: 'Measure unit',
+        //     name: 'measureUnit',
+        // },
         {
             type: 'nameId',
             label: 'Warehouse location',
@@ -836,11 +854,11 @@ export class ShowDetailsComponent implements OnInit {
             label: 'Item descrption',
             name: 'item',
         },
-        {
-            type: 'normal',
-            label: 'Container weight',
-            name: 'containerWeight',
-        },
+        // {
+        //     type: 'normal',
+        //     label: 'Container weight',
+        //     name: 'containerWeight',
+        // },
         {
             type: 'normal',
             label: 'Measure unit',
@@ -874,11 +892,11 @@ export class ShowDetailsComponent implements OnInit {
             label: 'Item descrption',
             name: 'item',
         },
-        {
-            type: 'normal',
-            label: 'Container weight',
-            name: 'containerWeight',
-        },
+        // {
+        //     type: 'normal',
+        //     label: 'Container weight',
+        //     name: 'containerWeight',
+        // },
         {
             type: 'normal',
             label: 'Measure unit',

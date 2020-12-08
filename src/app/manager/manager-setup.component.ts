@@ -125,7 +125,7 @@ export class ManagmentSetupComponent {
                     label: 'Item type',
                     value: 'bulk',
                     options: ['bulk', 'packed'],
-                    // disable: true,
+                    disable: true,
                 },
                 {
                     name: 'defaultMeasureUnit',

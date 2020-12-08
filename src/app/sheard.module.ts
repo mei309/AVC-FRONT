@@ -55,7 +55,6 @@ import { PercentInputComponent } from './components/inputs/percent-input.compone
 import { PercentageDirective } from './libraries/percentage.directive';
 import { ForEachEditComponent } from './detailes/for-each-edit.component';
 import { NgxPrintModule } from 'ngx-print';
-
 @NgModule({
   declarations: [
     // ExpandableTableComponent,

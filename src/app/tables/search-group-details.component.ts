@@ -33,6 +33,10 @@ import { OneColumn } from '../field.interface';
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
+                    <mat-select *ngSwitchCase="'arraySelectAsyncObject'" placeholder="Search" (focus)="setupFilterArray(column.name)" (selectionChange)="applyFilter($event.value)">
+                        <mat-option value="">--all--</mat-option>
+                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
+                    </mat-select>
                     <mat-select *ngSwitchCase="'listAmountWithUnit'" placeholder="Search" (focus)="listAmountWithUnit(column.name)" (selectionChange)="applyFilter($event.value)">
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
@@ -40,9 +44,9 @@ import { OneColumn } from '../field.interface';
                     
                     <input *ngSwitchCase="'array2'" matInput readonly>
 
-                    <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value, column.name)" [rangePicker]="picker4">
-                      <input matStartDate formControlName="start" placeholder="Start date">
-                      <input matEndDate formControlName="end" placeholder="End date">
+                    <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4">
+                      <input matStartDate placeholder="Start date" #dateRangeStart>
+                      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)">
                     </mat-date-range-input>
                     <mat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker4"></mat-datepicker-toggle>
                     <mat-date-range-picker #picker4></mat-date-range-picker>
@@ -190,6 +194,12 @@ export class SearchGroupDetailsComponent {
       return textToSearch.indexOf(filter) !== -1;
     };
   }
+  setupFilterArray(column: string) {
+    this.dataSource.filterPredicate = (d: any, filter: string) => {
+      // const textToSearch = d[column] && d[column].toString().toLowerCase() || '';
+      return d[column].includes(filter);
+    };
+  }
   listAmountWithUnit(column: string) {
     this.dataSource.filterPredicate = (d: any, filter: string) => {
       return d[column].some(a => a['item']['value'].toString().toLowerCase().indexOf(filter) !== -1);
@@ -199,10 +209,12 @@ export class SearchGroupDetailsComponent {
       this.dataSource.filter = filterValue.trim().toLowerCase();
       this.readySpanData();
   }
-  inlineRangeChange($event, column: string) {
-    this.setupDateFilter(column);
-    this.dataSource.filter = $event;
-    this.readySpanData();
+  inlineRangeChange($eventstart: Date, $eventend: Date, column: string) {
+    if($eventend) {
+      this.setupDateFilter(column);
+      this.dataSource.filter = {begin: new Date($eventstart), end: new Date($eventend)};
+      this.readySpanData();
+    }
   }
   setupDateFilter(column: string) {
     this.dataSource.filterPredicate = (data, filter: any) => {

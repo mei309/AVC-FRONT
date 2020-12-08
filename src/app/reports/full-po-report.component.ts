@@ -79,16 +79,18 @@ import { ReportsService } from './reports.service';
                     </mat-accordion>
                 </ng-template>
             </mat-tab>
-            <mat-tab label="Graphs">
+            <!-- <mat-tab label="Graphs">
                 <ng-template matTabContent>
                     <app-dash-board [finalReport]="finalReport">
                     </app-dash-board>
                 </ng-template>
-            </mat-tab>
+                <show-details [dataSource]="finalReport" [oneColumns]="finalShow">
+                    </show-details>
+            </mat-tab> -->
             <mat-tab label="Final report">
                 <ng-template matTabContent>
-                    <show-details [dataSource]="finalReport" [oneColumns]="finalShow">
-                    </show-details>
+                    <final-report-table [dataSource]="finalReport">
+                    </final-report-table>
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
@@ -137,7 +139,7 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        console.log(val1['relocationItems']);
+                        console.log(val1);
                         
                     });
                 }
@@ -184,23 +186,6 @@ export class fullPoReportComponent {
         }
     }
 
-    // {
-    //     "name": "Germany",
-    //     "series": [
-    //       {
-    //         "name": "1990",
-    //         "value": 62000000
-    //       },
-    //       {
-    //         "name": "2010",
-    //         "value": 73000000
-    //       },
-    //       {
-    //         "name": "2011",
-    //         "value": 89400000
-    //       }
-    //     ]
-    //   },
     regShow = [
         {
             type: 'arrayForEach',

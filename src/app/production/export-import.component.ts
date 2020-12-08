@@ -375,12 +375,12 @@ export class ExportImportComponent implements OnInit {
                                 name: 'warehouseLocation',
                                 disable: true,
                             },
-                            {
-                                type: 'inputReadonly',
-                                label: 'Empty container weight',
-                                name: 'containerWeight',
-                                disable: true,
-                            },
+                            // {
+                            //     type: 'inputReadonly',
+                            //     label: 'Empty container weight',
+                            //     name: 'containerWeight',
+                            //     disable: true,
+                            // },
                             {
                                 type: 'arrayordinal',
                                 label: 'Unit weight',
@@ -450,13 +450,13 @@ export class ExportImportComponent implements OnInit {
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
-                            {
-                                type: 'input',
-                                label: 'Empty container weight',
-                                name: 'containerWeight',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
+                            // {
+                            //     type: 'input',
+                            //     label: 'Empty container weight',
+                            //     name: 'containerWeight',
+                            //     inputType: 'numeric',
+                            //     options: 3,
+                            // },
                             {
                                 type: 'divider',
                                 inputType: 'divide'
@@ -522,13 +522,13 @@ export class ExportImportComponent implements OnInit {
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
-                            {
-                                type: 'input',
-                                label: 'Empty container weight',
-                                name: 'containerWeight',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
+                            // {
+                            //     type: 'input',
+                            //     label: 'Empty container weight',
+                            //     name: 'containerWeight',
+                            //     inputType: 'numeric',
+                            //     options: 3,
+                            // },
                             {
                                 type: 'arrayordinal',
                                 label: 'Unit weight',

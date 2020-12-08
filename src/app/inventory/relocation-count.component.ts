@@ -427,12 +427,12 @@ export class RelocationCountComponent implements OnInit {
                              name: 'warehouseLocation',
                              disable: true,
                          },
-                         {
-                             type: 'inputReadonly',
-                             label: 'Empty container weight',
-                             name: 'containerWeight',
-                             disable: true,
-                         },
+                        //  {
+                        //      type: 'inputReadonly',
+                        //      label: 'Empty container weight',
+                        //      name: 'containerWeight',
+                        //      disable: true,
+                        //  },
                          {
                              type: 'arrayordinal',
                              label: 'Unit weight',
@@ -477,13 +477,13 @@ export class RelocationCountComponent implements OnInit {
                      options: this.genral.getMeasureUnit(),
                      // disable: true,
                  },
-                 {
-                     type: 'input',
-                     label: 'Empty container weight',
-                     name: 'containerWeight',
-                     inputType: 'numeric',
-                     options: 3,
-                 },
+                //  {
+                //      type: 'input',
+                //      label: 'Empty container weight',
+                //      name: 'containerWeight',
+                //      inputType: 'numeric',
+                //      options: 3,
+                //  },
                  {
                      type: 'input',
                      label: 'All bags weight',
