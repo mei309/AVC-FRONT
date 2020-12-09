@@ -34,7 +34,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
             [style.display]="getColSpan(iRow, iCol) ? '' : 'none'"
            [ngClass]="{'is-alert': column.compare && element[column.compare] && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justText">
-              <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+              <span *ngIf="element[column.name] != null" style="white-space: pre-wrap;">
                   {{element[column.name] | tableCellPipe: column.group? element.pipes1 : element.pipes : element.collections? element[element.collections+column.name] : column.collections}}
               
                   <ng-container *ngIf="element[column.compare]">
@@ -79,20 +79,20 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
           [style.display]="getColSpan(iRow, iCol) ? '' : 'none'" [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justTextEdit"> 
               <ng-container *ngIf="element.hasOwnProperty(column.name+'edit'); else notUpdated">
-                      <span class="added-item" *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                      <span class="added-item" *ngIf="element[column.name] != null" style="white-space: pre-wrap;">
                           {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
                       </span>
-                      <span class="removed-item" *ngIf="element[column.name+'edit']" style="white-space: pre-wrap;">
+                      <span class="removed-item" *ngIf="element[column.name+'edit'] != null" style="white-space: pre-wrap;">
                           {{element[column.name+'edit'] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
                       </span>
               </ng-container>
               <ng-template  #notUpdated>
-                  <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                  <span *ngIf="element[column.name] != null" style="white-space: pre-wrap;">
                       {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
                   </span>
               </ng-template >
 
-              <ng-container *ngIf="element[column.name] && element[column.options]">
+              <ng-container *ngIf="element[column.name] != null && element[column.options]">
                 ({{element[column.compare] | tableCellPipe: element.pipes : 100}})
               </ng-container>
             </ng-container>

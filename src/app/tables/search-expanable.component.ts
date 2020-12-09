@@ -40,7 +40,7 @@ import { OneColumn } from '../field.interface';
                 <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
               </mat-select>
 
-              <<mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4">
+              <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4">
                 <input matStartDate placeholder="Start date" #dateRangeStart>
                 <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)">
               </mat-date-range-input>

@@ -55,6 +55,8 @@ import { PercentInputComponent } from './components/inputs/percent-input.compone
 import { PercentageDirective } from './libraries/percentage.directive';
 import { ForEachEditComponent } from './detailes/for-each-edit.component';
 import { NgxPrintModule } from 'ngx-print';
+import { FormDirective } from './libraries/autofocus.directive';
+import { SelectNormalMultipleComponent } from './components/selects/select-normal-multiple.component';
 @NgModule({
   declarations: [
     // ExpandableTableComponent,
@@ -72,6 +74,7 @@ import { NgxPrintModule } from 'ngx-print';
     SumsTableComponent,
     
 
+    FormDirective,
     NumericDirective,
     MyDurationPickerDirective,
     PercentageDirective,
@@ -93,6 +96,7 @@ import { NgxPrintModule } from 'ngx-print';
     InputReadonlyComponent,
     SelectComponent,
     SelectNormalComponent,
+    SelectNormalMultipleComponent,
     SelectgroupComponent,
     SelectLineComponent,
     DateComponent,
@@ -135,6 +139,7 @@ import { NgxPrintModule } from 'ngx-print';
     NormalGroupDetailsComponent,
     SumsTableComponent,
 
+    FormDirective,
     NumericDirective,
     MyDurationPickerDirective,
     PercentageDirective,
@@ -155,6 +160,7 @@ import { NgxPrintModule } from 'ngx-print';
     InputReadonlyComponent,
     SelectComponent,
     SelectNormalComponent,
+    SelectNormalMultipleComponent,
     SelectgroupComponent,
     SelectLineComponent,
     DateComponent,
@@ -201,6 +207,7 @@ import { NgxPrintModule } from 'ngx-print';
     InputReadonlyComponent,
     SelectComponent,
     SelectNormalComponent,
+    SelectNormalMultipleComponent,
     SelectgroupComponent,
     SelectLineComponent,
     DateComponent,

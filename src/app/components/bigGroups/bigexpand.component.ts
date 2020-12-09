@@ -25,6 +25,7 @@ import { TableWithInputComponent } from './table-with-input.component';
 import { SelectLineComponent } from '../selects/slecet-line.component';
 import { ArrayOrdinalComponent } from '../array/array-ordinal.component';
 import { PercentInputComponent } from '../inputs/percent-input.component';
+import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
 
 
 const componentMapper = {
@@ -32,6 +33,7 @@ const componentMapper = {
   inputselect: InputSelectComponent,
   select: SelectComponent,
   selectNormal: SelectNormalComponent,
+  selectNormalMultiple: SelectNormalMultipleComponent,
   date: DateComponent,
   radiobutton: RadiobuttonComponent,
   checkbox: CheckboxComponent,

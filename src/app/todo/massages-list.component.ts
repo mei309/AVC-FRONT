@@ -25,6 +25,17 @@ export class MassagesListComponent {
     myTypes: string[] = ['NEW', 'SEEN'];
     columnsMassages: OneColumn[] = [
       {
+        name: 'title',
+        label: 'Title',
+        search: 'normal',
+      },
+      {
+        name: 'processType',
+        label: 'Process type',
+        search: 'select',
+        options: this.genral.getProcess()
+      },
+      {
         type: 'nameId',
         name: 'poCode',
         label: 'PO#',
@@ -35,17 +46,6 @@ export class MassagesListComponent {
         label: 'Supplier',
         search: 'selectAsyncObject',
         options: this.genral.getSupplierCashew(),
-      },
-      {
-        name: 'title',
-        label: 'Title',
-        search: 'normal',
-      },
-      {
-        name: 'processType',
-        label: 'Process type',
-        search: 'select',
-        options: this.genral.getProcess()
       },
       {
         name: 'modifiedBy',

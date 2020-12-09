@@ -42,7 +42,6 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 `,
-  styles: []
 })
 export class SelectComponent implements OnInit {
   @ViewChild('multipileInput', { read: MatAutocompleteTrigger }) multipileInput: MatAutocompleteTrigger;

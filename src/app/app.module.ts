@@ -79,7 +79,7 @@ export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
   ],
   exports: [
     LoginComponent,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     // BrowserModule,
     ],
   imports: [

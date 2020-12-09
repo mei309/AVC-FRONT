@@ -112,12 +112,11 @@ export class ExportImportComponent implements OnInit {
                     });
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
-                    arrNormal.push(element);
-                    console.log(element);
-                    
                     element['usedItems'].forEach(el => {
+                        // el['storage']['numberAvailableUnits'] = el['storgeOtherUsedUnits'];
                         removeIds.push(el['storage']['id']);
                     });
+                    arrNormal.push(element);
                 } else if(element['groupName'] === 'meterial') {
                     arrMaterial.push(element);
                 } 
@@ -562,6 +561,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
+                        inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {
@@ -629,6 +629,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
+                        inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {

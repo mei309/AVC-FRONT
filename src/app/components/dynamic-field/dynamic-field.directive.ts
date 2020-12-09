@@ -26,6 +26,7 @@ import { TextarryComponent } from '../textarry/textarry.component';
 import { CalculateFewComponent } from './../calculateFew/calculate-few.component';
 import { InputToPercentageComponent } from '../inputs/input-to-percentage.component';
 import { PercentInputComponent } from '../inputs/percent-input.component';
+import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
 
 
 const componentMapper = {
@@ -33,6 +34,7 @@ const componentMapper = {
   inputselect: InputSelectComponent,
   select: SelectComponent,
   selectNormal: SelectNormalComponent,
+  selectNormalMultiple: SelectNormalMultipleComponent,
   date: DateComponent,
   radiobutton: RadiobuttonComponent,
   checkbox: CheckboxComponent,

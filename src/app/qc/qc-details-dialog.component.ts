@@ -43,6 +43,8 @@ export class QcDetailsDialogComponent {
         if(!this.fromNew) {
             this.LocalService.getQcCheck(this.id).pipe(take(1)).subscribe( val => {
                 this.qcCheck = val;
+                console.log(val);
+                
             });
         }
         this.buttons.push('Edit');

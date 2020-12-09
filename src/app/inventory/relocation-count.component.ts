@@ -123,11 +123,12 @@ export class RelocationCountComponent implements OnInit {
                     });
                     arrTable.push(element);
                 } else if(element['storageMoves']) {
-                    arrNormal.push(element);
                     element['storageMoves'].forEach(el => {
-                        removeIdsNormal.push(el['id']);
+                        // el['storage']['numberAvailableUnits'] = el['storgeOtherUsedUnits'];
+                        // removeIdsNormal.push(el['id']);
                         removeIdsNormal.push(el['storage']['id']);
                     });
+                    arrNormal.push(element);
                 }
            });
 

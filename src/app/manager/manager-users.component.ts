@@ -74,10 +74,9 @@ export class ManagmentUsersComponent implements OnInit {
             disable: true,
         },
         {
-            type: 'selectNormal',
+            type: 'selectNormalMultiple',
             label: 'Roles',
             name: 'roles',
-            inputType: 'multiple',
             options: this.genral.getRoles(),
         },     
         {
@@ -134,10 +133,9 @@ export class ManagmentUsersComponent implements OnInit {
             disable: true,
         },
         {
-            type: 'selectNormal',
+            type: 'selectNormalMultiple',
             label: 'Roles',
             name: 'roles',
-            inputType: 'multiple',
             options: this.genral.getRoles(),
         },     
         {

@@ -64,6 +64,8 @@ export class ProductionCleaningComponent implements OnInit {
                 this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'raw').pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
                     this.newUsed = val[1];
+                    console.log(val);
+                    
                     this.isFormAvailable = true;
                 });
                 this.poID = +params.get('id');

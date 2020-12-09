@@ -20,6 +20,17 @@ export class TodoListComponent {
 
   columnsTasks: OneColumn[] = [
       {
+        name: 'title',
+        label: 'Title',
+        search: 'normal',
+      },
+      {
+        name: 'processType',
+        label: 'Process type',
+        search: 'select',
+        options: this.genral.getProcess(),
+      },
+      {
         type: 'nameId',
         name: 'poCode',
         label: 'PO#',
@@ -36,17 +47,6 @@ export class TodoListComponent {
         name: 'createdDate',
         label: 'Created date',
         search: 'dates',
-      },
-      {
-        name: 'title',
-        label: 'Title',
-        search: 'normal',
-      },
-      {
-        name: 'processType',
-        label: 'Process type',
-        search: 'select',
-        options: this.genral.getProcess(),
       },
       {
         name: 'modifiedBy',

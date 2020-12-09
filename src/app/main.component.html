@@ -39,7 +39,7 @@ fxShow="true" fxHide.lt-md="true" -->
 
       <button mat-button [matMenuTriggerFor]="menuSupp" >Suppliers</button>
       <mat-menu #menuSupp="matMenu" >
-        <button mat-menu-item routerLink='supready/NewSupplier'>New Supplier</button>
+        <button mat-menu-item routerLink='supready/NewSupplier' cdkFocusRegionStart>New Supplier</button>
         <button mat-menu-item routerLink='supready/Suppliers'>Suppliers</button>
       </mat-menu>
 
@@ -51,7 +51,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [matMenuTriggerFor]="generalreports">General Reports</button>
       </mat-menu>
       <mat-menu #poordernew="matMenu" >
-        <button mat-menu-item routerLink='ordready/NewCashewOrder'>Cashew</button>
+        <button mat-menu-item routerLink='ordready/NewCashewOrder' cdkFocusRegionStart>Cashew</button>
         <button mat-menu-item routerLink='ordready/NewGenralOrder'>General</button>
       </mat-menu>
       <mat-menu #poorderreceive="matMenu" >

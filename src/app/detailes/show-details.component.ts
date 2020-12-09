@@ -658,7 +658,11 @@ export class ShowDetailsComponent implements OnInit {
               label: 'Number of bags',
               name: 'numberUsedUnits',
           },
-          
+          {
+              type: 'date',
+              label: 'Last process date',
+              name: 'itemProcessDate',
+          },
         ]
     },
     {

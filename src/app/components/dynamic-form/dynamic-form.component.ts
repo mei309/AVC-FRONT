@@ -8,7 +8,7 @@ import { allOrNoneRequired, FieldConfig, checkEmpty, atLeastOneRequired } from '
 @Component({
   selector: 'dynamic-form',
   template: `
-  <form autocomplete="off" class="dynamic-form" [formGroup]="form" (submit)="onSubmit($event)">
+  <form autocomplete="off" class="dynamic-form" [formGroup]="form" (ngSubmit)="onSubmit($event)" focusInvalidInput>
   <fieldset [ngStyle]="{'width':'90%'}">
   <legend *ngIf="mainLabel"><h1>{{mainLabel}}</h1></legend>
   <ng-container *ngFor="let field of fields;" dynamicField [edit]="edit" [field]="field" [group]="form">
