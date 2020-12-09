@@ -181,7 +181,7 @@ fxShow="true" fxHide.lt-md="true" -->
       
     </div>
     <span class="example-spacer"></span>
-    <button class="example-icon" mat-mini-fab [useExistingCss]="true" printSectionId="print-section" ngxPrint>
+    <button class="example-icon" mat-mini-fab (click)="onPrint()">
       <mat-icon >print</mat-icon>
     </button>
     <button class="example-icon" mat-mini-fab (click)="logout()">

@@ -11,6 +11,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     flex-direction: column;
   }
 
+  /* ::ng-deep mat-autocomplete .mat-autocomplete-value {
+    width: fit-content;
+    min-width: 2ch;
+    max-width: 25ch;
+}
+::ng-deep mat-autocomplete .mat-autocomplete-placeholder {
+    width: fit-content;
+    min-width: 10ch;
+} */
+  
+ 
+  
+
   .one-field-space {
     display: inline-block;
     /* float: left; */
@@ -230,20 +243,41 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 
   @media print {
-    @page {
-      size: A4;
-    }
+
     .only-print {
       display: block;
     }
-    /* body * {
+    body * {
       visibility: hidden;
-    } */
+    }
     /* mat-form-field {
       display: none !important;
     } */
     .no-print, .raised-margin {
       display: none !important;
+    }
+    /* .my-toolbar {
+      display: none !important;
+    } */
+    
+    
+    #print-section, #print-section * {
+      overflow: visible;
+      visibility: visible;
+    }
+    #print-section {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    #print-section-orders, #print-section-orders * {
+      overflow: visible;
+      visibility: visible;
+    }
+    #print-section-orders {
+      position: absolute;
+      left: 0;
+      top: 0;
     }
     /* #section-to-print, #section-to-print * {
       overflow: visible;
@@ -254,19 +288,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       left: 0;
       top: 0;
     }
-    
-    #print, #print * {
-      overflow: visible;
-      visibility: visible;
-    }
     #print-child, #print-child * {
       overflow: visible;
       visibility: visible;
-    }
-    #print {
-      position: absolute;
-      left: 0;
-      top: 0;
     }
     #print-child {
       position: absolute;

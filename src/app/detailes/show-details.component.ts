@@ -707,17 +707,96 @@ export class ShowDetailsComponent implements OnInit {
       type: 'arrayForEach',
       label: 'Produced amounts',
       name: 'processItemsTable',
-      side: 'right',
     },
+    // {
+    //   type: 'arrayForEach',
+    //   label: 'Produced amounts',
+    //   name: 'processItems',
+    // },
+    // {
+    //   type: 'arrayForEach',
+    //   label: 'Waste amounts',
+    //   name: 'wasteItems',
+    // },
     {
-      type: 'arrayForEach',
+      type: 'arrayGroup',
       label: 'Produced amounts',
       name: 'processItems',
+      collections: [
+          {
+              type: 'nameId',
+              label: 'Item descrption',
+              name: 'item',
+          },
+          {
+              type: 'normal',
+              label: 'Measure unit',
+              name: 'measureUnit',
+          },
+          {
+            type: 'kidArray',
+            name: 'storageForms',
+            label: 'Amounts and storage',
+            collections: [
+                {
+                    type: 'normal',
+                    label: 'Bag weight',
+                    name: 'unitAmount',
+                    // collections: 'measureUnit',
+                },
+                {
+                    type: 'normal',
+                    label: 'Number of units',
+                    name: 'numberUnits',
+                },
+                {
+                    type: 'nameId',
+                    label: 'Warehouse location',
+                    name: 'warehouseLocation',
+                },
+              ]
+          }, 
+        ]
     },
     {
-      type: 'arrayForEach',
+      type: 'arrayGroup',
       label: 'Waste amounts',
       name: 'wasteItems',
+      collections: [
+          {
+              type: 'nameId',
+              label: 'Item descrption',
+              name: 'item',
+          },
+          {
+              type: 'normal',
+              label: 'Measure unit',
+              name: 'measureUnit',
+          },
+          {
+            type: 'kidArray',
+            name: 'storageForms',
+            label: 'Amounts and storage',
+            collections: [
+                {
+                    type: 'normal',
+                    label: 'Bag weight',
+                    name: 'unitAmount',
+                    // collections: 'measureUnit',
+                },
+                {
+                    type: 'normal',
+                    label: 'Number of units',
+                    name: 'numberUnits',
+                },
+                {
+                    type: 'nameId',
+                    label: 'Warehouse location',
+                    name: 'warehouseLocation',
+                },
+              ]
+          }, 
+        ]
     },
     // {
     //   type: 'arrayGroup',
@@ -730,39 +809,39 @@ export class ShowDetailsComponent implements OnInit {
     //           label: 'Item descrption',
     //           name: 'item',
     //       },
-    {
-      type: 'arrayGroup',
-      name: 'storageForms',
-      // label: 'Amounts and storage',
-      collections: [
-              // {
-              //     type: 'normal',
-              //     label: 'Name',
-              //     name: 'name',
-              // },
-              // {
-              //     type: 'normal',
-              //     label: 'Measure unit',
-              //     name: 'measureUnit',
-              // },
-              {
-                  type: 'normal',
-                  label: 'Unit weight',
-                  name: 'unitAmount',
-                  // collections: 'measureUnit',
-              },
-              {
-                  type: 'normal',
-                  label: 'Number of units',
-                  name: 'numberUnits',
-              },
-              {
-                  type: 'nameId',
-                  label: 'Warehouse location',
-                  name: 'warehouseLocation',
-              },
-          ]
-    },
+    // {
+    //   type: 'arrayGroup',
+    //   name: 'storageForms',
+    //   // label: 'Amounts and storage',
+    //   collections: [
+    //           // {
+    //           //     type: 'normal',
+    //           //     label: 'Name',
+    //           //     name: 'name',
+    //           // },
+    //           // {
+    //           //     type: 'normal',
+    //           //     label: 'Measure unit',
+    //           //     name: 'measureUnit',
+    //           // },
+    //           {
+    //               type: 'normal',
+    //               label: 'Unit weight',
+    //               name: 'unitAmount',
+    //               // collections: 'measureUnit',
+    //           },
+    //           {
+    //               type: 'normal',
+    //               label: 'Number of units',
+    //               name: 'numberUnits',
+    //           },
+    //           {
+    //               type: 'nameId',
+    //               label: 'Warehouse location',
+    //               name: 'warehouseLocation',
+    //           },
+    //       ]
+    // },
     //     ]
     // },
     {

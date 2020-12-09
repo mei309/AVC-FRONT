@@ -157,8 +157,8 @@ export class ReceiveCashewComponent implements OnInit {
     }
 
 
-    setUpOrderItemsEditRecieving(idnum: number, val) {
-        this.localService.getOrderPO(idnum).pipe(take(1)).subscribe( value => {
+    setUpOrderItemsEditRecieving(ponum: number, val) {
+        this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
             this.OrderdItems.next(value['orderItems']);
             var recivingItems = [];
             val['receiptItems'].forEach(element => {
@@ -171,9 +171,7 @@ export class ReceiveCashewComponent implements OnInit {
                     if(storage['className'] === 'ExtraAdded') {
                         newArrayExtra.push(storage);
                     } else {
-                        console.log(storage['sampleWeights']);
-                        
-                        if (storage['avgTestedWeight'] || storage['sampleWeights']) {
+                        if(storage['avgTestedWeight'] || storage['sampleWeights']) {
                             storage['samplesWeight'] = {sampleContainerWeights: storage['sampleContainerWeights'], numberOfSamples: storage['numberOfSamples'], avgTestedWeight: storage['avgTestedWeight'], sampleWeights: storage['sampleWeights']};
                             delete storage['sampleContainerWeights'];
                             delete storage['numberOfSamples'];

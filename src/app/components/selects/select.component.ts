@@ -12,7 +12,7 @@ import { FieldConfig } from '../../field.interface';
   template: `
 <mat-form-field *ngIf="field.inputType != 'multiple'" class="one-field margin-top" [formGroup]="group">
   <input matInput (blur)="InputControl($event)" [placeholder]="field.label" [matAutocomplete]="auto" [formControlName]="field.name">
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText">
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" panelWidth="fit-content">
     <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
       {{item.value}}
     </mat-option>
@@ -32,7 +32,7 @@ import { FieldConfig } from '../../field.interface';
     <input matInput #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [formControl]="searchControl"
       [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
   </mat-chip-list>
-  <mat-autocomplete autoActiveFirstOption  #auto1="matAutocomplete" (optionSelected)="selected($event)">
+  <mat-autocomplete autoActiveFirstOption  #auto1="matAutocomplete" (optionSelected)="selected($event)" panelWidth="fit-content">
     <mat-option *ngFor="let fruit of filteredOptions | async" [value]="fruit">
       {{fruit.value}}
     </mat-option>
@@ -81,11 +81,6 @@ export class SelectComponent implements OnInit {
           } 
         } else {
           this.options = arg;
-          // if(this.field.inputType) {
-          //   (this.group.root as FormGroup).get([this.field.inputType]).valueChanges.subscribe(val => {
-          //       console.log('jjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkk');
-          //     });
-          // }
           if(typeof this.group.controls[this.field.name].value == 'string' && this.field.value !== undefined) {
             let putNull: boolean = true;
             this.options.forEach(option => {

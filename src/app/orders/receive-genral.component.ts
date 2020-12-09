@@ -44,15 +44,11 @@ export class ReceiveGenralComponent implements OnInit {
                 var po: number = +params.get('poCode');
                     if(params.get('id')) {
                         this.localService.getReceive(+params.get('id')).pipe(take(1)).subscribe( val => {
-                            this.setUpOrderItems(po, false);
-                            this.putData = val;
-                            this.setUpRegConfig();
-                            this.isDataAvailable = true;
+                            this.setUpOrderItemsEditRecieving(po, val);
                         });
                         this.fromNew = false;
                     } else {
-                        this.setUpOrderItems(po, true);
-                        this.setUpRegConfig();
+                        this.setUpOrderItems(po);
                     }
             } else {
                 this.poConfig = [
@@ -95,18 +91,30 @@ export class ReceiveGenralComponent implements OnInit {
     }
 
     goNext($event) {
-        this.setUpOrderItems($event['poCode']['id'], true);
+        this.setUpOrderItems($event['poCode']['id']);
         this.isFirstDataAvailable = false;
+    }
+
+    setUpOrderItems(idnum: number) {
+        this.localService.getOrderPO(idnum).pipe(take(1)).subscribe( val => {
+            this.OrderdItems.next(val['orderItems']);
+            this.putData = {poCode: val['poCode']};
+            this.isDataAvailable = true;
+        });
         this.setUpRegConfig();
     }
 
-    setUpOrderItems(idnum: number, setPutData: boolean) {
-        this.localService.getOrderPO(idnum).pipe(take(1)).subscribe( val => {
-            this.OrderdItems.next(val['orderItems']);
-            if(setPutData) {
-                this.putData = {poCode: val['poCode']};
-                this.isDataAvailable = true;
-            }
+    setUpOrderItemsEditRecieving(ponum: number, val) {
+        this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
+            this.OrderdItems.next(value['orderItems']);
+            val['receiptItems'].forEach(element => {
+                if(element['orderItem']) {
+                    element['orderItem'] = value['orderItems'].find(xx => xx.id === element['orderItem']['id']);
+                }
+            });
+            this.putData = val;
+            this.setUpRegConfig();
+            this.isDataAvailable = true;
         });
     }
     
@@ -164,13 +172,6 @@ export class ReceiveGenralComponent implements OnInit {
                             {
                                 name: 'numberUnits',
                                 type: 'value'
-                            }, 
-                            {
-                                name: 'unitPrice',
-                                type: 'value'
-                            },
-                            {
-                                name:'deliveryDate'
                             },
                         ],
                     },
@@ -312,6 +313,9 @@ export class ReceiveGenralComponent implements OnInit {
                 if(!element['unitPrice']['amount']) {
                     delete element['unitPrice'];
                 }
+                if(!element['receivedOrderUnits']['amount']) {
+                    delete element['receivedOrderUnits'];
+                }
             });
             console.log(value);
             
@@ -324,10 +328,8 @@ export class ReceiveGenralComponent implements OnInit {
                     if (data === 'Edit receive') {
                         this.fromNew = false;
                         this.isDataAvailable = false;
-                        this.setUpOrderItems(+val['poCode']['code'], false)
-                        this.putData = val;
+                        this.setUpOrderItemsEditRecieving(+val['poCode']['code'], val)
                         this.cdRef.detectChanges();
-                        this.isDataAvailable = true;
                     } else if(data === 'Edit order') {
                         this.router.navigate(['../NewGenralOrder',{id: val['poCode']['id']}], { relativeTo: this._Activatedroute });
                     } else {
