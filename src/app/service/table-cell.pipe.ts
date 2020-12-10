@@ -63,13 +63,13 @@ export class TableCellPipe implements PipeTransform {
                 return element.toString();
             case 'array':
                 return uniq(element.split(',')).toString();
-            case 'amountWithUnit':
+            case 'itemWeight':
                 var str = '';
                 element.forEach(elem => {
                     if(str) {
                         str += '\n';
                     }
-                    str += [elem.item.value] +':'+ elem.amountWithUnit[0]['value'] + ' (' + elem.amountWithUnit[1]['value'] + ') ' + [elem.warehouses];
+                    str += [elem.item.value] +':'+ elem.weight[0]['value'] + ' (' + elem.weight[1]['value'] + ') ' + [elem.warehouses];
                 });
                 return str;
             case 'listDates':

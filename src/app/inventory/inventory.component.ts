@@ -57,14 +57,14 @@ export class InventoryComponent implements OnInit {
           group: 'poCode',
         },
         {
-            type: 'amountWithUnit',
+            type: 'itemWeight',
             name: 'usedItems',
             label: 'Used items',
             search: 'listAmountWithUnit',
             options: this.genral.getAllItemsCashew(),
         },
         // {
-        //     type: 'amountWithUnit',
+        //     type: 'itemWeight',
         //     name: 'producedItems',
         //     label: 'Produced items',
         //     search: 'listAmountWithUnit',
@@ -77,7 +77,7 @@ export class InventoryComponent implements OnInit {
         //     search: 'object',
         // },
         {
-            type: 'amountWithUnit',
+            type: 'itemWeight',
             name: 'itemCounts',
             label: 'Counted items',
             search: 'listAmountWithUnit',
@@ -94,6 +94,13 @@ export class InventoryComponent implements OnInit {
             name: 'recordedTime',
             label: 'Recorded time',
             search: 'dates',
+        },
+        {
+            type: 'normal',
+            name: 'status',
+            label: 'Status',
+            search: 'select',
+            options: this.genral.getProcessStatus(),
         },
         // {
         //     type: 'date',

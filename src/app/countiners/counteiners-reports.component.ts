@@ -82,11 +82,18 @@ export class CountinersReportsComponent implements OnInit {
             // type: 'object',
             // options: 'currency',
         },
+        {
+            type: 'normal',
+            name: 'status',
+            label: 'Status',
+            search: 'select',
+            options: this.genral.getProcessStatus(),
+        },
         // {
         //     name: 'producedItems',
         //     label: 'Produced items',
         //     // type: 'object',
-        //     type: 'amountWithUnit',
+        //     type: 'itemWeight',
         //     // options: 'currency',
         // },
         {

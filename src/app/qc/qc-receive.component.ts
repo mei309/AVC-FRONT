@@ -234,6 +234,13 @@ export class QcReceiveComponent implements OnInit {
                         // disable: true,
                     },
                     {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        inputType: 'item',
+                        options: this.genral.getMeasureUnit(),
+                    },
+                    {
                         type: 'input',
                         label: 'Number of samples',
                         name: 'numberOfSamples',
@@ -245,12 +252,6 @@ export class QcReceiveComponent implements OnInit {
                         name: 'sampleWeight',
                         inputType: 'numeric',
                         options: 3,
-                    },
-                    {
-                        type: 'selectNormal',
-                        label: 'Weight unit',
-                        name: 'measureUnit',
-                        options: ['OZ', 'GRAM'],
                     },
                     {
                         type: 'percentinput',

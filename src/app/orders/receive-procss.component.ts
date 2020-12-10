@@ -98,6 +98,7 @@ export class ReceiveProcssComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
+                        inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {
@@ -115,7 +116,7 @@ export class ReceiveProcssComponent implements OnInit {
                                 type: 'select',
                                 label: 'Measure unit',
                                 name: 'measureUnit',
-                                options: ['LBS', 'KG'],
+                                options: this.genral.getMeasureUnit(),
                             },
                         ]
                     },

@@ -154,8 +154,6 @@ export class ShowDetailsUpsideTableComponent {
         this.setSecondSourceInit();
       }
       this.prepareBottomArray(this.oneColumns[5]['collections'], this.oneColumns[4], [this.oneColumns[2]['name'], this.oneColumns[3]['name']]);
-      console.log(this.bottomDataSource);
-      
     } else {
       this.marage(this.oneColumns[0]['name']);
       this.marage(this.oneColumns[1]['name']);

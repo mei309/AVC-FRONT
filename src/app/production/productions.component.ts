@@ -61,14 +61,14 @@ export class ProductionsComponent implements OnInit {
               group: 'poCode',
           },
           {
-              type: 'amountWithUnit',
+              type: 'itemWeight',
               name: 'usedItems',
               label: 'Used items',
               search: 'listAmountWithUnit',
               options: this.genral.getAllItemsCashew(),
           },
           {
-              type: 'amountWithUnit',
+              type: 'itemWeight',
               name: 'producedItems',
               label: 'Produced items',
               search: 'listAmountWithUnit',
@@ -85,6 +85,13 @@ export class ProductionsComponent implements OnInit {
               name: 'recordedTime',
               label: 'Recorded time',
               search: 'dates',
+          },
+          {
+              type: 'normal',
+              name: 'status',
+              label: 'Status',
+              search: 'select',
+              options: this.genral.getProcessStatus(),
           },
           // {
           //     type: 'date',
@@ -133,6 +140,8 @@ export class ProductionsComponent implements OnInit {
           this.cashewSourceColumns = null;
           this.localService.getAllCleaning().pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            console.log(value);
+            
           });
           this.type = 'Cleaning';
           this.cdRef.detectChanges();

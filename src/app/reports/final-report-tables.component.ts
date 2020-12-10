@@ -57,6 +57,10 @@ export class FinalReportTablesComponent {
     @Input() dataSource;
     processess = [
         {
+            name: 'relocation',
+            label: 'Relocation',
+        },
+        {
             name: 'receiving',
             label: 'Receiving',
         },
@@ -67,6 +71,14 @@ export class FinalReportTablesComponent {
         {
             name: 'roasting',
             label: 'Roasting',
+        },
+        {
+            name: 'packing',
+            label: 'Packing',
+        },
+        {
+            name: 'loading',
+            label: 'Loading',
         },
     ];
 
@@ -81,6 +93,10 @@ export class FinalReportTablesComponent {
         {
             name: 'productOut',
             label: 'Product out',
+        },
+        {
+            name: 'waste',
+            label: 'Waste',
         },
     ]
 }

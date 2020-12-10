@@ -291,6 +291,7 @@ export class ExportImportComponent implements OnInit {
                                 type: 'input',
                                 label: 'Weight unit',
                                 name: 'measureUnit',
+                                disable: true,
                             },
                             {
                                 type: 'bignotexpand',
@@ -409,6 +410,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
+                        inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {
@@ -502,6 +504,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
+                        inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {

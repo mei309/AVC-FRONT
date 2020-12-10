@@ -268,7 +268,8 @@ export class ReceiveCashewComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        options: ['KG', 'LBS'],
+                        inputType: 'item',
+                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'inputselect',
@@ -287,7 +288,7 @@ export class ReceiveCashewComponent implements OnInit {
                                 type: 'select',
                                 label: 'Measure unit',
                                 name: 'measureUnit',
-                                options: ['LBS', 'KG'],
+                                options: this.genral.getMeasureUnit(),
                             },
                         ]
                     },
