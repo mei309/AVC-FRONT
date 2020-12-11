@@ -113,7 +113,7 @@ export class ExportImportComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['groupName'] === 'normal') {
                     element['usedItems'].forEach(el => {
-                        // el['storage']['numberAvailableUnits'] = el['storgeOtherUsedUnits'];
+                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIds.push(el['storage']['id']);
                     });
                     arrNormal.push(element);

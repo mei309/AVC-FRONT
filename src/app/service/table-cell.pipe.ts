@@ -69,7 +69,11 @@ export class TableCellPipe implements PipeTransform {
                     if(str) {
                         str += '\n';
                     }
-                    str += [elem.item.value] +':'+ elem.weight[0]['value'] + ' (' + elem.weight[1]['value'] + ') ' + [elem.warehouses];
+                    str += elem.item.value +': '+ elem.weight[0]['value'] + ' (' + elem.weight[1]['value'] + ') ';
+                    if(elem.amount) {
+                        str += elem.amount['value'] + ' ';
+                    }
+                    str += [elem.warehouses];
                 });
                 return str;
             case 'listDates':

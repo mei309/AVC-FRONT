@@ -158,6 +158,8 @@ export class ProductionsComponent implements OnInit {
           this.cashewSourceColumns = null;
           this.localService.getAllPacking().pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            console.log(value);
+            
           });
           this.type = 'Packing';
           this.cdRef.detectChanges();

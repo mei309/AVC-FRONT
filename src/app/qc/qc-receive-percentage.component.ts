@@ -214,13 +214,6 @@ export class QcReceivePercentageComponent implements OnInit {
                         // disable: true,
                     },
                     {
-                        type: 'selectNormal',
-                        label: 'Weight unit',
-                        name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
-                    },
-                    {
                         type: 'input',
                         label: 'Number of samples',
                         name: 'numberOfSamples',
@@ -232,6 +225,12 @@ export class QcReceivePercentageComponent implements OnInit {
                         name: 'sampleWeight',
                         inputType: 'numeric',
                         options: 3,
+                    },
+                    {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'percentinput',

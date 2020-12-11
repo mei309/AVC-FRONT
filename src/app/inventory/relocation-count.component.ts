@@ -124,8 +124,8 @@ export class RelocationCountComponent implements OnInit {
                     arrTable.push(element);
                 } else if(element['storageMoves']) {
                     element['storageMoves'].forEach(el => {
-                        // el['storage']['numberAvailableUnits'] = el['storgeOtherUsedUnits'];
-                        // removeIdsNormal.push(el['id']);
+                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                        removeIdsNormal.push(el['id']);
                         removeIdsNormal.push(el['storage']['id']);
                     });
                     arrNormal.push(element);

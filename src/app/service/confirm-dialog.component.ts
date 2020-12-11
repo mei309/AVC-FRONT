@@ -53,6 +53,7 @@ export class ConfirmationDialog {
       this.fineled = data.toFinal;
       this.toLock = data.toLock;
       this.toFinal = data.toFinal;
+      this.toCancal = data.toCancal;
   }
 
   confirm() {

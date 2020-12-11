@@ -82,19 +82,20 @@ fxShow="true" fxHide.lt-md="true" -->
 
       <button mat-button [matMenuTriggerFor]="menuInve" >Inventory</button>
       <mat-menu #menuInve="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="inventorysnew">New</button>
+        <!-- <button mat-menu-item [matMenuTriggerFor]="inventorysnew">New</button> -->
+        <button mat-menu-item routerLink='invready/RelocationCount'>New relocation Count</button>
         <button mat-menu-item [matMenuTriggerFor]="inventoryreports">Reports</button>
       </mat-menu>
-      <mat-menu #inventorysnew="matMenu" >
-        <!-- <button mat-menu-item routerLink='invready/MaterialExport'>Material Export</button> -->
+      <!-- <mat-menu #inventorysnew="matMenu" >
+        <button mat-menu-item routerLink='invready/MaterialExport'>Material Export</button>
         <button mat-menu-item routerLink='invready/TransferCount'>Transfer with weighing</button>
         <button mat-menu-item routerLink='invready/RelocationCount'>Relocation Count</button>
-      </mat-menu>
+      </mat-menu> -->
       <mat-menu #inventoryreports="matMenu" >
         <button mat-menu-item [matMenuTriggerFor]="inventorycashews">Cashew</button>
         <button mat-menu-item [matMenuTriggerFor]="inventorygeneral">General</button>
-        <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 0}]">Transfer</button>
-        <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 1}]">Relocation With Samples</button>
+        <!-- <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 0}]">Transfer</button> -->
+        <button mat-menu-item [routerLink]="['invready/InventoryReports', {number: 0}]">Relocation With Samples</button>
         <!-- <button mat-menu-item routerLink='invready/CashewCount'>Cashew count</button>
         <button mat-menu-item routerLink='invready/GenralCount'>General count</button>
         <button mat-menu-item routerLink='invready/MaterialExportPo'>Material export by #PO</button>
@@ -163,21 +164,21 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='manager/ManagerUsers'>Users</button>
         <button mat-menu-item routerLink='manager/ManagerSetup'>Setup</button>
         <button mat-menu-item routerLink='manager/ManagmentNotifications'>Notifications</button>
-        <button mat-menu-item routerLink='manager/ProductionPlan'>Production Plan</button>
+        <!-- <button mat-menu-item routerLink='manager/ProductionPlan'>Production Plan</button> -->
       </mat-menu>
 
       <button mat-button [matBadge]="todo" matBadgePosition="above after" matBadgeColor="accent" routerLink='todo/Todo'>Tasks</button>
       <button mat-button [matBadge]="massages" matBadgePosition="above after" matBadgeColor="accent" routerLink='todo/Massages'>Massages</button>
 
 
-      <button mat-button [matMenuTriggerFor]="menuTests">tests</button>
+      <!-- <button mat-button [matMenuTriggerFor]="menuTests">tests</button>
       <mat-menu #menuTests="matMenu">
         <button mat-menu-item routerLink='test/suppliers'>suppliers</button>
         <button mat-menu-item routerLink='test/orders'>orders</button>
         <button mat-menu-item routerLink='test/qc'>qc</button>
         <button mat-menu-item routerLink='test/managment'>managment</button>
         <button mat-menu-item routerLink='test/xlxsImport'>xlxsImport</button>
-      </mat-menu>
+      </mat-menu> -->
       
     </div>
     <span class="example-spacer"></span>

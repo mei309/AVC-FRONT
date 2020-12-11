@@ -62,7 +62,7 @@ export class CountinersLoadingComponent {
                 if(secondData['usedItemsNormal']) {
                     secondData['usedItemsNormal'].forEach(element => {
                         element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                        element['groupName'] = 'normal';
+                        element['groupName'] = 'normalLoding';
                     });
                     secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.usedItems.length);
                     arr = arr.concat(secondData['usedItemsNormal']);
@@ -309,7 +309,7 @@ export class CountinersLoadingComponent {
                     ele['take'] = true;
                 });
                 arrTable.push(element);
-            } else if(element['groupName'] === 'normal') {
+            } else if(element['groupName'] === 'normalLoding') {
                 arrNormal.push(element);
             }
         });

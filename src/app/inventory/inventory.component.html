@@ -1,11 +1,11 @@
 <h1 style="text-align:center">Inventory reports</h1>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)">
-    <mat-tab label="Transfers">
-    </mat-tab>
+    <!-- <mat-tab label="Transfers">
+    </mat-tab> -->
     <mat-tab label="Relocation">
     </mat-tab>
-    <mat-tab label="History">
+    <!-- <mat-tab label="History">
         not implemnted yet
         <mat-form-field>
             <mat-label>Enter a date range</mat-label>
@@ -17,7 +17,7 @@
             <mat-date-range-picker #picker4></mat-date-range-picker>
         </mat-form-field>
         
-    </mat-tab>
+    </mat-tab> -->
 </mat-tab-group>
 <search-group-details [mainDetailsSource]="mainSourceColumns" (details)="openDialog($event)">
 </search-group-details>

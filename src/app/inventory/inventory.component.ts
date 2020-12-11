@@ -126,9 +126,9 @@ export class InventoryComponent implements OnInit {
       if (data === 'Edit') {
           switch (this.tabIndex) {
                 case 0:
-                    this.router.navigate(['../TransferCount',{id: event['id']}], { relativeTo: this._Activatedroute });
-                    break;
-                case 1:
+                //     this.router.navigate(['../TransferCount',{id: event['id']}], { relativeTo: this._Activatedroute });
+                //     break;
+                // case 1:
                     this.router.navigate(['../RelocationCount',{id: event['id'], poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
                     break;
               default:
@@ -142,15 +142,15 @@ export class InventoryComponent implements OnInit {
     changed(event) {
       switch (+event) {
         case 0:
-          this.mainSourceColumns = null;
-          this.localService.getTransferCounts().pipe(take(1)).subscribe(value => {
-            this.mainSourceColumns = [<any[]>value, this.columnsShow];
-            console.log(value);
+        //   this.mainSourceColumns = null;
+        //   this.localService.getTransferCounts().pipe(take(1)).subscribe(value => {
+        //     this.mainSourceColumns = [<any[]>value, this.columnsShow];
+        //     console.log(value);
             
-          });
-          this.cdRef.detectChanges();
-          break;
-        case 1:
+        //   });
+        //   this.cdRef.detectChanges();
+        //   break;
+        // case 1:
           this.mainSourceColumns = null;
           this.localService.getStorageRelocations().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];

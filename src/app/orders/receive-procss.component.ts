@@ -103,44 +103,6 @@ export class ReceiveProcssComponent implements OnInit {
                     },
                     {
                         type: 'inputselect',
-                        name: 'receivedOrderUnits',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: 'Received weight',
-                                name: 'amount',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Measure unit',
-                                name: 'measureUnit',
-                                options: this.genral.getMeasureUnit(),
-                            },
-                        ]
-                    },
-                    {
-                        type: 'inputselect',
-                        name: 'unitPrice',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: 'Price per unit',
-                                name: 'amount',
-                                inputType: 'numeric',
-                                options: 2,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Currency',
-                                name: 'currency',
-                                options: ['USD', 'VND'],
-                            },
-                        ]
-                    },
-                    {
-                        type: 'inputselect',
                         name: 'extraRequested',
                         collections: [
                             {
@@ -301,6 +263,49 @@ export class ReceiveProcssComponent implements OnInit {
                             },
                             {
                                 name: 'numberUnits',
+                            },
+                        ]
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'titel',
+                        label: 'Payable units'
+                    },
+                    {
+                        type: 'inputselect',
+                        name: 'receivedOrderUnits',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: 'Received weight',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Measure unit',
+                                name: 'measureUnit',
+                                options: this.genral.getMeasureUnit(),
+                            },
+                        ]
+                    },
+                    {
+                        type: 'inputselect',
+                        name: 'unitPrice',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: 'Price per unit',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 2,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Currency',
+                                name: 'currency',
+                                options: ['USD', 'VND'],
                             },
                         ]
                     },

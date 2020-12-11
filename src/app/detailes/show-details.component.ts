@@ -150,6 +150,12 @@ export class ShowDetailsComponent implements OnInit {
             value['wasteItems'] = wasteView;
           }
         }
+        if(value.hasOwnProperty('groupName')) {
+          console.log(this.regShow[19]);
+          if(value['groupName'] === 'normalLoding') {
+            (this.regShow[19].collections as Array<any>).splice(0, 1);
+          }
+        };
         this.dataTable = value;
         if(this.secondSource && this.secondSource['version'] === this.dataTable['version']) {
           this.secondSourceTemp = undefined;
@@ -227,6 +233,7 @@ export class ShowDetailsComponent implements OnInit {
         premmisions: this.globels.getGlobalProcessAuturtiy(processName),
         toLock: this.dataSource['editStatus'] === 'LOCKED',
         toFinal: this.dataSource['processStatus'] === 'FINAL',
+        toCancal: this.dataSource['processStatus'] === 'CANCELED',
       },
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -358,7 +365,7 @@ export class ShowDetailsComponent implements OnInit {
         type: 'array',
         label: 'Orderd products',
         name: 'orderItems',
-        processName: this.globelType+'_ORDER',
+        // processName: this.globelType+'_ORDER',
         collections: [
             {
                 type: 'nameId',
@@ -398,7 +405,7 @@ export class ShowDetailsComponent implements OnInit {
         type: 'arrayGroup',
         label: 'Received products',
         name: 'receiptItems',
-        processName: this.globelType+'_RECEIPT',
+        // processName: this.globelType+'_RECEIPT',
         collections: [
             {
                 type: 'nameId',
@@ -503,7 +510,7 @@ export class ShowDetailsComponent implements OnInit {
       type: 'detailsUpside',
       label: 'Checked items',
       name: 'testedItems',
-      processName: 'CASHEW_RECEIPT_QC',
+      // processName: 'CASHEW_RECEIPT_QC',
       collections: [
           {type: 'kidObject', name: 'defects'},
           {type: 'kidObject', name: 'damage'},
@@ -619,12 +626,12 @@ export class ShowDetailsComponent implements OnInit {
       // side: 'left',
       // processName: this.globelType+'_CLEANING',
       collections: [
-          // {
-          //     type: 'name2',
-          //     label: '#PO',
-          //     name: 'itemPo',
-          //     collections: 'supplierName',
-          // },
+          {
+              type: 'name2',
+              label: '#PO',
+              name: 'itemPo',
+              collections: 'supplierName',
+          },
           {
               type: 'nameId',
               label: 'Item descrption',
@@ -1002,7 +1009,5 @@ export class ShowDetailsComponent implements OnInit {
         },
       ]
     },
-
-
   ];
 }

@@ -282,7 +282,7 @@ export class Genral {
   }
 
   getProcessStatus(): string[] {
-    return ['PENDING', 'FINAL', 'CANCELLED'];
+    return ['PENDING', 'FINAL', 'CANCELED'];
   }
 
   getShippingContainerType(): string[] {
