@@ -91,6 +91,10 @@ export class ArrayOrdinalComponent implements OnInit {
     for (let ind = 0; ind < this.field.collections; ind++) {
         this.formArray.push(this.fb.group({ordinal: [ind+longth+1], amount: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
     }
+    setTimeout(() => {
+      (this.inputs.find((_, i) => i == longth)).nativeElement.focus();
+      // this.inputs..nativeElement.focus();
+    }, 2);
   }
 
   bindValidations(validations: any) {

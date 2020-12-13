@@ -438,7 +438,7 @@ export class ReceiveCashewComponent implements OnInit {
                     {
                         type: 'divider',
                         inputType: 'titel',
-                        label: 'Payable units'
+                        label: 'Invoice amounts'
                     },
                     {
                         type: 'inputselect',
@@ -448,7 +448,7 @@ export class ReceiveCashewComponent implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Received weight',
+                                label: 'Payable weight',
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 3,

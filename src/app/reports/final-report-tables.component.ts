@@ -34,15 +34,19 @@ import { ReportsService } from './reports.service';
                             </ng-container>
                             <ng-container matColumnDef="amount">
                                 <th mat-header-cell *matHeaderCellDef> Amount </th>
-                                <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{element.amount | tableCellPipe: 'weight' : null}}
+                                </td>
                             </ng-container>
                             <ng-container matColumnDef="weight">
                                 <th mat-header-cell *matHeaderCellDef> Weight </th>
-                                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.weight | tableCellPipe: 'weight2' : null}} 
+                                </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="['titel']"></tr>
-                            <tr mat-header-row *matHeaderRowDef="['item', 'amount', 'weight']"></tr>
-                            <tr mat-row *matRowDef="let row; columns: ['item', 'amount', 'weight']"></tr>
+                            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(dataSource[process.name][column.name])"></tr>
+                            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(dataSource[process.name][column.name])"></tr>
                         </table>
                     </ng-container>
                 </ng-container>
@@ -50,7 +54,7 @@ import { ReportsService } from './reports.service';
         </fieldset>
     </ng-container>
     ` ,
-    // styleUrls: ['./final-report-table.component.css']
+    styleUrls: ['./final-report-tables.css']
 })
 export class FinalReportTablesComponent {
 
@@ -98,5 +102,13 @@ export class FinalReportTablesComponent {
             name: 'waste',
             label: 'Waste',
         },
-    ]
+    ];
+
+    getDisplayedColumns(myData): string[] {
+        if(myData.some(a => a.amount)) {
+            return ['item', 'amount', 'weight'];
+        } else {
+            return ['item', 'weight']
+        }
+    }
 }

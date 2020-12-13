@@ -189,48 +189,6 @@ export class ReceiveGenralComponent implements OnInit {
                         options: this.genral.getMeasureUnit(),
                     },
                     {
-                        type: 'inputselect',
-                        name: 'receivedOrderUnits',
-                        options: 'orderItem',
-                        inputType: 'parentnumberUnits',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: 'Received weight',
-                                name: 'amount',
-                                inputType: 'numeric',
-                                options: 3,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Measure unit',
-                                name: 'measureUnit',
-                                options: this.genral.getMeasureUnit(),
-                            },
-                        ]
-                    },
-                    {
-                        type: 'inputselect',
-                        name: 'unitPrice',
-                        options: 'orderItem',
-                        inputType: 'parentunitPrice',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: 'Price per unit',
-                                name: 'amount',
-                                inputType: 'numeric',
-                                options: 2,
-                            },
-                            {
-                                type: 'select',
-                                label: 'Currency',
-                                name: 'currency',
-                                options: ['USD', 'VND'],
-                            },
-                        ]
-                    },
-                    {
                         type: 'divider',
                         inputType: 'newlinespace'
                     },
@@ -271,6 +229,53 @@ export class ReceiveGenralComponent implements OnInit {
                             },
                             {
                                 name: 'numberUnits',
+                            },
+                        ]
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'titel',
+                        label: 'Invoice amounts'
+                    },
+                    {
+                        type: 'inputselect',
+                        name: 'receivedOrderUnits',
+                        options: 'orderItem',
+                        inputType: 'parentnumberUnits',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: 'Payable amount',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 3,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Measure unit',
+                                name: 'measureUnit',
+                                options: this.genral.getMeasureUnit(),
+                            },
+                        ]
+                    },
+                    {
+                        type: 'inputselect',
+                        name: 'unitPrice',
+                        options: 'orderItem',
+                        inputType: 'parentunitPrice',
+                        collections: [
+                            {
+                                type: 'input',
+                                label: 'Price per unit',
+                                name: 'amount',
+                                inputType: 'numeric',
+                                options: 2,
+                            },
+                            {
+                                type: 'select',
+                                label: 'Currency',
+                                name: 'currency',
+                                options: ['USD', 'VND'],
                             },
                         ]
                     },

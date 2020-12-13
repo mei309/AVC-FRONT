@@ -151,8 +151,7 @@ export class ShowDetailsComponent implements OnInit {
           }
         }
         if(value.hasOwnProperty('groupName')) {
-          console.log(this.regShow[19]);
-          if(value['groupName'] === 'normalLoding') {
+          if(value['groupName'] !== 'normalLoding') {
             (this.regShow[19].collections as Array<any>).splice(0, 1);
           }
         };
@@ -233,7 +232,7 @@ export class ShowDetailsComponent implements OnInit {
         premmisions: this.globels.getGlobalProcessAuturtiy(processName),
         toLock: this.dataSource['editStatus'] === 'LOCKED',
         toFinal: this.dataSource['processStatus'] === 'FINAL',
-        toCancal: this.dataSource['processStatus'] === 'CANCELED',
+        toCancal: this.dataSource['processStatus'] === 'CANCELLED',
       },
     });
     dialogRef.afterClosed().subscribe(result => {
