@@ -106,7 +106,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
               <ng-template #notImport>
                     <mat-form-field appearance="none" provideReadonly>
                         <mat-label>{{column.label}}</mat-label>
-                        <input readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
+                        <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
                     </mat-form-field>
               </ng-template>
             </ng-container>
@@ -412,11 +412,6 @@ export class ShowDetailsComponent implements OnInit {
                 name: 'item',
             },
             {
-                type: 'normal',
-                label: 'Measure unit',
-                name: 'measureUnit',
-            },
-            {
               type: 'weight2',
               label: 'Sum',
               name: 'totalAmount',
@@ -462,7 +457,7 @@ export class ShowDetailsComponent implements OnInit {
                       type: 'normal',
                       label: 'Bag amount',
                       name: 'unitAmount',
-                      // collections: 'measureUnit',
+                      suffix: 'measureUnit',
                   },
                   {
                       type: 'normal',
@@ -637,11 +632,6 @@ export class ShowDetailsComponent implements OnInit {
               name: 'item',
           },
           {
-              type: 'normal',
-              label: 'Measure unit',
-              name: 'measureUnit',
-          },
-          {
             type: 'parent',
             name: 'storage',
             label: 'Amounts and storage',
@@ -650,7 +640,7 @@ export class ShowDetailsComponent implements OnInit {
                     type: 'normal',
                     label: 'Bag weight',
                     name: 'unitAmount',
-                    // collections: 'measureUnit',
+                    suffix: 'measureUnit',
                 },
                 {
                     type: 'nameId',
@@ -735,11 +725,6 @@ export class ShowDetailsComponent implements OnInit {
               name: 'item',
           },
           {
-              type: 'normal',
-              label: 'Measure unit',
-              name: 'measureUnit',
-          },
-          {
             type: 'kidArray',
             name: 'storageForms',
             label: 'Amounts and storage',
@@ -748,7 +733,7 @@ export class ShowDetailsComponent implements OnInit {
                     type: 'normal',
                     label: 'Bag weight',
                     name: 'unitAmount',
-                    // collections: 'measureUnit',
+                    suffix: 'measureUnit',
                 },
                 {
                     type: 'normal',
@@ -775,11 +760,6 @@ export class ShowDetailsComponent implements OnInit {
               name: 'item',
           },
           {
-              type: 'normal',
-              label: 'Measure unit',
-              name: 'measureUnit',
-          },
-          {
             type: 'kidArray',
             name: 'storageForms',
             label: 'Amounts and storage',
@@ -788,7 +768,7 @@ export class ShowDetailsComponent implements OnInit {
                     type: 'normal',
                     label: 'Bag weight',
                     name: 'unitAmount',
-                    // collections: 'measureUnit',
+                    suffix: 'measureUnit',
                 },
                 {
                     type: 'normal',
@@ -906,14 +886,9 @@ export class ShowDetailsComponent implements OnInit {
           },
           {
               type: 'normal',
-              label: 'Measure unit',
-              name: 'measureUnit',
-          },
-          {
-              type: 'normal',
               label: 'Bag weight',
               name: 'unitAmount',
-              // collections: 'measureUnit',
+              suffix: 'measureUnit',
           },
           {
               type: 'normal',

@@ -14,6 +14,9 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                     {{element[column.name] | tableCellPipe: column.type : column.collections}}
                 </span>
+                <span *ngIf="column.suffix && element[column.suffix]" style="white-space: pre-wrap;">
+                    {{element[column.suffix] | tableCellPipe: 'normal' : null}}
+                </span>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
@@ -41,12 +44,31 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                             {{element[1][column.name] | tableCellPipe: column.type : column.collections}}
                         </span>
                     </ng-template>
+
+                    <ng-container *ngIf="column.suffix">
+                        <ng-container *ngIf="isEqualObj(element[1][column.suffix], element[0][column.suffix]); else notEqualSuffix">      
+                            <span *ngIf="element[0][column.suffix]" style="white-space: pre-wrap;">
+                                {{element[0][column.suffix] | tableCellPipe: 'normal' : null}}
+                            </span>
+                        </ng-container>
+                        <ng-template  #notEqualSuffix>
+                            <span class="removed-item" *ngIf="element[0][column.suffix]" style="white-space: pre-wrap;">
+                                {{element[0][column.suffix] | tableCellPipe: 'normal' : null}}
+                            </span>
+                            <span class="added-item" *ngIf="element[1][column.suffix]" style="white-space: pre-wrap;">
+                                {{element[1][column.suffix] | tableCellPipe: 'normal' : null}}
+                            </span>
+                        </ng-template>
+                    </ng-container>
                 </ng-container>
                 <ng-template  #notUpdated>
                     <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                         {{element[column.name] | tableCellPipe: column.type : column.collections}}
                     </span>
-                </ng-template >
+                    <span *ngIf="column.suffix && element[column.suffix]" style="white-space: pre-wrap;">
+                        {{element[column.suffix] | tableCellPipe: 'normal' : null}}
+                    </span>
+                </ng-template>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
