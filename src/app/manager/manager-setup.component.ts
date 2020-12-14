@@ -94,7 +94,7 @@ export class ManagmentSetupComponent {
                     options: ['bulk', 'packed'],
                 },
                 {
-                    name: 'defaultMeasureUnit',
+                    name: 'measureUnit',
                     label: 'Default measure unit',
                     search: 'select',
                     options: this.genral.getMeasureUnit(),
@@ -128,7 +128,7 @@ export class ManagmentSetupComponent {
                     disable: true,
                 },
                 {
-                    name: 'defaultMeasureUnit',
+                    name: 'measureUnit',
                     label: 'Default measure unit (only for bulk)',
                     type: 'selectNormal',
                     options: this.genral.getMeasureUnit(),

@@ -24,6 +24,10 @@ import { ReportsService } from './reports.service';
                             <tr mat-header-row *matHeaderRowDef="['dates']"></tr>
                             <tr mat-row *matRowDef="let row; columns: ['dates']"></tr>
                         </table>
+                        <mat-form-field appearance="none" *ngSwitchCase="'difference'" provideReadonly>
+                            <mat-label>Difference</mat-label>
+                            <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[process.name][column.name] | tableCellPipe: 'weight' : null">
+                        </mat-form-field>
                         <table style="display: inline-block" mat-table *ngSwitchDefault [dataSource]="dataSource[process.name][column.name]" class="mat-elevation-z2">
                             <ng-container matColumnDef="titel">
                                 <th mat-header-cell *matHeaderCellDef colspan="3"> {{column.label}}</th>
@@ -44,9 +48,15 @@ import { ReportsService } from './reports.service';
                                     {{element.weight | tableCellPipe: 'weight2' : null}} 
                                 </td>
                             </ng-container>
+                            <ng-container matColumnDef="footer">
+                                <th mat-footer-cell *matFooterCellDef colspan="3">
+                                    Total: {{dataSource[process.name][column.foot] | tableCellPipe: 'weight' : null}}
+                                </th>
+                            </ng-container>
                             <tr mat-header-row *matHeaderRowDef="['titel']"></tr>
                             <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(dataSource[process.name][column.name])"></tr>
                             <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(dataSource[process.name][column.name])"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
                         </table>
                     </ng-container>
                 </ng-container>
@@ -93,14 +103,20 @@ export class FinalReportTablesComponent {
         {
             name: 'productIn',
             label: 'Product in',
+            foot: 'totalProductIn',
         },
         {
             name: 'productOut',
             label: 'Product out',
+            foot: 'totalProductOut',
         },
         {
             name: 'waste',
             label: 'Waste',
+            foot: 'totalWaste',
+        },
+        {
+            name: 'difference',
         },
     ];
 

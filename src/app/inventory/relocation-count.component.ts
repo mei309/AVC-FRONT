@@ -39,7 +39,7 @@ export class RelocationCountComponent implements OnInit {
         delete value['newWarehouse'];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
-                element['measureUnit'] = element['storageMoves'][0]['measureUnit'];
+                // element['measureUnit'] = element['storageMoves'][0]['measureUnit'];
                 element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
                 element['groupName'] = 'normal';
                 element['storageMoves'].forEach(ele => {
@@ -99,7 +99,7 @@ export class RelocationCountComponent implements OnInit {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {
-                    this.router.navigate(['../InventoryReports', {number: 1}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../InventoryReports', {number: 0}], { relativeTo: this._Activatedroute });
                 }
             });
         });

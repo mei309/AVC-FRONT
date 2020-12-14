@@ -76,7 +76,7 @@ export class BigoutsideComponent implements OnInit {
   ngOnInit() {
       this.field.collections.forEach(element => {
         // this.group.get([this.field.name]).get(element.name).value &&
-        if(this.edit && element.disable && !['bigexpand', 'bignotexpand', 'bigoutside', 'calculatefew', 'divider', 'popup'].includes( element.type )) {
+        if(this.edit && element.disable && this.group.get([this.field.name]).get(element.name).value && !['bigexpand', 'bignotexpand', 'bigoutside', 'calculatefew', 'divider', 'popup'].includes( element.type )) {
           const factory = this.resolver.resolveComponentFactory(
             componentMapper['inputReadonly']
           );

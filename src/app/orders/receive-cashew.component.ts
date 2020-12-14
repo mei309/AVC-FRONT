@@ -457,6 +457,7 @@ export class ReceiveCashewComponent implements OnInit {
                                 type: 'select',
                                 label: 'Measure unit',
                                 name: 'measureUnit',
+                                value: 'LBS',
                                 options: this.genral.getMeasureUnit(),
                             },
                         ]

@@ -87,24 +87,20 @@ export class CalculateFewComponent implements AfterViewInit {
       }
       this.field.collections.forEach(element => {
           this.count.push(0);
-          if(this.edit && element.disable) {
-            const factory = this.resolver.resolveComponentFactory(
-              componentMapper['inputReadonly']
-            );
-            this.componentRef = this._vcr3.createComponent(factory);
-            this.componentRef.instance.field = element;
-            this.componentRef.instance.group = this.group;
-          } else {
-            const factory = this.resolver.resolveComponentFactory(
-              componentMapper[element.type]
-            );
-            this.componentRef = this._vcr3.createComponent(factory);
-            this.componentRef.instance.field = element;
-            this.componentRef.instance.group = this.group;
-          }
+          // this.group.get([this.field.name]).get(element.name).value &&
+          // if(this.edit && element.disable) {
+          //   this.putReadOnly(element);
+          // } else {
+          //   this.putNormalField(element)
+          // }
           if(element.type === 'inputselect'){
               const here = ind;
               if(element.name) {
+                if(this.edit && element.disable && this.group.get([element.name]).value) {
+                  this.putReadOnly(element);
+                } else {
+                  this.putNormalField(element)
+                }
                 if(this.group.get([element.name]).get([element.collections[0].name]).value){
                   this.setCount(here, +this.group.get([element.name]).get([element.collections[0].name]).value);
                   this.sum = this.operators[this.field.inputType](this.getCount());
@@ -114,6 +110,11 @@ export class CalculateFewComponent implements AfterViewInit {
                   this.sum = this.operators[this.field.inputType](this.getCount());
                 });
               } else {
+                if(this.edit && element.disable && this.group.get([element.collections[0].name]).value) {
+                  this.putReadOnly(element);
+                } else {
+                  this.putNormalField(element)
+                }
                 if(this.group.get([element.collections[0].name]).value){
                   this.setCount(here, +this.group.get([element.collections[0].name]).value);
                   this.sum = this.operators[this.field.inputType](this.getCount());
@@ -124,6 +125,11 @@ export class CalculateFewComponent implements AfterViewInit {
                 });
               }
           } else {
+              if(this.edit && element.disable && this.group.get([element.name]).value) {
+                this.putReadOnly(element);
+              } else {
+                this.putNormalField(element)
+              }
               const here = ind;
               if(this.group.get([element.name]).value){
                 this.setCount(here, +this.group.get([element.name]).value);
@@ -137,6 +143,24 @@ export class CalculateFewComponent implements AfterViewInit {
           ind++;
       });
       this.cdRef.detectChanges();
+  }
+
+  putReadOnly(element) {
+    const factory = this.resolver.resolveComponentFactory(
+      componentMapper['inputReadonly']
+    );
+    this.componentRef = this._vcr3.createComponent(factory);
+    this.componentRef.instance.field = element;
+    this.componentRef.instance.group = this.group;
+  }
+
+  putNormalField(element) {
+    const factory = this.resolver.resolveComponentFactory(
+      componentMapper[element.type]
+    );
+    this.componentRef = this._vcr3.createComponent(factory);
+    this.componentRef.instance.field = element;
+    this.componentRef.instance.group = this.group;
   }
 
   getCount() {

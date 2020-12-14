@@ -427,8 +427,10 @@ export class EditSupplierComponent implements OnInit {
   }
 
   preperDetailes(val) {
+    console.log(val);
+    
     this.putData = val;
-    if(val.hasOwnProperty('contactDetails')) {
+    if(val.hasOwnProperty('contactDetails') && val['contactDetails']) {
       var temp = val['contactDetails'];
       if(temp.hasOwnProperty('paymentAccounts') && temp['paymentAccounts'] !== null) {
         this.putData3 = {'paymentAccounts': temp['paymentAccounts']};
