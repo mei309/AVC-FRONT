@@ -239,7 +239,7 @@ export class CountinersLoadingComponent {
         this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
         
         this.form.get('poCodes').valueChanges.subscribe(selectedValue => {
-            selectedValue = selectedValue.filter(ele => ele.poCode);
+            selectedValue = selectedValue.filter(ele => ele.poCode.id);
             selectedValue = map(selectedValue, 'poCode'); 
             if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {
                 this.setRawSecondValue();
@@ -310,6 +310,9 @@ export class CountinersLoadingComponent {
                 });
                 arrTable.push(element);
             } else if(element['groupName'] === 'normalLoding') {
+                element['usedItems'].forEach(el => {
+                    el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                });
                 arrNormal.push(element);
             }
         });
@@ -365,6 +368,7 @@ export class CountinersLoadingComponent {
                       type: 'input',
                       label: 'Code',
                       name: 'code',
+                      inputType: 'numeric',
                       disable: true,
                       validations: [
                         {

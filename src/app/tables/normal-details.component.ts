@@ -8,7 +8,7 @@ import { OneColumn } from '../field.interface';
   <table mat-table id="ExampleTable" [dataSource]="dataSource">
     <ng-container matColumnDef="{{column.name}}" *ngFor="let column of oneColumns">
         <th mat-header-cell *matHeaderCellDef>
-          <h3>{{column.titel}}</h3>
+          <h3>{{column.label}}</h3>
         </th>
         <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
           <span *ngIf="element[column.name]" style="white-space: pre-wrap;">

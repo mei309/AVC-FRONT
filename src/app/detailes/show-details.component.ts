@@ -49,16 +49,18 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                 </ng-template>
             </ng-container>
             <ng-template #notImportEdit>
-                  <mat-form-field appearance="none" provideReadonly>
-                      <mat-label>{{column.label}}</mat-label>
-                      <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">      
-                        <input *ngIf="dataSource[column.name]" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
-                      </ng-container>
-                      <ng-template  #notEqual1>
-                        <input class="added-item" *ngIf="dataSource[column.name]" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
-                        <input class="removed-item" *ngIf="secondSource[column.name]" readonly matInput [value]="secondSource[column.name] | tableCellPipe: column.type : column.collections" >
-                      </ng-template>
-                  </mat-form-field>
+                  
+
+                  <div class="half">
+                        <label>{{column.label}}</label>
+                        <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">
+                          <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>   
+                        </ng-container>
+                        <ng-template  #notEqual1>
+                          <span class="half added-item">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
+                          <span class="half removed-item">{{secondSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
+                        </ng-template>
+                  </div>
             </ng-template>
           </ng-container>
         </ng-container>
@@ -104,10 +106,16 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                   </ng-container>
               </ng-container>
               <ng-template #notImport>
-                    <mat-form-field appearance="none" provideReadonly>
-                        <mat-label>{{column.label}}</mat-label>
-                        <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
-                    </mat-form-field>
+                    
+
+                    
+                    <div class="half">
+                          <label>{{column.label}}</label>
+                          <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
+                    </div>
+                   
+                    
+
               </ng-template>
             </ng-container>
         </ng-container>
@@ -985,3 +993,21 @@ export class ShowDetailsComponent implements OnInit {
     },
   ];
 }
+
+
+
+// <mat-form-field appearance="none" provideReadonly>
+//                         <mat-label>{{column.label}}</mat-label>
+//                         <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
+//                     </mat-form-field>
+
+// <mat-form-field appearance="none" provideReadonly>
+//                       <mat-label>{{column.label}}</mat-label>
+//                       <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">      
+//                         <input *ngIf="dataSource[column.name]" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
+//                       </ng-container>
+//                       <ng-template  #notEqual1>
+//                         <input class="added-item" *ngIf="dataSource[column.name]" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
+//                         <input class="removed-item" *ngIf="secondSource[column.name]" readonly matInput [value]="secondSource[column.name] | tableCellPipe: column.type : column.collections" >
+//                       </ng-template>
+//                   </mat-form-field>

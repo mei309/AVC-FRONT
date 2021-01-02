@@ -17,7 +17,7 @@ export class TableCellPipe implements PipeTransform {
                     var str = '';
                     element.forEach(elem => {
                         if(str) {
-                            str += '\n';
+                            str += ', ';// '\n';
                         }
                         str += elem.value;
                     });
@@ -60,7 +60,7 @@ export class TableCellPipe implements PipeTransform {
             case 'difference':
                 return element['amount'] - second['amount'];
             case 'arrayVal':
-                return element.toString();
+                return element.join(', ');
             case 'array':
                 return uniq(element.split(',')).toString();
             case 'itemWeight':

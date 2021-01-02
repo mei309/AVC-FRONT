@@ -74,7 +74,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Product',
+              label: 'Item',
               search: 'selectAsyncObject2',
               options: this.genral.getAllItemsCashew(),
               group: 'item',
@@ -164,8 +164,8 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Product',
-              search: 'selectAsyncObject',
+              label: 'Item',
+              search: 'selectAsyncObject2',
               options: this.genral.getAllItemsCashew(),
               group: 'item',
             },

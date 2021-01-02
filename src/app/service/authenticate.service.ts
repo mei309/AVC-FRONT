@@ -62,7 +62,6 @@ export class AuthenticateService {
           sessionStorage.setItem('id', tokenPayload.id);
           sessionStorage.setItem('roles', JSON.stringify(tokenPayload.roles));
           this.globals.setGlobalPermission(tokenPayload.roles);
-          
           return userData;
          })
       );

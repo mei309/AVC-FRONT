@@ -18,7 +18,7 @@ import { FieldConfig } from '../../field.interface';
                 <th mat-header-cell *matHeaderCellDef> Amount </th>
                 <td mat-cell *matCellDef="let element; let i = index;" [formGroupName]="i">
                     <mat-form-field class="one-field">
-                        <input matInput [formControlName]="inputField" numeric type="text" maxlength="255">
+                        <input matInput [formControlName]="inputField" numeric decimals="3" type="text" maxlength="255">
                     </mat-form-field>
                 </td>
             </ng-container>

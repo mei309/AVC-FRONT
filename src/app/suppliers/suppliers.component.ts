@@ -54,7 +54,7 @@ export class SuppliersComponent implements OnInit {
         type: 'arrayVal',
         name: 'supplyCategories',
         label: 'Supply category',
-        search: 'arraySelectAsyncObject',
+        search: 'arraySelectAsyncObject2',
         options: this.genral.getSupplyType(),
       },
     ];

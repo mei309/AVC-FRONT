@@ -63,8 +63,8 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Product',
-              search: 'selectAsyncObject',
+              label: 'Item',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsGeneral(),
               group: 'item',
             },
@@ -141,8 +141,8 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Product',
-              search: 'selectAsyncObject',
+              label: 'Item',
+              search: 'selectAsyncObject2',
               options: this.genral.getItemsGeneral(),
               group: 'item',
             },

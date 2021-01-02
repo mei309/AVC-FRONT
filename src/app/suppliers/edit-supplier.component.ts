@@ -79,7 +79,7 @@ export class EditSupplierComponent implements OnInit {
         label: 'Supply category',
         name: 'supplyCategories',
         inputType: 'multiple',
-        disable: true,
+        // disable: true,
       },    
       {
         type: 'input',
