@@ -107,15 +107,11 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
               </ng-container>
               <ng-template #notImport>
                     
-
-                    
                     <div class="half">
                           <label>{{column.label}}</label>
                           <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
                     </div>
                    
-                    
-
               </ng-template>
             </ng-container>
         </ng-container>

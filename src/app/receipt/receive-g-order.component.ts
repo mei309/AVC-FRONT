@@ -5,11 +5,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { OrderDetailsDialogComponent } from './order-details-dialog-component';
-import { OrdersService } from './orders.service';
 import { ReplaySubject, Observable } from 'rxjs';
+import { cloneDeep } from 'lodash-es';
+import { ReceiptService } from './receipt.service';
+import { ReceiptDialog } from './receipt-dialog.component';
 @Component({
-    selector: 'receive-genral',
+    selector: 'receive-g-order',
     template: `
     <div *ngIf="isFirstDataAvailable">
         <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="goNext($event)">
@@ -21,7 +22,7 @@ import { ReplaySubject, Observable } from 'rxjs';
     </div>
     `
   })
-export class ReceiveGenralComponent implements OnInit {
+export class ReceiveGOrder implements OnInit {
     navigationSubscription;
 
     OrderdItems = new ReplaySubject<any[]>();
@@ -35,7 +36,7 @@ export class ReceiveGenralComponent implements OnInit {
     regConfig: FieldConfig[];
 
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
-        private localService: OrdersService, private genral: Genral, public dialog: MatDialog) {
+        private localService: ReceiptService, private genral: Genral, public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -324,12 +325,11 @@ export class ReceiveGenralComponent implements OnInit {
                     delete element['receivedOrderUnits'];
                 }
             });
-            console.log(value);
             
             this.localService.addEditRecivingGenralOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
-                const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+                const dialogRef = this.dialog.open(ReceiptDialog, {
                     width: '80%',
-                    data: {order: val, fromNew: true, type: 'general receive'}
+                    data: {receipt: cloneDeep(val), fromNew: true, type: 'General'}
                 });
                 dialogRef.afterClosed().subscribe(data => {
                     if (data === 'Edit receive') {
@@ -338,9 +338,9 @@ export class ReceiveGenralComponent implements OnInit {
                         this.setUpOrderItemsEditRecieving(+val['poCode']['code'], val)
                         this.cdRef.detectChanges();
                     } else if(data === 'Edit order') {
-                        this.router.navigate(['../NewGenralOrder',{id: val['poCode']['id']}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['Main/ordready/NewGenralOrder',{id: val['poCode']['id']}], { relativeTo: this._Activatedroute });
                     } else {
-                        this.router.navigate(['../GenralOrders', {number: 1}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['../OrdersGReports', {number: 1}], { relativeTo: this._Activatedroute });
                     }
                 });
             });

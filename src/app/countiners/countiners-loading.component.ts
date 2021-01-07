@@ -10,6 +10,7 @@ import { Genral } from '../genral.service';
 import { diff } from '../libraries/diffArrayObjects.interface';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
+import { cloneDeep } from 'lodash-es';
 @Component({
     selector: 'countiners-loading',
     template: `
@@ -54,9 +55,8 @@ export class CountinersLoadingComponent {
     putFirstData;
 
     onSubmitBoth() {
-        if(this.formSecond) {
             var firstData = this.formFirst.onSubmitOutside();
-            var secondData = this.formSecond.onSubmitOutside();
+            var secondData = this.formSecond? this.formSecond.onSubmitOutside() : false;
             if(secondData && firstData) {
                 var arr = [];
                 if(secondData['usedItemsNormal']) {
@@ -109,7 +109,7 @@ export class CountinersLoadingComponent {
                 this.localService.addEditLoading(firstData, this.isNew).pipe(take(1)).subscribe( val => {
                     const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
                         width: '80%',
-                        data: {loading: val, fromNew: true, type: 'Loading'}
+                        data: {loading: cloneDeep(val), fromNew: true, type: 'Loading'}
                     });
                     dialogRef.afterClosed().subscribe(result => {
                         switch (result) {
@@ -137,8 +137,6 @@ export class CountinersLoadingComponent {
                     });
                 });
             }
-        }
-      
     }
 
     onResetBoth() {

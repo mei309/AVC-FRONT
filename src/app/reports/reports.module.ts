@@ -9,12 +9,13 @@ import { MyBarChartComponent } from './charts/my-bar-chart.component';
 import { MyBubbleChartComponent } from './charts/my-bubble-chart.component';
 import { MyPieChartComponent } from './charts/my-pie-chart.component';
 import { FinalReportTablesComponent } from './final-report-tables.component';
+import { InOutTotalComponent } from './in-out-total.component';
 
 
 
 
 @NgModule({
-  declarations: [fullPoReportComponent, DashComponent, FinalReportTablesComponent,
+  declarations: [fullPoReportComponent, DashComponent, FinalReportTablesComponent, InOutTotalComponent,
     MyPieChartComponent, MyLineChartComponent, MyBarChartComponent, MyBubbleChartComponent],
   imports: [
     SheardModule,

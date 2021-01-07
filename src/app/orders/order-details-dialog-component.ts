@@ -5,12 +5,12 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'app-order-details-dialog',
     template: `
-    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-orders" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} order details" [useExistingCss]="true" printSectionId="print-section-orders" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>{{type}} details</h1>
+    <h1 mat-dialog-title>{{type}} order details</h1>
     <mat-dialog-content id="print-section-orders">
-        <h1 class="only-print">{{type}} details</h1>
+        <h1 class="only-print">{{type}} order details</h1>
         <show-details [dataSource]="order">
         </show-details>
     </mat-dialog-content>
@@ -37,52 +37,18 @@ export class OrderDetailsDialogComponent {
             this.order = data.order;
         }
 
-    ngOnInit() {  
-        if(this.type.includes('order')){    
-            if(!this.fromNew) {
-                this.LocalService.getOrder(this.id).pipe(take(1)).subscribe( val => {
-                    this.order = val;
-                    if('LOCKED' === val['editStatus']) {
-                        this.buttons.push('Receive');
-                    } else {
-                        this.buttons.push('Edit order', 'Receive');
-                    }
-                });
-            } else {
-                this.buttons.push('Edit order', 'Receive');
-            }
-            // if(this.type.includes('Cashew')) {
-            //     this.buttons.push('Sample weights');
-            // }
-        } else if(this.type.includes('receive')) {
-            if(!this.fromNew) {
-                this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
-                    console.log(val);
-                    
-                    this.order = val;
-                    if('LOCKED' !== val['editStatus']) {
-                        if(val['processName'] !== 'CASHEW_RECEIPT') {
-                            this.buttons.push('Edit order');
-                        }
-                        this.buttons.push('Edit receive');
-                    }
-                });
-            } else {
-                if(this.order['processName'] !== 'CASHEW_RECEIPT') {
-                    this.buttons.push('Edit order');
+    ngOnInit() {    
+        if(!this.fromNew) {
+            this.LocalService.getOrder(this.id).pipe(take(1)).subscribe( val => {
+                this.order = val;
+                if('LOCKED' === val['editStatus']) {
+                    this.buttons.push('Receive');
+                } else {
+                    this.buttons.push('Edit order', 'Receive');
                 }
-                this.buttons.push('Edit receive');
-            }
-            if(this.type.includes('Cashew')) {
-                this.buttons.push('Receive extra');
-                // , 'Sample weights'
-            }
+            });
         } else {
-            if(!this.fromNew) {
-                this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
-                    console.log(val);
-                });
-            }
+            this.buttons.push('Edit order', 'Receive');
         }
     }
     onNoClick(): void {
@@ -93,11 +59,3 @@ export class OrderDetailsDialogComponent {
         this.dialogRef.close(opartion);
     }
 }
-
-// else if(this.type.includes('sample')) {
-//     if(!this.fromNew) {
-//         // this.LocalService.getReceive(this.id).toPromise().then( val => {
-//         //     this.order = val;
-//         // });
-//     }
-// }

@@ -5,23 +5,23 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { OrderDetailsDialogComponent } from './order-details-dialog-component';
-import { OrdersService } from './orders.service';
+import { ReceiptDialog } from './receipt-dialog.component';
+import { ReceiptService } from './receipt.service';
 @Component({
-    selector: 'receive-procss',
+    selector: 'receive-c-alone',
     template: `
     <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'Receive Cashew Without Order'" (submitForm)="submit($event)">
     </dynamic-form>
     `
   })
-export class ReceiveProcssComponent implements OnInit {
+export class ReceiveCAlone implements OnInit {
     navigationSubscription;
     isRealodReady: boolean = true;
 
     regConfig: FieldConfig[];
 
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
-        private localService: OrdersService, private genral: Genral, public dialog: MatDialog) {
+        private localService: ReceiptService, private genral: Genral, public dialog: MatDialog) {
     }
 
 
@@ -391,19 +391,15 @@ export class ReceiveProcssComponent implements OnInit {
         console.log(value);
         
         this.localService.addReceiveCashewNoOrder(value).pipe(take(1)).subscribe( val => {
-            const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+            const dialogRef = this.dialog.open(ReceiptDialog, {
                 width: '80%',
-                data: {order: val, fromNew: true, type: 'Cashew receive'}
+                data: {receipt: val, fromNew: true, type: 'Cashew'}
             });
             dialogRef.afterClosed().subscribe(data => {
                 if(data === 'Edit receive' || data === 'Receive bouns') {
-                    this.router.navigate(['../CashewReceived',{poCode: val['poCode']['id'], id: val['id']}], { relativeTo: this._Activatedroute });
-                } 
-                // else if(data === 'Sample weights') {
-                //     this.router.navigate(['../SampleWeights',{poCode: JSON.stringify(event['poCode'])}], { relativeTo: this._Activatedroute });
-                // } 
-                else {
-                    this.router.navigate(['../CashewOrders', {number: 1}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../ReceiveCOrder',{poCode: val['poCode']['id'], id: val['id']}], { relativeTo: this._Activatedroute });
+                } else {
+                    this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });
                 }
             });
         });

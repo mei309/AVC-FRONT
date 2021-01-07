@@ -162,7 +162,7 @@ export class SearchGroupDetailsComponent {
   takeCareKidArray(element) {
     var arr = [];
     this.dataSource.forEach(line => {
-            line[element.name].forEach(obj => {
+            line[element.name]?.forEach(obj => {
                 var copied = Object.assign({}, obj, line);
                 delete copied[element.name];
                 arr.push(copied);

@@ -10,6 +10,7 @@ const routes: Routes = [
       children: [
           { path: 'supready', loadChildren: () => import('./suppliers/suppliers.module').then(m => m.SuppliersModule)},
           { path: 'ordready', loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)},
+          { path: 'receiptready', loadChildren: () => import('./receipt/receipt.module').then(m => m.ReceiptModule)},
           { path: 'specialordready', loadChildren: () => import('./special-orders/special-orders.module').then(m => m.SpecialOrdersModule)},
           { path: 'qcready', loadChildren: () => import('./qc/qc.module').then(m => m.QcModule) },
           { path: 'invready', loadChildren: () => import('./inventory/inventory.module').then(m => m.InventoryModule)},

@@ -43,42 +43,49 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='supready/Suppliers'>Suppliers</button>
       </mat-menu>
 
+
       <button mat-button [matMenuTriggerFor]="menuPOOrder" >Purchase Orders</button>
       <mat-menu #menuPOOrder="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="poordernew">New Order</button>
-        <button mat-menu-item [matMenuTriggerFor]="poorderreceive">New Receive</button>
-        <button mat-menu-item [matMenuTriggerFor]="cashewreports">Cashew Reports</button>
-        <button mat-menu-item [matMenuTriggerFor]="generalreports">General Reports</button>
+        <button mat-menu-item [matMenuTriggerFor]="poordernew">New</button>
+        <button mat-menu-item [matMenuTriggerFor]="orderscreports">Cashew Reports</button>
+        <button mat-menu-item [matMenuTriggerFor]="ordersgreports">General Reports</button>
       </mat-menu>
       <mat-menu #poordernew="matMenu" >
         <button mat-menu-item routerLink='ordready/NewCashewOrder' cdkFocusRegionStart>Cashew</button>
         <button mat-menu-item routerLink='ordready/NewGenralOrder'>General</button>
       </mat-menu>
-      <mat-menu #poorderreceive="matMenu" >
-        <button mat-menu-item routerLink='ordready/CashewReceived'>Cashew</button>
-        <button mat-menu-item routerLink='ordready/GenralReceived'>General</button>
-        <button mat-menu-item routerLink='ordready/ProcssReceived'>Cashew Without Order</button>
-        <!-- <button mat-menu-item routerLink='ordready/SampleWeights'>Sample weights</button> -->
+      <mat-menu #orderscreports="matMenu" >
+        <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 0}]">Open</button>
+        <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 1}]">All Orders</button>
       </mat-menu>
-      <mat-menu #cashewreports="matMenu" >
-        <button mat-menu-item [routerLink]="['ordready/CashewOrders', {number: 0}]">Open</button>
-        <button mat-menu-item [routerLink]="['ordready/CashewOrders', {number: 1}]">Pending (Received)</button>
-        <button mat-menu-item [routerLink]="['ordready/CashewOrders', {number: 2}]">Received</button>
-        <button mat-menu-item [routerLink]="['ordready/CashewOrders', {number: 3}]">Rejected</button>
-        <button mat-menu-item [routerLink]="['ordready/CashewOrders', {number: 4}]">All Orders</button>
-      </mat-menu>
-      <mat-menu #generalreports="matMenu" >
-        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 0}]">Open</button>
-        <!-- <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 1}]">Pending (Received)</button> -->
-        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 1}]">Received</button>
-        <button mat-menu-item [routerLink]="['ordready/GenralOrders', {number: 2}]">Rejected</button>
+      <mat-menu #ordersgreports="matMenu" >
+        <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 0}]">Open</button>
+        <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 1}]">All Orders</button>
       </mat-menu>
 
-      <!-- <button mat-button [matMenuTriggerFor]="menuOrder" >Orders</button>
-      <mat-menu #menuOrder="matMenu" >
-        <button mat-menu-item routerLink='specialordready/NewSpecialOrder'>New Special Order</button>
-        <button mat-menu-item routerLink='specialordready/SpecialOrders'>Special Orders</button>
-      </mat-menu> -->
+
+      <button mat-button [matMenuTriggerFor]="menuReceiving">Receivings</button>
+      <mat-menu #menuReceiving="matMenu" >
+        <button mat-menu-item [matMenuTriggerFor]="newreceive">New Receive</button>
+        <button mat-menu-item [matMenuTriggerFor]="receivecreports">Cashew Reports</button>
+        <button mat-menu-item [matMenuTriggerFor]="receivegreports">General Reports</button>
+      </mat-menu>
+      <mat-menu #newreceive="matMenu" >
+        <button mat-menu-item routerLink='receiptready/ReceiveCOrder'>Cashew</button>
+        <button mat-menu-item routerLink='receiptready/ReceiveGOrder'>General</button>
+        <button mat-menu-item routerLink='receiptready/ReceiveCAlone'>Cashew Without Order</button>
+      </mat-menu>
+      <mat-menu #receivecreports="matMenu" >
+        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 0}]">Pending (Received)</button>
+        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 1}]">Received</button>
+        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 2}]">All Receivings</button>
+      </mat-menu>
+      <mat-menu #receivegreports="matMenu" >
+        <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 0}]">Pending (Received)</button>
+        <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 1}]">Received</button>
+        <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 2}]">All Receivings</button>
+      </mat-menu>
+      
 
       <button mat-button [matMenuTriggerFor]="menuInve" >Inventory</button>
       <mat-menu #menuInve="matMenu" >
@@ -164,6 +171,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='manager/ManagerUsers'>Users</button>
         <button mat-menu-item routerLink='manager/ManagerSetup'>Setup</button>
         <button mat-menu-item routerLink='manager/ManagmentNotifications'>Notifications</button>
+        <button mat-menu-item routerLink='manager/RemoveManagment'>Remove Managment</button>
         <!-- <button mat-menu-item routerLink='manager/ProductionPlan'>Production Plan</button> -->
       </mat-menu>
 

@@ -5,6 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
+import { cloneDeep } from 'lodash-es';
 @Component({
     selector: 'production-packing',
     template: `
@@ -34,7 +35,7 @@ export class ProductionPackingComponent implements OnInit {
         this.localService.addEditPackingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
                 width: '80%',
-                data: {productionCheck: val, fromNew: true, type: 'Packing'}
+                data: {productionCheck: cloneDeep(val), fromNew: true, type: 'Packing'}
             });
             dialogRef.afterClosed().subscribe(result => {
                 if (result === 'Edit') {

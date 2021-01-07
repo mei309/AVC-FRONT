@@ -4,6 +4,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {uniq, isEqual} from 'lodash-es';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
+import { Genral } from 'src/app/genral.service';
 import { FieldConfig } from '../../field.interface';
 
 
@@ -31,6 +32,7 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 
+<button type="button" *ngIf="field.inputType === 'supplierName'" class="raised-margin" mat-raised-button color="accent" (click)="allPos()">All #POS</button>
 `,
 })
 export class SelectgroupComponent implements OnInit {
@@ -51,7 +53,7 @@ export class SelectgroupComponent implements OnInit {
 
   selectFormFirst: FormControl;
 
-  constructor() {
+  constructor(private genral: Genral) {
   }
   ngOnInit() {
     this.genralLink = this.field.inputType;
@@ -270,6 +272,20 @@ export class SelectgroupComponent implements OnInit {
       return Validators.compose(validList);
     }
     return null;
+  }
+
+
+  allPos() {
+    this.genral.findAllPoCodes().pipe(take(1)).subscribe(arg => {
+        this.linkedtwo = arg;
+        this.linkedone = uniq(arg.map(opt => opt[this.genralLink]));
+        this.options1 = this.linkedone;
+        this.options2 = arg;
+        setTimeout(() => {
+          this.trigger.openPanel();
+        }, 300);
+    });
+      
   }
 
   ngOnDestroy() {

@@ -6,10 +6,11 @@ import { ManagerRoutingModule } from './manager-routing.module';
 import { ManagmentSetupComponent } from './manager-setup.component';
 import { ManagmentUsersComponent } from './manager-users.component';
 import { PlanProductionComponent } from './plan-production.component';
+import { RemoveManagment } from './remove-managment.component';
 
 @NgModule({
   declarations: [EditDialogComponent, EditNotifictionsDialogComponent, ManagmentNotificationsComponent, ManagmentUsersComponent, ManagmentSetupComponent,
-    PlanProductionComponent],
+    PlanProductionComponent, RemoveManagment],
   imports: [
     SheardModule,
     ManagerRoutingModule

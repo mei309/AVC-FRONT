@@ -5,11 +5,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { OrderDetailsDialogComponent } from './order-details-dialog-component';
-import { OrdersService } from './orders.service';
 import { ReplaySubject, Observable } from 'rxjs';
+import { cloneDeep } from 'lodash-es';
+import { ReceiptDialog } from './receipt-dialog.component';
+import { ReceiptService } from './receipt.service';
 @Component({
-    selector: 'receive-cashew',
+    selector: 'receive-c-order',
     template: `
     <div *ngIf="isFirstDataAvailable">
         <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="goNext($event)">
@@ -25,7 +26,7 @@ import { ReplaySubject, Observable } from 'rxjs';
     </div>
     `
   })
-export class ReceiveCashewComponent implements OnInit {
+export class ReceiveCOrder implements OnInit {
     navigationSubscription;
 
     OrderdItems = new ReplaySubject<any[]>();
@@ -41,7 +42,7 @@ export class ReceiveCashewComponent implements OnInit {
     regConfig: FieldConfig[];
 
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
-        private localService: OrdersService, private genral: Genral, public dialog: MatDialog) {
+        private localService: ReceiptService, private genral: Genral, public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -100,47 +101,6 @@ export class ReceiveCashewComponent implements OnInit {
             }
         });
     }
-
-    // setUpWhenOrder(val, po) {
-    //     this.localService.getOrderPO(po).pipe(take(1)).subscribe( val2 => {
-    //         var orderdItems = [];
-    //         val['receiptItems'].forEach(element => {
-    //             var orderitemTemp = val2['orderItems'].find(x => x.item.id == element.item.id);
-    //             orderitemTemp['itemDescrption'] = orderitemTemp['item']['value'];
-    //             orderitemTemp['finalUnits'] = orderitemTemp['numberUnits']['value'];
-    //             element['orderItem'] = orderitemTemp;
-    //             var newArray = [];
-    //             element['storageForms'].forEach(storage => {
-    //                 if(storage['className'] === 'ExtraAdded') {
-    //                     newArray.push(storage);
-    //                     element['storageForms'].splice(element['storageForms'].indexOf(storage), 1);
-    //                 }
-    //             });
-    //             if(newArray.length) {
-    //                 element['bouns'] = {'extraAdded': newArray};
-    //             }
-    //             orderdItems.push(element);
-    //         });
-            
-    //         val2['orderItems'].forEach(element => {
-    //             if(!element.received) {
-    //                 element['itemDescrption'] = element['item']['value'];
-    //                 element['finalUnits'] = element['numberUnits']['value'];
-    //                 orderdItems.push(
-    //                     {
-    //                         orderItem: element,
-    //                         item: element['item'],
-    //                     }
-    //                 );
-    //             }
-    //         });
-    //         val['receiptItems'] = orderdItems;
-    //         this.putData = val;
-    //         this.isDataAvailable = false;
-    //         this.cdRef.detectChanges();
-    //         this.isDataAvailable = true;
-    //     });
-    // }
 
     goNext($event) {
         this.setUpOrderItems($event['poCode']['id']);
@@ -544,18 +504,6 @@ export class ReceiveCashewComponent implements OnInit {
                         ele['avgTestedWeight'] = ele['samplesWeight']['avgTestedWeight'];
                         ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
                         ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'].filter(amou => amou.amount);
-                        
-                        // if(ele['samplesWeight'].hasOwnProperty('avgWeight')) {
-                        //     ele['avgTestedWeight'] = ele['samplesWeight']['avgWeight'];
-                        //     ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
-                        //     if(ele['samplesWeight']['aLotSamples'] && ele['samplesWeight']['aLotSamples'].length) {
-                        //         ele['avgTestedWeight'] = (+ele['avgTestedWeight'] + ((ele['samplesWeight']['aLotSamples'].reduce((b, c) => +b + +c['value'] + +ele['unitAmount']['amount'], 0))/ele['samplesWeight']['aLotSamples'].length))/2;
-                        //         ele['numberOfSamples'] = ele['numberOfSamples'] + ele['samplesWeight']['aLotSamples'].length;
-                        //     }
-                        // } else if(ele['samplesWeight'].hasOwnProperty('aLotSamples')) {
-                        //     ele['avgTestedWeight'] = (ele['samplesWeight']['aLotSamples'].reduce((b, c) => +b + +c['value'] + +ele['unitAmount']['amount'], 0))/ele['samplesWeight']['aLotSamples'].length;
-                        //     ele['numberOfSamples'] = ele['samplesWeight']['aLotSamples'].length;
-                        // }
                         delete ele['samplesWeight'];
                     }
                 });
@@ -563,9 +511,9 @@ export class ReceiveCashewComponent implements OnInit {
             console.log(value);
             
             this.localService.addEditRecivingCashewOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
-                const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+                const dialogRef = this.dialog.open(ReceiptDialog, {
                     width: '80%',
-                    data: {order: val, fromNew: true, type: 'Cashew receive'}
+                    data: {receipt: cloneDeep(val), fromNew: true, type: 'Cashew'}
                 });
                 dialogRef.afterClosed().subscribe(data => {
                     if(data === 'Edit receive' || data === 'Receive extra') {
@@ -574,13 +522,9 @@ export class ReceiveCashewComponent implements OnInit {
                         this.setUpOrderItemsEditRecieving(+val['poCode']['code'], val)
                         this.cdRef.detectChanges();
                     } else if(data === 'Edit order') {
-                        this.router.navigate(['../NewCashewOrder',{id: val['poCode']['id']}], { relativeTo: this._Activatedroute });
-                    } 
-                    // else if(data === 'Sample weights') {
-                    //     this.router.navigate(['../SampleWeights',{poCode: JSON.stringify(event['poCode'])}], { relativeTo: this._Activatedroute });
-                    // } 
-                    else {
-                        this.router.navigate(['../CashewOrders', {number: 1}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['Main/ordready/NewCashewOrder',{id: val['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    } else {
+                        this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });
                     }
                 });
             });
@@ -589,21 +533,17 @@ export class ReceiveCashewComponent implements OnInit {
 
     submitBouns(value: any) {
             this.localService.receiveExtra(value, this.putData['id']).pipe(take(1)).subscribe( val => {
-                const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+                const dialogRef = this.dialog.open(ReceiptDialog, {
                     width: '80%',
-                    data: {order: val, fromNew: true, type: 'Cashew receive'}
+                    data: {receipt: cloneDeep(val), fromNew: true, type: 'Cashew'}
                 });
                 dialogRef.afterClosed().subscribe(data => {
                     if (data === 'Receive bouns') {
                         this.putData = val;
                         this.setUpRegConfigLock();
                         this.cdRef.detectChanges();
-                    } 
-                    // else if(data === 'Sample weights') {
-                    //     this.router.navigate(['../SampleWeights',{poCode: JSON.stringify(event['poCode'])}], { relativeTo: this._Activatedroute });
-                    //   }
-                      else {
-                        this.router.navigate(['../CashewOrders', {number: 2}], { relativeTo: this._Activatedroute });
+                    } else {
+                        this.router.navigate(['../ReceiveCReports', {number: 1}], { relativeTo: this._Activatedroute });
                     }
                 });
             });

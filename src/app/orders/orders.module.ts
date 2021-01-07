@@ -1,22 +1,15 @@
 import { NgModule } from '@angular/core';
 import { SheardModule } from './../sheard.module';
-import { NewCashewOrderComponent } from './new-cashew-order.component';
-import { NewGenralOrderComponent } from './new-genral-order.component';
+import { NewCashewOrder } from './new-c-order.component';
+import { NewGenralOrder } from './new-g-order.component';
 import { OrderDetailsDialogComponent } from './order-details-dialog-component';
-import { OrdersCashewComponent } from './orders-cashew.component';
-import { OrdersGenralComponent } from './orders-genral.component';
+import { OrdersCReports } from './orders-c-reports.component';
+import { OrdersGReports } from './orders-g-reports.component';
 import { OrdersRoutingModule } from './orders-routing.module';
-import { ReceiveCashewComponent } from './receive-cashew.component';
-import { ReceiveGenralComponent } from './receive-genral.component';
-import { ReceiveProcssComponent } from './receive-procss.component';
-// import { SampleWeightsComponent } from './sample-weights.component';
-
-
 
 @NgModule({
-  declarations: [NewGenralOrderComponent, NewCashewOrderComponent, OrdersGenralComponent, OrdersCashewComponent, ReceiveCashewComponent, ReceiveGenralComponent,
-  ReceiveProcssComponent, OrderDetailsDialogComponent
-  // , SampleWeightsComponent
+  declarations: [NewGenralOrder, NewCashewOrder, OrdersGReports, OrdersCReports,
+    OrderDetailsDialogComponent
 ],
   imports: [
     SheardModule,

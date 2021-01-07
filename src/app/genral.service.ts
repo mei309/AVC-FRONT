@@ -76,7 +76,6 @@ export class Genral {
       this.banks.next(value[3]);
       this.ContractType.next(value[4]);
       this.wearhouses.next(value[5]);
-      console.log(value[6]);
       
       this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
       this.ItemsCleanCashew.next(value[6].filter(w => w.productionUse === 'CLEAN'));
@@ -241,6 +240,9 @@ export class Genral {
     return this.http.get(this.mainurl+'getCashewSuppliers');
   }
 
+  findAllPoCodes (): Observable<any> {
+    return this.http.get(this.mainurl+'findAllPoCodes');
+  }
   
   getRoles(): string[] {
     return ['ROLE_MANAGER', 'ROLE_SYSTEM_MANAGER'];

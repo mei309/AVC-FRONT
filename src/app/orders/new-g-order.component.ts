@@ -7,18 +7,19 @@ import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { OrderDetailsDialogComponent } from './order-details-dialog-component';
 import { OrdersService } from './orders.service';
+import { cloneDeep } from 'lodash-es';
 @Component({
-    selector: 'new-cashew-order',
+    selector: 'new-genral-order',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submitForm)="submit($event)">
+        <dynamic-form [putData]="putData" [mainLabel]="'General order'" [fields]="regConfig" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
   })
-export class NewCashewOrderComponent implements OnInit {
+export class NewGenralOrder implements OnInit {
     navigationSubscription;
-    
+
     putData: any = null;
     isDataAvailable = false;
     regConfig: FieldConfig[];
@@ -49,7 +50,7 @@ export class NewCashewOrderComponent implements OnInit {
                                type: 'select',
                                label: 'Supplier',
                                name: 'supplier',
-                               options: this.genral.getSupplierCashew(),
+                               options: this.localService.getSupplierGeneral(),
                                validations: [
                                    {
                                        name: 'required',
@@ -133,7 +134,7 @@ export class NewCashewOrderComponent implements OnInit {
             value: new Date(),
             name: 'recordedTime',
             options: 'withTime',
-            // disable: true,
+            disable: true,
         },
         {
             type: 'input',
@@ -151,7 +152,7 @@ export class NewCashewOrderComponent implements OnInit {
                     type: 'select',
                     label: 'Item descrption',
                     name: 'item',
-                    options: this.genral.getItemsRawCashew(),
+                    options: this.genral.getItemsGeneral(),
                     disable: true,
                 },
                 {
@@ -162,10 +163,12 @@ export class NewCashewOrderComponent implements OnInit {
                         {
                             type: 'inputselect',
                             name: 'numberUnits',
+                            options: 'item',
+                            inputType: 'measureUnit',
                             collections: [
                                 {
                                     type: 'input',
-                                    label: 'Weight',
+                                    label: 'Amount',
                                     name: 'amount',
                                     inputType: 'numeric',
                                     options: 3,
@@ -206,13 +209,6 @@ export class NewCashewOrderComponent implements OnInit {
                     // value: new Date()
                 },
                 {
-                    type: 'radiobutton',
-                    label: 'Defects',
-                    name: 'defects',
-                    inputType: 'withInput',
-                    options: ['By supplier sample', 'By standard'],
-                },
-                {
                     type: 'textarry',
                     label: 'Remarks',
                     inputType: 'text',
@@ -227,14 +223,9 @@ export class NewCashewOrderComponent implements OnInit {
                 {
                     name: 'numberUnits',
                     message: 'a orderd item must have weight and price and delivery date',
-                    validator: [
-                        {
-                            name: 'amount',
-                        },
-                        {
-                            name: 'measureUnit',
-                        },
-                    ],
+                },
+                {
+                    name: 'unitPrice',
                 },
                 {
                     name: 'deliveryDate',
@@ -255,13 +246,11 @@ export class NewCashewOrderComponent implements OnInit {
                 delete element['unitPrice'];
             }
         });
-        console.log(value);
-        
         const fromNew: boolean = this.putData === null || this.putData === undefined;
-        this.localService.addEditCashewOrder(value, fromNew).pipe(take(1)).subscribe( val => {
+        this.localService.addEditGenralOrder(value, fromNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
                 width: '80%',
-                data: {order: val, fromNew: true, type: 'Cashew order'}
+                data: {order: cloneDeep(val), fromNew: true, type: 'General'}
             });
             dialogRef.afterClosed().subscribe(data => {
                 if (data === 'Edit order') {
@@ -272,13 +261,9 @@ export class NewCashewOrderComponent implements OnInit {
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
                 } else if(data === 'Receive') {
-                    this.router.navigate(['../CashewReceived',{poCode: val['poCode']['id']}], { relativeTo: this._Activatedroute });
-                } 
-                // else if(data === 'Sample weights') {
-                //     this.router.navigate(['../SampleWeights',{poCode: JSON.stringify(event['poCode'])}], { relativeTo: this._Activatedroute });
-                //   }
-                  else {
-                    this.router.navigate(['../CashewOrders'], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: val['poCode']['id']}], { relativeTo: this._Activatedroute });
+                } else {
+                    this.router.navigate(['../OrdersGReports'], { relativeTo: this._Activatedroute });
                 }
             });
         });

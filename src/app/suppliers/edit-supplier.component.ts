@@ -9,6 +9,7 @@ import { SupplierDetailsDialogComponent } from './supplier-details-dialog-compon
 import { SuppliersService } from './suppliers.service';
 // import diff_arrays_of_objects from 'diff-arrays-of-objects';
 import { diff } from '../libraries/diffArrayObjects.interface';
+import { cloneDeep } from 'lodash-es';
 
 @Component({
     selector: 'edit-supplier',
@@ -427,8 +428,6 @@ export class EditSupplierComponent implements OnInit {
   }
 
   preperDetailes(val) {
-    console.log(val);
-    
     this.putData = val;
     if(val.hasOwnProperty('contactDetails') && val['contactDetails']) {
       var temp = val['contactDetails'];
@@ -452,10 +451,10 @@ export class EditSupplierComponent implements OnInit {
         data: {supplier: val, fromNew: true},
       });
       dialogRef.afterClosed().subscribe(data => {
-        this.preperDetailes(val);
         this.isDataAvalible = false;
-        this.tabIndex = 0;
         this.cdRef.detectChanges();
+        this.preperDetailes(val);
+        this.tabIndex = 0;
         this.isDataAvalible = true;
       });
     });
@@ -465,67 +464,83 @@ export class EditSupplierComponent implements OnInit {
     this.LocalService.editContactInfo(value['contactDetails'], this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',
-        data: {supplier: val, fromNew: true},
+        data: {supplier: cloneDeep(val), fromNew: true},
       });
       dialogRef.afterClosed().subscribe(data => {
-        this.preperDetailes(val);
+        
         this.isDataAvalible = false;
-        this.tabIndex = 1;
         this.cdRef.detectChanges();
+        this.preperDetailes(val);
+        this.tabIndex = 1;
         this.isDataAvalible = true;
       });
     });
   }
 
   submitPeople(value: any) {
-    // console.log(value);
-    // console.log(this.putData2['companyContacts']);
-    // this.putData2['companyContacts'].forEach(element => {
-    //   delete element['person']['contactDetails']['paymentAccounts'];
-    // });
-    
-    var resultNew = diff(this.putData2 ? this.putData2['companyContacts'] : null, value['companyContacts'], 'id');
+    this.cleanAndOrdinal(this.putData2);
+    var resultNew = diff(this.putData2['companyContacts'] ? this.putData2['companyContacts'] : [], value['companyContacts'], 'id');
     console.log(resultNew);
-    
-    // var result = diff_arrays_of_objects(this.putData2 ? this.putData2['companyContacts'] : null, value['companyContacts'], 'id');
-    // console.log(result);
     
     this.LocalService.editContactPersons(resultNew, this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',
-        data: {supplier: val, fromNew: true},
+        data: {supplier: cloneDeep(val), fromNew: true},
       });
       dialogRef.afterClosed().subscribe(data => {
-        this.preperDetailes(val);
         this.isDataAvalible = false;
-        this.tabIndex = 2;
         this.cdRef.detectChanges();
+        this.preperDetailes(val);
+        this.tabIndex = 2;
         this.isDataAvalible = true;
       });
     });
   }
 
   submitAccounts(value: any) {
-    var resultNew = diff(this.putData3 ? this.putData3['paymentAccounts'] : null, value['paymentAccounts'], 'id');
-    console.log(resultNew);
-
-    // var result = diff_arrays_of_objects(this.putData3 ? this.putData3['paymentAccounts'] : null, value['paymentAccounts'], 'id');
-    console.log(this.putData1['contactDetails']['id']+ '   '+this.id);
+    this.cleanAndOrdinal(this.putData3);
+    var resultNew = diff(this.putData3['paymentAccounts'] ? this.putData3['paymentAccounts'] : [], value['paymentAccounts'], 'id');
+    
     this.LocalService.editPaymentAccounts(resultNew, this.putData1['contactDetails']['id'], this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',
-        data: {supplier: val, fromNew: true},
+        data: {supplier: cloneDeep(val), fromNew: true},
       });
       dialogRef.afterClosed().subscribe(data => {
-        this.preperDetailes(val);
         this.isDataAvalible = false;
-        this.tabIndex = 3;
         this.cdRef.detectChanges();
+        this.preperDetailes(val);
+        this.tabIndex = 3;
         this.isDataAvalible = true;
       });
     });
   }
 
+  cleanAndOrdinal(obj) {
+    for (var propName in obj) {
+      if (obj[propName] === null || obj[propName] === undefined || propName === 'ordinal') {
+        delete obj[propName];
+      } else if(Array.isArray(obj[propName])) {
+        obj[propName].forEach(fc => {
+          this.cleanAndOrdinal(fc);
+        });
+        obj[propName] = obj[propName].filter(f => f);
+        if(!obj[propName].length){
+          delete obj[propName];
+        }
+      } else if(typeof obj[propName] === 'object') {
+        if(!this.cleanAndOrdinal(obj[propName])) {
+          delete obj[propName];
+        }
+      }
+    }
+    if(!Object.keys(obj).length){
+      return false;
+    }
+    return true;
+  }
+
+  
 
 }
 

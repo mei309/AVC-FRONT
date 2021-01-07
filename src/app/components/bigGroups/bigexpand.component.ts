@@ -96,7 +96,7 @@ const componentMapper = {
         <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
-      <button *ngIf="group.enabled" type="button" style="margin-top: 10px; width: 100%;" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+      <button type="button" style="margin-top: 10px; width: 100%;" class="add-button" (click)="addItem()">Add {{field.label}}</button>
     </div>
   </ng-container>
   
@@ -143,9 +143,7 @@ const componentMapper = {
         <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
-      <div *ngIf="group.enabled">
         <button type="button" style="margin-top: 10px;" mat-raised-button color="accent" (click)="addItem()">Add {{field.label}}</button>
-      </div>
   </ng-container>
 
   <ng-container *ngSwitchDefault>
@@ -155,9 +153,7 @@ const componentMapper = {
         <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
-      <div *ngIf="group.enabled">
         <button type="button" style="margin-top: 10px;" mat-raised-button color="accent" (click)="addItem()">Add {{field.label}}</button>
-      </div>
     </fieldset>
   </ng-container>
 </div>

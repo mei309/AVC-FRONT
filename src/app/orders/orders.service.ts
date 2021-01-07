@@ -89,6 +89,10 @@ export class OrdersService {
   getHistoryCashewOrders() {
     return this.http.get(this.ordersurl+'getHistoryCashewOrders');
   }
+
+  findCashewReceiptsHistory() {
+    return this.http.get(this.ordersurl+'findCashewReceiptsHistory');
+  }
   
   getAllCashewReciveRejected() {
     return this.http.get(this.ordersurl+'getAllCashewReciveRejected');

@@ -75,4 +75,12 @@ export class ManagerService {
     return this.http.get(this.usersurl+'getBanks');
   }
 
+  removeAllProcesses (val: number): Observable<any> {
+    return this.http.delete(this.usersurl+'removeAllProcesses/'+val);
+  }
+
+  removeProcess (val: number): Observable<any> {
+    return this.http.delete(this.usersurl+'removeProcess/'+val);
+  }
+
 }

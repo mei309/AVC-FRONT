@@ -48,3 +48,14 @@ table {
       .bold-cell {
         font-weight: bold;
       }
+
+      label{
+        float:left;
+        width:100%;
+        color: green;
+        font-size: 0.8em;
+     }
+  
+     span .half {float: left; width: 175px; padding: 1%; }
+     .half { display: inline-block; width: 180px; }
+  

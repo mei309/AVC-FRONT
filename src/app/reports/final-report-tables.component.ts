@@ -1,11 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
-import { FieldConfig } from '../field.interface';
-import { Genral } from '../genral.service';
-import { ReportsService } from './reports.service';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'final-report-table',
@@ -13,60 +6,16 @@ import { ReportsService } from './reports.service';
     <ng-container *ngFor="let process of processess">
         <fieldset *ngIf="dataSource[process.name]">
             <legend><h1>{{process.label}}</h1></legend>
-            <ng-container *ngIf="process.tableView; else fullDetailes">
-                <normal-details [dataSource]="dataSource[process.name]" [oneColumns]="columnsQc">
+            <ng-container [ngSwitch]="process.type">
+                <normal-details *ngSwitchCase="'qc'" [dataSource]="dataSource[process.name]" [oneColumns]="columnsQc">
                 </normal-details>
-            </ng-container>
-            <ng-template #fullDetailes>
-                <ng-container *ngFor="let column of oneColumns">
-                    <ng-container *ngIf="dataSource[process.name][column.name]">
-                        <ng-container [ngSwitch]="column.name">
-                            <table style="display: inline-block" mat-table *ngSwitchCase="'dates'" [dataSource]="dataSource[process.name][column.name]" class="mat-elevation-z2">
-                                <ng-container matColumnDef="dates">
-                                    <th mat-header-cell *matHeaderCellDef><h3>Dates</h3></th>
-                                    <td mat-cell *matCellDef="let element"> {{element | date}} </td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="['dates']"></tr>
-                                <tr mat-row *matRowDef="let row; columns: ['dates']"></tr>
-                            </table>
-                            <mat-form-field appearance="none" *ngSwitchCase="'difference'" provideReadonly>
-                                <mat-label>Difference</mat-label>
-                                <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[process.name][column.name] | tableCellPipe: 'weight' : null">
-                            </mat-form-field>
-                            <table style="display: inline-block" mat-table *ngSwitchDefault [dataSource]="dataSource[process.name][column.name]" class="mat-elevation-z2">
-                                <ng-container matColumnDef="titel">
-                                    <th mat-header-cell *matHeaderCellDef colspan="3"><h3>{{column.label}}</h3></th>
-                                </ng-container>
-                                <ng-container matColumnDef="item">
-                                    <th mat-header-cell *matHeaderCellDef><h4>Item</h4></th>
-                                    <td mat-cell *matCellDef="let element"> {{element.item.value}} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="amount">
-                                    <th mat-header-cell *matHeaderCellDef><h4>Amount</h4></th>
-                                    <td mat-cell *matCellDef="let element"> 
-                                        {{element.amount | tableCellPipe: 'weight' : null}}
-                                    </td>
-                                </ng-container>
-                                <ng-container matColumnDef="weight">
-                                    <th mat-header-cell *matHeaderCellDef><h4>Weight</h4></th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{element.weight | tableCellPipe: 'weight2' : null}} 
-                                    </td>
-                                </ng-container>
-                                <ng-container matColumnDef="footer">
-                                    <th mat-footer-cell *matFooterCellDef colspan="3">
-                                        Total: {{dataSource[process.name][column.foot] | tableCellPipe: 'weight' : null}}
-                                    </th>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="['titel']"></tr>
-                                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(dataSource[process.name][column.name])"></tr>
-                                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(dataSource[process.name][column.name])"></tr>
-                                <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
-                            </table>
-                        </ng-container>
-                    </ng-container>
+                <ng-container *ngSwitchCase="'shipping'">
+                    <in-out-total  *ngFor="let line of dataSource[process.name]" [dataSource]="line" shipping="true">
+                    </in-out-total>
                 </ng-container>
-            </ng-template>
+                <in-out-total *ngSwitchDefault [dataSource]="dataSource[process.name]">
+                </in-out-total>
+            </ng-container>
         </fieldset>
     </ng-container>
     ` ,
@@ -89,7 +38,7 @@ export class FinalReportTablesComponent {
         {
             name: 'receiptQC',
             label: 'Receiving QC',
-            tableView: true,
+            type: 'qc',
         },
         {
             name: 'cleaning',
@@ -100,43 +49,22 @@ export class FinalReportTablesComponent {
             label: 'Roasting',
         },
         {
+            name: 'roastQC',
+            label: 'Roasting QC',
+            type: 'qc',
+        },
+        {
             name: 'packing',
             label: 'Packing',
         },
         {
             name: 'loadings',
             label: 'Loadings',
+            type: 'shipping',
         },
     ];
 
-    oneColumns = [
-        {
-            name: 'dates',
-        },
-        {
-            name: 'productIn',
-            label: 'Product in',
-            foot: 'totalProductIn',
-        },
-        {
-            name: 'productOut',
-            label: 'Product out',
-            foot: 'totalProductOut',
-        },
-        {
-            name: 'waste',
-            label: 'Waste',
-            foot: 'totalWaste',
-        },
-        {
-            name: 'productCount',
-            label: 'Product count',
-            foot: 'totalProductCount',
-        },
-        {
-            name: 'difference',
-        },
-    ];
+    
     columnsQc = [
         {
           type: 'nameId',

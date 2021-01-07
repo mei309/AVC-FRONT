@@ -7,6 +7,7 @@ import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { InventoryService } from './inventory.service';
+import { cloneDeep } from 'lodash-es';
 @Component({
     selector: 'relocation-count',
     template: `
@@ -86,7 +87,7 @@ export class RelocationCountComponent implements OnInit {
             
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
-                data: {inventoryItem: val, fromNew: true, type: 'Inventory item'}
+                data: {inventoryItem: cloneDeep(val), fromNew: true, type: 'Inventory item'}
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
