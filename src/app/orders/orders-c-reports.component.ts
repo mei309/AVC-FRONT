@@ -14,7 +14,7 @@ import { OrdersService } from './orders.service';
   (selectedIndexChange)="changed($event)">
       <mat-tab label="Open">
       </mat-tab>
-      <mat-tab label="All Orders">
+      <mat-tab label="All">
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainDetailsSource]="cashewSource" (details)="openDialog($event)">

@@ -14,9 +14,9 @@ import { ReceiptService } from './receipt.service';
   (selectedIndexChange)="changed($event)">
       <mat-tab label="Pending(received)">
       </mat-tab>
-      <mat-tab label="Received">
+      <mat-tab label="Finalized">
       </mat-tab>
-      <mat-tab label="All Receivings">
+      <mat-tab label="All">
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainDetailsSource]="cashewSource" (details)="openDialog($event)">
@@ -176,7 +176,7 @@ export class ReceiveCReports implements OnInit {
           if(this.columnsShow.length === 11) {
             this.columnsShow.push({
                 type: 'arrayVal',
-                name: 'orderStatus',
+                name: 'status',
                 label: 'Status',
                 search: 'select',
                 options: ['OPEN', 'RECEIVED', 'REJECTED'],
@@ -184,6 +184,8 @@ export class ReceiveCReports implements OnInit {
             }
           this.localService.findCashewReceiptsHistory().pipe(take(1)).subscribe(value => {
             this.cashewSource = [value, this.columnsShow];
+            console.log(value);
+            
           });
           this.cdRef.detectChanges();
           break;

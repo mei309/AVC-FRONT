@@ -32,7 +32,7 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 
-<button type="button" *ngIf="field.inputType === 'supplierName'" class="raised-margin" mat-raised-button color="accent" (click)="allPos()">All #POS</button>
+<button type="button" *ngIf="field.label === 'withAllPos'" class="raised-margin" mat-raised-button color="accent" (click)="allPos()">All #POS</button>
 `,
 })
 export class SelectgroupComponent implements OnInit {

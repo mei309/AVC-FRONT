@@ -55,6 +55,10 @@ export class ReceiptService {
   findCashewReceiptsHistory() {
     return this.http.get(this.receipturl+'findCashewReceiptsHistory');
   }
+  
+  findGeneralReceiptsHistory() {
+    return this.http.get(this.receipturl+'findGeneralReceiptsHistory');
+  }
 
   getPendingGeneral() {
     return this.http.get(this.receipturl+'getPendingGeneral');

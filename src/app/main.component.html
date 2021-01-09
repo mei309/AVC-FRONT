@@ -56,11 +56,11 @@ fxShow="true" fxHide.lt-md="true" -->
       </mat-menu>
       <mat-menu #orderscreports="matMenu" >
         <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 0}]">Open</button>
-        <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 1}]">All Orders</button>
+        <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 1}]">All</button>
       </mat-menu>
       <mat-menu #ordersgreports="matMenu" >
         <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 0}]">Open</button>
-        <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 1}]">All Orders</button>
+        <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 1}]">All</button>
       </mat-menu>
 
 
@@ -78,12 +78,12 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-menu #receivecreports="matMenu" >
         <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 0}]">Pending (Received)</button>
         <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 1}]">Received</button>
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 2}]">All Receivings</button>
+        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 2}]">All</button>
       </mat-menu>
       <mat-menu #receivegreports="matMenu" >
         <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 0}]">Pending (Received)</button>
         <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 1}]">Received</button>
-        <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 2}]">All Receivings</button>
+        <button mat-menu-item [routerLink]="['receiptready/OrdersGReports', {number: 2}]">All</button>
       </mat-menu>
       
 
