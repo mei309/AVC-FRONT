@@ -49,6 +49,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [matMenuTriggerFor]="poordernew">New</button>
         <button mat-menu-item [matMenuTriggerFor]="orderscreports">Cashew Reports</button>
         <button mat-menu-item [matMenuTriggerFor]="ordersgreports">General Reports</button>
+        <button mat-menu-item routerLink='ordready/PoCodesComponent'>#POS</button>
       </mat-menu>
       <mat-menu #poordernew="matMenu" >
         <button mat-menu-item routerLink='ordready/NewCashewOrder' cdkFocusRegionStart>Cashew</button>

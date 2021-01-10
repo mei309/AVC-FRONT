@@ -137,7 +137,7 @@
 //     goNextItem($event) {
 //         this.localService.getStorageByItem($event['id']).pipe(take(1)).subscribe( val => {
 //             this.putData = val;
-//             if(val.every( v => v['poCode']['code'] === val[0]['poCode']['code'] )) {
+//             if(val.every( v => v['poCode']['id'] === val[0]['poCode']['id'] )) {
 //                 this.readyForm();
 //             } else {
 //                 this.isDataAvailable = true;
@@ -185,7 +185,7 @@
 //             this.putData = this.putData.filter(ele => ele['item']['id'] === $event['item']['id']);
 //             this.readyForm();
 //         } else {
-//             this.putData = this.putData.filter(ele => ele['poCode']['code'] === $event['poCode']['code']);
+//             this.putData = this.putData.filter(ele => ele['poCode']['id'] === $event['poCode']['id']);
 //             this.readyForm();
 //         }
 //     }
@@ -267,7 +267,7 @@
 //                                 this.lastChoosed = 'po';
 //                                 this.goNextPo(selectedValue);
 //                             } else {
-//                                 this.putData = this.putData.filter(ele => ele['poCode']['code'] === selectedValue['code']);
+//                                 this.putData = this.putData.filter(ele => ele['poCode']['id'] === selectedValue['code']);
 //                                 this.readyForm();
 //                             }
 //                         }

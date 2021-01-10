@@ -145,10 +145,6 @@ export class OrdersTestComponent implements OnInit {
                     delete stickData1['poCode']['supplier'];
                     stickData1['poCode']['contractTypeCode'] = stickData1['poCode']['contractType']['value'];
                     delete stickData1['poCode']['contractType'];
-                    // stickData1['poCode']['id'] = stickData1['poCode']['code'];
-                    // delete stickData1['poCode']['code'];
-                    // console.log(value9);
-                    // console.log(stickData1);
                     if(includesValdaite(Object.assign({}, value9), Object.assign({}, stickData1))) {
                       this.massage += 'receive cashew without a order SUCSSESFUL\n';
                     } else {

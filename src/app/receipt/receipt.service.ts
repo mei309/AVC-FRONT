@@ -87,4 +87,8 @@ export class ReceiptService {
     return this.http.get(this.receipturl+'getPoGeneralCodesOpenPending');
   }
 
+  findFreePoCodes (): Observable<any> {
+    return this.http.get(this.receipturl+'findFreePoCodes');
+  }
+
 }

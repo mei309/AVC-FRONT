@@ -6,15 +6,16 @@ import { OrderDetailsDialogComponent } from './order-details-dialog-component';
 import { OrdersCReports } from './orders-c-reports.component';
 import { OrdersGReports } from './orders-g-reports.component';
 import { OrdersRoutingModule } from './orders-routing.module';
+import { AddEditPoDialog, PoCodesComponent } from './po-codes.component';
 
 @NgModule({
   declarations: [NewGenralOrder, NewCashewOrder, OrdersGReports, OrdersCReports,
-    OrderDetailsDialogComponent
+    OrderDetailsDialogComponent, AddEditPoDialog, PoCodesComponent
 ],
   imports: [
     SheardModule,
     OrdersRoutingModule,
   ],
-  entryComponents: [OrderDetailsDialogComponent]
+  entryComponents: [OrderDetailsDialogComponent, AddEditPoDialog]
 })
 export class OrdersModule { }

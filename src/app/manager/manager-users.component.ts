@@ -11,7 +11,7 @@ import { ManagerService } from './manager.service';
     template: `
     <h1 style="text-align:center">Users Management</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="editNewDialog()">Add User</button>
+        <button class="raised-margin" mat-raised-button color="primary" (click)="newPersonDialog()">Add User</button>
         <button class="raised-margin" mat-raised-button color="primary" (click)="newPersonDialog()">Add User For Person</button>
     </div>
     <search-details [dataSource]="usersSource" [oneColumns]="columnsUsers" (details)="editNewDialog($event)">

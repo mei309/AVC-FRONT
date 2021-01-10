@@ -133,4 +133,16 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'getPoGeneralCodesOpenPending');
   }
 
+  findFreePoCodes (): Observable<any> {
+    return this.http.get(this.ordersurl+'findFreePoCodes');
+  }
+
+  findAllPoCodes (): Observable<any> {
+    return this.http.get(this.ordersurl+'findAllPoCodes');
+  }
+
+  addPoCode (value): Observable<any> {
+    return this.http.post(this.ordersurl+'addPoCode', value);
+  }
+
 }

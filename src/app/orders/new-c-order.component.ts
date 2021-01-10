@@ -38,53 +38,146 @@ export class NewCashewOrder implements OnInit {
                    this.putData = val;
                    this.isDataAvailable = true;
                });
-               this.setRegEdit();
-           } else {
-               this.isDataAvailable = true;
-               this.regConfig = [
-                   {
-                       type: 'bigoutside',
-                       name: 'poCode',
-                       collections: [
-                           {
-                               type: 'select',
-                               label: 'Supplier',
-                               name: 'supplier',
-                               options: this.genral.getSupplierCashew(),
-                               validations: [
-                                   {
-                                       name: 'required',
-                                       validator: Validators.required,
-                                       message: 'Supplier Required',
-                                   }
-                               ]
-                           },
-                           {
-                               type: 'select',
-                               label: 'PO initial',
-                               name: 'contractType',
-                               options: this.genral.getContractType(),
-                               validations: [
-                                   {
-                                       name: 'required',
-                                       validator: Validators.required,
-                                       message: 'PO initial Required',
-                                   }
-                               ]
-                           },
-                           {
-                               type: 'input',
-                               label: '#PO',
-                               inputType: 'number',
-                               name: 'code',
-                               disable: true,
-                           },
-                       ]
-                   },
-               ];
            }
        });
-       this.addRestReg();
+       this.regConfig = [
+            {
+                type: 'selectgroup',
+                inputType: 'supplierName',
+                options: this.localService.findFreePoCodes(),
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Supplier',
+                    },
+                    {
+                        type: 'select',
+                        label: '#PO',
+                        name: 'poCode',
+                        collections: 'somewhere',
+                    },
+                ]
+            },
+            {
+                type: 'date',
+                label: 'Contract date',
+                value: new Date(),
+                name: 'recordedTime',
+                options: 'withTime',
+                // disable: true,
+            },
+            {
+                type: 'input',
+                label: 'Person in charge',
+                name: 'personInCharge',
+                inputType: 'text',
+            },
+            {
+                type: 'bigexpand',
+                label: 'Orderd products',
+                name: 'orderItems',
+                value: 'required',
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Item descrption',
+                        name: 'item',
+                        options: this.genral.getItemsRawCashew(),
+                        disable: true,
+                    },
+                    {
+                        type: 'calculatefew',
+                        label: 'price',
+                        inputType: '*',
+                        collections: [
+                            {
+                                type: 'inputselect',
+                                name: 'numberUnits',
+                                collections: [
+                                    {
+                                        type: 'input',
+                                        label: 'Weight',
+                                        name: 'amount',
+                                        inputType: 'numeric',
+                                        options: 3,
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Weight unit',
+                                        name: 'measureUnit',
+                                        options: this.genral.getMeasureUnit(),
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'inputselect',
+                                name: 'unitPrice',
+                                collections: [
+                                    {
+                                        type: 'input',
+                                        label: 'Price per unit',
+                                        name: 'amount',
+                                        inputType: 'numeric',
+                                        options: 2,
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Currency',
+                                        name: 'currency',
+                                        options: ['USD', 'VND'],
+                                    },
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        type: 'date',
+                        label: 'Delivery date',
+                        name: 'deliveryDate',
+                        // value: new Date()
+                    },
+                    {
+                        type: 'radiobutton',
+                        label: 'Defects',
+                        name: 'defects',
+                        inputType: 'withInput',
+                        options: ['By supplier sample', 'By standard'],
+                    },
+                    {
+                        type: 'textarry',
+                        label: 'Remarks',
+                        inputType: 'text',
+                        name: 'remarks',
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'divide'
+                    },
+                ],
+                validations: [
+                    {
+                        name: 'numberUnits',
+                        message: 'a orderd item must have weight and price and delivery date',
+                        validator: [
+                            {
+                                name: 'amount',
+                            },
+                            {
+                                name: 'measureUnit',
+                            },
+                        ],
+                    },
+                    {
+                        name: 'deliveryDate',
+                    }, 
+                ]
+            },
+            {
+                type: 'button',
+                label: 'Submit',
+                name: 'submit',
+            }
+       ];
        this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
@@ -96,159 +189,6 @@ export class NewCashewOrder implements OnInit {
         });
    }
 
-   setRegEdit() {
-        this.regConfig = [
-            {
-                type: 'bigoutside',
-                name: 'poCode',
-                collections: [
-                    {
-                        type: 'input',
-                        label: 'Supplier',
-                        name: 'supplierName',
-                        disable: true,
-                    },
-                    {
-                        type: 'input',
-                        label: 'PO initial',
-                        name: 'contractTypeCode',
-                        disable: true,
-                    },
-                    {
-                        type: 'input',
-                        label: '#PO',
-                        inputType: 'number',
-                        name: 'code',
-                        disable: true,
-                    },
-                ]
-            },
-        ];
-   }
-
-   addRestReg() {
-    this.regConfig.push(
-        {
-            type: 'date',
-            label: 'Contract date',
-            value: new Date(),
-            name: 'recordedTime',
-            options: 'withTime',
-            // disable: true,
-        },
-        {
-            type: 'input',
-            label: 'Person in charge',
-            name: 'personInCharge',
-            inputType: 'text',
-        },
-        {
-            type: 'bigexpand',
-            label: 'Orderd products',
-            name: 'orderItems',
-            value: 'required',
-            collections: [
-                {
-                    type: 'select',
-                    label: 'Item descrption',
-                    name: 'item',
-                    options: this.genral.getItemsRawCashew(),
-                    disable: true,
-                },
-                {
-                    type: 'calculatefew',
-                    label: 'price',
-                    inputType: '*',
-                    collections: [
-                        {
-                            type: 'inputselect',
-                            name: 'numberUnits',
-                            collections: [
-                                {
-                                    type: 'input',
-                                    label: 'Weight',
-                                    name: 'amount',
-                                    inputType: 'numeric',
-                                    options: 3,
-                                },
-                                {
-                                    type: 'select',
-                                    label: 'Weight unit',
-                                    name: 'measureUnit',
-                                    options: this.genral.getMeasureUnit(),
-                                },
-                            ]
-                        },
-                        {
-                            type: 'inputselect',
-                            name: 'unitPrice',
-                            collections: [
-                                {
-                                    type: 'input',
-                                    label: 'Price per unit',
-                                    name: 'amount',
-                                    inputType: 'numeric',
-                                    options: 2,
-                                },
-                                {
-                                    type: 'select',
-                                    label: 'Currency',
-                                    name: 'currency',
-                                    options: ['USD', 'VND'],
-                                },
-                            ]
-                        },
-                    ]
-                },
-                {
-                    type: 'date',
-                    label: 'Delivery date',
-                    name: 'deliveryDate',
-                    // value: new Date()
-                },
-                {
-                    type: 'radiobutton',
-                    label: 'Defects',
-                    name: 'defects',
-                    inputType: 'withInput',
-                    options: ['By supplier sample', 'By standard'],
-                },
-                {
-                    type: 'textarry',
-                    label: 'Remarks',
-                    inputType: 'text',
-                    name: 'remarks',
-                },
-                {
-                    type: 'divider',
-                    inputType: 'divide'
-                },
-            ],
-            validations: [
-                {
-                    name: 'numberUnits',
-                    message: 'a orderd item must have weight and price and delivery date',
-                    validator: [
-                        {
-                            name: 'amount',
-                        },
-                        {
-                            name: 'measureUnit',
-                        },
-                    ],
-                },
-                {
-                    name: 'deliveryDate',
-                }, 
-            ]
-        },
-        {
-            type: 'button',
-            label: 'Submit',
-            name: 'submit',
-        }
-    );
-   }
 
     submit(value: any) { 
         value['orderItems'].forEach(element => {
@@ -266,8 +206,6 @@ export class NewCashewOrder implements OnInit {
                 if (data === 'Edit order') {
                     this.putData = val;
                     this.isDataAvailable = false;
-                    this.setRegEdit();
-                    this.addRestReg();
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
                 } else if(data === 'Receive') {

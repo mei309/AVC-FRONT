@@ -28,43 +28,19 @@ export class ReceiveCAlone implements OnInit {
     ngOnInit() {
         this.regConfig = [
             {
-                type: 'bigoutside',
-                name: 'poCode',
+                type: 'selectgroup',
+                inputType: 'supplierName',
+                options: this.localService.findFreePoCodes(),
                 collections: [
                     {
                         type: 'select',
                         label: 'Supplier',
-                        name: 'supplier',
-                        options: this.genral.getSupplierCashew(),
-                        disable: true,
-                        validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: 'Supplier Required',
-                            }
-                        ]
                     },
                     {
                         type: 'select',
-                        label: 'PO initial',
-                        name: 'contractType',
-                        options: this.genral.getContractType(),
-                        disable: true,
-                        validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: 'PO initial Required',
-                            }
-                        ]
-                    },
-                    {
-                        type: 'input',
                         label: '#PO',
-                        inputType: 'number',
-                        name: 'code',
-                        disable: true,
+                        name: 'poCode',
+                        collections: 'somewhere',
                     },
                 ]
             },
