@@ -380,7 +380,7 @@ export class ReceiveCAlone implements OnInit {
             });
             dialogRef.afterClosed().subscribe(data => {
                 if(data === 'Edit receive' || data === 'Receive bouns') {
-                    this.router.navigate(['../ReceiveCOrder',{poCode: val['poCode']['id'], id: val['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../ReceiveCOrder', {poCode: val['poCode']['id'], id: val['id']}], { relativeTo: this._Activatedroute });
                 } else {
                     this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });
                 }

@@ -41,9 +41,9 @@ export class ProductionCleaningComponent implements OnInit {
                   if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getProduction(val['id']).pipe(take(1)).subscribe( val => {
-                        this.putData = val;
-                        // this.newUsed = val[1]
+                    this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'raw').pipe(take(1)).subscribe( val => {
+                        this.putData = val[0];
+                        this.newUsed = val[1];
                         this.isFormAvailable = true;
                     });
                   } else {
@@ -65,8 +65,6 @@ export class ProductionCleaningComponent implements OnInit {
                 this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'raw').pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
                     this.newUsed = val[1];
-                    console.log(val);
-                    
                     this.isFormAvailable = true;
                 });
                 this.poID = +params.get('id');

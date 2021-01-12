@@ -119,9 +119,9 @@ export class OrdersCReports implements OnInit {
       if (data === 'Edit order') {
         this.router.navigate(['../NewCashewOrder',{id: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'Receive') {
-        this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+        this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id']}]);
       } else if(data === 'Edit receive' || data === 'Receive extra') {
-        this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
+        this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}]);
       } else {
         this.changed(this.tabIndex);
       }
@@ -149,7 +149,7 @@ export class OrdersCReports implements OnInit {
                 name: 'orderStatus',
                 label: 'Status',
                 search: 'select',
-                options: ['OPEN', 'RECEIVED', 'REJECTED'],
+                options: this.genral.getOrderStatus(),
               });
           }
           this.localService.getHistoryCashewOrders().pipe(take(1)).subscribe(value => {

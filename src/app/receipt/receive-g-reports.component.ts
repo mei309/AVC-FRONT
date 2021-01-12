@@ -128,7 +128,7 @@ export class ReceiveGReports implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit order') {
-        this.router.navigate(['Main/ordready/NewGenralOrder',{id: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+        this.router.navigate(['Main/ordready/NewGenralOrder',{id: event['poCode']['id']}]);
       } else if(data === 'Finalize') {
         this.tabIndex = 1;
         this.changed(1);
@@ -171,7 +171,7 @@ export class ReceiveGReports implements OnInit {
                 name: 'status',
                 label: 'Status',
                 search: 'select',
-                options: ['OPEN', 'RECEIVED', 'REJECTED'],
+                options: this.genral.getProcessStatus(),
               });
             }
           this.localService.findGeneralReceiptsHistory().pipe(take(1)).subscribe(value => {

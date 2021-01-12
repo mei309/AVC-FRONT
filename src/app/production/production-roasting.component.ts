@@ -42,8 +42,9 @@ export class ProductionRoastingComponent implements OnInit {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getProduction(val['id']).pipe(take(1)).subscribe( val1 => {
-                        this.putData = val1;
+                    this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'clean').pipe(take(1)).subscribe( val => {
+                        this.putData = val[0];
+                        this.newUsed = val[1];
                         this.isFormAvailable = true;
                     });
                 } else {
@@ -62,8 +63,6 @@ export class ProductionRoastingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                console.log(params.get('poCode'));
-                
                 this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'clean').pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
                     this.newUsed = val[1];

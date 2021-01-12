@@ -209,7 +209,7 @@ export class NewGenralOrder implements OnInit {
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
                 } else if(data === 'Receive') {
-                    this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: val['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: val['poCode']['id']}]);
                 } else {
                     this.router.navigate(['../OrdersGReports'], { relativeTo: this._Activatedroute });
                 }

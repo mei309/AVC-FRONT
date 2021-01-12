@@ -136,7 +136,7 @@ export class ReceiveCReports implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit order') {
-        this.router.navigate(['Main/ordready/NewCashewOrder',{id: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+        this.router.navigate(['Main/ordready/NewCashewOrder',{id: event['poCode']['id']}]);
       } else if(data === 'Receive') {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'Edit receive' || data === 'Receive extra') {
@@ -175,11 +175,11 @@ export class ReceiveCReports implements OnInit {
           this.cashewSource = null;
           if(this.columnsShow.length === 11) {
             this.columnsShow.push({
-                type: 'arrayVal',
+                type: 'normal',
                 name: 'status',
                 label: 'Status',
                 search: 'select',
-                options: ['OPEN', 'RECEIVED', 'REJECTED'],
+                options: this.genral.getProcessStatus(),
               });
             }
           this.localService.findCashewReceiptsHistory().pipe(take(1)).subscribe(value => {

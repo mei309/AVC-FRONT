@@ -41,8 +41,9 @@ export class ProductionPackingComponent implements OnInit {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getProduction(val['id']).pipe(take(1)).subscribe( val1 => {
-                        this.putData = val1;
+                    this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'roast').pipe(take(1)).subscribe( val => {
+                        this.putData = val[0];
+                        this.newUsed = val[1];
                         this.isFormAvailable = true;
                     });
                 } else {

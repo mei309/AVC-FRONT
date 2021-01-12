@@ -219,7 +219,7 @@ export class NewCashewOrder implements OnInit {
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
                 } else if(data === 'Receive') {
-                    this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: val['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: val['poCode']['id']}]);
                 } else {
                     this.router.navigate(['../OrdersCReports'], { relativeTo: this._Activatedroute });
                 }

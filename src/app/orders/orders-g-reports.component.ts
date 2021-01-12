@@ -115,9 +115,9 @@ export class OrdersGReports implements OnInit {
         this.tabIndex = 2;
         this.changed(2);
       } else if(data === 'Receive') {
-        this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+        this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: event['poCode']['id']}]);
       } else if(data === 'Edit receive') {
-        this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
+        this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}]);
       }
     });
   }
@@ -143,7 +143,7 @@ export class OrdersGReports implements OnInit {
               name: 'orderStatus',
               label: 'Status',
               search: 'select',
-              options: ['OPEN', 'RECEIVED', 'REJECTED'],
+              options: this.genral.getOrderStatus(),
             });
           }
           this.localService.getAllGeneralOrders().pipe(take(1)).subscribe(value => {

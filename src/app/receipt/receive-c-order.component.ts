@@ -522,7 +522,7 @@ export class ReceiveCOrder implements OnInit {
                         this.setUpOrderItemsEditRecieving(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
                     } else if(data === 'Edit order') {
-                        this.router.navigate(['Main/ordready/NewCashewOrder',{id: val['poCode']['id']}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['Main/ordready/NewCashewOrder',{id: val['poCode']['id']}]);
                     } else {
                         this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });
                     }

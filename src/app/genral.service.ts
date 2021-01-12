@@ -283,6 +283,10 @@ export class Genral {
     return ['avc lab', 'supllier sample', 'supllier check', 'vina control'];
   }
 
+  getOrderStatus(): string[] {
+    return ['OPEN', 'PARTLY RECEIVED', 'RECEIVED', 'REJECTED', 'CANCELLED']
+  }
+
   getProcessStatus(): string[] {
     return ['PENDING', 'FINAL', 'CANCELLED'];
   }
