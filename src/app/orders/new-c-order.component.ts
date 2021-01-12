@@ -31,20 +31,12 @@ export class NewCashewOrder implements OnInit {
 
 
      ngOnInit() {
-       this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-           if(params.get('id')) {
-               var id = +params.get('id');
-               this.localService.getOrderPO(id).pipe(take(1)).subscribe( val => {
-                   this.putData = val;
-                   this.isDataAvailable = true;
-               });
-           }
-       });
        this.regConfig = [
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
                 options: this.localService.findFreePoCodes(),
+                disable: true,
                 collections: [
                     {
                         type: 'select',
@@ -55,6 +47,13 @@ export class NewCashewOrder implements OnInit {
                         label: '#PO',
                         name: 'poCode',
                         collections: 'somewhere',
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: 'PO code Required',
+                            }
+                        ]
                     },
                 ]
             },
@@ -178,6 +177,17 @@ export class NewCashewOrder implements OnInit {
                 name: 'submit',
             }
        ];
+       this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('id')) {
+                var id = +params.get('id');
+                this.localService.getOrderPO(id).pipe(take(1)).subscribe( val => {
+                    this.putData = val;
+                    this.isDataAvailable = true;
+                });
+            } else {
+                this.isDataAvailable = true;
+            }
+        });
        this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {

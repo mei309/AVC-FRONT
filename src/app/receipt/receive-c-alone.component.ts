@@ -41,6 +41,13 @@ export class ReceiveCAlone implements OnInit {
                         label: '#PO',
                         name: 'poCode',
                         collections: 'somewhere',
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: 'PO code Required',
+                            }
+                        ]
                     },
                 ]
             },

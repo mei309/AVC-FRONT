@@ -9,9 +9,8 @@ import { OrdersService } from './orders.service';
     template: `
     <h1 style="text-align:center">#POS</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="addDialog()">Add #PO</button>
+        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add #PO</button>
     </div>
-    <button class="raised-margin" mat-raised-button color="primary" (click)="addDialog()">Add #PO</button>
     <search-details [dataSource]="posSource" [oneColumns]="columnsPos">
     </search-details>
     `
@@ -78,7 +77,7 @@ export class PoCodesComponent implements OnInit {
 @Component({
   selector: 'add-edit-po',
   template: `
-  <dynamic-form [fields]="poConfig" mainLabel="'Add #PO'" (submitForm)="submit($event)">
+    <dynamic-form [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)">
     </dynamic-form>
   `,
 })
