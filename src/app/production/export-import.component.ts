@@ -161,7 +161,7 @@ export class ExportImportComponent implements OnInit {
             this.dataSource = {poCode: this.newUsed[0]['poCode']};
         }
         var arrUsedItems = [];
-        this.newUsed.forEach(element => {
+        this.newUsed?.forEach(element => {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['measureUnit'] = element['measureUnit'];
