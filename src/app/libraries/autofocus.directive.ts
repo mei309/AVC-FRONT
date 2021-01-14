@@ -1,6 +1,4 @@
-import { Directive, HostListener, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { FormGroup } from '@angular/forms';
+import { AfterContentInit, Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[focusInvalidInput]'

@@ -82,7 +82,7 @@ export class NewCashewOrder implements OnInit {
                         label: 'Item descrption',
                         name: 'item',
                         options: this.genral.getItemsRawCashew(),
-                        disable: true,
+                        // disable: true,
                     },
                     {
                         type: 'calculatefew',

@@ -82,7 +82,7 @@ export class NewGenralOrder implements OnInit {
                         label: 'Item descrption',
                         name: 'item',
                         options: this.genral.getItemsGeneral(),
-                        disable: true,
+                        // disable: true,
                     },
                     {
                         type: 'calculatefew',

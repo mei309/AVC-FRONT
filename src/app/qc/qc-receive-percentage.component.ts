@@ -385,35 +385,24 @@ export class QcReceivePercentageComponent implements OnInit {
                 options: 'aloneNoAdd',
                 collections: [
                     {
+                        type: 'selectNormal',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                        inputType: 'item',
+                        options: this.genral.getMeasureUnit(),
+                    },
+                    {
                         type: 'bigexpand',
                         label: 'Amounts',
                         name: 'storageForms',
-                        options: 'Inline',
+                        options: 'aloneNoAddNoFrameInline',
                         collections: [
-                            {
-                                type: 'inputselect',
-                                name: 'unitAmount',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Unit weight',
-                                        name: 'amount',
-                                        inputType: 'numeric',
-                                        options: 3,
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Weight unit',
-                                        name: 'measureUnit',
-                                        options: ['OZ', 'GRAM'],
-                                    },
-                                ]
-                            },
                             {
                                 type: 'input',
                                 label: 'Number of units',
                                 name: 'numberUnits',
                                 inputType: 'numeric',
+                                options: 3,
                             },
                             {
                                 type: 'select',
@@ -421,11 +410,11 @@ export class QcReceivePercentageComponent implements OnInit {
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
-                            {
-                                type: 'divider',
-                                inputType: 'divide'
-                            },
                         ]
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'divide'
                     },
                 ]
             },

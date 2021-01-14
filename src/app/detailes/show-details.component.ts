@@ -130,7 +130,7 @@ export class ShowDetailsComponent implements OnInit {
   dataTable;
   @Input() set dataSource(value) {
       if(value){
-        if(value.hasOwnProperty('processItems')) {
+        if(value.hasOwnProperty('processItems') && value['processItems']) {
           var tableView = [];
           var normalView = [];
           var wasteView = [];
@@ -154,7 +154,7 @@ export class ShowDetailsComponent implements OnInit {
             value['wasteItems'] = wasteView;
           }
         }
-        if(value.hasOwnProperty('groupName')) {
+        if(value.hasOwnProperty('groupName') && value['groupName']) {
           if(value['groupName'] !== 'normalLoding') {
             (this.regShow[19].collections as Array<any>).splice(0, 1);
           }
@@ -170,8 +170,8 @@ export class ShowDetailsComponent implements OnInit {
   secondSourceTemp;
   @Input() set secondSource(value) {
     if(value){
-      if(value.hasOwnProperty('processItems')) {
-        var tableView = [];
+      if(value.hasOwnProperty('processItems') && value['processItems']) {
+          var tableView = [];
           var normalView = [];
           var wasteView = [];
           value['processItems'].forEach(eleme => {

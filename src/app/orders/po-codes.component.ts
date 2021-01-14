@@ -84,7 +84,6 @@ export class PoCodesComponent implements OnInit {
 export class AddEditPoDialog {
  
     poConfig;
-    
   
 
     ngOnInit(){

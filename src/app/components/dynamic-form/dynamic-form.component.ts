@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {cloneDeep} from 'lodash-es';
-import { allOrNoneRequired, FieldConfig, checkEmpty, atLeastOneRequired } from '../../field.interface';
+import { allOrNoneRequired, FieldConfig, atLeastOneRequired } from '../../field.interface';
 
 @Component({
   selector: 'dynamic-form',

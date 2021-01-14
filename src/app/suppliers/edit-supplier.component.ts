@@ -80,7 +80,14 @@ export class EditSupplierComponent implements OnInit {
         label: 'Supply category',
         name: 'supplyCategories',
         inputType: 'multiple',
-        // disable: true,
+        options: this.genral.getSupplyType(),
+        validations: [
+          {
+            name: 'required',
+            validator: Validators.required,
+            message: 'Required',
+          }
+        ]
       },    
       {
         type: 'input',
@@ -429,16 +436,16 @@ export class EditSupplierComponent implements OnInit {
 
   preperDetailes(val) {
     this.putData = val;
-    if(val.hasOwnProperty('contactDetails') && val['contactDetails']) {
+    if(val['contactDetails']) {
       var temp = val['contactDetails'];
-      if(temp.hasOwnProperty('paymentAccounts') && temp['paymentAccounts'] !== null) {
+      if(temp['paymentAccounts']) {
         this.putData3 = {'paymentAccounts': temp['paymentAccounts']};
       }
       delete temp['paymentAccounts'];
       this.putData1 = {'contactDetails': temp};
     }
     delete this.putData['contactDetails'];
-    if(val.hasOwnProperty('companyContacts') && val['companyContacts'] !== null) {
+    if(val['companyContacts']) {
       this.putData2 = {'companyContacts': val['companyContacts']};
     }
     delete this.putData['companyContacts'];
