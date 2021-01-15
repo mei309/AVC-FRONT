@@ -111,8 +111,8 @@ export class SearchGroupDetailsComponent {
             this.dataSource.sort = this.sort;
             // this.dataSource.paginator = this.paginator;
         } else {
-          this.dataSource = null;
-          this.oneColumns = [];
+            this.dataSource = null;
+            this.oneColumns = [];
         }
   }
 
@@ -162,11 +162,15 @@ export class SearchGroupDetailsComponent {
   takeCareKidArray(element) {
     var arr = [];
     this.dataSource.forEach(line => {
-            line[element.name]?.forEach(obj => {
-                var copied = Object.assign({}, obj, line);
-                delete copied[element.name];
-                arr.push(copied);
-            });
+      if(line[element.name]) {
+        line[element.name].forEach(obj => {
+          var copied = Object.assign({}, obj, line);
+          delete copied[element.name];
+          arr.push(copied);
+        });
+      } else {
+        arr.push(line);
+      }
     });
     this.dataSource = arr;
     element.collections?.forEach(second => {
@@ -219,7 +223,7 @@ export class SearchGroupDetailsComponent {
   setupDateFilter(column: string) {
     this.dataSource.filterPredicate = (data, filter: any) => {
         var dateStamp = (new Date(data[column])).getTime();
-        return (dateStamp > filter.begin.getTime() && dateStamp < filter.end.getTime());
+        return (dateStamp > filter.begin.setHours(0,0,0,0) && dateStamp < filter.end.setHours(23,59,59,999));
       };
   }
 
@@ -341,11 +345,13 @@ export class SearchGroupDetailsComponent {
           var numberOne = 0;
           var numberTow = 0;
           for (let ind = index; ind < index+this.spans[index][this.totelColumn.group]; ind++) {
-            numberOne += this.dataSource.filteredData[ind][this.totelColumn.name][0]['amount'];
-            numberTow += this.dataSource.filteredData[ind][this.totelColumn.name][1]['amount'];
+            if(this.dataSource.filteredData[ind][this.totelColumn.name]) {
+              numberOne += this.dataSource.filteredData[ind][this.totelColumn.name][0]['amount'];
+              numberTow += this.dataSource.filteredData[ind][this.totelColumn.name][1]['amount'];
+            }
           }
-          return [{amount: numberOne, measureUnit: this.dataSource.filteredData[index][this.totelColumn.name][0]['measureUnit']},
-            {amount: numberTow, measureUnit: this.dataSource.filteredData[index][this.totelColumn.name][1]['measureUnit']}]
+          return [{amount: numberOne, measureUnit: 'LBS'},
+                  {amount: numberTow, measureUnit: 'KG'}]
         default:
           break;
       }

@@ -77,7 +77,7 @@ export class PoCodesComponent implements OnInit {
 @Component({
   selector: 'add-edit-po',
   template: `
-    <dynamic-form [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)">
+    <dynamic-form [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)" popup="true">
     </dynamic-form>
   `,
 })

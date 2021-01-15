@@ -21,13 +21,25 @@ import { Component, Input } from '@angular/core';
   <ng-container *ngFor="let column of oneColumns">
         <ng-container *ngIf="dataSource[column.name]">
             <ng-container [ngSwitch]="column.name">
-                <table style="display: inline-block" mat-table *ngSwitchCase="'dates'" [dataSource]="dataSource[column.name]" class="mat-elevation-z2">
-                    <ng-container matColumnDef="dates">
-                        <th mat-header-cell *matHeaderCellDef><h3>Dates</h3></th>
-                        <td mat-cell *matCellDef="let element"> {{element | date}} </td>
+                <table style="display: inline-block" mat-table *ngSwitchCase="'processes'" [dataSource]="dataSource[column.name]" class="mat-elevation-z2">
+                    <ng-container matColumnDef="titel">
+                        <th mat-header-cell *matHeaderCellDef colspan="3"><h3>{{column.label}}</h3></th>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="['dates']"></tr>
-                    <tr mat-row *matRowDef="let row; columns: ['dates']"></tr>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef><h3>Date</h3></th>
+                        <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef><h4>Status</h4></th>
+                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="approvals">
+                        <th mat-header-cell *matHeaderCellDef><h4>Approvals</h4></th>
+                        <td mat-cell *matCellDef="let element"> {{element.approvals}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="['titel']"></tr>
+                    <tr mat-header-row *matHeaderRowDef="['date', 'status', 'approvals']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['date', 'status', 'approvals']"></tr>
                 </table>
                 <mat-form-field appearance="none" *ngSwitchCase="'difference'" provideReadonly>
                     <mat-label>Difference</mat-label>
@@ -77,7 +89,8 @@ export class InOutTotalComponent {
 
   oneColumns = [
     {
-        name: 'dates',
+        name: 'processes',
+        label: 'Processes',
     },
     {
         name: 'productIn',

@@ -8,7 +8,7 @@ import { allOrNoneRequired, FieldConfig, atLeastOneRequired } from '../../field.
 @Component({
   selector: 'dynamic-form',
   template: `
-  <form autocomplete="off" class="dynamic-form" [formGroup]="form" (ngSubmit)="onSubmit($event)" focusInvalidInput>
+  <form autocomplete="off" class="dynamic-form" [formGroup]="form" (ngSubmit)="onSubmit($event)" focusInvalidInput [popup]="popup">
   <fieldset [ngStyle]="{'width':'90%'}">
   <legend *ngIf="mainLabel"><h1>{{mainLabel}}</h1></legend>
   <ng-container *ngFor="let field of fields;" dynamicField [edit]="edit" [field]="field" [group]="form">
@@ -24,6 +24,7 @@ import { allOrNoneRequired, FieldConfig, atLeastOneRequired } from '../../field.
 export class DynamicFormComponent implements OnInit {
   @Input() fields: FieldConfig[] = [];
   @Input() mainLabel: string = null;
+  @Input("popup") popup: boolean = false;
 
   infoEdit: any = null;
   @Input() set putData(value) {

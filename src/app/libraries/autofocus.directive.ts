@@ -1,21 +1,23 @@
-import { AfterContentInit, Directive, ElementRef, HostListener } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[focusInvalidInput]'
 })
 export class FormDirective implements AfterContentInit{
+  @Input("popup") popup: boolean = false;
   focusables = ['input', 'select', 'textarea']
   constructor(private el: ElementRef) {}
 
   ngAfterContentInit() {
-    const input = this.el.nativeElement.querySelector(
-      this.focusables.join(','),
-    )
-    if (input) {
-      setTimeout(() => {
-        input.focus();
-      }, 2)
-      
+    if(!this.popup) {
+      const input = this.el.nativeElement.querySelector(
+        this.focusables.join(','),
+      )
+      if (input) {
+        setTimeout(() => {
+          input.focus();
+        }, 2) 
+      }
     }
   }
   @HostListener('submit')

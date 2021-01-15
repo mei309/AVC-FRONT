@@ -5,25 +5,17 @@ import { FieldConfig } from '../field.interface';
 @Component({
     selector: 'app-edit-dialog',
     template: `
-    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="mainLabel" (submitForm)="submit($event)">
+    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="mainLabel" (submitForm)="submit($event)" popup="true">
     </dynamic-form>
     `,
 })
 export class EditDialogComponent {
-    // @ViewChild(DynamicFormComponent, {static: true}) form: DynamicFormComponent;
-    // <div>{{form.value | json}}</div>
     regConfig: FieldConfig[];
     putData: any = null;
     mainLabel: string;
 
     submit(value: any) {
         this.dialogRef.close(value);
-    }
-
-    remove() {
-        // this.localService.removeSetup(this.putData).pipe(take(1)).subscribe( val => {
-        //     this.dialogRef.close('removed');
-        //  });<button mat-raised-button color="primary" (click)="remove()">Remove</button>
     }
     
     constructor(public dialogRef: MatDialogRef<EditDialogComponent>,

@@ -195,7 +195,7 @@ export class SearchExpandableComponent implements OnInit {
   setupDateFilter(column: string) {
     this.dataSource.filterPredicate = (data, filter: any) => {
         var dateStamp = (new Date(data[column])).getTime();
-        return (dateStamp > filter.begin.getTime() && dateStamp < filter.end.getTime());
+        return (dateStamp > filter.begin.setHours(0,0,0,0) && dateStamp < filter.end.setHours(23,59,59,999));
       };
   }
 

@@ -36,7 +36,7 @@ export class RelocationCountComponent implements OnInit {
   
     submit(value: any) {
         var arr = [];
-        var newWarehouse = value['newWarehouse']['warehouseLocation'];
+        var newWarehouse = value['newWarehouse']? value['newWarehouse']['warehouseLocation'] : null;
         delete value['newWarehouse'];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {

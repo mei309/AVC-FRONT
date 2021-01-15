@@ -131,7 +131,7 @@ export class fullPoReportComponent {
         });  
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) {
-                if(selectedValue['code'] !== this.poCode) {
+                if(selectedValue['id'] !== this.poCode) {
                     this.poCode = selectedValue['id'];
                     this.localService.getAllProcesses(this.poCode).pipe(take(1)).subscribe( val => {
                         this.poDetails = val;
