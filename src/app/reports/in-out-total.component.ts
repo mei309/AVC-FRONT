@@ -4,19 +4,8 @@ import { Component, Input } from '@angular/core';
   selector: 'in-out-total',
   template:`
   <ng-container *ngIf="shipping">
-    <div class="half" *ngIf="dataSource.shipmentCode">
-            <label>Shipment code</label>
-            <span class="half">{{dataSource.shipmentCode | tableCellPipe: 'nameId' : null}}</span>
-    </div>
-    <ng-container *ngIf="dataSource.containerDetails">
-        <h3>Container details</h3>
-        <ng-container *ngFor="let key of containerColumns">
-            <div class="half" *ngIf="dataSource.containerDetails[key.name]">
-                <label>{{key.label}}</label>
-                <span class="half">{{dataSource.containerDetails[key.name] | tableCellPipe: 'normal' : null}}</span>
-            </div>
-        </ng-container>
-    </ng-container>
+    <show-details [oneColumns]="loadingColumns" [dataSource]="dataSource">
+    </show-details>
   </ng-container>
   <ng-container *ngFor="let column of oneColumns">
         <ng-container *ngIf="dataSource[column.name]">
@@ -116,25 +105,66 @@ export class InOutTotalComponent {
         name: 'difference',
     },
 ];
-containerColumns = [
+loadingColumns = [
     {
-        name: 'containerNumber',
-        label: 'Container number',
+        type: 'nameId',
+        name: 'shipmentCode',
+        label: 'Shipment code',
     },
     {
-        name: 'sealNumber',
-        label: 'Seal number',
+        type: 'date',
+        name: 'date',
+        label: 'Check date',
     },
     {
-        name: 'containerType',
-        label: 'Container type'
+        type: 'normal',
+        name: 'approvals',
+        label: 'Approvals',
+    },
+    {
+        type: 'normal',
+        name: 'status',
+        label: 'Status',
+    },
+    {
+        type: 'object',
+        name: 'containerDetails',
+        label: 'Container details',
+        collections: [
+            {
+                name: 'containerNumber',
+                label: 'Container number',
+            },
+            {
+                name: 'sealNumber',
+                label: 'Seal number',
+            },
+            {
+                name: 'containerType',
+                label: 'Container type'
+            }
+        ],
     }
 ];
-  getDisplayedColumns(myData): string[] {
-    if(myData.some(a => a.amount)) {
-        return ['item', 'amount', 'weight'];
-    } else {
-        return ['item', 'weight']
+    getDisplayedColumns(myData): string[] {
+        if(myData.some(a => a.amount)) {
+            return ['item', 'amount', 'weight'];
+        } else {
+            return ['item', 'weight']
+        }
     }
 }
-}
+
+// <div class="half" *ngIf="dataSource.shipmentCode">
+//             <label>Shipment code</label>
+//             <span class="half">{{dataSource.shipmentCode | tableCellPipe: 'nameId' : null}}</span>
+//     </div>
+//     <ng-container *ngIf="dataSource.containerDetails">
+//         <h3>Container details</h3>
+//         <ng-container *ngFor="let key of containerColumns">
+//             <div class="half" *ngIf="dataSource.containerDetails[key.name]">
+//                 <label>{{key.label}}</label>
+//                 <span class="half">{{dataSource.containerDetails[key.name] | tableCellPipe: 'normal' : null}}</span>
+//             </div>
+//         </ng-container>
+//     </ng-container>

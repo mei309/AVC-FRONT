@@ -7,8 +7,8 @@ import { Component, Input } from '@angular/core';
         <fieldset *ngIf="dataSource[process.name]">
             <legend><h1>{{process.label}}</h1></legend>
             <ng-container [ngSwitch]="process.type">
-                <normal-details *ngSwitchCase="'qc'" [dataSource]="dataSource[process.name]" [oneColumns]="columnsQc">
-                </normal-details>
+                <normal-group-details *ngSwitchCase="'qc'" [mainDetailsSource]="[dataSource[process.name], columnsQc]">
+                </normal-group-details>
                 <ng-container *ngSwitchCase="'shipping'">
                     <in-out-total  *ngFor="let line of dataSource[process.name]" [dataSource]="line" shipping="true">
                     </in-out-total>
@@ -67,6 +67,30 @@ export class FinalReportTablesComponent {
     
     columnsQc = [
         {
+            type: 'normal',
+            name: 'checkedBy',
+            label: 'Checked by',
+            group: 'checkedBy'
+        },
+        {
+            type: 'date',
+            name: 'date',
+            label: 'Check date',
+            group: 'checkedBy'
+        },
+        {
+            type: 'normal',
+            name: 'approvals',
+            label: 'Approvals',
+            group: 'checkedBy'
+        },
+        {
+            type: 'normal',
+            name: 'status',
+            label: 'Status',
+            group: 'checkedBy'
+        },
+        {
           type: 'nameId',
           name: 'item',
           label: 'Product descrption',
@@ -97,9 +121,8 @@ export class FinalReportTablesComponent {
           label: 'Total defects + damage',
         },
         {
-          type: 'dateTime',
-          name: 'checkDate',
-          label: 'Check date',
+            type: 'kidArray',
+            name: 'itemQcs',
         },
       ];
 

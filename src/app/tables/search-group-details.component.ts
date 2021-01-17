@@ -344,14 +344,20 @@ export class SearchGroupDetailsComponent {
         case 'weight2':
           var numberOne = 0;
           var numberTow = 0;
+          var weightOne: string = '';
+          var weightTow: string = '';
           for (let ind = index; ind < index+this.spans[index][this.totelColumn.group]; ind++) {
             if(this.dataSource.filteredData[ind][this.totelColumn.name]) {
               numberOne += this.dataSource.filteredData[ind][this.totelColumn.name][0]['amount'];
               numberTow += this.dataSource.filteredData[ind][this.totelColumn.name][1]['amount'];
+              if(!weightOne) {
+                weightOne = this.dataSource.filteredData[ind][this.totelColumn.name][0]['measureUnit'];
+                weightTow = this.dataSource.filteredData[ind][this.totelColumn.name][1]['measureUnit'];
+              }
             }
           }
-          return [{amount: numberOne, measureUnit: 'LBS'},
-                  {amount: numberTow, measureUnit: 'KG'}]
+          return [{amount: numberOne, measureUnit: weightOne},
+                  {amount: numberTow, measureUnit: weightTow}]
         default:
           break;
       }

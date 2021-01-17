@@ -500,10 +500,10 @@ export class ReceiveCOrder implements OnInit {
                 }
                 element['storageForms'].forEach(ele => {
                     if(ele['samplesWeight']) {
-                        ele['sampleContainerWeights'] = ele['samplesWeight']['sampleContainerWeights'].filter(amou => amou.amount);
+                        ele['sampleContainerWeights'] = ele['samplesWeight']['sampleContainerWeights']? ele['samplesWeight']['sampleContainerWeights'].filter(amou => amou.amount) : null;
                         ele['avgTestedWeight'] = ele['samplesWeight']['avgTestedWeight'];
                         ele['numberOfSamples'] = ele['samplesWeight']['numberOfSamples'];
-                        ele['sampleWeights'] = ele['samplesWeight']['sampleWeights'].filter(amou => amou.amount);
+                        ele['sampleWeights'] = ele['samplesWeight']['sampleWeights']? ele['samplesWeight']['sampleWeights'].filter(amou => amou.amount) : null;
                         delete ele['samplesWeight'];
                     }
                 });
