@@ -44,14 +44,17 @@ export class RemoveManagment {
     submit() {
         let val = this.form.value;
         if(val.removeAllProcesses) {
-            this.localService.removeAllProcesses(+val.removeAllProcesses).pipe(take(1)).subscribe(value => {
-                console.log('succes');
-            });
+            if(window.confirm('are you sure you want to delete all processes of this #PO?')) {
+                this.localService.removeAllProcesses(+val.removeAllProcesses).pipe(take(1)).subscribe(value => {
+                    console.log('succes');
+                });
+            }
         } else if(val.removeProcess) {
-            this.localService.removeProcess(+val.removeProcess).pipe(take(1)).subscribe(value => {
-                console.log('succes');
-                
-            });
+            if(window.confirm('are you sure you want to delete this process?')) {
+                this.localService.removeProcess(+val.removeProcess).pipe(take(1)).subscribe(value => {
+                    console.log('succes');
+                });
+            }
         }
     }
 }

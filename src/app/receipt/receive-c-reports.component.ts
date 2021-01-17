@@ -135,9 +135,10 @@ export class ReceiveCReports implements OnInit {
       data: {id: event['id'], fromNew: false, type: 'Cashew'},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit order') {
-        this.router.navigate(['Main/ordready/NewCashewOrder',{id: event['poCode']['id']}]);
-      } else if(data === 'Receive') {
+      // if (data === 'Edit order') {
+      //   this.router.navigate(['Main/ordready/NewCashewOrder',{id: event['poCode']['id']}]);
+      // } else 
+      if(data === 'Receive') {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'Edit receive' || data === 'Receive extra') {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });

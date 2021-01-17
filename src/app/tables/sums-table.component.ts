@@ -48,6 +48,12 @@ export class SumsTableComponent {
                   return nest(value, rest)
               });
             };
+            if(value[2]) {
+              this.dataSource.forEach(el => {
+                Object.defineProperty(el, value[2][1],
+                  Object.getOwnPropertyDescriptor(el[value[2][0]], 'value'));
+              });
+            }
             const tempTable = nest(this.dataSource, this.sumCloumns);
             this.sumClumensTable = ['key'];
             

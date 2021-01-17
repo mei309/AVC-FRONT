@@ -119,7 +119,7 @@ export class ReceiveCOrder implements OnInit {
 
     setUpOrderItemsEditRecieving(ponum: number, val) {
         this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
-            this.OrderdItems.next(value['orderItems']);
+            this.OrderdItems.next(value? value['orderItems'] : null);
             var recivingItems = [];
             val['receiptItems'].forEach(element => {
                 if(element['orderItem']) {
@@ -521,9 +521,11 @@ export class ReceiveCOrder implements OnInit {
                         this.isDataAvailable = false;
                         this.setUpOrderItemsEditRecieving(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
-                    } else if(data === 'Edit order') {
-                        this.router.navigate(['Main/ordready/NewCashewOrder',{id: val['poCode']['id']}]);
-                    } else {
+                    } 
+                    // else if(data === 'Edit order') {
+                    //     this.router.navigate(['Main/ordready/NewCashewOrder',{id: val['poCode']['id']}]);
+                    // } 
+                    else {
                         this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });
                     }
                 });

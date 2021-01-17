@@ -151,14 +151,14 @@ export class ReceivingCashewScheduleComponent implements OnInit {
       this.ordersSource = this.mainSource.filter(e=> 
         (new Date(e['deliveryDate'])).getTime() > start && (new Date(e['deliveryDate'])).getTime() < end ) ; 
         this.cashewSourceColumns = [this.ordersSource, this.columnsShow];
-        this.sumsSource = [this.ordersSource, ['personInCharge', 'itemName']];
+        this.sumsSource = [this.ordersSource, ['personInCharge', 'itemName'], ['item', 'itemName']];
   }
 
   showAllOrWeek() {
     this.seeAll = !this.seeAll;
     if(this.seeAll) {
       this.cashewSourceColumns = [this.mainSource, this.columnsShow];
-      this.sumsSource = [this.mainSource, ['personInCharge', 'itemName']];
+      this.sumsSource = [this.mainSource, ['personInCharge', 'itemName'], ['item', 'itemName']];
     } else {
       this.showWeek();
       this.inlineRangeChange(this.dateRangeDisp.value);

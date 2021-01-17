@@ -104,6 +104,7 @@ export class NewCashewOrder implements OnInit {
                                         type: 'select',
                                         label: 'Weight unit',
                                         name: 'measureUnit',
+                                        value: 'LBS',
                                         options: this.genral.getMeasureUnit(),
                                     },
                                 ]

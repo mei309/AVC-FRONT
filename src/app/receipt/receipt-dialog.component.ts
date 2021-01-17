@@ -43,16 +43,16 @@ export class ReceiptDialog {
             this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
                 this.receipt = val;
                 if('LOCKED' !== val['editStatus']) {
-                    if(val['processName'] !== 'CASHEW_RECEIPT') {
-                        this.buttons.push('Edit order');
-                    }
+                    // if(val['processName'] !== 'CASHEW_RECEIPT') {
+                    //     this.buttons.push('Edit order');
+                    // }
                     this.buttons.push('Edit receive');
                 }
             });
         } else {
-            if(this.receipt['processName'] !== 'CASHEW_RECEIPT') {
-                this.buttons.push('Edit order');
-            }
+            // if(this.receipt['processName'] !== 'CASHEW_RECEIPT') {
+            //     this.buttons.push('Edit order');
+            // }
             this.buttons.push('Edit receive');
         }
         if(this.type.includes('Cashew')) {

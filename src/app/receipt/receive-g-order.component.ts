@@ -337,9 +337,11 @@ export class ReceiveGOrder implements OnInit {
                         this.isDataAvailable = false;
                         this.setUpOrderItemsEditRecieving(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
-                    } else if(data === 'Edit order') {
-                        this.router.navigate(['Main/ordready/NewGenralOrder',{id: val['poCode']['id']}]);
-                    } else {
+                    } 
+                    // else if(data === 'Edit order') {
+                    //     this.router.navigate(['Main/ordready/NewGenralOrder',{id: val['poCode']['id']}]);
+                    // } 
+                    else {
                         this.router.navigate(['../OrdersGReports', {number: 1}], { relativeTo: this._Activatedroute });
                     }
                 });

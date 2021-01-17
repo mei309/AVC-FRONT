@@ -127,12 +127,13 @@ export class ReceiveGReports implements OnInit {
       data: {id: event['id'], fromNew: false, type: 'General'},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit order') {
-        this.router.navigate(['Main/ordready/NewGenralOrder',{id: event['poCode']['id']}]);
-      } else if(data === 'Finalize') {
-        this.tabIndex = 1;
-        this.changed(1);
-      } else if(data === 'Receive') {
+      // if (data === 'Edit order') {
+      //   this.router.navigate(['Main/ordready/NewGenralOrder',{id: event['poCode']['id']}]);
+      // } else if(data === 'Finalize') {
+      //   this.tabIndex = 1;
+      //   this.changed(1);
+      // } else 
+      if(data === 'Receive') {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'Edit receive') {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
