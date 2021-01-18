@@ -112,6 +112,9 @@ export class RelocationCountComponent implements OnInit {
        }
     
        fillEdit(val) {
+            if(!val[0]['itemCounts']) {
+                val[0]['itemCounts'] = [];
+            }
            var arrTable = [];
            var arrNormal = [];
            var removeIdsNormal = [];
@@ -123,11 +126,19 @@ export class RelocationCountComponent implements OnInit {
                         removeIdsTable.push(ele['id']);
                     });
                     arrTable.push(element);
+                    if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === element['storageMove']['item']['value'] )) {
+                        val[0]['itemCounts'].push({item: element['storageMove']['item']});
+                    }
                 } else if(element['storageMoves']) {
                     element['storageMoves'].forEach(el => {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIdsNormal.push(el['id']);
                         removeIdsNormal.push(el['storage']['id']);
+                        console.log(el);
+                        
+                        if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === el['item']['value'] )) {
+                            val[0]['itemCounts'].push({item: el['item']});
+                        }
                     });
                     arrNormal.push(element);
                 }
@@ -203,10 +214,6 @@ export class RelocationCountComponent implements OnInit {
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
                     arrTable.push({storageMove: element['storage']});
-                    
-                    if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
-                        this.dataSource['itemCounts'].push({item: element['item']});
-                    }
                 }
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
@@ -215,9 +222,9 @@ export class RelocationCountComponent implements OnInit {
                         delete ele['numberUsedUnits'];
                     }
                 });
-                if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
-                    this.dataSource['itemCounts'].push({item: element['item']});
-                }
+            }
+            if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
+                this.dataSource['itemCounts'].push({item: element['item']});
             }
         });
         if(arrUsedItems.length) {
@@ -233,23 +240,29 @@ export class RelocationCountComponent implements OnInit {
     }
     cleanUnwanted() {
         if(!this.dataSource['usedItemsTable'].length) {
-            this.regConfigHopper.splice(4, 1);
+            var ind = this.regConfigHopper.findIndex((em) => em['name'] === 'usedItemsTable');
+            if(ind !== -1) {
+                this.regConfigHopper.splice(ind, 1);
+            }
         }
         if(!this.dataSource['usedItemsNormal'].length) {
-            this.regConfigHopper.splice(3, 1);
+            var ind = this.regConfigHopper.findIndex((em) => em['name'] === 'usedItemsNormal');
+            if(ind !== -1) {
+                this.regConfigHopper.splice(ind, 1);
+            }
         }
     }
    ngOnInit() {
-    this.setRegConfig();
-       this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-           if(params.get('id')) {
-               this.localService.getStorageTransferWithStorage(+params.get('id'), +params.get('poCode')).pipe(take(1)).subscribe( val => {
-                   this.fillEdit(val);
-               });
-           } else {
-                this.setBeginChoose();
-           }
-       });
+        this.setRegConfig();
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('id')) {
+                this.localService.getStorageTransferWithStorage(+params.get('id'), +params.get('poCode')).pipe(take(1)).subscribe( val => {
+                    this.fillEdit(val);
+                });
+            } else {
+                    this.setBeginChoose();
+            }
+        });
        
        
 
@@ -260,6 +273,7 @@ export class RelocationCountComponent implements OnInit {
             this.isDataAvailable = false;
             this.isFormAvailable = false;
             this.dataSource = null;
+            this.setRegConfig();
             this.poID = null;
             if(this.poConfig) {
                 this.form.get('poCode').setValue(null);

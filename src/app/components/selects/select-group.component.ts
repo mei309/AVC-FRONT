@@ -125,20 +125,20 @@ export class SelectgroupComponent implements OnInit {
         }
 
         if(this.group.controls[this.field.collections[1].name].disabled) {
-          this.selectFormFirst.disable();
+          this.selectFormFirst.disable({emitEvent: false});
         }
       }
     );
-    this.group.get(this.field.collections[1].name).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
-      if(!val && val !== '') {
-        this.selectFormFirst.setValue(null, {emitEvent: false});
-      }
-      if(this.group.controls[this.field.collections[1].name].disabled) {
-        this.selectFormFirst.disable();
-      } else {
-        this.selectFormFirst.enable();
-      }
-    });
+    // this.group.get(this.field.collections[1].name).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
+    //   if(!val && val !== '') {
+    //     this.selectFormFirst.setValue(null, {emitEvent: false});
+    //   }
+    //   if(this.group.controls[this.field.collections[1].name].disabled) {
+    //     this.selectFormFirst.disable();
+    //   } else {
+    //     this.selectFormFirst.enable();
+    //   }
+    // });
   }
 
   /**public oneChangedHandler(e: MatAutocompleteSelectedEvent){

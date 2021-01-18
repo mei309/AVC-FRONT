@@ -264,6 +264,13 @@ export class ReceiveCAlone implements OnInit {
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 3,
+                                validations: [
+                                    {
+                                        name: 'required',
+                                        validator: Validators.required,
+                                        message: 'Payable weight Required',
+                                    }
+                                ]
                             },
                             {
                                 type: 'select',

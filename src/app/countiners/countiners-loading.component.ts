@@ -45,7 +45,7 @@ export class CountinersLoadingComponent {
     
     choosedPos = [];
     poConfig: FieldConfig;
-    regConfig: FieldConfig[];
+    regConfig: FieldConfig[] = [];
     beginConfig: FieldConfig[];
     
     dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
@@ -202,32 +202,21 @@ export class CountinersLoadingComponent {
     }
 
     addWanted() {
+        var ind = this.regConfig.findIndex((em) => em['name'] === 'usedItemsNormal');
         if(this.dataSource['usedItemsNormal'].length) {
-            if(!this.regConfig[0] || this.regConfig[0]['name'] !== 'usedItemsNormal') {
+            if(ind === -1) {
                 this.addNormal();
             }
-            if(this.dataSource['usedItemsTable'].length) {
-                if(!this.regConfig[1] || this.regConfig[1]['name'] !== 'usedItemsTable') {
-                    this.addTable();
-                }
-            } else {
-                if(this.regConfig[1] && this.regConfig[1]['name'] === 'usedItemsTable') {
-                    this.regConfig.splice(1, 1);
-                }
+        } else if(ind !== -1) {
+            this.regConfig.splice(ind, 1);
+        }
+        var mnd = this.regConfig.findIndex((em) => em['name'] === 'usedItemsTable');
+        if(this.dataSource['usedItemsTable'].length) {
+            if(mnd === -1) {
+                this.addTable();
             }
-        } else {
-            if(this.regConfig[0] && this.regConfig[0]['name'] === 'usedItemsNormal') {
-                this.regConfig.splice(0, 1);
-            }
-            if(this.dataSource['usedItemsTable'].length) {
-                if(!this.regConfig[0] || this.regConfig[0]['name'] !== 'usedItemsTable') {
-                    this.addTable();
-                }
-            } else {
-                if(this.regConfig[0] && this.regConfig[0]['name'] === 'usedItemsTable') {
-                    this.regConfig.splice(0, 1);
-                }
-            }
+        } else if(mnd !== -1) {
+            this.regConfig.splice(mnd, 1);
         }
     }
 
@@ -237,7 +226,7 @@ export class CountinersLoadingComponent {
         this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
         
         this.form.get('poCodes').valueChanges.subscribe(selectedValue => {
-            selectedValue = selectedValue.filter(ele => ele.poCode.id);
+            selectedValue = selectedValue.filter(ele => ele.poCode && ele.poCode.id);
             selectedValue = map(selectedValue, 'poCode'); 
             if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {
                 this.setRawSecondValue();
@@ -569,8 +558,6 @@ export class CountinersLoadingComponent {
             //     ]
             // },
         ];
-        
-        
      }
 
      addNormal(){
@@ -672,7 +659,7 @@ export class CountinersLoadingComponent {
     }
      addTable(){
          var index = (this.regConfig[0] && this.regConfig[0]['name'] === 'usedItemsNormal')? 1 : 0;
-         this.regConfig.splice(index, 0,   
+         this.regConfig.splice(index, 0,
              {
                 type: 'bigexpand',
                 name: 'usedItemsTable',
@@ -727,12 +714,12 @@ export class CountinersLoadingComponent {
                                 name: 'warehouseLocation',
                                 disable: true,
                             },
-                            {
-                                type: 'inputReadonly',
-                                label: 'Empty container weight',
-                                name: 'containerWeight',
-                                disable: true,
-                            },
+                            // {
+                            //     type: 'inputReadonly',
+                            //     label: 'Empty container weight',
+                            //     name: 'containerWeight',
+                            //     disable: true,
+                            // },
                             {
                                 type: 'arrayordinal',
                                 label: 'Unit weight',

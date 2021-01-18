@@ -202,7 +202,7 @@ export class BigexpandComponent implements AfterViewInit {
       }
       this.field.collections.forEach(element => {
         // (this.group.get([this.field.name])  as FormArray).controls[this.longth].get(element.name).value &&
-        if(this.edit && element.disable && (this.group.get([this.field.name])  as FormArray).controls[this.longth].get(element.name).value && !['bigexpand', 'bignotexpand', 'bigoutside', 'calculatefew', 'divider', 'popup'].includes( element.type )) {
+        if(this.edit && element.disable && !['bigexpand', 'bignotexpand', 'bigoutside', 'calculatefew', 'divider', 'popup'].includes( element.type ) && (this.group.get([this.field.name]) as FormArray).controls[this.longth].get(this.findFieldName(element)).value) {
           const factory = this.resolver.resolveComponentFactory(
             componentMapper['inputReadonly']
           );
@@ -235,7 +235,7 @@ export class BigexpandComponent implements AfterViewInit {
       this.longth = this.longth + 1;
     }
     if(num > 1 && (!this.field.options || !(this.field.options).includes('alone'))) {
-      (this.group.get([this.field.name]) as FormArray).disable();
+      (this.group.get([this.field.name]) as FormArray).disable({emitEvent: false});
     }
     if(this.field.options === 'tabs') {
       var size: number = this._vcr.length;
@@ -289,7 +289,7 @@ export class BigexpandComponent implements AfterViewInit {
   }
   addItem(): void {
     if(this.group.get([this.field.name]).valid && (!this.field.options || !(this.field.options).includes('alone'))) {
-      (this.group.get([this.field.name]) as FormArray).disable();
+      (this.group.get([this.field.name]) as FormArray).disable({emitEvent: false});
     } else {
       this.group.get([this.field.name]).markAllAsTouched();
     }
@@ -316,9 +316,9 @@ export class BigexpandComponent implements AfterViewInit {
   }*/
 
   removeIndex(index: number): void {
-    this.oldData[index] = (this.group.get([this.field.name]) as FormArray).at(index).value;
+    this.oldData[index] = ((this.group.get([this.field.name]) as FormArray).at(index) as FormGroup).getRawValue();
     (this.group.get([this.field.name]) as FormArray).at(index).reset();
-    (this.group.get([this.field.name]) as FormArray).at(index).disable();
+    (this.group.get([this.field.name]) as FormArray).at(index).disable({emitEvent: false});
     /**let temp2 = this.amountGroup;
     (this.group.get([this.field.name]) as FormArray).removeAt(index);
     for(let i = index*temp2; i<(1+index)*temp2; i++) {
@@ -343,10 +343,10 @@ export class BigexpandComponent implements AfterViewInit {
 
   putBackIndex(index: number) {
     (this.group.get([this.field.name]) as FormArray).at(index).patchValue(this.oldData[index]);
-    (this.group.get([this.field.name]) as FormArray).at(index).enable();
+    (this.group.get([this.field.name]) as FormArray).at(index).enable({emitEvent: false});
   }
   enableIndex(index: number) {
-    (this.group.get([this.field.name]) as FormArray).at(index).enable();
+    (this.group.get([this.field.name]) as FormArray).at(index).enable({emitEvent: false});
   }
 
   bindValidations(validations: any) {
@@ -621,6 +621,16 @@ export class BigexpandComponent implements AfterViewInit {
           }
         }
       });
+  }
+
+  findFieldName(element) {
+    if(element.name) {
+      return element.name;
+    } else if('inputselect' === element.type) {
+      element.collections[0].name;
+    } else {
+      return element.collections[1].name;
+    }
   }
 
   ngOnDestroy() {

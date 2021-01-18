@@ -182,12 +182,18 @@ export class ExportImportComponent implements OnInit {
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = arrTable;
         } else {
-            this.regConfig.splice(7, 1);
+            var ind = this.regConfig.findIndex((em) => em['name'] === 'usedItemsTable');
+            if(ind !== -1) {
+                this.regConfig.splice(ind, 1);
+            }
         }
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = arrNormal;
         } else {
-            this.regConfig.splice(6, 1);
+            var ind = this.regConfig.findIndex((em) => em['name'] === 'usedItemsNormal');
+            if(ind !== -1) {
+                this.regConfig.splice(ind, 1);
+            }
         }
         this.isDataAvailable = true;
     }

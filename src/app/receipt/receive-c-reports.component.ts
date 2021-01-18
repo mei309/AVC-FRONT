@@ -75,8 +75,8 @@ export class ReceiveCReports implements OnInit {
       },
       {
         type: 'weight',
-        name: 'orderAmount',
-        label: 'Order amount',
+        name: 'receivedOrderUnits',
+        label: 'Payable units',
         search: 'object',
         compare: {
           name: 'orderBalance',

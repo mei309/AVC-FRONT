@@ -10,7 +10,7 @@ import { FieldConfig } from '../../field.interface';
   <ng-container [ngSwitch]="field.inputType">
     <div [formGroup]="group" *ngSwitchCase="'choose'">
       {{field.label}}
-      <mat-checkbox [checked]="allComplete" (change)="setAll($event.checked)">Choose all</mat-checkbox>
+      <mat-checkbox [checked]="allComplete" (change)="setAll($event.checked)" [indeterminate]="someComplete()">Choose all</mat-checkbox>
       <div [formArrayName]="field.name" class="array-field-grid">
         <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
           <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
@@ -62,6 +62,10 @@ export class ArrayOrdinalComponent implements OnInit {
 
   updateAllComplete() {
     this.allComplete = this.formArray.controls.every(t => t.get('take').value);
+  }
+
+  someComplete(): boolean {
+    return this.formArray.controls.some(t => t.get('take').value) && !this.allComplete;
   }
 
   

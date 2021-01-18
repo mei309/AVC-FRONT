@@ -3,10 +3,10 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'in-out-total',
   template:`
-  <ng-container *ngIf="shipping">
+  <div *ngIf="shipping">
     <show-details [oneColumns]="loadingColumns" [dataSource]="dataSource">
     </show-details>
-  </ng-container>
+  </div>
   <ng-container *ngFor="let column of oneColumns">
         <ng-container *ngIf="dataSource[column.name]">
             <ng-container [ngSwitch]="column.name">

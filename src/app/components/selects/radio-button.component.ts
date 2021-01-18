@@ -24,9 +24,9 @@ import { FieldConfig } from '../../field.interface';
   <mat-radio-group style="margin-right: 10px;" [formControl]="selectedRadio">
     <mat-label>{{field.label}}: </mat-label>
     <mat-radio-button *ngFor="let item of field.options" [value]="item">{{item}}</mat-radio-button>
-    <mat-radio-button value="other">
+    <mat-radio-button value="other"> 
       <mat-form-field>
-        <input matInput placeholder="Other" [formControl]="inputOther" >
+        <input matInput placeholder="Other" [formControl]="inputOther">
       </mat-form-field>
     </mat-radio-button>
     <span [hidden]="!group.get(field.name).touched">
@@ -63,8 +63,8 @@ export class RadiobuttonComponent implements OnInit {
         }
       }
       this.inputOther.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(inp => {
-        this.selectedRadio.setValue('other');
-        this.group.get([this.field.name]).setValue(inp);
+        this.selectedRadio.setValue('other', {emitEvent: false});
+        this.group.get([this.field.name]).setValue(inp, {emitEvent: false});
         this.group.get([this.field.name]).markAsDirty();
       });
       this.selectedRadio.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
@@ -76,16 +76,19 @@ export class RadiobuttonComponent implements OnInit {
       if(this.group.controls[this.field.name].disabled) {
         this.selectedRadio.disable({emitEvent: false});
       }
-      this.group.get(this.field.name).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
-        if(!val) {
-          this.selectedRadio.setValue(null, {emitEvent: false});
-        }
-        if(this.group.controls[this.field.name].disabled) {
-          this.selectedRadio.disable({emitEvent: false});
-        } else {
-          this.selectedRadio.enable({emitEvent: false});
-        }
-      });
+      // this.group.get(this.field.name).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
+      //   if(this.field.options.includes(val)) {
+      //     this.selectedRadio.setValue(val, {emitEvent: false});
+      //   } else if(val) {
+      //     this.selectedRadio.setValue('other', {emitEvent: false});
+      //     this.inputOther.setValue(val, {emitEvent: false});
+      //   }
+      //   if(this.group.controls[this.field.name].disabled) {
+      //     this.selectedRadio.disable({emitEvent: false});
+      //   } else {
+      //     this.selectedRadio.enable({emitEvent: false});
+      //   }
+      // });
     }
   }
 

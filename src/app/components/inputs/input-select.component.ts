@@ -52,9 +52,9 @@ export class InputSelectComponent implements OnInit {
         if(this.field.inputType.startsWith('parent')) {
           const nameOfFileld = this.field.inputType.slice(6);
           this.group.get([this.field.options]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
-            if(val[nameOfFileld]) {
-              this.group.parent.get(this.field.name).setValue(val[nameOfFileld]);
-            }
+              if(val[nameOfFileld]) {
+                this.group.parent.get(this.field.name).setValue(val[nameOfFileld]);
+              }
           });
         } else if(this.field.inputType === 'first') {
           this.group.get([this.field.options]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
@@ -74,12 +74,12 @@ export class InputSelectComponent implements OnInit {
     if(this.field.name) {
       this.group = this.group.get(this.field.name) as FormGroup;
     }
-    if(this.group.controls[this.field.collections[1].name].value === null) {
-      this.group.controls[this.field.collections[1].name].setValue(this.field.collections[1].options[0]);
+    if(this.group.get([this.field.collections[1].name]).value === null) {
+      this.group.get([this.field.collections[1].name]).setValue(this.field.collections[1].options[0]);
     }
     this.group.get([this.field.collections[1].name]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
       if(!val) {
-        this.group.controls[this.field.collections[1].name].setValue(this.field.collections[1].options[0]);
+        this.group.get([this.field.collections[1].name]).setValue(this.field.collections[1].options[0]);
       }
     });
   }
