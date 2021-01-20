@@ -142,6 +142,8 @@ export class ManagmentSetupComponent {
                             type: 'input',
                             label: 'Unit weight (only for packed)',
                             name: 'amount',
+                            inputType: 'numeric',
+                            options: 3,
                         },
                         {
                             type: 'select',

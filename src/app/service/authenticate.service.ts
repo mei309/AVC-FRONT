@@ -57,7 +57,6 @@ export class AuthenticateService {
           sessionStorage.setItem('username',username);
           let tokenStr= 'Bearer '+userData.token;
           sessionStorage.setItem('token', tokenStr);
-          
           const tokenPayload = parseJwt(userData.token);
           sessionStorage.setItem('id', tokenPayload.id);
           sessionStorage.setItem('roles', JSON.stringify(tokenPayload.roles));

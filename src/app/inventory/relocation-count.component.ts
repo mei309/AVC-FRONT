@@ -134,8 +134,6 @@ export class RelocationCountComponent implements OnInit {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIdsNormal.push(el['id']);
                         removeIdsNormal.push(el['storage']['id']);
-                        console.log(el);
-                        
                         if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === el['item']['value'] )) {
                             val[0]['itemCounts'].push({item: el['item']});
                         }
@@ -207,7 +205,9 @@ export class RelocationCountComponent implements OnInit {
         var arrNormal = [];
         var arrTable = [];
         var arrUsedItems = [];
-        val.forEach(element => {
+        console.log(val);
+        
+        val?.forEach(element => {
             if(element['storage']) {
                 if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {
                     element['storage']['item'] = element['item'];

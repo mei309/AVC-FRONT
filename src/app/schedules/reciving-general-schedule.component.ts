@@ -15,14 +15,14 @@ import { SchedulesService } from './schedules.service';
   <div class="centerButtons">
     <mat-form-field>
       <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value)" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
+      <mat-date-range-input (focus)="picker4.open()" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
         <input matStartDate formControlName="start" placeholder="Start date">
-        <input matEndDate formControlName="end" placeholder="End date">
+        <input matEndDate formControlName="end" placeholder="End date" (dateChange)="inlineRangeChange()">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-date-range-picker #picker4></mat-date-range-picker>
     </mat-form-field>
-    <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek()">See all</mat-checkbox>
+    <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek($event.checked)">See all</mat-checkbox>
   </div>
   <normal-group-details [mainDetailsSource]="cashewSourceColumns">
   </normal-group-details>
@@ -37,7 +37,7 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
   
   cashewSourceColumns;
   
-  seeAll: boolean = false;
+  seeAll: boolean;
   columnsShow: OneColumn[];
   
   ordersSource: any[];
@@ -51,7 +51,7 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
     this.showWeek();
     this.localService.getGeneralOrdersOpen().pipe(take(1)).subscribe(value => {
       this.mainSource = <any[]>value;
-      this.inlineRangeChange(this.dateRangeDisp.value);
+      this.inlineRangeChange();
     });
     this.columnsShow = [
       {
@@ -121,30 +121,29 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
   showWeek() {
     const tempDate: Date = new Date();
     tempDate.setDate(tempDate.getDate()+7);
-    tempDate.setHours(0,0,0,0);
-    const beginDate: Date = new Date();
-    beginDate.setHours(0,0,0,0);
-    this.dateRangeDisp.setValue({start: beginDate, end: tempDate});
+    this.dateRangeDisp.setValue({start: new Date(), end: tempDate});
   }
 
-  inlineRangeChange($event) {
-      const begin = $event.begin.getTime();
-      const finalEnd: Date = new Date($event.end);
-      finalEnd.setDate(finalEnd.getDate() + 1);
-      const end = finalEnd.getTime();
-      this.ordersSource = this.mainSource.filter(e=> 
-        (new Date(e['deliveryDate'])).getTime() > begin && (new Date(e['deliveryDate'])).getTime() < end ) ; 
+  inlineRangeChange() {
+      var dates = this.dateRangeDisp.value;
+      if(dates.end) {
+        this.ordersSource = this.mainSource.filter(e=> 
+          (new Date(e['deliveryDate'])).getTime() > (dates.start).setHours(0,0,0,0) && (new Date(e['deliveryDate'])).getTime() < (dates.end).setHours(23,59,59,999)); 
         this.cashewSourceColumns = [this.ordersSource, this.columnsShow];
+        if(this.ordersSource.length < this.mainSource.length) {
+          this.seeAll = false;
+        }
+      }
   }
 
-  showAllOrWeek() {
-    this.seeAll = !this.seeAll;
-    if(this.seeAll) {
+  showAllOrWeek(seeAll) {
+    this.seeAll = seeAll;
+    if(seeAll) {
       // this.ordersSource = this.mainSource;
       this.cashewSourceColumns = [this.mainSource, this.columnsShow];
     } else {
       this.showWeek();
-      this.inlineRangeChange(this.dateRangeDisp.value);
+      this.inlineRangeChange();
     }
   }
 

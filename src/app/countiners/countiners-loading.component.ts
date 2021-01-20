@@ -172,7 +172,7 @@ export class CountinersLoadingComponent {
         var arrTable = [];
         var arrDeclared = [];
         var arrUsedItems = [];
-        val.forEach(element => {
+        val?.forEach(element => {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['itemPo'] = element['poCode'];
@@ -290,7 +290,7 @@ export class CountinersLoadingComponent {
     fillEdit(val) {
         var arrNormal = [];
         var arrTable = [];
-        val['usedItemGroups'].forEach(element => {
+        val['usedItemGroups']?.forEach(element => {
             if(element['groupName'] === 'table') {
                 element['usedItem']['amounts'].forEach(ele => {
                     ele['take'] = true;

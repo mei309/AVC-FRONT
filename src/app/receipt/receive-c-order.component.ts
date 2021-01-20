@@ -48,7 +48,7 @@ export class ReceiveCOrder implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('poCode')) {
-                var po: number = +params.get('poCode');
+                    var po: number = +params.get('poCode');
                     if(params.get('id')) {
                         this.localService.getReceive(+params.get('id')).pipe(take(1)).subscribe( val => {
                             if('EDITABLE' !== val['editStatus']) {

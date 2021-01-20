@@ -85,7 +85,7 @@ import { ReportsService } from './reports.service';
                     </app-dash-board>
                 </ng-template>
                 <show-details [dataSource]="finalReport" [oneColumns]="finalShow">
-                    </show-details>
+                </show-details>
             </mat-tab> -->
             <mat-tab label="Final report">
                 <ng-template matTabContent>
