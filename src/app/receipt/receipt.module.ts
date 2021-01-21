@@ -6,10 +6,11 @@ import { ReceiveGOrder } from './receive-g-order.component';
 import { SheardModule } from './../sheard.module';
 import {ReceiptRoutingModule} from './receipt-routing.module';
 import { ReceiptDialog } from './receipt-dialog.component';
+import { ReceiveGReports } from './receive-g-reports.component';
 
 @NgModule({
   declarations: [ReceiveCOrder, ReceiveGOrder,
-    ReceiveCAlone, ReceiptDialog, ReceiveCReports
+    ReceiveCAlone, ReceiptDialog, ReceiveCReports, ReceiveGReports
 ],
   imports: [
     SheardModule,

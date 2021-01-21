@@ -130,6 +130,8 @@ export class ReceiveCReports implements OnInit {
   }
 
   openDialog(event): void {
+    console.log(event);
+    
     const dialogRef = this.dialog.open(ReceiptDialog, {
       width: '80%',
       data: {id: event['id'], fromNew: false, type: 'Cashew'},

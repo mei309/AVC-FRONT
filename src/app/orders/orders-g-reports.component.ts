@@ -73,11 +73,6 @@ export class OrdersGReports implements OnInit {
         // options: 'currency',
       },
       {
-        name: 'defects',
-        label: '% defects',
-        search: 'normal',
-      },
-      {
         type: 'date',
         name: 'deliveryDate',
         label: 'Delivery date',

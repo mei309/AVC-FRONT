@@ -20,7 +20,7 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All">
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="cashewSource" (details)="openDialog($event)">
+  <search-group-details [mainDetailsSource]="generalSourceColumns" (details)="openDialog($event)">
   </search-group-details>
     `
 })
@@ -31,7 +31,7 @@ export class ReceiveGReports implements OnInit {
 
   columnsOpenPending: OneColumn[];
   
-  cashewSourceColumns;
+  generalSourceColumns;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: ReceiptService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -145,27 +145,27 @@ export class ReceiveGReports implements OnInit {
     changed(event) {
       switch (+event) {
         case 0:
-          this.cashewSourceColumns = null;
+          this.generalSourceColumns = null;
           if(this.columnsShow.length === 11) {
             this.columnsShow.splice(10, 1);
             }
           this.localService.getPendingGeneral().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.generalSourceColumns = [<any[]>value, this.columnsShow];
           });
           this.cdRef.detectChanges();
           break;
         case 1:
-          this.cashewSourceColumns = null;
+          this.generalSourceColumns = null;
           if(this.columnsShow.length === 11) {
             this.columnsShow.splice(10, 1);
             }
           this.localService.getReceivedGeneral().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.generalSourceColumns = [<any[]>value, this.columnsShow];
           });
           this.cdRef.detectChanges();
           break;
         case 2:
-          this.cashewSourceColumns = null;
+          this.generalSourceColumns = null;
           if(this.columnsShow.length === 10) {
             this.columnsShow.push({
                 type: 'arrayVal',
@@ -176,7 +176,7 @@ export class ReceiveGReports implements OnInit {
               });
             }
           this.localService.findGeneralReceiptsHistory().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [value, this.columnsShow];
+            this.generalSourceColumns = [value, this.columnsShow];
           });
           this.cdRef.detectChanges();
           break;
