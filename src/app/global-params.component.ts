@@ -1,6 +1,6 @@
 import { Injectable} from '@angular/core';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class Globals {
   globalPermission: string[] = [];
   globalProcessAuturtiy: Map<string, string[]>;
@@ -16,7 +16,19 @@ export class Globals {
     this.globalProcessAuturtiy = value;
   }
   getGlobalProcessAuturtiy(processName) {
-    return this.globalProcessAuturtiy[processName];
+    return this.globalProcessAuturtiy.get(processName);
+  }
+  isGlobalProcessAuturtiy(processName): boolean {
+    if(this.globalProcessAuturtiy) {
+      return this.globalProcessAuturtiy.has(processName);
+    } 
+    // else if(sessionStorage.getItem('processAuturtiy')) {
+    //   this.setGlobalProcessAuturtiy(<any[]> JSON.parse(sessionStorage.getItem('processAuturtiy')));
+    //   return this.globalProcessAuturtiy.has(processName);
+    // } 
+    else {
+      return false;
+    }
   }
   // setGlobalStandarts(value) {
   //   this.standarts = value;

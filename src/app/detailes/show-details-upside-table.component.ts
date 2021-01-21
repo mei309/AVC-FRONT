@@ -14,7 +14,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
  <ng-container *ngIf="noChanges; else elseblock">
     <table mat-table id="ExampleTable" [dataSource]="bottomDataSource" class="mat-elevation-z2">
 
-    <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+    <ng-container *ngIf="isWithTop && getUserManagment(processName)">
         <ng-container matColumnDef="manage{{iCol1}}" *ngFor="let column1 of topGroups; let iCol1 = index">
             <th mat-header-cell *matHeaderCellDef
               [attr.colspan]="column1.lSize"
@@ -49,7 +49,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
 
-      <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+      <ng-container *ngIf="isWithTop && getUserManagment(processName)">
         <tr mat-header-row *matHeaderRowDef="numArray"></tr>
       </ng-container>
 
@@ -59,7 +59,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
  <ng-template  #elseblock>
     <table mat-table [dataSource]="bottomDataSource" class="mat-elevation-z2">
     
-      <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+      <ng-container *ngIf="isWithTop && getUserManagment(processName)">
           <ng-container matColumnDef="manage{{iCol1}}" *ngFor="let column1 of topGroups; let iCol1 = index">
               <th mat-header-cell *matHeaderCellDef
                 [attr.colspan]="column1.lSize"
@@ -103,7 +103,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
 
-      <ng-container *ngIf="isWithTop && getPremmisions(processName)">
+      <ng-container *ngIf="isWithTop && getUserManagment(processName)">
         <tr mat-header-row *matHeaderRowDef="numArray"></tr>
       </ng-container>
 
@@ -386,8 +386,8 @@ export class ShowDetailsUpsideTableComponent {
     }
   }
 
-  getPremmisions(process) {
-    if(this.globels.getGlobalProcessAuturtiy(process)) {
+  getUserManagment(process) {
+    if(this.globels.isGlobalProcessAuturtiy(process)) {
       return (this.globels.getGlobalProcessAuturtiy(process)).some(r=> ['APPROVAL', 'MANAGER'].indexOf(r) >= 0);
     } else {
       return false;

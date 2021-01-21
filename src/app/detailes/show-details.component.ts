@@ -9,7 +9,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
   selector: 'show-details',
   template: `
 <ng-container *ngIf="dataSource; else noData">
-    <button *ngIf="getPremmisions(dataSource.processName)" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(dataSource.processName)">Managment</button>
+    <button *ngIf="getUserManagment(dataSource.processName)" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(dataSource.processName)">Managment</button>
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
@@ -215,8 +215,8 @@ export class ShowDetailsComponent implements OnInit {
   constructor(private genral: Genral, private globels: Globals, public dialog: MatDialog) {
   }
 
-  getPremmisions(process) {
-    if(this.globels.getGlobalProcessAuturtiy(process)) {
+  getUserManagment(process) {
+    if(this.globels.isGlobalProcessAuturtiy(process)) {
       return (this.globels.getGlobalProcessAuturtiy(process)).some(r=> ['APPROVAL', 'MANAGER'].indexOf(r) >= 0);
     } else {
       return false;

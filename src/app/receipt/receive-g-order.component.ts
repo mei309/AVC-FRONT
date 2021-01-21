@@ -45,7 +45,7 @@ export class ReceiveGOrder implements OnInit {
                 var po: number = +params.get('poCode');
                     if(params.get('id')) {
                         this.localService.getReceive(+params.get('id')).pipe(take(1)).subscribe( val => {
-                            this.setUpOrderItemsEditRecieving(po, val);
+                            this.setOrderItemsEdit(po, val);
                         });
                         this.fromNew = false;
                     } else {
@@ -105,18 +105,30 @@ export class ReceiveGOrder implements OnInit {
         this.setUpRegConfig();
     }
 
-    setUpOrderItemsEditRecieving(ponum: number, val) {
-        this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
-            this.OrderdItems.next(value['orderItems']);
+
+    setOrderItemsEdit(ponum: number, val) {
+        if(val['referencedOrder']) {
+            this.localService.getOrder(val['referencedOrder']).pipe(take(1)).subscribe( value => {
+                this.OrderdItems.next(value? value['orderItems'] : []);
+                this.setUpEditRecieving(value? value['orderItems'] : [], val);
+            });
+        } else {
+            this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
+                this.OrderdItems.next(value? value['orderItems'] : []);
+                this.setUpEditRecieving(value? value['orderItems'] : [], val);
+            });
+        }
+    }
+
+    setUpEditRecieving(orderItems: any[], val) {
             val['receiptItems'].forEach(element => {
                 if(element['orderItem']) {
-                    element['orderItem'] = value['orderItems'].find(xx => xx.id === element['orderItem']['id']);
+                    element['orderItem'] = orderItems.find(xx => xx.id === element['orderItem']['id']);
                 }
             });
             this.putData = val;
             this.setUpRegConfig();
             this.isDataAvailable = true;
-        });
     }
     
 
@@ -336,7 +348,7 @@ export class ReceiveGOrder implements OnInit {
                     if (data === 'Edit receive') {
                         this.fromNew = false;
                         this.isDataAvailable = false;
-                        this.setUpOrderItemsEditRecieving(+val['poCode']['id'], val);
+                        this.setOrderItemsEdit(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
                     } 
                     // else if(data === 'Edit order') {

@@ -4,7 +4,7 @@ import { Observable, throwError, timer } from 'rxjs';
 import { catchError, finalize, mergeMap, retryWhen, switchMap, tap } from 'rxjs/operators';
 import { AuthenticateService } from './authenticate.service';
 import { LoadingService } from './loading-service.service';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpInterceptorService implements HttpInterceptor {
   private totalRequests = 0;
 

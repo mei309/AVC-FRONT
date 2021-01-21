@@ -55,7 +55,7 @@ export class ReceiveCOrder implements OnInit {
                                 this.putData = val;
                                 this.setUpRegConfigLock();
                             } else{
-                                this.setUpOrderItemsEditRecieving(po, val);
+                                this.setOrderItemsEdit(po, val);
                             }
                         });
                         this.fromNew = false;
@@ -116,14 +116,26 @@ export class ReceiveCOrder implements OnInit {
         this.setUpRegConfig();
     }
 
+    setOrderItemsEdit(ponum: number, val) {
+        if(val['referencedOrder']) {
+            this.localService.getOrder(val['referencedOrder']).pipe(take(1)).subscribe( value => {
+                this.OrderdItems.next(value? value['orderItems'] : []);
+                this.setUpEditRecieving(value? value['orderItems'] : [], val);
+            });
+        } else {
+            this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
+                this.OrderdItems.next(value? value['orderItems'] : []);
+                this.setUpEditRecieving(value? value['orderItems'] : [], val);
+            });
+        }
+    }
 
-    setUpOrderItemsEditRecieving(ponum: number, val) {
-        this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
-            this.OrderdItems.next(value? value['orderItems'] : null);
+
+    setUpEditRecieving(orderItems: any[], val) { 
             var recivingItems = [];
             val['receiptItems'].forEach(element => {
                 if(element['orderItem']) {
-                    element['orderItem'] = value['orderItems'].find(xx => xx.id === element['orderItem']['id']);
+                    element['orderItem'] = orderItems.find(xx => xx.id === element['orderItem']['id']);
                 }
                 var newArray = [];
                 var newArrayExtra = [];
@@ -151,7 +163,6 @@ export class ReceiveCOrder implements OnInit {
             this.putData = val;
             this.setUpRegConfig();
             this.isDataAvailable = true;
-        });
     }
     
 
@@ -526,7 +537,7 @@ export class ReceiveCOrder implements OnInit {
                     if(data === 'Edit receive' || data === 'Receive extra') {
                         this.fromNew = false;
                         this.isDataAvailable = false;
-                        this.setUpOrderItemsEditRecieving(+val['poCode']['id'], val);
+                        this.setOrderItemsEdit(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
                     } 
                     // else if(data === 'Edit order') {

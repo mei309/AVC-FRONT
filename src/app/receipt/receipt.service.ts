@@ -32,6 +32,10 @@ export class ReceiptService {
     }
   }
 
+  getOrder (id: number) {
+    return this.http.get(this.receipturl+'orderDetails/'+id);
+  }
+
   getOrderPO (po: number) {
     return this.http.get(this.receipturl+'orderDetailsPo/'+po);
   }
