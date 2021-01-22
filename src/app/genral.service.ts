@@ -89,6 +89,7 @@ export class Genral {
       this.branches.next(value[9]);
 
       this.standarts.next(value[10]);
+      
       this.globels.setGlobalProcessAuturtiy(value[11]);
 
       this.shippingPorts.next(value[12]);

@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
     <div class="centerButtons">
         <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add #PO</button>
     </div>
-    <search-details [dataSource]="posSource" [oneColumns]="columnsPos">
+    <search-details [dataSource]="posSource" [oneColumns]="columnsPos" (details)="editDialog($event)">
     </search-details>
     `
   })
@@ -20,7 +20,7 @@ export class PoCodesComponent implements OnInit {
     posSource;
     columnsPos;
     
-    constructor(private localService: OrdersService, private genral: Genral, public dialog: MatDialog) {
+    constructor(private localService: OrdersService, public dialog: MatDialog) {
       }
 
     ngOnInit() {
@@ -35,7 +35,7 @@ export class PoCodesComponent implements OnInit {
                 name: 'supplierName',
                 label: 'Supplier',
                 search: 'selectAsyncObject',
-                options: this.genral.getSupplierCashew(),
+                options: this.localService.getAllSuppliers(),
             },
             {
                 type: 'normal',
@@ -60,7 +60,7 @@ export class PoCodesComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data && data !== 'closed') {
-                this.localService.addPoCode(data).pipe(take(1)).subscribe( val => {
+                this.localService.addEditPoCode(data, true).pipe(take(1)).subscribe( val => {
                     this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
                         this.posSource = value;
                     });
@@ -69,22 +69,36 @@ export class PoCodesComponent implements OnInit {
         });
     }
 
-    // editProcessAlerts(localValue: any) {
-    //     (details)="editDialog($event)"
-    // }
+    editDialog(value: any): void {
+        const dialogRef = this.dialog.open(AddEditPoDialog, {
+          width: '80%',
+          height: '80%',
+          data: {putData: value}
+        });
+        dialogRef.afterClosed().subscribe(data => {
+            if(data && data !== 'closed') {
+                this.localService.addEditPoCode(data, false).pipe(take(1)).subscribe( val => {
+                    this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+                        this.posSource = value;
+                    });
+                });
+            }
+        });
+    }
+
 }
 
 @Component({
   selector: 'add-edit-po',
   template: `
-    <dynamic-form [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)" popup="true">
+    <dynamic-form [putData]="putData" [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)" popup="true">
     </dynamic-form>
   `,
 })
 export class AddEditPoDialog {
  
     poConfig;
-  
+    putData;
 
     ngOnInit(){
         this.poConfig = [
@@ -92,7 +106,7 @@ export class AddEditPoDialog {
                         type: 'select',
                         label: 'Supplier',
                         name: 'supplier',
-                        options: this.genral.getSupplierCashew(),
+                        options: this.localService.getAllSuppliers(),
                         validations: [
                             {
                                 name: 'required',
@@ -129,9 +143,11 @@ export class AddEditPoDialog {
         ];
     }
     
-    constructor(private genral: Genral, public dialogRef: MatDialogRef<AddEditPoDialog>,
+    constructor(private genral: Genral, private localService: OrdersService, public dialogRef: MatDialogRef<AddEditPoDialog>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
+            this.putData = data.putData;
+            console.log(data.putData);
             
         }
     

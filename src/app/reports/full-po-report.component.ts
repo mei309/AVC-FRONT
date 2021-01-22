@@ -79,14 +79,15 @@ import { ReportsService } from './reports.service';
                     </mat-accordion>
                 </ng-template>
             </mat-tab>
-            <!-- <mat-tab label="Graphs">
+            <mat-tab label="Graphs">
                 <ng-template matTabContent>
-                    <app-dash-board [finalReport]="finalReport">
-                    </app-dash-board>
+                <!-- <app-dash-board [finalReport]="finalReport">
+                    </app-dash-board> -->
+                    <h2>Loss Per Process</h2>
+                    <ngx-charts-bar-vertical [view]="view" [results]="single" xAxis="true" yAxis="true" legend="true"
+  showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"></ngx-charts-bar-vertical>
                 </ng-template>
-                <show-details [dataSource]="finalReport" [oneColumns]="finalShow">
-                </show-details>
-            </mat-tab> -->
+            </mat-tab>
             <mat-tab label="Final report">
                 <ng-template matTabContent>
                     <final-report-table [dataSource]="finalReport">
@@ -98,6 +99,12 @@ import { ReportsService } from './reports.service';
   ` ,
 })
 export class fullPoReportComponent {
+  xAxisLabel = 'Process';
+  yAxisLabel = 'Lose';
+  view: any[] = [700, 400];
+  single = [
+  ];
+
     @ViewChild(MatAccordion) accordion: MatAccordion;
     navigationSubscription;
 
@@ -122,7 +129,16 @@ export class fullPoReportComponent {
                 });
                 this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                     this.finalReport = val1;
-                    // this.isDataAvailable = true;
+                    // ['cleaning', 'roasting', 'packing'].forEach(v => {
+                    //     if(val1[v] && val1[v]['difference']) {
+                    //         this.single.push({
+                    //             name: v,
+                    //             value: val1[v]['difference']['amount']
+                    //         });
+                    //         console.log(this.single);
+                            
+                    //     }
+                    // });
                 });
                 this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
@@ -139,8 +155,14 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        console.log(val1);
-                        
+                        ['cleaning', 'roasting', 'packing'].forEach(v => {
+                            if(val1[v] && val1[v]['difference']) {
+                                this.single.push({
+                                    name: v,
+                                    value: val1[v]['difference']['amount']
+                                });
+                            }
+                        });
                     });
                 }
                 

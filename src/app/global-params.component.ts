@@ -6,14 +6,17 @@ export class Globals {
   globalProcessAuturtiy: Map<string, string[]>;
   // standarts: any[] = [];
   isManager: boolean = false;
-  setGlobalPermission(value) {
-    value.forEach(element => {
-      this.globalPermission.push(element['authority']);
-    });
-    this.isManager = this.globalPermission.includes('ROLE_SYSTEM_MANAGER');
-  }
+  // setGlobalPermission(value) {
+  //   value.forEach(element => {
+  //     this.globalPermission.push(element['authority']);
+  //   });
+  //   this.isManager = this.globalPermission.includes('ROLE_SYSTEM_MANAGER');
+  // }
   setGlobalProcessAuturtiy(value) {
-    this.globalProcessAuturtiy = value;
+    this.globalProcessAuturtiy = new Map<string, string[]>();
+    for (var process in value) {  
+      this.globalProcessAuturtiy.set(process, value[process])  
+    }
   }
   getGlobalProcessAuturtiy(processName) {
     return this.globalProcessAuturtiy.get(processName);
@@ -37,8 +40,8 @@ export class Globals {
   //   return this.standarts;
   // }
   constructor() {
-    if(sessionStorage.getItem('roles')) {
-      this.setGlobalPermission(<any[]> JSON.parse(sessionStorage.getItem('roles')));
-    }
+    // if(sessionStorage.getItem('roles')) {
+    //   this.setGlobalPermission(<any[]> JSON.parse(sessionStorage.getItem('roles')));
+    // }
   }
 }

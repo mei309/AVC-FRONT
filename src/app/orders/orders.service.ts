@@ -141,8 +141,16 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'findAllPoCodes');
   }
 
-  addPoCode (value): Observable<any> {
-    return this.http.post(this.ordersurl+'addPoCode', value);
+  addEditPoCode (value, fromNew: boolean): Observable<any> {
+      if(fromNew) {
+        return this.http.post(this.ordersurl+'addPoCode', value);
+      } else {
+        return this.http.put(this.ordersurl+'editPoCode', value);
+      }
   }
+
+  getAllSuppliers (): Observable<any> {
+      return this.http.get(this.ordersurl+'getAllSuppliers');
+    }
 
 }

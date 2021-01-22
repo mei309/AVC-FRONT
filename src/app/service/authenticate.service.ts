@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // import { jwt_decode } from 'jwt-decode';
-import { Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Globals } from '../global-params.component';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticateService {
+
+  private tokenSubject: BehaviorSubject<string>;
 
 
   destroySubject$: Subject<void> = new Subject();
@@ -21,9 +22,13 @@ export class AuthenticateService {
 
   mainurl = environment.baseUrl;
 
-  constructor(private http: HttpClient, private router: Router, private globals: Globals) {
+  constructor(private http: HttpClient, private router: Router) {
+    this.tokenSubject = new BehaviorSubject<string>(sessionStorage.getItem('token'));
   }
 
+  public get currentTokenValue(): string {
+    return this.tokenSubject.value;
+  }
   refreshToken(): Observable<any> {
     if (this.refreshTokenInProgress) {
       return new Observable(observer => {
@@ -59,10 +64,11 @@ export class AuthenticateService {
           sessionStorage.setItem('username',username);
           let tokenStr= 'Bearer '+userData.token;
           sessionStorage.setItem('token', tokenStr);
+          this.tokenSubject.next(tokenStr);
           const tokenPayload = parseJwt(userData.token);
           sessionStorage.setItem('id', tokenPayload.id);
           sessionStorage.setItem('roles', JSON.stringify(tokenPayload.roles));
-          this.globals.setGlobalPermission(tokenPayload.roles);
+          // this.globals.setGlobalPermission(tokenPayload.roles);
           return userData;
          })
       );
@@ -72,6 +78,7 @@ export class AuthenticateService {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('roles');
+    this.tokenSubject.next(null);
     this.router.navigate(['/']);
   }
   

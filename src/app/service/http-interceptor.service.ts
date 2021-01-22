@@ -11,10 +11,10 @@ export class HttpInterceptorService implements HttpInterceptor {
     constructor(private authenticateService: AuthenticateService, private loadingService: LoadingService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-        if (sessionStorage.getItem('token')) {
+        if (this.authenticateService.currentTokenValue) {
             req = req.clone({
                 setHeaders: {
-                    Authorization: sessionStorage.getItem('token')
+                    Authorization: this.authenticateService.currentTokenValue
                 }
             })
         }
