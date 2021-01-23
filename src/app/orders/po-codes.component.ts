@@ -57,6 +57,7 @@ export class PoCodesComponent implements OnInit {
         const dialogRef = this.dialog.open(AddEditPoDialog, {
           width: '80%',
           height: '80%',
+          data: {}
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data && data !== 'closed') {
