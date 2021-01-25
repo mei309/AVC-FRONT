@@ -75,6 +75,7 @@ export class ReceiveCAlone implements OnInit {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getItemsRawCashew(),
                     },
                     {

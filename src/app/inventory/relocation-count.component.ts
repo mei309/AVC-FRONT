@@ -484,6 +484,7 @@ export class RelocationCountComponent implements OnInit {
                      type: 'select',
                      label: 'Item descrption',
                      name: 'item',
+                     collections: 'somewhere',
                      disable: true,
                  },
                  {

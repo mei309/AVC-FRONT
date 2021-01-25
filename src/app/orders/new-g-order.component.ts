@@ -81,6 +81,7 @@ export class NewGenralOrder implements OnInit {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getItemsGeneral(),
                         // disable: true,
                     },

@@ -233,6 +233,7 @@ export class ReceiveCOrder implements OnInit {
                         type: 'select',
                         label: 'Item reciving',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getItemsRawCashew(),
                     },
                     {
@@ -537,6 +538,7 @@ export class ReceiveCOrder implements OnInit {
                     if(data === 'Edit receive' || data === 'Receive extra') {
                         this.fromNew = false;
                         this.isDataAvailable = false;
+                        this.OrderdItems = new ReplaySubject<any[]>();
                         this.setOrderItemsEdit(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
                     } 

@@ -85,7 +85,9 @@ import { ReportsService } from './reports.service';
                     </app-dash-board> -->
                     <h2>Loss Per Process</h2>
                     <ngx-charts-bar-vertical [view]="view" [results]="single" xAxis="true" yAxis="true" legend="true"
-  showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"></ngx-charts-bar-vertical>
+                        showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                        yScaleMax="10" yScaleMin="-10" showDataLabel="true">
+                    </ngx-charts-bar-vertical>
                 </ng-template>
             </mat-tab>
             <mat-tab label="Final report">

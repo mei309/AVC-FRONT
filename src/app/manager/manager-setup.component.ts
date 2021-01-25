@@ -419,6 +419,7 @@ export class ManagmentSetupComponent {
                     label: 'Item descrption',
                     name: 'items',
                     inputType: 'multiple',
+                    collections: 'somewhere',
                     options: this.genral.getAllItemsCashew(),
                     validations: [
                         {

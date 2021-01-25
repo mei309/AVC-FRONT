@@ -192,6 +192,7 @@ export class ReceiveGOrder implements OnInit {
                         type: 'select',
                         label: 'Item reciving',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getItemsGeneral(),
                     },
                     {

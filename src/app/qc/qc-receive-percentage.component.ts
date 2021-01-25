@@ -211,6 +211,7 @@ export class QcReceivePercentageComponent implements OnInit {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getAllItemsCashew(),
                         // disable: true,
                     },

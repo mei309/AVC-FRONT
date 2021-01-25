@@ -231,6 +231,7 @@ export class QcReceiveComponent implements OnInit {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getAllItemsCashew(),
                         // disable: true,
                     },

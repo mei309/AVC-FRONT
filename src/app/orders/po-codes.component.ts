@@ -74,7 +74,7 @@ export class PoCodesComponent implements OnInit {
         const dialogRef = this.dialog.open(AddEditPoDialog, {
           width: '80%',
           height: '80%',
-          data: {putData: value}
+          data: {poCode: value['id']}
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data && data !== 'closed') {
@@ -92,16 +92,28 @@ export class PoCodesComponent implements OnInit {
 @Component({
   selector: 'add-edit-po',
   template: `
-    <dynamic-form [putData]="putData" [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)" popup="true">
-    </dynamic-form>
+    <div *ngIf="isDataAvailable">
+        <dynamic-form [putData]="putData" [fields]="poConfig" mainLabel="Add #PO" (submitForm)="submit($event)" popup="true">
+        </dynamic-form>
+    </div>
   `,
 })
 export class AddEditPoDialog {
  
     poConfig;
     putData;
+    poCode: number;
+    isDataAvailable: boolean = false;
 
     ngOnInit(){
+        if(this.poCode) {
+            this.localService.getPoCode(+this.poCode).pipe(take(1)).subscribe( val => {
+                this.putData = val;
+                this.isDataAvailable = true;
+            });
+        } else {
+            this.isDataAvailable = true;
+        }
         this.poConfig = [
                     {
                         type: 'select',
@@ -147,9 +159,7 @@ export class AddEditPoDialog {
     constructor(private genral: Genral, private localService: OrdersService, public dialogRef: MatDialogRef<AddEditPoDialog>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
-            this.putData = data.putData;
-            console.log(data.putData);
-            
+            this.poCode = data.poCode;
         }
     
     submit(value: any) {

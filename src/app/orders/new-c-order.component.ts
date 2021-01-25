@@ -81,6 +81,7 @@ export class NewCashewOrder implements OnInit {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
+                        collections: 'somewhere',
                         options: this.genral.getItemsRawCashew(),
                         // disable: true,
                     },
