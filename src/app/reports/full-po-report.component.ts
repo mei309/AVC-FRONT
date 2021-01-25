@@ -83,11 +83,37 @@ import { ReportsService } from './reports.service';
                 <ng-template matTabContent>
                 <!-- <app-dash-board [finalReport]="finalReport">
                     </app-dash-board> -->
-                    <h2>Loss Per Process</h2>
-                    <ngx-charts-bar-vertical [view]="view" [results]="single" xAxis="true" yAxis="true" legend="true"
-                        showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                        yScaleMax="10" yScaleMin="-10" showDataLabel="true">
-                    </ngx-charts-bar-vertical>
+                    <div style="height: 400px">
+                        <h2>Total + Product Loss Per Process</h2>
+                        <ngx-charts-bar-vertical-2d [results]="bothLoss" xAxis="true" yAxis="true" legend="true"
+                            showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                            yScaleMax="10" yScaleMin="-10" showDataLabel="true" [dataLabelFormatting]="LossDataLabel">
+                            <ng-template #tooltipTemplate let-model="model">
+                                    <div class="tt" *ngIf="model.extra">
+                                        Amount: {{ model.extra | tableCellPipe: 'weight' : null}}
+                                    </div>
+                                </ng-template>
+                        </ngx-charts-bar-vertical-2d>
+                    </div>
+                    <div style="height: 400px">
+                        <h2>Total Loss Per Process</h2>
+                        <ngx-charts-bar-vertical [results]="totalLoss" xAxis="true" yAxis="true" legend="true"
+                            showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                            yScaleMax="10" yScaleMin="-10" showDataLabel="true" [dataLabelFormatting]="LossDataLabel">
+                            <ng-template #tooltipTemplate let-model="model">
+                                    <div class="tt">
+                                        Amount: {{ model.extra | tableCellPipe: 'weight' : null}}
+                                    </div>
+                                </ng-template>
+                        </ngx-charts-bar-vertical>
+                    </div>
+                    <div style="height: 400px">
+                        <h2>Product Loss Per Process</h2>
+                        <ngx-charts-bar-vertical [view]="view" [results]="productLoss" xAxis="true" yAxis="true" legend="true"
+                            showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                            yScaleMax="10" yScaleMin="-10" showDataLabel="true" [dataLabelFormatting]="LossDataLabel">
+                        </ngx-charts-bar-vertical>
+                    </div>
                 </ng-template>
             </mat-tab>
             <mat-tab label="Final report">
@@ -104,8 +130,10 @@ export class fullPoReportComponent {
   xAxisLabel = 'Process';
   yAxisLabel = 'Lose';
   view: any[] = [700, 400];
-  single = [
-  ];
+  totalLoss = [];
+  productLoss = [];
+  bothLoss = [];
+  LossDataLabel;
 
     @ViewChild(MatAccordion) accordion: MatAccordion;
     navigationSubscription;
@@ -119,8 +147,13 @@ export class fullPoReportComponent {
     isDataAvailable = false;
 
     constructor(private router: Router, private cdRef:ChangeDetectorRef, private fb: FormBuilder, private localService: ReportsService, private _Activatedroute: ActivatedRoute, private genral: Genral) {}
-
+    public formatLoss(value) {
+        return value+'%';
+    };
+    
     ngOnInit() {
+        this.LossDataLabel = this.formatLoss.bind(this);
+        
         this.form = this.fb.group({poCode: this.fb.control('')});
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('poCode')) {
@@ -157,11 +190,32 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
+                        console.log(val1);
+                        
                         ['cleaning', 'roasting', 'packing'].forEach(v => {
                             if(val1[v] && val1[v]['difference']) {
-                                this.single.push({
+                                this.bothLoss.push({
                                     name: v,
-                                    value: val1[v]['difference']['amount']
+                                    series: [
+                                        {
+                                          name: "Total",
+                                          value: val1[v]['ratioLoss'],
+                                          extra :  val1[v]['difference'],
+                                        },
+                                        {
+                                          "name": "Product",
+                                          value: val1[v]['productRatioLoss'],
+                                        }
+                                      ]
+                                });
+                                this.totalLoss.push({
+                                    name: v,
+                                    value: val1[v]['ratioLoss'],
+                                    extra :  val1[v]['difference'],
+                                });
+                                this.productLoss.push({
+                                    name: v,
+                                    value: val1[v]['productRatioLoss'],
                                 });
                             }
                         });
