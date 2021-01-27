@@ -26,7 +26,7 @@ export class ManagerService {
     return this.http.post(this.usersurl+'addUser', value);
   }
 
-  addUserPerson (value: JSON): Observable<any> {
+  addUserPerson (value): Observable<any> {
     return this.http.post(this.usersurl+'addUserFromPerson', value);
   }
 

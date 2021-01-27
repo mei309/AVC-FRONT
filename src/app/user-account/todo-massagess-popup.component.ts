@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { TodoMassagesService } from './massages-todo.service';
+import { UserAccountService } from './user-account.service';
 @Component({
-    selector: 'app-massages-todo-popup',
+    selector: 'massages-todo-popup',
     template: `
     <button mat-raised-button color="accent" (click)="goFullPo()" style="float: right;">Go to full PO# details</button>
     <button printTitle="Task Details" [useExistingCss]="true" printSectionId="print-section-task" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
@@ -29,7 +29,7 @@ export class TodoMassagesPopupComponent {
     lineData = null;
     task: any;
     
-    constructor(private LocalService: TodoMassagesService, public dialog: MatDialog, public dialogRef: MatDialogRef<TodoMassagesPopupComponent>,
+    constructor(private LocalService: UserAccountService, public dialog: MatDialog, public dialogRef: MatDialogRef<TodoMassagesPopupComponent>,
       @Inject(MAT_DIALOG_DATA)
       public data: any) {
         this.processId = data.allLine['processId'];

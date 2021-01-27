@@ -20,7 +20,7 @@ const routes: Routes = [
           { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
           { path: 'countiners', loadChildren: () => import('./countiners/countiners.module').then(m => m.CountinersModule)},
           { path: 'manager', loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule), canLoad:[AuthGaurdService]},
-          { path: 'todo', loadChildren: () => import('./todo/todo.module').then(m => m.TodoModule)},
+          { path: 'useraccount', loadChildren: () => import('./user-account/user-account.module').then(m => m.UserAccountModule)},
           { path: 'test', loadChildren: () => import('./my-tests/my-tests.module').then(m => m.MyTestsModule), canLoad:[AuthGaurdService]},
       ]
     },

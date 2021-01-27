@@ -7,7 +7,7 @@ import { Genral } from '../genral.service';
 import { TodoMassagesPopupComponent } from './todo-massagess-popup.component';
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'todo-list',
   template: `
   <h1 style="text-align:center">
     Task center

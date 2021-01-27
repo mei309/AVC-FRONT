@@ -70,4 +70,7 @@ table {
    span .half {float: left; width: 175px; padding: 1%; }
    .half { display: inline-block; width: 180px; }
 
-    
+   h3 {
+    margin: 0px;
+    margin-top: 8px;
+  }

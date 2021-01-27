@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
-import { OneColumn } from './../field.interface';
+import { OneColumn } from '../field.interface';
 
 @Component({
-  selector: 'app-massages-list',
+  selector: 'massages-list',
   template: `
   <h1 style="text-align:center">
     Massages center

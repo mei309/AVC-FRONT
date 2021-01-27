@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class TodoMassagesService {
+export class UserAccountService {
 
   todourl = environment.baseUrl;
 
@@ -27,5 +27,8 @@ export class TodoMassagesService {
   setMassageTask(id, approve: string): Observable<any> {
     return this.http.get(this.todourl+'setMassageTask/' + id + '/' + approve);
   }
-
+  
+  passChange(passwords): Observable<any> {
+    return this.http.post(this.todourl+'passChange', passwords);
+  }
 }
