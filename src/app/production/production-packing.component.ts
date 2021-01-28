@@ -93,8 +93,22 @@ export class ProductionPackingComponent implements OnInit {
     setBeginChoose() {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
+        this.form.addControl('mixPos', this.fb.control(''));
+        this.form.get('mixPos').valueChanges.subscribe(selectedValue => {
+            if(selectedValue && selectedValue.hasOwnProperty('poCode') && selectedValue['poCode']) {
+                const mixpo = selectedValue['poCode']['id'];
+                if(this.poID !== mixpo) { 
+                    this.localService.getStorageRoastPo(mixpo).pipe(take(1)).subscribe( val => {
+                        this.newUsed = val;
+                        this.isFormAvailable = true;
+                    }); 
+                    this.isDataAvailable = false;
+                    this.poID = mixpo;
+                }
+            }
+        });
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('code') && this.poID !== selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID !== selectedValue['id']) { 
                 this.localService.getStorageRoastPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
@@ -120,6 +134,35 @@ export class ProductionPackingComponent implements OnInit {
                         name: 'poCode',
                         collections: 'somewhere',
                     },
+                ]
+            },
+            {
+                type: 'popup',
+                label: 'Mix #PO',
+                name: 'mixPos',
+                collections: [
+                    {
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        options: this.localService.getAllPosRoast(),
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Supplier',
+                            },
+                            {
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
+                            },
+                        ]
+                    },
+                    {
+                        type: 'button',
+                        label: 'Submit',
+                        name: 'submit',
+                    }
                 ]
             },
         ];

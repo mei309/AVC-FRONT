@@ -11,62 +11,78 @@ export class HttpInterceptorService implements HttpInterceptor {
     constructor(private authenticateService: AuthenticateService, private loadingService: LoadingService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-        if (this.authenticateService.currentTokenValue) {
+        if (this.authenticateService.isLoggedIn) {
             req = req.clone({
                 setHeaders: {
                     Authorization: this.authenticateService.currentTokenValue
                 }
             })
-        }
-        var timer;
-        if(req.method !== 'GET') {
-          this.totalRequests++;
-          timer = setTimeout(() => this.loadingService.visibility.next(true), 1000);
+        } else if(req.url.includes('authenticate')) {
+        } else {
+          return this.authenticateService.waitInit().pipe(
+            switchMap((res: Response) => {
+              req = req.clone({
+                setHeaders: {
+                    Authorization: this.authenticateService.currentTokenValue
+                }
+              });
+              return this.handleIntercept(req, next);
+            })
+          );
         }
         
-        const startTimestamp2 = new Date().getTime();
-        return next.handle(req).pipe(
-            tap((event: HttpEvent<any>) => {
-              if (event instanceof HttpResponse) {
-                  const endTimestamp: number = new Date().getTime();
-                  console.log(endTimestamp - startTimestamp2+'    '+ event.url);
+        return this.handleIntercept(req, next);
+    }
+
+    handleIntercept(req: HttpRequest<any>, next: HttpHandler) {
+      var timer;
+      if(req.method !== 'GET') {
+        this.totalRequests++;
+        timer = setTimeout(() => this.loadingService.visibility.next(true), 1000);
+      }
+      const startTimestamp2 = new Date().getTime();
+      return next.handle(req).pipe(
+        tap((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+              const endTimestamp: number = new Date().getTime();
+              console.log(endTimestamp - startTimestamp2+'    '+ event.url);
+          }
+          return event;
+        }),
+        retryWhen(genericRetryStrategy({
+            scalingDuration: 500,
+            excludedStatusCodes: [400]
+        })),
+        catchError((error: HttpErrorResponse) => {
+              if(error.status === 401){
+                return this.handle401Error(req, next);
               }
-              return event;
-            }),
-            retryWhen(genericRetryStrategy({
-                scalingDuration: 500,
-                excludedStatusCodes: [400]
-            })),
-            catchError((error: HttpErrorResponse) => {
-                  if(error.status === 401){
-                    return this.handle401Error(req, next);
-                  }
-                  
-                  let errorMessage = '';
-                  if (error.error instanceof ErrorEvent) {
-                      // client-side error
-                      errorMessage = `Error: ${error.error.message}`;
-                  } else {
-                      // server-side error
-                      errorMessage = `Error Code: ${error.status}\nMessage: ${error.error}`;
-                  }
-                  console.log(error);
-                  
-                  window.alert(errorMessage);
-                  return throwError(errorMessage);
-            }),
-            finalize(() => {
-              if(req.method !== 'GET') {
-                this.totalRequests--;
-                if(timer){
-                  clearTimeout(timer);
-                }
-                if (this.totalRequests === 0) {
-                  this.loadingService.visibility.next(false);
-                }
-              } 
-            })
-          )
+              
+              let errorMessage = '';
+              if (error.error instanceof ErrorEvent) {
+                  // client-side error
+                  errorMessage = `Error: ${error.error.message}`;
+              } else {
+                  // server-side error
+                  errorMessage = `Error Code: ${error.status}\nMessage: ${error.error}`;
+              }
+              console.log(error);
+              
+              window.alert(errorMessage);
+              return throwError(errorMessage);
+        }),
+        finalize(() => {
+          if(req.method !== 'GET') {
+            this.totalRequests--;
+            if(timer){
+              clearTimeout(timer);
+            }
+            if (this.totalRequests === 0) {
+              this.loadingService.visibility.next(false);
+            }
+          } 
+        })
+      )
     }
 
     handle401Error(req: HttpRequest<any>, next: HttpHandler) {
@@ -79,10 +95,10 @@ export class HttpInterceptorService implements HttpInterceptor {
           switchMap((res: Response) => {
             req = req.clone({
               setHeaders: {
-                  Authorization: sessionStorage.getItem('token')
+                  Authorization: this.authenticateService.currentTokenValue
               }
-            })
-            return next.handle(req);
+            });
+            return this.handleIntercept(req, next);
           })
         );
     }

@@ -4,8 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
-import { Genral } from '../genral.service';
-import { AuthenticateService } from '../service/authenticate.service';
 import { UserAccountService } from './user-account.service';
 
 @Component({
@@ -79,6 +77,7 @@ export class PassChangeComponent {
                     duration: 5000,
                     verticalPosition:'top'
                   });
+                  this.router.navigate(['Main/']);
             });
         } else {
             alert('Passwords aren`t equal');

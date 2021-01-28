@@ -7,31 +7,23 @@ import { Component, Input } from '@angular/core';
             <h2>Total + Product Loss Per Process</h2>
             <ngx-charts-bar-vertical-2d [results]="bothLoss" xAxis="true" yAxis="true" legend="true"
                 showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                yScaleMax="10" yScaleMin="-10" showDataLabel="true" [dataLabelFormatting]="LossDataLabel">
-                <ng-template #tooltipTemplate let-model="model">
-                        <div class="tt" *ngIf="model.extra">
-                            Amount: {{ model.extra | tableCellPipe: 'weight' : null}}
-                        </div>
-                    </ng-template>
+                yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
+                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Percent: {{ model.value }}%<br/><span *ngIf="model.extra">Amount: {{ model.extra | tableCellPipe: 'weight' : null}}</span></pre></ng-template>
             </ngx-charts-bar-vertical-2d>
         </div>
         <div style="height: 400px">
             <h2>Total Loss Per Process</h2>
             <ngx-charts-bar-vertical [results]="totalLoss" xAxis="true" yAxis="true" legend="true"
                 showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                yScaleMax="10" yScaleMin="-10" showDataLabel="true" [dataLabelFormatting]="LossDataLabel">
-                <ng-template #tooltipTemplate let-model="model">
-                        <div class="tt">
-                            Amount: {{ model.extra | tableCellPipe: 'weight' : null}}
-                        </div>
-                    </ng-template>
+                yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
+                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Percent: {{ model.value }}%<br/>Amount: {{ model.extra | tableCellPipe: 'weight' : null}}</pre></ng-template>
             </ngx-charts-bar-vertical>
         </div>
         <div style="height: 400px">
             <h2>Product Loss Per Process</h2>
             <ngx-charts-bar-vertical [results]="productLoss" xAxis="true" yAxis="true" legend="true"
                 showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                yScaleMax="10" yScaleMin="-10" showDataLabel="true" [dataLabelFormatting]="LossDataLabel">
+                yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
             </ngx-charts-bar-vertical>
         </div>
   ` ,
@@ -64,10 +56,10 @@ export class FinalReportChartsComponent {
                             extra :  val1['difference'],
                         },
                         {
-                            "name": "Product",
+                            name: "Product",
                             value: val1['productRatioLoss'],
                         }
-                        ]
+                    ]
                 });
                 this.totalLoss.push({
                     name: v,
@@ -82,7 +74,7 @@ export class FinalReportChartsComponent {
         });
     }
 
-    public formatLoss(value) {
+    formatLoss(value) {
         return value+'%';
     };
 }

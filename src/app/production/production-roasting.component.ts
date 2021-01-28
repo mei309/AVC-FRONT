@@ -95,7 +95,7 @@ export class ProductionRoastingComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('code') && this.poID !== selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID !== selectedValue['id']) { 
                 this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     console.log(val);

@@ -10,7 +10,8 @@ import { environment } from '../../environments/environment';
 })
 export class AuthenticateService {
 
-  private tokenSubject: BehaviorSubject<string>;
+  tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  tokenInit$ = this.tokenSubject.asObservable();
 
 
   destroySubject$: Subject<void> = new Subject();
@@ -23,11 +24,27 @@ export class AuthenticateService {
   mainurl = environment.baseUrl;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.tokenSubject = new BehaviorSubject<string>(sessionStorage.getItem('token'));
+      this.tokenSubject.next(sessionStorage.getItem('token'));
+  }
+
+  public get isLoggedIn() : boolean {
+    if(this.tokenSubject.getValue()) {
+      return true;
+    }
   }
 
   public get currentTokenValue(): string {
-    return this.tokenSubject.value;
+    return this.tokenSubject.getValue();
+  }
+  waitInit():  Observable<any> {
+    return new Observable(observer => {
+      this.tokenInit$.subscribe(token => {
+        if(token) {
+          observer.next();
+          observer.complete();
+        }
+      });
+  });
   }
   refreshToken(): Observable<any> {
     if (this.refreshTokenInProgress) {

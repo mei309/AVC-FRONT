@@ -55,8 +55,7 @@ export class ManagmentUsersComponent implements OnInit {
     }
 
   newPersonDialog(): void {
-    this.regConfig = [];
-    this.regConfig.push(
+    this.regConfig = [
         {
             type: 'select',
             label: 'Select person',
@@ -70,7 +69,7 @@ export class ManagmentUsersComponent implements OnInit {
                 }
             ]
         },
-    );
+    ];
     this.addUserConfig();
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '80%',
@@ -151,11 +150,10 @@ export class ManagmentUsersComponent implements OnInit {
             name: 'submit',
         }
     ];
-    this.addUserConfig();
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '80%',
       height: '80%',
-      data: {putData: value, regConfig: myRegConfig, mainLabel: value? 'Edit user': 'Add user'},
+      data: {putData: value, regConfig: myRegConfig, mainLabel: 'Edit user'},
     });
     dialogRef.afterClosed().subscribe(data => {
         if(!data || data === 'closed') {
