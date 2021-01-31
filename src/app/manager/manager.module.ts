@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SheardModule } from './../sheard.module';
 import { EditDialogComponent } from './edit-dialog.component';
+import { ItemsSetupComponent } from './items-setup.component';
 import { ManagmentNotificationsComponent, EditNotifictionsDialogComponent } from './manager-notifications.component';
 import { ManagerRoutingModule } from './manager-routing.module';
 import { ManagmentSetupComponent } from './manager-setup.component';
@@ -10,7 +11,7 @@ import { RemoveManagment } from './remove-managment.component';
 
 @NgModule({
   declarations: [EditDialogComponent, EditNotifictionsDialogComponent, ManagmentNotificationsComponent, ManagmentUsersComponent, ManagmentSetupComponent,
-    PlanProductionComponent, RemoveManagment],
+    ItemsSetupComponent, PlanProductionComponent, RemoveManagment],
   imports: [
     SheardModule,
     ManagerRoutingModule

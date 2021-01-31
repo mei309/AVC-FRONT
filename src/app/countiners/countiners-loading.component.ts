@@ -54,6 +54,8 @@ export class CountinersLoadingComponent {
     beginPage: boolean = true;
     putFirstData;
 
+    removeIds = [];
+
     onSubmitBoth() {
             var firstData = this.formFirst.onSubmitOutside();
             var secondData = this.formSecond? this.formSecond.onSubmitOutside() : false;
@@ -181,8 +183,10 @@ export class CountinersLoadingComponent {
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
-                    arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele})
-                    delete ele['numberUsedUnits'];
+                    if(!this.removeIds.includes(ele['id'])) {
+                        arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
+                        delete ele['numberUsedUnits'];
+                    }
                 });
             }
             arrDeclared.push({poCode: element['poCode'], item: element['item']});
@@ -230,9 +234,11 @@ export class CountinersLoadingComponent {
             selectedValue = map(selectedValue, 'poCode'); 
             if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {
                 this.setRawSecondValue();
-                this.isFormAvailable = false;
                 var result = diff(this.choosedPos, selectedValue, 'id', { updatedValues: 1});
                 var numberOfObsrevers = result['added'].length;// + result['removed'].length;
+                if(numberOfObsrevers) {
+                    this.isFormAvailable = false;
+                }
                 result['added'].forEach(el => {
                     this.localService.getStorageRoastPackedPo(el.id).pipe(take(1)).subscribe( val => {
                         this.addToForm(val);
@@ -299,6 +305,7 @@ export class CountinersLoadingComponent {
             } else if(element['groupName'] === 'normalLoding') {
                 element['usedItems'].forEach(el => {
                     el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                    this.removeIds.push(el['storage']['id']);
                 });
                 arrNormal.push(element);
             }

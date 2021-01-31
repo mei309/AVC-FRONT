@@ -593,6 +593,12 @@ export class DynamicFormComponent implements OnInit {
           }
           break;
         }
+        case 'materialUsage': {
+          if(!value.hasOwnProperty(field.name) || !value[field.name] || value[field.name].length) {
+            group.addControl(field.name, this.fb.array([]));
+            break;
+          }
+        }
         case 'tableWithInput': {
           let groupJson = null;
           if(value.hasOwnProperty(field.name)) {
@@ -776,6 +782,12 @@ export class DynamicFormComponent implements OnInit {
             }
           }
           break;
+        }
+        case 'materialUsage': {
+          if(!value.hasOwnProperty(temp.name) || !value[temp.name] || value[temp.name].length) {
+            group2.addControl(temp.name, this.fb.array([]));
+            break;
+          }
         }
         case 'tableWithInput': {
           let groupJson = null;

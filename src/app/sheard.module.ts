@@ -57,8 +57,10 @@ import { ForEachEditComponent } from './detailes/for-each-edit.component';
 import { NgxPrintModule } from 'ngx-print';
 import { FormDirective } from './libraries/autofocus.directive';
 import { SelectNormalMultipleComponent } from './components/selects/select-normal-multiple.component';
+import { MaterialUsageComponent } from './components/materialUsed/material-usage.component';
 @NgModule({
   declarations: [
+    MaterialUsageComponent,
     // ExpandableTableComponent,
     // NormalTableComponent,
     // DetailsTableGroupComponent,
@@ -123,6 +125,7 @@ import { SelectNormalMultipleComponent } from './components/selects/select-norma
     CalculateFewComponent,
   ],
   exports: [
+    MaterialUsageComponent,
     // ExpandableTableComponent,
     // NormalTableComponent,
     // DetailsTableComponent,
@@ -203,6 +206,9 @@ import { SelectNormalMultipleComponent } from './components/selects/select-norma
     // BrowserModule,
   ],
   entryComponents: [
+    MaterialUsageComponent,
+
+    
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,

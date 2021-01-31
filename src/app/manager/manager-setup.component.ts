@@ -132,6 +132,7 @@ export class ManagmentSetupComponent {
                     label: 'Default measure unit (only for bulk)',
                     type: 'selectNormal',
                     options: this.genral.getMeasureUnit(),
+                    disable: true,
                 },
                 {
                     type: 'inputselect',

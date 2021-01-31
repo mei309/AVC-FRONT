@@ -244,6 +244,10 @@ export class Genral {
   findAllPoCodes (): Observable<any> {
     return this.http.get(this.mainurl+'findAllPoCodes');
   }
+
+  getStorageGeneralItem(itemId: number): Observable<any> {
+    return this.http.get(this.mainurl+'getStorageGeneralItem/'+itemId);
+  }
   
   getRoles(): string[] {
     return ['ROLE_MANAGER', 'ROLE_SYSTEM_MANAGER'];

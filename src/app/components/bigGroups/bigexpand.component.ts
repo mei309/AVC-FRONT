@@ -26,6 +26,7 @@ import { SelectLineComponent } from '../selects/slecet-line.component';
 import { ArrayOrdinalComponent } from '../array/array-ordinal.component';
 import { PercentInputComponent } from '../inputs/percent-input.component';
 import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
+import { MaterialUsageComponent } from '../materialUsed/material-usage.component';
 
 
 const componentMapper = {
@@ -55,6 +56,7 @@ const componentMapper = {
   inputReadonly: InputReadonlyComponent,
   inputReadonlySelect: InputReadonlyComponent,
   tableWithInput: TableWithInputComponent,
+  materialUsage: MaterialUsageComponent,
 };
 @Component({
   selector: 'app-bigexpand',

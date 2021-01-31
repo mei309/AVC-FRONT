@@ -107,67 +107,69 @@ export class ManagmentUsersComponent implements OnInit {
     });
   }
 
-  editNewDialog(value: any = null): void {
-    if(value) {
-        value['person'] = {name: value['personName']};
-    }
-    const myRegConfig = [
-        {
-            type: 'bigoutside',
-            name: 'person',
-            collections: [
-                {
-                    type: 'input',
-                    label: 'Name',
-                    name: 'name',
-                    inputType: 'text',
-                    disable: true,
-                },
-            ]
-        },
-        {
-            type: 'input',
-            label: 'Username',
-            name: 'username',
-            inputType: 'text',
-            validations: [
-                {
-                    name: 'required',
-                    validator: Validators.required,
-                    message: 'Username Required'
-                }
-            ]
-        },
-        {
-            type: 'selectNormalMultiple',
-            label: 'Roles',
-            name: 'roles',
-            options: this.genral.getRoles(),
-        },     
-        {
-            type: 'button',
-            label: 'Submit',
-            name: 'submit',
-        }
-    ];
-    const dialogRef = this.dialog.open(EditDialogComponent, {
-      width: '80%',
-      height: '80%',
-      data: {putData: value, regConfig: myRegConfig, mainLabel: 'Edit user'},
-    });
-    dialogRef.afterClosed().subscribe(data => {
-        if(!data || data === 'closed') {
-        } else if(data === 'remove') {
-            // this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
-            //     this.setupSource.pop(value);
-            // });
-        }else if (!isEqual(value['roles'], data['roles']) || value['username'] !== data['username']) {
-            this.localService.editUser(data).pipe(take(1)).subscribe( val => {
-                this.localService.getAllUsers().pipe(take(1)).subscribe(value => {
-                    this.usersSource = <any[]>value;
+  editNewDialog(user): void {
+    this.localService.getUser(user['id']).pipe(take(1)).subscribe(value => {
+        console.log(value);
+        
+        const myRegConfig = [
+            {
+                type: 'bigoutside',
+                name: 'person',
+                collections: [
+                    {
+                        type: 'input',
+                        label: 'Name',
+                        name: 'name',
+                        inputType: 'text',
+                        disable: true,
+                    },
+                ]
+            },
+            {
+                type: 'input',
+                label: 'Username',
+                name: 'username',
+                inputType: 'text',
+                disable: true,
+                validations: [
+                    {
+                        name: 'required',
+                        validator: Validators.required,
+                        message: 'Username Required'
+                    }
+                ]
+            },
+            {
+                type: 'selectNormalMultiple',
+                label: 'Roles',
+                name: 'roles',
+                options: this.genral.getRoles(),
+            },     
+            {
+                type: 'button',
+                label: 'Submit',
+                name: 'submit',
+            }
+        ];
+        const dialogRef = this.dialog.open(EditDialogComponent, {
+            width: '80%',
+            height: '80%',
+            data: {putData: value, regConfig: myRegConfig, mainLabel: 'Edit user'},
+        });
+        dialogRef.afterClosed().subscribe(data => {
+            if(!data || data === 'closed') {
+            } else if(data === 'remove') {
+                // this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
+                //     this.setupSource.pop(value);
+                // });
+            }else if (!isEqual(value['roles'], data['roles']) || value['username'] !== data['username']) {
+                this.localService.editUser(data).pipe(take(1)).subscribe( val => {
+                    this.localService.getAllUsers().pipe(take(1)).subscribe(value => {
+                        this.usersSource = <any[]>value;
+                    });
                 });
-            });
-        }
+            }
+        });
     });
   }
 

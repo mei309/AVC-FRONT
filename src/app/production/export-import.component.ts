@@ -623,6 +623,82 @@ export class ExportImportComponent implements OnInit {
                     },
                 ]
             },
+            // {
+            //     type: 'bigexpand',
+            //     name: 'materialUsed',
+            //     label: 'Material used',
+            //     options: 'aloneNoAdd',
+            //     collections: [
+            //         {
+            //             type: 'materialUsage',
+            //             // label: 'Transfer from',
+            //             name: 'usedItems',
+            //             options: 'numberUsedUnits',
+            //             collections: [
+            //                 {
+            //                     type: 'select',
+            //                     label: 'Item',
+            //                     name: 'item',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'date',
+            //                     label: 'Process date',
+            //                     name: 'itemProcessDate',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'input',
+            //                     label: 'Weight unit',
+            //                     name: 'measureUnit',
+            //                     disable: true,
+            //                 },
+            //                 {
+            //                     type: 'bignotexpand',
+            //                     name: 'storage',
+            //                     collections: [
+            //                         {
+            //                             type: 'input',
+            //                             label: 'Number of units',
+            //                             name: 'numberUnits',
+            //                             disable: true,
+            //                         },
+            //                         {
+            //                             type: 'input',
+            //                             name: 'unitAmount',
+            //                             label: 'Unit weight',
+            //                             disable: true,
+            //                         //     collections: [
+            //                         //         {
+            //                         //             type: 'input',
+            //                         //             label: 'Unit weight',
+            //                         //             name: 'amount',
+            //                         //         },
+            //                         //         {
+            //                         //             type: 'select',
+            //                         //             label: 'Weight unit',
+            //                         //             name: 'measureUnit',
+            //                         //         },
+            //                         //     ]
+            //                         },
+            //                         {
+            //                             type: 'select',
+            //                             label: 'Warehouse location',
+            //                             name: 'warehouseLocation',
+            //                             disable: true,
+            //                         },
+            //                         {
+            //                             type: 'input',
+            //                             label: 'Number available units',
+            //                             name: 'numberAvailableUnits',
+            //                             disable: true,
+            //                         },
+            //                     ]
+            //                 },
+            //             ],
+            //         },
+            //     ]
+            // },
             {
                 type: 'bigexpand',
                 name: 'materialUsed',
