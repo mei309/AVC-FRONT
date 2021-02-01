@@ -28,13 +28,12 @@ export class ExportImportComponent implements OnInit {
     // onSubmit1(value: any) {
         var arr = [];
         if(value['materialUsed']) {
-            var arrMaterial = [];
             value['materialUsed'].forEach(element => {
-                if(element['numberUsedUnits']) {
-                    arrMaterial.push({storage: element, numberUsedUnits: element['numberUsedUnits']});
-                }
+                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
+                element['groupName'] = 'meterial';
             });
-            arr.push({usedItems: arrMaterial, groupName: 'meterial'});
+            value['materialUsed'] = value['materialUsed'].filter(amou => amou.usedItems.length);
+            arr = arr.concat(value['materialUsed']);
             delete value['materialUsed'];
         }
         if(value['usedItemsNormal']) {
@@ -118,15 +117,15 @@ export class ExportImportComponent implements OnInit {
                     });
                     arrNormal.push(element);
                 } else if(element['groupName'] === 'meterial') {
+                    element['usedItems'].forEach(el => {
+                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                    });
                     arrMaterial.push(element);
                 } 
             });
 
 
             delete this.beginData['usedItemGroups'];
-            if(arrMaterial.length) {
-                this.dataSource['materialUsed'] = arrMaterial;
-            }
             
             var processNormal = [];
             var processTable = [];
@@ -142,6 +141,9 @@ export class ExportImportComponent implements OnInit {
             });
             delete this.beginData['processItems'];
             this.dataSource = this.beginData;
+            if(arrMaterial.length) {
+                this.dataSource['materialUsed'] = arrMaterial;
+            }
             if(processTable.length) {
                 this.dataSource['processItemsTable'] = processTable;
             }
@@ -623,137 +625,137 @@ export class ExportImportComponent implements OnInit {
                     },
                 ]
             },
-            // {
-            //     type: 'bigexpand',
-            //     name: 'materialUsed',
-            //     label: 'Material used',
-            //     options: 'aloneNoAdd',
-            //     collections: [
-            //         {
-            //             type: 'materialUsage',
-            //             // label: 'Transfer from',
-            //             name: 'usedItems',
-            //             options: 'numberUsedUnits',
-            //             collections: [
-            //                 {
-            //                     type: 'select',
-            //                     label: 'Item',
-            //                     name: 'item',
-            //                     disable: true,
-            //                 },
-            //                 {
-            //                     type: 'date',
-            //                     label: 'Process date',
-            //                     name: 'itemProcessDate',
-            //                     disable: true,
-            //                 },
-            //                 {
-            //                     type: 'input',
-            //                     label: 'Weight unit',
-            //                     name: 'measureUnit',
-            //                     disable: true,
-            //                 },
-            //                 {
-            //                     type: 'bignotexpand',
-            //                     name: 'storage',
-            //                     collections: [
-            //                         {
-            //                             type: 'input',
-            //                             label: 'Number of units',
-            //                             name: 'numberUnits',
-            //                             disable: true,
-            //                         },
-            //                         {
-            //                             type: 'input',
-            //                             name: 'unitAmount',
-            //                             label: 'Unit weight',
-            //                             disable: true,
-            //                         //     collections: [
-            //                         //         {
-            //                         //             type: 'input',
-            //                         //             label: 'Unit weight',
-            //                         //             name: 'amount',
-            //                         //         },
-            //                         //         {
-            //                         //             type: 'select',
-            //                         //             label: 'Weight unit',
-            //                         //             name: 'measureUnit',
-            //                         //         },
-            //                         //     ]
-            //                         },
-            //                         {
-            //                             type: 'select',
-            //                             label: 'Warehouse location',
-            //                             name: 'warehouseLocation',
-            //                             disable: true,
-            //                         },
-            //                         {
-            //                             type: 'input',
-            //                             label: 'Number available units',
-            //                             name: 'numberAvailableUnits',
-            //                             disable: true,
-            //                         },
-            //                     ]
-            //                 },
-            //             ],
-            //         },
-            //     ]
-            // },
             {
                 type: 'bigexpand',
                 name: 'materialUsed',
                 label: 'Material used',
-                // options: 'alone',
+                options: 'aloneNoAdd',
                 collections: [
                     {
-                        type: 'select',
-                        label: 'Item descrption',
-                        name: 'item',
-                        options: this.genral.getItemsGeneral(),
-                    },
-                    {
-                        type: 'selectNormal',
-                        label: 'Weight unit',
-                        name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
-                    },
-                    {
-                        type: 'input',
-                        label: 'Number of units',
-                        name: 'numberUnits',
-                        // value: 1,
-                        inputType: 'numeric',
-                        options: 3,
-                    },
-                    // {
-                    //     type: 'inputselect',
-                    //     name: 'unitAmount',
-                    //     options: 'item',
-                    //     inputType: 'second',
-                    //     collections: [
-                    //         {
-                    //             type: 'input',
-                    //             label: 'Unit weight',
-                    //             name: 'amount',
-                    //             inputType: 'numeric',
-                    //             options: 3,
-                    //         },
-                    //         {
-                    //             type: 'select',
-                    //             label: 'Weight unit',
-                    //             value: 'GRAM',
-                    //             name: 'measureUnit',
-                    //             options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                    //         },
-                    //     ]
-                    // },
-                    {
-                        type: 'divider',
-                        inputType: 'divide'
+                        type: 'materialUsage',
+                        // label: 'Transfer from',
+                        name: 'usedItems',
+                        options: 'numberUsedUnits',
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Item',
+                                name: 'item',
+                                disable: true,
+                            },
+                            // {
+                            //     type: 'date',
+                            //     label: 'Process date',
+                            //     name: 'itemProcessDate',
+                            //     disable: true,
+                            // },
+                            {
+                                type: 'input',
+                                label: 'Weight unit',
+                                name: 'measureUnit',
+                                disable: true,
+                            },
+                            {
+                                type: 'bignotexpand',
+                                name: 'storage',
+                                collections: [
+                                    {
+                                        type: 'input',
+                                        label: 'Number of units',
+                                        name: 'numberUnits',
+                                        disable: true,
+                                    },
+                                    {
+                                        type: 'input',
+                                        name: 'unitAmount',
+                                        label: 'Unit weight',
+                                        disable: true,
+                                    //     collections: [
+                                    //         {
+                                    //             type: 'input',
+                                    //             label: 'Unit weight',
+                                    //             name: 'amount',
+                                    //         },
+                                    //         {
+                                    //             type: 'select',
+                                    //             label: 'Weight unit',
+                                    //             name: 'measureUnit',
+                                    //         },
+                                    //     ]
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: 'Warehouse location',
+                                        name: 'warehouseLocation',
+                                        disable: true,
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Number available units',
+                                        name: 'numberAvailableUnits',
+                                        disable: true,
+                                    },
+                                ]
+                            },
+                        ],
                     },
                 ]
             },
+            // {
+            //     type: 'bigexpand',
+            //     name: 'materialUsed',
+            //     label: 'Material used',
+            //     // options: 'alone',
+            //     collections: [
+            //         {
+            //             type: 'select',
+            //             label: 'Item descrption',
+            //             name: 'item',
+            //             options: this.genral.getItemsGeneral(),
+            //         },
+            //         {
+            //             type: 'selectNormal',
+            //             label: 'Weight unit',
+            //             name: 'measureUnit',
+            //             inputType: 'item',
+            //             options: this.genral.getMeasureUnit(),
+            //         },
+            //         {
+            //             type: 'input',
+            //             label: 'Number of units',
+            //             name: 'numberUnits',
+            //             // value: 1,
+            //             inputType: 'numeric',
+            //             options: 3,
+            //         },
+            //         // {
+            //         //     type: 'inputselect',
+            //         //     name: 'unitAmount',
+            //         //     options: 'item',
+            //         //     inputType: 'second',
+            //         //     collections: [
+            //         //         {
+            //         //             type: 'input',
+            //         //             label: 'Unit weight',
+            //         //             name: 'amount',
+            //         //             inputType: 'numeric',
+            //         //             options: 3,
+            //         //         },
+            //         //         {
+            //         //             type: 'select',
+            //         //             label: 'Weight unit',
+            //         //             value: 'GRAM',
+            //         //             name: 'measureUnit',
+            //         //             options: ['KG', 'LBS', 'OZ', 'GRAM'],
+            //         //         },
+            //         //     ]
+            //         // },
+            //         {
+            //             type: 'divider',
+            //             inputType: 'divide'
+            //         },
+            //     ]
+            // },
             {
                 type: 'button',
                 label: 'Submit',

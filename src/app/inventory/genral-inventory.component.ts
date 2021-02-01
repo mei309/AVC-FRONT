@@ -9,7 +9,17 @@ import { InventoryService } from './inventory.service';
 
 @Component({
   selector: 'app-genral-inventory',
-  templateUrl: './genral-inventory.component.html',
+  template: `
+  <h1 style="text-align:center">General inventory</h1>
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
+      <mat-tab label="General stock by item">
+      </mat-tab>
+      <mat-tab label="General stock by PO#">
+      </mat-tab>
+  </mat-tab-group>
+  <search-group-details [mainDetailsSource]="generalSourceColumns">
+  </search-group-details>
+    `
 })
 export class GenralInventoryComponent implements OnInit {
 

@@ -594,7 +594,7 @@ export class DynamicFormComponent implements OnInit {
           break;
         }
         case 'materialUsage': {
-          if(!value.hasOwnProperty(field.name) || !value[field.name] || value[field.name].length) {
+          if(!value.hasOwnProperty(field.name) || !value[field.name] || !value[field.name].length) {
             group.addControl(field.name, this.fb.array([]));
             break;
           }
@@ -605,13 +605,13 @@ export class DynamicFormComponent implements OnInit {
             groupJson = value[field.name];
           }
           group.addControl(field.name, this.fb.array([this.createItemWithData(field, groupJson[0])]));
-          control = this.fb.control(
+          var control = this.fb.control(
             groupJson[0][field.options]
           );
           ((group.get([field.name]) as FormArray).at(0) as FormGroup).addControl(field.options, control);
           for(let i = 1; i < groupJson.length; i++) {
             (group.get([field.name]) as FormArray).push(this.createItemWithData(field, groupJson[i]));
-            control = this.fb.control(
+            var control = this.fb.control(
               groupJson[i][field.options]
             );
             ((group.get([field.name]) as FormArray).at(i) as FormGroup).addControl(field.options, control);
@@ -784,7 +784,7 @@ export class DynamicFormComponent implements OnInit {
           break;
         }
         case 'materialUsage': {
-          if(!value.hasOwnProperty(temp.name) || !value[temp.name] || value[temp.name].length) {
+          if(!value.hasOwnProperty(temp.name) || !value[temp.name] || !value[temp.name].length) {
             group2.addControl(temp.name, this.fb.array([]));
             break;
           }

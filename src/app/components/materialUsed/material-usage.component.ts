@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Genral } from 'src/app/genral.service';
 import { FieldConfig } from '../../field.interface';
 import { isEqual, map } from 'lodash-es';
@@ -54,23 +54,16 @@ export class MaterialUsageComponent implements OnInit {
          private genral: Genral) {}
   ngOnInit() {
     this.form = this.fb.group({});
-    this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
+    this.form.addControl('items', this.fb.array([this.fb.group({item: null})]));
     
-    this.form.get('poCodes').valueChanges.subscribe(selectedValue => {
-        selectedValue = selectedValue.filter(ele => ele.poCode && ele.poCode.id);
-        selectedValue = map(selectedValue, 'poCode'); 
+    this.form.get('items').valueChanges.subscribe(selectedValue => {
+        selectedValue = selectedValue.filter(ele => ele.item && ele.item.id);
+        selectedValue = map(selectedValue, 'item'); 
         if(selectedValue.length && !isEqual(selectedValue, this.choosedItems)) {
             var result = diff(this.choosedItems, selectedValue, 'id', { updatedValues: 1});
-            var numberOfObsrevers = result['added'].length;// + result['removed'].length;
-            if(numberOfObsrevers) {
-                // this.isFormAvailable = false;
-            }
             result['added'].forEach(el => {
                 this.genral.getStorageGeneralItem(el.id).pipe(take(1)).subscribe( val => {
-                    // this.addToForm(val);
-                    console.log(val);
-                    
-                    numberOfObsrevers--;
+                    this.addToForm(val);
                 });
             });
             this.choosedItems = selectedValue;
@@ -80,7 +73,7 @@ export class MaterialUsageComponent implements OnInit {
     this.itemConfig =
         {
             type: 'bigexpand',
-            name: 'poCodes',
+            name: 'items',
             label: 'Loading PO#s',
             options: 'aloneInline',
             collections: [
@@ -99,7 +92,46 @@ export class MaterialUsageComponent implements OnInit {
 
 
     this.dataSource = this.group.get(this.field.name).value; 
+    this.columnsSetup(this.field);
     this.kidSetup(this.field);
+  }
+
+  columnsSetup(tempField) {
+    tempField.collections.forEach(element => {
+        switch (element.type) {
+            case 'selectgroup':
+                this.oneColumns.push(element.collections[0]);
+                this.displayedColumns.push(element.collections[0].name);
+                this.oneColumns.push(element.collections[1]);
+                this.displayedColumns.push(element.collections[1].name);
+                break;
+            case 'inputselect':
+                if(element.name) {
+                    this.oneColumns.push(element);
+                    this.displayedColumns.push(element.name);
+                } else {
+                    this.oneColumns.push(element.collections[0]);
+                    this.displayedColumns.push(element.collections[0].name);
+                    this.oneColumns.push(element.collections[1]);
+                    this.displayedColumns.push(element.collections[1].name);
+                }
+                break;
+            case 'bignotexpand':
+                element.collections.forEach(el => {
+                        this.oneColumns.push(el);
+                        this.displayedColumns.push(el.name);
+
+                });
+                break;
+            default:
+                this.oneColumns.push(element);
+                this.displayedColumns.push(element.name);
+                break;
+        }
+    });
+    if(tempField.options) {
+        this.inputField = tempField.options;
+    }
   }
 
   kidSetup(tempField) {
@@ -122,8 +154,6 @@ export class MaterialUsageComponent implements OnInit {
                         ele[element.name] = ele[element.name]? ele[element.name]['value'] : '';
                     });
                 }
-                this.oneColumns.push(element);
-                this.displayedColumns.push(element.name);
                 break;
             case 'selectgroup':
                 element.collections[0]['name'] = element.inputType;
@@ -132,10 +162,6 @@ export class MaterialUsageComponent implements OnInit {
                     ele[element.collections[0].name] = newGroup[element.inputType];
                     ele[element.collections[1].name] = newGroup.value;
                 });
-                this.oneColumns.push(element.collections[0]);
-                this.displayedColumns.push(element.collections[0].name);
-                this.oneColumns.push(element.collections[1]);
-                this.displayedColumns.push(element.collections[1].name);
                 break;
             case 'inputselect':
                 if(element.name) {
@@ -143,13 +169,6 @@ export class MaterialUsageComponent implements OnInit {
                         const newGroup = ele[element.name];
                         ele[element.name] = newGroup[element.collections[0].name] + ' ' + newGroup[element.collections[1].name];
                     });
-                    this.oneColumns.push(element);
-                    this.displayedColumns.push(element.name);
-                } else {
-                    this.oneColumns.push(element.collections[0]);
-                    this.displayedColumns.push(element.collections[0].name);
-                    this.oneColumns.push(element.collections[1]);
-                    this.displayedColumns.push(element.collections[1].name);
                 }
                 break;
             case 'bignotexpand':
@@ -178,32 +197,72 @@ export class MaterialUsageComponent implements OnInit {
                         }
                     });
                 });
-                element.collections.forEach(el => {
-                    // if(el.type === 'inputselect' && !el.name) {
-                    //     this.oneColumns.push(el.collections[0]);
-                    //     this.displayedColumns.push(el.collections[0].name);
-                    //     this.oneColumns.push(el.collections[1]);
-                    //     this.displayedColumns.push(el.collections[1].name);
-                    // } else {
-                        this.oneColumns.push(el);
-                        this.displayedColumns.push(el.name);
-                    // }
-                });
                 break;
             case 'date':
                 this.dataSource.forEach(ele => {
                     ele[element.name] = new DatePipe(this.locale).transform(ele[element.name]);
                 });
             default:
-                this.oneColumns.push(element);
-                this.displayedColumns.push(element.name);
                 break;
         }
     });
-    if(tempField.options) {
-        this.inputField = tempField.options;
-        // this.displayedColumns.push('inputField');
+  }
+
+  addToForm(val): void {
+    const items = this.group.get([this.field.name]) as FormArray;
+    val?.forEach(element => { 
+        if(element['storageForms']) {
+            element['storageForms'].forEach(ele => {
+                // if(!this.removeIds.includes(ele['id'])) {
+                    var obj = {item: element['item'], measureUnit: element['measureUnit'], storage: ele};
+                    var group2 = this.fb.group({});
+                    items.push(group2);
+                    this.createItem(group2, this.field, obj);
+                // }
+            });
+        }
+    });
+    this.dataSource = this.group.get(this.field.name).value; 
+    this.kidSetup(this.field);
+  }
+
+  createItem(group2: FormGroup, field: FieldConfig, value) { 
+    if(value.hasOwnProperty('id')) {
+        group2.addControl('id', this.fb.control(value['id'], null));
     }
+    if(value.hasOwnProperty('version')) {
+        group2.addControl('version', this.fb.control(value['version'], null));
+    }             
+    field.collections.forEach(kid => {
+        if(kid.type === 'bignotexpand') {
+            group2.addControl(kid.name, this.createBigNotExpand(kid, value.hasOwnProperty([kid.name]) ? value[kid.name] : {}));           
+        } else {
+            const control = this.fb.control(
+                value.hasOwnProperty(kid.name)? value[kid.name] : kid.value,
+                null
+            );
+            group2.addControl(kid.name, control);
+        }
+    });
+    group2.addControl(field.options, this.fb.control(null, null));
+  }
+
+  createBigNotExpand(field: FieldConfig, value): FormGroup {
+    var group3 = this.fb.group({});
+    if(value.hasOwnProperty('id')) {
+        group3.addControl('id', this.fb.control(value['id'], null));
+    }
+    if(value.hasOwnProperty('version')) {
+        group3.addControl('version', this.fb.control(value['version'], null));
+    }  
+    field.collections.forEach(kid => {
+        const control = this.fb.control(
+            value.hasOwnProperty(kid.name)? value[kid.name] : kid.value,
+            null
+        );
+        group3.addControl(kid.name, control);
+    });
+    return group3;
   }
 }
 

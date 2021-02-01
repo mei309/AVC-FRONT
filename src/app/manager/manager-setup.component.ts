@@ -21,7 +21,6 @@ import { Validators } from '@angular/forms';
             <mat-button-toggle value="Warehouses">Warehouses</mat-button-toggle>
             <mat-button-toggle value="SupplyCategories">Supply categories</mat-button-toggle>
             <mat-button-toggle value="CompanyPositions">Company positions</mat-button-toggle>
-            <mat-button-toggle value="Items">Items</mat-button-toggle>
             <mat-button-toggle value="ContractTypes">Contract types</mat-button-toggle>
             <mat-button-toggle value="ProductionLines">Production lines</mat-button-toggle>
             <mat-button-toggle value="CashewStandards">Raw cashew standerts</mat-button-toggle>
@@ -84,90 +83,6 @@ export class ManagmentSetupComponent {
                     type: 'selectNormal',
                     options: this.genral.getSupplyGroup(),
                 },
-            );
-        } else if('Items' === this.choosedOne) {
-            this.columnsSetup.push(
-                {
-                    name: 'dtype',
-                    label: 'Item type',
-                    search: 'select',
-                    options: ['bulk', 'packed'],
-                },
-                {
-                    name: 'measureUnit',
-                    label: 'Default measure unit',
-                    search: 'select',
-                    options: this.genral.getMeasureUnit(),
-                },
-                {
-                    type: 'weight',
-                    label: 'Bag weight',
-                    name: 'unit',
-                    // collections: 'measureUnit',
-                },
-                {
-                    name: 'itemGroup',
-                    label: 'Item group',
-                    search: 'select',
-                    options: this.genral.getItemGroup(),
-                },
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    search: 'select',
-                    options: this.genral.getProductionUse(),
-                }
-            );
-            this.regConfigTemp.push(
-                {
-                    type: 'radiobutton',
-                    name: 'dtype',
-                    label: 'Item type',
-                    value: 'bulk',
-                    options: ['bulk', 'packed'],
-                    disable: true,
-                },
-                {
-                    name: 'measureUnit',
-                    label: 'Default measure unit (only for bulk)',
-                    type: 'selectNormal',
-                    options: this.genral.getMeasureUnit(),
-                    disable: true,
-                },
-                {
-                    type: 'inputselect',
-                    name: 'unit',
-                    // disable: true,
-                    collections: [
-                        {
-                            type: 'input',
-                            label: 'Unit weight (only for packed)',
-                            name: 'amount',
-                            inputType: 'numeric',
-                            options: 3,
-                        },
-                        {
-                            type: 'select',
-                            label: 'Weight unit',
-                            name: 'measureUnit',
-                            options: this.genral.getMeasureUnit(),
-                        },
-                    ]
-                },
-                {
-                    name: 'itemGroup',
-                    label: 'Item group',
-                    type: 'selectNormal',
-                    options: this.genral.getItemGroup(),
-                },
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    type: 'selectNormal',
-                    // inputType: 'multiple',
-                    options: this.genral.getProductionUse(),
-
-                }
             );
         } else if('ContractTypes' === this.choosedOne) {
             this.columnsSetup.push(
@@ -636,11 +551,13 @@ export class ManagmentSetupComponent {
         });
         dialogRef.afterClosed().subscribe(data => {
             if(!data || data === 'closed') {
-            } else if(data === 'remove') {
-                this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
-                    this.setupSource.pop(value);
-                });
-            } else if (!isEqual(value, data)) {
+            } 
+            // else if(data === 'remove') {
+            //     this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
+            //         this.setupSource.pop(value);
+            //     });
+            // } 
+            else if (!isEqual(value, data)) {
                 this.localService.editSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
                     this.columnsSetup.forEach(va => {
                         value[va.name] = val[va.name];

@@ -6,8 +6,8 @@ import { cloneDeep, isEqual } from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
-import { InventoryService } from './inventory.service';
+import { InventoryDetailsDialogComponent } from '../inventory/inventory-details-dialog.component';
+import { InventoryService } from '../inventory/inventory.service';
 @Component({
     selector: 'transfer-count',
     template: `

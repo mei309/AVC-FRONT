@@ -14,11 +14,11 @@ import { Validators } from '@angular/forms';
     <div style="text-align: center;">
         <h1>Items setup</h1>
         <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()">
-            <mat-button-toggle value="bulkCItems">Cashew bulk items</mat-button-toggle>
-            <mat-button-toggle value="packedCItems">Cashew packed items</mat-button-toggle>
-            <mat-button-toggle value="bulkGItems">General bulk items</mat-button-toggle>
-            <mat-button-toggle value="packedGItems">General packed items</mat-button-toggle>
-            <mat-button-toggle value="wasteItems">Waste items</mat-button-toggle>
+            <mat-button-toggle value="Cbulk">Cashew bulk items</mat-button-toggle>
+            <mat-button-toggle value="Cpacked">Cashew packed items</mat-button-toggle>
+            <mat-button-toggle value="Gbulk">General bulk items</mat-button-toggle>
+            <mat-button-toggle value="Gpacked">General packed items</mat-button-toggle>
+            <mat-button-toggle value="waste">Waste items</mat-button-toggle>
         </mat-button-toggle-group>
         <h2>{{choosedOne}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
@@ -27,7 +27,6 @@ import { Validators } from '@angular/forms';
             </search-details>
         </div>
     </div>
-    
     `
   })
 export class ItemsSetupComponent {
@@ -42,7 +41,7 @@ export class ItemsSetupComponent {
 
 
     updateNew() {
-        this.localService.getAllSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
+        this.localService.getItemsSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
             this.setupSource = <any[]>value;
             console.log(value);
             
@@ -61,25 +60,13 @@ export class ItemsSetupComponent {
                 type: 'input',
             }
         ];
-        if('packedItems' === this.choosedOne) {
+        if(this.choosedOne.endsWith('packed')) {
             this.columnsSetup.push(
                 {
                     type: 'weight',
                     label: 'Bag weight',
                     name: 'unit',
                     // collections: 'measureUnit',
-                },
-                {
-                    name: 'itemGroup',
-                    label: 'Item group',
-                    search: 'select',
-                    options: this.genral.getItemGroup(),
-                },
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    search: 'select',
-                    options: this.genral.getProductionUse(),
                 }
             );
             this.regConfigTemp.push(
@@ -90,7 +77,7 @@ export class ItemsSetupComponent {
                     collections: [
                         {
                             type: 'input',
-                            label: 'Unit weight (only for packed)',
+                            label: 'Unit weight',
                             name: 'amount',
                             inputType: 'numeric',
                             options: 3,
@@ -102,20 +89,6 @@ export class ItemsSetupComponent {
                             options: this.genral.getMeasureUnit(),
                         },
                     ]
-                },
-                {
-                    name: 'itemGroup',
-                    label: 'Item group',
-                    type: 'selectNormal',
-                    options: this.genral.getItemGroup(),
-                },
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    type: 'selectNormal',
-                    // inputType: 'multiple',
-                    options: this.genral.getProductionUse(),
-
                 }
             );
         } else {
@@ -125,41 +98,60 @@ export class ItemsSetupComponent {
                     label: 'Default measure unit',
                     search: 'select',
                     options: this.genral.getMeasureUnit(),
-                },
-                {
-                    name: 'itemGroup',
-                    label: 'Item group',
-                    search: 'select',
-                    options: this.genral.getItemGroup(),
-                },
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    search: 'select',
-                    options: this.genral.getProductionUse(),
                 }
             );
             this.regConfigTemp.push(
                 {
                     name: 'measureUnit',
-                    label: 'Default measure unit (only for bulk)',
+                    label: 'Default measure unit',
                     type: 'selectNormal',
                     options: this.genral.getMeasureUnit(),
                     disable: true,
-                },
+                }
+            );
+        }
+        if(this.choosedOne.startsWith('C')) {
+            this.columnsSetup.push(
                 {
-                    name: 'itemGroup',
-                    label: 'Item group',
-                    type: 'selectNormal',
-                    options: this.genral.getItemGroup(),
-                },
+                    name: 'productionUse',
+                    label: 'Production use',
+                    search: 'select',
+                    options: ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'],
+                }
+            );
+            this.regConfigTemp.push(
                 {
                     name: 'productionUse',
                     label: 'Production use',
                     type: 'selectNormal',
-                    // inputType: 'multiple',
-                    options: this.genral.getProductionUse(),
-
+                    options: ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'],
+                }
+            );
+        } else if(this.choosedOne.startsWith('G')) {
+            this.columnsSetup.push(
+                {
+                    name: 'productionUse',
+                    label: 'Production use',
+                    search: 'select',
+                    options: ['INGREDIENTS', 'PACKING_SUPPLYES'],
+                }
+            );
+            this.regConfigTemp.push(
+                {
+                    name: 'productionUse',
+                    label: 'Production use',
+                    type: 'selectNormal',
+                    options: ['INGREDIENTS', 'PACKING_SUPPLYES'],
+                }
+            );
+        } else {
+            this.regConfigTemp.push(
+                {
+                    name: 'productionUse',
+                    label: 'Production use',
+                    type: 'selectNormal',
+                    value: 'WASTE',
+                    options: ['WASTE'],
                 }
             );
         }
@@ -171,6 +163,7 @@ export class ItemsSetupComponent {
             }
         );
     }
+    
 
 
     newDialog(): void {
@@ -181,8 +174,8 @@ export class ItemsSetupComponent {
         });
         dialogRef.afterClosed().subscribe(data => {
             if(!(!data || data === 'closed' || data === 'remove')) {
-                this.localService.addNewSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
-                    this.localService.getAllSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
+                this.localService.addNewItem(this.choosedOne, data).pipe(take(1)).subscribe( val => {
+                    this.localService.getItemsSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
                         this.setupSource = <any[]>value;
                     });
                 });
@@ -199,12 +192,14 @@ export class ItemsSetupComponent {
         });
         dialogRef.afterClosed().subscribe(data => {
             if(!data || data === 'closed') {
-            } else if(data === 'remove') {
-                this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
-                    this.setupSource.pop(value);
-                });
-            } else if (!isEqual(value, data)) {
-                this.localService.editSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
+            } 
+            // else if(data === 'remove') {
+            //     this.localService.removeItem(this.choosedOne, value).pipe(take(1)).subscribe( val => {
+            //         this.setupSource.pop(value);
+            //     });
+            // }
+            else if (!isEqual(value, data)) {
+                this.localService.editItem(this.choosedOne, data).pipe(take(1)).subscribe( val => {
                     this.columnsSetup.forEach(va => {
                         value[va.name] = val[va.name];
                     })

@@ -356,7 +356,7 @@ export class ReceiveGOrder implements OnInit {
                     //     this.router.navigate(['Main/ordready/NewGenralOrder',{id: val['poCode']['id']}]);
                     // } 
                     else {
-                        this.router.navigate(['../OrdersGReports', {number: 1}], { relativeTo: this._Activatedroute });
+                        this.router.navigate(['../ReceiveGReports'], { relativeTo: this._Activatedroute });
                     }
                 });
             });

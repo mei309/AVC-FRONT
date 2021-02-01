@@ -11,7 +11,18 @@ import { FormGroup, FormControl } from '@angular/forms';
 // import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-inventory-reports',
-  templateUrl: './inventory.component.html',
+  template: `
+  <h1 style="text-align:center">Inventory reports</h1>
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
+  (selectedIndexChange)="changed($event)">
+      <!-- <mat-tab label="Transfers">
+      </mat-tab> -->
+      <mat-tab label="Relocation">
+      </mat-tab>
+  </mat-tab-group>
+  <search-group-details [mainDetailsSource]="mainSourceColumns" (details)="openDialog($event)">
+  </search-group-details>
+    `
 })
 export class InventoryComponent implements OnInit {
   tabIndex: number;

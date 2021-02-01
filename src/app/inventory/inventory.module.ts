@@ -7,14 +7,14 @@ import { SheardModule } from './../sheard.module';
 import { NgModule } from '@angular/core';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { InventoryComponent } from './inventory.component';
-import { TransferCountComponent } from './transfer-count.component';
 import { RelocationCountComponent } from './relocation-count.component';
 
 @NgModule({
   declarations: [GenralInventoryComponent, CashewInventoryComponent, CashewCountComponent, GenralCountComponent,
   // MaterialExportPoComponent, MaterialExportItemComponent, 
-  InventoryComponent, InventoryDetailsDialogComponent,
-  TransferCountComponent, RelocationCountComponent],
+  InventoryComponent, InventoryDetailsDialogComponent, RelocationCountComponent, 
+  // TransferCountComponent,
+  ],
   imports: [
     SheardModule,
     InventoryRoutingModule,

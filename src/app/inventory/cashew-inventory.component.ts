@@ -9,7 +9,25 @@ import { InventoryService } from './inventory.service';
 
 @Component({
   selector: 'app-cashew-inventory',
-  templateUrl: './cashew-inventory.component.html',
+  template: `
+  <h1 style="text-align:center">Cashew inventory</h1>
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
+      <mat-tab label="Cashew stock by item">
+          <div class="centerButtons">
+              <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
+                  <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
+                    <mat-option value="">--all--</mat-option>
+                    <mat-option *ngFor="let item of itemCategory" [value]="item">{{item}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+      </mat-tab>
+      <mat-tab label="Cashew stock by PO#">
+      </mat-tab>
+  </mat-tab-group>
+  <search-group-details [mainDetailsSource]="cashewSourceColumns">
+  </search-group-details>
+    `
 })
 export class CashewInventoryComponent implements OnInit {
 

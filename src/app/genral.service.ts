@@ -304,9 +304,6 @@ export class Genral {
     return ['PRODUCT', 'GENERAL', 'WASTE', 'QC'];
   }
 
-  getProductionUse(): string[] {
-    return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED', 'WASTE', 'INGREDIENTS', 'PACKING_SUPPLYES'];
-  }
 
 
 

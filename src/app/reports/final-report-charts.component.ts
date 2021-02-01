@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
             <ngx-charts-bar-vertical-2d [results]="bothLoss" xAxis="true" yAxis="true" legend="true"
                 showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
                 yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
-                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Percent: {{ model.value }}%<br/><span *ngIf="model.extra">Amount: {{ model.extra | tableCellPipe: 'weight' : null}}</span></pre></ng-template>
+                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Difference in percent: {{ model.value }}%<br/><span *ngIf="model.extra"><span *ngFor="let line of model.extra | keyvalue">{{line.key}}: {{ line.value | tableCellPipe: 'weight' : null}}<br/></span></span></pre></ng-template>
             </ngx-charts-bar-vertical-2d>
         </div>
         <div style="height: 400px">
@@ -16,7 +16,7 @@ import { Component, Input } from '@angular/core';
             <ngx-charts-bar-vertical [results]="totalLoss" xAxis="true" yAxis="true" legend="true"
                 showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
                 yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
-                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Percent: {{ model.value }}%<br/>Amount: {{ model.extra | tableCellPipe: 'weight' : null}}</pre></ng-template>
+                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Difference in percent: {{ model.value }}%<br/><span *ngIf="model.extra"><span *ngFor="let line of model.extra | keyvalue">{{line.key}}: {{ line.value | tableCellPipe: 'weight' : null}}<br/></span></span></pre></ng-template>
             </ngx-charts-bar-vertical>
         </div>
         <div style="height: 400px">
@@ -30,7 +30,7 @@ import { Component, Input } from '@angular/core';
 })
 export class FinalReportChartsComponent {
     xAxisLabel = 'Process';
-    yAxisLabel = 'Lose';
+    yAxisLabel = 'Difference';
     view: any[] = [700, 400];//[view]="view"
     totalLoss = [];
     productLoss = [];
@@ -53,7 +53,12 @@ export class FinalReportChartsComponent {
                         {
                             name: "Total",
                             value: val1['ratioLoss'],
-                            extra :  val1['difference'],
+                            extra :  {
+                                In: val1['totalProductIn'],
+                                Out: val1['totalProductOut'],
+                                Difference: val1['difference'],
+                                Waste: val1['totalWaste'],
+                            }
                         },
                         {
                             name: "Product",
@@ -64,7 +69,12 @@ export class FinalReportChartsComponent {
                 this.totalLoss.push({
                     name: v,
                     value: val1['ratioLoss'],
-                    extra :  val1['difference'],
+                    extra :  {
+                        In: val1['totalProductIn'],
+                        Out: val1['totalProductOut'],
+                        Difference: val1['difference'],
+                        Waste: val1['totalWaste'],
+                    }
                 });
                 this.productLoss.push({
                     name: v,

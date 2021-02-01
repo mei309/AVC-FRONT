@@ -55,16 +55,32 @@ export class ManagerService {
     return this.http.get(this.usersurl+'getAllSetupTable/'+table);
   }
 
+  getItemsSetupTable(table: string){
+    return this.http.get(this.usersurl+'getItemsSetupTable/'+table);
+  }
+
   addNewSetup(table: string, value) {
     return this.http.post(this.usersurl+'addNewSetup/'+table, value);
+  }
+
+  addNewItem(table: string, value) {
+    return this.http.post(this.usersurl+'addNewItem/'+table, value);
   }
   
   editSetup(table: string, value) {
     return this.http.put(this.usersurl+'editSetup/'+table, value);
   }
 
+  editItem(table: string, value) {
+    return this.http.put(this.usersurl+'editItem/'+table, value);
+  }
+
   removeSetup(table: string, value) {
     return this.http.delete(this.usersurl+'deleteSetup/'+table, value);
+  }
+
+  removeItem(table: string, value) {
+    return this.http.delete(this.usersurl+'deleteItem/'+table, value);
   }
 
   getCountries (): Observable<any> {

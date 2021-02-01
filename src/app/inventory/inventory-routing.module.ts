@@ -5,7 +5,7 @@ import { CashewInventoryComponent } from './cashew-inventory.component';
 import { GenralCountComponent } from './genral-count.component';
 import { GenralInventoryComponent } from './genral-inventory.component';
 import { InventoryComponent } from './inventory.component';
-import { TransferCountComponent } from './transfer-count.component';
+// import { TransferCountComponent } from '../garbage/transfer-count.component';
 import { RelocationCountComponent } from './relocation-count.component';
 
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
       // { path: 'MaterialExportItem', component: MaterialExportItemComponent},
       // { path: 'MaterialExport', component: MaterialExportComponent},
       { path: 'InventoryReports', component: InventoryComponent},
-      { path: 'TransferCount', component:  TransferCountComponent, runGuardsAndResolvers: 'always'},
+      // { path: 'TransferCount', component:  TransferCountComponent, runGuardsAndResolvers: 'always'},
       { path: 'RelocationCount', component:  RelocationCountComponent, runGuardsAndResolvers: 'always'},
     ];
 

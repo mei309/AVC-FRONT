@@ -102,6 +102,11 @@ export class InOutTotalComponent {
         foot: 'totalProductCount',
     },
     {
+        name: 'ingredients',
+        label: 'Ingredients',
+        foot: 'totalIngredients',
+    },
+    {
         name: 'difference',
     },
 ];
