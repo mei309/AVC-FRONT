@@ -153,6 +153,14 @@ export class OrdersService {
       }
   }
 
+  addEditMixPoCode (value, fromNew: boolean): Observable<any> {
+    if(fromNew) {
+      return this.http.post(this.ordersurl+'addMixPoCode', value);
+    } else {
+      return this.http.put(this.ordersurl+'editMixPoCode', value);
+    }
+  }
+
   getAllSuppliers (): Observable<any> {
       return this.http.get(this.ordersurl+'getAllSuppliers');
     }

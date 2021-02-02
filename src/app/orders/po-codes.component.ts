@@ -96,11 +96,11 @@ export class PoCodesComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data && data !== 'closed') {
-                // this.localService.addEditPoCode(data, true).pipe(take(1)).subscribe( val => {
-                //     this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-                //         this.posSource = value;
-                //     });
-                // });
+                this.localService.addEditMixPoCode(data, true).pipe(take(1)).subscribe( val => {
+                    this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+                        this.posSource = value;
+                    });
+                });
             }
         });
     }

@@ -99,8 +99,12 @@ export class ProductionPackingComponent implements OnInit {
                 const mixpo = selectedValue['poCode']['id'];
                 if(this.poID !== mixpo) { 
                     this.localService.getStorageRoastPo(mixpo).pipe(take(1)).subscribe( val => {
-                        this.newUsed = val;
-                        this.isFormAvailable = true;
+                        if(val) {
+                            this.newUsed = val;
+                            this.isFormAvailable = true;
+                        } else {
+                            alert('This po dosent have inventory to pack');
+                        }
                     }); 
                     this.isDataAvailable = false;
                     this.poID = mixpo;
@@ -144,7 +148,7 @@ export class ProductionPackingComponent implements OnInit {
                     {
                         type: 'selectgroup',
                         inputType: 'supplierName',
-                        options: this.localService.getAllPosRoast(),
+                        options: this.localService.findFreeMixPoCodes(),
                         collections: [
                             {
                                 type: 'select',

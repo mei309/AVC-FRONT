@@ -567,7 +567,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
-                        options: this.genral.getItemsCashew('WASTE'),
+                        options: this.genral.getItemsCashew('Waste'),
                     },
                     {
                         type: 'selectNormal',

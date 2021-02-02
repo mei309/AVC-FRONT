@@ -6,7 +6,6 @@ import { FieldConfig, OneColumn } from '../field.interface';
 import { ManagerService } from './manager.service';
 import { EditDialogComponent } from './edit-dialog.component';
 import { Genral } from '../genral.service';
-import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'items-setup',
@@ -106,7 +105,7 @@ export class ItemsSetupComponent {
                     label: 'Default measure unit',
                     type: 'selectNormal',
                     options: this.genral.getMeasureUnit(),
-                    disable: true,
+                    // disable: true,
                 }
             );
         }

@@ -3,14 +3,14 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'in-out-total',
   template:`
-  <div *ngIf="shipping">
+  <div *ngIf="shipping" style="display: inline-block">
     <show-details [oneColumns]="loadingColumns" [dataSource]="dataSource">
     </show-details>
   </div>
   <ng-container *ngFor="let column of oneColumns">
         <ng-container *ngIf="dataSource[column.name]">
             <ng-container [ngSwitch]="column.name">
-                <table style="display: inline-block" mat-table *ngSwitchCase="'processes'" [dataSource]="dataSource[column.name]" class="mat-elevation-z2">
+                <table style="margin: auto;" mat-table *ngSwitchCase="'processes'" [dataSource]="dataSource[column.name]" class="mat-elevation-z2">
                     <ng-container matColumnDef="titel">
                         <th mat-header-cell *matHeaderCellDef colspan="3"><h3>{{column.label}}</h3></th>
                     </ng-container>
@@ -30,10 +30,9 @@ import { Component, Input } from '@angular/core';
                     <tr mat-header-row *matHeaderRowDef="['date', 'status', 'approvals']"></tr>
                     <tr mat-row *matRowDef="let row; columns: ['date', 'status', 'approvals']"></tr>
                 </table>
-                <mat-form-field appearance="none" *ngSwitchCase="'difference'" provideReadonly>
-                    <mat-label>Difference</mat-label>
-                    <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[column.name] | tableCellPipe: 'weight' : null">
-                </mat-form-field>
+                <div style="text-align:center" *ngSwitchCase="'difference'">
+                          <h2>Difference: {{dataSource[column.name] | tableCellPipe: 'weight' : null}} ({{dataSource['percentageLoss']}}%)</h2>
+                </div>
                 <table style="display: inline-block" mat-table *ngSwitchDefault [dataSource]="dataSource[column.name]" class="mat-elevation-z2">
                     <ng-container matColumnDef="titel">
                         <th mat-header-cell *matHeaderCellDef colspan="3"><h3>{{column.label}}</h3></th>
@@ -119,7 +118,7 @@ loadingColumns = [
     {
         type: 'date',
         name: 'date',
-        label: 'Check date',
+        label: 'Date and time',
     },
     {
         type: 'normal',

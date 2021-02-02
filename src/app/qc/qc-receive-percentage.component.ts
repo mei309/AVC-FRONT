@@ -91,10 +91,12 @@ export class QcReceivePercentageComponent implements OnInit {
             } else {
                 this.isDataAvailable = true;
             }
-            this.preperReg();
             if(params.get('roast')) {
-                this.regConfig.splice(2, 1);
                 this.type = 'QC roasting (percentage)';
+                this.preperReg();
+                this.regConfig.splice(2, 1);
+            } else {
+                this.preperReg();
             }
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -105,26 +107,14 @@ export class QcReceivePercentageComponent implements OnInit {
                 this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
                     if(params.get('roast')) {
                         if(this.type === 'QC receiving (percentage)') {
-                            this.regConfig.splice(2, 1);
                             this.type = 'QC roasting (percentage)';
+                            this.preperReg();
+                            this.regConfig.splice(2, 1);
                         }
                     } else {
                         if(this.type === 'QC roasting (percentage)') {
-                            this.regConfig.splice(2, 0, {
-                                            type: 'radiobutton',
-                                            name: 'checkedBy',
-                                            label: 'Checked by',
-                                            value: 'avc lab',
-                                            options: this.genral.getQcCheckOrganzition(),
-                                            validations: [
-                                                {
-                                                    name: 'required',
-                                                    validator: Validators.required,
-                                                    message: 'Required',
-                                                }
-                                            ]
-                                        });
                             this.type = 'QC receiving (percentage)';
+                            this.preperReg();
                         }
                     }
                 });
@@ -212,7 +202,7 @@ export class QcReceivePercentageComponent implements OnInit {
                         label: 'Item descrption',
                         name: 'item',
                         collections: 'somewhere',
-                        options: this.genral.getAllItemsCashew(),
+                        options: this.genral.getItemsCashew(this.type.startsWith('QC roasting')? 'RoastPacked' : 'RawRoast'),
                         // disable: true,
                     },
                     {

@@ -18,8 +18,9 @@ export class Genral {
   wearhouses = new ReplaySubject<DropNormal[]>();
   standarts = new ReplaySubject<DropNormal[]>();
   ItemsRawCashew = new ReplaySubject<DropNormal[]>();
+  ItemsRawRoastCashew = new ReplaySubject<DropNormal[]>();
   ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
-  ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
+  // ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
   ItemsRoastPackedCashew = new ReplaySubject<DropNormal[]>();
   ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
   allItemsCashew = new ReplaySubject<DropNormal[]>();
@@ -55,7 +56,8 @@ export class Genral {
     this.standarts = new ReplaySubject<DropNormal[]>();
     this.ItemsRawCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
-    this.ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
+    this.ItemsRawRoastCashew = new ReplaySubject<DropNormal[]>();
+    // this.ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsRoastPackedCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
     this.allItemsCashew = new ReplaySubject<DropNormal[]>();
@@ -78,8 +80,9 @@ export class Genral {
       this.wearhouses.next(value[5]);
       
       this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
+      this.ItemsRawRoastCashew.next(value[6].filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse)));
       this.ItemsCleanCashew.next(value[6].filter(w => w.productionUse === 'CLEAN'));
-      this.ItemsRoastCashew.next(value[6].filter(w => w.productionUse === 'ROAST'));
+      // this.ItemsRoastCashew.next(value[6].filter(w => w.productionUse === 'ROAST'));
       this.ItemsRoastPackedCashew.next(value[6].filter(w => ['ROAST', 'PACKED'].includes(w.productionUse)));
       // value[6].filter(word => {log['ROAST', 'PACKED'].includes(word.category)});
       this.allItemsCashew.next(value[6]);
@@ -188,12 +191,15 @@ export class Genral {
   getItemsRawCashew (): Observable<any> {
     return this.ItemsRawCashew.asObservable();
   }
+  getItemsRawRoastCashew (): Observable<any> {
+    return this.ItemsRawRoastCashew.asObservable();
+  }
   getItemsCleanCashew (): Observable<any> {
     return this.ItemsCleanCashew.asObservable();
   }
-  getItemsRoastCashew (): Observable<any> {
-    return this.ItemsRoastCashew.asObservable();
-  }
+  // getItemsRoastCashew (): Observable<any> {
+  //   return this.ItemsRoastCashew.asObservable();
+  // }
   getItemsRoastPackedCashew (): Observable<any> {
     return this.ItemsRoastPackedCashew.asObservable();
   }
@@ -202,16 +208,18 @@ export class Genral {
   }
   getItemsCashew(type: string): Observable<any> {
     switch (type) {
-      case 'RAW':
+      case 'Raw':
         return this.getItemsRawCashew();
+      case 'RawRoast':
+        return this.getItemsRawRoastCashew();
       case 'Clean':
         return this.getItemsCleanCashew();
       case 'Roast':
         // return this.getItemsRoastCashew();
       case 'Pack':
-      case 'ROASTPACKED':
+      case 'RoastPacked':
         return this.getItemsRoastPackedCashew();
-      case 'WASTE':
+      case 'Waste':
         return this.getItemsWasteCashew();
     
       default:

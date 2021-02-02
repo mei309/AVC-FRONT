@@ -24,6 +24,7 @@ import { Component, Input } from '@angular/core';
             <ngx-charts-bar-vertical [results]="productLoss" xAxis="true" yAxis="true" legend="true"
                 showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
                 yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
+                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Difference in percent: {{ model.value }}%<br/><span *ngIf="model.extra"><span *ngFor="let line of model.extra | keyvalue">{{line.key}}: {{ line.value | tableCellPipe: 'weight' : null}}<br/></span></span></pre></ng-template>
             </ngx-charts-bar-vertical>
         </div>
   ` ,
@@ -52,7 +53,7 @@ export class FinalReportChartsComponent {
                     series: [
                         {
                             name: "Total",
-                            value: val1['ratioLoss'],
+                            value: val1['percentageLoss'],
                             extra :  {
                                 In: val1['totalProductIn'],
                                 Out: val1['totalProductOut'],
@@ -62,13 +63,17 @@ export class FinalReportChartsComponent {
                         },
                         {
                             name: "Product",
-                            value: val1['productRatioLoss'],
+                            value: val1['productPercentageLoss'],
+                            extra :  {
+                                In: val1['totalProductIn'],
+                                Out: val1['totalProductOut'],
+                            }
                         }
                     ]
                 });
                 this.totalLoss.push({
                     name: v,
-                    value: val1['ratioLoss'],
+                    value: val1['percentageLoss'],
                     extra :  {
                         In: val1['totalProductIn'],
                         Out: val1['totalProductOut'],
@@ -78,7 +83,11 @@ export class FinalReportChartsComponent {
                 });
                 this.productLoss.push({
                     name: v,
-                    value: val1['productRatioLoss'],
+                    value: val1['productPercentageLoss'],
+                    extra :  {
+                        In: val1['totalProductIn'],
+                        Out: val1['totalProductOut'],
+                    }
                 });
             }
         });

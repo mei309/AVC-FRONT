@@ -63,6 +63,10 @@ export class ProductionService {
     return this.http.get(this.productionurl+'getAllPos/ROAST');
   }
 
+  findFreeMixPoCodes() {
+    return this.http.get(this.productionurl+'findFreeMixPoCodes');
+  }
+
   getStorageRawPo (poCode: number): Observable<any> {
     return this.http.get(this.productionurl+'getStorageRawPo/'+poCode);
   }
