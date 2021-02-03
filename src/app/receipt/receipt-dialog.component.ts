@@ -6,7 +6,7 @@ import { ReceiptService } from './receipt.service';
 @Component({
     selector: 'receipt-dialog',
     template: `
-    <button printTitle="{{type}} receive details" [useExistingCss]="true" printSectionId="print-section-orders" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} receive details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title>{{type}} receive details</h1>

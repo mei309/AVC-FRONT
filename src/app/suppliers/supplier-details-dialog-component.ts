@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-supplier-details-dialog',
     template: `
-    <button printTitle="Supplier Details" [useExistingCss]="true" printSectionId="print-section-supplier" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="Supplier Details" printSectionId="print-section-supplier" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title>Supplier Details</h1>

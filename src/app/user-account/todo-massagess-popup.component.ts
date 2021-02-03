@@ -6,7 +6,7 @@ import { UserAccountService } from './user-account.service';
     selector: 'massages-todo-popup',
     template: `
     <button mat-raised-button color="accent" (click)="goFullPo()" style="float: right;">Go to full PO# details</button>
-    <button printTitle="Task Details" [useExistingCss]="true" printSectionId="print-section-task" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="Task Details" printSectionId="print-section-task" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title>Task Details</h1>
@@ -55,26 +55,16 @@ export class TodoMassagesPopupComponent {
 
     
     // public printWindow(): void { 
-    //   <button class="example-icon" mat-mini-fab (click)="printWindow()" style="float: right;">
-    //   <mat-icon>print</mat-icon>
-    // </button>
-    // <h1 mat-dialog-title id="print">
-    //   Task Details
-    // </h1>
-    // <mat-dialog-content>
-    //   <show-details [dataSource]="task" [secondSource]="processSnapshot" id="print-child">
-    //   </show-details>
-    // </mat-dialog-content>
-        // let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
-        // virtualWindow.document.write('<html><head><title>Print</title>');
-        // virtualWindow.document.write('</head><body>' + document.getElementById('mmss').innerHTML + '</body></html>');
-        // virtualWindow.document.close();
-        // virtualWindow.focus();
-        // setTimeout(t => { virtualWindow.print();
-        // virtualWindow.close(); }, 1000);
-    //   document.getElementById("section-to-print").setAttribute("id", "newDivId");
+    //     let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
+    //     virtualWindow.document.write('<html><head><title>Print</title>');
+    //     virtualWindow.document.write('</head><body>' + document.getElementById('print-section-task').innerHTML + '</body></html>');
+    //     virtualWindow.document.close();
+    //     virtualWindow.focus();
+    //     setTimeout(t => { virtualWindow.print();
+    //     virtualWindow.close(); }, 1000);
+    // //   document.getElementById("section-to-print").setAttribute("id", "newDivId");
     //   window.print();
-    //   document.getElementById("newDivId").setAttribute("id", "section-to-print");
+    // //   document.getElementById("newDivId").setAttribute("id", "section-to-print");
     // }
     
     

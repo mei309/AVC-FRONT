@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-qc-details-dialog',
     template: `
-    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-qc" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} details" printSectionId="print-section-qc" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title>{{type}} details</h1>

@@ -54,10 +54,10 @@ import { SumsTableComponent } from './tables/sums-table.component';
 import { PercentInputComponent } from './components/inputs/percent-input.component';
 import { PercentageDirective } from './libraries/percentage.directive';
 import { ForEachEditComponent } from './detailes/for-each-edit.component';
-import { NgxPrintModule } from 'ngx-print';
 import { FormDirective } from './libraries/autofocus.directive';
 import { SelectNormalMultipleComponent } from './components/selects/select-normal-multiple.component';
 import { MaterialUsageComponent } from './components/materialUsed/material-usage.component';
+import { PrintLazyLoadDirective } from './libraries/print-lazy-load.directive';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
@@ -80,6 +80,7 @@ import { MaterialUsageComponent } from './components/materialUsed/material-usage
     NumericDirective,
     MyDurationPickerDirective,
     PercentageDirective,
+    PrintLazyLoadDirective,
     
     ShowOrdinalComponent,
     ShowDetailsComponent,
@@ -133,8 +134,6 @@ import { MaterialUsageComponent } from './components/materialUsed/material-usage
     // NormalGroupTableComponent,
     // GroupTableSearchComponent,
 
-    NgxPrintModule,
-
     NormalDetailsComponent,
     SearchDetailsComponent,
     SearchExpandableComponent,
@@ -146,6 +145,7 @@ import { MaterialUsageComponent } from './components/materialUsed/material-usage
     NumericDirective,
     MyDurationPickerDirective,
     PercentageDirective,
+    PrintLazyLoadDirective,
     
     ShowOrdinalComponent,
     ShowDetailsComponent,
@@ -197,7 +197,6 @@ import { MaterialUsageComponent } from './components/materialUsed/material-usage
     // BrowserModule,
 ],
   imports: [
-    NgxPrintModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,

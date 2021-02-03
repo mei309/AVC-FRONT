@@ -9,7 +9,7 @@ import { CountinersService } from './countiners.service';
 @Component({
   selector: 'security-export-doc',
   template:`
-  <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-continers" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+  <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title id="print">{{type}} details</h1>

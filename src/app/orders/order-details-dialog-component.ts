@@ -5,7 +5,7 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'app-order-details-dialog',
     template: `
-    <button printTitle="{{type}} order details" [useExistingCss]="true" printSectionId="print-section-orders" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} order details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title>{{type}} order details</h1>

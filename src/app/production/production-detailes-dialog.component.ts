@@ -7,7 +7,7 @@ import { ProductionService } from './production.service';
 @Component({
     selector: 'app-production-details-dialog',
     template: `
-    <button printTitle="{{type}} details" [useExistingCss]="true" printSectionId="print-section-production" ngxPrint class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} details" printSectionId="print-section-production" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title>{{type}} details</h1>
