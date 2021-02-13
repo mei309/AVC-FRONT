@@ -93,4 +93,14 @@ export class ProductionService {
     // return forkJoin([response1, response2]);
   }
 
+  getMixStorageRoastPo(pos: Array<number>) {
+    let observables = [];
+    pos.forEach(a => {
+      let response1 = this.http.get(this.productionurl+'getStorageRoastPo/'+a);
+      observables.push(response1);
+    });
+    
+    return forkJoin(observables);
+  }
+
 }

@@ -10,7 +10,6 @@ import { OrdersService } from './orders.service';
     <h1 style="text-align:center">#POS</h1>
     <div class="centerButtons">
         <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add #PO</button>
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newMixDialog()">Add mix #PO's</button>
     </div>
     <search-details [dataSource]="posSource" [oneColumns]="columnsPos" (details)="editDialog($event)">
     </search-details>
@@ -88,22 +87,23 @@ export class PoCodesComponent implements OnInit {
         });
     }
 
-    newMixDialog(): void {
-        const dialogRef = this.dialog.open(AddEditPoDialog, {
-          width: '80%',
-          height: '80%',
-          data: {mainLabel: 'Add mix #PO'}
-        });
-        dialogRef.afterClosed().subscribe(data => {
-            if(data && data !== 'closed') {
-                this.localService.addEditMixPoCode(data, true).pipe(take(1)).subscribe( val => {
-                    this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-                        this.posSource = value;
-                    });
-                });
-            }
-        });
-    }
+    // newMixDialog(): void {
+    //     const dialogRef = this.dialog.open(AddEditPoDialog, {
+    //       width: '80%',
+    //       height: '80%',
+    //       data: {mainLabel: 'Add mix #PO'}
+    //     });
+    //     dialogRef.afterClosed().subscribe(data => {
+    //         if(data && data !== 'closed') {
+    //             this.localService.addEditMixPoCode(data, true).pipe(take(1)).subscribe( val => {
+    //                 this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+    //                     this.posSource = value;
+    //                 });
+    //             });
+    //         }
+    //     });
+    // }
+    // <button class="raised-margin" mat-raised-button color="primary" (click)="newMixDialog()">Add mix #PO's</button>
 
 }
 
@@ -125,7 +125,7 @@ export class AddEditPoDialog {
     isDataAvailable: boolean = false;
 
     ngOnInit(){
-        if(!this.mainLabel.startsWith('Add mix')) {
+        // if(!this.mainLabel.startsWith('Add mix')) {
             if(this.poCode) {
                 this.localService.getPoCode(+this.poCode).pipe(take(1)).subscribe( val => {
                     this.putData = val;
@@ -174,52 +174,52 @@ export class AddEditPoDialog {
                     name: 'submit',
                 }
             ];
-        } else{
-            this.isDataAvailable = true;
-            this.poConfig = [
-                {
-                    type: 'bigexpand',
-                    name: 'origionPoCodes',
-                    label: 'Mixed PO#s',
-                    options: 'aloneInline',
-                    collections: [
-                        {
-                            type: 'selectgroup',
-                            inputType: 'supplierName',
-                            options: this.localService.findAllPoCodes(),
-                            collections: [
-                                {
-                                    type: 'select',
-                                    label: 'Supplier',
-                                },
-                                {
-                                    type: 'select',
-                                    label: '#PO',
-                                    name: 'poCode',
-                                    collections: 'somewhere',
-                                },
-                            ]
-                        },
-                        {
-                            type: 'divider',
-                            inputType: 'divide'
-                        },
-                    ]
-                },
-                {
-                    type: 'input',
-                    label: 'Display value',
-                    inputType: 'text',
-                    name: 'display',
-                    // disable: true,
-                },
-                {
-                    type: 'button',
-                    label: 'Submit',
-                    name: 'submit',
-                }
-            ];
-        }
+        // } else{
+        //     this.isDataAvailable = true;
+        //     this.poConfig = [
+        //         {
+        //             type: 'bigexpand',
+        //             name: 'origionPoCodes',
+        //             label: 'Mixed PO#s',
+        //             options: 'aloneInline',
+        //             collections: [
+        //                 {
+        //                     type: 'selectgroup',
+        //                     inputType: 'supplierName',
+        //                     options: this.localService.findAllPoCodes(),
+        //                     collections: [
+        //                         {
+        //                             type: 'select',
+        //                             label: 'Supplier',
+        //                         },
+        //                         {
+        //                             type: 'select',
+        //                             label: '#PO',
+        //                             name: 'poCode',
+        //                             collections: 'somewhere',
+        //                         },
+        //                     ]
+        //                 },
+        //                 {
+        //                     type: 'divider',
+        //                     inputType: 'divide'
+        //                 },
+        //             ]
+        //         },
+        //         {
+        //             type: 'input',
+        //             label: 'Display value',
+        //             inputType: 'text',
+        //             name: 'display',
+        //             // disable: true,
+        //         },
+        //         {
+        //             type: 'button',
+        //             label: 'Submit',
+        //             name: 'submit',
+        //         }
+        //     ];
+        // }
     }
     
     constructor(private genral: Genral, private localService: OrdersService, public dialogRef: MatDialogRef<AddEditPoDialog>,

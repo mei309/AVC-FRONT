@@ -103,61 +103,65 @@ export class ExportImportComponent implements OnInit {
         var arrTable = [];
         var removeIds = [];
         if(this.beginData) {
-            var arrMaterial = [];
-            this.beginData['usedItemGroups'].forEach(element => {
-                if(element['groupName'] === 'table') {
-                    element['usedItem']['amounts'].forEach(ele => {
-                        ele['take'] = true;
-                    });
-                    arrTable.push(element);
-                } else if(element['groupName'] === 'normal') {
-                    element['usedItems'].forEach(el => {
-                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
-                        removeIds.push(el['storage']['id']);
-                    });
-                    arrNormal.push(element);
-                } else if(element['groupName'] === 'meterial') {
-                    element['usedItems'].forEach(el => {
-                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
-                    });
-                    arrMaterial.push(element);
-                } 
-            });
+            if(this.beginData.hasOwnProperty('weightedPos')) {
+                this.dataSource = this.beginData;
+            } else {
+                var arrMaterial = [];
+                this.beginData['usedItemGroups'].forEach(element => {
+                    if(element['groupName'] === 'table') {
+                        element['usedItem']['amounts'].forEach(ele => {
+                            ele['take'] = true;
+                        });
+                        arrTable.push(element);
+                    } else if(element['groupName'] === 'normal') {
+                        element['usedItems'].forEach(el => {
+                            el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                            removeIds.push(el['storage']['id']);
+                        });
+                        arrNormal.push(element);
+                    } else if(element['groupName'] === 'meterial') {
+                        element['usedItems'].forEach(el => {
+                            el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                        });
+                        arrMaterial.push(element);
+                    } 
+                });
 
 
-            delete this.beginData['usedItemGroups'];
-            
-            var processNormal = [];
-            var processTable = [];
-            var wasteNormal = [];
-            this.beginData['processItems'].forEach(element => {
-                if(element['groupName'] === 'waste') {
-                    wasteNormal.push(element);
-                } else if(element['storage']) {
-                    processTable.push(element);
-                } else if(element['storageForms']) {
-                    processNormal.push(element);
+                delete this.beginData['usedItemGroups'];
+                
+                var processNormal = [];
+                var processTable = [];
+                var wasteNormal = [];
+                this.beginData['processItems'].forEach(element => {
+                    if(element['groupName'] === 'waste') {
+                        wasteNormal.push(element);
+                    } else if(element['storage']) {
+                        processTable.push(element);
+                    } else if(element['storageForms']) {
+                        processNormal.push(element);
+                    }
+                });
+                delete this.beginData['processItems'];
+                this.dataSource = this.beginData;
+                if(arrMaterial.length) {
+                    this.dataSource['materialUsed'] = arrMaterial;
                 }
-            });
-            delete this.beginData['processItems'];
-            this.dataSource = this.beginData;
-            if(arrMaterial.length) {
-                this.dataSource['materialUsed'] = arrMaterial;
-            }
-            if(processTable.length) {
-                this.dataSource['processItemsTable'] = processTable;
-            }
-            if(processNormal.length) {
-                this.dataSource['processItemsNormal'] = processNormal;
-            } 
-            // else {
-            //     this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
-            // }
-            // if(!processTable.length) {
-            //     this.dataSource['processItemsTable'] = [{item: this.dataSource['processItemsNormal'][0]['item']}];
-            // }
-            if(wasteNormal.length) {
-                this.dataSource['wasteItems'] = wasteNormal;
+                if(processTable.length) {
+                    this.dataSource['processItemsTable'] = processTable;
+                }
+                if(processNormal.length) {
+                    this.dataSource['processItemsNormal'] = processNormal;
+                } 
+                // else {
+                //     this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
+                // }
+                // if(!processTable.length) {
+                //     this.dataSource['processItemsTable'] = [{item: this.dataSource['processItemsNormal'][0]['item']}];
+                // }
+                if(wasteNormal.length) {
+                    this.dataSource['wasteItems'] = wasteNormal;
+                }
             }
         } else {
             this.dataSource = {poCode: this.newUsed[0]['poCode']};
@@ -203,6 +207,40 @@ export class ExportImportComponent implements OnInit {
     preper() {
         this.regConfig = [
             {
+                type: 'bigexpand',
+                name: 'weightedPos',
+                options: 'aloneNoAddNoFrameInline',
+                collections: [
+                    {
+                        type: 'selectgroup',
+                        inputType: 'supplierName',
+                        disable: true,
+                        collections: [
+                            {
+                                type: 'select',
+                                label: 'Supplier',
+                            },
+                            {
+                                type: 'select',
+                                label: '#PO',
+                                name: 'poCode',
+                                collections: 'somewhere',
+                            },
+                        ]
+                    },
+                    {
+                        type: 'input',
+                        label: 'Weight',
+                        name: 'weight',
+                        disable: true,
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'divide'
+                    },
+                ]
+            },
+            {
                 type: 'selectgroup',
                 inputType: 'supplierName',
                 disable: true,
@@ -216,13 +254,6 @@ export class ExportImportComponent implements OnInit {
                         label: '#PO',
                         name: 'poCode',
                         collections: 'somewhere',
-                        validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: '#PO Required',
-                            }
-                        ]
                     },
                 ]
             },
