@@ -27,6 +27,15 @@ import { Component, Input } from '@angular/core';
                 <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Difference in percent: {{ model.value }}%<br/><span *ngIf="model.extra"><span *ngFor="let line of model.extra | keyvalue">{{line.key}}: {{ line.value | tableCellPipe: 'weight' : null}}<br/></span></span></pre></ng-template>
             </ngx-charts-bar-vertical>
         </div>
+
+        <div style="height: 400px">
+            <h2>Loss Per Process From Order + From Received(real)</h2>
+            <ngx-charts-bar-vertical-2d [results]="orderLoss" xAxis="true" yAxis="true" legend="true"
+                showXAxisLabel="true" showYAxisLabel="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                yScaleMax="5" yScaleMin="-5" showDataLabel="true" [dataLabelFormatting]="LossDataLabel" [yAxisTickFormatting]="LossDataLabel">
+                <ng-template #tooltipTemplate let-model="model">{{ model.name }}<pre>Difference in percent: {{ model.value }}%<br/><span *ngIf="model.extra"><span *ngFor="let line of model.extra | keyvalue">{{line.key}}: {{ line.value | tableCellPipe: 'weight' : null}}<br/></span></span></pre></ng-template>
+            </ngx-charts-bar-vertical-2d>
+        </div>
   ` ,
 })
 export class FinalReportChartsComponent {
@@ -36,6 +45,8 @@ export class FinalReportChartsComponent {
     totalLoss = [];
     productLoss = [];
     bothLoss = [];
+    orderLoss = [];
+
     LossDataLabel;
 
     @Input() finalReport;
@@ -90,6 +101,22 @@ export class FinalReportChartsComponent {
                     }
                 });
             }
+        });
+
+        this.finalReport['productPercentageLoss'].forEach(el => {
+                this.orderLoss.push({
+                    name: el['process'],
+                    series: [
+                        {
+                            name: "Order",
+                            value: el['receivedOrderUnitsLoss']? el['receivedOrderUnitsLoss'] : 0,
+                        }, 
+                        {
+                            name: "Received(real)",
+                            value: el['receivedCountLoss']? el['receivedCountLoss'] : 0,
+                        }
+                    ]
+                });
         });
     }
 

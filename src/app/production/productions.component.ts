@@ -25,7 +25,7 @@ export class ProductionsComponent implements OnInit {
       type: 'weight2',
       name: 'processGain',
       label: 'Total difference',
-      group: 'poCode',
+      group: 'poCodes',
   };
   type: string = '';
   
@@ -47,18 +47,18 @@ export class ProductionsComponent implements OnInit {
     });
     this.columnsShow = [
           {
-              type: 'nameId',
-              name: 'poCode',
+              type: 'arrayVal',
+              name: 'poCodes',
               label: 'PO#',
               search: 'object',
-              group: 'poCode',
+              group: 'poCodes',
           },
           {
-              name: 'supplierName',
+              name: 'suppliers',
               label: 'Supplier',
               search: 'selectAsyncObject',
               options: this.genral.getSupplierCashew(),
-              group: 'poCode',
+              group: 'poCodes',
           },
           {
               type: 'itemWeight',
@@ -158,6 +158,8 @@ export class ProductionsComponent implements OnInit {
           this.cashewSourceColumns = null;
           this.localService.getAllPacking().pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            console.log(value);
+            
           });
           this.type = 'Packing';
           this.cdRef.detectChanges();

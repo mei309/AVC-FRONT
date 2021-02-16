@@ -104,6 +104,41 @@ export class ExportImportComponent implements OnInit {
         var removeIds = [];
         if(this.beginData) {
             if(this.beginData.hasOwnProperty('weightedPos')) {
+                this.regConfig.splice(0,1, {
+                    type: 'bigexpand',
+                    name: 'weightedPos',
+                    options: 'aloneNoAddNoFrameInline',
+                    collections: [
+                        {
+                            type: 'selectgroup',
+                            inputType: 'supplierName',
+                            disable: true,
+                            collections: [
+                                {
+                                    type: 'select',
+                                    label: 'Supplier',
+                                },
+                                {
+                                    type: 'select',
+                                    label: '#PO',
+                                    name: 'poCode',
+                                    collections: 'somewhere',
+                                },
+                            ]
+                        },
+                        {
+                            type: 'input',
+                            label: 'Weight',
+                            name: 'weight',
+                            disable: true,
+                        },
+                        {
+                            type: 'divider',
+                            inputType: 'divide'
+                        },
+                    ]
+                });
+                
                 this.dataSource = this.beginData;
             } else {
                 var arrMaterial = [];
@@ -206,40 +241,6 @@ export class ExportImportComponent implements OnInit {
 
     preper() {
         this.regConfig = [
-            {
-                type: 'bigexpand',
-                name: 'weightedPos',
-                options: 'aloneNoAddNoFrameInline',
-                collections: [
-                    {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        disable: true,
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Supplier',
-                            },
-                            {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
-                            },
-                        ]
-                    },
-                    {
-                        type: 'input',
-                        label: 'Weight',
-                        name: 'weight',
-                        disable: true,
-                    },
-                    {
-                        type: 'divider',
-                        inputType: 'divide'
-                    },
-                ]
-            },
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
