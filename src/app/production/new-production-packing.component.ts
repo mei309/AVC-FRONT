@@ -14,7 +14,7 @@ import { cloneDeep } from 'lodash-es';
         </dynamic-form>
     </div>
     <div *ngIf="isFormAvailable">
-        <export-import [beginData]="putData" [newUsed]="newUsed" [mainLabel]="'Pack'" (submitExIm)="submit($event)">
+        <export-import [beginData]="putData" [newUsed]="newUsed" [posArray]="posArray" [mainLabel]="'Pack'" (submitExIm)="submit($event)">
         </export-import>
     </div>
     `
@@ -28,6 +28,7 @@ export class NewProductionPackingComponent implements OnInit {
     poConfig;
     putData;
     newUsed;
+    posArray;
     
     isNew = true;
 
@@ -95,7 +96,7 @@ export class NewProductionPackingComponent implements OnInit {
         });
     }
     goNext(event) {
-        this.putData = event;
+        this.posArray = event['weightedPos'];
         let pos = event['weightedPos'].map(a => a.poCode.id);
         this.localService.getMixStorageRoastPo(pos).pipe(take(1)).subscribe( val => {
             this.newUsed = [];

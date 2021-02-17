@@ -40,13 +40,13 @@ export class SecurityExportDocComponent {
             this.localService.getLoadingSecurityDoc(this.id).pipe(take(1)).subscribe( val => {
                 this.dataSource = val;
                 this.isSecurity = true;
+                console.log(val);
+                
             });
             this.type = 'Security Doc';
         } else {
             this.localService.getLoadingExportDoc(this.id).pipe(take(1)).subscribe( val => {
                 this.dataSource = val;
-                console.log(val);
-                
             });
             this.type = 'Export Doc';
         }
@@ -137,9 +137,9 @@ export class SecurityExportDocComponent {
             name: 'loadedTotals',
             collections: [
                 {
-                    type: 'nameId',
+                    type: 'arrayVal',
                     label: '#PO',
-                    name: 'poCode',
+                    name: 'poCodes',
                     collections: 'supplierName',
                 },
                 {

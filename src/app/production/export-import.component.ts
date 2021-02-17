@@ -17,6 +17,7 @@ export class ExportImportComponent implements OnInit {
     @Input() mainLabel: string;
     @Input() beginData;
     @Input() newUsed;
+    @Input() posArray;
     @Output() submitExIm: EventEmitter<any> = new EventEmitter<any>();
     regConfig: FieldConfig[];
 
@@ -97,109 +98,81 @@ export class ExportImportComponent implements OnInit {
     ngOnInit() {
         this.preper();
         if (this.mainLabel === 'Clean') {
-            this.regConfig.splice(11, 1);
+            var ind = this.regConfig.findIndex((em) => em['name'] === 'materialUsed');
+            if(ind !== -1) {
+                this.regConfig.splice(ind, 1);
+            }
         }
         var arrNormal = [];
         var arrTable = [];
         var removeIds = [];
         if(this.beginData) {
-            if(this.beginData.hasOwnProperty('weightedPos')) {
-                this.regConfig.splice(0,1, {
-                    type: 'bigexpand',
-                    name: 'weightedPos',
-                    options: 'aloneNoAddNoFrameInline',
-                    collections: [
-                        {
-                            type: 'selectgroup',
-                            inputType: 'supplierName',
-                            disable: true,
-                            collections: [
-                                {
-                                    type: 'select',
-                                    label: 'Supplier',
-                                },
-                                {
-                                    type: 'select',
-                                    label: '#PO',
-                                    name: 'poCode',
-                                    collections: 'somewhere',
-                                },
-                            ]
-                        },
-                        {
-                            type: 'input',
-                            label: 'Weight',
-                            name: 'weight',
-                            disable: true,
-                        },
-                        {
-                            type: 'divider',
-                            inputType: 'divide'
-                        },
-                    ]
-                });
-                
-                this.dataSource = this.beginData;
-            } else {
-                var arrMaterial = [];
-                this.beginData['usedItemGroups'].forEach(element => {
-                    if(element['groupName'] === 'table') {
-                        element['usedItem']['amounts'].forEach(ele => {
-                            ele['take'] = true;
-                        });
-                        arrTable.push(element);
-                    } else if(element['groupName'] === 'normal') {
-                        element['usedItems'].forEach(el => {
-                            el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
-                            removeIds.push(el['storage']['id']);
-                        });
-                        arrNormal.push(element);
-                    } else if(element['groupName'] === 'meterial') {
-                        element['usedItems'].forEach(el => {
-                            el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
-                        });
-                        arrMaterial.push(element);
-                    } 
-                });
-
-
-                delete this.beginData['usedItemGroups'];
-                
-                var processNormal = [];
-                var processTable = [];
-                var wasteNormal = [];
-                this.beginData['processItems'].forEach(element => {
-                    if(element['groupName'] === 'waste') {
-                        wasteNormal.push(element);
-                    } else if(element['storage']) {
-                        processTable.push(element);
-                    } else if(element['storageForms']) {
-                        processNormal.push(element);
-                    }
-                });
-                delete this.beginData['processItems'];
-                this.dataSource = this.beginData;
-                if(arrMaterial.length) {
-                    this.dataSource['materialUsed'] = arrMaterial;
-                }
-                if(processTable.length) {
-                    this.dataSource['processItemsTable'] = processTable;
-                }
-                if(processNormal.length) {
-                    this.dataSource['processItemsNormal'] = processNormal;
+            if(this.beginData['weightedPos']) {
+                this.preperPosArray();
+            }
+            var arrMaterial = [];
+            this.beginData['usedItemGroups'].forEach(element => {
+                if(element['groupName'] === 'table') {
+                    element['usedItem']['amounts'].forEach(ele => {
+                        ele['take'] = true;
+                    });
+                    arrTable.push(element);
+                } else if(element['groupName'] === 'normal') {
+                    element['usedItems'].forEach(el => {
+                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                        removeIds.push(el['storage']['id']);
+                    });
+                    arrNormal.push(element);
+                } else if(element['groupName'] === 'meterial') {
+                    element['usedItems'].forEach(el => {
+                        el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                    });
+                    arrMaterial.push(element);
                 } 
-                // else {
-                //     this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
-                // }
-                // if(!processTable.length) {
-                //     this.dataSource['processItemsTable'] = [{item: this.dataSource['processItemsNormal'][0]['item']}];
-                // }
-                if(wasteNormal.length) {
-                    this.dataSource['wasteItems'] = wasteNormal;
+            });
+
+
+            delete this.beginData['usedItemGroups'];
+            
+            var processNormal = [];
+            var processTable = [];
+            var wasteNormal = [];
+            this.beginData['processItems'].forEach(element => {
+                if(element['groupName'] === 'waste') {
+                    wasteNormal.push(element);
+                } else if(element['storage']) {
+                    processTable.push(element);
+                } else if(element['storageForms']) {
+                    processNormal.push(element);
                 }
+            });
+            delete this.beginData['processItems'];
+            this.dataSource = this.beginData;
+            if(arrMaterial.length) {
+                this.dataSource['materialUsed'] = arrMaterial;
+            }
+            if(processTable.length) {
+                this.dataSource['processItemsTable'] = processTable;
+            }
+            if(processNormal.length) {
+                this.dataSource['processItemsNormal'] = processNormal;
+            } 
+            // else {
+            //     this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
+            // }
+            // if(!processTable.length) {
+            //     this.dataSource['processItemsTable'] = [{item: this.dataSource['processItemsNormal'][0]['item']}];
+            // }
+            if(wasteNormal.length) {
+                this.dataSource['wasteItems'] = wasteNormal;
             }
         } else {
-            this.dataSource = {poCode: this.newUsed[0]['poCode']};
+            if(this.posArray) {
+                this.dataSource = {weightedPos: this.posArray};
+                this.preperPosArray();
+            } else {
+                this.dataSource = {poCode: this.newUsed[0]['poCode']};
+            }
         }
         var arrUsedItems = [];
         this.newUsed?.forEach(element => {
@@ -237,6 +210,43 @@ export class ExportImportComponent implements OnInit {
             }
         }
         this.isDataAvailable = true;
+    }
+
+    preperPosArray() {
+        this.regConfig.splice(0,1, {
+            type: 'bigexpand',
+            name: 'weightedPos',
+            options: 'aloneNoAddNoFrameInline',
+            collections: [
+                {
+                    type: 'selectgroup',
+                    inputType: 'supplierName',
+                    disable: true,
+                    collections: [
+                        {
+                            type: 'select',
+                            label: 'Supplier',
+                        },
+                        {
+                            type: 'select',
+                            label: '#PO',
+                            name: 'poCode',
+                            collections: 'somewhere',
+                        },
+                    ]
+                },
+                {
+                    type: 'input',
+                    label: 'Weight',
+                    name: 'weight',
+                    disable: true,
+                },
+                {
+                    type: 'divider',
+                    inputType: 'divide'
+                },
+            ]
+        });
     }
 
     preper() {

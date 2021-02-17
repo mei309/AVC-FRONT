@@ -29,7 +29,7 @@ export class CountinersReportsComponent implements OnInit {
     type: 'weight2',
     name: 'totalRow',
     label: 'Total loaded',
-    group: 'poCode',
+    group: 'poCodes',
   };
 
   constructor(private router: Router, private dialog: MatDialog, private localService: CountinersService,
@@ -46,6 +46,7 @@ export class CountinersReportsComponent implements OnInit {
             this.changed(0);
         }
     });
+    
     this.columnsShow = [
         {
             type: 'nameId',
@@ -55,18 +56,18 @@ export class CountinersReportsComponent implements OnInit {
             group: 'shipmentCode',
         },
         {
-            type: 'nameId',
-            name: 'poCode',
+            type: 'arrayVal',
+            name: 'poCodes',
             label: 'PO#',
-            search: 'object',
-            group: 'poCode',
+            // search: 'object',
+            group: 'poCodes',
         },
         {
             type: 'dateTime',
             name: 'recordedTime',
             label: 'Recorded time',
             search: 'dates',
-            group: 'poCode',
+            group: 'poCodes',
         },
         {
             type: 'nameId',

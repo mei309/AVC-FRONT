@@ -50,7 +50,7 @@ export class ProductionsComponent implements OnInit {
               type: 'arrayVal',
               name: 'poCodes',
               label: 'PO#',
-              search: 'object',
+              // search: 'object',
               group: 'poCodes',
           },
           {

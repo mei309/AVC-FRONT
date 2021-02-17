@@ -18,6 +18,7 @@ table {
 
 .no-legend {
   border: 0 none;
+  display: inline-block;
 }
 
   

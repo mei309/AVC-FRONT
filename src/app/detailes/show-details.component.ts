@@ -156,7 +156,10 @@ export class ShowDetailsComponent implements OnInit {
         }
         if(value.hasOwnProperty('groupName') && value['groupName']) {
           if(value['groupName'] !== 'normalLoding') {
-            (this.regShow[19].collections as Array<any>).splice(0, 1);
+            var ind = this.regShow.findIndex((em) => em['name'] === 'usedItems');
+            if(ind !== -1) {
+                (this.regShow[ind].collections as Array<any>).splice(0, 1);
+            }
           }
         };
         this.dataTable = value;
@@ -302,6 +305,23 @@ export class ShowDetailsComponent implements OnInit {
         label: '#PO',
         name: 'poCode',
         collections: 'supplierName',
+    },
+    {
+        type: 'arrayForEach',
+        name: 'weightedPos',
+        collections: [
+          {
+              type: 'name2',
+              label: '#PO',
+              name: 'poCode',
+              collections: 'supplierName',
+          },
+          {
+              type: 'normal',
+              name: 'weight',
+              label: 'Weight',
+          },
+        ]
     },
     {
         type: 'nameId',
