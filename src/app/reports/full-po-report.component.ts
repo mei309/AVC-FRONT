@@ -31,50 +31,64 @@ import { ReportsService } from './reports.service';
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Orders</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{orderItemsObj: poDetails['orderItemsObj']}" [oneColumns]="[regShow[0]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{orderItemsObj: poDetails['orderItemsObj']}" [oneColumns]="[regShow[0]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                         <mat-expansion-panel *ngIf="poDetails['receiptItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Receipts</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{receiptItemsObj: poDetails['receiptItemsObj']}" [oneColumns]="[regShow[1]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{receiptItemsObj: poDetails['receiptItemsObj']}" [oneColumns]="[regShow[1]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                         <mat-expansion-panel *ngIf="poDetails['testedItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Tests</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{testedItemsObj: poDetails['testedItemsObj']}" [oneColumns]="[regShow[2]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{testedItemsObj: poDetails['testedItemsObj']}" [oneColumns]="[regShow[2]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                         <mat-expansion-panel *ngIf="poDetails['transferItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>transport cashew</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{transferItemsObj: poDetails['transferItemsObj']}" [oneColumns]="[regShow[3]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{transferItemsObj: poDetails['transferItemsObj']}" [oneColumns]="[regShow[3]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                         <mat-expansion-panel *ngIf="poDetails['cleaningItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Cleanings</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{cleaningItemsObj: poDetails['cleaningItemsObj']}" [oneColumns]="[regShow[4]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{cleaningItemsObj: poDetails['cleaningItemsObj']}" [oneColumns]="[regShow[4]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                         <mat-expansion-panel *ngIf="poDetails['roastingItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Roastings</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{roastingItemsObj: poDetails['roastingItemsObj']}" [oneColumns]="[regShow[5]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{roastingItemsObj: poDetails['roastingItemsObj']}" [oneColumns]="[regShow[5]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                         <mat-expansion-panel *ngIf="poDetails['packingItemsObj'].length">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>Packings</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <show-details [dataSource]="{packingItemsObj: poDetails['packingItemsObj']}" [oneColumns]="[regShow[6]]">
-                            </show-details>
+                            <ng-template matExpansionPanelContent>
+                                <show-details [dataSource]="{packingItemsObj: poDetails['packingItemsObj']}" [oneColumns]="[regShow[6]]">
+                                </show-details>
+                            </ng-template>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </ng-template>

@@ -31,16 +31,15 @@ export class TodoListComponent {
         options: this.genral.getProcess(),
       },
       {
-        type: 'nameId',
-        name: 'poCode',
-        label: 'PO#',
-        search: 'object',
+          type: 'arrayVal',
+          name: 'poCodes',
+          label: 'PO#',
       },
       {
-        name: 'supplierName',
-        label: 'Supplier',
-        search: 'selectAsyncObject',
-        options: this.genral.getSupplierCashew(),
+          name: 'suppliers',
+          label: 'Supplier',
+          search: 'selectAsyncObject',
+          options: this.genral.getSupplierCashew(),
       },
       {
         type: 'dateTime',

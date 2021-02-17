@@ -36,16 +36,17 @@ export class MassagesListComponent {
         options: this.genral.getProcess()
       },
       {
-        type: 'nameId',
-        name: 'poCode',
-        label: 'PO#',
-        search: 'object',
+          type: 'arrayVal',
+          name: 'poCodes',
+          label: 'PO#',
+          // search: 'object',
+          group: 'poCodes',
       },
       {
-        name: 'supplierName',
-        label: 'Supplier',
-        search: 'selectAsyncObject',
-        options: this.genral.getSupplierCashew(),
+          name: 'suppliers',
+          label: 'Supplier',
+          search: 'selectAsyncObject',
+          options: this.genral.getSupplierCashew(),
       },
       {
         name: 'modifiedBy',
@@ -73,6 +74,7 @@ export class MassagesListComponent {
   }
 
   expandElement($event: any){
+    this.poInfromtion = {};
     if($event['processId']) {
       this.genral.getMassage($event['processId'], $event['id'], $event['processName']).pipe(take(1)).subscribe(value => {
         this.poInfromtion = value;
@@ -80,7 +82,6 @@ export class MassagesListComponent {
       });
     } else {
       this.genral.setMassageTask($event['id'], 'SEEN').pipe(take(1)).subscribe(value => {
-        this.poInfromtion = {};
         $event['label'] = 'SEEN';
       });
     }
