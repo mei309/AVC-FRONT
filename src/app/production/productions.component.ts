@@ -117,13 +117,13 @@ export class ProductionsComponent implements OnInit {
       if (data === 'Edit') {
           switch (this.tabIndex) {
                 case 0:
-                    this.router.navigate(['../Cleaning',{id: event['id'], poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Cleaning',{id: event['id'], poCode: event['poCodeIds'][0]}], { relativeTo: this._Activatedroute });
                     break;
                 case 1:
-                    this.router.navigate(['../Roasting',{id: event['id'], poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Roasting',{id: event['id'], poCode: event['poCodeIds'][0]}], { relativeTo: this._Activatedroute });
                     break;
                 case 2:
-                    this.router.navigate(['../Packing',{id: event['id'], poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Packing',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
                     break;
           
               default:
