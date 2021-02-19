@@ -379,7 +379,7 @@ export class QcReceivePercentageComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        inputType: 'item',
+                        // inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {

@@ -76,9 +76,9 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getAllPos/ROAST');
   }
 
-  getStorageTransferWithStorage(id: number, poCode: number) {
+  getStorageTransferWithStorage(id: number, pos: Array<number>) {
     let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
-    return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageTransferPo/'+poCode)]);
+    return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageTransferPo/'+pos)]);
   }
 
 }

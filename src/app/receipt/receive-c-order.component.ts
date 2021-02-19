@@ -143,7 +143,7 @@ export class ReceiveCOrder implements OnInit {
                     if(storage['className'] === 'ExtraAdded') {
                         newArrayExtra.push(storage);
                     } else {
-                        if(storage['avgTestedWeight'] || storage['sampleWeights']) {
+                        if(storage['avgTestedWeight'] || storage['sampleWeights'] || storage['sampleContainerWeights']) {
                             storage['samplesWeight'] = {sampleContainerWeights: storage['sampleContainerWeights'], numberOfSamples: storage['numberOfSamples'], avgTestedWeight: storage['avgTestedWeight'], sampleWeights: storage['sampleWeights']};
                             delete storage['sampleContainerWeights'];
                             delete storage['numberOfSamples'];

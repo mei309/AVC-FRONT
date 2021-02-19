@@ -36,6 +36,7 @@ export class TodoListComponent {
           label: 'PO#',
       },
       {
+          type: 'arrayVal',
           name: 'suppliers',
           label: 'Supplier',
           search: 'selectAsyncObject',

@@ -289,7 +289,7 @@ export class Genral {
   }
 
   getMeasureUnit(): string[] {
-    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'UNIT'];
+    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
   }
   
   getQcCheckOrganzition(): string[] {

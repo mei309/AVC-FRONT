@@ -54,6 +54,7 @@ export class ProductionsComponent implements OnInit {
               group: 'poCodes',
           },
           {
+              type: 'arrayVal',
               name: 'suppliers',
               label: 'Supplier',
               search: 'selectAsyncObject',
@@ -125,7 +126,6 @@ export class ProductionsComponent implements OnInit {
                 case 2:
                     this.router.navigate(['../Packing',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
                     break;
-          
               default:
                   break;
           }

@@ -53,19 +53,33 @@ export class InventoryComponent implements OnInit {
         }
     });
     this.columnsShow = [
+        // {
+        //   type: 'nameId',
+        //   name: 'poCode',
+        //   label: 'PO#',
+        //   search: 'object',
+        //   group: 'poCode',
+        // },
+        // {
+        //   name: 'supplierName',
+        //   label: 'Supplier',
+        //   search: 'selectAsyncObject',
+        //   options: this.genral.getSupplierCashew(),
+        //   group: 'poCode',
+        // },
         {
-          type: 'nameId',
-          name: 'poCode',
-          label: 'PO#',
-          search: 'object',
-          group: 'poCode',
+            type: 'arrayVal',
+            name: 'poCodes',
+            label: 'PO#',
+            group: 'poCodes',
         },
         {
-          name: 'supplierName',
-          label: 'Supplier',
-          search: 'selectAsyncObject',
-          options: this.genral.getSupplierCashew(),
-          group: 'poCode',
+            type: 'arrayVal',
+            name: 'suppliers',
+            label: 'Supplier',
+            search: 'selectAsyncObject',
+            options: this.genral.getSupplierCashew(),
+            group: 'poCodes',
         },
         {
             type: 'itemWeight',
@@ -140,7 +154,7 @@ export class InventoryComponent implements OnInit {
                 //     this.router.navigate(['../TransferCount',{id: event['id']}], { relativeTo: this._Activatedroute });
                 //     break;
                 // case 1:
-                    this.router.navigate(['../RelocationCount',{id: event['id'], poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;

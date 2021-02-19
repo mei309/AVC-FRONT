@@ -43,6 +43,7 @@ export class MassagesListComponent {
           group: 'poCodes',
       },
       {
+          type: 'arrayVal',
           name: 'suppliers',
           label: 'Supplier',
           search: 'selectAsyncObject',

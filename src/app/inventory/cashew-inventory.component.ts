@@ -36,7 +36,7 @@ export class CashewInventoryComponent implements OnInit {
   columnsShow: OneColumn[];
 
   cashewSource: any[];
-  cashewSourceColumns: any[];
+  cashewSourceColumns;
 
   itemCategory;
 
@@ -85,7 +85,7 @@ export class CashewInventoryComponent implements OnInit {
             console.log(value);
             
             this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [this.cashewSource, this.columnsShow];
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
             // this.sumsSource = [this.cashewSource, ['personInCharge', 'itemName']];
           });
           this.columnsShow = [
@@ -155,7 +155,7 @@ export class CashewInventoryComponent implements OnInit {
           this.cashewSourceColumns = null; 
           this.localService.getCashewInventoryByPo().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [this.cashewSource, this.columnsShow];
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
           });
           this.columnsShow = [
             {

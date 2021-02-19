@@ -161,7 +161,7 @@ export class SearchGroupDetailsComponent {
 
   takeCareKidArray(element) {
     var arr = [];
-    this.dataSource.forEach(line => {
+    this.dataSource?.forEach(line => {
       if(line[element.name]) {
         line[element.name].forEach(obj => {
           var copied = Object.assign({}, obj, line);
