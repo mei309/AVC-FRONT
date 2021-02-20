@@ -86,6 +86,11 @@ export class InOutTotalComponent {
         foot: 'totalProductIn',
     },
     {
+        name: 'received',
+        label: 'Received',
+        foot: 'totalReceived',
+    },
+    {
         name: 'productOut',
         label: 'Product out',
         foot: 'totalProductOut',

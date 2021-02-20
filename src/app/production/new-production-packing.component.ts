@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -136,10 +136,22 @@ export class NewProductionPackingComponent implements OnInit {
                     },
                     {
                         type: 'input',
-                        label: 'Weight',
+                        label: 'Weight percentage',
                         name: 'weight',
                         inputType: 'numeric',
                         options: 3,
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: 'Weight percentage Required',
+                            },
+                            {
+                                name: 'max',
+                                validator: Validators.max(1),
+                                message: '1 is the maximum',
+                            }
+                        ]
                     },
                     {
                         type: 'divider',

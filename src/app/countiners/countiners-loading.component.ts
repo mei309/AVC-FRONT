@@ -55,6 +55,7 @@ export class CountinersLoadingComponent {
     putFirstData;
 
     removeIds = [];
+    removeIdsTable = [];
 
     onSubmitBoth() {
             var firstData = this.formFirst.onSubmitOutside();
@@ -176,16 +177,22 @@ export class CountinersLoadingComponent {
         var arrUsedItems = [];
         val?.forEach(element => {
             if(element['storage']) {
-                element['storage']['item'] = element['item'];
-                element['storage']['itemPo'] = element['poCode'];
-                element['storage']['measureUnit'] = element['measureUnit'];
-                element['storage']['itemProcessDate'] = element['itemProcessDate'];
-                arrTable.push({usedItem: element['storage']});
+                if((element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !this.removeIdsTable.includes(amou.id))).length) {
+                    element['storage']['item'] = element['item'];
+                    element['storage']['itemPo'] = element['poCode'];
+                    element['storage']['measureUnit'] = element['measureUnit'];
+                    element['storage']['itemProcessDate'] = element['itemProcessDate'];
+                    arrTable.push({usedItem: element['storage']});
+                    element['storage']['amounts'].forEach(ele => {
+                        this.removeIdsTable.push(ele['id']);
+                    });
+                }
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     if(!this.removeIds.includes(ele['id'])) {
                         arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
+                        this.removeIds.push(ele['id']);
                     }
                 });
             }
@@ -300,11 +307,13 @@ export class CountinersLoadingComponent {
             if(element['groupName'] === 'table') {
                 element['usedItem']['amounts'].forEach(ele => {
                     ele['take'] = true;
+                    this.removeIdsTable.push(ele['id']);
                 });
                 arrTable.push(element);
             } else if(element['groupName'] === 'normalLoding') {
                 element['usedItems'].forEach(el => {
                     el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                    this.removeIds.push(el['id']);
                     this.removeIds.push(el['storage']['id']);
                 });
                 arrNormal.push(element);
