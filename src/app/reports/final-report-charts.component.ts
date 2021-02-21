@@ -48,7 +48,8 @@ export class FinalReportChartsComponent {
     totalLoss = [];
     productLoss = [];
     // bothLoss = [];
-    orderLoss = [];
+    receiptOrder = [];
+    receiptReal = [];
 
     LossDataLabel;
 
@@ -59,17 +60,21 @@ export class FinalReportChartsComponent {
           if (matches) {
             return [
               // { title: 'Total + Product Loss Per Process', cols: 1, rows: 1, type: 'vertical-2d', result: 'bothLoss' },
-              { title: 'Total Loss Per Process', cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
-              { title: 'Product Loss Per Process', cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
-              { title: 'Loss Per Process From Order + From Received(real)', cols: 1, rows: 1, type: 'vertical-2d', result: this.orderLoss }
+              { title: 'Unaccounted Difference', cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
+              { title: 'Product Difference', cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
+              // { title: 'Aggregate Difference from Receipt (Order, Real)', cols: 1, rows: 1, type: 'vertical-2d', result: this.orderLoss },
+              { title: 'Aggregate Difference from Receipt (Order)', cols: 1, rows: 1, type: 'vertical', result: this.receiptOrder },
+              { title: 'Aggregate Difference from Receipt (Real)', cols: 1, rows: 1, type: 'vertical', result: this.receiptReal },
             ];
           }
     
           return [
             // { title: 'Total + Product Loss Per Process', cols: 2, rows: 1, type: 'vertical-2d', result: 'bothLoss' },
-            { title: 'Total Loss Per Process', cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
-            { title: 'Product Loss Per Process', cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
-            { title: 'Loss Per Process From Order + From Received(real)', cols: 2, rows: 1, type: 'vertical-2d', result: this.orderLoss }
+            { title: 'Unaccounted Difference', cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
+            { title: 'Product Difference', cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
+            // { title: 'Aggregate Difference from Receipt (Order, Real)', cols: 2, rows: 1, type: 'vertical-2d', result: this.orderLoss },
+            { title: 'Aggregate Difference from Receipt (Order)', cols: 1, rows: 1, type: 'vertical', result: this.receiptOrder },
+            { title: 'Aggregate Difference from Receipt (Real)', cols: 1, rows: 1, type: 'vertical', result: this.receiptReal },
           ];
         })
       );
@@ -127,19 +132,27 @@ export class FinalReportChartsComponent {
         });
 
         this.finalReport['productPercentageLoss'].forEach(el => {
-                this.orderLoss.push({
-                    name: el['process'],
-                    series: [
-                        {
-                            name: "Order",
-                            value: el['receivedOrderUnitsLoss']? el['receivedOrderUnitsLoss'] : 0,
-                        }, 
-                        {
-                            name: "Received(real)",
-                            value: el['receivedCountLoss']? el['receivedCountLoss'] : 0,
-                        }
-                    ]
-                });
+                // this.orderLoss.push({
+                //     name: el['process'],
+                //     series: [
+                //         {
+                //             name: "Order",
+                //             value: el['receivedOrderUnitsLoss']? el['receivedOrderUnitsLoss'] : 0,
+                //         }, 
+                //         {
+                //             name: "Received(real)",
+                //             value: el['receivedCountLoss']? el['receivedCountLoss'] : 0,
+                //         }
+                //     ]
+                // });
+                this.receiptOrder.push({
+                  name: el['process'],
+                  value: el['receivedOrderUnitsLoss']? el['receivedOrderUnitsLoss'] : 0,
+              });
+              this.receiptReal.push({
+                name: el['process'],
+                value: el['receivedCountLoss']? el['receivedCountLoss'] : 0,
+            });
         });
     }
 

@@ -239,7 +239,7 @@ export class ExportImportComponent implements OnInit {
                     type: 'input',
                     label: 'Weight',
                     name: 'weight',
-                    disable: true,
+                    // disable: true,
                 },
                 {
                     type: 'divider',
