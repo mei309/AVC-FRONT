@@ -42,12 +42,16 @@ export class TableCellPipe implements PipeTransform {
             case 'weight2':
                 // if (!Array.isArray(element)) {
                 //     return '';
-                // }
-                var str = new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit'];
-                for (let ind = 1; ind < element.length; ind++) {
-                    str += ' (' + new DecimalPipe(this.locale).transform(element[ind]['amount'])+' '+element[ind]['measureUnit'] + ')';
+                // } 
+                if(element) {
+                    var str = new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit'];
+                    for (let ind = 1; ind < element.length; ind++) {
+                        str += ' (' + new DecimalPipe(this.locale).transform(element[ind]['amount'])+' '+element[ind]['measureUnit'] + ')';
+                    }
+                    return str;
+                } else {
+                    return '';
                 }
-                return str;
             case 'check':
                 if(element === second){
                     return '\u2713';
@@ -72,9 +76,9 @@ export class TableCellPipe implements PipeTransform {
                     if(str) {
                         str += '\n';
                     }
-                    str += elem.item.value +': '+ new DecimalPipe(this.locale).transform(element['amountList'][0]['amount'])+' '+element['amountList'][0]['measureUnit'];
-                    for (let ind = 1; ind < element['amountList'].length; ind++) {
-                        str += ' (' + new DecimalPipe(this.locale).transform(element['amountList'][ind]['amount'])+' '+element['amountList'][ind]['measureUnit'] + ')';
+                    str += elem.item.value +': '+ new DecimalPipe(this.locale).transform(elem['amountList'][0]['amount'])+' '+elem['amountList'][0]['measureUnit'];
+                    for (let ind = 1; ind < elem['amountList'].length; ind++) {
+                        str += ' (' + new DecimalPipe(this.locale).transform(elem['amountList'][ind]['amount'])+' '+elem['amountList'][ind]['measureUnit'] + ')';
                     }
                     str += [elem.warehouses];
                 });

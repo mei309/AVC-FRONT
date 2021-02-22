@@ -56,8 +56,9 @@ import { PercentageDirective } from './libraries/percentage.directive';
 import { ForEachEditComponent } from './detailes/for-each-edit.component';
 import { FormDirective } from './libraries/autofocus.directive';
 import { SelectNormalMultipleComponent } from './components/selects/select-normal-multiple.component';
-import { MaterialUsageComponent } from './components/materialUsed/material-usage.component';
+
 import { PrintLazyLoadDirective } from './libraries/print-lazy-load.directive';
+import { MaterialUsageComponent } from './components/avc-special/material-usage.component';
 @NgModule({
   declarations: [
     MaterialUsageComponent,

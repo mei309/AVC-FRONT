@@ -118,6 +118,8 @@ export class CountinersLoadingComponent {
                                 this.choosedPos = [];
                                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
                                 this.putFirstData = null;
+                                this.removeIds = [];
+                                this.removeIdsTable = [];
                                 this.cdRef.detectChanges();
                                 this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
                                     this.fillEdit(val1);
@@ -507,6 +509,8 @@ export class CountinersLoadingComponent {
                 this.beginPage = false;
                 this.choosedPos = [];
                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                this.removeIds = [];
+                this.removeIdsTable = [];
                 this.putFirstData = null;
                 this.cdRef.detectChanges();
                 this.beginPage = true;

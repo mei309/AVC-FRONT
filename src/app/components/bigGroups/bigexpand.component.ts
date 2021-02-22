@@ -26,7 +26,8 @@ import { SelectLineComponent } from '../selects/slecet-line.component';
 import { ArrayOrdinalComponent } from '../array/array-ordinal.component';
 import { PercentInputComponent } from '../inputs/percent-input.component';
 import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
-import { MaterialUsageComponent } from '../materialUsed/material-usage.component';
+import { MaterialUsageComponent } from '../avc-special/material-usage.component';
+
 
 
 const componentMapper = {

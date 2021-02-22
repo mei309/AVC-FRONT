@@ -141,13 +141,13 @@ export class GenralInventoryComponent implements OnInit {
               options: this.genral.getSupplierCashew(),
               group: 'poCode',
             },
-            {
-              type: 'weight2',
-              name: 'totalStock',
-              label: 'Total stock',
-              search: 'object',
-              group: 'poCode',
-            },
+            // {
+            //   type: 'weight2',
+            //   name: 'totalStock',
+            //   label: 'Total stock',
+            //   search: 'object',
+            //   group: 'poCode',
+            // },
             {
               type: 'nameId',
               name: 'item',
