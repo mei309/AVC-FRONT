@@ -527,7 +527,6 @@ export class ReceiveCOrder implements OnInit {
                     }
                 });
             }); 
-            console.log(value);
             
             this.localService.addEditRecivingCashewOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(ReceiptDialog, {

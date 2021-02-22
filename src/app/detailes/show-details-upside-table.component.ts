@@ -395,11 +395,7 @@ export class ShowDetailsUpsideTableComponent {
   }
 
   openManagment(col, indexNum) {
-    console.log(indexNum);
-    console.log(this.bottomDataSource[1]);
-    
     const keyToChange = Object.keys(this.bottomDataSource[1]).find(key => key.endsWith((indexNum-1).toString()));
-    console.log(keyToChange);
     
     const dialogRef = this.dialog.open(ConfirmationDialog, {
       width: '80%',

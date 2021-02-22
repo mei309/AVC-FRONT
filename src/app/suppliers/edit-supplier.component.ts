@@ -487,8 +487,6 @@ export class EditSupplierComponent implements OnInit {
   submitPeople(value: any) {
     this.cleanAndOrdinal(this.putData2);
     var resultNew = diff(this.putData2['companyContacts'] ? this.putData2['companyContacts'] : [], value['companyContacts'], 'id');
-    console.log(resultNew);
-    
     this.LocalService.editContactPersons(resultNew, this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',

@@ -98,8 +98,6 @@ export class ProductionRoastingComponent implements OnInit {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID !== selectedValue['id']) { 
                 this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
-                    console.log(val);
-                    
                     this.isFormAvailable = true;
                 }); 
                 this.isDataAvailable = false;

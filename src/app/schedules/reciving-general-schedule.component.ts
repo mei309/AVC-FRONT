@@ -98,10 +98,10 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
         label: 'Price per unit',
         // options: 'currency',
       },
-      {
-        name: 'defects',
-        label: '% defects',
-      },
+      // {
+      //   name: 'defects',
+      //   label: '% defects',
+      // },
       {
         type: 'dateTime',
         name: 'contractDate',

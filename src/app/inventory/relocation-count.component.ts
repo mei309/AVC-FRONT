@@ -79,12 +79,7 @@ export class RelocationCountComponent implements OnInit {
         value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
         value['storageMovesGroups'] = arr;
         
-        console.log(value);
-        
-        
         this.localService.addEditRelocationTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
-            console.log(val);
-            
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
                 data: {inventoryItem: cloneDeep(val), fromNew: true, type: 'Inventory item'}
@@ -204,9 +199,7 @@ export class RelocationCountComponent implements OnInit {
     setAfterChoose(val, removeIdsNormal?, removeIdsTable?) {
         var arrNormal = [];
         var arrTable = [];
-        var arrUsedItems = [];
-        console.log(val);
-        
+        var arrUsedItems = [];  
         val?.forEach(element => {
             if(element['storage']) {
                 if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {

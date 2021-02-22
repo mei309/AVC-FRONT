@@ -130,8 +130,6 @@ export class ReceiveCReports implements OnInit {
   }
 
   openDialog(event): void {
-    console.log(event);
-    
     const dialogRef = this.dialog.open(ReceiptDialog, {
       width: '80%',
       data: {id: event['id'], fromNew: false, type: 'Cashew'},
@@ -155,9 +153,10 @@ export class ReceiveCReports implements OnInit {
       switch (+event) {
         case 0:
           this.cashewSource = null;
-          if(this.columnsShow.length === 12) {
-            this.columnsShow.splice(11, 1);
-            }
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 1);
+          }
           this.localService.getPendingCashew().pipe(take(1)).subscribe(value => {
             this.cashewSource = [value, this.columnsShow];
           });
@@ -165,9 +164,10 @@ export class ReceiveCReports implements OnInit {
           break;
         case 1:
           this.cashewSource = null;
-          if(this.columnsShow.length === 12) {
-            this.columnsShow.splice(11, 1);
-            }
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 1);
+          }
           this.localService.getReceivedCashew().pipe(take(1)).subscribe(value => {
             this.cashewSource = [value, this.columnsShow];
           });
@@ -176,7 +176,8 @@ export class ReceiveCReports implements OnInit {
           break;
         case 2:
           this.cashewSource = null;
-          if(this.columnsShow.length === 11) {
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
+          if(ind === -1) {
             this.columnsShow.push({
                 type: 'normal',
                 name: 'status',
@@ -187,8 +188,6 @@ export class ReceiveCReports implements OnInit {
             }
           this.localService.findCashewReceiptsHistory().pipe(take(1)).subscribe(value => {
             this.cashewSource = [value, this.columnsShow];
-            console.log(value);
-            
           });
           this.cdRef.detectChanges();
           break;

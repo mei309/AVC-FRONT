@@ -82,8 +82,6 @@ export class CashewInventoryComponent implements OnInit {
         case 0:
           this.cashewSourceColumns = null; 
           this.localService.getCashewInventoryItem().pipe(take(1)).subscribe(value => {
-            console.log(value);
-            
             this.cashewSource = <any[]>value;
             this.cashewSourceColumns = [<any[]>value, this.columnsShow];
             // this.sumsSource = [this.cashewSource, ['personInCharge', 'itemName']];

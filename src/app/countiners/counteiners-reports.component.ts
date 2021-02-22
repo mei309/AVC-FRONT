@@ -129,8 +129,6 @@ export class CountinersReportsComponent implements OnInit {
           this.mainSourceColumns = null;
           this.localService.getAllLoadings().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
-            console.log(value);
-            
           });
           this.cdRef.detectChanges();
           break;

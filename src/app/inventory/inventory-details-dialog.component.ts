@@ -45,8 +45,6 @@ export class InventoryDetailsDialogComponent {
         if(!this.fromNew) {
             this.LocalService.getStorageRelocation(this.id).pipe(take(1)).subscribe( val => {
                 this.inventoryItem = val;
-                console.log(val);
-                
             });
         }
         this.buttons.push('Edit');

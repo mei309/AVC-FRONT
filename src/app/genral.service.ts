@@ -40,9 +40,11 @@ export class Genral {
 
   constructor(private http: HttpClient, private globels: Globals) {
     this.setInitiel();
-    this.getUserTasks().pipe(take(1)).subscribe(value => {
+    this.getUserTasksNumber().pipe(take(1)).subscribe(value => {
+      this.setNumOfTodo(<number>value);
     });
-    this.getUserMassages().pipe(take(1)).subscribe(value => {
+    this.getUserMassagesNumber().pipe(take(1)).subscribe(value => {
+      this.setNumOfMassages(<number>value);
     });
   } 
 
@@ -113,6 +115,10 @@ export class Genral {
     );
   }
 
+  getUserMassagesNumber() {
+    return this.http.get(this.mainurl+'getUserMassagesNumber');
+  }
+
   getMassage(processId, maasageId, value: string) {
     return this.http.get(this.mainurl+'getMassage/'+processId + '/' + maasageId +'/'+ value);
   }
@@ -124,6 +130,10 @@ export class Genral {
         return value;
       })
     );
+  }
+
+  getUserTasksNumber() {
+    return this.http.get(this.mainurl+'getUserTasksNumber');
   }
 
   getTask(id:number, value: string) {

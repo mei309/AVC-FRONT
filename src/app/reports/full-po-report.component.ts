@@ -151,8 +151,6 @@ export class fullPoReportComponent {
                     });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        console.log(val1);
-                        
                     });
                 }
                 

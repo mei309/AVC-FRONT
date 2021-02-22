@@ -46,6 +46,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           if (event instanceof HttpResponse) {
               const endTimestamp: number = new Date().getTime();
               console.log(endTimestamp - startTimestamp2+'    '+ event.url);
+              console.log(event.body);
           }
           return event;
         }),

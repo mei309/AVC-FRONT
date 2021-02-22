@@ -122,9 +122,10 @@ export class OrdersGReports implements OnInit {
       switch (+event) {
         case 0:
           this.cashewSourceColumns = null;
-          if(this.columnsShow.length === 10) {
-            this.columnsShow.splice(9, 1);
-            }
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'orderStatus');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 1);
+          }
           this.localService.getGeneralOrdersOpen().pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = [value, this.columnsShow];
           });
@@ -132,7 +133,8 @@ export class OrdersGReports implements OnInit {
           break;
         case 1:
           this.cashewSourceColumns = null;
-          if(this.columnsShow.length === 9) {
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'orderStatus');
+          if(ind === -1) {
             this.columnsShow.push({
               type: 'arrayVal',
               name: 'orderStatus',

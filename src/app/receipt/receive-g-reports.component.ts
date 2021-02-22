@@ -57,13 +57,13 @@ export class ReceiveGReports implements OnInit {
         options: this.genral.getSupplierCashew(),
         group: 'poCode',
       },
-      {
-        type: 'weight2',
-        name: 'totalAmount',
-        label: 'Total receipt',
-        search: 'object',
-        group: 'poCode',
-      },
+      // {
+      //   type: 'weight2',
+      //   name: 'totalAmount',
+      //   label: 'Total receipt',
+      //   search: 'object',
+      //   group: 'poCode',
+      // },
       {
         type: 'nameId',
         name: 'item',
@@ -146,9 +146,10 @@ export class ReceiveGReports implements OnInit {
       switch (+event) {
         case 0:
           this.generalSourceColumns = null;
-          if(this.columnsShow.length === 11) {
-            this.columnsShow.splice(10, 1);
-            }
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 1);
+          }
           this.localService.getPendingGeneral().pipe(take(1)).subscribe(value => {
             this.generalSourceColumns = [<any[]>value, this.columnsShow];
           });
@@ -156,9 +157,10 @@ export class ReceiveGReports implements OnInit {
           break;
         case 1:
           this.generalSourceColumns = null;
-          if(this.columnsShow.length === 11) {
-            this.columnsShow.splice(10, 1);
-            }
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 1);
+          }
           this.localService.getReceivedGeneral().pipe(take(1)).subscribe(value => {
             this.generalSourceColumns = [<any[]>value, this.columnsShow];
           });
@@ -166,7 +168,8 @@ export class ReceiveGReports implements OnInit {
           break;
         case 2:
           this.generalSourceColumns = null;
-          if(this.columnsShow.length === 10) {
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
+          if(ind === -1) {
             this.columnsShow.push({
                 type: 'arrayVal',
                 name: 'status',

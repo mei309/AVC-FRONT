@@ -120,8 +120,6 @@ export class CountinersBookingComponent implements OnInit {
                 delete element['unitPrice'];
             }
         });
-        console.log(value);
-        
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         // this.localService.addEditCashewOrder(value, fromNew).pipe(take(1)).subscribe( val => {
         //     const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {

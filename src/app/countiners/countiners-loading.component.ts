@@ -106,9 +106,6 @@ export class CountinersLoadingComponent {
                 // });
                 // this.firstData['processItems'] = proccesItems;
 
-                
-                console.log(firstData);
-                
                 this.localService.addEditLoading(firstData, this.isNew).pipe(take(1)).subscribe( val => {
                     const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
                         width: '80%',

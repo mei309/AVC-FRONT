@@ -171,9 +171,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     overflow-x: scroll;
   } */
   .tables {
-    /* width: fit-content; */
+    width: fit-content;
     margin: auto;
-    /* max-width: 100vw; */
+    max-width: 100vw;
     overflow: auto;
   }
   .mat-header-cell {

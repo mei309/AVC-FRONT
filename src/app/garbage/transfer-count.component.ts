@@ -113,11 +113,9 @@ export class TransferCountComponent implements OnInit {
         //     value['processItems'] = proccesItems;
         // }
         
-        console.log(value);
         
         
         this.localService.addEditTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
-            console.log(val);
             
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
@@ -144,8 +142,6 @@ export class TransferCountComponent implements OnInit {
         }
 
         fillEdit(val) {
-            console.log(val);
-
             var arrTable = [];
             var arrNormal = [];
             val['usedItemGroups'].forEach(element => {

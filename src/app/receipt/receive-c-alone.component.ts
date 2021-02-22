@@ -379,8 +379,7 @@ export class ReceiveCAlone implements OnInit {
                 }
             });
         }); 
-        console.log(value);
-        
+
         this.localService.addReceiveCashewNoOrder(value).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ReceiptDialog, {
                 width: '80%',

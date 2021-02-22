@@ -44,8 +44,6 @@ export class ProductionDetailsDialogComponent {
         if(!this.fromNew) {
             this.LocalService.getProduction(this.id).pipe(take(1)).subscribe( val => {
                 this.productionCheck = val;
-                console.log(val);
-                
             });
         }
         this.buttons.push('Edit');
@@ -55,8 +53,6 @@ export class ProductionDetailsDialogComponent {
     }
 
     onClickElement(opartion: string): void {
-        console.log(opartion);
-        
         this.dialogRef.close(opartion);
     }
 }

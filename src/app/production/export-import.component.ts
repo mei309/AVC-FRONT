@@ -86,9 +86,6 @@ export class ExportImportComponent implements OnInit {
             value['processItems'] = value['processItems'].concat(value['wasteItems']);
             delete value['wasteItems'];
         }
-        
-        console.log(value);
-        
         this.submitExIm.emit(value);
     }
 

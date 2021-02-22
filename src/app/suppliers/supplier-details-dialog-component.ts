@@ -237,8 +237,6 @@ export class SupplierDetailsDialogComponent {
       if(!this.fromNew) {
         this.LocalService.getSupplier(this.id).pipe(take(1)).subscribe( val => {
           this.supllier = val;  
-          console.log(val);
-          
         });
       }
     }

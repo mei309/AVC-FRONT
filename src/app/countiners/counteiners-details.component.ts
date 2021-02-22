@@ -46,8 +46,6 @@ export class CounteinersDetailsDialogComponent {
         if(!this.fromNew) {
             this.LocalService.getLoading(this.id).pipe(take(1)).subscribe( val => {
                 this.loading = val;
-                console.log(val);
-                
             });
         } else {
             this.id = this.loading['id'];

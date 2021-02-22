@@ -198,7 +198,7 @@ export class DynamicFormComponent implements OnInit {
           }
         });
       } else if(formValue[prop] instanceof Date){
-        console.log(formValue);
+        
       } else if(typeof formValue[prop] == "object") {
         if(this.emptyNull(formValue[prop])){
             delete formValue[prop];

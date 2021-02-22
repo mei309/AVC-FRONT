@@ -290,8 +290,7 @@ export class ReceiveGOrder implements OnInit {
                                 type: 'select',
                                 label: 'Currency',
                                 name: 'currency',
-                                value: 'VND',
-                                options: ['USD', 'VND'],
+                                options: ['VND', 'USD'],
                             },
                         ]
                     },

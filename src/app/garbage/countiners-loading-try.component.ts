@@ -82,7 +82,6 @@ export class CountinersLoadingComponent implements OnInit {
       this.form.get('poCode').valueChanges.subscribe(selectedValue => {
           if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
               this.localService.getStorageRoastPackedPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
-                console.log(val);
                 
                 var arr = [];
                 val.forEach(element => {
@@ -98,7 +97,6 @@ export class CountinersLoadingComponent implements OnInit {
                         arr = arr.concat(element['storageForms']);
                     }
                 });
-                console.log(arr);
                 this.todo1 = arr;
               }); 
               this.poID = selectedValue['id'];

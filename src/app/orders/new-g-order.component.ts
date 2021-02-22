@@ -126,7 +126,7 @@ export class NewGenralOrder implements OnInit {
                                         type: 'select',
                                         label: 'Currency',
                                         name: 'currency',
-                                        options: ['USD', 'VND'],
+                                        options: ['VND', 'USD'],
                                     },
                                 ]
                             },

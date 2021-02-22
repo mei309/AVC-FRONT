@@ -109,8 +109,6 @@ export class ManagmentUsersComponent implements OnInit {
 
   editNewDialog(user): void {
     this.localService.getUser(user['id']).pipe(take(1)).subscribe(value => {
-        console.log(value);
-        
         const myRegConfig = [
             {
                 type: 'bigoutside',

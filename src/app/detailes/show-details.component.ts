@@ -250,18 +250,15 @@ export class ShowDetailsComponent implements OnInit {
           result['snapshot'] = this.dataSource;
           this.genral.approveTaskAndManagment('APPROVED' , result).pipe(take(1)).subscribe(value => {
             this.dataSource['approvals'] = value['approvals'];
-            console.log(value);
           });
         } else if(result['process'] === 'reject') {
           result['snapshot'] = this.dataSource;
           this.genral.approveTaskAndManagment('DECLINED' , result).pipe(take(1)).subscribe(value => {
             this.dataSource['approvals'] = value['approvals'];
-            console.log(value);
           });
         } else if(result['process'] === 'onSave') {
           this.genral.taskManagment(result).pipe(take(1)).subscribe(value => {
             // this.dataSource = value;
-            console.log(value);
             
           });
         }

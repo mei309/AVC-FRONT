@@ -133,9 +133,10 @@ export class OrdersCReports implements OnInit {
       switch (+event) {
         case 0:
           this.cashewSource = null;
-          if(this.columnsShow.length === 10) {
-            this.columnsShow.splice(9, 1);
-            }
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'orderStatus');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 1);
+          }
           this.localService.getCashewOrdersOpen().pipe(take(1)).subscribe(value => {
             this.cashewSource = [value, this.columnsShow];
           });
@@ -143,7 +144,8 @@ export class OrdersCReports implements OnInit {
           break;
         case 1:
           this.cashewSource = null;
-          if(this.columnsShow.length === 9) {
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'orderStatus');
+          if(ind === -1) {
               this.columnsShow.push({
                 type: 'arrayVal',
                 name: 'orderStatus',

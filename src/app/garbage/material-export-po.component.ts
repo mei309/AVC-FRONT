@@ -42,8 +42,6 @@ export class MaterialExportPoComponent implements OnInit {
         delete value['storageItems'];
         
         this.localService.addEditTransfer(value, true).pipe(take(1)).subscribe( val => {
-            console.log(val);
-            
         });
       
     }
