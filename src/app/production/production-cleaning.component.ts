@@ -30,7 +30,6 @@ export class ProductionCleaningComponent implements OnInit {
     putData;
     newUsed;
 
-    poID: number;
     submit(value: any) {
         this.localService.addEditCleaningTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
@@ -67,7 +66,6 @@ export class ProductionCleaningComponent implements OnInit {
                     this.newUsed = val[1];
                     this.isFormAvailable = true;
                 });
-                this.poID = +params.get('id');
             } else {
                 this.setBeginChoose(); 
             } 
@@ -79,7 +77,6 @@ export class ProductionCleaningComponent implements OnInit {
                 this.isFormAvailable = false;
                 this.putData = null;
                 this.newUsed = null;
-                this.poID = null;
                 if(this.poConfig) {
                     this.form.get('poCode').setValue(null);
                 } else {
@@ -94,13 +91,12 @@ export class ProductionCleaningComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id')) { 
                 this.localService.getStorageRawPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 
                 this.isDataAvailable = false;
-                this.poID = selectedValue['id'];
             }
         });
         this.isDataAvailable = true;

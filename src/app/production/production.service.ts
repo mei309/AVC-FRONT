@@ -1,5 +1,5 @@
 import { forkJoin } from 'rxjs'; 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -93,20 +93,13 @@ export class ProductionService {
     // return forkJoin([response1, response2]);
   }
 
-  getMixProductionWithStorage(id: number, pos: Array<number>) {
-    // this.http.get(this.productionurl+'getTransferProduction/'+id);
+  getMixProductionWithStorage(id: number, pos: string) {
     let response1 = this.http.get(this.productionurl+'getProduction/'+id);
-    return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPo/'+pos)]);
+    return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPos/'+pos)]);
   }
 
-  getMixStorageRoastPo(pos: Array<number>) {
-    let observables = [];
-    pos.forEach(a => {
-      let response1 = this.http.get(this.productionurl+'getStorageRoastPo/'+a);
-      observables.push(response1);
-    });
-    
-    return forkJoin(observables);
+  getMixStorageRoastPos(pos: Array<number>) {
+    return this.http.get(this.productionurl+'getStorageRoastPos/'+pos);
   }
 
 }

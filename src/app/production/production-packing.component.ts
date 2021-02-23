@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { cloneDeep } from 'lodash-es';
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <export-import [beginData]="putData" [newUsed]="newUsed" [mainLabel]="'Pack'" (submitExIm)="submit($event)">
+        <export-import [beginData]="putData" [newUsed]="newUsed" [posArray]="posArray" [mainLabel]="'Pack'" (submitExIm)="submit($event)">
         </export-import>
     </div>
     `
@@ -30,7 +30,8 @@ export class ProductionPackingComponent implements OnInit {
     putData;
     newUsed;
 
-    poID: number;
+    posArray;
+
     submit(value: any) {
         this.localService.addEditPackingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
@@ -41,11 +42,19 @@ export class ProductionPackingComponent implements OnInit {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'roast').pipe(take(1)).subscribe( val => {
-                        this.putData = val[0];
-                        this.newUsed = val[1];
-                        this.isFormAvailable = true;
-                    });
+                    if(this.posArray) {
+                        this.localService.getMixProductionWithStorage(val['id'], this.posArray).pipe(take(1)).subscribe( val => {
+                            this.putData = val[0];
+                            this.newUsed = val[1]
+                            this.isFormAvailable = true;
+                        });
+                    } else {
+                        this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'roast').pipe(take(1)).subscribe( val => {
+                            this.putData = val[0];
+                            this.newUsed = val[1];
+                            this.isFormAvailable = true;
+                        });
+                    }
                 } else {
                     this.router.navigate(['../Productions', {number: 2}], { relativeTo: this._Activatedroute });
                 }
@@ -62,12 +71,11 @@ export class ProductionPackingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'roast').pipe(take(1)).subscribe( val => {
+                this.localService.getMixProductionWithStorage(+params.get('id'), params.get('poCodes')).pipe(take(1)).subscribe( val => {
                     this.putData = val[0];
                     this.newUsed = val[1]
                     this.isFormAvailable = true;
                 });
-                this.poID = +params.get('id');
             } else {
                 this.setBeginChoose();
             }
@@ -79,9 +87,10 @@ export class ProductionPackingComponent implements OnInit {
                 this.isFormAvailable = false;
                 this.putData = null;
                 this.newUsed = null;
-                this.poID = null;
+                this.posArray = null;
                 if(this.poConfig) {
                     this.form.get('poCode').setValue(null);
+                    this.form.get('mixPos').setValue(null);
                 } else {
                     this.setBeginChoose();
                 }
@@ -90,35 +99,31 @@ export class ProductionPackingComponent implements OnInit {
             }
         });
     }
+    
     setBeginChoose() {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.addControl('mixPos', this.fb.control(''));
         this.form.get('mixPos').valueChanges.subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('poCode') && selectedValue['poCode']) {
-                const mixpo = selectedValue['poCode']['id'];
-                if(this.poID !== mixpo) { 
-                    this.localService.getStorageRoastPo(mixpo).pipe(take(1)).subscribe( val => {
-                        if(val) {
-                            this.newUsed = val;
-                            this.isFormAvailable = true;
-                        } else {
-                            alert('This po dosent have inventory to pack');
-                        }
-                    }); 
-                    this.isDataAvailable = false;
-                    this.poID = mixpo;
-                }
+            console.log(selectedValue);
+            
+            if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
+                this.posArray = selectedValue['weightedPos'];
+                let pos = selectedValue['weightedPos'].map(a => a.poCode.id);
+                this.localService.getMixStorageRoastPos(pos).pipe(take(1)).subscribe( val => {
+                    this.newUsed = val;
+                    this.isFormAvailable = true;
+                }); 
+                this.isDataAvailable = false;
             }
         });
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID !== selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id')) { 
                 this.localService.getStorageRoastPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 
                 this.isDataAvailable = false;
-                this.poID = selectedValue['id'];
             }
         });
         this.isDataAvailable = true;
@@ -146,19 +151,50 @@ export class ProductionPackingComponent implements OnInit {
                 name: 'mixPos',
                 collections: [
                     {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        options: this.localService.findFreeMixPoCodes(),
+                        type: 'bigexpand',
+                        name: 'weightedPos',
+                        label: 'Mixed PO#s',
+                        options: 'aloneInline',
                         collections: [
                             {
-                                type: 'select',
-                                label: 'Supplier',
+                                type: 'selectgroup',
+                                inputType: 'supplierName',
+                                options: this.localService.getAllPosRoast(),
+                                collections: [
+                                    {
+                                        type: 'select',
+                                        label: 'Supplier',
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: '#PO',
+                                        name: 'poCode',
+                                        collections: 'somewhere',
+                                    },
+                                ]
                             },
                             {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
+                                type: 'input',
+                                label: 'Weight percentage',
+                                name: 'weight',
+                                inputType: 'numeric',
+                                options: 3,
+                                validations: [
+                                    {
+                                        name: 'required',
+                                        validator: Validators.required,
+                                        message: 'Weight percentage Required',
+                                    },
+                                    {
+                                        name: 'max',
+                                        validator: Validators.max(1),
+                                        message: '1 is the maximum',
+                                    }
+                                ]
+                            },
+                            {
+                                type: 'divider',
+                                inputType: 'divide'
                             },
                         ]
                     },

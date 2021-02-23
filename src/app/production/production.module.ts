@@ -8,11 +8,11 @@ import { ProductionRoutingModule } from './production-routing.module';
 import { ProductionToffyComponent } from './production-toffy.component';
 import { ProductionsComponent } from './productions.component';
 import { ExportImportComponent } from './export-import.component';
-import { NewProductionPackingComponent } from './new-production-packing.component';
+// import { NewProductionPackingComponent } from './new-production-packing.component';NewProductionPackingComponent
 @NgModule({
   declarations: [ProductionCleaningComponent, ProductionPackingComponent, ProductionRoastingComponent, ProductionDetailsDialogComponent,
   ProductionToffyComponent, ProductionsComponent, ExportImportComponent,
-  NewProductionPackingComponent],
+  ],
   imports: [
     SheardModule,
     ProductionRoutingModule
