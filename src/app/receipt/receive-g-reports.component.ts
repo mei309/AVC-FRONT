@@ -137,6 +137,8 @@ export class ReceiveGReports implements OnInit {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'Edit receive') {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
+      } else {
+        this.changed(this.tabIndex);
       }
     });
   }
@@ -171,7 +173,7 @@ export class ReceiveGReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
           if(ind === -1) {
             this.columnsShow.push({
-                type: 'arrayVal',
+                type: 'normal',
                 name: 'status',
                 label: 'Status',
                 search: 'select',

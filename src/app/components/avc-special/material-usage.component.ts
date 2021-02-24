@@ -74,7 +74,7 @@ export class MaterialUsageComponent implements OnInit {
         {
             type: 'bigexpand',
             name: 'items',
-            label: 'Loading PO#s',
+            label: 'Item',
             options: 'aloneInline',
             collections: [
                 {
@@ -101,7 +101,7 @@ export class MaterialUsageComponent implements OnInit {
         switch (element.type) {
             case 'selectgroup':
                 this.oneColumns.push(element.collections[0]);
-                this.displayedColumns.push(element.collections[0].name);
+                this.displayedColumns.push(element.inputType);
                 this.oneColumns.push(element.collections[1]);
                 this.displayedColumns.push(element.collections[1].name);
                 break;
@@ -214,7 +214,7 @@ export class MaterialUsageComponent implements OnInit {
         if(element['storageForms']) {
             element['storageForms'].forEach(ele => {
                 // if(!this.removeIds.includes(ele['id'])) {
-                    var obj = {item: element['item'], measureUnit: element['measureUnit'], storage: ele};
+                    var obj = {itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele};
                     var group2 = this.fb.group({});
                     items.push(group2);
                     this.createItem(group2, this.field, obj);
@@ -236,6 +236,12 @@ export class MaterialUsageComponent implements OnInit {
     field.collections.forEach(kid => {
         if(kid.type === 'bignotexpand') {
             group2.addControl(kid.name, this.createBigNotExpand(kid, value.hasOwnProperty([kid.name]) ? value[kid.name] : {}));           
+        } else if(kid.type === 'selectgroup') {
+            const control = this.fb.control(
+                value.hasOwnProperty(kid.collections[1].name)? value[kid.collections[1].name] : kid.value,
+                null
+            );
+            group2.addControl(kid.collections[1].name, control);
         } else {
             const control = this.fb.control(
                 value.hasOwnProperty(kid.name)? value[kid.name] : kid.value,

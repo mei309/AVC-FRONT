@@ -114,6 +114,12 @@ export class GenralInventoryComponent implements OnInit {
               options: this.genral.getWearhouses(),
             },
             {
+                type: 'date',
+                name: 'receiptDate',
+                label: 'Receipt date',
+                search: 'dates',
+            },
+            {
               name: 'poInventoryRows',
               type: 'kidArray',
             },
@@ -169,6 +175,12 @@ export class GenralInventoryComponent implements OnInit {
               label: 'Warehouse',
               search: 'selectAsyncObject',
               options: this.genral.getWearhouses(),
+            },
+            {
+                type: 'date',
+                name: 'receiptDate',
+                label: 'Receipt date',
+                search: 'dates',
             },
             {
               name: 'poInventoryRows',

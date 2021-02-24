@@ -87,7 +87,7 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
         label: 'Product descrption',
       },
       {
-        type: 'weight',
+        type: 'weight2',
         name: 'numberUnits',
         label: 'Amount',
         // options: 'measureUnit',

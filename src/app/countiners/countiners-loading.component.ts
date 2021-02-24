@@ -65,7 +65,7 @@ export class CountinersLoadingComponent {
                 if(secondData['usedItemsNormal']) {
                     secondData['usedItemsNormal'].forEach(element => {
                         element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                        element['groupName'] = 'normalLoding';
+                        element['groupName'] = 'normalPos';
                     });
                     secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.usedItems.length);
                     arr = arr.concat(secondData['usedItemsNormal']);
@@ -82,7 +82,7 @@ export class CountinersLoadingComponent {
                                 delete ele['version'];
                             }
                         });
-                        element['groupName'] = 'table';
+                        element['groupName'] = 'tablePos';
                     });
                     secondData['usedItemsTable'] = secondData['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
                     arr = arr.concat(secondData['usedItemsTable']);
@@ -303,13 +303,13 @@ export class CountinersLoadingComponent {
         var arrNormal = [];
         var arrTable = [];
         val['usedItemGroups']?.forEach(element => {
-            if(element['groupName'] === 'table') {
+            if(element['groupName'].startsWith('table')) {
                 element['usedItem']['amounts'].forEach(ele => {
                     ele['take'] = true;
                     this.removeIdsTable.push(ele['id']);
                 });
                 arrTable.push(element);
-            } else if(element['groupName'] === 'normalLoding') {
+            } else if(element['groupName'].startsWith('normal')) {
                 element['usedItems'].forEach(el => {
                     el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                     this.removeIds.push(el['id']);

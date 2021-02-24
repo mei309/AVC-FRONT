@@ -22,13 +22,13 @@ export class ManagerService {
     return this.http.post(this.usersurl+'addAlertUsers', value);
   }
 
-  addUser (value): Observable<any> {
-    return this.http.post(this.usersurl+'addUser', value);
-  }
+  // addUser (value): Observable<any> {
+  //   return this.http.post(this.usersurl+'addUser', value);
+  // }
 
-  addUserPerson (value): Observable<any> {
-    return this.http.post(this.usersurl+'addUserFromPerson', value);
-  }
+  // addUserPerson (value): Observable<any> {
+  //   return this.http.post(this.usersurl+'addUserFromPerson', value);
+  // }
 
   getUser (id: number): Observable<any> {
     return this.http.get(this.usersurl+'getUser/'+id);
@@ -43,9 +43,9 @@ export class ManagerService {
   //   return this.http.get(this.usersurl+'getAllBasicUsers');
   // }
 
-  editUser (value): Observable<any> {
-    return this.http.put(this.usersurl+'editUser', value);
-  }
+  // editUser (value): Observable<any> {
+  //   return this.http.put(this.usersurl+'editUser', value);
+  // }
 
   getPersons (): Observable<any> {
     return this.http.get(this.usersurl+'getAllPersons');
@@ -59,21 +59,43 @@ export class ManagerService {
     return this.http.get(this.usersurl+'getItemsSetupTable/'+table);
   }
 
-  addNewSetup(table: string, value) {
-    return this.http.post(this.usersurl+'addNewSetup/'+table, value);
+  addEditNew(value, type: string, table: string) {
+    switch (type) {
+      case 'Setup':
+        return this.http.post(this.usersurl+'addNewSetup/'+table, value);
+      case 'editSetup':
+        return this.http.put(this.usersurl+'editSetup/'+table, value);
+      case 'Item':
+        return this.http.post(this.usersurl+'addNewItem/'+table, value);
+      case 'editItem':
+        return this.http.put(this.usersurl+'editItem/'+table, value);
+      case 'userPerson':
+        return this.http.post(this.usersurl+'addUserFromPerson', value);
+      case 'user':
+        return this.http.post(this.usersurl+'addUser', value);
+      case 'editUser':
+        return this.http.put(this.usersurl+'editUser', value);
+    
+      default:
+        break;
+    }
   }
 
-  addNewItem(table: string, value) {
-    return this.http.post(this.usersurl+'addNewItem/'+table, value);
-  }
+  // addNewSetup(table: string, value) {
+  //   return this.http.post(this.usersurl+'addNewSetup/'+table, value);
+  // }
+
+  // addNewItem(table: string, value) {
+  //   return this.http.post(this.usersurl+'addNewItem/'+table, value);
+  // }
   
-  editSetup(table: string, value) {
-    return this.http.put(this.usersurl+'editSetup/'+table, value);
-  }
+  // editSetup(table: string, value) {
+  //   return this.http.put(this.usersurl+'editSetup/'+table, value);
+  // }
 
-  editItem(table: string, value) {
-    return this.http.put(this.usersurl+'editItem/'+table, value);
-  }
+  // editItem(table: string, value) {
+  //   return this.http.put(this.usersurl+'editItem/'+table, value);
+  // }
 
   removeSetup(table: string, value) {
     return this.http.delete(this.usersurl+'deleteSetup/'+table, value);

@@ -21,6 +21,8 @@ export class ExportImportComponent implements OnInit {
     @Output() submitExIm: EventEmitter<any> = new EventEmitter<any>();
     regConfig: FieldConfig[];
 
+    isOnePo: boolean = true;
+
     dataSource;
     onSubmit(value: any) {
     //     console.log(value);
@@ -40,7 +42,7 @@ export class ExportImportComponent implements OnInit {
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
                 element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'normal';
+                element['groupName'] = 'normal' + this.isOnePo? '' : 'Pos';
             });
             value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
             arr = arr.concat(value['usedItemsNormal']);
@@ -57,7 +59,7 @@ export class ExportImportComponent implements OnInit {
                         delete ele['version'];
                     }
                 });
-                element['groupName'] = 'table';
+                element['groupName'] = 'table' + this.isOnePo? '' : 'Pos';
             });
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
@@ -93,28 +95,21 @@ export class ExportImportComponent implements OnInit {
         }
 
     ngOnInit() {
-        this.preper();
-        if (this.mainLabel === 'Clean') {
-            var ind = this.regConfig.findIndex((em) => em['name'] === 'materialUsed');
-            if(ind !== -1) {
-                this.regConfig.splice(ind, 1);
-            }
-        }
         var arrNormal = [];
         var arrTable = [];
         var removeIds = [];
         if(this.beginData) {
             if(this.beginData['weightedPos']) {
-                this.preperPosArray();
+                this.isOnePo = false;
             }
             var arrMaterial = [];
             this.beginData['usedItemGroups'].forEach(element => {
-                if(element['groupName'] === 'table') {
+                if(element['groupName'].startsWith('table')) {
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['take'] = true;
                     });
                     arrTable.push(element);
-                } else if(element['groupName'] === 'normal') {
+                } else if(element['groupName'].startsWith('normal')) {
                     element['usedItems'].forEach(el => {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIds.push(el['storage']['id']);
@@ -166,7 +161,7 @@ export class ExportImportComponent implements OnInit {
         } else {
             if(this.posArray) {
                 this.dataSource = {weightedPos: this.posArray};
-                this.preperPosArray();
+                this.isOnePo = false;
             } else {
                 this.dataSource = {poCode: this.newUsed[0]['poCode']};
             }
@@ -176,12 +171,13 @@ export class ExportImportComponent implements OnInit {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['measureUnit'] = element['measureUnit'];
+                element['storage']['itemPo'] = element['poCode'];
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
                     if(!removeIds.includes(ele['id'])) {
-                        arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
+                        arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                     }
                 });
@@ -192,29 +188,17 @@ export class ExportImportComponent implements OnInit {
         }
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = arrTable;
-        } else {
-            var ind = this.regConfig.findIndex((em) => em['name'] === 'usedItemsTable');
-            if(ind !== -1) {
-                this.regConfig.splice(ind, 1);
-            }
         }
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = arrNormal;
-        } else {
-            var ind = this.regConfig.findIndex((em) => em['name'] === 'usedItemsNormal');
-            if(ind !== -1) {
-                this.regConfig.splice(ind, 1);
-            }
         }
+        this.preper(this.mainLabel === 'Clean'? false : true, arrTable.length > 0, arrNormal.length > 0);
         this.isDataAvailable = true;
     }
 
-    preperPosArray() {
-        this.regConfig.splice(0,1, {
-            type: 'bigexpand',
-            name: 'weightedPos',
-            options: 'aloneNoAddNoFrameInline',
-            collections: [
+    preper(isNotClean: boolean, hasItemsTable: boolean, hasItemsNormal: boolean) {
+        this.regConfig = [
+            ...this.isOnePo? [
                 {
                     type: 'selectgroup',
                     inputType: 'supplierName',
@@ -222,7 +206,7 @@ export class ExportImportComponent implements OnInit {
                     collections: [
                         {
                             type: 'select',
-                            label: 'Supplier',
+                            label: 'Supllier',
                         },
                         {
                             type: 'select',
@@ -232,39 +216,42 @@ export class ExportImportComponent implements OnInit {
                         },
                     ]
                 },
+            ]: [
                 {
-                    type: 'input',
-                    label: 'Weight',
-                    name: 'weight',
-                    // disable: true,
-                },
-                {
-                    type: 'divider',
-                    inputType: 'divide'
-                },
-            ]
-        });
-    }
-
-    preper() {
-        this.regConfig = [
-            {
-                type: 'selectgroup',
-                inputType: 'supplierName',
-                disable: true,
-                collections: [
-                    {
-                        type: 'select',
-                        label: 'Supllier',
-                    },
-                    {
-                        type: 'select',
-                        label: '#PO',
-                        name: 'poCode',
-                        collections: 'somewhere',
-                    },
-                ]
-            },
+                    type: 'bigexpand',
+                    name: 'weightedPos',
+                    options: 'aloneNoAddNoFrameInline',
+                    collections: [
+                        {
+                            type: 'selectgroup',
+                            inputType: 'supplierName',
+                            disable: true,
+                            collections: [
+                                {
+                                    type: 'select',
+                                    label: 'Supplier',
+                                },
+                                {
+                                    type: 'select',
+                                    label: '#PO',
+                                    name: 'poCode',
+                                    collections: 'somewhere',
+                                },
+                            ]
+                        },
+                        {
+                            type: 'input',
+                            label: 'Weight',
+                            name: 'weight',
+                            // disable: true,
+                        },
+                        {
+                            type: 'divider',
+                            inputType: 'divide'
+                        },
+                    ]
+                }
+            ],
             {
                 type: 'date',
                 label: 'Date',
@@ -310,136 +297,179 @@ export class ExportImportComponent implements OnInit {
                 name: 'productionLine',
                 options: this.genral.getProductionLine(),
             },
-            {
-                type: 'bigexpand',
-                name: 'usedItemsNormal',
-                label: this.mainLabel+'ing amounts',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'tableWithInput',
-                        // label: 'Transfer from',
-                        name: 'usedItems',
-                        options: 'numberUsedUnits',
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Item',
-                                name: 'item',
-                                disable: true,
-                            },
-                            {
-                                type: 'date',
-                                label: 'Process date',
-                                name: 'itemProcessDate',
-                                disable: true,
-                            },
-                            {
-                                type: 'input',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                                disable: true,
-                            },
-                            {
-                                type: 'bignotexpand',
-                                name: 'storage',
-                                collections: [
+            ...hasItemsNormal? [
+                {
+                    type: 'bigexpand',
+                    name: 'usedItemsNormal',
+                    label: this.mainLabel+'ing amounts',
+                    options: 'aloneNoAdd',
+                    collections: [
+                        {
+                            type: 'tableWithInput',
+                            // label: 'Transfer from',
+                            name: 'usedItems',
+                            options: 'numberUsedUnits',
+                            collections: [
+                                ...this.isOnePo? []: [
                                     {
-                                        type: 'input',
-                                        label: 'Number of units',
-                                        name: 'numberUnits',
+                                        type: 'selectgroup',
+                                        inputType: 'supplierName',
+                                        // options: this.localService.getAllPosRoastPacked(),
                                         disable: true,
-                                    },
+                                        collections: [
+                                            {
+                                                type: 'select',
+                                                label: 'Supplier',
+                                            },
+                                            {
+                                                type: 'select',
+                                                label: '#PO',
+                                                name: 'itemPo',
+                                                collections: 'somewhere',
+                                            },
+                                        ]
+                                    }
+                                ],
+                                {
+                                    type: 'select',
+                                    label: 'Item',
+                                    name: 'item',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'date',
+                                    label: 'Process date',
+                                    name: 'itemProcessDate',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'input',
+                                    label: 'Weight unit',
+                                    name: 'measureUnit',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'bignotexpand',
+                                    name: 'storage',
+                                    collections: [
+                                        {
+                                            type: 'input',
+                                            label: 'Number of units',
+                                            name: 'numberUnits',
+                                            disable: true,
+                                        },
+                                        {
+                                            type: 'input',
+                                            name: 'unitAmount',
+                                            label: 'Unit weight',
+                                            disable: true,
+                                        //     collections: [
+                                        //         {
+                                        //             type: 'input',
+                                        //             label: 'Unit weight',
+                                        //             name: 'amount',
+                                        //         },
+                                        //         {
+                                        //             type: 'select',
+                                        //             label: 'Weight unit',
+                                        //             name: 'measureUnit',
+                                        //         },
+                                        //     ]
+                                        },
+                                        {
+                                            type: 'select',
+                                            label: 'Warehouse location',
+                                            name: 'warehouseLocation',
+                                            disable: true,
+                                        },
+                                        {
+                                            type: 'input',
+                                            label: 'Number available units',
+                                            name: 'numberAvailableUnits',
+                                            disable: true,
+                                        },
+                                    ]
+                                },
+                            ],
+                        },
+                    ]
+                },
+            ]: [],
+            ...hasItemsTable? [
+                {
+                    type: 'bigexpand',
+                    name: 'usedItemsTable',
+                    label: this.mainLabel+'ing amounts',
+                    options: 'aloneNoAdd',
+                    collections: [
+                        {
+                            type: 'bignotexpand',
+                            name: 'usedItem',
+                            // label: 'Transfer from',
+                            options: 'aloneNoAdd',
+                            collections: [
+                                ...this.isOnePo? []: [
                                     {
-                                        type: 'input',
-                                        name: 'unitAmount',
-                                        label: 'Unit weight',
+                                        type: 'selectgroup',
+                                        inputType: 'supplierName',
                                         disable: true,
-                                    //     collections: [
-                                    //         {
-                                    //             type: 'input',
-                                    //             label: 'Unit weight',
-                                    //             name: 'amount',
-                                    //         },
-                                    //         {
-                                    //             type: 'select',
-                                    //             label: 'Weight unit',
-                                    //             name: 'measureUnit',
-                                    //         },
-                                    //     ]
+                                        collections: [
+                                            {
+                                                type: 'select',
+                                                label: 'Supplier',
+                                            },
+                                            {
+                                                type: 'select',
+                                                label: '#PO',
+                                                name: 'itemPo',
+                                                collections: 'somewhere',
+                                            },
+                                        ]
                                     },
-                                    {
-                                        type: 'select',
-                                        label: 'Warehouse location',
-                                        name: 'warehouseLocation',
-                                        disable: true,
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Number available units',
-                                        name: 'numberAvailableUnits',
-                                        disable: true,
-                                    },
-                                ]
-                            },
-                        ],
-                    },
-                ]
-            },
-            {
-                type: 'bigexpand',
-                name: 'usedItemsTable',
-                label: this.mainLabel+'ing amounts',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'bignotexpand',
-                        name: 'usedItem',
-                        // label: 'Transfer from',
-                        options: 'aloneNoAdd',
-                        collections: [
-                            {
-                                type: 'inputReadonlySelect',
-                                label: 'Item descrption',
-                                name: 'item',
-                                disable: true,
-                            },
-                            {
-                                type: 'date',
-                                label: 'Process date',
-                                name: 'itemProcessDate',
-                                disable: true,
-                            },
-                            {
-                                type: 'inputReadonly',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                                disable: true,
-                            },
-                            {
-                                type: 'inputReadonlySelect',
-                                label: 'Warehouse location',
-                                name: 'warehouseLocation',
-                                disable: true,
-                            },
-                            // {
-                            //     type: 'inputReadonly',
-                            //     label: 'Empty container weight',
-                            //     name: 'containerWeight',
-                            //     disable: true,
-                            // },
-                            {
-                                type: 'arrayordinal',
-                                label: 'Unit weight',
-                                name: 'amounts',
-                                inputType: 'choose',
-                                options: 3,
-                                collections: 30,
-                            },
-                        ]
-                    },
-                ]
-            },
+                                ],
+                                {
+                                    type: 'inputReadonlySelect',
+                                    label: 'Item descrption',
+                                    name: 'item',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'date',
+                                    label: 'Process date',
+                                    name: 'itemProcessDate',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'inputReadonly',
+                                    label: 'Weight unit',
+                                    name: 'measureUnit',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'inputReadonlySelect',
+                                    label: 'Warehouse location',
+                                    name: 'warehouseLocation',
+                                    disable: true,
+                                },
+                                // {
+                                //     type: 'inputReadonly',
+                                //     label: 'Empty container weight',
+                                //     name: 'containerWeight',
+                                //     disable: true,
+                                // },
+                                {
+                                    type: 'arrayordinal',
+                                    label: 'Unit weight',
+                                    name: 'amounts',
+                                    inputType: 'choose',
+                                    options: 3,
+                                    collections: 30,
+                                },
+                            ]
+                        },
+                    ]
+                },
+            ]: [],
             {
                 type: 'bigexpand',
                 name: 'processItemsNormal',
@@ -664,82 +694,103 @@ export class ExportImportComponent implements OnInit {
                     },
                 ]
             },
-            {
-                type: 'bigexpand',
-                name: 'materialUsed',
-                label: 'Material used',
-                options: 'aloneNoAdd',
-                collections: [
-                    {
-                        type: 'materialUsage',
-                        // label: 'Transfer from',
-                        name: 'usedItems',
-                        options: 'numberUsedUnits',
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Item',
-                                name: 'item',
-                                disable: true,
-                            },
-                            // {
-                            //     type: 'date',
-                            //     label: 'Process date',
-                            //     name: 'itemProcessDate',
-                            //     disable: true,
-                            // },
-                            {
-                                type: 'input',
-                                label: 'Weight unit',
-                                name: 'measureUnit',
-                                disable: true,
-                            },
-                            {
-                                type: 'bignotexpand',
-                                name: 'storage',
-                                collections: [
-                                    {
-                                        type: 'input',
-                                        label: 'Number of units',
-                                        name: 'numberUnits',
-                                        disable: true,
-                                    },
-                                    {
-                                        type: 'input',
-                                        name: 'unitAmount',
-                                        label: 'Unit weight',
-                                        disable: true,
-                                    //     collections: [
-                                    //         {
-                                    //             type: 'input',
-                                    //             label: 'Unit weight',
-                                    //             name: 'amount',
-                                    //         },
-                                    //         {
-                                    //             type: 'select',
-                                    //             label: 'Weight unit',
-                                    //             name: 'measureUnit',
-                                    //         },
-                                    //     ]
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: 'Warehouse location',
-                                        name: 'warehouseLocation',
-                                        disable: true,
-                                    },
-                                    {
-                                        type: 'input',
-                                        label: 'Number available units',
-                                        name: 'numberAvailableUnits',
-                                        disable: true,
-                                    },
-                                ]
-                            },
-                        ],
-                    },
-                ]
-            },
+            ...isNotClean? [
+                {
+                    type: 'bigexpand',
+                    name: 'materialUsed',
+                    label: 'Material used',
+                    options: 'aloneNoAdd',
+                    collections: [
+                        {
+                            type: 'materialUsage',
+                            // label: 'Transfer from',
+                            name: 'usedItems',
+                            options: 'numberUsedUnits',
+                            collections: [
+                                {
+                                    type: 'selectgroup',
+                                    inputType: 'supplierName',
+                                    // options: this.localService.getAllPosRoastPacked(),
+                                    disable: true,
+                                    collections: [
+                                        {
+                                            type: 'select',
+                                            label: 'Supplier',
+                                        },
+                                        {
+                                            type: 'select',
+                                            label: '#PO',
+                                            name: 'itemPo',
+                                            collections: 'somewhere',
+                                        },
+                                    ]
+                                },
+                                {
+                                    type: 'select',
+                                    label: 'Item',
+                                    name: 'item',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'date',
+                                    label: 'Process date',
+                                    name: 'itemProcessDate',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'input',
+                                    label: 'Weight unit',
+                                    name: 'measureUnit',
+                                    disable: true,
+                                },
+                                {
+                                    type: 'bignotexpand',
+                                    name: 'storage',
+                                    collections: [
+                                        {
+                                            type: 'input',
+                                            label: 'Number of units',
+                                            name: 'numberUnits',
+                                            disable: true,
+                                        },
+                                        {
+                                            type: 'input',
+                                            name: 'unitAmount',
+                                            label: 'Unit weight',
+                                            disable: true,
+                                        //     collections: [
+                                        //         {
+                                        //             type: 'input',
+                                        //             label: 'Unit weight',
+                                        //             name: 'amount',
+                                        //         },
+                                        //         {
+                                        //             type: 'select',
+                                        //             label: 'Weight unit',
+                                        //             name: 'measureUnit',
+                                        //         },
+                                        //     ]
+                                        },
+                                        {
+                                            type: 'select',
+                                            label: 'Warehouse location',
+                                            name: 'warehouseLocation',
+                                            disable: true,
+                                        },
+                                        {
+                                            type: 'input',
+                                            label: 'Number available units',
+                                            name: 'numberAvailableUnits',
+                                            disable: true,
+                                        },
+                                    ]
+                                },
+                            ],
+                        },
+                    ]
+                },
+            ]: [],
+            
             // {
             //     type: 'bigexpand',
             //     name: 'materialUsed',

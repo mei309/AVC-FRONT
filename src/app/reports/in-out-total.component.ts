@@ -73,9 +73,17 @@ export class InOutTotalComponent {
     @Input() shipping: boolean = false;
     @Input() dataSource;
     
+
+    @Input() set oneColumns(value) {
+        if(value){
+            this.regShow = value;
+        }
+    }
+    get oneColumns() { return this.regShow; }
+
   constructor() {}
 
-  oneColumns = [
+  regShow = [
     {
         name: 'processes',
         label: 'Processes',

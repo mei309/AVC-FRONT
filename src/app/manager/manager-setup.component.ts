@@ -29,7 +29,7 @@ import { Validators } from '@angular/forms';
         <h2>{{choosedOne}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
             <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add {{choosedOne}}</button>
-            <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="editDialog($event)">
+            <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>
     </div>
@@ -523,46 +523,45 @@ export class ManagmentSetupComponent {
     }
 
 
-    newDialog(): void {
+    newDialog(value?: any): void {
         const dialogRef = this.dialog.open(EditDialogComponent, {
           width: '80%',
           height: '80%',
-          data: {regConfig: this.regConfigTemp, mainLabel: 'Add '+this.choosedOne},
+          data: {regConfig: this.regConfigTemp, mainLabel: this.choosedOne, type: value? 'editSetup' : 'Setup', putData: value? value : null},
         });
         dialogRef.afterClosed().subscribe(data => {
-            if(!(!data || data === 'closed' || data === 'remove')) {
-                this.localService.addNewSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
-                    this.localService.getAllSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
-                        this.setupSource = <any[]>value;
-                    });
+            if(data === 'success') {
+                this.localService.getAllSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
+                    this.setupSource = <any[]>value;
                 });
             }
         });
       }
 
 
-      editDialog(value: any): void {
-        const dialogRef = this.dialog.open(EditDialogComponent, {
-          width: '80%',
-          height: '80%',
-          data: {putData: value, regConfig: this.regConfigTemp, mainLabel: 'Edit '+this.choosedOne},
-        });
-        dialogRef.afterClosed().subscribe(data => {
-            if(!data || data === 'closed') {
-            } 
-            // else if(data === 'remove') {
-            //     this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
-            //         this.setupSource.pop(value);
-            //     });
-            // } 
-            else if (!isEqual(value, data)) {
-                this.localService.editSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
-                    this.columnsSetup.forEach(va => {
-                        value[va.name] = val[va.name];
-                    })
-                });
-            }
-        });
-      }
+    //   !(!data || data === 'closed' || data === 'remove')
+    //   editDialog(value: any): void {
+    //     const dialogRef = this.dialog.open(EditDialogComponent, {
+    //       width: '80%',
+    //       height: '80%',
+    //       data: {putData: value, regConfig: this.regConfigTemp, mainLabel: 'Edit '+this.choosedOne},
+    //     });
+    //     dialogRef.afterClosed().subscribe(data => {
+    //         if(!data || data === 'closed') {
+    //         } 
+    //         // else if(data === 'remove') {
+    //         //     this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
+    //         //         this.setupSource.pop(value);
+    //         //     });
+    //         // } 
+    //         else if (!isEqual(value, data)) {
+    //             this.localService.editSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
+    //                 this.columnsSetup.forEach(va => {
+    //                     value[va.name] = val[va.name];
+    //                 })
+    //             });
+    //         }
+    //     });
+    //   }
 
   }

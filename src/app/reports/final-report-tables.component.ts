@@ -13,6 +13,8 @@ import { Component, Input } from '@angular/core';
                     <in-out-total  *ngFor="let line of dataSource[process.name]" [dataSource]="line" shipping="true">
                     </in-out-total>
                 </ng-container>
+                <in-out-total *ngSwitchCase="'inventory'" [oneColumns]="inventoryColumns" [dataSource]="dataSource[process.name]">
+                </in-out-total>
                 <in-out-total *ngSwitchDefault [dataSource]="dataSource[process.name]">
                 </in-out-total>
             </ng-container>
@@ -31,6 +33,11 @@ export class FinalReportTablesComponent {
         //     name: 'relocation',
         //     label: 'Relocation',
         // },
+        {
+            name: 'inventory',
+            label: 'Inventory',
+            type: 'inventory',
+        },
         {
             name: 'receipt',
             label: 'Receiving',
@@ -125,6 +132,14 @@ export class FinalReportTablesComponent {
             name: 'itemQcs',
         },
       ];
+
+      inventoryColumns = [
+            {
+                name: 'inventory',
+                label: 'Inventory',
+                foot: 'totalInventory',
+            }
+        ];
 
     getDisplayedColumns(myData): string[] {
         if(myData.some(a => a.amount)) {

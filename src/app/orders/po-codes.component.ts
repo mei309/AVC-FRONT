@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
     <div class="centerButtons">
         <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add #PO</button>
     </div>
-    <search-details [dataSource]="posSource" [oneColumns]="columnsPos" (details)="editDialog($event)">
+    <search-details [dataSource]="posSource" [oneColumns]="columnsPos" (details)="newDialog($event)">
     </search-details>
     `
   })
@@ -47,45 +47,48 @@ export class PoCodesComponent implements OnInit {
                 name: 'contractTypeSuffix',
                 label: 'Suffix',
             },
+            {
+                type: 'normal',
+                name: 'value',
+                label: 'Display',
+            },
         ];
         this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
             this.posSource = value;
         });
     }
 
-    newDialog(): void {
+    newDialog(value: any): void {
         const dialogRef = this.dialog.open(AddEditPoDialog, {
           width: '80%',
           height: '80%',
-          data: {mainLabel: 'Add PO#'}
+          data: {poCode: value? value['id'] : null}
         });
         dialogRef.afterClosed().subscribe(data => {
-            if(data && data !== 'closed') {
-                this.localService.addEditPoCode(data, true).pipe(take(1)).subscribe( val => {
-                    this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-                        this.posSource = value;
-                    });
+            if(data === 'success') {
+                this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+                    this.posSource = value;
                 });
             }
         });
     }
 
-    editDialog(value: any): void {
-        const dialogRef = this.dialog.open(AddEditPoDialog, {
-          width: '80%',
-          height: '80%',
-          data: {poCode: value['id'], mainLabel: 'Edit PO#'}
-        });
-        dialogRef.afterClosed().subscribe(data => {
-            if(data && data !== 'closed') {
-                this.localService.addEditPoCode(data, false).pipe(take(1)).subscribe( val => {
-                    this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-                        this.posSource = value;
-                    });
-                });
-            }
-        });
-    }
+    // editDialog(value: any): void {
+    //     const dialogRef = this.dialog.open(AddEditPoDialog, {
+    //       width: '80%',
+    //       height: '80%',
+    //       data: {poCode: value['id'], mainLabel: 'Edit PO#'}
+    //     });
+    //     dialogRef.afterClosed().subscribe(data => {
+    //         if(data && data !== 'closed') {
+    //             this.localService.addEditPoCode(data, false).pipe(take(1)).subscribe( val => {
+    //                 this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+    //                     this.posSource = value;
+    //                 });
+    //             });
+    //         }
+    //     });
+    // }
 
     // newMixDialog(): void {
     //     const dialogRef = this.dialog.open(AddEditPoDialog, {
@@ -111,7 +114,7 @@ export class PoCodesComponent implements OnInit {
   selector: 'add-edit-po',
   template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [putData]="putData" [fields]="poConfig" [mainLabel]="mainLabel" (submitForm)="submit($event)" popup="true">
+        <dynamic-form [putData]="putData" [fields]="poConfig" [mainLabel]="this.poCode? 'Edit PO#' : 'Add PO#'" (submitForm)="submit($event)" popup="true">
         </dynamic-form>
     </div>
   `,
@@ -226,11 +229,12 @@ export class AddEditPoDialog {
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.poCode = data.poCode;
-            this.mainLabel = data.mainLabel
         }
     
     submit(value: any) {
-        this.dialogRef.close(value);
+        this.localService.addEditPoCode(value, this.poCode? false : true).pipe(take(1)).subscribe( val => {
+            this.dialogRef.close('success');
+        });
     }
 
 

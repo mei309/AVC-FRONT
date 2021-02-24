@@ -116,7 +116,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
             </ng-container>
         </ng-container>
     </ng-template>
-    <h2 *ngIf="dataSource['totalAmount']" style="float: right">Totel: {{dataSource['totalAmount'] | tableCellPipe: 'weight' : null}}  {{dataSource['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+    <h2 *ngIf="dataSource['totalAmount']" style="float: right">Total: {{dataSource['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
 </ng-container>
 <ng-template #noData>
   <mat-spinner></mat-spinner>
@@ -155,10 +155,24 @@ export class ShowDetailsComponent implements OnInit {
           }
         }
         if(value.hasOwnProperty('groupName') && value['groupName']) {
-          if(value['groupName'] !== 'normalLoding') {
+          if(value['groupName'].endsWith('Pos')) {
             var ind = this.regShow.findIndex((em) => em['name'] === 'usedItems');
             if(ind !== -1) {
-                (this.regShow[ind].collections as Array<any>).splice(0, 1);
+                (this.regShow[ind].collections as Array<any>).splice(0, 0, {
+                  type: 'name2',
+                  label: '#PO',
+                  name: 'itemPo',
+                  collections: 'supplierName',
+              });
+            }
+            var ind = this.regShow.findIndex((em) => em['name'] === 'usedItem');
+            if(ind !== -1) {
+                (this.regShow[ind].collections as Array<any>).splice(0, 0, {
+                  type: 'name2',
+                  label: '#PO',
+                  name: 'itemPo',
+                  collections: 'supplierName',
+              });
             }
           }
         };
@@ -641,12 +655,6 @@ export class ShowDetailsComponent implements OnInit {
       // side: 'left',
       // processName: this.globelType+'_CLEANING',
       collections: [
-          {
-              type: 'name2',
-              label: '#PO',
-              name: 'itemPo',
-              collections: 'supplierName',
-          },
           {
               type: 'nameId',
               label: 'Item descrption',
