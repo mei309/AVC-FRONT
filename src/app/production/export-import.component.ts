@@ -42,7 +42,7 @@ export class ExportImportComponent implements OnInit {
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
                 element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'normal' + this.isOnePo? '' : 'Pos';
+                element['groupName'] = this.isOnePo? 'normal' : 'normalPos';
             });
             value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
             arr = arr.concat(value['usedItemsNormal']);
@@ -59,7 +59,7 @@ export class ExportImportComponent implements OnInit {
                         delete ele['version'];
                     }
                 });
-                element['groupName'] = 'table' + this.isOnePo? '' : 'Pos';
+                element['groupName'] = this.isOnePo? 'table' : 'tablePos';
             });
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
             arr = arr.concat(value['usedItemsTable']);

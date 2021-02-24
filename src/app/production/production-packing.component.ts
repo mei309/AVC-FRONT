@@ -42,8 +42,11 @@ export class ProductionPackingComponent implements OnInit {
                 if (result === 'Edit') {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    if(this.posArray) {
-                        this.localService.getMixProductionWithStorage(val['id'], this.posArray).pipe(take(1)).subscribe( val => {
+                    if(val['weightedPos']) {
+                        console.log(this.posArray);
+                        
+                        let pos = val['weightedPos'].map(a => a.poCode.id);
+                        this.localService.getMixProductionWithStorage(val['id'], pos).pipe(take(1)).subscribe( val => {
                             this.putData = val[0];
                             this.newUsed = val[1]
                             this.isFormAvailable = true;
@@ -105,8 +108,6 @@ export class ProductionPackingComponent implements OnInit {
         this.form.addControl('poCode', this.fb.control(''));
         this.form.addControl('mixPos', this.fb.control(''));
         this.form.get('mixPos').valueChanges.subscribe(selectedValue => {
-            console.log(selectedValue);
-            
             if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
                 this.posArray = selectedValue['weightedPos'];
                 let pos = selectedValue['weightedPos'].map(a => a.poCode.id);
