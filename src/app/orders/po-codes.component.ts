@@ -58,7 +58,7 @@ export class PoCodesComponent implements OnInit {
         });
     }
 
-    newDialog(value: any): void {
+    newDialog(value?: any): void {
         const dialogRef = this.dialog.open(AddEditPoDialog, {
           width: '80%',
           height: '80%',

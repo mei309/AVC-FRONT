@@ -22,23 +22,23 @@ export class ManagmentTestComponent implements OnInit {
     //   this.LocalService.getItemsCashew().pipe(take(1)).subscribe(value2 => {
             const roles = this.genral.getRoles();
             const mainUser = { "personName": "test user"+this.randomNum, "username": "test"+this.randomNum, "password": this.randomNum, "roles": [ roles[0], roles[1] ] };
-            this.LocalService.addUser(mainUser).pipe(take(1)).subscribe(value4 => {
+            // this.LocalService.addUser(mainUser).pipe(take(1)).subscribe(value4 => {
 
-                this.LocalService.getUser(value4).pipe(take(1)).subscribe(value5 => {
-                    console.log(value5);
-                    console.log(mainUser);
+            //     this.LocalService.getUser(value4).pipe(take(1)).subscribe(value5 => {
+            //         console.log(value5);
+            //         console.log(mainUser);
                     
                     
-                    delete mainUser['password'];
-                    if(includesValdaite(Object.assign({}, value5), Object.assign({}, mainUser))) {
-                    this.massage += 'adding user SUCSSESFUL\n';
-                    } else {
-                    this.massage += 'adding user not including something\n';
-                    }
-                });
+            //         delete mainUser['password'];
+            //         if(includesValdaite(Object.assign({}, value5), Object.assign({}, mainUser))) {
+            //         this.massage += 'adding user SUCSSESFUL\n';
+            //         } else {
+            //         this.massage += 'adding user not including something\n';
+            //         }
+            //     });
 
             
-            });
+            // });
 
 
             // this.LocalService.getPersons().pipe(take(1)).subscribe(value6 => {
