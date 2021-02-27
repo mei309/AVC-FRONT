@@ -239,7 +239,7 @@ export class SelectgroupComponent implements OnInit {
         } else {
             this.selectFormFirst.setValue('');
             this.options2 = this.linkedtwo;
-            this.group.controls[this.field.collections[1].name].updateValueAndValidity({ onlySelf: true, emitEvent: true });;
+            this.group.controls[this.field.collections[1].name].updateValueAndValidity({ onlySelf: true, emitEvent: true });
             this.trigger.openPanel();
             
         }

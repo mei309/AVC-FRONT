@@ -59,9 +59,11 @@ import { SelectNormalMultipleComponent } from './components/selects/select-norma
 
 import { PrintLazyLoadDirective } from './libraries/print-lazy-load.directive';
 import { MaterialUsageComponent } from './components/avc-special/material-usage.component';
+import { SelectMeasureUnitComponent } from './components/avc-special/measure-unit-select.component';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
+    SelectMeasureUnitComponent,
     // ExpandableTableComponent,
     // NormalTableComponent,
     // DetailsTableGroupComponent,
@@ -128,6 +130,7 @@ import { MaterialUsageComponent } from './components/avc-special/material-usage.
   ],
   exports: [
     MaterialUsageComponent,
+    SelectMeasureUnitComponent,
     // ExpandableTableComponent,
     // NormalTableComponent,
     // DetailsTableComponent,
@@ -207,6 +210,7 @@ import { MaterialUsageComponent } from './components/avc-special/material-usage.
   ],
   entryComponents: [
     MaterialUsageComponent,
+    SelectMeasureUnitComponent,
 
     
     InputComponent,

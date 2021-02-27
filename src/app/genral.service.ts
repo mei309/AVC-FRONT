@@ -20,7 +20,8 @@ export class Genral {
   ItemsRawCashew = new ReplaySubject<DropNormal[]>();
   ItemsRawRoastCashew = new ReplaySubject<DropNormal[]>();
   ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
-  // ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
+  ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
+  ItemsPackedCashew = new ReplaySubject<DropNormal[]>();
   ItemsRoastPackedCashew = new ReplaySubject<DropNormal[]>();
   ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
   allItemsCashew = new ReplaySubject<DropNormal[]>();
@@ -59,7 +60,8 @@ export class Genral {
     this.ItemsRawCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsRawRoastCashew = new ReplaySubject<DropNormal[]>();
-    // this.ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
+    this.ItemsRoastCashew = new ReplaySubject<DropNormal[]>();
+    this.ItemsPackedCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsRoastPackedCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
     this.allItemsCashew = new ReplaySubject<DropNormal[]>();
@@ -84,7 +86,8 @@ export class Genral {
       this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
       this.ItemsRawRoastCashew.next(value[6].filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse)));
       this.ItemsCleanCashew.next(value[6].filter(w => w.productionUse === 'CLEAN'));
-      // this.ItemsRoastCashew.next(value[6].filter(w => w.productionUse === 'ROAST'));
+      this.ItemsRoastCashew.next(value[6].filter(w => w.productionUse === 'ROAST'));
+      this.ItemsPackedCashew.next(value[6].filter(w => w.productionUse === 'PACKED'));
       this.ItemsRoastPackedCashew.next(value[6].filter(w => ['ROAST', 'PACKED'].includes(w.productionUse)));
       // value[6].filter(word => {log['ROAST', 'PACKED'].includes(word.category)});
       this.allItemsCashew.next(value[6]);
@@ -207,9 +210,12 @@ export class Genral {
   getItemsCleanCashew (): Observable<any> {
     return this.ItemsCleanCashew.asObservable();
   }
-  // getItemsRoastCashew (): Observable<any> {
-  //   return this.ItemsRoastCashew.asObservable();
-  // }
+  getItemsRoastCashew (): Observable<any> {
+    return this.ItemsRoastCashew.asObservable();
+  }
+  getItemsPackedCashew (): Observable<any> {
+    return this.ItemsPackedCashew.asObservable();
+  }
   getItemsRoastPackedCashew (): Observable<any> {
     return this.ItemsRoastPackedCashew.asObservable();
   }
@@ -225,8 +231,9 @@ export class Genral {
       case 'Clean':
         return this.getItemsCleanCashew();
       case 'Roast':
-        // return this.getItemsRoastCashew();
+        return this.getItemsRoastCashew();
       case 'Pack':
+        return this.getItemsPackedCashew();
       case 'RoastPacked':
         return this.getItemsRoastPackedCashew();
       case 'Waste':
@@ -300,6 +307,12 @@ export class Genral {
 
   getMeasureUnit(): string[] {
     return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
+  }
+  getPackedMU(): string[] {
+    return ['UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
+  }
+  getBulkMU(): string[] {
+    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT'];
   }
   
   getQcCheckOrganzition(): string[] {

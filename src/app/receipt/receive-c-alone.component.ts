@@ -79,11 +79,9 @@ export class ReceiveCAlone implements OnInit {
                         options: this.genral.getItemsRawCashew(),
                     },
                     {
-                        type: 'selectNormal',
+                        type: 'selectMU',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'inputselect',

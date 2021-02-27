@@ -178,7 +178,8 @@ export class CountinersLoadingComponent {
             if(element['storage']) {
                 if((element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !this.removeIdsTable.includes(amou.id))).length) {
                     element['storage']['item'] = element['item'];
-                    element['storage']['itemPo'] = element['poCode'];
+                    element['storage']['itemPoCodes'] = element['itemPoCodes'];
+                    element['storage']['itemSuppliers'] = element['itemSuppliers'];
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
                     arrTable.push({usedItem: element['storage']});
@@ -189,7 +190,7 @@ export class CountinersLoadingComponent {
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     if(!this.removeIds.includes(ele['id'])) {
-                        arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
+                        arrUsedItems.push({itemPoCodes: element['itemPoCodes'], itemSuppliers: element['itemSuppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                         this.removeIds.push(ele['id']);
                     }
@@ -507,11 +508,13 @@ export class CountinersLoadingComponent {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
                 this.beginPage = false;
+                this.isFormAvailable = false;
                 this.choosedPos = [];
                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
                 this.removeIds = [];
                 this.removeIdsTable = [];
                 this.putFirstData = null;
+                this.preperChoosingPO();
                 this.cdRef.detectChanges();
                 this.beginPage = true;
             }
@@ -592,22 +595,16 @@ export class CountinersLoadingComponent {
                         options: 'numberUsedUnits',
                         collections: [
                             {
-                                type: 'selectgroup',
-                                inputType: 'supplierName',
-                                // options: this.localService.getAllPosRoastPacked(),
+                                type: 'input',
+                                label: '#PO',
+                                name: 'itemPoCodes',
                                 disable: true,
-                                collections: [
-                                    {
-                                        type: 'select',
-                                        label: 'Supplier',
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: '#PO',
-                                        name: 'itemPo',
-                                        collections: 'somewhere',
-                                    },
-                                ]
+                            },
+                            {
+                                type: 'input',
+                                label: 'Supplier',
+                                name: 'itemSuppliers',
+                                disable: true,
                             },
                             {
                                 type: 'select',
@@ -690,22 +687,16 @@ export class CountinersLoadingComponent {
                         options: 'aloneNoAdd',
                         collections: [
                             {
-                                type: 'selectgroup',
-                                inputType: 'supplierName',
-                                // options: this.localService.getAllPosRoastPacked(),
+                                type: 'input',
+                                label: '#PO',
+                                name: 'itemPoCodes',
                                 disable: true,
-                                collections: [
-                                    {
-                                        type: 'select',
-                                        label: 'Supplier',
-                                    },
-                                    {
-                                        type: 'select',
-                                        label: '#PO',
-                                        name: 'itemPo',
-                                        collections: 'somewhere',
-                                    },
-                                ]
+                            },
+                            {
+                                type: 'input',
+                                label: 'Supplier',
+                                name: 'itemSuppliers',
+                                disable: true,
                             },
                             {
                                 type: 'inputReadonlySelect',

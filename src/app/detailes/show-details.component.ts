@@ -159,20 +159,34 @@ export class ShowDetailsComponent implements OnInit {
             var ind = this.regShow.findIndex((em) => em['name'] === 'usedItems');
             if(ind !== -1) {
                 (this.regShow[ind].collections as Array<any>).splice(0, 0, {
-                  type: 'name2',
-                  label: '#PO',
-                  name: 'itemPo',
-                  collections: 'supplierName',
-              });
+                      type: 'input',
+                      label: '#PO',
+                      name: 'itemPoCodes',
+                      disable: true,
+                  },
+                  {
+                      type: 'input',
+                      label: 'Supplier',
+                      name: 'itemSuppliers',
+                      disable: true,
+                  }
+                );
             }
             var ind = this.regShow.findIndex((em) => em['name'] === 'usedItem');
             if(ind !== -1) {
                 (this.regShow[ind].collections as Array<any>).splice(0, 0, {
-                  type: 'name2',
-                  label: '#PO',
-                  name: 'itemPo',
-                  collections: 'supplierName',
-              });
+                      type: 'input',
+                      label: '#PO',
+                      name: 'itemPoCodes',
+                      disable: true,
+                  },
+                  {
+                      type: 'input',
+                      label: 'Supplier',
+                      name: 'itemSuppliers',
+                      disable: true,
+                  },
+                );
             }
           }
         };

@@ -25,6 +25,9 @@ import { SchedulesService } from './schedules.service';
   </div>
   <normal-group-details [mainDetailsSource]="cashewSourceColumns">
   </normal-group-details>
+  <h1 style="text-align:center">
+    Amounts
+  </h1>
   <sums-table [mainDetailsSource]="sumsSource">
   </sums-table>
   `,

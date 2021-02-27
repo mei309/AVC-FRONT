@@ -3,7 +3,7 @@ import { groupBy, mapValues } from 'lodash-es';
 @Component({
   selector: 'sums-table',
   template: `
-<table mat-table [dataSource]="sumDataSource">
+<table mat-table [dataSource]="sumDataSource" style="text-align: center !important;">
     
     <ng-container matColumnDef="key">
       <th mat-header-cell *matHeaderCellDef>
@@ -60,8 +60,8 @@ export class SumsTableComponent {
             Object.keys(tempTable).forEach(key => {
               var newLine = {key: key};
               var sum = 0;
-              Object.keys(tempTable[key]).forEach(val => {
-                newLine[val] = tempTable[key][val].reduce((b, c) => +b + +c['numberUnits'][1]['amount'], 0);
+              Object.keys(tempTable[key]).forEach(val => {//+c['numberUnits'][1]['amount']
+                newLine[val] = tempTable[key][val].reduce((b, c) => +b + +c['numberLots']['amount'] , 0);
                 this.sumClumensTable.push(val);
                 sum += newLine[val];
               });

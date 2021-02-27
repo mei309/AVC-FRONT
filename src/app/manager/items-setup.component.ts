@@ -83,7 +83,7 @@ export class ItemsSetupComponent {
                             type: 'select',
                             label: 'Weight unit',
                             name: 'measureUnit',
-                            options: this.genral.getMeasureUnit(),
+                            options: this.genral.getPackedMU(),
                         },
                     ]
                 }
@@ -94,7 +94,7 @@ export class ItemsSetupComponent {
                     name: 'measureUnit',
                     label: 'Default measure unit',
                     search: 'select',
-                    options: this.genral.getMeasureUnit(),
+                    options: this.genral.getBulkMU(),
                 }
             );
             this.regConfigTemp.push(
@@ -102,7 +102,7 @@ export class ItemsSetupComponent {
                     name: 'measureUnit',
                     label: 'Default measure unit',
                     type: 'selectNormal',
-                    options: this.genral.getMeasureUnit(),
+                    options: this.genral.getBulkMU(),
                     // disable: true,
                 }
             );

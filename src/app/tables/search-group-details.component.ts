@@ -100,15 +100,19 @@ export class SearchGroupDetailsComponent {
 
   @Input() set mainDetailsSource(value) {
         if(value) {
+            // this.t0 = performance.now()
             this.dataSource = <any[]>value[0];
             this.oneColumns = value[1];
             this.columnsDisplay = [];
             this.localGroupOneColumns = [];
             this.lastSpan = null;
             this.spans = [];
+
             this.preperData();
             this.dataSource = new MatTableDataSource(this.dataSource);
             this.dataSource.sort = this.sort;
+            // var t1 = performance.now();
+            // console.log("Call to setter took " + (t1 - t0) + " milliseconds.")
             // this.dataSource.paginator = this.paginator;
         } else {
             this.dataSource = null;
@@ -129,9 +133,15 @@ export class SearchGroupDetailsComponent {
   localGroupOneColumns = [];
 
   @Input() totelColumn: OneColumn;
-
+  // t0;
+  
   constructor() {
+    // this.t0 = performance.
   }
+  // ngAfterViewChecked() {
+  //   var t1 = performance.now()
+  //   console.log("Call to doSomething took " + (t1 - this.t0) + " milliseconds.")
+  // }
   preperData() {
     this.oneColumns.forEach(element => {
       if(element.type === 'idGroup'){

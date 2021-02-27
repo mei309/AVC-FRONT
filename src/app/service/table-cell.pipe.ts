@@ -35,20 +35,17 @@ export class TableCellPipe implements PipeTransform {
             case 'currency':
                 return new CurrencyPipe(this.locale).transform(element['amount'], element['currency']);
             case 'weight':
-                // if (Array.isArray(element)) {
-                //     return '';
-                // }
-                return new DecimalPipe(this.locale).transform(element['amount'])+' '+element['measureUnit'];
-            case 'weight2':
-                // if (!Array.isArray(element)) {
-                //     return '';
-                // } 
+            case 'weight2': 
                 if(element) {
-                    var str = new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit'];
-                    for (let ind = 1; ind < element.length; ind++) {
-                        str += ' (' + new DecimalPipe(this.locale).transform(element[ind]['amount'])+' '+element[ind]['measureUnit'] + ')';
+                    if (Array.isArray(element)) {
+                        var str = new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit'];
+                        for (let ind = 1; ind < element.length; ind++) {
+                            str += ' (' + new DecimalPipe(this.locale).transform(element[ind]['amount'])+' '+element[ind]['measureUnit'] + ')';
+                        }
+                        return str;
+                    } else {
+                        return new DecimalPipe(this.locale).transform(element['amount'])+' '+element['measureUnit'];
                     }
-                    return str;
                 } else {
                     return '';
                 }

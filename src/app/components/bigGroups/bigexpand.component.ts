@@ -27,6 +27,7 @@ import { ArrayOrdinalComponent } from '../array/array-ordinal.component';
 import { PercentInputComponent } from '../inputs/percent-input.component';
 import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
 import { MaterialUsageComponent } from '../avc-special/material-usage.component';
+import { SelectMeasureUnitComponent } from '../avc-special/measure-unit-select.component';
 
 
 
@@ -58,6 +59,7 @@ const componentMapper = {
   inputReadonlySelect: InputReadonlyComponent,
   tableWithInput: TableWithInputComponent,
   materialUsage: MaterialUsageComponent,
+  selectMU: SelectMeasureUnitComponent,
 };
 @Component({
   selector: 'app-bigexpand',

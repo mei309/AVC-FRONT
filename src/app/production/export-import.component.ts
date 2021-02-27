@@ -33,7 +33,7 @@ export class ExportImportComponent implements OnInit {
         if(value['materialUsed']) {
             value['materialUsed'].forEach(element => {
                 element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'meterial';
+                element['groupName'] = 'meterialPos';
             });
             value['materialUsed'] = value['materialUsed'].filter(amou => amou.usedItems.length);
             arr = arr.concat(value['materialUsed']);
@@ -115,7 +115,7 @@ export class ExportImportComponent implements OnInit {
                         removeIds.push(el['storage']['id']);
                     });
                     arrNormal.push(element);
-                } else if(element['groupName'] === 'meterial') {
+                } else if(element['groupName'].startsWith('meterial')) {
                     element['usedItems'].forEach(el => {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                     });
@@ -171,13 +171,14 @@ export class ExportImportComponent implements OnInit {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['measureUnit'] = element['measureUnit'];
-                element['storage']['itemPo'] = element['poCode'];
+                element['storage']['itemPoCodes'] = element['itemPoCodes'];
+                element['storage']['itemSuppliers'] = element['itemSuppliers']
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
                     if(!removeIds.includes(ele['id'])) {
-                        arrUsedItems.push({itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
+                        arrUsedItems.push({itemPoCodes: element['itemPoCodes'], itemSuppliers: element['itemSuppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                     }
                 });
@@ -312,23 +313,17 @@ export class ExportImportComponent implements OnInit {
                             collections: [
                                 ...this.isOnePo? []: [
                                     {
-                                        type: 'selectgroup',
-                                        inputType: 'supplierName',
-                                        // options: this.localService.getAllPosRoastPacked(),
+                                        type: 'input',
+                                        label: '#PO',
+                                        name: 'itemPoCodes',
                                         disable: true,
-                                        collections: [
-                                            {
-                                                type: 'select',
-                                                label: 'Supplier',
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: '#PO',
-                                                name: 'itemPo',
-                                                collections: 'somewhere',
-                                            },
-                                        ]
-                                    }
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Supplier',
+                                        name: 'itemSuppliers',
+                                        disable: true,
+                                    },
                                 ],
                                 {
                                     type: 'select',
@@ -410,21 +405,16 @@ export class ExportImportComponent implements OnInit {
                             collections: [
                                 ...this.isOnePo? []: [
                                     {
-                                        type: 'selectgroup',
-                                        inputType: 'supplierName',
+                                        type: 'input',
+                                        label: '#PO',
+                                        name: 'itemPoCodes',
                                         disable: true,
-                                        collections: [
-                                            {
-                                                type: 'select',
-                                                label: 'Supplier',
-                                            },
-                                            {
-                                                type: 'select',
-                                                label: '#PO',
-                                                name: 'itemPo',
-                                                collections: 'somewhere',
-                                            },
-                                        ]
+                                    },
+                                    {
+                                        type: 'input',
+                                        label: 'Supplier',
+                                        name: 'itemSuppliers',
+                                        disable: true,
                                     },
                                 ],
                                 {
@@ -485,11 +475,9 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
-                        type: 'selectNormal',
+                        type: 'selectMU',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'bigexpand',
@@ -579,11 +567,9 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
-                        type: 'selectNormal',
+                        type: 'selectMU',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'bignotexpand',
@@ -639,11 +625,9 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashew('Waste'),
                     },
                     {
-                        type: 'selectNormal',
+                        type: 'selectMU',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'bigexpand',

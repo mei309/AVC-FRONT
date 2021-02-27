@@ -196,11 +196,9 @@ export class ReceiveGOrder implements OnInit {
                         options: this.genral.getItemsGeneral(),
                     },
                     {
-                        type: 'selectNormal',
+                        type: 'selectMU',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        inputType: 'item',
-                        options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'divider',

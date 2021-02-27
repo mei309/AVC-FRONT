@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { fullPoReportComponent } from './full-po-report.component';
+import { FinalReportComponent } from './final-report.component';
 
 
 const routes: Routes = [
-  { path: 'FullPoReport', component: fullPoReportComponent},
+  { path: 'FullPoReport', component: FinalReportComponent},
 ];
 
 @NgModule({

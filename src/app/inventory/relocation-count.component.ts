@@ -488,6 +488,11 @@ export class RelocationCountComponent implements OnInit {
                      // disable: true,
                  },
                 //  {
+                //     type: 'selectMU',
+                //     label: 'Weight unit',
+                //     name: 'measureUnit',
+                // },
+                //  {
                 //      type: 'input',
                 //      label: 'Empty container weight',
                 //      name: 'containerWeight',
