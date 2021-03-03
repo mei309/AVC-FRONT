@@ -7,13 +7,14 @@ import { OneColumn } from '../field.interface';
 import { Genral } from './../genral.service';
 import { EditDialogComponent } from './edit-dialog.component';
 import { ManagerService } from './manager.service';
+
 @Component({
     selector: 'managment-users',
     template: `
     <h1 style="text-align:center">Users Management</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newUserDialog()">Add User</button>
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newPersonDialog()">Add User For Person</button>
+        <button class="raised-margin" mat-raised-button color="primary" (click)="newUserDialog()">{{'User' | namingPipe : false}}</button>
+        <button class="raised-margin" mat-raised-button color="primary" (click)="newPersonDialog()">{{'UserPerson' | namingPipe : false}}</button>
     </div>
     <search-details [dataSource]="usersSource" [oneColumns]="columnsUsers" (details)="editNewDialog($event)">
     </search-details>
@@ -74,7 +75,7 @@ export class ManagmentUsersComponent implements OnInit {
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '80%',
       height: '80%',
-      data: {regConfig: this.regConfig, mainLabel: 'user from existing person', type: 'userPerson'},
+      data: {regConfig: this.regConfig, mainLabel: 'UserPerson', type: 'userPerson'},
     });
     dialogRef.afterClosed().subscribe(data => {
         if(data === 'success') {
@@ -92,7 +93,7 @@ export class ManagmentUsersComponent implements OnInit {
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '80%',
       height: '80%',
-      data: {regConfig: this.regConfig, mainLabel: 'user', type: 'user'},
+      data: {regConfig: this.regConfig, mainLabel: 'User', type: 'user'},
     });
     dialogRef.afterClosed().subscribe(data => {
         if(data === 'success') {
@@ -148,7 +149,7 @@ export class ManagmentUsersComponent implements OnInit {
         const dialogRef = this.dialog.open(EditDialogComponent, {
             width: '80%',
             height: '80%',
-            data: {putData: value, regConfig: myRegConfig, mainLabel: 'user', type: 'editUser'},
+            data: {putData: value, regConfig: myRegConfig, mainLabel: 'User', type: 'editUser'},
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data === 'success') {

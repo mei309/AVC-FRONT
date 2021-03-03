@@ -21,7 +21,7 @@ import { Genral } from '../genral.service';
         </mat-button-toggle-group>
         <h2>{{choosedOne}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
-            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add {{choosedOne}}</button>
+            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : false}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>

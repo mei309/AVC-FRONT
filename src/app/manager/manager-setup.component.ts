@@ -23,12 +23,12 @@ import { Validators } from '@angular/forms';
             <mat-button-toggle value="CompanyPositions">Company positions</mat-button-toggle>
             <mat-button-toggle value="ContractTypes">Contract types</mat-button-toggle>
             <mat-button-toggle value="ProductionLines">Production lines</mat-button-toggle>
-            <mat-button-toggle value="CashewStandards">Raw cashew standerts</mat-button-toggle>
+            <mat-button-toggle value="CashewStandards">Cashew standerts</mat-button-toggle>
             <mat-button-toggle value="ShippingPorts">Shipping ports</mat-button-toggle>
         </mat-button-toggle-group>
         <h2>{{choosedOne}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
-            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add {{choosedOne}}</button>
+            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : false}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>
@@ -65,7 +65,7 @@ export class ManagmentSetupComponent {
                 type: 'input',
             }
         ];
-        if('SupplyCategories' === this.choosedOne) {
+        if(['SupplyCategories', 'ContractTypes'].includes(this.choosedOne)) {
             this.columnsSetup.push(
                 {
                     name: 'supplyGroup',
@@ -82,42 +82,43 @@ export class ManagmentSetupComponent {
                     options: this.genral.getSupplyGroup(),
                 },
             );
-        } else if('ContractTypes' === this.choosedOne) {
-            this.columnsSetup.push(
-                {
-                    name: 'code',
-                    label: 'Code',
-                    search: 'normal',
-                },
-                {
-                    name: 'currency',
-                    label: 'Currency',
-                    search: 'normal',
-                },
-                {
-                    name: 'suffix',
-                    label: 'Suffix',
-                    search: 'normal',
-                },
-            );
-            this.regConfigTemp.push(
-                {
-                    name: 'code',
-                    label: 'Code',
-                    type: 'input',
-                },
-                {
-                    name: 'currency',
-                    label: 'Currency',
-                    type: 'selectNormal',
-                    options: ['USD', 'VND'],
-                },
-                {
-                    name: 'suffix',
-                    label: 'Suffix',
-                    type: 'input',
-                },
-            );
+            if('ContractTypes' === this.choosedOne) {
+                this.columnsSetup.push(
+                    {
+                        name: 'code',
+                        label: 'Code',
+                        search: 'normal',
+                    },
+                    {
+                        name: 'currency',
+                        label: 'Currency',
+                        search: 'normal',
+                    },
+                    {
+                        name: 'suffix',
+                        label: 'Suffix',
+                        search: 'normal',
+                    },
+                );
+                this.regConfigTemp.push(
+                    {
+                        name: 'code',
+                        label: 'Code',
+                        type: 'input',
+                    },
+                    {
+                        name: 'currency',
+                        label: 'Currency',
+                        type: 'selectNormal',
+                        options: ['USD', 'VND'],
+                    },
+                    {
+                        name: 'suffix',
+                        label: 'Suffix',
+                        type: 'input',
+                    },
+                );
+            }
         } else if('ShippingPorts' === this.choosedOne) {
             this.columnsSetup.push(
                 {

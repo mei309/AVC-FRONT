@@ -14,7 +14,6 @@ export class Genral {
   countries = new ReplaySubject<DropNormal[]>();
   companyPosition = new ReplaySubject<DropNormal[]>();
   banks = new ReplaySubject<DropNormal[]>();
-  ContractType = new ReplaySubject<DropNormal[]>();
   wearhouses = new ReplaySubject<DropNormal[]>();
   standarts = new ReplaySubject<DropNormal[]>();
   ItemsRawCashew = new ReplaySubject<DropNormal[]>();
@@ -54,7 +53,6 @@ export class Genral {
     this.countries = new ReplaySubject<DropNormal[]>();
     this.companyPosition = new ReplaySubject<DropNormal[]>();
     this.banks = new ReplaySubject<DropNormal[]>();
-    this.ContractType = new ReplaySubject<DropNormal[]>();
     this.wearhouses = new ReplaySubject<DropNormal[]>();
     this.standarts = new ReplaySubject<DropNormal[]>();
     this.ItemsRawCashew = new ReplaySubject<DropNormal[]>();
@@ -80,8 +78,8 @@ export class Genral {
       this.countries.next(value[1]);
       this.companyPosition.next(value[2]);
       this.banks.next(value[3]);
-      this.ContractType.next(value[4]);
-      this.wearhouses.next(value[5]);
+      this.wearhouses.next(value[4]);
+      this.standarts.next(value[5]);
       
       this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
       this.ItemsRawRoastCashew.next(value[6].filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse)));
@@ -96,14 +94,14 @@ export class Genral {
       this.supplyType.next(value[8]);
       this.branches.next(value[9]);
 
-      this.standarts.next(value[10]);
       
-      this.globels.setGlobalProcessAuturtiy(value[11]);
+      
+      this.globels.setGlobalProcessAuturtiy(value[10]);
 
-      this.shippingPorts.next(value[12]);
-      this.productionLine.next(value[13]);
+      this.shippingPorts.next(value[11]);
+      this.productionLine.next(value[12]);
 
-      this.ItemsWasteCashew.next(value[14]);
+      this.ItemsWasteCashew.next(value[13]);
     });
   }
   
@@ -191,9 +189,6 @@ export class Genral {
   }
   getCompanyPosition (): Observable<any> {
     return this.companyPosition.asObservable();
-  }
-  getContractType (): Observable<any> {
-    return this.ContractType.asObservable();
   }
   getWearhouses (): Observable<any> {
     return this.wearhouses.asObservable();

@@ -165,4 +165,12 @@ export class OrdersService {
       return this.http.get(this.ordersurl+'getAllSuppliers');
     }
 
+    getCashewContractTypes (): Observable<any> {
+      return this.http.get(this.ordersurl+'getCashewContractTypes');
+    }
+  
+    getGeneralContractTypes (): Observable<any> {
+      return this.http.get(this.ordersurl+'getGeneralContractTypes');
+    }
+
 }

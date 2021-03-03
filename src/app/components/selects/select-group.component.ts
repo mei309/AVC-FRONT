@@ -22,7 +22,7 @@ import { FieldConfig } from '../../field.interface';
 
 <mat-form-field class="one-field margin-top" [formGroup]="group">
   <input #trigger matInput (blur)="InputControlTwo($event)" [placeholder]="field.collections[1].label" [matAutocomplete]="auto2" [formControlName]="field.collections[1].name">
-      <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="getOptionText">
+      <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="getOptionText" (optionSelected)="selectedTwo($event.option.value)">
         <mat-option *ngFor="let item of filteredOptions2 | async" [value]="item">
           {{item.value}}
         </mat-option>
@@ -226,7 +226,7 @@ export class SelectgroupComponent implements OnInit {
                 if (isEqual(option[this.genralLink] ,isValueTrue[0])) {
                     options.push(option);
                 }
-            });
+            }); 
             this.options2 = options;
             let isExist = options.filter(opt =>
               opt === this.group.controls[this.field.collections[1].name].value);
@@ -252,7 +252,6 @@ export class SelectgroupComponent implements OnInit {
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
             this.group.controls[this.field.collections[1].name].setValue(isValueTrue[0]);
-            
             if (!this.selectFormFirst || this.selectFormFirst !== isValueTrue[0][this.genralLink]) {
                   this.selectFormFirst.setValue(isValueTrue[0][this.genralLink]);
             }
@@ -260,6 +259,12 @@ export class SelectgroupComponent implements OnInit {
             this.group.controls[this.field.collections[1].name].setValue('');
         }
     }, 300);
+  }
+
+  selectedTwo(event) {
+    setTimeout(() => {
+        this.selectFormFirst.setValue(event[this.genralLink]);
+    }, 100);
   }
   
 

@@ -7,7 +7,7 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'po-codes',
     template: `
-    <h1 style="text-align:center">#POS</h1>
+    <h1 style="text-align:center">Cashew #POS</h1>
     <div class="centerButtons">
         <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add #PO</button>
     </div>
@@ -20,7 +20,7 @@ export class PoCodesComponent implements OnInit {
     posSource;
     columnsPos;
     
-    constructor(private localService: OrdersService, public dialog: MatDialog) {
+    constructor(private genral: Genral, private localService: OrdersService, public dialog: MatDialog) {
       }
 
     ngOnInit() {
@@ -35,12 +35,14 @@ export class PoCodesComponent implements OnInit {
                 name: 'supplierName',
                 label: 'Supplier',
                 search: 'selectAsyncObject',
-                options: this.localService.getAllSuppliers(),
+                options: this.genral.getSupplierCashew(),
             },
             {
                 type: 'normal',
                 name: 'contractTypeCode',
                 label: 'Contract type code',
+                search: 'object',
+                options: this.localService.getCashewContractTypes(),
             },
             {
                 type: 'normal',
@@ -142,7 +144,7 @@ export class AddEditPoDialog {
                     type: 'select',
                     label: 'Supplier',
                     name: 'supplier',
-                    options: this.localService.getAllSuppliers(),
+                    options: this.genral.getSupplierCashew(),
                     validations: [
                         {
                             name: 'required',
@@ -155,7 +157,7 @@ export class AddEditPoDialog {
                     type: 'select',
                     label: 'PO initial',
                     name: 'contractType',
-                    options: this.genral.getContractType(),
+                    options: this.localService.getCashewContractTypes(),
                     validations: [
                         {
                             name: 'required',
