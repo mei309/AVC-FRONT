@@ -16,7 +16,7 @@ export class HttpInterceptorService implements HttpInterceptor {
                 setHeaders: {
                     Authorization: this.authenticateService.currentTokenValue
                 }
-            })
+            });
         } else if(req.url.includes('authenticate')) {
         } else {
           return this.authenticateService.waitInit().pipe(

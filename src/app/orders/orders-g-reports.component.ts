@@ -106,9 +106,6 @@ export class OrdersGReports implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit order') {
         this.router.navigate(['../NewGenralOrder',{id: event['poCode']['id']}], { relativeTo: this._Activatedroute });
-      } else if(data === 'Finalize') {
-        this.tabIndex = 2;
-        this.changed(2);
       } else if(data === 'Receive') {
         this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: event['poCode']['id']}]);
       } else if(data === 'Edit receive') {

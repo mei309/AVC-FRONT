@@ -68,6 +68,37 @@ import { OneColumn } from '../field.interface';
             </td>
         </ng-container>
 
+
+        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localItemWeightColumns">
+            <th mat-header-cell *matHeaderCellDef>
+                <h3 mat-sort-header>{{column.label}}</h3>
+                <mat-form-field style="width:90%" class="no-print">
+                    <mat-select placeholder="Search" (focus)="listAmountWithUnit(column.name)" (selectionChange)="applyFilter($event.value)">
+                        <mat-option value="">--all--</mat-option>
+                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </th>
+            <td mat-cell style="vertical-align: top;
+                padding-left: 16px; padding-right: 16px;
+                padding-top: 14px;" *matCellDef="let element; let i = index"
+                    [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
+                    [attr.rowspan]="getRowSpan(i, column.group)"
+                    [ngClass]="{'is-alert': column.compare && compare(element, column)}">
+                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                  <ng-container *ngFor="let itemElem of element[column.name]">
+                    <b>{{itemElem.item.value}}: </b>
+                    <ng-container *ngFor="let amountElem of itemElem['amountList']; let amou = index">
+                      <span *ngIf="!amou; else notFirst">{{amountElem | tableCellPipe: 'weight' : null}}</span>
+                      <ng-template #notFirst>({{amountElem | tableCellPipe: 'weight' : null}})</ng-template>
+                    </ng-container>
+                    <small *ngIf="itemElem.warehouses">({{itemElem.warehouses}})</small>
+                    <br/>
+                  </ng-container>
+                </span>
+            </td>
+        </ng-container>
+
         
           <ng-container matColumnDef="totealCol" *ngIf="totelColumn">
               <th mat-header-cell *matHeaderCellDef>
@@ -105,6 +136,7 @@ export class SearchGroupDetailsComponent {
             this.oneColumns = value[1];
             this.columnsDisplay = [];
             this.localGroupOneColumns = [];
+            this.localItemWeightColumns = [];
             this.lastSpan = null;
             this.spans = [];
 
@@ -131,6 +163,8 @@ export class SearchGroupDetailsComponent {
   groupId: boolean = false;
 
   localGroupOneColumns = [];
+  localItemWeightColumns = [];
+  
 
   @Input() totelColumn: OneColumn;
   // t0;
@@ -143,11 +177,16 @@ export class SearchGroupDetailsComponent {
   //   console.log("Call to doSomething took " + (t1 - this.t0) + " milliseconds.")
   // }
   preperData() {
+    if(this.oneColumns[0].type === 'idGroup'){
+      this.oneColumns.splice(0, 1);
+      this.groupId = true;
+    }
     this.oneColumns.forEach(element => {
-      if(element.type === 'idGroup'){
-        this.groupId = true;
-      } else if(element.type === 'kidArray'){
+      if(element.type === 'kidArray'){
           this.takeCareKidArray(element);
+      } else if(element.type === 'itemWeight') {
+          this.localItemWeightColumns.push(element);
+          this.columnsDisplay.push(element.name);
       } else {
           this.localGroupOneColumns.push(element);
           this.columnsDisplay.push(element.name);

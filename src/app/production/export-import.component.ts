@@ -103,7 +103,7 @@ export class ExportImportComponent implements OnInit {
                 this.isOnePo = false;
             }
             var arrMaterial = [];
-            this.beginData['usedItemGroups'].forEach(element => {
+            this.beginData['usedItemGroups']?.forEach(element => {
                 if(element['groupName'].startsWith('table')) {
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['take'] = true;
@@ -129,7 +129,7 @@ export class ExportImportComponent implements OnInit {
             var processNormal = [];
             var processTable = [];
             var wasteNormal = [];
-            this.beginData['processItems'].forEach(element => {
+            this.beginData['processItems']?.forEach(element => {
                 if(element['groupName'] === 'waste') {
                     wasteNormal.push(element);
                 } else if(element['storage']) {

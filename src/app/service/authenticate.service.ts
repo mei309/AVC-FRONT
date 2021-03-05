@@ -28,15 +28,13 @@ export class AuthenticateService {
   }
 
   public get isLoggedIn() : boolean {
-    if(this.tokenSubject.getValue()) {
-      return true;
-    }
+    return this.tokenSubject.getValue()? true : false;
   }
 
   public get currentTokenValue(): string {
     return this.tokenSubject.getValue();
   }
-  waitInit():  Observable<any> {
+  waitInit(): Observable<any> {
     return new Observable(observer => {
       this.tokenInit$.subscribe(token => {
         if(token) {
@@ -44,7 +42,7 @@ export class AuthenticateService {
           observer.complete();
         }
       });
-  });
+    });
   }
   refreshToken(): Observable<any> {
     if (this.refreshTokenInProgress) {
@@ -106,7 +104,7 @@ export class AuthenticateService {
 
   ngOnDestroy() {
         this.destroySubject$.next();
-      }
+  }
 
 }
 

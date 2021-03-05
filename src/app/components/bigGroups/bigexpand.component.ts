@@ -174,7 +174,7 @@ export class BigexpandComponent implements AfterViewInit {
   resolver: ComponentFactoryResolver;
   componentRef: any;
   longth: number = 0;
-  oldData = [];
+  oldData = {};
 
   components = [];
   selectedTab: number = 0;
@@ -203,7 +203,6 @@ export class BigexpandComponent implements AfterViewInit {
           this.componentRef.instance.putBack.subscribe($event => {
             this.putBackIndex($event);
           });
-          this.oldData.push(null);
       }
       this.field.collections.forEach(element => {
         // (this.group.get([this.field.name])  as FormArray).controls[this.longth].get(element.name).value &&
@@ -321,7 +320,7 @@ export class BigexpandComponent implements AfterViewInit {
   }*/
 
   removeIndex(index: number): void {
-    this.oldData[index] = ((this.group.get([this.field.name]) as FormArray).at(index) as FormGroup).getRawValue();
+    this.oldData[index] = [((this.group.get([this.field.name]) as FormArray).at(index) as FormGroup).getRawValue(), ((this.group.get([this.field.name]) as FormArray).at(index) as FormGroup).pristine];
     (this.group.get([this.field.name]) as FormArray).at(index).reset();
     (this.group.get([this.field.name]) as FormArray).at(index).disable({emitEvent: false});
     /**let temp2 = this.amountGroup;
@@ -347,12 +346,38 @@ export class BigexpandComponent implements AfterViewInit {
   }
 
   putBackIndex(index: number) {
-    (this.group.get([this.field.name]) as FormArray).at(index).patchValue(this.oldData[index]);
+    (this.group.get([this.field.name]) as FormArray).at(index).patchValue(this.oldData[index][0]);
+    if(!this.oldData[index][1]) {
+      this.markGroupDirty((this.group.get([this.field.name]) as FormArray).at(index) as FormGroup);
+    }
     (this.group.get([this.field.name]) as FormArray).at(index).enable({emitEvent: false});
   }
   enableIndex(index: number) {
     (this.group.get([this.field.name]) as FormArray).at(index).enable({emitEvent: false});
   }
+
+
+  markGroupDirty(formGroup: FormGroup) {
+    formGroup.markAsDirty();
+    const controls = Object.values(formGroup.controls);
+    controls.forEach(fc => {
+        if(fc instanceof FormGroup){
+          this.markGroupDirty(fc);
+        } else if(fc instanceof FormArray){
+          this.markArrayDirty(fc);
+        }
+      });
+    }
+  markArrayDirty(formArray: FormArray) {
+    formArray.markAsDirty();
+    formArray.controls.forEach(fc => {
+      if(fc instanceof FormGroup){
+        this.markGroupDirty(fc);
+      } else if(fc instanceof FormArray){
+        this.markArrayDirty(fc);
+      }
+     });
+    }
 
   bindValidations(validations: any) {
     if (validations.length > 0) {
@@ -399,7 +424,6 @@ export class BigexpandComponent implements AfterViewInit {
           this.componentRef.instance.putBack.subscribe($event => {
             this.putBackIndex($event);
           });
-          this.oldData.push(null);
           this.componentRef.instance.group = (this.group.get([this.field.name])  as FormArray).controls[this.longth] as FormGroup;
     }
     this.field.collections.forEach(kid => {
