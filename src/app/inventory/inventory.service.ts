@@ -44,12 +44,20 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getCashewInventoryByPo');
   }
 
+  getCashewInventoryOrder() {
+    return this.http.get(this.inventorysurl+'getCashewInventoryOrder');
+  }
+
   getGeneralInventoryItem() {
     return this.http.get(this.inventorysurl+'getGeneralInventoryItem');
   }
 
   getGeneralInventoryByPo() {
     return this.http.get(this.inventorysurl+'getGeneralInventoryByPo');
+  }
+
+  getGeneralInventoryOrder() {
+    return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }
 
   getStorageByPo (poCode: number): Observable<any> {

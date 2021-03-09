@@ -83,7 +83,7 @@ export class ItemsSetupComponent {
                             type: 'select',
                             label: 'Weight unit',
                             name: 'measureUnit',
-                            options: this.genral.getPackedMU(),
+                            options: this.genral.getMeasureUnit(),
                         },
                     ]
                 }
@@ -94,7 +94,7 @@ export class ItemsSetupComponent {
                     name: 'measureUnit',
                     label: 'Default measure unit',
                     search: 'select',
-                    options: this.genral.getBulkMU(),
+                    options: this.getMU(this.choosedOne.charAt(0)),
                 }
             );
             this.regConfigTemp.push(
@@ -102,56 +102,28 @@ export class ItemsSetupComponent {
                     name: 'measureUnit',
                     label: 'Default measure unit',
                     type: 'selectNormal',
-                    options: this.genral.getBulkMU(),
+                    options: this.getMU(this.choosedOne.charAt(0)),
                     // disable: true,
                 }
             );
         }
-        if(this.choosedOne.startsWith('C')) {
-            this.columnsSetup.push(
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    search: 'select',
-                    options: ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'],
-                }
-            );
-            this.regConfigTemp.push(
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    type: 'selectNormal',
-                    options: ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'],
-                }
-            );
-        } else if(this.choosedOne.startsWith('G')) {
-            this.columnsSetup.push(
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    search: 'select',
-                    options: ['INGREDIENTS', 'PACKING_SUPPLYES'],
-                }
-            );
-            this.regConfigTemp.push(
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    type: 'selectNormal',
-                    options: ['INGREDIENTS', 'PACKING_SUPPLYES'],
-                }
-            );
-        } else {
-            this.regConfigTemp.push(
-                {
-                    name: 'productionUse',
-                    label: 'Production use',
-                    type: 'selectNormal',
-                    value: 'WASTE',
-                    options: ['WASTE'],
-                }
-            );
-        }
+        this.columnsSetup.push(
+            {
+                name: 'productionUse',
+                label: 'Production use',
+                search: 'select',
+                options: this.getProductionUse(this.choosedOne.charAt(0)),
+            }
+        );
+        this.regConfigTemp.push(
+            {
+                name: 'productionUse',
+                label: 'Production use',
+                type: 'selectNormal',
+                options: this.getProductionUse(this.choosedOne.charAt(0)),
+            }
+        );
+        
         this.regConfigTemp.push(
             {
                 name: 'submit',
@@ -160,7 +132,27 @@ export class ItemsSetupComponent {
             }
         );
     }
-    
+
+
+    getProductionUse(type: string) {
+        switch (type) {
+            case 'C':
+                return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'];
+            case 'G':
+                return ['INGREDIENTS', 'PACKING_SUPPLYES'];
+            default:
+                return ['WASTE'];
+        }
+    }
+
+    getMU(type: string) {
+        switch (type) {
+            case 'C':
+                return this.genral.getBulkMU();
+            case 'G':
+                return this.genral.getMeasureUnit();
+        }
+    }
 
 
     newDialog(value?: any): void {

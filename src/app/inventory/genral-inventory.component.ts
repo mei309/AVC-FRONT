@@ -16,6 +16,8 @@ import { InventoryService } from './inventory.service';
       </mat-tab>
       <mat-tab label="General stock by PO#">
       </mat-tab>
+      <mat-tab label="General stock and orders">
+      </mat-tab>
   </mat-tab-group>
   <search-group-details [mainDetailsSource]="generalSourceColumns">
   </search-group-details>
@@ -189,11 +191,37 @@ export class GenralInventoryComponent implements OnInit {
           ];
           this.cdRef.detectChanges();
           break;
-        case 2:
-        
-          break;
-        default:
-          break;
+          case 2:
+            this.generalSourceColumns = null; 
+            this.localService.getGeneralInventoryOrder().pipe(take(1)).subscribe(value => {
+              this.generalSource = <any[]>value;
+              this.generalSourceColumns = [<any[]>value, this.columnsShow];
+            });
+            this.columnsShow = [
+              {
+                type: 'nameId',
+                name: 'item',
+                label: 'Item',
+                search: 'selectAsyncObject2',
+                options: this.genral.getAllItemsCashew(),
+                group: 'item',
+              },
+              {
+                type: 'weight',
+                name: 'inventoryAmount',
+                label: 'Inventory amount',
+                search: 'object',
+              },
+              {
+                type: 'weight',
+                name: 'orderedAmount',
+                label: 'Orderd amount',
+                search: 'object',
+              },
+            ];
+            break;
+          default:
+            break;
       }
     }
 

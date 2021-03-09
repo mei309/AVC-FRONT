@@ -167,14 +167,16 @@ export class SearchGroupDetailsComponent {
   
 
   @Input() totelColumn: OneColumn;
-  // t0;
+  t0;
   
   constructor() {
     // this.t0 = performance.
   }
   // ngAfterViewChecked() {
-  //   var t1 = performance.now()
-  //   console.log("Call to doSomething took " + (t1 - this.t0) + " milliseconds.")
+  //   var t1 = performance.now();
+  //   console.log("Call all " + (t1 - this.t0) + " milliseconds.");
+  //   // console.log("Call group " + (t1 - this.t2) + " milliseconds.");
+  //   // console.log("only group " + (this.t2 - this.t0) + " milliseconds.")
   // }
   preperData() {
     if(this.oneColumns[0].type === 'idGroup'){
@@ -391,22 +393,25 @@ export class SearchGroupDetailsComponent {
     if(this.spans[index]) {
       switch (this.totelColumn.type) {
         case 'weight2':
-          var numberOne = 0;
-          var numberTow = 0;
-          var weightOne: string = '';
-          var weightTow: string = '';
+          var weightSize: number = this.dataSource.filteredData[index][this.totelColumn.name].length;
+          var myNumbers = new Array<number>(weightSize);
+          var myMesareUnit = new Array<number>(weightSize);
+          for (let i = 0; i < weightSize; i++) {
+            myNumbers[i] = 0;
+            myMesareUnit[i] = this.dataSource.filteredData[index][this.totelColumn.name][i]['measureUnit'];
+          }
           for (let ind = index; ind < index+this.spans[index][this.totelColumn.group]; ind++) {
             if(this.dataSource.filteredData[ind][this.totelColumn.name]) {
-              numberOne += this.dataSource.filteredData[ind][this.totelColumn.name][0]['amount'];
-              numberTow += this.dataSource.filteredData[ind][this.totelColumn.name][1]['amount'];
-              if(!weightOne) {
-                weightOne = this.dataSource.filteredData[ind][this.totelColumn.name][0]['measureUnit'];
-                weightTow = this.dataSource.filteredData[ind][this.totelColumn.name][1]['measureUnit'];
+              for (let m = 0; m < weightSize; m++) {
+                myNumbers[m] += this.dataSource.filteredData[ind][this.totelColumn.name][m]['amount'];
               }
             }
           }
-          return [{amount: numberOne, measureUnit: weightOne},
-                  {amount: numberTow, measureUnit: weightTow}]
+          var result = new Array<object>(weightSize);
+          for (let t = 0; t < weightSize; t++) {
+            result[t] = {amount: myNumbers[t], measureUnit: myMesareUnit[t]};
+          }
+          return result;
         default:
           break;
       }

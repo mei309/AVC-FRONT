@@ -24,6 +24,8 @@ import { InventoryService } from './inventory.service';
       </mat-tab>
       <mat-tab label="Cashew stock by PO#">
       </mat-tab>
+      <mat-tab label="Raw cashew stock and orders">
+      </mat-tab>
   </mat-tab-group>
   <search-group-details [mainDetailsSource]="cashewSourceColumns">
   </search-group-details>
@@ -219,7 +221,33 @@ export class CashewInventoryComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 2:
-        
+          this.cashewSourceColumns = null; 
+          this.localService.getCashewInventoryOrder().pipe(take(1)).subscribe(value => {
+            this.cashewSource = <any[]>value;
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+          });
+          this.columnsShow = [
+            {
+              type: 'nameId',
+              name: 'item',
+              label: 'Item',
+              search: 'selectAsyncObject2',
+              options: this.genral.getAllItemsCashew(),
+              group: 'item',
+            },
+            {
+              type: 'weight',
+              name: 'inventoryAmount',
+              label: 'Inventory amount',
+              search: 'object',
+            },
+            {
+              type: 'weight',
+              name: 'orderedAmount',
+              label: 'Orderd amount',
+              search: 'object',
+            },
+          ];
           break;
         default:
           break;

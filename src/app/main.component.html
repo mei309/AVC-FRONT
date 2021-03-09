@@ -113,11 +113,13 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-menu #inventorycashews="matMenu" >
         <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 0}]">By Item</button>
         <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 1}]">By PO#</button>
+        <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 2}]">Stock/Order</button>
       </mat-menu>
 
       <mat-menu #inventorygeneral="matMenu" >
         <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 0}]">By Item</button>
         <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 1}]">By PO#</button>
+        <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 2}]">Stock/Order</button>
       </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>

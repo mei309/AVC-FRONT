@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { OneColumn } from '../field.interface';
+import { UserAccountService } from './user-account.service';
 
 @Component({
   selector: 'massages-list',
@@ -65,7 +66,7 @@ export class MassagesListComponent {
   massagesSource: any[];
   source: any[];
   poInfromtion;
-  constructor(private genral: Genral) {}
+  constructor(private genral: Genral, private LocalService: UserAccountService) {}
   
   ngOnInit() {
     this.genral.getUserMassages().pipe(take(1)).subscribe(value => {
@@ -77,7 +78,7 @@ export class MassagesListComponent {
   expandElement($event: any){
     this.poInfromtion = {};
     if($event['processId']) {
-      this.genral.getMassage($event['processId'], $event['id'], $event['processName']).pipe(take(1)).subscribe(value => {
+      this.LocalService.getMassage($event['processId'], $event['id'], $event['processName']).pipe(take(1)).subscribe(value => {
         this.poInfromtion = value;
         $event['label'] = 'SEEN';
       });

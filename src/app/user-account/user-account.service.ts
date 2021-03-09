@@ -20,13 +20,13 @@ export class UserAccountService {
     return this.http.get(this.todourl+'getTask/'+id +'/'+ value);
   }
 
-  approveTaskAndManagment(id, approve: string, snapshot): Observable<any> {
-    return this.http.post(this.todourl+'approveTaskAndManagment/' + id + '/' + approve, snapshot);
-  }
+  // approveTaskAndManagment(id, approve: string, snapshot): Observable<any> {
+  //   return this.http.post(this.todourl+'approveTaskAndManagment/' + id + '/' + approve, snapshot);
+  // }
 
-  setMassageTask(id, approve: string): Observable<any> {
-    return this.http.get(this.todourl+'setMassageTask/' + id + '/' + approve);
-  }
+  // setMassageTask(id, approve: string): Observable<any> {
+  //   return this.http.get(this.todourl+'setMassageTask/' + id + '/' + approve);
+  // }
   
   passChange(passwords): Observable<any> {
     return this.http.post(this.todourl+'passChange', passwords);

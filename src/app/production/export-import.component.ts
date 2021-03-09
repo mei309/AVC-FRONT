@@ -30,15 +30,6 @@ export class ExportImportComponent implements OnInit {
     // }
     // onSubmit1(value: any) {
         var arr = [];
-        if(value['materialUsed']) {
-            value['materialUsed'].forEach(element => {
-                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'meterialPos';
-            });
-            value['materialUsed'] = value['materialUsed'].filter(amou => amou.usedItems.length);
-            arr = arr.concat(value['materialUsed']);
-            delete value['materialUsed'];
-        }
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
                 element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
@@ -64,6 +55,15 @@ export class ExportImportComponent implements OnInit {
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
+        }
+        if(value['materialUsed']) {
+            value['materialUsed'].forEach(element => {
+                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
+                element['groupName'] = 'meterialPos';
+            });
+            value['materialUsed'] = value['materialUsed'].filter(amou => amou.usedItems.length);
+            arr = arr.concat(value['materialUsed']);
+            delete value['materialUsed'];
         }
         value['usedItemGroups'] = arr;
 

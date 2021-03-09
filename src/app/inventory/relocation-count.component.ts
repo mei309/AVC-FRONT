@@ -129,9 +129,9 @@ export class RelocationCountComponent implements OnInit {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIdsNormal.push(el['id']);
                         removeIdsNormal.push(el['storage']['id']);
-                        if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === el['item']['value'] )) {
-                            val[0]['itemCounts'].push({item: el['item']});
-                        }
+                        // if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === el['item']['value'] )) {
+                        //     val[0]['itemCounts'].push({item: el['item']});
+                        // }
                     });
                     arrNormal.push(element);
                 }
@@ -216,9 +216,9 @@ export class RelocationCountComponent implements OnInit {
                     }
                 });
             }
-            if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
-                this.dataSource['itemCounts'].push({item: element['item']});
-            }
+            // if(!this.dataSource['itemCounts'].some( vendor => vendor['item']['value'] === element['item']['value'] )) {
+            //     this.dataSource['itemCounts'].push({item: element['item']});
+            // }
         });
         if(arrUsedItems.length) {
             arrNormal.push({storageMoves: arrUsedItems});
@@ -471,14 +471,15 @@ export class RelocationCountComponent implements OnInit {
              type: 'bigexpand',
              name: 'itemCounts',
              label: 'Count',
-             options: 'aloneNoAdd',
+            //  options: 'aloneNoAdd',
              collections: [
                  {
                      type: 'select',
                      label: 'Item descrption',
                      name: 'item',
                      collections: 'somewhere',
-                     disable: true,
+                     options: this.genral.getItemsCashew('Raw'),
+                    //  disable: true,
                  },
                  {
                      type: 'selectNormal',

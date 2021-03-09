@@ -120,9 +120,9 @@ export class Genral {
     return this.http.get(this.mainurl+'getUserMassagesNumber');
   }
 
-  getMassage(processId, maasageId, value: string) {
-    return this.http.get(this.mainurl+'getMassage/'+processId + '/' + maasageId +'/'+ value);
-  }
+  // getMassage(processId, maasageId, value: string) {
+  //   return this.http.get(this.mainurl+'getMassage/'+processId + '/' + maasageId +'/'+ value);
+  // }
 
   getUserTasks() {
     return this.http.get(this.mainurl+'getUserTasks').pipe(
@@ -137,9 +137,9 @@ export class Genral {
     return this.http.get(this.mainurl+'getUserTasksNumber');
   }
 
-  getTask(id:number, value: string) {
-    return this.http.get(this.mainurl+'getTask/'+id +'/'+ value);
-  }
+  // getTask(id:number, value: string) {
+  //   return this.http.get(this.mainurl+'getTask/'+id +'/'+ value);
+  // }
 
   setApprovale(id, approve: string, snapshot): Observable<any> {
     return this.http.post(this.mainurl+'approveTask/' + id + '/' + approve, snapshot);
