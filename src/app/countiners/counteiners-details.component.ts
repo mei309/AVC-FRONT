@@ -43,15 +43,27 @@ export class CounteinersDetailsDialogComponent {
         }
 
     ngOnInit() {
-        if(!this.fromNew) {
-            this.LocalService.getLoading(this.id).pipe(take(1)).subscribe( val => {
-                this.loading = val;
-            });
-        } else {
-            this.id = this.loading['id'];
+        switch (this.type) {
+            case 'Loading':
+                if(!this.fromNew) {
+                    this.LocalService.getLoading(this.id).pipe(take(1)).subscribe( val => {
+                        this.loading = val;
+                    });
+                } else {
+                    this.id = this.loading['id'];
+                }
+                this.buttons.push('Security Doc', 'Export Doc', 'Edit');
+                break;
+            case 'Arrivals':
+                if(!this.fromNew) {
+                    this.LocalService.getContainerArrival(this.id).pipe(take(1)).subscribe( val => {
+                        this.loading = val;
+                    });
+                }
+            default:
+                break;
         }
-        
-        this.buttons.push('Security Doc', 'Export Doc', 'Edit');
+        this.buttons.push('Edit');
     }
     onNoClick(): void {
         this.dialogRef.close('closed');

@@ -240,12 +240,14 @@ export class ExportImportComponent implements OnInit {
                                 },
                             ]
                         },
-                        {
-                            type: 'input',
-                            label: 'Weight',
-                            name: 'weight',
-                            // disable: true,
-                        },
+                        ...this.beginData? [
+                            {
+                                type: 'input',
+                                label: 'Weight',
+                                name: 'weight',
+                                disable: true,
+                            }
+                        ]: [],
                         {
                             type: 'divider',
                             inputType: 'divide'

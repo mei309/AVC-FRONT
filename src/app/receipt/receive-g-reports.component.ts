@@ -25,7 +25,7 @@ import { ReceiptService } from './receipt.service';
     `
 })
 export class ReceiveGReports implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
   
   columnsShow: OneColumn[];
 

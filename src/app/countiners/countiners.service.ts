@@ -24,6 +24,26 @@ export class CountinersService {
     }
   }
 
+  addEditShipmentCode (value, fromNew: boolean) {
+    if(fromNew) {
+      return this.http.post(this.contianerurl+'addShipmentCode', value);
+    } else {
+      return this.http.put(this.contianerurl+'editShipmentCode', value);
+    }
+  }
+
+  addEditContainerArrival (value, fromNew: boolean) {
+    if(fromNew) {
+      return this.http.post(this.contianerurl+'addContainerArrival', value);
+    } else {
+      return this.http.put(this.contianerurl+'editContainerArrival', value);
+    }
+  }
+
+  getContainerArrival (id: number) {
+    return this.http.get(this.contianerurl+'getContainerArrival/'+id);
+  }
+
   getLoading (id: number) {
     return this.http.get(this.contianerurl+'getLoading/'+id);
   }
@@ -47,6 +67,14 @@ export class CountinersService {
 
   getAllPosRoastPacked() {
     return this.http.get(this.contianerurl+'getAllPosRoastPacked');
+  }
+
+  findFreeShipmentCodes () {
+    return this.http.get(this.contianerurl+'findFreeShipmentCodes');
+  }
+
+  findFreeArrivals () {
+    return this.http.get(this.contianerurl+'findFreeArrivals');
   }
 
 }

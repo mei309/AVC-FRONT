@@ -44,9 +44,9 @@ import { OneColumn } from '../field.interface';
                     
                     <input *ngSwitchCase="'array2'" matInput readonly>
 
-                    <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4">
-                      <input matStartDate placeholder="Start date" #dateRangeStart>
-                      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)">
+                    <mat-date-range-input *ngSwitchCase="'dates'" [rangePicker]="picker4">
+                      <input matStartDate placeholder="Start date" #dateRangeStart (focus)="picker4.open()">
+                      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)" (focus)="picker4.open()">
                     </mat-date-range-input>
                     <mat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker4"></mat-datepicker-toggle>
                     <mat-date-range-picker #picker4></mat-date-range-picker>

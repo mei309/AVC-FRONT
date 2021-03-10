@@ -11,13 +11,13 @@ import { QcDetailsDialogComponent } from './qc-details-dialog.component';
   templateUrl: './all-qcs.component.html',
 })
 export class AllQcsComponent implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
 
   dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
 
   columnsShow: OneColumn[];
 
-  type: string = 'order';
+  type: string;
   
   cashewSourceColumns;
 

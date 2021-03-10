@@ -12,12 +12,9 @@ import { CountinersService } from './countiners.service';
   templateUrl: './counteiners-reports.component.html',
 })
 export class CountinersReportsComponent implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
 
-  dateRangeDisp= new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
+  type: string;
 
   columnsShow: OneColumn[];
 
@@ -42,7 +39,6 @@ export class CountinersReportsComponent implements OnInit {
             this.tabIndex = +params.get('number');
             this.changed(+params.get('number'));
         } else {
-            this.tabIndex = 0;
             this.changed(0);
         }
     });
@@ -109,15 +105,23 @@ export class CountinersReportsComponent implements OnInit {
   openDialog(event): void {
     const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
       width: '80%',
-      data: {id: event['id'], fromNew: false, type: 'Loading'},
+      data: {id: event['id'], fromNew: false, type: this.type},
     });
     dialogRef.afterClosed().subscribe(data => {
-      switch (data) {
-        case 'Edit':
-          this.router.navigate(['../Loading',{id: event['id']}], { relativeTo: this._Activatedroute });
-          break;
-        default:
-          break;
+      if (data === 'Edit') {
+        switch (this.tabIndex) {
+              case 0:
+                this.router.navigate(['../Loading',{id: event['id']}], { relativeTo: this._Activatedroute });
+                break;
+              case 1:
+                this.router.navigate(['../Arrival',{id: event['id']}], { relativeTo: this._Activatedroute });
+                break;
+              // case 2:
+              //     this.router.navigate(['../Packing',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
+              //     break;
+            default:
+                break;
+        }
       }
     });
   }
@@ -130,16 +134,17 @@ export class CountinersReportsComponent implements OnInit {
           this.localService.getAllLoadings().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
           });
+          this.type = 'Loading';
           this.cdRef.detectChanges();
           break;
         case 1:
-        //   this.mainSourceColumns = null;
-        //   this.localService.getAllRoasting().pipe(take(1)).subscribe(value => {
-        //     this.mainSourceColumns = [<any[]>value, this.columnsShow];
-        //   });
-        //   this.type = 'Roasting';
-        //   this.cdRef.detectChanges();
-        //   break;
+          this.mainSourceColumns = null;
+          this.localService.findFreeArrivals().pipe(take(1)).subscribe(value => {
+            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+          });
+          this.type = 'Arrivals';
+          this.cdRef.detectChanges();
+          break;
         case 2:
         //   this.mainSourceColumns = null;
         //   this.localService.getAllPacking().pipe(take(1)).subscribe(value => {

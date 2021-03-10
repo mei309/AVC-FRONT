@@ -22,7 +22,7 @@ import { OrdersService } from './orders.service';
     `
 })
 export class OrdersCReports implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
 
   dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
 

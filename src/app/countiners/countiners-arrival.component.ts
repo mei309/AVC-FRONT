@@ -1,144 +1,137 @@
-import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { cloneDeep } from 'lodash-es';
+import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-
+import { OrderDetailsDialogComponent } from '../orders/order-details-dialog-component';
+import { CountinersService } from './countiners.service';
 @Component({
-    // tslint:disable-next-line: component-selector
     selector: 'countiners-arrival',
     template: `
-      <dynamic-form [fields]="regConfig" [mainLabel]="'Countiners arrival'" (submitForm)="submit($event)" (cancel)="cancel()">
-      </dynamic-form>
+    <div *ngIf="isDataAvailable">
+        <dynamic-form [putData]="putData" [mainLabel]="'Countiners arrival'" [fields]="regConfig" (submitForm)="submit($event)">
+        </dynamic-form>
+    </div>
     `
   })
 export class CountinersArrivalComponent implements OnInit, OnDestroy {
-    destroySubject$: Subject<void> = new Subject();
-
-    @ViewChild(DynamicFormComponent, {static: false}) form: DynamicFormComponent;
+    navigationSubscription;
     
-
+    putData: any = null;
+    isDataAvailable = false;
     regConfig: FieldConfig[];
 
-    submit(value: any) {
-    //   this.localService.setOrder(value).pipe(takeUntil(this.destroySubject$)).subscribe( val => {
-    //          // tslint:disable-next-line: no-use-before-declare
-        
-    //   });
-    }
-    cancel() {
-        this.location.back();
+
+    constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
+        private localService: CountinersService, private genral: Genral, private dialog: MatDialog) {
        }
 
-      constructor(private genral: Genral, private location: Location, public dialog: MatDialog) {
-        }
 
-
-      ngOnInit() {
-        
-
-        this.regConfig = [
+     ngOnInit() {
+       this.regConfig = [
             {
-                type: 'select',
-                label: 'Booking number',
-                name: 'itekkm',
-                options: this.genral.getCountries(),
-            },
-            {
-                type: 'select',
-                label: 'Countiner size',
-                name: 'itekkmmmm',
-                options: this.genral.getCountries(),
-            },
-            {
-                type: 'input',
-                label: 'Countiner number',
-                name: 'weight',
-                inputType: 'number',
-            },
-            {
-                type: 'input',
-                label: 'Seal number',
-                name: 'wejjight',
-                inputType: 'number',
-            },
-            {
-                type: 'date',
-                label: 'Date',
-                value: new Date(),
-                name: 'Date',
-            },
-            {
-                type: 'select',
-                label: 'Driver',
-                name: 'itkkkem',
-                options: this.genral.getCountries(),
-            },
-            {
-                type: 'input',
-                label: 'Name',
-                name: 'wejjiggggght',
-                inputType: 'text',
-            },
-            {
-                type: 'textarray',
-                label: 'Address',
-                name: 'wejjigmmmht',
-                inputType: 'text',
-            },
-            {
-                type: 'array',
-                label: 'Phone',
-                inputType: 'number',
-                name: 'phones',
-            },
-            {
-                type: 'array',
-                label: 'Email',
-                inputType: 'text',
-                name: 'emails',
-                validations: [
+                type: 'bignotexpand',
+                label: 'Container details',
+                name: 'containerDetails',
+                collections: [
                     {
-                        name: 'pattern',
-                        validator: Validators.pattern(
-                            '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'
-                        ),
-                        message: 'Invalid email'
-                    }
-                ]
-            },
-            {
-                type: 'input',
-                label: 'Truck number',
-                name: 'wejjlllight',
-                inputType: 'number',
-            },
-            {
-                type: 'input',
-                label: 'ID number',
-                name: 'wejjijjsght',
-                inputType: 'number',
-            },
-            {
-                type: 'input',
-                label: 'place of issue',
-                name: 'wejkkkoojijjsght',
-                inputType: 'text',
+                        type: 'input',
+                        label: 'Container number',
+                        name: 'containerNumber',
+                        validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Container number Required',
+                        }
+                        ]
+                    },
+                    {
+                        type: 'input',
+                        label: 'Seal number',
+                        name: 'sealNumber',
+                        validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Seal number Required',
+                        }
+                        ]
+                    },
+                    {
+                        type: 'selectNormal',
+                        label: 'Container type',
+                        name: 'containerType',
+                    //   value: '20\'',
+                        options: this.genral.getShippingContainerType(),
+                        validations: [
+                        {
+                            name: 'required',
+                            validator: Validators.required,
+                            message: 'Container type Required',
+                        }
+                        ]
+                    },
+                ],
             },
             {
                 type: 'button',
-                label: 'Submit bouns',
+                label: 'Submit',
                 name: 'submit',
             }
-        ];
-       }
+       ];
+       this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('id')) {
+                var id = +params.get('id');
+                this.localService.getContainerArrival(id).pipe(take(1)).subscribe( val => {
+                    this.putData = val;
+                    this.isDataAvailable = true;
+                });
+            } else {
+                this.isDataAvailable = true;
+            }
+        });
+       this.navigationSubscription = this.router.events.subscribe((e: any) => {
+            // If it is a NavigationEnd event re-initalise the component
+            if (e instanceof NavigationEnd) {
+                this.isDataAvailable = false;
+                this.putData = null;
+                this.cdRef.detectChanges();
+                this.isDataAvailable = true;
+            }
+        });
+   }
 
-        
-       ngOnDestroy() {
-        this.destroySubject$.next();
+
+    submit(value: any) { 
+        const fromNew: boolean = this.putData === null || this.putData === undefined;
+        this.localService.addEditContainerArrival(value, fromNew).pipe(take(1)).subscribe( val => {
+            const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+                width: '80%',
+                data: {loading: cloneDeep(val), fromNew: true, type: 'Loading'}
+            });
+            dialogRef.afterClosed().subscribe(data => {
+                if (data === 'Edit order') {
+                    this.putData = val;
+                    this.isDataAvailable = false;
+                    this.cdRef.detectChanges();
+                    this.isDataAvailable = true;
+                } else if(data === 'Receive') {
+                    this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: val['poCode']['id']}]);
+                } else {
+                    this.router.navigate(['../OrdersCReports'], { relativeTo: this._Activatedroute });
+                }
+            });
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.navigationSubscription) {  
+           this.navigationSubscription.unsubscribe();
+        }
       }
 
   }

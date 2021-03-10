@@ -15,9 +15,9 @@ import { SchedulesService } from './schedules.service';
   <div class="centerButtons">
     <mat-form-field>
       <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input (focus)="picker4.open()" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
-        <input matStartDate formControlName="start" placeholder="Start date">
-        <input matEndDate formControlName="end" placeholder="End date" (dateChange)="inlineRangeChange()">
+      <mat-date-range-input [formGroup]="dateRangeDisp" [rangePicker]="picker4">
+        <input matStartDate formControlName="start" (focus)="picker4.open()" placeholder="Start date">
+        <input matEndDate formControlName="end" (focus)="picker4.open()" placeholder="End date" (dateChange)="inlineRangeChange()">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-date-range-picker #picker4></mat-date-range-picker>

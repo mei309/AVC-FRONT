@@ -25,7 +25,7 @@ import { FormGroup, FormControl } from '@angular/forms';
     `
 })
 export class InventoryComponent implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
 
   dateRangeDisp= new FormGroup({
     start: new FormControl(),
@@ -48,7 +48,6 @@ export class InventoryComponent implements OnInit {
             this.tabIndex = +params.get('number');
             this.changed(+params.get('number'));
         } else {
-            this.tabIndex = 0;
             this.changed(0);
         }
     });

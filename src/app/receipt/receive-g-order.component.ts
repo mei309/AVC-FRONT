@@ -212,14 +212,14 @@ export class ReceiveGOrder implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Bag weight',
+                                label: 'Unit amount',
                                 name: 'unitAmount',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Number of bags',
+                                label: 'Number of units',
                                 name: 'numberUnits',
                                 inputType: 'numeric',
                             },

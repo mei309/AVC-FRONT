@@ -363,145 +363,173 @@ export class CountinersLoadingComponent {
                 ]
             },
             {
-              type: 'bignotexpand',
-              label: 'Shipment code',
-              name: 'shipmentCode',
-              collections: [
-                  {
-                      type: 'input',
-                      label: 'Code',
-                      name: 'code',
-                      inputType: 'numeric',
-                      disable: true,
-                      validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Code Required',
-                        }
-                      ]
-                  },
-                  {
-                      type: 'select',
-                      label: 'Destination port',
-                      name: 'portOfDischarge',
-                      options: this.genral.getShippingPorts(),
-                      validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: 'Destination port Required',
-                            }
-                        ]
-                  },
-              ],
+                type: 'select',
+                label: 'Shipment code',
+                name: 'shipmentCode',
+                options: this.localService.findFreeShipmentCodes(),
+                disable: true,
+                validations: [
+                    {
+                        name: 'required',
+                        validator: Validators.required,
+                        message: 'Shipment code Required',
+                    }
+                ]
             },
             {
-              type: 'bignotexpand',
-              label: 'Container details',
-              name: 'containerDetails',
-              collections: [
-                  {
-                      type: 'input',
-                      label: 'Container number',
-                      name: 'containerNumber',
-                      validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Container number Required',
-                        }
-                      ]
-                  },
-                  {
-                      type: 'input',
-                      label: 'Seal number',
-                      name: 'sealNumber',
-                      validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Seal number Required',
-                        }
-                      ]
-                  },
-                  {
-                      type: 'selectNormal',
-                      label: 'Container type',
-                      name: 'containerType',
-                    //   value: '20\'',
-                      options: this.genral.getShippingContainerType(),
-                      validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Container type Required',
-                        }
-                      ]
-                  },
-              ],
+                type: 'select',
+                label: 'Container',
+                name: 'arrival',
+                options: this.localService.findFreeArrivals(),
+                disable: true,
+                validations: [
+                    {
+                        name: 'required',
+                        validator: Validators.required,
+                        message: 'Container Required',
+                    }
+                ]
             },
-            {
-              type: 'bignotexpand',
-              label: 'Shiping details',
-              name: 'shipingDetails',
-              value: 'required',
-              collections: [
-                  {
-                      type: 'input',
-                      label: 'Booking number',
-                      name: 'bookingNumber',
-                  },
-                  {
-                      type: 'input',
-                      label: 'Vessel',
-                      name: 'vessel',
-                  },
-                  {
-                      type: 'input',
-                      label: 'Shipping company',
-                      name: 'shippingCompany',
-                  },
-                  {
-                      type: 'select',
-                      label: 'Loading port',
-                      name: 'portOfLoading',
-                      options: this.genral.getShippingPorts(),
-                  },
-                  {
-                      type: 'date',
-                      label: 'Etd',
-                      name: 'etd',
-                      // value: new Date()
-                      validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Etd Required',
-                        }
-                      ]
-                  },
-                  {
-                      type: 'select',
-                      label: 'Destination port',
-                      name: 'portOfDischarge',
-                      options: this.genral.getShippingPorts(),
-                  },
-                  {
-                    type: 'date',
-                    label: 'Eta',
-                    name: 'eta',
-                    // value: new Date()
-                    validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Eta Required',
-                        }
-                      ]
-                  },
-              ],
-            },
+            // {
+            //   type: 'bignotexpand',
+            //   label: 'Shipment code',
+            //   name: 'shipmentCode',
+            //   collections: [
+            //       {
+            //           type: 'input',
+            //           label: 'Code',
+            //           name: 'code',
+            //           inputType: 'numeric',
+            //           disable: true,
+            //           validations: [
+            //             {
+            //                 name: 'required',
+            //                 validator: Validators.required,
+            //                 message: 'Code Required',
+            //             }
+            //           ]
+            //       },
+            //       {
+            //           type: 'select',
+            //           label: 'Destination port',
+            //           name: 'portOfDischarge',
+            //           options: this.genral.getShippingPorts(),
+            //           validations: [
+            //                 {
+            //                     name: 'required',
+            //                     validator: Validators.required,
+            //                     message: 'Destination port Required',
+            //                 }
+            //             ]
+            //       },
+            //   ],
+            // },
+            // {
+            //   type: 'bignotexpand',
+            //   label: 'Container details',
+            //   name: 'containerDetails',
+            //   collections: [
+            //       {
+            //           type: 'input',
+            //           label: 'Container number',
+            //           name: 'containerNumber',
+            //           validations: [
+            //             {
+            //                 name: 'required',
+            //                 validator: Validators.required,
+            //                 message: 'Container number Required',
+            //             }
+            //           ]
+            //       },
+            //       {
+            //           type: 'input',
+            //           label: 'Seal number',
+            //           name: 'sealNumber',
+            //           validations: [
+            //             {
+            //                 name: 'required',
+            //                 validator: Validators.required,
+            //                 message: 'Seal number Required',
+            //             }
+            //           ]
+            //       },
+            //       {
+            //           type: 'selectNormal',
+            //           label: 'Container type',
+            //           name: 'containerType',
+            //         //   value: '20\'',
+            //           options: this.genral.getShippingContainerType(),
+            //           validations: [
+            //             {
+            //                 name: 'required',
+            //                 validator: Validators.required,
+            //                 message: 'Container type Required',
+            //             }
+            //           ]
+            //       },
+            //   ],
+            // },
+            // {
+            //   type: 'bignotexpand',
+            //   label: 'Shiping details',
+            //   name: 'shipingDetails',
+            //   value: 'required',
+            //   collections: [
+            //       {
+            //           type: 'input',
+            //           label: 'Booking number',
+            //           name: 'bookingNumber',
+            //       },
+            //       {
+            //           type: 'input',
+            //           label: 'Vessel',
+            //           name: 'vessel',
+            //       },
+            //       {
+            //           type: 'input',
+            //           label: 'Shipping company',
+            //           name: 'shippingCompany',
+            //       },
+            //       {
+            //           type: 'select',
+            //           label: 'Loading port',
+            //           name: 'portOfLoading',
+            //           options: this.genral.getShippingPorts(),
+            //       },
+            //       {
+            //           type: 'date',
+            //           label: 'Etd',
+            //           name: 'etd',
+            //           // value: new Date()
+            //           validations: [
+            //             {
+            //                 name: 'required',
+            //                 validator: Validators.required,
+            //                 message: 'Etd Required',
+            //             }
+            //           ]
+            //       },
+            //       {
+            //           type: 'select',
+            //           label: 'Destination port',
+            //           name: 'portOfDischarge',
+            //           options: this.genral.getShippingPorts(),
+            //       },
+            //       {
+            //         type: 'date',
+            //         label: 'Eta',
+            //         name: 'eta',
+            //         // value: new Date()
+            //         validations: [
+            //             {
+            //                 name: 'required',
+            //                 validator: Validators.required,
+            //                 message: 'Eta Required',
+            //             }
+            //           ]
+            //       },
+            //   ],
+            // },
         ];
         this.preperChoosingPO();
         this.navigationSubscription = this.router.events.subscribe((e: any) => {

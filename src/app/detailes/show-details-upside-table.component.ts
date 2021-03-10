@@ -412,12 +412,12 @@ export class ShowDetailsUpsideTableComponent {
         if(result['process'] === 'confirm') {
           result['snapshot'] = this.dataSource;
           this.genral.approveTaskAndManagment('APPROVED' , result).pipe(take(1)).subscribe(value => {
-            this.bottomDataSource[1][keyToChange] = value;
+            this.bottomDataSource[1][keyToChange] = value['approvals'];
           });
         } else if(result['process'] === 'reject') {
           result['snapshot'] = this.dataSource;
           this.genral.approveTaskAndManagment('DECLINED' , result).pipe(take(1)).subscribe(value => {
-            this.bottomDataSource[1][keyToChange] = value;
+            this.bottomDataSource[1][keyToChange] = value['approvals'];
           });
         } else if(result['process'] === 'onSave') {
           this.genral.taskManagment(result).pipe(take(1)).subscribe(value => {

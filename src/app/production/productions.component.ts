@@ -12,7 +12,7 @@ import { ProductionService } from './production.service';
   templateUrl: './productions.component.html',
 })
 export class ProductionsComponent implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
 
   dateRangeDisp= new FormGroup({
     start: new FormControl(),
@@ -41,7 +41,6 @@ export class ProductionsComponent implements OnInit {
             this.tabIndex = +params.get('number');
             this.changed(+params.get('number'));
         } else {
-            this.tabIndex = 0;
             this.changed(0);
         }
     });

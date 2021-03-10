@@ -24,8 +24,8 @@ import { InventoryService } from './inventory.service';
       </mat-tab>
       <mat-tab label="Cashew stock by PO#">
       </mat-tab>
-      <mat-tab label="Raw cashew stock and orders">
-      </mat-tab>
+      <!-- <mat-tab label="Raw cashew stock and orders">
+      </mat-tab> -->
   </mat-tab-group>
   <search-group-details [mainDetailsSource]="cashewSourceColumns">
   </search-group-details>
@@ -34,7 +34,7 @@ import { InventoryService } from './inventory.service';
 export class CashewInventoryComponent implements OnInit {
 
   dateRangeDisp = {begin: new Date(2020, 7, 5), end: new Date(2020, 7, 25)};
-  tabIndex: number;
+  tabIndex: number = 0;
   columnsShow: OneColumn[];
 
   cashewSource: any[];

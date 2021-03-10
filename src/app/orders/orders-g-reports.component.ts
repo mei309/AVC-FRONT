@@ -12,7 +12,7 @@ import { OrdersService } from './orders.service';
   templateUrl: './orders-g-reports.component.html',
 })
 export class OrdersGReports implements OnInit {
-  tabIndex: number;
+  tabIndex: number = 0;
 
   dateRangeDisp= new FormGroup({
     start: new FormControl(),

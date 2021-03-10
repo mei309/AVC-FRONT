@@ -26,7 +26,7 @@ import { InventoryService } from './inventory.service';
 export class GenralInventoryComponent implements OnInit {
 
   dateRangeDisp = {begin: new Date(2020, 7, 5), end: new Date(2020, 7, 25)};
-  tabIndex: number;
+  tabIndex: number = 0;
   columnsShow: OneColumn[];
 
   generalSource: any[];

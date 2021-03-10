@@ -174,25 +174,25 @@ export class ProductionPackingComponent implements OnInit {
                                     },
                                 ]
                             },
-                            {
-                                type: 'input',
-                                label: 'Weight percentage',
-                                name: 'weight',
-                                inputType: 'numeric',
-                                options: 3,
-                                validations: [
-                                    {
-                                        name: 'required',
-                                        validator: Validators.required,
-                                        message: 'Weight percentage Required',
-                                    },
-                                    {
-                                        name: 'max',
-                                        validator: Validators.max(1),
-                                        message: '1 is the maximum',
-                                    }
-                                ]
-                            },
+                            // {
+                            //     type: 'input',
+                            //     label: 'Weight percentage',
+                            //     name: 'weight',
+                            //     inputType: 'numeric',
+                            //     options: 3,
+                            //     validations: [
+                            //         {
+                            //             name: 'required',
+                            //             validator: Validators.required,
+                            //             message: 'Weight percentage Required',
+                            //         },
+                            //         {
+                            //             name: 'max',
+                            //             validator: Validators.max(1),
+                            //             message: '1 is the maximum',
+                            //         }
+                            //     ]
+                            // },
                             {
                                 type: 'divider',
                                 inputType: 'divide'

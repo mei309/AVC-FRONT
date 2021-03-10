@@ -8,17 +8,19 @@ import { CountinersRoutingModule } from './countiners-routing.module';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersReportsComponent } from './counteiners-reports.component';
 import { SecurityExportDocComponent } from './security-export-doc.component';
+import { AddEditShipmentDialog, ShipmentCodesComponent } from './shipment-codes.component';
 
 
 
 @NgModule({
   declarations: [CountinersBookingComponent, CountinersArrivalComponent, CountinersLoadingComponent,
-    CounteinersDetailsDialogComponent, CountinersReportsComponent, SecurityExportDocComponent],
+    CounteinersDetailsDialogComponent, CountinersReportsComponent, SecurityExportDocComponent,
+    ShipmentCodesComponent, AddEditShipmentDialog],
   imports: [
     CommonModule,
     SheardModule,
     CountinersRoutingModule
   ],
-  entryComponents: [CounteinersDetailsDialogComponent, SecurityExportDocComponent]
+  entryComponents: [CounteinersDetailsDialogComponent, SecurityExportDocComponent, AddEditShipmentDialog]
 })
 export class CountinersModule { }
