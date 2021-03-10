@@ -17,7 +17,9 @@ import { FormGroup, FormControl } from '@angular/forms';
   (selectedIndexChange)="changed($event)">
       <!-- <mat-tab label="Transfers">
       </mat-tab> -->
-      <mat-tab label="Relocation">
+      <mat-tab label="Raw transfer with weighing(relocation)">
+      </mat-tab>
+      <mat-tab label="Cleaned transfer with weighing(relocation)">
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainDetailsSource]="mainSourceColumns" (details)="openDialog($event)">
@@ -150,10 +152,10 @@ export class InventoryComponent implements OnInit {
       if (data === 'Edit') {
           switch (this.tabIndex) {
                 case 0:
-                //     this.router.navigate(['../TransferCount',{id: event['id']}], { relativeTo: this._Activatedroute });
-                //     break;
-                // case 1:
                     this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
+                    break;
+                case 1:
+                    this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds'], clean: true}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;
@@ -166,15 +168,12 @@ export class InventoryComponent implements OnInit {
     changed(event) {
       switch (+event) {
         case 0:
-        //   this.mainSourceColumns = null;
-        //   this.localService.getTransferCounts().pipe(take(1)).subscribe(value => {
-        //     this.mainSourceColumns = [<any[]>value, this.columnsShow];
-        //     console.log(value);
-            
-        //   });
-        //   this.cdRef.detectChanges();
-        //   break;
-        // case 1:
+          this.mainSourceColumns = null;
+          this.localService.getStorageRelocations().pipe(take(1)).subscribe(value => {
+            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+          });
+          this.cdRef.detectChanges();
+        case 1:
           this.mainSourceColumns = null;
           this.localService.getStorageRelocations().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];

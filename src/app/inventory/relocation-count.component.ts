@@ -12,12 +12,12 @@ import { cloneDeep } from 'lodash-es';
     selector: 'relocation-count',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Transfer with weighing(relocation)</h1></legend>
+        <legend><h1>{{type}} transfer with weighing(relocation)</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Transfer with weighing(relocation)'" (submitForm)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="type+' transfer with weighing(relocation)'" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -33,6 +33,8 @@ export class RelocationCountComponent implements OnInit {
     dataSource;
     poID: number;
     isNew: boolean = true;
+
+    type: string = 'Raw';
   
     submit(value: any) {
         var arr = [];
@@ -78,6 +80,17 @@ export class RelocationCountComponent implements OnInit {
         });
         value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
         value['storageMovesGroups'] = arr;
+        if(!value['productionLine']) {
+            if(this.type === 'Raw') {
+                this.genral.getProductionLine().pipe(take(1)).subscribe( val => {
+                    value['productionLine'] = val.find(a => a.productionFunctionality === 'RAW_STATION');
+                });
+            } else {
+                this.genral.getProductionLine().pipe(take(1)).subscribe( val => {
+                    value['productionLine'] = val.find(a => a.productionFunctionality === 'ROASTER_IN');
+                });
+            }
+        }
         
         this.localService.addEditRelocationTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
@@ -253,7 +266,10 @@ export class RelocationCountComponent implements OnInit {
                     this.fillEdit(val);
                 });
             } else {
-                    this.setBeginChoose();
+                this.setBeginChoose();
+            }
+            if(params.get('clean')) {
+                this.type = 'Clean';
             }
         });
        
@@ -273,6 +289,13 @@ export class RelocationCountComponent implements OnInit {
             } else {
                 this.setBeginChoose();
             }
+            this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+                if(params.get('clean')) {
+                    this.type = 'Clean';
+                } else {
+                    this.type = 'Raw';
+                }
+            });
             this.cdRef.detectChanges();
             this.isDataAvailable = true;
         }
