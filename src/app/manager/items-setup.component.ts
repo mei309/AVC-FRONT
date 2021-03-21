@@ -149,7 +149,9 @@ export class ItemsSetupComponent {
         switch (type) {
             case 'C':
                 return this.genral.getBulkMU();
-            case 'G':
+            // case 'G':
+            //     return this.genral.getMeasureUnit();
+            default:
                 return this.genral.getMeasureUnit();
         }
     }

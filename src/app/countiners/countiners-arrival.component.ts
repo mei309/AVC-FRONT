@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { OrderDetailsDialogComponent } from '../orders/order-details-dialog-component';
+import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
 @Component({
     selector: 'countiners-arrival',
@@ -32,6 +32,74 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
 
      ngOnInit() {
        this.regConfig = [
+            {
+                type: 'date',
+                label: 'Contract date',
+                value: new Date(),
+                name: 'recordedTime',
+                options: 'withTime',
+                disable: true,
+            },
+            {
+                type: 'bignotexpand',
+                label: 'Shiping details',
+                name: 'shipingDetails',
+                value: 'required',
+                collections: [
+                    {
+                        type: 'input',
+                        label: 'Vessel',
+                        name: 'vessel',
+                    },
+                    {
+                        type: 'input',
+                        label: 'Shipping company',
+                        name: 'shippingCompany',
+                    },
+                    {
+                        type: 'select',
+                        label: 'Loading port',
+                        name: 'portOfLoading',
+                        options: this.localService.getShippingPorts(),
+                    },
+                    {
+                        type: 'date',
+                        label: 'Etd',
+                        name: 'etd',
+                        // value: new Date()
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: 'Etd Required',
+                            }
+                        ]
+                    },
+                    {
+                        type: 'select',
+                        label: 'Destination port',
+                        name: 'portOfDischarge',
+                        options: this.localService.getShippingPorts(),
+                    },
+                    {
+                        type: 'date',
+                        label: 'Eta',
+                        name: 'eta',
+                        // value: new Date()
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: 'Eta Required',
+                            }
+                        ]
+                    },
+                    {
+                        type: 'divider',
+                        inputType: 'divide'
+                    },
+                ],
+            },
             {
                 type: 'bignotexpand',
                 label: 'Container details',
@@ -109,20 +177,18 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
     submit(value: any) { 
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         this.localService.addEditContainerArrival(value, fromNew).pipe(take(1)).subscribe( val => {
-            const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+            const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
                 width: '80%',
-                data: {loading: cloneDeep(val), fromNew: true, type: 'Loading'}
+                data: {loading: cloneDeep(val), fromNew: true, type: 'Arrivals'}
             });
             dialogRef.afterClosed().subscribe(data => {
-                if (data === 'Edit order') {
+                if (data === 'Edit') {
                     this.putData = val;
                     this.isDataAvailable = false;
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
-                } else if(data === 'Receive') {
-                    this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: val['poCode']['id']}]);
                 } else {
-                    this.router.navigate(['../OrdersCReports'], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../CountinerReports', {number: 1}], { relativeTo: this._Activatedroute });
                 }
             });
         });

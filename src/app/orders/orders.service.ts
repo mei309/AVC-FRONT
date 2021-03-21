@@ -123,7 +123,11 @@ export class OrdersService {
   }
 
 
-  getSupplierGeneral (): Observable<any> {
+  getCashewSuppliers (): Observable<any> {
+    return this.http.get(this.ordersurl+'getCashewSuppliers');
+  }
+
+  getGeneralSuppliers (): Observable<any> {
     return this.http.get(this.ordersurl+'getGeneralSuppliers');
   }
   getPoGeneralCodesOpen (): Observable<any> {
@@ -164,6 +168,7 @@ export class OrdersService {
   getAllSuppliers (): Observable<any> {
       return this.http.get(this.ordersurl+'getAllSuppliers');
     }
+
 
     getCashewContractTypes (): Observable<any> {
       return this.http.get(this.ordersurl+'getCashewContractTypes');

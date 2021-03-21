@@ -55,7 +55,7 @@ export class SuppliersComponent implements OnInit {
         name: 'supplyCategories',
         label: 'Supply category',
         search: 'arraySelectAsyncObject2',
-        options: this.genral.getSupplyType(),
+        options: this.localService.getSupplyType(),
       },
     ];
   }
@@ -96,7 +96,7 @@ export class SuppliersComponent implements OnInit {
 //     name: 'supplyCategories',
 //     titel: 'Supply category',
 //     type: 'selectAsync',
-//     options: this.genral.getSupplyType(),
+//     options: this.genral.getWearhouses(),
 //     pipes: 'arrayObject',
 //   },
 // ];

@@ -2,7 +2,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { DropNormal } from '../field.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,12 @@ export class CountinersService {
 
   contianerurl = environment.baseUrl +'container/';
 
+  shippingPorts = new ReplaySubject<DropNormal[]>();
+
   constructor(private http: HttpClient) {
+    this.http.get(this.contianerurl+'getSetUpContianer').pipe(take(1)).subscribe(value => {
+      this.shippingPorts.next(value[0]);
+    });
   }
 
 
@@ -75,6 +82,18 @@ export class CountinersService {
 
   findFreeArrivals () {
     return this.http.get(this.contianerurl+'findFreeArrivals');
+  }
+
+  findShipmentCodes () {
+    return this.http.get(this.contianerurl+'findShipmentCodes');
+  }
+
+  findContainerArrivals () {
+    return this.http.get(this.contianerurl+'findContainerArrivals');
+  }
+
+  getShippingPorts (): Observable<any> {
+    return this.shippingPorts.asObservable();
   }
 
 }

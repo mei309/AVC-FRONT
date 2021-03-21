@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
+import { CountinersService } from './countiners.service';
 @Component({
     selector: 'countiners-booking-component',
     template: `
@@ -15,7 +16,7 @@ export class CountinersBookingComponent implements OnInit {
     regConfig: FieldConfig[];
 
 
-    constructor(private genral: Genral) {
+    constructor(private genral: Genral, private localService: CountinersService) {
        }
 
 
@@ -66,7 +67,7 @@ export class CountinersBookingComponent implements OnInit {
                         type: 'select',
                         label: 'Destination port',
                         name: 'destinationPort',
-                        options: this.genral.getShippingPorts(),
+                        options: this.localService.getShippingPorts(),
                         // disable: true,
                     },
                     {

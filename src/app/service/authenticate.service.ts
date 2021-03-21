@@ -11,20 +11,21 @@ import { environment } from '../../environments/environment';
 export class AuthenticateService {
 
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  tokenInit$ = this.tokenSubject.asObservable();
 
 
   destroySubject$: Subject<void> = new Subject();
 
   refreshTokenInProgress = false;
 
-  tokenRefreshedSource = new Subject();
-  tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
+  // tokenRefreshedSource = new Subject();
+  // tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
 
   mainurl = environment.baseUrl;
 
   constructor(private http: HttpClient, private router: Router) {
+    if(sessionStorage.getItem('token')) {
       this.tokenSubject.next(sessionStorage.getItem('token'));
+    }
   }
 
   public get isLoggedIn() : boolean {
@@ -35,40 +36,11 @@ export class AuthenticateService {
     return this.tokenSubject.getValue();
   }
   waitInit(): Observable<any> {
-    return new Observable(observer => {
-      this.tokenInit$.subscribe(token => {
-        if(token) {
-          observer.next();
-          observer.complete();
-        }
-      });
-    });
+    return this.tokenSubject.asObservable();
   }
-  refreshToken(): Observable<any> {
-    if (this.refreshTokenInProgress) {
-      return new Observable(observer => {
-          this.tokenRefreshed$.subscribe(() => {
-              observer.next();
-              observer.complete();
-          });
-      });
-    } else {
-      if(sessionStorage.getItem('username')) {
-        this.refreshTokenInProgress = true;
-        var person = prompt("Please enter your password again", "");
-        return this.authenticate(sessionStorage.getItem('username'), person).pipe(
-          switchMap((data) => {
-            this.refreshTokenInProgress = false;
-            this.tokenRefreshedSource.next();
-            this.tokenRefreshedSource.complete();
-            return data;
-          }));
-      } else {
-        this.logOut();
-        window.alert('Incorrect username or password you are redirected to login');
-        return throwError('');
-      }
-    }
+
+  refreshToken() {
+    this.tokenSubject.next(null);
   }
 
   

@@ -61,13 +61,13 @@ export class CashewCountComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'select',
                         label: 'PO#',
                         name: 'PO',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'inputselect',
@@ -96,7 +96,7 @@ export class CashewCountComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Storge location',
                         name: 'StorgeLocation',
-                        options: this.genral.getCountries()
+                        options: this.genral.getWearhouses()
                     },
                     {
                         type: 'divider',

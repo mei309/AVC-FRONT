@@ -81,17 +81,16 @@ export class RelocationCountComponent implements OnInit {
         value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
         value['storageMovesGroups'] = arr;
         if(!value['productionLine']) {
-            if(this.type === 'Raw') {
-                this.genral.getProductionLine().pipe(take(1)).subscribe( val => {
-                    value['productionLine'] = val.find(a => a.productionFunctionality === 'RAW_STATION');
-                });
-            } else {
-                this.genral.getProductionLine().pipe(take(1)).subscribe( val => {
-                    value['productionLine'] = val.find(a => a.productionFunctionality === 'ROASTER_IN');
-                });
-            }
+            this.genral.getProductionLine(this.getFunctionality()).pipe(take(1)).subscribe( val => {
+                value['productionLine'] = val[0];
+                this.submitToBackend(value);
+            });
+        } else {
+            this.submitToBackend(value);
         }
-        
+    }
+
+    submitToBackend(value: any) {
         this.localService.addEditRelocationTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
@@ -104,11 +103,11 @@ export class RelocationCountComponent implements OnInit {
                     this.dataSource = null;
                     this.cdRef.detectChanges();
                     this.setRegConfig();
-                    this.localService.getStorageByPo(val['poCode']['id']).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getStorageByPo(val['poCode']['id'], this.type).pipe(take(1)).subscribe( val1 => {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {
-                    this.router.navigate(['../InventoryReports', {number: 0}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../InventoryReports', {number: this.type === 'Clean'? 1 : 0}], { relativeTo: this._Activatedroute });
                 }
             });
         });
@@ -179,7 +178,7 @@ export class RelocationCountComponent implements OnInit {
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
-                this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageByPo(selectedValue['id'], this.type).pipe(take(1)).subscribe( val => {
                     this.dataSource = {poCode: selectedValue, usedItemsTable: [], usedItemsNormal: [], itemCounts: []};
                     this.setAfterChoose(val);
                     this.cleanUnwanted();
@@ -193,7 +192,7 @@ export class RelocationCountComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getPoCashewCodesInventory(),
+                options: this.localService.getAllPos(this.getProductionUse()),
                 collections: [
                     {
                         type: 'select',
@@ -261,15 +260,15 @@ export class RelocationCountComponent implements OnInit {
    ngOnInit() {
         this.setRegConfig();
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('clean')) {
+                this.type = 'Clean';
+            } 
             if(params.get('id')) {
-                this.localService.getStorageTransferWithStorage(+params.get('id'), (params.getAll('poCodes')).map(el=>parseInt(el))).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageTransferWithStorage(+params.get('id'), (params.getAll('poCodes')).map(el=>parseInt(el)), this.type).pipe(take(1)).subscribe( val => {
                     this.fillEdit(val);
                 });
             } else {
                 this.setBeginChoose();
-            }
-            if(params.get('clean')) {
-                this.type = 'Clean';
             }
         });
        
@@ -284,11 +283,6 @@ export class RelocationCountComponent implements OnInit {
             this.dataSource = null;
             this.setRegConfig();
             this.poID = null;
-            if(this.poConfig) {
-                this.form.get('poCode').setValue(null);
-            } else {
-                this.setBeginChoose();
-            }
             this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
                 if(params.get('clean')) {
                     this.type = 'Clean';
@@ -296,6 +290,11 @@ export class RelocationCountComponent implements OnInit {
                     this.type = 'Raw';
                 }
             });
+            if(this.poConfig) {
+                this.form.get('poCode').setValue(null);
+            } else {
+                this.setBeginChoose();
+            }
             this.cdRef.detectChanges();
             this.isDataAvailable = true;
         }
@@ -346,7 +345,7 @@ export class RelocationCountComponent implements OnInit {
             type: 'select',
             label: 'Production line',
             name: 'productionLine',
-            options: this.genral.getProductionLine(),
+            options: this.genral.getProductionLine(this.getFunctionality()),
         },
         {
              type: 'bigexpand',
@@ -501,21 +500,21 @@ export class RelocationCountComponent implements OnInit {
                      label: 'Item descrption',
                      name: 'item',
                      collections: 'somewhere',
-                     options: this.genral.getItemsCashew('Raw'),
+                     options: this.genral.getItemsCashew(this.type),
                     //  disable: true,
                  },
-                 {
-                     type: 'selectNormal',
-                     label: 'Weight unit',
-                     name: 'measureUnit',
-                     options: this.genral.getMeasureUnit(),
-                     // disable: true,
-                 },
                 //  {
-                //     type: 'selectMU',
-                //     label: 'Weight unit',
-                //     name: 'measureUnit',
-                // },
+                //      type: 'selectNormal',
+                //      label: 'Weight unit',
+                //      name: 'measureUnit',
+                //      options: this.genral.getMeasureUnit(),
+                //      // disable: true,
+                //  },
+                 {
+                    type: 'selectMU',
+                    label: 'Weight unit',
+                    name: 'measureUnit',
+                },
                 //  {
                 //      type: 'input',
                 //      label: 'Empty container weight',
@@ -546,6 +545,14 @@ export class RelocationCountComponent implements OnInit {
         }
     ];
 
+   }
+
+   getFunctionality() {
+    return this.type === 'Clean'? 'ROASTER_IN' : 'RAW_STATION';
+   }
+
+   getProductionUse() {
+    return this.type === 'Clean'? 'CLEAN' : 'RAW_KERNEL';
    }
 
 

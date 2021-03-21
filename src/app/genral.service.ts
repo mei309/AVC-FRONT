@@ -3,17 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { DropNormal } from './field.interface';
+import { DropNormal, DropNormalPLine } from './field.interface';
 import { Globals } from './global-params.component';
 @Injectable({
   providedIn: 'root'
 })
 export class Genral {
-// version 4
-  cities = new ReplaySubject<DropNormal[]>();
-  countries = new ReplaySubject<DropNormal[]>();
-  companyPosition = new ReplaySubject<DropNormal[]>();
-  banks = new ReplaySubject<DropNormal[]>();
+
   wearhouses = new ReplaySubject<DropNormal[]>();
   standarts = new ReplaySubject<DropNormal[]>();
   ItemsRawCashew = new ReplaySubject<DropNormal[]>();
@@ -25,10 +21,9 @@ export class Genral {
   ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
   allItemsCashew = new ReplaySubject<DropNormal[]>();
   ItemsGeneral = new ReplaySubject<DropNormal[]>();
-  supplyType = new ReplaySubject<DropNormal[]>();
-  branches = new ReplaySubject<DropNormal[]>();
-  shippingPorts = new ReplaySubject<DropNormal[]>();
-  productionLine = new ReplaySubject<DropNormal[]>();
+  productionLine = new ReplaySubject<DropNormalPLine[]>();
+  suppliersCashew = new ReplaySubject<DropNormal[]>();
+  suppliersGeneral = new ReplaySubject<DropNormal[]>();
 
   genralID: number;
   
@@ -49,10 +44,6 @@ export class Genral {
   } 
 
   backToInitil() {
-    this.cities = new ReplaySubject<DropNormal[]>();
-    this.countries = new ReplaySubject<DropNormal[]>();
-    this.companyPosition = new ReplaySubject<DropNormal[]>();
-    this.banks = new ReplaySubject<DropNormal[]>();
     this.wearhouses = new ReplaySubject<DropNormal[]>();
     this.standarts = new ReplaySubject<DropNormal[]>();
     this.ItemsRawCashew = new ReplaySubject<DropNormal[]>();
@@ -64,44 +55,36 @@ export class Genral {
     this.ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
     this.allItemsCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsGeneral = new ReplaySubject<DropNormal[]>();
-    this.supplyType = new ReplaySubject<DropNormal[]>();
-    this.branches = new ReplaySubject<DropNormal[]>();
-    this.shippingPorts = new ReplaySubject<DropNormal[]>();
-    this.productionLine = new ReplaySubject<DropNormal[]>();
+    this.productionLine = new ReplaySubject<DropNormalPLine[]>();
+    this.suppliersCashew = new ReplaySubject<DropNormal[]>();
+    this.suppliersGeneral = new ReplaySubject<DropNormal[]>();
     this.setInitiel();
   }
 
 
   setInitiel() {
     this.getMainSetUp().pipe(take(1)).subscribe(value => {
-      this.cities.next(value[0]);
-      this.countries.next(value[1]);
-      this.companyPosition.next(value[2]);
-      this.banks.next(value[3]);
-      this.wearhouses.next(value[4]);
-      this.standarts.next(value[5]);
+      this.wearhouses.next(value[0]);
+      this.standarts.next(value[1]);
       
-      this.ItemsRawCashew.next(value[6].filter(w => w.productionUse === 'RAW_KERNEL'));
-      this.ItemsRawRoastCashew.next(value[6].filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse)));
-      this.ItemsCleanCashew.next(value[6].filter(w => w.productionUse === 'CLEAN'));
-      this.ItemsRoastCashew.next(value[6].filter(w => w.productionUse === 'ROAST'));
-      this.ItemsPackedCashew.next(value[6].filter(w => w.productionUse === 'PACKED'));
-      this.ItemsRoastPackedCashew.next(value[6].filter(w => ['ROAST', 'PACKED'].includes(w.productionUse)));
-      // value[6].filter(word => {log['ROAST', 'PACKED'].includes(word.category)});
-      this.allItemsCashew.next(value[6]);
+      this.ItemsRawCashew.next(value[2].filter(w => w.productionUse === 'RAW_KERNEL'));
+      this.ItemsRawRoastCashew.next(value[2].filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse)));
+      this.ItemsCleanCashew.next(value[2].filter(w => w.productionUse === 'CLEAN'));
+      this.ItemsRoastCashew.next(value[2].filter(w => w.productionUse === 'ROAST'));
+      this.ItemsPackedCashew.next(value[2].filter(w => w.productionUse === 'PACKED'));
+      this.ItemsRoastPackedCashew.next(value[2].filter(w => ['ROAST', 'PACKED'].includes(w.productionUse)));
+      this.allItemsCashew.next(value[2]);
 
-      this.ItemsGeneral.next(value[7]);
-      this.supplyType.next(value[8]);
-      this.branches.next(value[9]);
+      this.ItemsGeneral.next(value[3]); 
+      this.globels.setGlobalProcessAuturtiy(value[4]);
 
-      
-      
-      this.globels.setGlobalProcessAuturtiy(value[10]);
+      this.productionLine.next(value[5]);
 
-      this.shippingPorts.next(value[11]);
-      this.productionLine.next(value[12]);
+      this.ItemsWasteCashew.next(value[6]);
 
-      this.ItemsWasteCashew.next(value[13]);
+      this.suppliersCashew.next(value[7]);
+      this.suppliersGeneral.next(value[8]);
+
     });
   }
   
@@ -178,18 +161,7 @@ export class Genral {
   getMainSetUp() {
     return this.http.get(this.mainurl+'setup');
   }
-  getCities (): Observable<any> {
-    return this.cities.asObservable();
-  }
-  getCountries (): Observable<any> {
-    return this.countries.asObservable();
-  }
-  getBanks (): Observable<any> {
-    return this.banks.asObservable();
-  }
-  getCompanyPosition (): Observable<any> {
-    return this.companyPosition.asObservable();
-  }
+
   getWearhouses (): Observable<any> {
     return this.wearhouses.asObservable();
   }
@@ -244,21 +216,25 @@ export class Genral {
   getItemsGeneral (): Observable<any> {
     return this.ItemsGeneral.asObservable();
   }
-  getSupplyType (): Observable<any> {
-    return this.supplyType.asObservable();
+  getProductionLine (type: string): Observable<any> {
+    return this.productionLine.asObservable().pipe(
+      map(value => {
+        switch (type) {
+          case 'RAW_STATION':
+            return value.filter(a => a.productionFunctionality === 'RAW_STATION');
+          case 'ROASTER_IN'://productionFunctionality
+            return value.filter(a => a.productionFunctionality === 'ROASTER_IN');
+          default:
+            return value;
+        }
+      })
+    );
   }
-  getBranches (): Observable<any> {
-    return this.branches.asObservable();
+  getSuppliersCashew (): Observable<any> {
+    return this.suppliersCashew.asObservable();
   }
-  getShippingPorts (): Observable<any> {
-    return this.shippingPorts.asObservable();
-  }
-  getProductionLine (): Observable<any> {
-    return this.productionLine.asObservable();
-  }
-
-  getSupplierCashew (): Observable<any> {
-    return this.http.get(this.mainurl+'getCashewSuppliers');
+  getSuppliersGeneral (): Observable<any> {
+    return this.suppliersGeneral.asObservable();
   }
 
   findAllPoCodes (): Observable<any> {

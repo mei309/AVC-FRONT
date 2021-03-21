@@ -42,64 +42,6 @@ export class CountinersReportsComponent implements OnInit {
             this.changed(0);
         }
     });
-    
-    this.columnsShow = [
-        {
-            type: 'nameId',
-            name: 'shipmentCode',
-            label: 'Shipment code',
-            search: 'object',
-            group: 'shipmentCode',
-        },
-        {
-            type: 'arrayVal',
-            name: 'poCodes',
-            label: 'PO#',
-            // search: 'object',
-            group: 'poCodes',
-        },
-        {
-            type: 'dateTime',
-            name: 'recordedTime',
-            label: 'Recorded time',
-            search: 'dates',
-            group: 'poCodes',
-        },
-        {
-            type: 'nameId',
-            name: 'item',
-            label: 'Product descrption',
-            search: 'selectAsyncObject',
-            options: this.genral.getItemsRawCashew(),
-        },
-        {
-            type: 'weight2',
-            name: 'totalRow',
-            label: 'Loaded amounts',
-            // type: 'object',
-            // options: 'currency',
-        },
-        {
-            type: 'normal',
-            name: 'status',
-            label: 'Status',
-            search: 'select',
-            options: this.genral.getProcessStatus(),
-        },
-        // {
-        //     name: 'producedItems',
-        //     label: 'Produced items',
-        //     // type: 'object',
-        //     type: 'itemWeight',
-        //     // options: 'currency',
-        // },
-        {
-          name: 'loadedTotals',
-          type: 'kidArray',
-          collections: [
-          ]
-        }
-      ];
   }
 
   openDialog(event): void {
@@ -131,6 +73,63 @@ export class CountinersReportsComponent implements OnInit {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
+          this.columnsShow = [
+            {
+                type: 'nameId',
+                name: 'shipmentCode',
+                label: 'Shipment code',
+                search: 'object',
+                group: 'shipmentCode',
+            },
+            {
+                type: 'arrayVal',
+                name: 'poCodes',
+                label: 'PO#',
+                // search: 'object',
+                group: 'poCodes',
+            },
+            {
+                type: 'dateTime',
+                name: 'recordedTime',
+                label: 'Recorded time',
+                search: 'dates',
+                group: 'poCodes',
+            },
+            {
+                type: 'nameId',
+                name: 'item',
+                label: 'Product descrption',
+                search: 'selectAsyncObject',
+                options: this.genral.getItemsRoastPackedCashew(),
+            },
+            {
+                type: 'weight2',
+                name: 'totalRow',
+                label: 'Loaded amounts',
+                // type: 'object',
+                // options: 'currency',
+            },
+            {
+                type: 'normal',
+                name: 'status',
+                label: 'Status',
+                search: 'select',
+                options: this.genral.getProcessStatus(),
+            },
+            // {
+            //     name: 'producedItems',
+            //     label: 'Produced items',
+            //     // type: 'object',
+            //     type: 'itemWeight',
+            //     // options: 'currency',
+            // },
+            {
+              name: 'loadedTotals',
+              type: 'kidArray',
+              collections: [
+              ]
+            }
+          ];
           this.localService.getAllLoadings().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
           });
@@ -139,7 +138,39 @@ export class CountinersReportsComponent implements OnInit {
           break;
         case 1:
           this.mainSourceColumns = null;
-          this.localService.findFreeArrivals().pipe(take(1)).subscribe(value => {
+          this.columnsShow = [
+            {
+                type: 'normal',
+                label: 'Container number',
+                name: 'containerNumber',
+            },
+            {
+                type: 'nameId',
+                label: 'Port of discharge',
+                name: 'portOfDischarge',
+                search: 'selectAsyncObject',
+                options: this.localService.getShippingPorts(),
+            },
+            {
+                type: 'dateTime',
+                name: 'recordedTime',
+                label: 'Recorded time',
+                search: 'dates',
+            },
+            // {
+            //     type: 'date',
+            //     label: 'Etd',
+            //     name: 'etd',
+            //     search: 'dates',
+            // },
+            {
+                type: 'date',
+                label: 'Eta',
+                name: 'eta',
+                search: 'dates',
+            },
+          ];
+          this.localService.findContainerArrivals().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
           });
           this.type = 'Arrivals';

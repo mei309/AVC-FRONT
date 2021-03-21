@@ -61,7 +61,7 @@ export class GenralCountComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Item descrption',
                         name: 'item',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'input',
@@ -73,7 +73,7 @@ export class GenralCountComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Storge location',
                         name: 'StorgeLocation',
-                        options: this.genral.getCountries()
+                        options: this.genral.getWearhouses()
                     },
                     {
                         type: 'divider',

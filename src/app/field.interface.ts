@@ -23,6 +23,10 @@ export interface DropNormal {
   id: number;
 }
 
+export interface DropNormalPLine extends DropNormal {
+  productionFunctionality: string;
+}
+
 export interface OneColumn {
   type?: string;
   name: string;

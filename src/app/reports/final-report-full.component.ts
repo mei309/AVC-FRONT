@@ -32,7 +32,7 @@ import { ReportsService } from './reports.service';
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="poDetails['testedItemsObj'].length">
                 <mat-expansion-panel-header>
-                    <mat-panel-title>Tests</mat-panel-title>
+                    <mat-panel-title>QC Tests</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
                     <show-details [dataSource]="{testedItemsObj: poDetails['testedItemsObj']}" [oneColumns]="[regShow[2]]">

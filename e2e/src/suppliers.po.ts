@@ -141,7 +141,7 @@ export class SuppliersPo {
     //                   {
     //                     type: 'selectgroup',
     //                     inputType: 'countryName',
-    //                     options: this.genral.getCities(),
+    //                     options: this.genral.getWearhouses(),
     //                     collections: [
     //                       {
     //                         type: 'select',
@@ -202,7 +202,7 @@ export class SuppliersPo {
     //                 type: 'select',
     //                 label: 'Nationality',
     //                 name: 'nationality',
-    //                 options: this.genral.getCountries(),
+    //                 options: this.genral.getWearhouses(),
     //               },
     //               {
     //                 type: 'date',

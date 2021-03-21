@@ -3,7 +3,8 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FieldConfig } from '../../field.interface';
-
+// [readOnly]="infoBox.checked" 
+// <mat-button-toggle matSuffix #infoBox><mat-icon>edit</mat-icon></mat-button-toggle>
 @Component({
   selector: 'app-array-ordinal',
   template: `
@@ -14,10 +15,10 @@ import { FieldConfig } from '../../field.interface';
       <div [formArrayName]="field.name" class="array-field-grid">
         <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
           <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
-          <mat-form-field appearance="none" provideReadonly style="width: 100px">  
-            <input readonly style="text-align: center" matInput formControlName="amount">
+          <mat-form-field appearance="none" style="width: 100px">  
+            <input style="text-align: center" matInput formControlName="amount" numeric [decimals]="field.options">
           </mat-form-field>
-          &nbsp;<mat-checkbox matSuffix formControlName="take" (ngModelChange)="updateAllComplete()"></mat-checkbox>
+          &nbsp;<mat-checkbox formControlName="take" (ngModelChange)="updateAllComplete()"></mat-checkbox>
         </div>
       </div>
     </div>

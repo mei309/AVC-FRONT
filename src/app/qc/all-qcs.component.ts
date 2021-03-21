@@ -51,7 +51,7 @@ export class AllQcsComponent implements OnInit {
         name: 'supplierName',
         label: 'Supplier',
         search: 'selectAsyncObject',
-        options: this.genral.getSupplierCashew(),
+        options: this.genral.getSuppliersCashew(),
         group: 'poCode',
       },
       {

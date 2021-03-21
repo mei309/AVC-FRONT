@@ -80,7 +80,7 @@ export class EditSupplierComponent implements OnInit {
         label: 'Supply category',
         name: 'supplyCategories',
         inputType: 'multiple',
-        options: this.genral.getSupplyType(),
+        options: this.LocalService.getSupplyType(),
         validations: [
           {
             name: 'required',
@@ -140,7 +140,7 @@ export class EditSupplierComponent implements OnInit {
               {
                 type: 'selectgroup',
                 inputType: 'countryName',
-                options: this.genral.getCities(),
+                options: this.LocalService.getCities(),
                 collections: [
                   {
                     type: 'select',
@@ -235,7 +235,7 @@ export class EditSupplierComponent implements OnInit {
                       {
                         type: 'selectgroup',
                         inputType: 'countryName',
-                        options: this.genral.getCities(),
+                        options: this.LocalService.getCities(),
                         collections: [
                           {
                             type: 'select',
@@ -314,7 +314,7 @@ export class EditSupplierComponent implements OnInit {
                     type: 'select',
                     label: 'Nationality',
                     name: 'nationality',
-                    options: this.genral.getCountries(),
+                    options: this.LocalService.getCountries(),
                   },
                   {
                     type: 'date',
@@ -334,7 +334,7 @@ export class EditSupplierComponent implements OnInit {
             type: 'select',
             label: 'Position',
             name: 'position',
-            options: this.genral.getCompanyPosition(),
+            options: this.LocalService.getCompanyPosition(),
           },
           {
             type: 'divider',
@@ -388,7 +388,7 @@ export class EditSupplierComponent implements OnInit {
               {
                 type: 'selectgroup',
                 inputType: 'bankName',
-                options: this.genral.getBranches(),
+                options: this.LocalService.getBranches(),
                 collections: [
                   {
                     type: 'select',

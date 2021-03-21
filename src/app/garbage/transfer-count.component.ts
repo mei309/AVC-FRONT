@@ -176,7 +176,7 @@ export class TransferCountComponent implements OnInit {
                 this.form.addControl('poCode', this.fb.control(''));
                 this.form.get('poCode').valueChanges.subscribe(selectedValue => {
                     if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
-                        this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                        this.localService.getStorageByPo(selectedValue['id'], 'll').pipe(take(1)).subscribe( val => {
                             var arrNormal = [];
                             var arrTable = [];
                             this.dataSource = {poCode: selectedValue};
@@ -290,7 +290,7 @@ export class TransferCountComponent implements OnInit {
                 type: 'select',
                 label: 'Production line',
                 name: 'productionLine',
-                options: this.genral.getProductionLine(),
+                options: this.genral.getProductionLine('Raw'),
             },
             {
                 type: 'bigexpand',

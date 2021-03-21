@@ -1,13 +1,15 @@
 import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError, timer } from 'rxjs';
-import { catchError, finalize, mergeMap, retryWhen, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError, timer } from 'rxjs';
+import { catchError, filter, finalize, mergeMap, retryWhen, switchMap, take, tap } from 'rxjs/operators';
 import { AuthenticateService } from './authenticate.service';
 import { LoadingService } from './loading-service.service';
 @Injectable({ providedIn: 'root' })
 export class HttpInterceptorService implements HttpInterceptor {
   private totalRequests = 0;
 
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  refreshTokenInProgress = false;
     constructor(private authenticateService: AuthenticateService, private loadingService: LoadingService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -20,7 +22,9 @@ export class HttpInterceptorService implements HttpInterceptor {
         } else if(req.url.includes('authenticate')) {
         } else {
           return this.authenticateService.waitInit().pipe(
-            switchMap((res: Response) => {
+            filter(result => result !== null)
+            ,take(1)
+            ,switchMap((result: Response) => {
               req = req.clone({
                 setHeaders: {
                     Authorization: this.authenticateService.currentTokenValue
@@ -92,16 +96,48 @@ export class HttpInterceptorService implements HttpInterceptor {
           window.alert('Incorrect username or password you are redirected to login');
           return throwError('');
         }
-        return this.authenticateService.refreshToken().pipe(
-          switchMap((res: Response) => {
-            req = req.clone({
-              setHeaders: {
-                  Authorization: this.authenticateService.currentTokenValue
-              }
-            });
-            return this.handleIntercept(req, next);
-          })
-        );
+        if (this.refreshTokenInProgress) {
+          // If refreshTokenInProgress is true, we will wait until refreshTokenSubject has a non-null value
+          // – which means the new token is ready and we can retry the request again
+          return this.refreshTokenSubject.pipe(
+              filter(result => result !== null)
+              ,take(1)
+              ,switchMap((result: Response) => {
+                req = req.clone({
+                  setHeaders: {
+                      Authorization: this.authenticateService.currentTokenValue
+                  }
+                });
+                return this.handleIntercept(req, next);
+              })
+            );
+        } else if(sessionStorage.getItem('username')) {
+          this.refreshTokenInProgress = true;
+          this.refreshTokenSubject.next(null);
+          this.authenticateService.refreshToken();
+          var person = prompt("Please enter your password again", "");
+          return this.authenticateService.authenticate(sessionStorage.getItem('username'), person).pipe(
+            switchMap((token: Response) => {
+                this.refreshTokenInProgress = false;
+                this.refreshTokenSubject.next(token);
+                req = req.clone({
+                  setHeaders: {
+                      Authorization: this.authenticateService.currentTokenValue
+                  }
+                });
+                return this.handleIntercept(req, next);
+            })
+            ,catchError((error: HttpErrorResponse) => {
+              this.authenticateService.logOut();
+              window.alert('Incorrect username or password you are redirected to login');
+              return throwError('');
+            })
+          );
+        } else {
+          this.authenticateService.logOut();
+          window.alert('Incorrect username or password you are redirected to login');
+          return throwError('');
+        }
     }
 }
 

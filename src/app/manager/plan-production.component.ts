@@ -332,7 +332,7 @@ export class PlanProductionComponent implements OnInit, OnDestroy {
                 label: 'Special orders',
                 name: 'weightThhype',
                 inputType: 'multiple',
-                options: this.genral.getCountries(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
@@ -355,7 +355,7 @@ export class PlanProductionComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Line',
                         name: 'weightType',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'input',

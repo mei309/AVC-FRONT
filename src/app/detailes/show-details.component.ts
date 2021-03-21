@@ -350,9 +350,13 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
         type: 'nameId',
+        label: 'Production line',
+        name: 'productionLine',
+    },
+    {
+        type: 'nameId',
         label: 'Shipment code',
         name: 'shipmentCode',
-        collections: 'supplierName',
     },
     {
         type: 'dateTime',

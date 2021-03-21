@@ -57,7 +57,7 @@ export class NewSpecialOrderComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Destination',
                 name: 'destination',
-                options: this.genral.getCountries(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
@@ -74,7 +74,7 @@ export class NewSpecialOrderComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Item descrption(bag)',
                         name: 'item',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'input',
@@ -86,7 +86,7 @@ export class NewSpecialOrderComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Units per case',
                         name: 'unitsType',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'divider',

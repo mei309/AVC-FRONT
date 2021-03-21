@@ -56,7 +56,7 @@ export class ReceiveCReports implements OnInit {
         name: 'supplierName',
         label: 'Supplier',
         search: 'selectAsyncObject',
-        options: this.genral.getSupplierCashew(),
+        options: this.genral.getSuppliersCashew(),
         group: 'poCode',
       },
       {

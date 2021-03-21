@@ -91,7 +91,7 @@
 //             arr.push(element.supplier);
 //         });
 //         var newArr = [];
-//         this.genral.getSupplyType().pipe(take(1)).subscribe(value4 => {
+//         this.genral.getWearhouses().pipe(take(1)).subscribe(value4 => {
 //             uniq(arr).forEach(elem => {
 //                 newArr.push({name: elem, supplyCategories: [value4[0]]});
 //             });

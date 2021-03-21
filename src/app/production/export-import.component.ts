@@ -171,9 +171,9 @@ export class ExportImportComponent implements OnInit {
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['measureUnit'] = element['measureUnit'];
+                element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 element['storage']['itemPoCodes'] = element['itemPoCodes'];
                 element['storage']['itemSuppliers'] = element['itemSuppliers']
-                element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
@@ -298,7 +298,7 @@ export class ExportImportComponent implements OnInit {
                 type: 'select',
                 label: 'Production line',
                 name: 'productionLine',
-                options: this.genral.getProductionLine(),
+                options: this.genral.getProductionLine(this.mainLabel),
             },
             ...hasItemsNormal? [
                 {

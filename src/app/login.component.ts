@@ -57,7 +57,7 @@ export class LoginComponent {
   constructor(private router: Router, private genralService: AuthenticateService) {}
 
   ngOnInit() {
-		if(this.genralService.isUserLoggedIn()) {
+		if(this.genralService.isLoggedIn) {
 			this.router.navigateByUrl('Main');
 		}
 	}

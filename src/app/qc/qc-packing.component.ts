@@ -105,13 +105,13 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Supllier',
                         name: 'supllier',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'select',
                         label: '#PO',
                         name: 'po',
-                        options: this.genral.getCities(),
+                        options: this.genral.getWearhouses(),
                     },
                 ]
             },
@@ -119,7 +119,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Product',
                 name: 'Product',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
@@ -131,7 +131,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Line',
                 name: 'Line',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'button',
@@ -193,7 +193,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Operater',
                 name: 'operater',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',
@@ -243,7 +243,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Operater',
                 name: 'operater',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',
@@ -342,7 +342,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Operater',
                 name: 'operater',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',
@@ -380,7 +380,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Operater',
                 name: 'operater',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',
@@ -418,7 +418,7 @@ export class QcPackingComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Operater',
                 name: 'operater',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',

@@ -94,13 +94,13 @@ export class ProductionToffyComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Supllier',
                         name: 'supllier',
-                        options: this.genral.getCountries(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'select',
                         label: '#PO',
                         name: 'po',
-                        options: this.genral.getCities(),
+                        options: this.genral.getWearhouses(),
                     },
                 ]
             },
@@ -108,7 +108,7 @@ export class ProductionToffyComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Product',
                 name: 'Product',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
@@ -198,7 +198,7 @@ export class ProductionToffyComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Storage location',
                         name: 'Branch',
-                        options: this.genral.getCities(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'divider',
@@ -235,7 +235,7 @@ export class ProductionToffyComponent implements OnInit, OnDestroy {
                         type: 'select',
                         label: 'Material',
                         name: 'Branch16',
-                        options: this.genral.getCities(),
+                        options: this.genral.getWearhouses(),
                     },
                     {
                         type: 'input',

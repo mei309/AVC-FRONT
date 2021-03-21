@@ -50,7 +50,7 @@ export class MaterialExportPoComponent implements OnInit {
     }
 
     goNext($event) {
-        this.localService.getStorageByPo($event['poCode']['id']).pipe(take(1)).subscribe( val => {
+        this.localService.getStorageByPo($event['poCode']['id'], '').pipe(take(1)).subscribe( val => {
             $event['storageItems'] = val;
             this.putData = $event;
             this.isDataAvailable = true;

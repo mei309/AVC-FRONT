@@ -54,7 +54,7 @@ export class ReceiveGReports implements OnInit {
         name: 'supplierName',
         label: 'Supplier',
         search: 'selectAsyncObject',
-        options: this.genral.getSupplierCashew(),
+        options: this.genral.getSuppliersGeneral(),
         group: 'poCode',
       },
       // {
@@ -69,7 +69,7 @@ export class ReceiveGReports implements OnInit {
         name: 'item',
         label: 'Product descrption',
         search: 'selectAsyncObject2',
-        options: this.genral.getItemsRawCashew(),
+        options: this.genral.getItemsGeneral(),
       },
       {
         type: 'weight',

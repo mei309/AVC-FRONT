@@ -52,7 +52,7 @@ export class QcMachinsComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Machine name',
                 name: 'Line',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',
@@ -82,7 +82,7 @@ export class QcMachinsComponent implements OnInit, OnDestroy {
                 type: 'select',
                 label: 'Operater',
                 name: 'operater',
-                options: this.genral.getCities(),
+                options: this.genral.getWearhouses(),
             },
             {
                 type: 'input',

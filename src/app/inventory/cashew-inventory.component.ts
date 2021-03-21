@@ -83,11 +83,6 @@ export class CashewInventoryComponent implements OnInit {
       switch (+event) {
         case 0:
           this.cashewSourceColumns = null; 
-          this.localService.getCashewInventoryItem().pipe(take(1)).subscribe(value => {
-            this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
-            // this.sumsSource = [this.cashewSource, ['personInCharge', 'itemName']];
-          });
           this.columnsShow = [
             {
               type: 'nameId',
@@ -115,7 +110,7 @@ export class CashewInventoryComponent implements OnInit {
               name: 'supplierName',
               label: 'Supplier',
               search: 'selectAsyncObject',
-              options: this.genral.getSupplierCashew(),
+              options: this.genral.getSuppliersCashew(),
               group: 'poCode',
             },
             {
@@ -149,14 +144,14 @@ export class CashewInventoryComponent implements OnInit {
               type: 'kidArray',
             },
           ];
+          this.localService.getCashewInventoryItem().pipe(take(1)).subscribe(value => {
+            this.cashewSource = <any[]>value;
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+          });
           this.cdRef.detectChanges();
           break;
         case 1:
           this.cashewSourceColumns = null; 
-          this.localService.getCashewInventoryByPo().pipe(take(1)).subscribe(value => {
-            this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
-          });
           this.columnsShow = [
             {
               type: 'nameId',
@@ -169,7 +164,7 @@ export class CashewInventoryComponent implements OnInit {
               name: 'supplierName',
               label: 'Supplier',
               search: 'selectAsyncObject',
-              options: this.genral.getSupplierCashew(),
+              options: this.genral.getSuppliersCashew(),
               group: 'poCode',
             },
             {
@@ -218,14 +213,14 @@ export class CashewInventoryComponent implements OnInit {
               type: 'kidArray',
             }
           ];
+          this.localService.getCashewInventoryByPo().pipe(take(1)).subscribe(value => {
+            this.cashewSource = <any[]>value;
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+          });
           this.cdRef.detectChanges();
           break;
         case 2:
           this.cashewSourceColumns = null; 
-          this.localService.getCashewInventoryOrder().pipe(take(1)).subscribe(value => {
-            this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
-          });
           this.columnsShow = [
             {
               type: 'nameId',
@@ -248,6 +243,11 @@ export class CashewInventoryComponent implements OnInit {
               search: 'object',
             },
           ];
+          this.localService.getCashewInventoryOrder().pipe(take(1)).subscribe(value => {
+            this.cashewSource = <any[]>value;
+            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+          });
+          this.cdRef.detectChanges();
           break;
         default:
           break;

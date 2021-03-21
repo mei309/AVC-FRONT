@@ -79,7 +79,7 @@ export class InventoryComponent implements OnInit {
             name: 'suppliers',
             label: 'Supplier',
             search: 'selectAsyncObject',
-            options: this.genral.getSupplierCashew(),
+            options: this.genral.getSuppliersCashew(),
             group: 'poCodes',
         },
         {
@@ -146,7 +146,7 @@ export class InventoryComponent implements OnInit {
   openDialog(event): void {
     const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
       width: '80%',
-      data: {id: event['id'], fromNew: false, type: 'Transfer'},
+      data: {id: event['id'], fromNew: false, type: this.tabIndex? 'Cleaned transfer': 'Raw transfer'},
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
@@ -169,13 +169,13 @@ export class InventoryComponent implements OnInit {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
-          this.localService.getStorageRelocations().pipe(take(1)).subscribe(value => {
+          this.localService.getStorageRelocations('RAW_STATION').pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
           });
           this.cdRef.detectChanges();
         case 1:
           this.mainSourceColumns = null;
-          this.localService.getStorageRelocations().pipe(take(1)).subscribe(value => {
+          this.localService.getStorageRelocations('ROASTER_IN').pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = [<any[]>value, this.columnsShow];
           });
           this.cdRef.detectChanges();

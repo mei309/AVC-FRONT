@@ -67,7 +67,7 @@ export class NewGenralOrder implements OnInit {
                         type: 'select',
                         label: 'Supplier',
                         name: 'supplier',
-                        options: this.localService.getSupplierGeneral(),
+                        options: this.localService.getGeneralSuppliers(),
                         validations: [
                             {
                                 name: 'required',

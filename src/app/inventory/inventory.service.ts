@@ -16,8 +16,8 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getTransferCounts');
   }
   
-  getStorageRelocations() {
-    return this.http.get(this.inventorysurl+'getStorageRelocations');
+  getStorageRelocations(functionality: string) {
+    return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality);
   }
 
   addEditTransfer (value, fromNew: boolean) {
@@ -60,8 +60,12 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }
 
-  getStorageByPo (poCode: number): Observable<any> {
-    return this.http.get(this.inventorysurl+'getStorageTransferPo/'+poCode);
+  getStorageByPo (poCode: number, type: string): Observable<any> {
+    if(type === 'Raw') {
+      return this.http.get(this.inventorysurl+'getStorageRawPo/'+poCode);
+    } else {
+      return this.http.get(this.inventorysurl+'getStorageCleanPo/'+poCode);
+    }
   }
 
   getStorageByItem (itemId: number): Observable<any> {
@@ -80,13 +84,17 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getPoCashewCodesInventory');
   }
   
-  getAllPosRoast() {
-    return this.http.get(this.inventorysurl+'getAllPos/ROAST');
+  getStorageTransferWithStorage(id: number, pos: Array<number>, type: string) {
+    let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
+    if(type === 'Raw') {
+      return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos)]);
+    } else {
+      return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
+    }
   }
 
-  getStorageTransferWithStorage(id: number, pos: Array<number>) {
-    let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
-    return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageTransferPo/'+pos)]);
+  getAllPos (item: string): Observable<any> {
+      return this.http.get(this.inventorysurl+'getAllPos/'+item);
   }
 
 }

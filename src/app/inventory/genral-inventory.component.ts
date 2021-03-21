@@ -67,10 +67,6 @@ export class GenralInventoryComponent implements OnInit {
       switch (+event) {
         case 0:
           this.generalSourceColumns = null; 
-          this.localService.getGeneralInventoryItem().pipe(take(1)).subscribe(value => {
-            this.generalSource = <any[]>value;
-            this.generalSourceColumns = [this.generalSource, this.columnsShow];
-          });
           this.columnsShow = [
             {
               type: 'nameId',
@@ -98,7 +94,7 @@ export class GenralInventoryComponent implements OnInit {
               name: 'supplierName',
               label: 'Supplier',
               search: 'selectAsyncObject',
-              options: this.genral.getSupplierCashew(),
+              options: this.genral.getSuppliersGeneral(),
               group: 'poCode',
             },
             {
@@ -126,14 +122,14 @@ export class GenralInventoryComponent implements OnInit {
               type: 'kidArray',
             },
           ];
+          this.localService.getGeneralInventoryItem().pipe(take(1)).subscribe(value => {
+            this.generalSource = <any[]>value;
+            this.generalSourceColumns = [this.generalSource, this.columnsShow];
+          });
           this.cdRef.detectChanges();
           break;
         case 1:
           this.generalSourceColumns = null; 
-          this.localService.getGeneralInventoryByPo().pipe(take(1)).subscribe(value => {
-            this.generalSource = <any[]>value;
-            this.generalSourceColumns = [this.generalSource, this.columnsShow];
-          });
           this.columnsShow = [
             {
               type: 'nameId',
@@ -146,7 +142,7 @@ export class GenralInventoryComponent implements OnInit {
               name: 'supplierName',
               label: 'Supplier',
               search: 'selectAsyncObject',
-              options: this.genral.getSupplierCashew(),
+              options: this.genral.getSuppliersGeneral(),
               group: 'poCode',
             },
             // {
@@ -189,14 +185,14 @@ export class GenralInventoryComponent implements OnInit {
               type: 'kidArray',
             }
           ];
+          this.localService.getGeneralInventoryByPo().pipe(take(1)).subscribe(value => {
+            this.generalSource = <any[]>value;
+            this.generalSourceColumns = [this.generalSource, this.columnsShow];
+          });
           this.cdRef.detectChanges();
           break;
-          case 2:
+        case 2:
             this.generalSourceColumns = null; 
-            this.localService.getGeneralInventoryOrder().pipe(take(1)).subscribe(value => {
-              this.generalSource = <any[]>value;
-              this.generalSourceColumns = [<any[]>value, this.columnsShow];
-            });
             this.columnsShow = [
               {
                 type: 'nameId',
@@ -219,6 +215,11 @@ export class GenralInventoryComponent implements OnInit {
                 search: 'object',
               },
             ];
+            this.localService.getGeneralInventoryOrder().pipe(take(1)).subscribe(value => {
+              this.generalSource = <any[]>value;
+              this.generalSourceColumns = [<any[]>value, this.columnsShow];
+            });
+            this.cdRef.detectChanges();
             break;
           default:
             break;

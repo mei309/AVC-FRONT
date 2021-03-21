@@ -49,7 +49,7 @@ export class OrdersCReports implements OnInit {
         name: 'supplierName',
         label: 'Supplier',
         search: 'selectAsyncObject',
-        options: this.genral.getSupplierCashew(),
+        options: this.genral.getSuppliersCashew(),
         group: 'poCode',
       },
       {

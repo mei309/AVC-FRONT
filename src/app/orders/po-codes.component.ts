@@ -35,7 +35,7 @@ export class PoCodesComponent implements OnInit {
                 name: 'supplierName',
                 label: 'Supplier',
                 search: 'selectAsyncObject',
-                options: this.genral.getSupplierCashew(),
+                options: this.genral.getSuppliersCashew(),
             },
             {
                 type: 'normal',
@@ -144,7 +144,7 @@ export class AddEditPoDialog {
                     type: 'select',
                     label: 'Supplier',
                     name: 'supplier',
-                    options: this.genral.getSupplierCashew(),
+                    options: this.localService.getCashewSuppliers(),
                     validations: [
                         {
                             name: 'required',

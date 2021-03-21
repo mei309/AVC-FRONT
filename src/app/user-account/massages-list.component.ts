@@ -48,7 +48,7 @@ export class MassagesListComponent {
           name: 'suppliers',
           label: 'Supplier',
           search: 'selectAsyncObject',
-          options: this.genral.getSupplierCashew(),
+          options: this.genral.getSuppliersCashew(),
       },
       {
         name: 'modifiedBy',

@@ -40,7 +40,7 @@ export class TodoListComponent {
           name: 'suppliers',
           label: 'Supplier',
           search: 'selectAsyncObject',
-          options: this.genral.getSupplierCashew(),
+          options: this.genral.getSuppliersCashew(),
       },
       {
         type: 'dateTime',

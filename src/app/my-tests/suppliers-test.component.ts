@@ -19,11 +19,11 @@ export class SuppliersTestComponent implements OnInit {
   
   ngOnInit(): void {
     this.randomNum = new Date().getMilliseconds();
-    this.genral.getSupplyType().pipe(take(1)).subscribe(value1 => {
-      this.genral.getBranches().pipe(take(1)).subscribe(value2 => {
-        this.genral.getCities().pipe(take(1)).subscribe(value3 => {
-          this.genral.getCompanyPosition().pipe(take(1)).subscribe(value4 => {
-            this.genral.getCountries().pipe(take(1)).subscribe(value5 => {
+    this.LocalService.getSupplyType().pipe(take(1)).subscribe(value1 => {
+      this.LocalService.getBranches().pipe(take(1)).subscribe(value2 => {
+        this.LocalService.getCities().pipe(take(1)).subscribe(value3 => {
+          this.LocalService.getCompanyPosition().pipe(take(1)).subscribe(value4 => {
+            this.LocalService.getCountries().pipe(take(1)).subscribe(value5 => {
               const mainSupplier = { "name": "supplier test"+this.randomNum,
                 "supplyCategories": [ value1[0], value1[1] ],
                 "englishName": "supplier", "localName": "supplier", "license": "123456", "taxCode": "234567", "registrationLocation": "tan an",

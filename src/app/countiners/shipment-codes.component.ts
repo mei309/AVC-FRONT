@@ -20,7 +20,7 @@ export class ShipmentCodesComponent implements OnInit {
     shipmentSource;
     columnsShipment;
     
-    constructor(private genral: Genral, private localService: CountinersService, public dialog: MatDialog) {
+    constructor(private localService: CountinersService, public dialog: MatDialog) {
       }
 
     ngOnInit() {
@@ -35,7 +35,7 @@ export class ShipmentCodesComponent implements OnInit {
                 label: 'Destination port',
                 name: 'portOfDischarge',
                 search: 'selectAsyncObject',
-                options: this.genral.getShippingPorts(),
+                options: this.localService.getShippingPorts(),
             },
             {
                 type: 'normal',
@@ -43,7 +43,7 @@ export class ShipmentCodesComponent implements OnInit {
                 label: 'Display',
             },
         ];
-        this.localService.findFreeShipmentCodes().pipe(take(1)).subscribe(value => {
+        this.localService.findShipmentCodes().pipe(take(1)).subscribe(value => {
             this.shipmentSource = value;
         });
     }
@@ -58,7 +58,7 @@ export class ShipmentCodesComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data === 'success') {
-                this.localService.findFreeShipmentCodes().pipe(take(1)).subscribe(value => {
+                this.localService.findShipmentCodes().pipe(take(1)).subscribe(value => {
                     this.shipmentSource = value;
                 });
             }
@@ -91,7 +91,7 @@ export class AddEditShipmentDialog {
                     type: 'select',
                     label: 'Destination port',
                     name: 'portOfDischarge',
-                    options: this.genral.getShippingPorts(),
+                    options: this.localService.getShippingPorts(),
                     validations: [
                           {
                               name: 'required',
