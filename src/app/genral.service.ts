@@ -218,12 +218,18 @@ export class Genral {
   }
   getProductionLine (type: string): Observable<any> {
     return this.productionLine.asObservable().pipe(
-      map(value => {
+      map(value => { 
         switch (type) {
+          case 'Clean':
+            return value.filter(a => a.productionFunctionality === 'SCREEN_TABLE');
           case 'RAW_STATION':
             return value.filter(a => a.productionFunctionality === 'RAW_STATION');
-          case 'ROASTER_IN'://productionFunctionality
+          case 'Roast':
+            return value.filter(a => a.productionFunctionality === 'ROASTER');
+          case 'ROASTER_IN':
             return value.filter(a => a.productionFunctionality === 'ROASTER_IN');
+          case 'Pack':
+            return value.filter(a => a.productionFunctionality === 'PACKING');
           default:
             return value;
         }
@@ -304,6 +310,11 @@ export class Genral {
 
   getItemGroup(): string[] {
     return ['PRODUCT', 'GENERAL', 'WASTE', 'QC'];
+  }
+
+  getProductionFunctionality(): string[] {
+    return ['RAW_STORAGE', 'RAW_STATION', 'SCREEN_TABLE', 'ROASTER_IN', 'ROASTER', 'ROASTER_OUT', 'PACKING',
+    'FINAL_PRODUCT', 'LOADING', 'GENERAL_STORAGE', 'PACKING_STATION'];
   }
 
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Genral } from './genral.service';
+import { AuthGaurdService } from './service/auth-gaurd.service';
 import { AuthenticateService } from './service/authenticate.service';
 import { LoadingService } from './service/loading-service.service';
 
@@ -18,7 +19,13 @@ export class MainComponent {
   todo: number = 0;
   massages: number = 0;
 
-  constructor(private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {}
+  roleNumber: number = 0;
+
+  constructor(private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {
+    if (sessionStorage.getItem('username') === 'isral') {
+      this.roleNumber = 1;
+    }
+  }
   
   ngOnInit() {
     this.genral.getNumOfTodo().pipe(takeUntil(this.destroySubject$)).subscribe(value => {

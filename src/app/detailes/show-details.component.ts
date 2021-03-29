@@ -131,6 +131,8 @@ export class ShowDetailsComponent implements OnInit {
   @Input() set dataSource(value) {
       if(value){
         if(value.hasOwnProperty('processItems') && value['processItems']) {
+          // var wasteView = value['processItems'].filter(eleme => eleme['groupName'] === 'waste');
+          // value['processItems'] = value['processItems'].filter(eleme => eleme['groupName'] !== 'waste');
           var tableView = [];
           var normalView = [];
           var wasteView = [];
@@ -202,6 +204,8 @@ export class ShowDetailsComponent implements OnInit {
   @Input() set secondSource(value) {
     if(value){
       if(value.hasOwnProperty('processItems') && value['processItems']) {
+          // var wasteView = value['processItems'].filter(eleme => eleme['groupName'] === 'waste');
+          // value['processItems'] = value['processItems'].filter(eleme => eleme['groupName'] !== 'waste');
           var tableView = [];
           var normalView = [];
           var wasteView = [];

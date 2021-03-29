@@ -27,7 +27,7 @@ import { InventoryService } from './inventory.service';
       <!-- <mat-tab label="Raw cashew stock and orders">
       </mat-tab> -->
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="cashewSourceColumns">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" [withPaginator]="false">
   </search-group-details>
     `
 })
@@ -146,7 +146,7 @@ export class CashewInventoryComponent implements OnInit {
           ];
           this.localService.getCashewInventoryItem().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
@@ -215,7 +215,7 @@ export class CashewInventoryComponent implements OnInit {
           ];
           this.localService.getCashewInventoryByPo().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
@@ -245,7 +245,7 @@ export class CashewInventoryComponent implements OnInit {
           ];
           this.localService.getCashewInventoryOrder().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
@@ -262,9 +262,9 @@ export class CashewInventoryComponent implements OnInit {
 
     applyFilter($event) {
       if($event === '') {
-        this.cashewSourceColumns = [this.cashewSource, this.columnsShow];
+        this.cashewSourceColumns = this.cashewSource;
       } else {
-        this.cashewSourceColumns = [this.cashewSource.filter(aa => aa.item.productionUse === $event), this.columnsShow];
+        this.cashewSourceColumns = this.cashewSource.filter(aa => aa.item.productionUse === $event);
       }
     }
     

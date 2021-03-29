@@ -168,6 +168,22 @@ export class ManagmentSetupComponent {
                     options: this.localService.getBanks(),
                 }
             );
+        } else if('ProductionLines' === this.choosedOne) {
+            this.columnsSetup.push(
+                {
+                    name: 'productionFunctionality',
+                    label: 'Production functionality',
+                    search: 'object',
+                }
+            );
+            this.regConfigTemp.push(
+                {
+                    name: 'productionFunctionality',
+                    label: 'Production functionality',
+                    type: 'selectNormal',
+                    options: this.genral.getProductionFunctionality(),
+                }
+            );
         } else if('Warehouses' === this.choosedOne) {
             this.columnsSetup.push(
                 {

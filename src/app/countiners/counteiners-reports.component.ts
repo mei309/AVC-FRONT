@@ -131,7 +131,7 @@ export class CountinersReportsComponent implements OnInit {
             }
           ];
           this.localService.getAllLoadings().pipe(take(1)).subscribe(value => {
-            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+            this.mainSourceColumns = <any[]>value;
           });
           this.type = 'Loading';
           this.cdRef.detectChanges();
@@ -144,13 +144,13 @@ export class CountinersReportsComponent implements OnInit {
                 label: 'Container number',
                 name: 'containerNumber',
             },
-            {
-                type: 'nameId',
-                label: 'Port of discharge',
-                name: 'portOfDischarge',
-                search: 'selectAsyncObject',
-                options: this.localService.getShippingPorts(),
-            },
+            // {
+            //     type: 'nameId',
+            //     label: 'Port of discharge',
+            //     name: 'portOfDischarge',
+            //     search: 'selectAsyncObject',
+            //     options: this.localService.getShippingPorts(),
+            // },
             {
                 type: 'dateTime',
                 name: 'recordedTime',
@@ -171,7 +171,7 @@ export class CountinersReportsComponent implements OnInit {
             },
           ];
           this.localService.findContainerArrivals().pipe(take(1)).subscribe(value => {
-            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+            this.mainSourceColumns = <any[]>value;
           });
           this.type = 'Arrivals';
           this.cdRef.detectChanges();

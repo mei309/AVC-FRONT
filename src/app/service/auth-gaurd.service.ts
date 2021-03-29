@@ -6,13 +6,8 @@ import { CanLoad, Route } from '@angular/router';
 export class AuthGaurdService implements CanLoad {
   constructor() { }
 
-  canLoad(route: Route): boolean {
-    let url = `/${route.path}`;
-    return this.checkLogin(url);
-  }
-
-  checkLogin(url: string): boolean {
-    if (sessionStorage.getItem('username') === 'isral309') {
+  canLoad(): boolean {
+    if (sessionStorage.getItem('username') === 'isral') {
       // const token = JSON.parse(sessionStorage.getItem('roles'));
       
       // if(token[0]['authority'] === 'ROLE_MANAGER') {
@@ -21,7 +16,7 @@ export class AuthGaurdService implements CanLoad {
       return true;
     }
     // alert('only manager welcomed here');
-    return true;
+    return false;
   }
 
 }

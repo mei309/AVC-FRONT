@@ -11,7 +11,7 @@ import { FieldConfig } from '../../field.interface';
   selector: 'select-measure-unit',
   template: `
 <mat-form-field class="one-field margin-top" [formGroup]="group">
-  <input matInput (blur)="InputControl($event)" [placeholder]="field.label" [matAutocomplete]="auto" [formControlName]="field.name">
+  <input matInput (blur)="InputControl($event)" [placeholder]="field.label" [matAutocomplete]="auto" [formControlName]="field.name" type="text">
   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
     <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
       {{item}}

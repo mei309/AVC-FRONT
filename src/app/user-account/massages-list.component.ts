@@ -10,12 +10,14 @@ import { UserAccountService } from './user-account.service';
   <h1 style="text-align:center">
     Massages center
   </h1>
-  <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
-    <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
-      <mat-option value="">--all--</mat-option>
-      <mat-option *ngFor="let item of myTypes" [value]="item">{{item}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="centerButtons">
+    <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
+      <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
+        <mat-option value="">--all--</mat-option>
+        <mat-option *ngFor="let item of myTypes" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <search-expandable [dataSource]="massagesSource" [oneColumns]="columnsMassages" [buttons]="myButtons" [expandableMassage]="poInfromtion" (expanded)="expandElement($event)" (elemnetClick)="goToOpartion($event)">
   </search-expandable>
   `,

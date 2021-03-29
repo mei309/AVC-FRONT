@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { isEqual } from 'lodash-es';
@@ -109,14 +110,14 @@ import { OneColumn } from '../field.interface';
               padding-top: 14px;" *matCellDef="let element; let i = index"
                   [style.display]="getRowSpan(i, totelColumn.group) ? '' : 'none'"
                   [attr.rowspan]="getRowSpan(i, totelColumn.group)">
-                  {{getTotel(i) | tableCellPipe: totelColumn.type : totelColumn.collections}}
+                  {{getTotel(i + this.paginator.pageIndex * this.paginator.pageSize) | tableCellPipe: totelColumn.type : totelColumn.collections}}
               </td>
           </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
     </table>
-    
+    <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
   </div>
   <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2>No records found</h2></div>
@@ -124,33 +125,53 @@ import { OneColumn } from '../field.interface';
 })
 export class SearchGroupDetailsComponent {
     @ViewChild(MatSort, {static: true}) sort: MatSort;
-    // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     // <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+
+    @Input() withPaginator: boolean = true;
 
     dataSource;
 
-  @Input() set mainDetailsSource(value) {
+  @Input() set detailsSource(value) {
         if(value) {
             // this.t0 = performance.now()
-            this.dataSource = <any[]>value[0];
-            this.oneColumns = value[1];
-            this.columnsDisplay = [];
-            this.localGroupOneColumns = [];
-            this.localItemWeightColumns = [];
-            this.lastSpan = null;
-            this.spans = [];
-
+            this.dataSource = <any[]>value;
             this.preperData();
             this.dataSource = new MatTableDataSource(this.dataSource);
             this.dataSource.sort = this.sort;
             // var t1 = performance.now();
             // console.log("Call to setter took " + (t1 - t0) + " milliseconds.")
-            // this.dataSource.paginator = this.paginator;
+            
+            if(this.withPaginator) {
+              this.dataSource.paginator = this.paginator;
+            }
+              // if(this.groupId) {
+              //   this.spanRow(d => d['id'], 'id');
+              //   this.lastSpan = 'id';
+              // }
+              // this.localGroupOneColumns.forEach(element => {
+              //   if(element.group === element.name) {
+              //     this.spanRow(d => d[element.name], element.name);
+              //     this.lastSpan = element.name;
+              //   }
+              // });
+            this.readySpanData();
         } else {
             this.dataSource = null;
-            this.oneColumns = [];
         }
   }
+
+  @Input() set mainColumns(value) {
+    if(value) {
+        this.oneColumns = value;
+        this.columnsDisplay = [];
+        this.localGroupOneColumns = [];
+        this.localItemWeightColumns = [];
+        this.lastSpan = null;
+        this.spans = [];
+        this.preperColumns();
+    }
+}
 
   oneColumns: OneColumn[] = [];
   
@@ -179,38 +200,14 @@ export class SearchGroupDetailsComponent {
   //   // console.log("only group " + (this.t2 - this.t0) + " milliseconds.")
   // }
   preperData() {
-    if(this.oneColumns[0].type === 'idGroup'){
-      this.oneColumns.splice(0, 1);
-      this.groupId = true;
-    }
     this.oneColumns.forEach(element => {
       if(element.type === 'kidArray'){
-          this.takeCareKidArray(element);
-      } else if(element.type === 'itemWeight') {
-          this.localItemWeightColumns.push(element);
-          this.columnsDisplay.push(element.name);
-      } else {
-          this.localGroupOneColumns.push(element);
-          this.columnsDisplay.push(element.name);
-      }
-    });
-    if(this.totelColumn) {
-      // this.columnsDisplay.splice(index, 0, 'totealCol');
-      this.columnsDisplay.push('totealCol');
-    }
-    if(this.groupId) {
-      this.spanRow(d => d['id'], 'id');
-      this.lastSpan = 'id';
-    }
-    this.localGroupOneColumns.forEach(element => {
-      if(element.group === element.name) {
-        this.spanRow(d => d[element.name], element.name);
-        this.lastSpan = element.name;
+          this.dataKidArray(element);
       }
     });
   }
 
-  takeCareKidArray(element) {
+  dataKidArray(element) {
     var arr = [];
     this.dataSource?.forEach(line => {
       if(line[element.name]) {
@@ -225,8 +222,37 @@ export class SearchGroupDetailsComponent {
     });
     this.dataSource = arr;
     element.collections?.forEach(second => {
+      if(second.type === 'kidArray') {
+          this.columnsKidArray(second);
+      }
+    });
+  }
+
+  preperColumns() {
+    if(this.oneColumns[0].type === 'idGroup'){
+      this.oneColumns.splice(0, 1);
+      this.groupId = true;
+    }
+    this.oneColumns.forEach(element => {
+      if(element.type === 'kidArray'){
+          this.columnsKidArray(element);
+      } else if(element.type === 'itemWeight') {
+          this.localItemWeightColumns.push(element);
+          this.columnsDisplay.push(element.name);
+      } else {
+          this.localGroupOneColumns.push(element);
+          this.columnsDisplay.push(element.name);
+      }
+    });
+    if(this.totelColumn) {
+      this.columnsDisplay.push('totealCol');
+    }
+  }
+
+  columnsKidArray(element) {
+    element.collections?.forEach(second => {
         if(second.type === 'kidArray') {
-            this.takeCareKidArray(second);
+            this.columnsKidArray(second);
         }
     });
   }
@@ -315,7 +341,15 @@ export class SearchGroupDetailsComponent {
     if(!key) {
       return 1;
     }
-    return this.spans[index] && this.spans[index][key];
+    if(!index && !(this.spans[this.paginator.pageIndex * this.paginator.pageSize] && this.spans[this.paginator.pageIndex * this.paginator.pageSize][key])) {
+      for (let ind = this.paginator.pageIndex * this.paginator.pageSize -1; ; ind--) {
+        if (this.spans[ind] && this.spans[ind][key]) {
+          return this.spans[ind][key] -(this.paginator.pageIndex * this.paginator.pageSize -ind);
+        }
+      }
+    } else {
+      return this.spans[index+ this.paginator.pageIndex * this.paginator.pageSize] && this.spans[index+ this.paginator.pageIndex * this.paginator.pageSize][key];
+    }
   }
 
   readySpanData() {

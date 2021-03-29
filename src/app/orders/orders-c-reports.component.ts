@@ -17,7 +17,7 @@ import { OrdersService } from './orders.service';
       <mat-tab label="All">
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="cashewSource" (details)="openDialog($event)">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `
 })
@@ -136,9 +136,10 @@ export class OrdersCReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'orderStatus');
           if(ind !== -1) {
               this.columnsShow.splice(ind, 1);
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getCashewOrdersOpen().pipe(take(1)).subscribe(value => {
-            this.cashewSource = [value, this.columnsShow];
+            this.cashewSource = value;
           });
           this.cdRef.detectChanges();
           break;
@@ -153,9 +154,10 @@ export class OrdersCReports implements OnInit {
                 search: 'select',
                 options: this.genral.getOrderStatus(),
               });
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getHistoryCashewOrders().pipe(take(1)).subscribe(value => {
-            this.cashewSource = [value, this.columnsShow];
+            this.cashewSource = value;
           });
           this.cdRef.detectChanges();
           break;

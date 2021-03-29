@@ -22,7 +22,7 @@ import { FormGroup, FormControl } from '@angular/forms';
       <mat-tab label="Cleaned transfer with weighing(relocation)">
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="mainSourceColumns" (details)="openDialog($event)">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="mainSourceColumns" (details)="openDialog($event)">
   </search-group-details>
     `
 })
@@ -170,13 +170,14 @@ export class InventoryComponent implements OnInit {
         case 0:
           this.mainSourceColumns = null;
           this.localService.getStorageRelocations('RAW_STATION').pipe(take(1)).subscribe(value => {
-            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+            this.mainSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
+          break;
         case 1:
           this.mainSourceColumns = null;
           this.localService.getStorageRelocations('ROASTER_IN').pipe(take(1)).subscribe(value => {
-            this.mainSourceColumns = [<any[]>value, this.columnsShow];
+            this.mainSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;

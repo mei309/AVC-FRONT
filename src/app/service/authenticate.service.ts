@@ -69,10 +69,10 @@ export class AuthenticateService {
     this.router.navigate(['/']);
   }
   
-  isUserLoggedIn() {
-    let user = sessionStorage.getItem('username');
-    return !(user === null);
-  }
+  // isUserLoggedIn() {
+  //   let user = sessionStorage.getItem('username');
+  //   return !(user === null);
+  // }
 
   ngOnDestroy() {
         this.destroySubject$.next();

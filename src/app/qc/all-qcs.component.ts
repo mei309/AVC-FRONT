@@ -132,7 +132,7 @@ export class AllQcsComponent implements OnInit {
         case 0:
           this.cashewSourceColumns = null;
           this.localService.getRawQC().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Raw';
           this.cdRef.detectChanges();
@@ -140,7 +140,7 @@ export class AllQcsComponent implements OnInit {
         case 1:
           this.cashewSourceColumns = null;
           this.localService.getRoastQC().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Roast';
           this.cdRef.detectChanges();

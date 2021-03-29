@@ -162,6 +162,8 @@ fxShow="true" fxHide.lt-md="true" -->
         <!-- <button mat-menu-item routerLink='manager/ProductionPlan'>Production Plan</button> -->
       </mat-menu>
 
+      <button *ngIf="roleNumber" mat-button routerLink='onlymine'>onlymine</button>
+
 
       <button mat-button [matBadge]="todo" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Todo'>Tasks</button>
       <button mat-button [matBadge]="massages" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Massages'>Massages</button>

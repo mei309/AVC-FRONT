@@ -138,7 +138,7 @@ export class ProductionsComponent implements OnInit {
         case 0:
           this.cashewSourceColumns = null;
           this.localService.getAllCleaning().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Cleaning';
           this.cdRef.detectChanges();
@@ -146,7 +146,7 @@ export class ProductionsComponent implements OnInit {
         case 1:
           this.cashewSourceColumns = null;
           this.localService.getAllRoasting().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Roasting';
           this.cdRef.detectChanges();
@@ -154,7 +154,7 @@ export class ProductionsComponent implements OnInit {
         case 2:
           this.cashewSourceColumns = null;
           this.localService.getAllPacking().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [<any[]>value, this.columnsShow];
+            this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Packing';
           this.cdRef.detectChanges();

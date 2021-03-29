@@ -20,7 +20,7 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All">
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="generalSourceColumns" (details)="openDialog($event)">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" (details)="openDialog($event)">
   </search-group-details>
     `
 })
@@ -151,9 +151,10 @@ export class ReceiveGReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
           if(ind !== -1) {
               this.columnsShow.splice(ind, 1);
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getPendingGeneral().pipe(take(1)).subscribe(value => {
-            this.generalSourceColumns = [<any[]>value, this.columnsShow];
+            this.generalSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
@@ -162,9 +163,10 @@ export class ReceiveGReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
           if(ind !== -1) {
               this.columnsShow.splice(ind, 1);
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getReceivedGeneral().pipe(take(1)).subscribe(value => {
-            this.generalSourceColumns = [<any[]>value, this.columnsShow];
+            this.generalSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
@@ -179,9 +181,10 @@ export class ReceiveGReports implements OnInit {
                 search: 'select',
                 options: this.genral.getProcessStatus(),
               });
+              this.columnsShow = this.columnsShow.slice();
             }
           this.localService.findGeneralReceiptsHistory().pipe(take(1)).subscribe(value => {
-            this.generalSourceColumns = [value, this.columnsShow];
+            this.generalSourceColumns = value;
           });
           this.cdRef.detectChanges();
           break;

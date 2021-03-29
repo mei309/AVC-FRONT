@@ -19,7 +19,7 @@ import { InventoryService } from './inventory.service';
       <mat-tab label="General stock and orders">
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="generalSourceColumns">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [withPaginator]="false">
   </search-group-details>
     `
 })
@@ -124,7 +124,7 @@ export class GenralInventoryComponent implements OnInit {
           ];
           this.localService.getGeneralInventoryItem().pipe(take(1)).subscribe(value => {
             this.generalSource = <any[]>value;
-            this.generalSourceColumns = [this.generalSource, this.columnsShow];
+            this.generalSourceColumns = this.generalSource;
           });
           this.cdRef.detectChanges();
           break;
@@ -187,7 +187,7 @@ export class GenralInventoryComponent implements OnInit {
           ];
           this.localService.getGeneralInventoryByPo().pipe(take(1)).subscribe(value => {
             this.generalSource = <any[]>value;
-            this.generalSourceColumns = [this.generalSource, this.columnsShow];
+            this.generalSourceColumns = this.generalSource;
           });
           this.cdRef.detectChanges();
           break;
@@ -217,7 +217,7 @@ export class GenralInventoryComponent implements OnInit {
             ];
             this.localService.getGeneralInventoryOrder().pipe(take(1)).subscribe(value => {
               this.generalSource = <any[]>value;
-              this.generalSourceColumns = [<any[]>value, this.columnsShow];
+              this.generalSourceColumns = <any[]>value;
             });
             this.cdRef.detectChanges();
             break;

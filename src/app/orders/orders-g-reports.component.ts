@@ -122,9 +122,10 @@ export class OrdersGReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'orderStatus');
           if(ind !== -1) {
               this.columnsShow.splice(ind, 1);
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getGeneralOrdersOpen().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [value, this.columnsShow];
+            this.cashewSourceColumns = value;
           });
           this.cdRef.detectChanges();
           break;
@@ -139,9 +140,10 @@ export class OrdersGReports implements OnInit {
               search: 'select',
               options: this.genral.getOrderStatus(),
             });
+            this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getAllGeneralOrders().pipe(take(1)).subscribe(value => {
-            this.cashewSourceColumns = [value, this.columnsShow];
+            this.cashewSourceColumns = value;
           });
           this.cdRef.detectChanges();
           break;

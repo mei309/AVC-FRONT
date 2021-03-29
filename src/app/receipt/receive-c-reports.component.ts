@@ -19,7 +19,7 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All">
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainDetailsSource]="cashewSource" (details)="openDialog($event)">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `
 })
@@ -156,9 +156,10 @@ export class ReceiveCReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
           if(ind !== -1) {
               this.columnsShow.splice(ind, 1);
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getPendingCashew().pipe(take(1)).subscribe(value => {
-            this.cashewSource = [value, this.columnsShow];
+            this.cashewSource = value;
           });
           this.cdRef.detectChanges();
           break;
@@ -167,9 +168,10 @@ export class ReceiveCReports implements OnInit {
           var ind = this.columnsShow.findIndex((em) => em['name'] === 'status');
           if(ind !== -1) {
               this.columnsShow.splice(ind, 1);
+              this.columnsShow = this.columnsShow.slice();
           }
           this.localService.getReceivedCashew().pipe(take(1)).subscribe(value => {
-            this.cashewSource = [value, this.columnsShow];
+            this.cashewSource = value;
           });
           
           this.cdRef.detectChanges();
@@ -185,9 +187,10 @@ export class ReceiveCReports implements OnInit {
                 search: 'select',
                 options: this.genral.getProcessStatus(),
               });
+              this.columnsShow = this.columnsShow.slice();
             }
           this.localService.findCashewReceiptsHistory().pipe(take(1)).subscribe(value => {
-            this.cashewSource = [value, this.columnsShow];
+            this.cashewSource = value;
           });
           this.cdRef.detectChanges();
           break;

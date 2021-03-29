@@ -15,7 +15,7 @@ export class Globals {
   setGlobalProcessAuturtiy(value) {
     this.globalProcessAuturtiy = new Map<string, string[]>();
     for (var process in value) {  
-      this.globalProcessAuturtiy.set(process, value[process])  
+      this.globalProcessAuturtiy.set(process, value[process]);
     }
   }
   getGlobalProcessAuturtiy(processName) {

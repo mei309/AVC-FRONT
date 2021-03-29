@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {isEqual} from 'lodash-es';
 @Component({
   selector: 'show-details-ordinal',
   template: `
