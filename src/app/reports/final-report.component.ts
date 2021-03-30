@@ -40,6 +40,7 @@ import { ReportsService } from './reports.service';
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
+        <mat-spinner *ngIf="!isDataAvailable && poCode"></mat-spinner>
     </fieldset>
   ` ,
 })
@@ -66,9 +67,9 @@ export class FinalReportComponent {
                 //     this.poDetails = val;
                 //     this.isDataAvailable = true;
                 // });
-                this.isDataAvailable = true;
                 this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                     this.finalReport = val1;
+                    this.isDataAvailable = true;
                 });
                 this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
@@ -79,13 +80,14 @@ export class FinalReportComponent {
             if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 if(selectedValue['id'] !== this.poCode) {
                     this.poCode = selectedValue['id'];
+                    this.isDataAvailable = false;
                     // this.localService.getAllProcesses(this.poCode).pipe(take(1)).subscribe( val => {
                     //     this.poDetails = val;
                     //     this.isDataAvailable = true;
                     // });
-                    this.isDataAvailable = true;
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
+                        this.isDataAvailable = true;
                     });
                 }
                 

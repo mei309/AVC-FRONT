@@ -33,9 +33,9 @@ export class ShipmentCodesComponent implements OnInit {
             {
                 type: 'normal',
                 label: 'Destination port',
-                name: 'portOfDischarge',
-                search: 'selectAsyncObject',
-                options: this.localService.getShippingPorts(),
+                name: 'portOfDischargeValue',
+                // search: 'selectAsyncObject',
+                // options: this.localService.getShippingPorts(),
             },
             {
                 type: 'normal',
@@ -82,7 +82,7 @@ export class AddEditShipmentDialog {
             this.shipConfig = [
                 {
                     type: 'input',
-                    label: '#PO',
+                    label: 'Code',
                     inputType: 'number',
                     name: 'code',
                     disable: true,

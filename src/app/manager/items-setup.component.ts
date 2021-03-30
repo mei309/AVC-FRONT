@@ -40,6 +40,7 @@ export class ItemsSetupComponent {
 
 
     updateNew() {
+        this.setupSource = null;
         this.localService.getItemsSetupTable(this.choosedOne).pipe(take(1)).subscribe(value => {
             this.setupSource = <any[]>value;
         });

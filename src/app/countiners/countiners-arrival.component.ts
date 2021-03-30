@@ -38,7 +38,6 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
-                disable: true,
             },
             {
                 type: 'bignotexpand',
@@ -188,7 +187,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
                 } else {
-                    this.router.navigate(['../CountinerReports', {number: 1}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
                 }
             });
         });

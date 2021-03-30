@@ -52,7 +52,7 @@ export class CounteinersDetailsDialogComponent {
                 } else {
                     this.id = this.loading['id'];
                 }
-                this.buttons.push('Security Doc', 'Export Doc', 'Edit');
+                this.buttons.push('Security Doc', 'Export Doc');
                 break;
             case 'Arrivals':
                 if(!this.fromNew) {

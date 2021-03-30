@@ -172,13 +172,13 @@ export class ExportImportComponent implements OnInit {
                 element['storage']['item'] = element['item'];
                 element['storage']['measureUnit'] = element['measureUnit'];
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
-                element['storage']['itemPoCodes'] = element['itemPoCodes'];
-                element['storage']['itemSuppliers'] = element['itemSuppliers']
+                element['storage']['itemPoCodes'] = element['poCodes'];
+                element['storage']['itemSuppliers'] = element['suppliers']
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
                     if(!removeIds.includes(ele['id'])) {
-                        arrUsedItems.push({itemPoCodes: element['itemPoCodes'], itemSuppliers: element['itemSuppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
+                        arrUsedItems.push({itemPoCodes: element['poCodes'], itemSuppliers: element['suppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                     }
                 });
@@ -602,7 +602,7 @@ export class ExportImportComponent implements OnInit {
                                 label: 'Unit weight',
                                 name: 'amounts',
                                 options: 3,
-                                collections: 15,
+                                collections: 30,
                             },
                         ],
                         // validations: [

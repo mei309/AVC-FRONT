@@ -90,8 +90,8 @@ import { OneColumn } from '../field.interface';
                   <ng-container *ngFor="let itemElem of element[column.name]">
                     <b>{{itemElem.item.value}}: </b>
                     <ng-container *ngFor="let amountElem of itemElem['amountList']; let amou = index">
-                      <span *ngIf="!amou; else notFirst">{{amountElem | tableCellPipe: 'weight' : null}}</span>
-                      <ng-template #notFirst>({{amountElem | tableCellPipe: 'weight' : null}})</ng-template>
+                      <span style="white-space: nowrap;" *ngIf="!amou; else notFirst">{{amountElem | tableCellPipe: 'weight' : null}}</span>
+                      <ng-template #notFirst><span style="white-space: nowrap;">({{amountElem | tableCellPipe: 'weight' : null}})</span></ng-template>
                     </ng-container>
                     <small *ngIf="itemElem.warehouses">({{itemElem.warehouses}})</small>
                     <br/>
@@ -100,26 +100,25 @@ import { OneColumn } from '../field.interface';
             </td>
         </ng-container>
 
-        
-          <ng-container matColumnDef="totealCol" *ngIf="totelColumn">
+          <ng-container matColumnDef="totealCol" *ngIf="totalColumn">
               <th mat-header-cell *matHeaderCellDef>
-                <h3>{{totelColumn.label}}</h3>
+                <h3>{{totalColumn.label}}</h3>
               </th>
               <td mat-cell style="vertical-align: top;
               padding-left: 16px; padding-right: 16px;
               padding-top: 14px;" *matCellDef="let element; let i = index"
-                  [style.display]="getRowSpan(i, totelColumn.group) ? '' : 'none'"
-                  [attr.rowspan]="getRowSpan(i, totelColumn.group)">
-                  {{getTotel(i + this.paginator.pageIndex * this.paginator.pageSize) | tableCellPipe: totelColumn.type : totelColumn.collections}}
+                  [style.display]="getRowSpan(i, totalColumn.group) ? '' : 'none'"
+                  [attr.rowspan]="getRowSpan(i, totalColumn.group)">
+                  {{getTotel(i + this.paginator.pageIndex * this.paginator.pageSize) | tableCellPipe: totalColumn.type : totalColumn.collections}}
               </td>
           </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (dblclick)="openDetails(row)"></tr>
     </table>
     <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
   </div>
-  <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
+  <mat-spinner *ngIf="!dataSource"></mat-spinner>
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2>No records found</h2></div>
   `,
 })
@@ -130,8 +129,19 @@ export class SearchGroupDetailsComponent {
 
     @Input() withPaginator: boolean = true;
 
-    dataSource;
+    
+    totalColumn: OneColumn;
+    @Input() set totelColumn(value) {
+      // if(value) {
+        this.totalColumn = value;
+      // } else if(this.totalColumn) {
+      //   if(this.columnsDisplay[this.columnsDisplay.length-1] === 'totealCol') {
+      //     this.columnsDisplay.pop();
+      //   }
+      // }
+    }
 
+    dataSource;
   @Input() set detailsSource(value) {
         if(value) {
             // this.t0 = performance.now()
@@ -170,6 +180,11 @@ export class SearchGroupDetailsComponent {
         this.lastSpan = null;
         this.spans = [];
         this.preperColumns();
+        // if(this.totalColumn) {
+        //   if(this.columnsDisplay[this.columnsDisplay.length-1] !== 'totealCol') {
+        //     this.columnsDisplay.push('totealCol');
+        //   }
+        // }
     }
 }
 
@@ -186,8 +201,6 @@ export class SearchGroupDetailsComponent {
   localGroupOneColumns = [];
   localItemWeightColumns = [];
   
-
-  @Input() totelColumn: OneColumn;
   t0;
   
   constructor() {
@@ -244,9 +257,6 @@ export class SearchGroupDetailsComponent {
           this.columnsDisplay.push(element.name);
       }
     });
-    if(this.totelColumn) {
-      this.columnsDisplay.push('totealCol');
-    }
   }
 
   columnsKidArray(element) {
@@ -255,6 +265,15 @@ export class SearchGroupDetailsComponent {
             this.columnsKidArray(second);
         }
     });
+  }
+
+
+  getDisplayedColumns(): string[] {
+    if(this.totalColumn) {
+      return this.columnsDisplay.concat('totealCol')
+    } else {
+      return this.columnsDisplay;
+    }
   }
 
 
@@ -425,19 +444,19 @@ export class SearchGroupDetailsComponent {
 
   getTotel(index) {
     if(this.spans[index]) {
-      switch (this.totelColumn.type) {
+      switch (this.totalColumn.type) {
         case 'weight2':
-          var weightSize: number = this.dataSource.filteredData[index][this.totelColumn.name].length;
+          var weightSize: number = this.dataSource.filteredData[index][this.totalColumn.name].length;
           var myNumbers = new Array<number>(weightSize);
           var myMesareUnit = new Array<number>(weightSize);
           for (let i = 0; i < weightSize; i++) {
             myNumbers[i] = 0;
-            myMesareUnit[i] = this.dataSource.filteredData[index][this.totelColumn.name][i]['measureUnit'];
+            myMesareUnit[i] = this.dataSource.filteredData[index][this.totalColumn.name][i]['measureUnit'];
           }
-          for (let ind = index; ind < index+this.spans[index][this.totelColumn.group]; ind++) {
-            if(this.dataSource.filteredData[ind][this.totelColumn.name]) {
+          for (let ind = index; ind < index+this.spans[index][this.totalColumn.group]; ind++) {
+            if(this.dataSource.filteredData[ind][this.totalColumn.name]) {
               for (let m = 0; m < weightSize; m++) {
-                myNumbers[m] += this.dataSource.filteredData[ind][this.totelColumn.name][m]['amount'];
+                myNumbers[m] += this.dataSource.filteredData[ind][this.totalColumn.name][m]['amount'];
               }
             }
           }

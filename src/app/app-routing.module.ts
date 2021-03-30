@@ -14,6 +14,7 @@ const routes: Routes = [
           { path: 'specialordready', loadChildren: () => import('./special-orders/special-orders.module').then(m => m.SpecialOrdersModule)},
           { path: 'qcready', loadChildren: () => import('./qc/qc.module').then(m => m.QcModule) },
           { path: 'invready', loadChildren: () => import('./inventory/inventory.module').then(m => m.InventoryModule)},
+          { path: 'relocat', loadChildren: () => import('./relocations/relocations.module').then(m => m.RelocationsModule)},
           { path: 'production', loadChildren: () => import('./production/production.module').then(m => m.ProductionModule)},
           { path: 'products', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)},
           { path: 'schedules', loadChildren: () => import('./schedules/schedules.module').then(m => m.SchedulesModule) },

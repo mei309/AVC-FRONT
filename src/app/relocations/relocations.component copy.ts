@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { OneColumn } from './../field.interface';
-import { Genral } from './../genral.service';
-import { InventoryService } from './inventory.service';
-import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
+import { OneColumn } from '../field.interface';
+import { Genral } from '../genral.service';
+import { InventoryService } from '../inventory/inventory.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
+import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.component';
 // import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 // import { MatDialog } from '@angular/material/dialog';
 @Component({
-  selector: 'app-inventory-reports',
+  selector: 'app-relocations-reports',
   template: `
   <h1 style="text-align:center">Inventory reports</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
@@ -26,7 +26,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   </search-group-details>
     `
 })
-export class InventoryComponent implements OnInit {
+export class RelocationsComponent implements OnInit {
   tabIndex: number = 0;
 
   dateRangeDisp= new FormGroup({
@@ -144,7 +144,7 @@ export class InventoryComponent implements OnInit {
   }
 
   openDialog(event): void {
-    const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
+    const dialogRef = this.dialog.open(RelocationsDetailsDialogComponent, {
       width: '80%',
       data: {id: event['id'], fromNew: false, type: this.tabIndex? 'Cleaned transfer': 'Raw transfer'},
     });

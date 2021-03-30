@@ -15,21 +15,17 @@ import { cloneDeep } from 'lodash-es';
     selector: 'countiners-loading',
     template: `
     <h1 style="text-align:center">Loading</h1>
-    <mat-tab-group *ngIf="beginPage" mat-stretch-tabs>
-        <mat-tab label="Container information">
-            <dynamic-form #first [fields]="beginConfig" [putData]="putFirstData" [mainLabel]="'Container information'">
+    <ng-container *ngIf="beginPage" mat-stretch-tabs>
+            <dynamic-form #first [fields]="beginConfig" [putData]="putFirstData" [mainLabel]="'Loading information'">
             </dynamic-form>
-        </mat-tab>
-        <mat-tab label="Material to load">
             <ng-container dynamicField [field]="poConfig" [group]="form">
             </ng-container>
             <div *ngIf="isFormAvailable">
                 <dynamic-form #second [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'">
                 </dynamic-form>
             </div>
-        </mat-tab>
-    </mat-tab-group>
-    <div class="margin-top" style="text-align:right">
+    </ng-container>
+    <div class="margin-top" style="text-align:right" *ngIf="isFormAvailable">
         <button type="button" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" (click)="onSubmitBoth()">Submit</button>
         <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onResetBoth()">Reset</button>
     </div>
@@ -133,7 +129,7 @@ export class CountinersLoadingComponent {
                                 break;
                         
                             default:
-                                this.router.navigate(['../CountinerReports'], { relativeTo: this._Activatedroute });
+                                this.router.navigate(['../CountinerReports', {number: 1}], { relativeTo: this._Activatedroute });
                                 break;
                         }
                     });
@@ -178,8 +174,8 @@ export class CountinersLoadingComponent {
             if(element['storage']) {
                 if((element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !this.removeIdsTable.includes(amou.id))).length) {
                     element['storage']['item'] = element['item'];
-                    element['storage']['itemPoCodes'] = element['itemPoCodes'];
-                    element['storage']['itemSuppliers'] = element['itemSuppliers'];
+                    element['storage']['itemPoCodes'] = element['poCodes'];
+                    element['storage']['itemSuppliers'] = element['suppliers'];
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
                     arrTable.push({usedItem: element['storage']});
@@ -190,7 +186,7 @@ export class CountinersLoadingComponent {
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     if(!this.removeIds.includes(ele['id'])) {
-                        arrUsedItems.push({itemPoCodes: element['itemPoCodes'], itemSuppliers: element['itemSuppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
+                        arrUsedItems.push({itemPoCodes: element['poCodes'], itemSuppliers: element['suppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
                         this.removeIds.push(ele['id']);
                     }

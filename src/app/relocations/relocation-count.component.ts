@@ -5,9 +5,9 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
-import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
-import { InventoryService } from './inventory.service';
 import { cloneDeep } from 'lodash-es';
+import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.component';
+import { RelocationsService } from './relocations.service';
 @Component({
     selector: 'relocation-count',
     template: `
@@ -92,9 +92,9 @@ export class RelocationCountComponent implements OnInit {
 
     submitToBackend(value: any) {
         this.localService.addEditRelocationTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
-            const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
+            const dialogRef = this.dialog.open(RelocationsDetailsDialogComponent, {
                 width: '80%',
-                data: {inventoryItem: cloneDeep(val), fromNew: true, type: 'Inventory item'}
+                data: {relocationsItem: cloneDeep(val), fromNew: true, type: 'Inventory item'}
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
@@ -107,14 +107,14 @@ export class RelocationCountComponent implements OnInit {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {
-                    this.router.navigate(['../InventoryReports', {number: this.type === 'Clean'? 1 : 0}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../RelocationsReports', {number: this.type === 'Clean'? 1 : 0}], { relativeTo: this._Activatedroute });
                 }
             });
         });
     }
 
     constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,
-        private localService: InventoryService, private genral: Genral, public dialog: MatDialog,
+        private localService: RelocationsService, private genral: Genral, public dialog: MatDialog,
         private _Activatedroute:ActivatedRoute, private router: Router,) {
        }
     
