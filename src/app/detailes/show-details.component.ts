@@ -98,8 +98,11 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                             <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
                             </show-details>
                             <ng-container *ngSwitchCase="'arrayForEach'">
-                              <show-details class="change-color" *ngFor="let line of dataSource[column.name]" [dataSource]="line" [withPo]="column.collections? true : false" [oneColumns]="column.collections">
-                              </show-details>
+                              <div *ngFor="let line of dataSource[column.name]" style="width: fit-content;">
+                                <show-details class="change-color" [dataSource]="line" [withPo]="column.collections? true : false" [oneColumns]="column.collections">
+                                </show-details>
+                                <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+                              </div>
                             </ng-container>
                           </ng-container>
                         </fieldset>
@@ -116,7 +119,6 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
             </ng-container>
         </ng-container>
     </ng-template>
-    <h2 *ngIf="dataSource['totalAmount']" style="float: right">Total: {{dataSource['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
 </ng-container>
 <ng-template #noData>
   <mat-spinner></mat-spinner>
@@ -797,6 +799,13 @@ export class ShowDetailsComponent implements OnInit {
                     name: 'warehouseLocation',
                 },
               ]
+          },
+          {
+            type: 'weight2',
+            label: 'Weight sum',
+            name: 'totalAmount',
+            bold: 'true',
+            // collections: 'measureUnit',
           }, 
         ]
     },
