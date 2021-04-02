@@ -61,7 +61,7 @@ import { OneColumn } from '../field.interface';
     <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
     <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
  </table>
- <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+ <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>
 <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
 <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data?.length === 0"><h2>No records found</h2></div>
@@ -151,9 +151,8 @@ export class SearchDetailsComponent {
     // '+' : function(a: number[]) { return a.reduce((b, c) => { return b + c}, 0); },
     '>' : function(a, b) { return a > b; },
     '<' : function(a, b) { return a < b; },
-    // '*' : function(a: number[]) { return a.reduce((b, c) => { return b * c}); },
-    //'/' : function(a) { return a.reduce((b, c) => { return b + c}, 0); },
-    // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
+    'weight' : function(a) { return a.amount < 0 },
+    'date' : function(a) { return a < new Date().toISOString().substring(0, 10) },
   };
   compare (element, column) {
     if(column.compare.name) {

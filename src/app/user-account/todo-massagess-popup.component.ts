@@ -5,7 +5,9 @@ import { UserAccountService } from './user-account.service';
 @Component({
     selector: 'massages-todo-popup',
     template: `
-    <button mat-raised-button color="accent" (click)="goFullPo()" style="float: right;">Go to full PO# details</button>
+    <ng-container *ngFor="let po of poCodes;">
+      <button mat-raised-button color="accent" (click)="goFullPo(po.id)" style="float: right;">Go to full {{po.value}} details</button>
+    </ng-container>
     <button printTitle="Task Details" printSectionId="print-section-task" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
       <mat-icon>print</mat-icon>
     </button>
@@ -28,6 +30,8 @@ export class TodoMassagesPopupComponent {
     processSnapshot =  null;
     lineData = null;
     task: any;
+
+    poCodes;
     
     constructor(private LocalService: UserAccountService, public dialog: MatDialog, public dialogRef: MatDialogRef<TodoMassagesPopupComponent>,
       @Inject(MAT_DIALOG_DATA)
@@ -42,11 +46,16 @@ export class TodoMassagesPopupComponent {
     ngOnInit() {
         this.LocalService.getTask(this.processId, this.processType).pipe(take(1)).subscribe(value => {
             this.task = value;
+            if(value['poCode']) {
+              this.poCodes = [value['poCode']]
+            } else if(value['weightedPos']) {
+              this.poCodes = value['weightedPos'].map(a => a.poCode);
+            }
         });
     }
 
-    goFullPo() {
-      this.dialogRef.close('fullDetails');
+    goFullPo(num: number) {
+      this.dialogRef.close(num);
     }
 
     onNoClick(): void {

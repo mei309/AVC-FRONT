@@ -74,11 +74,13 @@ export class RelocationCountComponent implements OnInit {
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
-        value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts);
-        value['itemCounts'].forEach(eleme => {
-            eleme['amounts'] = eleme['amounts'].filter(amou => amou.amount);
-        });
-        value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
+        if(value['itemCounts']) {
+            value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts);
+            value['itemCounts'].forEach(eleme => {
+                eleme['amounts'] = eleme['amounts'].filter(amou => amou.amount);
+            });
+            value['itemCounts'] = value['itemCounts'].filter(amou => amou.amounts.length);
+        }
         value['storageMovesGroups'] = arr;
         if(!value['productionLine']) {
             this.genral.getProductionLine(this.getFunctionality()).pipe(take(1)).subscribe( val => {

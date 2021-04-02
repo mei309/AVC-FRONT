@@ -101,6 +101,20 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [routerLink]="['production/Productions', {number: 2}]">Packing</button>
       </mat-menu>
 
+      <button mat-button [matMenuTriggerFor]="menuReloc">Relocation</button>
+      <mat-menu #menuReloc="matMenu" >
+        <button mat-menu-item [matMenuTriggerFor]="inventorysnew">New</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventoryreports">Reports</button>
+      </mat-menu>
+      <mat-menu #inventorysnew="matMenu" >
+        <button mat-menu-item routerLink='relocat/RelocationCount'>Raw Relocation Count</button>
+        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {clean: true}]">Cleaned Relocation Count</button>
+      </mat-menu>
+      <mat-menu #inventoryreports="matMenu" >
+        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 0}]">Raw Relocations</button>
+        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 1}]">Cleaned Relocations</button>
+      </mat-menu>
+
       <button mat-button [matMenuTriggerFor]="menuCountiners" >Shipping</button>
       <mat-menu #menuCountiners="matMenu" >
         <button mat-menu-item [matMenuTriggerFor]="countinersnew">New</button>
@@ -131,20 +145,6 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 2}]">Stock/Order</button>
       </mat-menu>
 
-
-      <button mat-button [matMenuTriggerFor]="menuReloc">Relocation</button>
-      <mat-menu #menuReloc="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="inventorysnew">New</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventoryreports">Reports</button>
-      </mat-menu>
-      <mat-menu #inventorysnew="matMenu" >
-        <button mat-menu-item routerLink='relocat/RelocationCount'>Raw Relocation Count</button>
-        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {clean: true}]">Cleaned Relocation Count</button>
-      </mat-menu>
-      <mat-menu #inventoryreports="matMenu" >
-        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 0}]">Raw Relocations</button>
-        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 1}]">Cleaned Relocations</button>
-      </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>
       <mat-menu #menuProducts="matMenu" >

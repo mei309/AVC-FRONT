@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -12,10 +12,11 @@ import { ReceiptDialog } from './receipt-dialog.component';
 @Component({
     selector: 'receive-g-order',
     template: `
-    <div *ngIf="isFirstDataAvailable">
-        <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="goNext($event)">
-        </dynamic-form>
-    </div>
+    <fieldset *ngIf="isFirstDataAvailable" [ngStyle]="{'width':'90%'}">
+        <legend><h1>PO# receving</h1></legend>
+        <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
+        </ng-container>
+    </fieldset>
     <div *ngIf="isDataAvailable">
         <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving general order'" (submitForm)="submit($event)">
         </dynamic-form>
@@ -35,8 +36,11 @@ export class ReceiveGOrder implements OnInit {
     poConfig: FieldConfig[];
     regConfig: FieldConfig[];
 
+    form: FormGroup;
+    poID: number;
+
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
-        private localService: ReceiptService, private genral: Genral, public dialog: MatDialog) {
+        private localService: ReceiptService, private genral: Genral, public dialog: MatDialog, private fb: FormBuilder) {
     }
 
     ngOnInit() {
@@ -52,31 +56,7 @@ export class ReceiveGOrder implements OnInit {
                         this.setUpOrderItems(po);
                     }
             } else {
-                this.poConfig = [
-                    {
-                        type: 'selectgroup',
-                        inputType: 'supplierName',
-                        options: this.localService.getPoGeneralCodesOpen(),
-                        collections: [
-                            {
-                                type: 'select',
-                                label: 'Supplier',
-                            },
-                            {
-                                type: 'select',
-                                label: '#PO',
-                                name: 'poCode',
-                                collections: 'somewhere',
-                            },
-                        ]
-                    },
-                    {
-                        type: 'button',
-                        label: 'Submit',
-                        name: 'submit',
-                    }
-                ];
-                this.isFirstDataAvailable = true;
+                this.setBeginChoose();
             }
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -85,15 +65,48 @@ export class ReceiveGOrder implements OnInit {
                 this.isDataAvailable = false;
                 this.isFirstDataAvailable = false;
                 this.putData =  null;
+                this.poID = null;
+                if(this.poConfig) {
+                    this.form.get('poCode').setValue(null);
+                } else {
+                    this.setBeginChoose();
+                }
                 this.cdRef.detectChanges();
                 this.isFirstDataAvailable = true;
             }
         });
     }
 
-    goNext($event) {
-        this.setUpOrderItems($event['poCode']['id']);
-        this.isFirstDataAvailable = false;
+    setBeginChoose(){
+        this.form = this.fb.group({});
+        this.form.addControl('poCode', this.fb.control(''));
+        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+                this.setUpOrderItems(selectedValue['id']);
+                this.isFirstDataAvailable = false;
+                this.poID = selectedValue['id'];
+            }
+        });
+        this.isFirstDataAvailable = true;
+        this.poConfig = [
+            {
+                type: 'selectgroup',
+                inputType: 'supplierName',
+                options: this.localService.getPoCashewCodesOpen(),
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Supplier',
+                    },
+                    {
+                        type: 'select',
+                        label: '#PO',
+                        name: 'poCode',
+                        collections: 'somewhere',
+                    },
+                ]
+            },
+        ];
     }
 
     setUpOrderItems(idnum: number) {

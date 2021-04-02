@@ -116,17 +116,18 @@ import { OneColumn } from '../field.interface';
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
         <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (dblclick)="openDetails(row)"></tr>
     </table>
-    <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
   </div>
-  <mat-spinner *ngIf="!dataSource"></mat-spinner>
+  <ng-container *ngIf="!dataSource">
+    <mat-spinner *ngIf="secondToUpload"></mat-spinner>
+  </ng-container>
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2>No records found</h2></div>
   `,
 })
 export class SearchGroupDetailsComponent {
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-    // <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
-
+    
     @Input() withPaginator: boolean = true;
 
     
@@ -166,6 +167,10 @@ export class SearchGroupDetailsComponent {
               //   }
               // });
             this.readySpanData();
+            if(this.secondTimer) {
+              clearTimeout(this.secondTimer);
+            }
+            this.secondToUpload = false;
         } else {
             this.dataSource = null;
         }
@@ -190,6 +195,8 @@ export class SearchGroupDetailsComponent {
 
   oneColumns: OneColumn[] = [];
   
+  secondToUpload: boolean = false;
+  secondTimer;
 
   @Output() details: EventEmitter<any> = new EventEmitter<any>();
 
@@ -204,6 +211,7 @@ export class SearchGroupDetailsComponent {
   t0;
   
   constructor() {
+    this.secondTimer = setTimeout(() => this.secondToUpload = true, 1000);
     // this.t0 = performance.
   }
   // ngAfterViewChecked() {

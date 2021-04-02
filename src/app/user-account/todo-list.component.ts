@@ -82,8 +82,8 @@ export class TodoListComponent {
     });
     dialogRef.afterClosed().subscribe(data => {
       if(data) {
-        if(data === 'fullDetails') {
-          this.router.navigate(['Main/reports/FullPoReport',{poCode: $event['poCode']['id']}]);
+        if(typeof data == 'number') {
+          this.router.navigate(['Main/reports/FullPoReport',{poCode: data}]);
         }
       }
     });

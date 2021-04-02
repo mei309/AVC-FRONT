@@ -63,9 +63,8 @@ export class NormalDetailsComponent {
     // '+' : function(a: number[]) { return a.reduce((b, c) => { return b + c}, 0); },
     '>' : function(a, b) { return a > b; },
     '<' : function(a, b) { return a < b; },
-    // '*' : function(a: number[]) { return a.reduce((b, c) => { return b * c}); },
-    //'/' : function(a) { return a.reduce((b, c) => { return b + c}, 0); },
-    // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
+    'weight' : function(a) { return a.amount < 0 },
+    'date' : function(a) { return a < new Date().toISOString().substring(0, 10) },
   };
   compare (element, column) {
     if(column.compare.name) {

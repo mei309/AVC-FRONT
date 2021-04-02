@@ -12,7 +12,8 @@ import { LoadingService } from './service/loading-service.service';
   templateUrl: './main.component.html',
 })
 export class MainComponent {
-  public visibility: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  // public visibility: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  // this.visibility = this.loadingService.visibility;
   
   destroySubject$: Subject<void> = new Subject();
   
@@ -34,7 +35,6 @@ export class MainComponent {
     this.genral.getNumOfMassages().pipe(takeUntil(this.destroySubject$)).subscribe(val => {
       this.massages = val;
     });
-    this.visibility = this.loadingService.visibility;
   }
 
   onInitilRefresh() {
