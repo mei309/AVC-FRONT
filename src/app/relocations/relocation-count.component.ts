@@ -188,8 +188,11 @@ export class RelocationCountComponent implements OnInit {
                 this.isDataAvailable = false;
                 this.poID = selectedValue['id'];
             }
-        });
+        });      
         this.isDataAvailable = true;
+        this.setPoConfig();
+    }
+    setPoConfig() {
         this.poConfig = [
             {
                 type: 'selectgroup',
@@ -217,6 +220,9 @@ export class RelocationCountComponent implements OnInit {
         val?.forEach(element => {
             if(element['storage']) {
                 if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {
+                    // element['storage']['amounts'].forEach(amo => {
+                    //     amo['amount'] = amo['numberAvailableUnits'];
+                    // });
                     element['storage']['item'] = element['item'];
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
@@ -283,7 +289,6 @@ export class RelocationCountComponent implements OnInit {
             this.isDataAvailable = false;
             this.isFormAvailable = false;
             this.dataSource = null;
-            this.setRegConfig();
             this.poID = null;
             this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
                 if(params.get('clean')) {
@@ -294,9 +299,11 @@ export class RelocationCountComponent implements OnInit {
             });
             if(this.poConfig) {
                 this.form.get('poCode').setValue(null);
+                this.setPoConfig();
             } else {
                 this.setBeginChoose();
             }
+            this.setRegConfig();
             this.cdRef.detectChanges();
             this.isDataAvailable = true;
         }
@@ -560,7 +567,7 @@ export class RelocationCountComponent implements OnInit {
 
    ngOnDestroy() {
         if (this.navigationSubscription) {  
-        this.navigationSubscription.unsubscribe();
+            this.navigationSubscription.unsubscribe();
         }
     }
   }

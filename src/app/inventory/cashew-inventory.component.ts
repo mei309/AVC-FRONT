@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { OneColumn } from './../field.interface';
@@ -32,7 +32,8 @@ import { InventoryService } from './inventory.service';
     `
 })
 export class CashewInventoryComponent implements OnInit {
-
+  navigationSubscription;
+  
   dateRangeDisp = {begin: new Date(2020, 7, 5), end: new Date(2020, 7, 25)};
   tabIndex: number = 0;
   columnsShow: OneColumn[];
@@ -46,7 +47,7 @@ export class CashewInventoryComponent implements OnInit {
   
 
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
-    private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef) {
+    private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
   }
 
   ngOnInit() {
@@ -59,6 +60,19 @@ export class CashewInventoryComponent implements OnInit {
       }
     });
     this.itemCategory = this.genral.getItemCategory();
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+          if(params.get('number')) {
+            this.tabIndex = +params.get('number');
+            this.changed(+params.get('number'));
+          } else {
+            this.changed(0);
+          }
+        });
+      }
+    });
   }
 
   openDialog(event): void {
@@ -265,6 +279,12 @@ export class CashewInventoryComponent implements OnInit {
         this.cashewSourceColumns = this.cashewSource;
       } else {
         this.cashewSourceColumns = this.cashewSource.filter(aa => aa.item.productionUse === $event);
+      }
+    }
+
+    ngOnDestroy() {
+      if (this.navigationSubscription) {  
+         this.navigationSubscription.unsubscribe();
       }
     }
     

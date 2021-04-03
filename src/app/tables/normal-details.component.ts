@@ -16,6 +16,25 @@ import { OneColumn } from '../field.interface';
           </span>
         </td>
     </ng-container>
+
+        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localItemWeightColumns">
+            <th mat-header-cell *matHeaderCellDef>
+                <h3>{{column.label}}</h3>
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                  <ng-container *ngFor="let itemElem of element[column.name]">
+                    <b>{{itemElem.item.value}}: </b>
+                    <ng-container *ngFor="let amountElem of itemElem['amountList']; let amou = index">
+                      <span style="white-space: nowrap;" *ngIf="!amou; else notFirst">{{amountElem | tableCellPipe: 'weight' : null}}</span>
+                      <ng-template #notFirst><span style="white-space: nowrap;">({{amountElem | tableCellPipe: 'weight' : null}})</span></ng-template>
+                    </ng-container>
+                    <small *ngIf="itemElem.warehouses">({{itemElem.warehouses}})</small>
+                    <br/>
+                  </ng-container>
+                </span>
+            </td>
+        </ng-container>
     <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
     <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
  </table>
@@ -39,9 +58,13 @@ export class NormalDetailsComponent {
   @Input() set oneColumns(value: OneColumn[]) {
     if(value) {
       value.forEach(element => {
+        if(element.type === 'itemWeight') {
+          this.localItemWeightColumns.push(element);
+        } else {
+          this.columns.push(element);
+        }
         this.columnsDisplay.push(element.name);
       });
-      this.columns =  value;
     }
   }
   get oneColumns() { return this.columns}
@@ -50,6 +73,7 @@ export class NormalDetailsComponent {
 
 
   columnsDisplay: string[] = [];
+  localItemWeightColumns = [];
 
 
   constructor() {

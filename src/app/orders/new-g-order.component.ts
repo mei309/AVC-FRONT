@@ -171,7 +171,7 @@ export class NewGenralOrder implements OnInit {
                             type: 'inputselect',
                             name: 'numberUnits',
                             options: 'item',
-                            inputType: 'measureUnit',
+                            inputType: 'second',
                             collections: [
                                 {
                                     type: 'input',

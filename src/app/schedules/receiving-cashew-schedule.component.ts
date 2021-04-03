@@ -23,11 +23,9 @@ import { SchedulesService } from './schedules.service';
     </mat-form-field>
     <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek($event.checked)">See all</mat-checkbox>
   </div>
-  <normal-group-details [mainDetailsSource]="cashewSourceColumns">
+  <normal-group-details [mainDetailsSource]="cashewSourceColumns" [mainColumns]="columnsShow">
   </normal-group-details>
-  <h1 style="text-align:center">
-    Amounts
-  </h1>
+  <h1 style="text-align:center">Amounts</h1>
   <sums-table [mainDetailsSource]="sumsSource">
   </sums-table>
   `,
@@ -148,7 +146,7 @@ export class ReceivingCashewScheduleComponent implements OnInit {
       if(dates.end) {
         this.ordersSource = this.mainSource.filter(e=> 
           (new Date(e['deliveryDate'])).getTime() > (dates.start).setHours(0,0,0,0) && (new Date(e['deliveryDate'])).getTime() < (dates.end).setHours(23,59,59,999) ) ; 
-        this.cashewSourceColumns = [this.ordersSource, this.columnsShow];
+        this.cashewSourceColumns = this.ordersSource;
         this.sumsSource = [this.ordersSource, ['personInCharge', 'itemName'], ['item', 'itemName']];
         if(this.ordersSource.length < this.mainSource.length) {
           this.seeAll = false;
@@ -159,7 +157,7 @@ export class ReceivingCashewScheduleComponent implements OnInit {
   showAllOrWeek(seeAll) {
     this.seeAll = seeAll;
     if(seeAll) {
-      this.cashewSourceColumns = [this.mainSource, this.columnsShow];
+      this.cashewSourceColumns = this.mainSource;
       this.sumsSource = [this.mainSource, ['personInCharge', 'itemName'], ['item', 'itemName']];
     } else {
       this.showWeek();

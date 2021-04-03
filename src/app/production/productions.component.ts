@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from './../field.interface';
 import { Genral } from './../genral.service';
@@ -12,6 +12,8 @@ import { ProductionService } from './production.service';
   templateUrl: './productions.component.html',
 })
 export class ProductionsComponent implements OnInit {
+  navigationSubscription;
+  
   tabIndex: number = 0;
 
   dateRangeDisp= new FormGroup({
@@ -106,6 +108,19 @@ export class ProductionsComponent implements OnInit {
           //     search: 'dates',
           // },
       ];
+      this.navigationSubscription = this.router.events.subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+          this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('number')) {
+              this.tabIndex = +params.get('number');
+              this.changed(+params.get('number'));
+            } else {
+              this.changed(0);
+            }
+          });
+        }
+      });
   }
 
   openDialog(event): void {
@@ -259,6 +274,12 @@ export class ProductionsComponent implements OnInit {
       let begin = $event.begin.value;
       let end = $event.end.value;
       // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
+    }
+
+    ngOnDestroy() {
+      if (this.navigationSubscription) {  
+         this.navigationSubscription.unsubscribe();
+      }
     }
 
 }

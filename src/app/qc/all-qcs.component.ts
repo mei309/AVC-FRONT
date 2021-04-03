@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -11,6 +11,8 @@ import { QcDetailsDialogComponent } from './qc-details-dialog.component';
   templateUrl: './all-qcs.component.html',
 })
 export class AllQcsComponent implements OnInit {
+  navigationSubscription;
+
   tabIndex: number = 0;
 
   dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
@@ -86,6 +88,19 @@ export class AllQcsComponent implements OnInit {
         search: 'dates',
       },
     ];
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+          if(params.get('number')) {
+            this.tabIndex = +params.get('number');
+            this.changed(+params.get('number'));
+          } else {
+            this.changed(0);
+          }
+        });
+      }
+    });
   }
 
   openDialog(event): void {
@@ -160,4 +175,10 @@ export class AllQcsComponent implements OnInit {
       // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
     }
 
+
+    ngOnDestroy() {
+      if (this.navigationSubscription) {  
+         this.navigationSubscription.unsubscribe();
+      }
+    }
 }

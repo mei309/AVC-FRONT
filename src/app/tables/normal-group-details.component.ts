@@ -24,6 +24,29 @@ import { OneColumn } from '../field.interface';
             </td>
         </ng-container>
 
+        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localItemWeightColumns">
+            <th mat-header-cell *matHeaderCellDef>
+                <h3 mat-sort-header>{{column.label}}</h3>
+            </th>
+            <td mat-cell style="vertical-align: top;
+                padding-left: 16px; padding-right: 16px;
+                padding-top: 14px;" *matCellDef="let element; let i = index"
+                    [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
+                    [attr.rowspan]="getRowSpan(i, column.group)">
+                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                  <ng-container *ngFor="let itemElem of element[column.name]">
+                    <b>{{itemElem.item.value}}: </b>
+                    <ng-container *ngFor="let amountElem of itemElem['amountList']; let amou = index">
+                      <span style="white-space: nowrap;" *ngIf="!amou; else notFirst">{{amountElem | tableCellPipe: 'weight' : null}}</span>
+                      <ng-template #notFirst><span style="white-space: nowrap;">({{amountElem | tableCellPipe: 'weight' : null}})</span></ng-template>
+                    </ng-container>
+                    <small *ngIf="itemElem.warehouses">({{itemElem.warehouses}})</small>
+                    <br/>
+                  </ng-container>
+                </span>
+            </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
     </table>
@@ -37,77 +60,115 @@ export class NormalGroupDetailsComponent {
     // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     // <mat-paginator [pageSizeOptions]="[15, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 
-    dataSource;
 
-  @Input() set mainDetailsSource(value) {
-        if(value) {
-            this.dataSource = <any[]>value[0];
-            this.oneColumns = value[1];
-            this.columnsDisplay = [];
-            this.localGroupOneColumns = [];
-            this.lastSpan = null;
-            this.spans = [];
-            this.preperData();
-            this.dataSource = new MatTableDataSource(this.dataSource);
-            this.dataSource.sort = this.sort;
-            // this.dataSource.paginator = this.paginator;
-        } else {
-          this.dataSource = null;
-          this.oneColumns = [];
+    oneColumns: OneColumn[];
+  @Input() set mainColumns(value) {
+    if(value) {
+        this.oneColumns = value;
+        this.columnsDisplay = [];
+        this.localGroupOneColumns = [];
+        this.localItemWeightColumns = [];
+        this.lastSpan = null;
+        this.spans = [];
+        this.preperColumns();
+        if(this.waitForCols) {
+          this.settingDataSource();
         }
+    } else {
+      this.oneColumns = null;
+    }
   }
 
-  oneColumns: OneColumn[] = [];
-  
+
+    dataSource;
+  @Input() set mainDetailsSource(value) {
+        if(value) {
+            this.dataSource = <any[]>value;
+            if(this.oneColumns) {
+              this.settingDataSource();
+            } else {
+              this.waitForCols = true;
+            }
+        } else {
+          this.dataSource = null;
+        }
+  }
 
   @Output() details: EventEmitter<any> = new EventEmitter<any>();
 
   lastSpan: string;
   spans = [];
   columnsDisplay: string[] = [];
+  groupId: boolean = false;
 
   localGroupOneColumns = [];
+  localItemWeightColumns = [];
+
+  waitForCols: boolean = false;
 
   constructor() {
   }
+
+  settingDataSource() {
+    this.preperData();
+    this.dataSource = new MatTableDataSource(this.dataSource);
+    this.dataSource.sort = this.sort;
+    this.readySpanData();
+    // this.dataSource.paginator = this.paginator;
+  }
+
   preperData() {
-    // var groupId: boolean = false;
-    // if(element.type === 'idGroup'){
-    //     groupId = true;
-    //   } else 
-    //   if(groupId) {
-    //     this.spanRow(d => d['id'], 'id');
-    //     this.lastSpan = 'id';
-    //   }
     this.oneColumns.forEach(element => {
       if(element.type === 'kidArray'){
-          this.takeCareKidArray(element);
+          this.dataKidArray(element);
+      }
+    });
+  }
+
+  dataKidArray(element) {
+    var arr = [];
+    this.dataSource?.forEach(line => {
+      if(line[element.name]) {
+        line[element.name].forEach(obj => {
+          var copied = Object.assign({}, obj, line);
+          delete copied[element.name];
+          arr.push(copied);
+        });
+      } else {
+        arr.push(line);
+      }
+    });
+    this.dataSource = arr;
+    element.collections?.forEach(second => {
+      if(second.type === 'kidArray') {
+          this.columnsKidArray(second);
+      }
+    });
+  }
+  
+
+  preperColumns() {
+    if(this.oneColumns[0].type === 'idGroup'){
+      this.oneColumns.splice(0, 1);
+      this.groupId = true;
+    }
+    this.oneColumns.forEach(element => {
+      if(element.type === 'kidArray'){
+          this.columnsKidArray(element);
+      } else if(element.type === 'itemWeight') {
+          this.localItemWeightColumns.push(element);
+          this.columnsDisplay.push(element.name);
       } else {
           this.localGroupOneColumns.push(element);
           this.columnsDisplay.push(element.name);
       }
     });
-    this.localGroupOneColumns.forEach(element => {
-      if(element.group === element.name) {
-        this.spanRow(d => d[element.name], element.name);
-        this.lastSpan = element.name;
-      }
-    });
   }
 
-  takeCareKidArray(element) {
-    var arr = [];
-    this.dataSource.forEach(line => {
-            line[element.name].forEach(obj => {
-                var copied = Object.assign({}, obj, line);
-                delete copied[element.name];
-                arr.push(copied);
-            });
-    });
-    this.dataSource = arr;
+  columnsKidArray(element) {
     element.collections?.forEach(second => {
         if(second.type === 'kidArray') {
-            this.takeCareKidArray(second);
+            this.columnsKidArray(second);
         }
     });
   }
@@ -156,100 +217,18 @@ export class NormalGroupDetailsComponent {
     return this.spans[index] && this.spans[index][key];
   }
 
-  // readySpanData() {
-  //   this.lastSpan = null;
-  //   this.spans = [];
-  //   this.localGroupOneColumns.forEach(element => {
-  //     if(element.group === element.name) {
-  //       this.spanRowData(d => d[element.name], element.name);
-  //       this.lastSpan = element.name;
-  //     }
-  //   });
-  // }
-
-  // spanRowData(accessor, key) {
-  //   if(this.lastSpan) {
-  //     var start: number = 0;
-  //     var end: number = this.spans[0]? this.spans[0][this.lastSpan] : 0;
-  //     while (end < this.dataSource.filteredData.length) {
-  //       this.spanWorkData(accessor, key, start, end);
-  //       start = end;
-  //       end += this.spans[start][this.lastSpan];
-  //     }
-  //     this.spanWorkData(accessor, key, start, this.dataSource.filteredData.length);
-  //   } else {
-  //     this.spanWorkData(accessor, key, 0, this.dataSource.filteredData.length);
-  //   }
-  // }
-  // spanWorkData(accessor, key, start, end) {
-  //   for (let i = start; i < end;) {
-  //     let currentValue = accessor(this.dataSource.filteredData[i]);
-  //     let count = 1;
-  //     for (let j = i + 1; j < end; j++) {
-  //       if (!isEqual(currentValue, accessor(this.dataSource.filteredData[j]))) {
-  //         break;
-  //       }
-  //       count++;
-  //     }
-  //     if (!this.spans[i]) {
-  //       this.spans[i] = {};
-  //     }
-  //     this.spans[i][key] = count;
-  //     i += count;
-  //   }  
-  // }
-
-
-//   operators = {
-//     // '+' : function(a: number[]) { return a.reduce((b, c) => { return b + c}, 0); },
-//     '>' : function(a, b) { return a > b; },
-//     '<' : function(a, b) { return a < b; },
-//     // '*' : function(a: number[]) { return a.reduce((b, c) => { return b * c}); },
-//     //'/' : function(a) { return a.reduce((b, c) => { return b + c}, 0); },
-//     // 'avg' : function(a: number[]) { return (a.reduce((b, c) => { return b + c}))/a.length; },
-//     '>lbkg' : function(a, b) { 
-//       if(a['measureUnit'] === b['measureUnit']) {
-//         return a['amount'] > b['amount'];
-//       } else if(a['measureUnit'] === 'KG') {
-//           return a['amount'] > b['amount']*0.4536;
-//       } else {
-//         return a['amount']*0.4536 > b['amount'];
-//       }
-//     },
-//     '<lbkg' : function(a, b) {  if(a['measureUnit'] === b['measureUnit']) {
-//         return a['amount'] < b['amount'];
-//       } else if(a['measureUnit'] === 'KG') {
-//         return a['amount'] < b['amount']*0.4536;
-//       } else {
-//         return a['amount']*0.4536 < b['amount'];
-//       }
-//     },
-//   };
-//   compare (element, column) {
-//     if(column.compare.name) {
-//       if(element[column.compare.name] && element[column.name]) {
-//         if(column.compare.pipes) {
-//           return this.operators[column.compare.type](element[column.name][column.compare.pipes], element[column.compare.name][column.compare.pipes]);
-//         } else {
-//           return this.operators[column.compare.type](element[column.name], element[column.compare.name]);
-//         }
-        
-//       }
-//     } else {
-//       if(element[column.name]) {
-//         return this.operators[column.compare.type](element[column.name], column.compare.pipes);
-//       }
-//     }
-//     return false;
-//   }
-
-//   getTotel(cloumen, index, key) {
-//     if(this.spans[index]) {
-//       var number = 0;
-//       for (let ind = index; ind < index+this.spans[index][key]; ind++) {
-//         number += this.dataSource.data[ind][cloumen]['amount'];
-//       }
-//       return number + ' ' + this.dataSource.data[index][cloumen]['measureUnit'];
-//     }
-//   }
+  readySpanData() {
+    this.lastSpan = null;
+    this.spans = [];
+    if(this.groupId) {
+      this.spanRow(d => d['id'], 'id');
+      this.lastSpan = 'id';
+    }
+    this.localGroupOneColumns.forEach(element => {
+      if(element.group === element.name) {
+        this.spanRow(d => d[element.name], element.name);
+        this.lastSpan = element.name;
+      }
+    });
+  }
 }

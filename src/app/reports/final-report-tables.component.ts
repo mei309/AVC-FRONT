@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
         <fieldset *ngIf="dataSource[process.name]">
             <legend><h1>{{process.label}}</h1></legend>
             <ng-container [ngSwitch]="process.type">
-                <normal-group-details *ngSwitchCase="'qc'" [mainDetailsSource]="[dataSource[process.name], columnsQc]">
+                <normal-group-details *ngSwitchCase="'qc'" [mainDetailsSource]="dataSource[process.name]" [mainColumns]="columnsQc">
                 </normal-group-details>
                 <ng-container *ngSwitchCase="'shipping'">
                     <in-out-total  *ngFor="let line of dataSource[process.name]" [dataSource]="line" shipping="true">

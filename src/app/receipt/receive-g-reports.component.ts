@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -25,6 +25,8 @@ import { ReceiptService } from './receipt.service';
     `
 })
 export class ReceiveGReports implements OnInit {
+  navigationSubscription;
+  
   tabIndex: number = 0;
   
   columnsShow: OneColumn[];
@@ -119,6 +121,19 @@ export class ReceiveGReports implements OnInit {
           this.changed(0);
         }
     });
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+          if(params.get('number')) {
+            this.tabIndex = +params.get('number');
+            this.changed(+params.get('number'));
+          } else {
+            this.changed(0);
+          }
+        });
+      }
+    });
   }
 
   openDialog(event): void {
@@ -190,6 +205,12 @@ export class ReceiveGReports implements OnInit {
           break;
         default:
           break;
+      }
+    }
+
+    ngOnDestroy() {
+      if (this.navigationSubscription) {  
+         this.navigationSubscription.unsubscribe();
       }
     }
 

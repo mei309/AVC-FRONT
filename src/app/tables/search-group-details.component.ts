@@ -38,10 +38,6 @@ import { OneColumn } from '../field.interface';
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
-                    <mat-select *ngSwitchCase="'listAmountWithUnit'" placeholder="Search" (focus)="listAmountWithUnit(column.name)" (selectionChange)="applyFilter($event.value)">
-                        <mat-option value="">--all--</mat-option>
-                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-                    </mat-select>
                     
                     <input *ngSwitchCase="'array2'" matInput readonly>
 
@@ -133,13 +129,7 @@ export class SearchGroupDetailsComponent {
     
     totalColumn: OneColumn;
     @Input() set totelColumn(value) {
-      // if(value) {
         this.totalColumn = value;
-      // } else if(this.totalColumn) {
-      //   if(this.columnsDisplay[this.columnsDisplay.length-1] === 'totealCol') {
-      //     this.columnsDisplay.pop();
-      //   }
-      // }
     }
 
     dataSource;
@@ -147,30 +137,11 @@ export class SearchGroupDetailsComponent {
         if(value) {
             // this.t0 = performance.now()
             this.dataSource = <any[]>value;
-            this.preperData();
-            this.dataSource = new MatTableDataSource(this.dataSource);
-            this.dataSource.sort = this.sort;
-            // var t1 = performance.now();
-            // console.log("Call to setter took " + (t1 - t0) + " milliseconds.")
-            
-            if(this.withPaginator) {
-              this.dataSource.paginator = this.paginator;
+            if(this.oneColumns) {
+              this.settingDataSource();
+            } else {
+              this.waitForCols = true;
             }
-              // if(this.groupId) {
-              //   this.spanRow(d => d['id'], 'id');
-              //   this.lastSpan = 'id';
-              // }
-              // this.localGroupOneColumns.forEach(element => {
-              //   if(element.group === element.name) {
-              //     this.spanRow(d => d[element.name], element.name);
-              //     this.lastSpan = element.name;
-              //   }
-              // });
-            this.readySpanData();
-            if(this.secondTimer) {
-              clearTimeout(this.secondTimer);
-            }
-            this.secondToUpload = false;
         } else {
             this.dataSource = null;
         }
@@ -185,13 +156,13 @@ export class SearchGroupDetailsComponent {
         this.lastSpan = null;
         this.spans = [];
         this.preperColumns();
-        // if(this.totalColumn) {
-        //   if(this.columnsDisplay[this.columnsDisplay.length-1] !== 'totealCol') {
-        //     this.columnsDisplay.push('totealCol');
-        //   }
-        // }
+        if(this.waitForCols) {
+          this.settingDataSource();
+        }
+    } else {
+      this.oneColumns = null;
     }
-}
+  }
 
   oneColumns: OneColumn[] = [];
   
@@ -208,6 +179,8 @@ export class SearchGroupDetailsComponent {
   localGroupOneColumns = [];
   localItemWeightColumns = [];
   
+  waitForCols: boolean = false;
+
   t0;
   
   constructor() {
@@ -220,6 +193,22 @@ export class SearchGroupDetailsComponent {
   //   // console.log("Call group " + (t1 - this.t2) + " milliseconds.");
   //   // console.log("only group " + (this.t2 - this.t0) + " milliseconds.")
   // }
+
+  settingDataSource() {
+      this.preperData();
+      this.dataSource = new MatTableDataSource(this.dataSource);
+      this.dataSource.sort = this.sort;
+      if(this.withPaginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+      this.readySpanData();
+      if(this.secondTimer) {
+        clearTimeout(this.secondTimer);
+      }
+      this.secondToUpload = false;
+  }
+
+
   preperData() {
     this.oneColumns.forEach(element => {
       if(element.type === 'kidArray'){

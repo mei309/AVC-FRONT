@@ -24,7 +24,7 @@ import { SchedulesService } from './schedules.service';
     </mat-form-field>
     <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek($event.checked)">See all</mat-checkbox>
   </div>
-  <normal-group-details [mainDetailsSource]="cashewSourceColumns">
+  <normal-group-details [mainDetailsSource]="cashewSourceColumns" [mainColumns]="columnsShow">
   </normal-group-details>
   `,
 })
@@ -129,7 +129,7 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
       if(dates.end) {
         this.ordersSource = this.mainSource.filter(e=> 
           (new Date(e['deliveryDate'])).getTime() > (dates.start).setHours(0,0,0,0) && (new Date(e['deliveryDate'])).getTime() < (dates.end).setHours(23,59,59,999)); 
-        this.cashewSourceColumns = [this.ordersSource, this.columnsShow];
+        this.cashewSourceColumns = this.ordersSource;
         if(this.ordersSource.length < this.mainSource.length) {
           this.seeAll = false;
         }
@@ -140,7 +140,7 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
     this.seeAll = seeAll;
     if(seeAll) {
       // this.ordersSource = this.mainSource;
-      this.cashewSourceColumns = [this.mainSource, this.columnsShow];
+      this.cashewSourceColumns = this.mainSource;
     } else {
       this.showWeek();
       this.inlineRangeChange();

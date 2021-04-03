@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { OneColumn } from './../field.interface';
@@ -24,6 +24,7 @@ import { InventoryService } from './inventory.service';
     `
 })
 export class GenralInventoryComponent implements OnInit {
+  navigationSubscription;
 
   dateRangeDisp = {begin: new Date(2020, 7, 5), end: new Date(2020, 7, 25)};
   tabIndex: number = 0;
@@ -33,7 +34,7 @@ export class GenralInventoryComponent implements OnInit {
   generalSourceColumns: any[];
 
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
-    private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef) {
+    private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
   }
 
   ngOnInit() {
@@ -43,6 +44,19 @@ export class GenralInventoryComponent implements OnInit {
         this.changed(+params.get('number'));
       } else {
         this.changed(0);
+      }
+    });
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+          if(params.get('number')) {
+            this.tabIndex = +params.get('number');
+            this.changed(+params.get('number'));
+          } else {
+            this.changed(0);
+          }
+        });
       }
     });
   }
@@ -230,6 +244,12 @@ export class GenralInventoryComponent implements OnInit {
       let begin = $event.begin.value;
       let end = $event.end.value;
       // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
+    }
+
+    ngOnDestroy() {
+      if (this.navigationSubscription) {  
+         this.navigationSubscription.unsubscribe();
+      }
     }
     
 }

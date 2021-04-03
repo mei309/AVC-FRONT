@@ -8,7 +8,7 @@ import { ShipmentCodesComponent } from './shipment-codes.component';
 
 const routes: Routes = [
     { path: 'Booking', component: CountinersBookingComponent},
-    { path: 'Arrival', component: CountinersArrivalComponent},
+    { path: 'Arrival', component: CountinersArrivalComponent, runGuardsAndResolvers: 'always'},
     { path: 'Loading', component: CountinersLoadingComponent, runGuardsAndResolvers: 'always'},
     { path: 'CountinerReports', component: CountinersReportsComponent},
     { path: 'ShipmentCodes', component: ShipmentCodesComponent},

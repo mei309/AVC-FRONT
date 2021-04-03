@@ -10,7 +10,7 @@ import { ReportsService } from './reports.service';
         <fieldset *ngIf="dataSource[process.name].length">
             <legend><h1>{{process.label}}</h1></legend>
             <ng-container [ngSwitch]="process.type">
-                <normal-group-details *ngSwitchCase="'group'" [mainDetailsSource]="[dataSource[process.name], process.collections? process.collections : productionShow]">
+                <normal-group-details *ngSwitchCase="'group'" [mainDetailsSource]="dataSource[process.name]" [mainColumns]="process.collections? process.collections : productionShow">
                 </normal-group-details>
                 <normal-details *ngSwitchCase="'normal'" [dataSource]="dataSource[process.name]" [oneColumns]="process.collections? process.collections : productionShow">
                 </normal-details>
