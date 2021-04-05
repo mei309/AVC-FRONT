@@ -328,10 +328,9 @@ export class PlanProductionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.regConfig = [
             {
-                type: 'select',
+                type: 'selectMultipile',
                 label: 'Special orders',
                 name: 'weightThhype',
-                inputType: 'multiple',
                 options: this.genral.getWearhouses(),
             },
             {

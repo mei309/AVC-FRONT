@@ -248,6 +248,7 @@ export class ReceiveCOrder implements OnInit {
                         label: 'Item reciving',
                         name: 'item',
                         collections: 'somewhere',
+                        inputType: 'orderItem',
                         options: this.genral.getItemsRawCashew(),
                     },
                     {

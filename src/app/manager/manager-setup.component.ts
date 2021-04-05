@@ -347,10 +347,9 @@ export class ManagmentSetupComponent {
             );
             this.regConfigTemp.push(
                 {
-                    type: 'select',
+                    type: 'selectMultipile',
                     label: 'Item descrption',
                     name: 'items',
-                    inputType: 'multiple',
                     collections: 'somewhere',
                     options: this.genral.getAllItemsCashew(),
                     validations: [

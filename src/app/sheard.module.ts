@@ -60,6 +60,7 @@ import { SelectNormalMultipleComponent } from './components/selects/select-norma
 import { PrintLazyLoadDirective } from './libraries/print-lazy-load.directive';
 import { MaterialUsageComponent } from './components/avc-special/material-usage.component';
 import { SelectMeasureUnitComponent } from './components/avc-special/measure-unit-select.component';
+import { SelectMultipileComponent } from './components/selects/select-multipile.component';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
@@ -101,6 +102,7 @@ import { SelectMeasureUnitComponent } from './components/avc-special/measure-uni
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
+    SelectMultipileComponent,
     SelectNormalComponent,
     SelectNormalMultipleComponent,
     SelectgroupComponent,
@@ -166,6 +168,7 @@ import { SelectMeasureUnitComponent } from './components/avc-special/measure-uni
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
+    SelectMultipileComponent,
     SelectNormalComponent,
     SelectNormalMultipleComponent,
     SelectgroupComponent,
@@ -216,6 +219,7 @@ import { SelectMeasureUnitComponent } from './components/avc-special/measure-uni
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
+    SelectMultipileComponent,
     SelectNormalComponent,
     SelectNormalMultipleComponent,
     SelectgroupComponent,

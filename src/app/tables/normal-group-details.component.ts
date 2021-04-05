@@ -69,7 +69,6 @@ export class NormalGroupDetailsComponent {
         this.localGroupOneColumns = [];
         this.localItemWeightColumns = [];
         this.lastSpan = null;
-        this.spans = [];
         this.preperColumns();
         if(this.waitForCols) {
           this.settingDataSource();
@@ -89,6 +88,8 @@ export class NormalGroupDetailsComponent {
             } else {
               this.waitForCols = true;
             }
+            console.log(this.spans);
+            
         } else {
           this.dataSource = null;
         }
@@ -141,7 +142,7 @@ export class NormalGroupDetailsComponent {
     this.dataSource = arr;
     element.collections?.forEach(second => {
       if(second.type === 'kidArray') {
-          this.columnsKidArray(second);
+          this.dataKidArray(second);
       }
     });
   }
@@ -154,7 +155,7 @@ export class NormalGroupDetailsComponent {
     }
     this.oneColumns.forEach(element => {
       if(element.type === 'kidArray'){
-          this.columnsKidArray(element);
+          // this.columnsKidArray(element);
       } else if(element.type === 'itemWeight') {
           this.localItemWeightColumns.push(element);
           this.columnsDisplay.push(element.name);
@@ -165,13 +166,13 @@ export class NormalGroupDetailsComponent {
     });
   }
 
-  columnsKidArray(element) {
-    element.collections?.forEach(second => {
-        if(second.type === 'kidArray') {
-            this.columnsKidArray(second);
-        }
-    });
-  }
+  // columnsKidArray(element) {
+  //   element.collections?.forEach(second => {
+  //       if(second.type === 'kidArray') {
+  //           this.columnsKidArray(second);
+  //       }
+  //   });
+  // }
 
 
   openDetails(value: any) {
@@ -182,22 +183,22 @@ export class NormalGroupDetailsComponent {
     if(this.lastSpan) {
       var start: number = 0;
       var end: number = this.spans[0]? this.spans[0][this.lastSpan] : 0;
-      while (end < this.dataSource.length) {
+      while (end < this.dataSource.filteredData.length) {
         this.spanWork(accessor, key, start, end);
         start = end;
         end += this.spans[start][this.lastSpan];
       }
-      this.spanWork(accessor, key, start, this.dataSource.length);
+      this.spanWork(accessor, key, start, this.dataSource.filteredData.length);
     } else {
-      this.spanWork(accessor, key, 0, this.dataSource.length);
+      this.spanWork(accessor, key, 0, this.dataSource.filteredData.length);
     }
   }
   spanWork(accessor, key, start, end) {
     for (let i = start; i < end;) {
-      let currentValue = accessor(this.dataSource[i]);
+      let currentValue = accessor(this.dataSource.filteredData[i]);
       let count = 1;
       for (let j = i + 1; j < end; j++) {
-        if (!isEqual(currentValue, accessor(this.dataSource[j]))) {
+        if (!isEqual(currentValue, accessor(this.dataSource.filteredData[j]))) {
           break;
         }
         count++;

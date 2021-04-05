@@ -50,10 +50,9 @@ export class NewSupplierComponent implements OnInit {
         ]
       },
       {
-        type: 'select',
+        type: 'selectMultipile',
         label: 'Supply category',
         name: 'supplyCategories',
-        inputType: 'multiple',
         options: this.LocalService.getSupplyType(),
         validations: [
           {

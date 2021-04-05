@@ -76,10 +76,9 @@ export class EditSupplierComponent implements OnInit {
         disable: true,
       },
       {
-        type: 'select',
+        type: 'selectMultipile',
         label: 'Supply category',
         name: 'supplyCategories',
-        inputType: 'multiple',
         options: this.LocalService.getSupplyType(),
         validations: [
           {

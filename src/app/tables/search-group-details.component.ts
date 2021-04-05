@@ -144,6 +144,7 @@ export class SearchGroupDetailsComponent {
             }
         } else {
             this.dataSource = null;
+            this.secondTimer = setTimeout(() => this.secondToUpload = true, 500);
         }
   }
 
@@ -184,7 +185,6 @@ export class SearchGroupDetailsComponent {
   t0;
   
   constructor() {
-    this.secondTimer = setTimeout(() => this.secondToUpload = true, 1000);
     // this.t0 = performance.
   }
   // ngAfterViewChecked() {
@@ -233,7 +233,7 @@ export class SearchGroupDetailsComponent {
     this.dataSource = arr;
     element.collections?.forEach(second => {
       if(second.type === 'kidArray') {
-          this.columnsKidArray(second);
+          this.dataKidArray(second);
       }
     });
   }
@@ -245,7 +245,7 @@ export class SearchGroupDetailsComponent {
     }
     this.oneColumns.forEach(element => {
       if(element.type === 'kidArray'){
-          this.columnsKidArray(element);
+          // this.columnsKidArray(element);
       } else if(element.type === 'itemWeight') {
           this.localItemWeightColumns.push(element);
           this.columnsDisplay.push(element.name);
@@ -256,13 +256,13 @@ export class SearchGroupDetailsComponent {
     });
   }
 
-  columnsKidArray(element) {
-    element.collections?.forEach(second => {
-        if(second.type === 'kidArray') {
-            this.columnsKidArray(second);
-        }
-    });
-  }
+  // columnsKidArray(element) {
+  //   element.collections?.forEach(second => {
+  //       if(second.type === 'kidArray') {
+  //           this.columnsKidArray(second);
+  //       }
+  //   });
+  // }
 
 
   getDisplayedColumns(): string[] {
@@ -321,37 +321,37 @@ export class SearchGroupDetailsComponent {
   }
 
 
-  spanRow(accessor, key) {
-    if(this.lastSpan) {
-      var start: number = 0;
-      var end: number = this.spans[0]? this.spans[0][this.lastSpan] : 0;
-      while (end < this.dataSource.length) {
-        this.spanWork(accessor, key, start, end);
-        start = end;
-        end += this.spans[start][this.lastSpan];
-      }
-      this.spanWork(accessor, key, start, this.dataSource.length);
-    } else {
-      this.spanWork(accessor, key, 0, this.dataSource.length);
-    }
-  }
-  spanWork(accessor, key, start, end) {
-    for (let i = start; i < end;) {
-      let currentValue = accessor(this.dataSource[i]);
-      let count = 1;
-      for (let j = i + 1; j < end; j++) {
-        if (!isEqual(currentValue, accessor(this.dataSource[j]))) {
-          break;
-        }
-        count++;
-      }
-      if (!this.spans[i]) {
-        this.spans[i] = {};
-      }
-      this.spans[i][key] = count;
-      i += count;
-    }  
-  }
+  // spanRow(accessor, key) {
+  //   if(this.lastSpan) {
+  //     var start: number = 0;
+  //     var end: number = this.spans[0]? this.spans[0][this.lastSpan] : 0;
+  //     while (end < this.dataSource.length) {
+  //       this.spanWork(accessor, key, start, end);
+  //       start = end;
+  //       end += this.spans[start][this.lastSpan];
+  //     }
+  //     this.spanWork(accessor, key, start, this.dataSource.length);
+  //   } else {
+  //     this.spanWork(accessor, key, 0, this.dataSource.length);
+  //   }
+  // }
+  // spanWork(accessor, key, start, end) {
+  //   for (let i = start; i < end;) {
+  //     let currentValue = accessor(this.dataSource[i]);
+  //     let count = 1;
+  //     for (let j = i + 1; j < end; j++) {
+  //       if (!isEqual(currentValue, accessor(this.dataSource[j]))) {
+  //         break;
+  //       }
+  //       count++;
+  //     }
+  //     if (!this.spans[i]) {
+  //       this.spans[i] = {};
+  //     }
+  //     this.spans[i][key] = count;
+  //     i += count;
+  //   }  
+  // }
 
   getRowSpan(index, key) {
     if(!key) {

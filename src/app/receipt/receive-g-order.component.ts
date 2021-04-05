@@ -92,7 +92,7 @@ export class ReceiveGOrder implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getPoCashewCodesOpen(),
+                options: this.localService.getPoGeneralCodesOpen(),
                 collections: [
                     {
                         type: 'select',
@@ -206,6 +206,7 @@ export class ReceiveGOrder implements OnInit {
                         label: 'Item reciving',
                         name: 'item',
                         collections: 'somewhere',
+                        inputType: 'orderItem',
                         options: this.genral.getItemsGeneral(),
                     },
                     {

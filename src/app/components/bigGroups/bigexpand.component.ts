@@ -28,6 +28,7 @@ import { PercentInputComponent } from '../inputs/percent-input.component';
 import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
 import { MaterialUsageComponent } from '../avc-special/material-usage.component';
 import { SelectMeasureUnitComponent } from '../avc-special/measure-unit-select.component';
+import { SelectMultipileComponent } from '../selects/select-multipile.component';
 
 
 
@@ -35,6 +36,7 @@ const componentMapper = {
   input: InputComponent,
   inputselect: InputSelectComponent,
   select: SelectComponent,
+  selectMultipile: SelectMultipileComponent,
   selectNormal: SelectNormalComponent,
   selectNormalMultiple: SelectNormalMultipleComponent,
   date: DateComponent,
