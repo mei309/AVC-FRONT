@@ -220,9 +220,9 @@ export class RelocationCountComponent implements OnInit {
         val?.forEach(element => {
             if(element['storage']) {
                 if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {
-                    // element['storage']['amounts'].forEach(amo => {
-                    //     amo['amount'] = amo['numberAvailableUnits'];
-                    // });
+                    element['storage']['amounts'].forEach(ele => {
+                        ele['amount'] = ele['numberAvailableUnits'];
+                    });
                     element['storage']['item'] = element['item'];
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];

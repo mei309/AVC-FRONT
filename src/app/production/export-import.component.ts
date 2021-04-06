@@ -173,7 +173,10 @@ export class ExportImportComponent implements OnInit {
                 element['storage']['measureUnit'] = element['measureUnit'];
                 element['storage']['itemProcessDate'] = element['itemProcessDate'];
                 element['storage']['itemPoCodes'] = element['poCodes'];
-                element['storage']['itemSuppliers'] = element['suppliers']
+                element['storage']['itemSuppliers'] = element['suppliers'];
+                element['storage']['amounts'].forEach(ele => {
+                    ele['amount'] = ele['numberAvailableUnits'];
+                });
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 

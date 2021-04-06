@@ -180,7 +180,8 @@ export class CountinersLoadingComponent {
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
                     arrTable.push({usedItem: element['storage']});
                     element['storage']['amounts'].forEach(ele => {
-                        this.removeIdsTable.push(ele['id']);
+                        ele['amount'] = ele['numberAvailableUnits'];
+                        // this.removeIdsTable.push(ele['id']);
                     });
                 }
             } else if(element['storageForms']) {
