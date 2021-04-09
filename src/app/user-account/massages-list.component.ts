@@ -49,7 +49,7 @@ export class MassagesListComponent {
           type: 'arrayVal',
           name: 'suppliers',
           label: 'Supplier',
-          search: 'selectAsyncObject',
+          search: 'selectObj',
           options: this.genral.getSuppliersCashew(),
       },
       {

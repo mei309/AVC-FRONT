@@ -57,7 +57,7 @@ export class ReceiveCReports implements OnInit {
       {
         name: 'supplierName',
         label: 'Supplier',
-        search: 'selectAsyncObject',
+        search: 'selectObj',
         options: this.genral.getSuppliersCashew(),
         group: 'poCode',
       },
@@ -72,7 +72,7 @@ export class ReceiveCReports implements OnInit {
         type: 'nameId',
         name: 'item',
         label: 'Product descrption',
-        search: 'selectAsyncObject2',
+        search: 'selectObjObj',
         options: this.genral.getItemsRawCashew(),
       },
       {
@@ -111,7 +111,7 @@ export class ReceiveCReports implements OnInit {
         type: 'array',
         name: 'storage',
         label: 'Storage',
-        search: 'selectAsyncObject',
+        search: 'selectObj',
         options: this.genral.getWearhouses(),
       },
       {

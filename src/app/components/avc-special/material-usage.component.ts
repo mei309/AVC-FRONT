@@ -92,6 +92,8 @@ export class MaterialUsageComponent implements OnInit {
 
 
     this.dataSource = this.group.get(this.field.name).value; 
+    console.log(this.dataSource);
+    
     this.columnsSetup(this.field);
     this.kidSetup(this.field);
   }

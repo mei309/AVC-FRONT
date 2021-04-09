@@ -5,7 +5,7 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'final-report-summary',
   template:`
-  <div *ngIf="dataSource">
+  <ng-container *ngIf="dataSource; else noDataSum">
     <ng-container *ngFor="let process of processess">
         <fieldset *ngIf="dataSource[process.name].length">
             <legend><h1>{{process.label}}</h1></legend>
@@ -17,8 +17,10 @@ import { ReportsService } from './reports.service';
             </ng-container>
         </fieldset>
     </ng-container>
-  </div>
-  <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
+  </ng-container>
+  <ng-template #noDataSum>
+    <mat-spinner></mat-spinner>
+  </ng-template>
     ` ,
     styleUrls: ['./final-report-tables.css']
 })

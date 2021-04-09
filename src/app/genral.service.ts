@@ -230,6 +230,8 @@ export class Genral {
             return value.filter(a => a.productionFunctionality === 'ROASTER_IN');
           case 'Pack':
             return value.filter(a => a.productionFunctionality === 'PACKING');
+          case 'GENERAL_STORAGE':
+            return value.filter(a => a.productionFunctionality === 'GENERAL_STORAGE');
           default:
             return value;
         }
@@ -263,7 +265,8 @@ export class Genral {
       'CASHEW_CLEANING',
       'CASHEW_ROASTING',
       'PACKING',
-      'CONTAINER_LOADING', 'CONTAINER_BOOKING'];
+      'CONTAINER_LOADING', 'CONTAINER_BOOKING', 'CONTAINER_ARRIVAL',
+      'GENERAL_USE'];
   }
 
   getDecisionType(): string[] {

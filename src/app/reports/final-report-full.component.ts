@@ -7,7 +7,7 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'final-report-full',
   template:`
-    <div *ngIf="poDetails">
+  <ng-container *ngIf="poDetails; else noDataFull">
         <div class="example-action-buttons">
             <mat-checkbox (change)="setAll($event.checked)">Expand All</mat-checkbox>
         </div>
@@ -76,8 +76,12 @@ import { ReportsService } from './reports.service';
                 </ng-template>
             </mat-expansion-panel>
         </mat-accordion>
-    </div>
+    </ng-container>
+  <ng-template #noDataFull>
+    <mat-spinner></mat-spinner>
+  </ng-template>
   ` ,
+  styleUrls: ['./final-report-tables.css']
 })
 export class FinalReportFullComponent {
 

@@ -216,7 +216,7 @@ export class ManagmentSetupComponent {
                     type: 'nameId',
                     name: 'items',
                     label: 'Item descrption',
-                    // search: 'selectAsyncObject',
+                    search: 'none',
                     // options: this.genral.getAllItemsCashew(),
                 },
                 {

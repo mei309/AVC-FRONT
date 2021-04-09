@@ -20,11 +20,11 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality);
   }
 
-  addEditTransfer (value, fromNew: boolean) {
+  addEditMaterialUse (value, fromNew: boolean) {
     if(fromNew) {
-      return this.http.post(this.inventorysurl+'addStorageTransfer', value);
+      return this.http.post(this.inventorysurl+'addMaterialUse', value);
     } else {
-      return this.http.put(this.inventorysurl+'editStorageTransfer', value);
+      return this.http.put(this.inventorysurl+'editMaterialUse', value);
     }
   }
 
@@ -56,6 +56,10 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getGeneralInventoryByPo');
   }
 
+  getMaterialUses() {
+    return this.http.get(this.inventorysurl+'getMaterialUses');
+  }
+
   getGeneralInventoryOrder() {
     return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }
@@ -78,6 +82,10 @@ export class InventoryService {
   
   getStorageRelocation (id: number): Observable<any> {
     return this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
+  }
+
+  getMaterialUse (id: number): Observable<any> {
+    return this.http.get(this.inventorysurl+'getMaterialUse/'+id);
   }
 
   getPoCashewCodesInventory (): Observable<any> {

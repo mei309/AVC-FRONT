@@ -80,4 +80,9 @@ table {
     .dashboard-card-content {
       text-align: center;
     }
-  
+
+    .mat-expansion-panel-header.mat-expanded,
+    .mat-expansion-panel-header.mat-expanded:hover,
+    .mat-expansion-panel-header.mat-expanded:focus {
+        background-color:yellow;
+    }

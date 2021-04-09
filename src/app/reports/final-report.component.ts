@@ -29,14 +29,16 @@ import { ReportsService } from './reports.service';
             </mat-tab>
             <mat-tab label="Graphs">
                 <ng-template matTabContent>
-                    <final-report-charts [finalReport]="finalReport">
+                    <final-report-charts *ngIf="finalReport" [finalReport]="finalReport">
                     </final-report-charts>
+                    <mat-spinner *ngIf="!finalReport"></mat-spinner>
                 </ng-template>
             </mat-tab>
             <mat-tab label="Final report">
                 <ng-template matTabContent>
-                    <final-report-table [dataSource]="finalReport">
+                    <final-report-table *ngIf="finalReport" [dataSource]="finalReport">
                     </final-report-table>
+                    <mat-spinner *ngIf="!finalReport"></mat-spinner>
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
@@ -63,13 +65,13 @@ export class FinalReportComponent {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('poCode')) {
                 this.poCode = +params.get('poCode');
+                this.isDataAvailable = true;
                 // this.localService.getAllProcesses(this.poCode).pipe(take(1)).subscribe( val => {
                 //     this.poDetails = val;
                 //     this.isDataAvailable = true;
                 // });
                 this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                     this.finalReport = val1;
-                    this.isDataAvailable = true;
                 });
                 this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
@@ -79,15 +81,17 @@ export class FinalReportComponent {
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 if(selectedValue['id'] !== this.poCode) {
-                    this.poCode = selectedValue['id'];
                     this.isDataAvailable = false;
+                    this.poCode = selectedValue['id'];
+                    this.finalReport = null;
+                    this.cdRef.detectChanges();
+                    this.isDataAvailable = true;
                     // this.localService.getAllProcesses(this.poCode).pipe(take(1)).subscribe( val => {
                     //     this.poDetails = val;
                     //     this.isDataAvailable = true;
                     // });
                     this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                         this.finalReport = val1;
-                        this.isDataAvailable = true;
                     });
                 }
                 

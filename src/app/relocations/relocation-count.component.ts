@@ -132,7 +132,7 @@ export class RelocationCountComponent implements OnInit {
                 if(element['storageMove']) {
                     element['storageMove']['amounts'].forEach(ele => {
                         ele['take'] = true;
-                        removeIdsTable.push(ele['id']);
+                        // removeIdsTable.push(ele['id']);
                     });
                     arrTable.push(element);
                     if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === element['storageMove']['item']['value'] )) {
@@ -266,7 +266,6 @@ export class RelocationCountComponent implements OnInit {
         }
     }
    ngOnInit() {
-        this.setRegConfig();
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('clean')) {
                 this.type = 'Clean';
@@ -279,7 +278,7 @@ export class RelocationCountComponent implements OnInit {
                 this.setBeginChoose();
             }
         });
-       
+        this.setRegConfig();
        
 
        

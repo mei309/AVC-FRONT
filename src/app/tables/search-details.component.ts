@@ -19,25 +19,19 @@ import { OneColumn } from '../field.interface';
           <h3 mat-sort-header>{{column.label}}</h3>
           <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print">
               <mat-select *ngSwitchCase="'select'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
-                <mat-option value="">--all--</mat-option>
-                <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
+                  <mat-option value="">--all--</mat-option>
+                  <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectAsync'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
-                <mat-option value="">--all--</mat-option>
-                <mat-option *ngFor="let item of column.options | async" [value]="item">{{item}}</mat-option>
-              </mat-select>
-              <mat-select *ngSwitchCase="'selectObject'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
-                <mat-option value="">--all--</mat-option>
-                <mat-option *ngFor="let item of column.options" [value]="item.value">{{item.value}}</mat-option>
-              </mat-select>
-              <mat-select *ngSwitchCase="'selectAsyncObject'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
-                <mat-option value="">--all--</mat-option>
-                <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-              </mat-select>
-              <mat-select *ngSwitchCase="'arraySelectAsyncObject'" placeholder="Search" (focus)="setupFilterArray(column.name)" (selectionChange)="applyFilter($event.value)">
+              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
               </mat-select>
+              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
+                  <mat-option value="">--all--</mat-option>
+                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
+              </mat-select>
+
+              <input *ngSwitchCase="'none'" matInput readonly>
 
               <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4">
                 <input matStartDate placeholder="Start date" #dateRangeStart>

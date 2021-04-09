@@ -64,6 +64,7 @@ export class ItemsSetupComponent {
                     type: 'weight',
                     label: 'Bag weight',
                     name: 'unit',
+                    search: 'normal',
                     // collections: 'measureUnit',
                 }
             );

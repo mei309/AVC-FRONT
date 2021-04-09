@@ -43,7 +43,7 @@ export class OrdersGReports implements OnInit {
       {
         name: 'supplierName',
         label: 'Supplier',
-        search: 'selectAsyncObject',
+        search: 'selectObj',
         options: this.genral.getSuppliersGeneral(),
         group: 'poCode',
       },
@@ -57,7 +57,7 @@ export class OrdersGReports implements OnInit {
         type: 'nameId',
         name: 'item',
         label: 'Product descrption',
-        search: 'selectAsyncObject2',
+        search: 'selectObjObj',
         options: this.genral.getItemsGeneral(),
       },
       {

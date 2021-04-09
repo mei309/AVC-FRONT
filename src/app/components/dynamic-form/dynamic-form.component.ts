@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {cloneDeep} from 'lodash-es';
 import { allOrNoneRequired, FieldConfig, atLeastOneRequired } from '../../field.interface';
@@ -274,6 +274,10 @@ export class DynamicFormComponent implements OnInit {
           }
           break;
         }
+        case 'materialUsage': {
+          group.addControl(field.name, this.fb.array([]));
+          break;
+        }
         case 'bigexpand': {
           if(field.value === 'required') {
             group.addControl(field.name, this.fb.array([this.createItem(field)], atLeastOneRequired()));
@@ -352,6 +356,10 @@ export class DynamicFormComponent implements OnInit {
           for(let i = 2; i < num; i++) {
             (group2.get([temp.name]) as FormArray).push(this.fb.group({ordinal: [i], amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )}));
           }
+          break;
+        }
+        case 'materialUsage': {
+          group2.addControl(temp.name, this.fb.array([]));
           break;
         }
         case 'bigexpand': {

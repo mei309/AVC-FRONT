@@ -6,10 +6,12 @@ import { GenralInventoryComponent } from './genral-inventory.component';
 import { SheardModule } from './../sheard.module';
 import { NgModule } from '@angular/core';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
+import { MaterialUsageComponent } from './material-use.component';
+import { InventoryReportsComponent } from './inventory.component';
 @NgModule({
   declarations: [GenralInventoryComponent, CashewInventoryComponent, CashewCountComponent, GenralCountComponent,
   // MaterialExportPoComponent, MaterialExportItemComponent, 
-  InventoryDetailsDialogComponent,
+  InventoryDetailsDialogComponent, MaterialUsageComponent, InventoryReportsComponent
   // TransferCountComponent,
   ],
   imports: [

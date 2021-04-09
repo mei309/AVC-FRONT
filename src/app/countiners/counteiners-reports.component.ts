@@ -89,12 +89,13 @@ export class CountinersReportsComponent implements OnInit {
                 type: 'normal',
                 label: 'Container number',
                 name: 'containerNumber',
+                search: 'normal',
             },
             // {
             //     type: 'nameId',
             //     label: 'Port of discharge',
             //     name: 'portOfDischarge',
-            //     search: 'selectAsyncObject',
+            //     search: 'selectObj',
             //     options: this.localService.getShippingPorts(),
             // },
             {
@@ -142,7 +143,7 @@ export class CountinersReportsComponent implements OnInit {
                 type: 'arrayVal',
                 name: 'poCodes',
                 label: 'PO#',
-                // search: 'object',
+                search: 'normal',
                 group: 'poCodes',
             },
             {
@@ -156,15 +157,14 @@ export class CountinersReportsComponent implements OnInit {
                 type: 'nameId',
                 name: 'item',
                 label: 'Product descrption',
-                search: 'selectAsyncObject',
+                search: 'selectObj',
                 options: this.genral.getItemsRoastPackedCashew(),
             },
             {
                 type: 'weight2',
                 name: 'totalRow',
                 label: 'Loaded amounts',
-                // type: 'object',
-                // options: 'currency',
+                search: 'normal',
             },
             {
                 type: 'normal',

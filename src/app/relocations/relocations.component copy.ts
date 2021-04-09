@@ -66,7 +66,7 @@ export class RelocationsComponent implements OnInit {
         // {
         //   name: 'supplierName',
         //   label: 'Supplier',
-        //   search: 'selectAsyncObject',
+        //   search: 'selectObj',
         //   options: this.genral.getSupplierCashew(),
         //   group: 'poCode',
         // },
@@ -75,12 +75,13 @@ export class RelocationsComponent implements OnInit {
             name: 'poCodes',
             label: 'PO#',
             group: 'poCodes',
+            search: 'normal',
         },
         {
             type: 'arrayVal',
             name: 'suppliers',
             label: 'Supplier',
-            search: 'selectAsyncObject',
+            search: 'selectObj',
             options: this.genral.getSuppliersCashew(),
             group: 'poCodes',
         },

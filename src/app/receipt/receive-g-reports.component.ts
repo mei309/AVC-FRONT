@@ -55,7 +55,7 @@ export class ReceiveGReports implements OnInit {
       {
         name: 'supplierName',
         label: 'Supplier',
-        search: 'selectAsyncObject',
+        search: 'selectObj',
         options: this.genral.getSuppliersGeneral(),
         group: 'poCode',
       },
@@ -70,7 +70,7 @@ export class ReceiveGReports implements OnInit {
         type: 'nameId',
         name: 'item',
         label: 'Product descrption',
-        search: 'selectAsyncObject2',
+        search: 'selectObjObj',
         options: this.genral.getItemsGeneral(),
       },
       {
@@ -103,7 +103,7 @@ export class ReceiveGReports implements OnInit {
         type: 'array',
         name: 'storage',
         label: 'Storage',
-        search: 'selectAsyncObject',
+        search: 'selectObj',
         options: this.genral.getWearhouses(),
       },
       {
