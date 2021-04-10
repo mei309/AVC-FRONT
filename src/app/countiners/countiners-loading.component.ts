@@ -304,13 +304,12 @@ export class CountinersLoadingComponent {
             if(element['groupName'].startsWith('table')) {
                 element['usedItem']['amounts'].forEach(ele => {
                     ele['take'] = true;
-                    this.removeIdsTable.push(ele['id']);
+                    // this.removeIdsTable.push(ele['id']);
                 });
                 arrTable.push(element);
             } else if(element['groupName'].startsWith('normal')) {
                 element['usedItems'].forEach(el => {
                     el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
-                    this.removeIds.push(el['id']);
                     this.removeIds.push(el['storage']['id']);
                 });
                 arrNormal.push(element);

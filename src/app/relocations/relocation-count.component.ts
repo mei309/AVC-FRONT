@@ -132,16 +132,19 @@ export class RelocationCountComponent implements OnInit {
                 if(element['storageMove']) {
                     element['storageMove']['amounts'].forEach(ele => {
                         ele['take'] = true;
+                        if(ele['amount'] === ele['numberAvailableUnits']) {
+                            removeIdsTable.push(ele['storageId']);
+                        }
                         // removeIdsTable.push(ele['id']);
                     });
                     arrTable.push(element);
-                    if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === element['storageMove']['item']['value'] )) {
-                        val[0]['itemCounts'].push({item: element['storageMove']['item']});
-                    }
+                    // if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === element['storageMove']['item']['value'] )) {
+                    //     val[0]['itemCounts'].push({item: element['storageMove']['item']});
+                    // }
                 } else if(element['storageMoves']) {
                     element['storageMoves'].forEach(el => {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
-                        removeIdsNormal.push(el['id']);
+                        // removeIdsNormal.push(el['id']);
                         removeIdsNormal.push(el['storage']['id']);
                         // if(!val[0]['itemCounts'].some( vendor => vendor['item']['value'] === el['item']['value'] )) {
                         //     val[0]['itemCounts'].push({item: el['item']});

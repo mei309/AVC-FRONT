@@ -278,7 +278,7 @@ export class Genral {
   }
   
   getSupplyGroup(): string[] {
-    return ['CASHEW', 'GENERAL', 'NONE'];
+    return ['CASHEW', 'GENERAL', 'SHIPPED_PRODUCT', 'LOGISTICS', 'NONE'];
   }
   
   getItemCategory(): string[] {

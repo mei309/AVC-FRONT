@@ -91,13 +91,13 @@ export class CountinersReportsComponent implements OnInit {
                 name: 'containerNumber',
                 search: 'normal',
             },
-            // {
-            //     type: 'nameId',
-            //     label: 'Port of discharge',
-            //     name: 'portOfDischarge',
-            //     search: 'selectObj',
-            //     options: this.localService.getShippingPorts(),
-            // },
+            {
+                type: 'nameId',
+                name: 'productCompany',
+                label: 'Product company',
+                search: 'selectObjObj',
+                options: this.localService.getShippingSuppliers(),
+            },
             {
                 type: 'dateTime',
                 name: 'recordedTime',

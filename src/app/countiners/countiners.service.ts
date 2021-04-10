@@ -15,10 +15,12 @@ export class CountinersService {
   contianerurl = environment.baseUrl +'container/';
 
   shippingPorts = new ReplaySubject<DropNormal[]>();
+  ShippingSuppliers = new ReplaySubject<DropNormal[]>();
 
   constructor(private http: HttpClient) {
     this.http.get(this.contianerurl+'getSetUpContianer').pipe(take(1)).subscribe(value => {
       this.shippingPorts.next(value[0]);
+      this.ShippingSuppliers.next(value[1]);
     });
   }
 
@@ -94,6 +96,10 @@ export class CountinersService {
 
   getShippingPorts (): Observable<any> {
     return this.shippingPorts.asObservable();
+  }
+
+  getShippingSuppliers (): Observable<any> {
+    return this.ShippingSuppliers.asObservable();
   }
 
 }

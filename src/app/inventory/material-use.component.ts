@@ -54,7 +54,7 @@ export class MaterialUsageComponent implements OnInit {
                         this.isFormAvailable = true;
                     }); 
                 } else {
-                    this.router.navigate(['../RelocationsReports', {number: 0}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Reports', {number: 0}], { relativeTo: this._Activatedroute });
                 }
             });
         });

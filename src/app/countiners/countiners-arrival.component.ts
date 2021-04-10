@@ -40,6 +40,12 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                 options: 'withTime',
             },
             {
+                type: 'select',
+                label: 'Product company',
+                name: 'productCompany',
+                options: this.localService.getShippingSuppliers(),
+            },
+            {
                 type: 'bignotexpand',
                 label: 'Shiping details',
                 name: 'shipingDetails',
