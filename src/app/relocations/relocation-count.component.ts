@@ -12,12 +12,12 @@ import { RelocationsService } from './relocations.service';
     selector: 'relocation-count',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>{{type}} transfer with weighing(relocation)</h1></legend>
+        <legend><h1>{{getTitels()}}</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="type+' transfer with weighing(relocation)'" (submitForm)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="getTitels()" (submitForm)="submit($event)">
         </dynamic-form>
     </div>
     `
@@ -34,8 +34,8 @@ export class RelocationCountComponent implements OnInit {
     poID: number;
     isNew: boolean = true;
 
-    type: string = 'Raw';
-  
+    num: number = 0;
+    
     submit(value: any) {
         var arr = [];
         var newWarehouse = value['newWarehouse']? value['newWarehouse']['warehouseLocation'] : null;
@@ -96,7 +96,7 @@ export class RelocationCountComponent implements OnInit {
         this.localService.addEditRelocationTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(RelocationsDetailsDialogComponent, {
                 width: '80%',
-                data: {relocationsItem: cloneDeep(val), fromNew: true, type: 'Inventory item'}
+                data: {relocationsItem: cloneDeep(val), fromNew: true, type: this.getTitels()}
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
@@ -105,11 +105,11 @@ export class RelocationCountComponent implements OnInit {
                     this.dataSource = null;
                     this.cdRef.detectChanges();
                     this.setRegConfig();
-                    this.localService.getStorageByPo(val['poCode']['id'], this.type).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getStorageByPo(val['poCode']['id'], this.num).pipe(take(1)).subscribe( val1 => {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {
-                    this.router.navigate(['../RelocationsReports', {number: this.type === 'Clean'? 1 : 0}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../RelocationsReports', {number: this.num}], { relativeTo: this._Activatedroute });
                 }
             });
         });
@@ -183,7 +183,7 @@ export class RelocationCountComponent implements OnInit {
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
-                this.localService.getStorageByPo(selectedValue['id'], this.type).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageByPo(selectedValue['id'], this.num).pipe(take(1)).subscribe( val => {
                     this.dataSource = {poCode: selectedValue, usedItemsTable: [], usedItemsNormal: [], itemCounts: []};
                     this.setAfterChoose(val);
                     this.cleanUnwanted();
@@ -200,7 +200,7 @@ export class RelocationCountComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getAllPos(this.getProductionUse()),
+                options: this.localService.getAllPos(this.num),
                 collections: [
                     {
                         type: 'select',
@@ -270,11 +270,11 @@ export class RelocationCountComponent implements OnInit {
     }
    ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-            if(params.get('clean')) {
-                this.type = 'Clean';
+            if(params.get('num')) {
+                this.num = +params.get('num');
             } 
             if(params.get('id')) {
-                this.localService.getStorageTransferWithStorage(+params.get('id'), (params.getAll('poCodes')).map(el=>parseInt(el)), this.type).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageTransferWithStorage(+params.get('id'), (params.getAll('poCodes')).map(el=>parseInt(el)), this.num).pipe(take(1)).subscribe( val => {
                     this.fillEdit(val);
                 });
             } else {
@@ -293,10 +293,8 @@ export class RelocationCountComponent implements OnInit {
             this.dataSource = null;
             this.poID = null;
             this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-                if(params.get('clean')) {
-                    this.type = 'Clean';
-                } else {
-                    this.type = 'Raw';
+                if(params.get('num')) {
+                    this.num = +params.get('num');
                 }
             });
             if(this.poConfig) {
@@ -500,55 +498,57 @@ export class RelocationCountComponent implements OnInit {
                  },
              ]
          },
-         {
-             type: 'bigexpand',
-             name: 'itemCounts',
-             label: 'Count',
-            //  options: 'aloneNoAdd',
-             collections: [
-                 {
-                     type: 'select',
-                     label: 'Item descrption',
-                     name: 'item',
-                     collections: 'somewhere',
-                     options: this.genral.getItemsCashew(this.type),
-                    //  disable: true,
-                 },
-                //  {
-                //      type: 'selectNormal',
-                //      label: 'Weight unit',
-                //      name: 'measureUnit',
-                //      options: this.genral.getMeasureUnit(),
-                //      // disable: true,
-                //  },
-                 {
-                    type: 'selectMU',
-                    label: 'Weight unit',
-                    name: 'measureUnit',
-                },
-                //  {
-                //      type: 'input',
-                //      label: 'Empty container weight',
-                //      name: 'containerWeight',
-                //      inputType: 'numeric',
-                //      options: 3,
-                //  },
-                 {
-                     type: 'input',
-                     label: 'All bags weight',
-                     name: 'accessWeight',
-                     inputType: 'numeric',
-                     options: 3,
-                 },
-                 {
-                     type: 'arrayordinal',
-                     label: 'Unit weight',
-                     name: 'amounts',
-                     options: 3,
-                     collections: 30,
-                 },
-             ],
-         },
+         ...this.num != 2? [
+             {
+                type: 'bigexpand',
+                name: 'itemCounts',
+                label: 'Count',
+                //  options: 'aloneNoAdd',
+                collections: [
+                    {
+                        type: 'select',
+                        label: 'Item descrption',
+                        name: 'item',
+                        collections: 'somewhere',
+                        options: this.genral.getItemsCashew(this.num? 'Clean': 'Raw'),
+                        //  disable: true,
+                    },
+                    //  {
+                    //      type: 'selectNormal',
+                    //      label: 'Weight unit',
+                    //      name: 'measureUnit',
+                    //      options: this.genral.getMeasureUnit(),
+                    //      // disable: true,
+                    //  },
+                    {
+                        type: 'selectMU',
+                        label: 'Weight unit',
+                        name: 'measureUnit',
+                    },
+                    //  {
+                    //      type: 'input',
+                    //      label: 'Empty container weight',
+                    //      name: 'containerWeight',
+                    //      inputType: 'numeric',
+                    //      options: 3,
+                    //  },
+                    {
+                        type: 'input',
+                        label: 'All bags weight',
+                        name: 'accessWeight',
+                        inputType: 'numeric',
+                        options: 3,
+                    },
+                    {
+                        type: 'arrayordinal',
+                        label: 'Unit weight',
+                        name: 'amounts',
+                        options: 3,
+                        collections: 30,
+                    },
+                ],
+            }
+        ]: [],
         {
             type: 'button',
             label: 'Submit',
@@ -559,11 +559,25 @@ export class RelocationCountComponent implements OnInit {
    }
 
    getFunctionality() {
-    return this.type === 'Clean'? 'ROASTER_IN' : 'RAW_STATION';
+        switch (this.num) {
+            case 0:
+                return 'RAW_STATION';
+            case 1:
+                return 'ROASTER_IN';
+            case 2:
+                return 'GENERAL_STORAGE';
+        }
    }
 
-   getProductionUse() {
-    return this.type === 'Clean'? 'CLEAN' : 'RAW_KERNEL';
+   getTitels() {
+       switch (this.num) {
+            case 0:
+                return 'Raw relocation with weighing';
+            case 1:
+                return 'Cleaned relocation with weighing';
+            case 2:
+                return 'Relocation without weighing';
+       }
    }
 
 

@@ -995,7 +995,12 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'nameId',
-            label: 'Warehouse location',
+            label: 'Old warehouse location',
+            name: 'warehouseLocation',
+        },
+        {
+            type: 'nameId',
+            label: 'New warehouse location',
             name: 'newWarehouseLocation',
         },
         {

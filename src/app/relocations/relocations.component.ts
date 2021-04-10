@@ -17,9 +17,11 @@ import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.
   (selectedIndexChange)="changed($event)">
       <!-- <mat-tab label="Transfers">
       </mat-tab> -->
-      <mat-tab label="Raw transfer with weighing(relocation)">
+      <mat-tab label="Raw relocation with weighing">
       </mat-tab>
-      <mat-tab label="Cleaned transfer with weighing(relocation)">
+      <mat-tab label="Cleaned relocation with weighing">
+      </mat-tab>
+      <mat-tab label="Relocation without weighing">
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="mainSourceColumns" (details)="openDialog($event)">
@@ -47,14 +49,14 @@ export class RelocationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-        if(params.get('number')) {
-            this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-        } else {
-            this.changed(0);
-        }
-    });
+    // this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+    //     if(params.get('number')) {
+    //         this.tabIndex = +params.get('number');
+    //         this.changed(+params.get('number'));
+    //     } else {
+    //         this.changed(0);
+    //     }
+    // });
     this.columnsShow = [
         // {
         //   type: 'nameId',
@@ -106,19 +108,6 @@ export class RelocationsComponent implements OnInit {
         //     search: 'object',
         // },
         {
-            type: 'itemWeight',
-            name: 'itemCounts',
-            label: 'Counted items',
-            search: 'listAmountWithUnit',
-            options: this.genral.getAllItemsCashew(),
-        },
-        {
-            type: 'weight2',
-            name: 'usedCountDifference',
-            label: 'Difference',
-            search: 'object',
-        },
-        {
             type: 'dateTime',
             name: 'recordedTime',
             label: 'Recorded time',
@@ -144,6 +133,14 @@ export class RelocationsComponent implements OnInit {
         //     search: 'dates',
         // },
       ];
+      this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+        if(params.get('number')) {
+            this.tabIndex = +params.get('number');
+            this.changed(+params.get('number'));
+        } else {
+            this.changed(0);
+        }
+      });
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
@@ -171,7 +168,10 @@ export class RelocationsComponent implements OnInit {
                     this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
                     break;
                 case 1:
-                    this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds'], clean: true}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds'], num: 1}], { relativeTo: this._Activatedroute });
+                    break;
+                  case 2:
+                    this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds'], num: 2}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;
@@ -185,6 +185,23 @@ export class RelocationsComponent implements OnInit {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'itemCounts');
+          if(ind === -1) {
+              this.columnsShow.splice(3, 0, {
+                  type: 'itemWeight',
+                  name: 'itemCounts',
+                  label: 'Counted items',
+                  search: 'listAmountWithUnit',
+                  options: this.genral.getAllItemsCashew(),
+              },
+              {
+                  type: 'weight2',
+                  name: 'usedCountDifference',
+                  label: 'Difference',
+                  search: 'object',
+              });
+              this.columnsShow = this.columnsShow.slice();
+          }
           this.localService.getStorageRelocations('RAW_STATION').pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
@@ -192,19 +209,40 @@ export class RelocationsComponent implements OnInit {
           break;
         case 1:
           this.mainSourceColumns = null;
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'itemCounts');
+          if(ind === -1) {
+              this.columnsShow.splice(3, 0, {
+                  type: 'itemWeight',
+                  name: 'itemCounts',
+                  label: 'Counted items',
+                  search: 'listAmountWithUnit',
+                  options: this.genral.getAllItemsCashew(),
+              },
+              {
+                  type: 'weight2',
+                  name: 'usedCountDifference',
+                  label: 'Difference',
+                  search: 'object',
+              });
+              this.columnsShow = this.columnsShow.slice();
+          }
           this.localService.getStorageRelocations('ROASTER_IN').pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
         case 2:
-        //   this.mainSourceColumns = null;
-        //   this.localService.getAllPacking().pipe(take(1)).subscribe(value => {
-        //     this.mainSourceColumns = [<any[]>value, this.columnsShow];
-        //   });
-        //   this.type = 'Packing';
-        //   this.cdRef.detectChanges();
-        //   break;
+          this.mainSourceColumns = null;
+          var ind = this.columnsShow.findIndex((em) => em['name'] === 'itemCounts');
+          if(ind !== -1) {
+              this.columnsShow.splice(ind, 2);
+              this.columnsShow = this.columnsShow.slice();
+          }
+          this.localService.getStorageRelocations('GENERAL_STORAGE').pipe(take(1)).subscribe(value => {
+            this.mainSourceColumns = <any[]>value;
+          });
+          this.cdRef.detectChanges();
+          break;
         default:
           break;
       }

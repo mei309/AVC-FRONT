@@ -60,11 +60,14 @@ export class RelocationsService {
     return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }
 
-  getStorageByPo (poCode: number, type: string): Observable<any> {
-    if(type === 'Raw') {
-      return this.http.get(this.inventorysurl+'getStorageRawPo/'+poCode);
-    } else {
-      return this.http.get(this.inventorysurl+'getStorageCleanPo/'+poCode);
+  getStorageByPo (poCode: number, num: number): Observable<any> {
+    switch (num) {
+      case 0:
+        return this.http.get(this.inventorysurl+'getStorageRawPo/'+poCode);
+      case 1:
+        return this.http.get(this.inventorysurl+'getStorageCleanPo/'+poCode);
+      case 2:
+        return this.http.get(this.inventorysurl+'getStoragePo/'+poCode);
     }
   }
 
@@ -84,17 +87,27 @@ export class RelocationsService {
     return this.http.get(this.inventorysurl+'getPoCashewCodesInventory');
   }
   
-  getStorageTransferWithStorage(id: number, pos: Array<number>, type: string) {
+  getStorageTransferWithStorage(id: number, pos: Array<number>, num: number) {
     let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
-    if(type === 'Raw') {
-      return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos)]);
-    } else {
-      return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
+    switch (num) {
+      case 0:
+        return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos)]);
+      case 1:
+        return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
+      case 2:
+        return forkJoin([response1, this.http.get(this.inventorysurl+'findAllPoCodes')]);
     }
   }
 
-  getAllPos (item: string): Observable<any> {
-      return this.http.get(this.inventorysurl+'getAllPos/'+item);
+  getAllPos (num: number): Observable<any> {
+      switch (num) {
+          case 0:
+            return this.http.get(this.inventorysurl+'getAllPos/RAW_KERNEL');
+          case 1:
+            return this.http.get(this.inventorysurl+'getAllPos/CLEAN');
+          case 2:
+            return this.http.get(this.inventorysurl+'findAllPoCodes');
+      }
   }
 
 }

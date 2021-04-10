@@ -107,12 +107,14 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [matMenuTriggerFor]="inventoryreports">Reports</button>
       </mat-menu>
       <mat-menu #inventorysnew="matMenu" >
-        <button mat-menu-item routerLink='relocat/RelocationCount'>Raw Relocation Count</button>
-        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {clean: true}]">Cleaned Relocation Count</button>
+        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 0}]">Raw Relocation Count</button>
+        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 1}]">Cleaned Relocation Count</button>
+        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 2}]">Relocation (without count)</button>
       </mat-menu>
       <mat-menu #inventoryreports="matMenu" >
         <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 0}]">Raw Relocations</button>
         <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 1}]">Cleaned Relocations</button>
+        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 2}]">Relocations (without count)</button>
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="menuCountiners" >Shipping</button>

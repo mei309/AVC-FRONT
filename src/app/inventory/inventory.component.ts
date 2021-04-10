@@ -19,7 +19,7 @@ import { InventoryService } from './inventory.service';
       <mat-tab label="Raw cashew stock and orders">
       </mat-tab> -->
   </mat-tab-group>
-  <search-group-details [mainColumns]="columnsShow" [detailsSource]="inventorySource">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="inventorySource" (details)="openDialog($event)">
   </search-group-details>
     `
 })

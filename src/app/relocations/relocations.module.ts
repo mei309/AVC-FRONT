@@ -3,7 +3,7 @@ import { SheardModule } from '../sheard.module';
 import { NgModule } from '@angular/core';
 import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.component';
 import { RelocationCountComponent } from './relocation-count.component';
-import { RelocationsComponent } from './relocations.component copy';
+import { RelocationsComponent } from './relocations.component';
 
 @NgModule({
   declarations: [
