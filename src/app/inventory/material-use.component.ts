@@ -113,7 +113,7 @@ export class MaterialUsageComponent implements OnInit {
             type: 'select',
             label: 'Production line',
             name: 'productionLine',
-            options: this.genral.getProductionLine('GENERAL_STORAGE'),
+            options: this.genral.getProductionLine('PRODUCT_STORAGE'),
         },
         {
             type: 'bigexpand',

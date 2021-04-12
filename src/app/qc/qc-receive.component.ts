@@ -242,7 +242,7 @@ export class QcReceiveComponent implements OnInit {
                         type: 'selectNormal',
                         label: 'Weight unit',
                         name: 'measureUnit',
-                        options: this.genral.getMeasureUnit(),
+                        options: ['OZ', 'GRAM', 'LBS'],
                     },
                     {
                         type: 'percentinput',

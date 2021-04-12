@@ -230,8 +230,8 @@ export class Genral {
             return value.filter(a => a.productionFunctionality === 'ROASTER_IN');
           case 'Pack':
             return value.filter(a => a.productionFunctionality === 'PACKING');
-          case 'GENERAL_STORAGE':
-            return value.filter(a => a.productionFunctionality === 'GENERAL_STORAGE');
+          case 'PRODUCT_STORAGE':
+            return value.filter(a => a.productionFunctionality === 'PRODUCT_STORAGE');
           default:
             return value;
         }
@@ -317,7 +317,7 @@ export class Genral {
 
   getProductionFunctionality(): string[] {
     return ['RAW_STORAGE', 'RAW_STATION', 'SCREEN_TABLE', 'ROASTER_IN', 'ROASTER', 'ROASTER_OUT', 'PACKING',
-    'FINAL_PRODUCT', 'LOADING', 'GENERAL_STORAGE', 'PACKING_STATION'];
+    'FINAL_PRODUCT', 'LOADING', 'GENERPRODUCT_STORAGEAL_STORAGE', 'PACKING_STATION'];
   }
 
 

@@ -565,7 +565,7 @@ export class RelocationCountComponent implements OnInit {
             case 1:
                 return 'ROASTER_IN';
             case 2:
-                return 'GENERAL_STORAGE';
+                return 'PRODUCT_STORAGE';
         }
    }
 
