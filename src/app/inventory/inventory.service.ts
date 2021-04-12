@@ -64,14 +64,6 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }
 
-  getStorageByPo (poCode: number, type: string): Observable<any> {
-    if(type === 'Raw') {
-      return this.http.get(this.inventorysurl+'getStorageRawPo/'+poCode);
-    } else {
-      return this.http.get(this.inventorysurl+'getStorageCleanPo/'+poCode);
-    }
-  }
-
   getStorageByItem (itemId: number): Observable<any> {
     return this.http.get(this.inventorysurl+'getStorageTransferItem/'+itemId);
   }
@@ -92,17 +84,18 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getPoCashewCodesInventory');
   }
   
-  getStorageTransferWithStorage(id: number, pos: Array<number>, type: string) {
+
+  getStorageTransferWithStorage(id: number, pos: Array<number>) {
     let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
-    if(type === 'Raw') {
-      return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos)]);
-    } else {
-      return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
-    }
+    return forkJoin([response1, this.http.get(this.inventorysurl+'findAllPoCodes')]);
   }
 
-  getAllPos (item: string): Observable<any> {
-      return this.http.get(this.inventorysurl+'getAllPos/'+item);
+  getStorageByPo (poCode: number): Observable<any> {
+        return this.http.get(this.inventorysurl+'getStoragePo/'+poCode);
+  }
+
+  getAllPos (): Observable<any> {
+      return this.http.get(this.inventorysurl+'findAllPoCodes');
   }
 
 }

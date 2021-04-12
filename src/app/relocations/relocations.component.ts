@@ -3,10 +3,10 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
-import { InventoryService } from '../inventory/inventory.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.component';
+import { RelocationsService } from './relocations.service';
 // import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 // import { MatDialog } from '@angular/material/dialog';
 @Component({
@@ -20,8 +20,6 @@ import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.
       <mat-tab label="Raw relocation with weighing">
       </mat-tab>
       <mat-tab label="Cleaned relocation with weighing">
-      </mat-tab>
-      <mat-tab label="Relocation without weighing">
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="mainSourceColumns" (details)="openDialog($event)">
@@ -44,34 +42,12 @@ export class RelocationsComponent implements OnInit {
   
   mainSourceColumns;
 
-  constructor(private router: Router, private dialog: MatDialog, private localService: InventoryService,
+  constructor(private router: Router, private dialog: MatDialog, private localService: RelocationsService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    // this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-    //     if(params.get('number')) {
-    //         this.tabIndex = +params.get('number');
-    //         this.changed(+params.get('number'));
-    //     } else {
-    //         this.changed(0);
-    //     }
-    // });
     this.columnsShow = [
-        // {
-        //   type: 'nameId',
-        //   name: 'poCode',
-        //   label: 'PO#',
-        //   search: 'object',
-        //   group: 'poCode',
-        // },
-        // {
-        //   name: 'supplierName',
-        //   label: 'Supplier',
-        //   search: 'selectObj',
-        //   options: this.genral.getSupplierCashew(),
-        //   group: 'poCode',
-        // },
         {
             type: 'arrayVal',
             name: 'poCodes',
@@ -94,19 +70,19 @@ export class RelocationsComponent implements OnInit {
             search: 'listAmountWithUnit',
             options: this.genral.getAllItemsCashew(),
         },
-        // {
-        //     type: 'itemWeight',
-        //     name: 'producedItems',
-        //     label: 'Produced items',
-        //     search: 'listAmountWithUnit',
-        //     options: this.genral.getAllItemsCashew(),
-        // },
-        // {
-        //     type: 'weight2',
-        //     name: 'processGain',
-        //     label: 'Difference',
-        //     search: 'object',
-        // },
+        {
+            type: 'itemWeight',
+            name: 'itemCounts',
+            label: 'Counted items',
+            search: 'listAmountWithUnit',
+            options: this.genral.getAllItemsCashew(),
+        },
+        {
+            type: 'weight2',
+            name: 'usedCountDifference',
+            label: 'Difference',
+            search: 'object',
+        },
         {
             type: 'dateTime',
             name: 'recordedTime',
@@ -120,18 +96,6 @@ export class RelocationsComponent implements OnInit {
             search: 'select',
             options: this.genral.getProcessStatus(),
         },
-        // {
-        //     type: 'date',
-        //     name: 'receiptDate',
-        //     label: 'Receipt date',
-        //     search: 'dates',
-        // },
-        // {
-        //     type: 'date',
-        //     name: 'processDate',
-        //     label: 'Process date',
-        //     search: 'dates',
-        // },
       ];
       this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
@@ -170,9 +134,6 @@ export class RelocationsComponent implements OnInit {
                 case 1:
                     this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds'], num: 1}], { relativeTo: this._Activatedroute });
                     break;
-                  case 2:
-                    this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds'], num: 2}], { relativeTo: this._Activatedroute });
-                    break;
               default:
                   break;
           }
@@ -185,23 +146,6 @@ export class RelocationsComponent implements OnInit {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
-          var ind = this.columnsShow.findIndex((em) => em['name'] === 'itemCounts');
-          if(ind === -1) {
-              this.columnsShow.splice(3, 0, {
-                  type: 'itemWeight',
-                  name: 'itemCounts',
-                  label: 'Counted items',
-                  search: 'listAmountWithUnit',
-                  options: this.genral.getAllItemsCashew(),
-              },
-              {
-                  type: 'weight2',
-                  name: 'usedCountDifference',
-                  label: 'Difference',
-                  search: 'object',
-              });
-              this.columnsShow = this.columnsShow.slice();
-          }
           this.localService.getStorageRelocations('RAW_STATION').pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
@@ -209,36 +153,7 @@ export class RelocationsComponent implements OnInit {
           break;
         case 1:
           this.mainSourceColumns = null;
-          var ind = this.columnsShow.findIndex((em) => em['name'] === 'itemCounts');
-          if(ind === -1) {
-              this.columnsShow.splice(3, 0, {
-                  type: 'itemWeight',
-                  name: 'itemCounts',
-                  label: 'Counted items',
-                  search: 'listAmountWithUnit',
-                  options: this.genral.getAllItemsCashew(),
-              },
-              {
-                  type: 'weight2',
-                  name: 'usedCountDifference',
-                  label: 'Difference',
-                  search: 'object',
-              });
-              this.columnsShow = this.columnsShow.slice();
-          }
           this.localService.getStorageRelocations('ROASTER_IN').pipe(take(1)).subscribe(value => {
-            this.mainSourceColumns = <any[]>value;
-          });
-          this.cdRef.detectChanges();
-          break;
-        case 2:
-          this.mainSourceColumns = null;
-          var ind = this.columnsShow.findIndex((em) => em['name'] === 'itemCounts');
-          if(ind !== -1) {
-              this.columnsShow.splice(ind, 2);
-              this.columnsShow = this.columnsShow.slice();
-          }
-          this.localService.getStorageRelocations('GENERAL_STORAGE').pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();

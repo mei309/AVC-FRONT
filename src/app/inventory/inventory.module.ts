@@ -8,10 +8,11 @@ import { NgModule } from '@angular/core';
 import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 import { MaterialUsageComponent } from './material-use.component';
 import { InventoryReportsComponent } from './inventory.component';
+import { InventoryRelocationComponent } from './inventory-reloaction.component';
 @NgModule({
   declarations: [GenralInventoryComponent, CashewInventoryComponent, CashewCountComponent, GenralCountComponent,
   // MaterialExportPoComponent, MaterialExportItemComponent, 
-  InventoryDetailsDialogComponent, MaterialUsageComponent, InventoryReportsComponent
+  InventoryDetailsDialogComponent, MaterialUsageComponent, InventoryReportsComponent, InventoryRelocationComponent
   // TransferCountComponent,
   ],
   imports: [

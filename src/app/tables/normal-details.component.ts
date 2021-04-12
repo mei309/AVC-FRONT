@@ -91,7 +91,6 @@ export class NormalDetailsComponent {
     'date' : function(a) { return a < new Date().toISOString().substring(0, 10) },
   };
   compare (element, column) {
-    console.log(column.compare.condition);
     if(column.compare.name) {
       if(element[column.compare.name]) {
         return this.operators[column.compare.type](element[column.compare.name]);

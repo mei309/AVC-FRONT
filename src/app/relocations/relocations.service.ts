@@ -66,8 +66,6 @@ export class RelocationsService {
         return this.http.get(this.inventorysurl+'getStorageRawPo/'+poCode);
       case 1:
         return this.http.get(this.inventorysurl+'getStorageCleanPo/'+poCode);
-      case 2:
-        return this.http.get(this.inventorysurl+'getStoragePo/'+poCode);
     }
   }
 
@@ -94,8 +92,6 @@ export class RelocationsService {
         return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos)]);
       case 1:
         return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
-      case 2:
-        return forkJoin([response1, this.http.get(this.inventorysurl+'findAllPoCodes')]);
     }
   }
 
@@ -105,8 +101,6 @@ export class RelocationsService {
             return this.http.get(this.inventorysurl+'getAllPos/RAW_KERNEL');
           case 1:
             return this.http.get(this.inventorysurl+'getAllPos/CLEAN');
-          case 2:
-            return this.http.get(this.inventorysurl+'findAllPoCodes');
       }
   }
 

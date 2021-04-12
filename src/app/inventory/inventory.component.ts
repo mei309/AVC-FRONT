@@ -14,6 +14,8 @@ import { InventoryService } from './inventory.service';
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
       <mat-tab label="Material usages">
       </mat-tab>
+      <mat-tab label="Relocations">
+      </mat-tab>
       <!-- <mat-tab label="Cashew stock by PO#">
       </mat-tab>
       <mat-tab label="Raw cashew stock and orders">
@@ -129,6 +131,48 @@ export class InventoryReportsComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 1:
+          this.inventorySource = null;
+          this.columnsShow = [
+            {
+                type: 'arrayVal',
+                name: 'poCodes',
+                label: 'PO#',
+                group: 'poCodes',
+                search: 'normal',
+            },
+            {
+                type: 'arrayVal',
+                name: 'suppliers',
+                label: 'Supplier',
+                search: 'selectObj',
+                options: this.genral.getSuppliersCashew(),
+                group: 'poCodes',
+            },
+            {
+                type: 'itemWeight',
+                name: 'usedItems',
+                label: 'Used items',
+                search: 'listAmountWithUnit',
+                options: this.genral.getAllItemsCashew(),
+            },
+            {
+                type: 'dateTime',
+                name: 'recordedTime',
+                label: 'Recorded time',
+                search: 'dates',
+            },
+            {
+                type: 'normal',
+                name: 'status',
+                label: 'Status',
+                search: 'select',
+                options: this.genral.getProcessStatus(),
+            },
+          ];
+          this.localService.getStorageRelocations('PRODUCT_STORAGE').pipe(take(1)).subscribe(value => {
+            this.inventorySource = <any[]>value;
+          });
+          this.cdRef.detectChanges();
           break;
         default:
           break;

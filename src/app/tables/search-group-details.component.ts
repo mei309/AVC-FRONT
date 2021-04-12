@@ -79,6 +79,7 @@ import { OneColumn } from '../field.interface';
                       <ng-template #notFirst><span style="white-space: nowrap;">({{amountElem | tableCellPipe: 'weight' : null}})</span></ng-template>
                     </ng-container>
                     <small *ngIf="itemElem.warehouses">({{itemElem.warehouses}})</small>
+                    <span *ngIf="itemElem.newWarehouses"> => ({{itemElem.newWarehouses}})</span>
                     <br/>
                   </ng-container>
                 </span>
@@ -430,21 +431,34 @@ export class SearchGroupDetailsComponent {
       switch (this.totalColumn.type) {
         case 'weight2':
           var weightSize: number = this.dataSource.filteredData[index][this.totalColumn.name].length;
+          var startNumber = 0;
+          var totalAll = 0;
+          var totalLoss = 0;
+          if(this.dataSource.filteredData[index][this.totalColumn.name][0]['measureUnit'] === '%') {
+            var startNumber = 1;
+          }
           var myNumbers = new Array<number>(weightSize);
           var myMesareUnit = new Array<number>(weightSize);
-          for (let i = 0; i < weightSize; i++) {
+          for (let i = startNumber; i < weightSize; i++) {
             myNumbers[i] = 0;
             myMesareUnit[i] = this.dataSource.filteredData[index][this.totalColumn.name][i]['measureUnit'];
           }
           for (let ind = index; ind < index+this.spans[index][this.totalColumn.group]; ind++) {
             if(this.dataSource.filteredData[ind][this.totalColumn.name]) {
-              for (let m = 0; m < weightSize; m++) {
+              if(startNumber && this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount']) {
+                totalLoss += this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount'];
+                totalAll += (this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount'])/this.dataSource.filteredData[ind][this.totalColumn.name][0]['amount'];
+              }
+              for (let m = startNumber; m < weightSize; m++) {
                 myNumbers[m] += this.dataSource.filteredData[ind][this.totalColumn.name][m]['amount'];
               }
             }
           }
           var result = new Array<object>(weightSize);
-          for (let t = 0; t < weightSize; t++) {
+          if(startNumber) {
+            result[0] = {amount: totalLoss/totalAll, measureUnit: '%'}
+          }
+          for (let t = startNumber; t < weightSize; t++) {
             result[t] = {amount: myNumbers[t], measureUnit: myMesareUnit[t]};
           }
           return result;
