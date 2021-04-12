@@ -88,8 +88,6 @@ export class NormalGroupDetailsComponent {
             } else {
               this.waitForCols = true;
             }
-            console.log(this.spans);
-            
         } else {
           this.dataSource = null;
         }

@@ -51,7 +51,7 @@ export class CountinersLoadingComponent {
     putFirstData;
 
     removeIds = [];
-    removeIdsTable = [];
+    // removeIdsTable = [];
 
     onSubmitBoth() {
             var firstData = this.formFirst.onSubmitOutside();
@@ -115,7 +115,7 @@ export class CountinersLoadingComponent {
                                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
                                 this.putFirstData = null;
                                 this.removeIds = [];
-                                this.removeIdsTable = [];
+                                // this.removeIdsTable = [];
                                 this.cdRef.detectChanges();
                                 this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
                                     this.fillEdit(val1);
@@ -172,7 +172,7 @@ export class CountinersLoadingComponent {
         var arrUsedItems = [];
         val?.forEach(element => {
             if(element['storage']) {
-                if((element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !this.removeIdsTable.includes(amou.id))).length) {
+                // if((element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !this.removeIdsTable.includes(amou.id))).length) {
                     element['storage']['item'] = element['item'];
                     element['storage']['itemPoCodes'] = element['poCodes'];
                     element['storage']['itemSuppliers'] = element['suppliers'];
@@ -183,7 +183,7 @@ export class CountinersLoadingComponent {
                         ele['amount'] = ele['numberAvailableUnits'];
                         // this.removeIdsTable.push(ele['id']);
                     });
-                }
+                // }
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {
                     if(!this.removeIds.includes(ele['id'])) {
@@ -536,7 +536,7 @@ export class CountinersLoadingComponent {
                 this.choosedPos = [];
                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
                 this.removeIds = [];
-                this.removeIdsTable = [];
+                // this.removeIdsTable = [];
                 this.putFirstData = null;
                 this.preperChoosingPO();
                 this.cdRef.detectChanges();

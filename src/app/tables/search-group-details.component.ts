@@ -415,6 +415,9 @@ export class SearchGroupDetailsComponent {
         return this.operators[column.compare.type](element[column.compare.name]);
       }
     } else {
+      if(column.compare.condition && element[column.compare.condVar].includes(column.compare.condition)){
+        return false;
+      }
       if(element[column.name]) {
         return this.operators[column.compare.type](element[column.name]);
       }

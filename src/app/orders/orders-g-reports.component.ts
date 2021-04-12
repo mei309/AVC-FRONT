@@ -81,6 +81,8 @@ export class OrdersGReports implements OnInit {
         search: 'dates',
         compare: {
           type: 'date',
+          condition: 'RECEIVED',
+          condVar: 'orderStatus',
         },
       },
       {

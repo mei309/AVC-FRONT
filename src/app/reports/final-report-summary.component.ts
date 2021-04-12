@@ -76,6 +76,8 @@ export class FinalReportSummaryComponent {
                     label: 'Delivery date',
                     compare: {
                       type: 'date',
+                      condition: 'RECEIVED',
+                      condVar: 'orderStatus',
                     },
                   },
                   {

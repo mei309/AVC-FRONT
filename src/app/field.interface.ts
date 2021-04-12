@@ -43,7 +43,8 @@ export interface OneColumn {
 export interface Compare {
   name?: string;
   type?: string;
-  pipes?: any;
+  condition?: string;
+  condVar?: string;
 }
 
 export interface FieldShow {
