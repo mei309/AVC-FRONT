@@ -956,8 +956,18 @@ export class ShowDetailsComponent implements OnInit {
               name: 'numberUsedUnits',
           },
           {
+              type: 'fromObj',
+              name: 'storage',
+              suffix: 'warehouseLocation',
+              collections: {
+                  type: 'nameId',
+                  label: 'Old warehouse location',
+                  name: 'oldWarehouseLocation',
+              },
+          },
+          {
               type: 'nameId',
-              label: 'Warehouse location',
+              label: 'New warehouse location',
               name: 'warehouseLocation',
           },
         ]

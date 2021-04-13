@@ -99,6 +99,9 @@ export class ShowDetailsTableComponent implements OnInit {
     this.oneColumns.forEach(element => {
         if(element.type === 'parent') {
             this.takeCareOfParant(element.collections);
+        } else if(element.type === 'fromObj') {
+            this.localOneColumns.push(element.collections);
+            this.columnsDisplay.push(element.collections.name);
         } else {
             this.localOneColumns.push(element);
             this.columnsDisplay.push(element.name);
@@ -113,17 +116,27 @@ export class ShowDetailsTableComponent implements OnInit {
 
   setDataSourceInit() {
       this.oneColumns.forEach(element => {
-          if(element.type === 'parent') {
-              this.dataParantRemove(element.collections, element.name);
-          }
+            if(element.type === 'parent') {
+                this.dataParantRemove(element.collections, element.name);
+            } else if(element.type === 'fromObj') {
+                this.dataSource.forEach(line => {
+                    line[element.collections.name] = line[element.name][element.suffix];
+                    delete line[element.name];
+                });
+            }
       });
   }
 
   setSecondSourceInit() {
       this.oneColumns.forEach(element => {
-          if(element.type === 'parent') {
-              this.secondParantRemove(element.collections, element.name);
-          }
+            if(element.type === 'parent') {
+                this.secondParantRemove(element.collections, element.name);
+            } else if(element.type === 'fromObj') {
+                this.secondSource.forEach(line => {
+                    line[element.collections.name] = line[element.name][element.suffix];
+                    delete line[element.name];
+                });
+            }
       });
       var result = diff(this.dataSource, this.secondSource, 'id', { updatedValues: 3, compareFunction: (o1,o2) => {
         return isEqualWith(o1, o2, (value1, value2, key) => {

@@ -38,6 +38,9 @@ export class TableCellPipe implements PipeTransform {
             case 'weight2': 
                 if(element) {
                     if (Array.isArray(element)) {
+                        if(!element[0]['amount']) {
+                            return 0;
+                        }
                         var str = new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit'];
                         for (let ind = 1; ind < element.length; ind++) {
                             str += ' (' + new DecimalPipe(this.locale).transform(element[ind]['amount'])+' '+element[ind]['measureUnit'] + ')';
