@@ -74,6 +74,9 @@ export class InventoryReportsComponent implements OnInit {
               case 0:
                 this.router.navigate(['../MaterialUse',{id: event['id']}], { relativeTo: this._Activatedroute });
                 break;
+              case 1:
+                this.router.navigate(['../Relocation',{id: event['id']}], { relativeTo: this._Activatedroute });
+                break;
               default:
                   break;
           }
@@ -172,6 +175,7 @@ export class InventoryReportsComponent implements OnInit {
           this.localService.getStorageRelocations('PRODUCT_STORAGE').pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
           });
+          this.type = 'Relocation';
           this.cdRef.detectChanges();
           break;
         default:

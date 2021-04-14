@@ -43,9 +43,19 @@ export class InventoryDetailsDialogComponent {
 
     ngOnInit() {
         if(!this.fromNew) {
-            this.LocalService.getStorageRelocation(this.id).pipe(take(1)).subscribe( val => {
-                this.inventoryItem = val;
-            });
+            switch (this.type) {
+                case 'Material usage':
+                    this.LocalService.getMaterialUse(this.id).pipe(take(1)).subscribe( val => {
+                        this.inventoryItem = val;
+                    });
+                    break;
+                case 'Relocation':
+                    this.LocalService.getStorageRelocation(this.id).pipe(take(1)).subscribe( val => {
+                        this.inventoryItem = val;
+                    });
+                default:
+                    break;
+            }
         }
         this.buttons.push('Edit');
     }

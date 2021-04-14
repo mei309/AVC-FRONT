@@ -49,8 +49,8 @@ export class MaterialUsageComponent implements OnInit {
                     this.isFormAvailable = false;
                     this.dataSource = null;
                     this.cdRef.detectChanges();
-                    this.localService.getMaterialUse(val['poCode']['id']).pipe(take(1)).subscribe( val1 => {
-                        this.dataSource = val;
+                    this.localService.getMaterialUse(val['id']).pipe(take(1)).subscribe( val1 => {
+                        this.dataSource = val1;
                         this.isFormAvailable = true;
                     }); 
                 } else {
@@ -71,6 +71,8 @@ export class MaterialUsageComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
                 this.localService.getMaterialUse(+params.get('id')).pipe(take(1)).subscribe( val => {
+                    val['materialUsed'] = val['usedItemGroups'];
+                    delete val['usedItemGroups'];
                     this.dataSource = val;
                     this.isFormAvailable = true;
                 });

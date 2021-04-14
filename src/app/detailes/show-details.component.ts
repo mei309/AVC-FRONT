@@ -602,29 +602,6 @@ export class ShowDetailsComponent implements OnInit {
 
     {
       type: 'object',
-      name: 'containerDetails',
-      label: 'Container details',
-      // side: 'left',
-      collections: [
-        {
-            type: 'normal',
-            label: 'Container number',
-            name: 'containerNumber',
-        },
-        {
-            type: 'normal',
-            label: 'Container type',
-            name: 'containerType',
-        },
-        {
-            type: 'normal',
-            label: 'Seal number',
-            name: 'sealNumber',
-        },
-      ]
-    },
-    {
-      type: 'object',
       name: 'shipingDetails',
       label: 'Shiping details',
       // side: 'left',
@@ -663,6 +640,29 @@ export class ShowDetailsComponent implements OnInit {
             type: 'date',
             label: 'eta',
             name: 'eta',
+        },
+      ]
+    },
+    {
+      type: 'object',
+      name: 'containerDetails',
+      label: 'Container details',
+      // side: 'left',
+      collections: [
+        {
+            type: 'normal',
+            label: 'Container number',
+            name: 'containerNumber',
+        },
+        {
+            type: 'normal',
+            label: 'Container type',
+            name: 'containerType',
+        },
+        {
+            type: 'normal',
+            label: 'Seal number',
+            name: 'sealNumber',
         },
       ]
     },
