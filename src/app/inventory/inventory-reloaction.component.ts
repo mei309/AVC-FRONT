@@ -274,7 +274,7 @@ export class InventoryRelocationComponent implements OnInit {
             this.isFormAvailable = false;
             this.dataSource = null;
             this.poID = null;
-            this.isNew = false;
+            this.isNew = true;
             if(this.poConfig) {
                 this.form.get('poCode').setValue(null);
                 this.setPoConfig();

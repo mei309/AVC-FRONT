@@ -290,6 +290,7 @@ export class RelocationCountComponent implements OnInit {
         if (e instanceof NavigationEnd) {
             this.isDataAvailable = false;
             this.isFormAvailable = false;
+            this.isNew = true;
             this.dataSource = null;
             this.poID = null;
             this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
