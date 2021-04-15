@@ -105,7 +105,7 @@ export class RelocationCountComponent implements OnInit {
                     this.dataSource = null;
                     this.cdRef.detectChanges();
                     this.setRegConfig();
-                    this.localService.getStorageByPo(val['poCode']['id'], this.num).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getStorageByPo(val['poCode']['id'], this.num, val['id']).pipe(take(1)).subscribe( val1 => {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {

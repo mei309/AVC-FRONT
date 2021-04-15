@@ -97,7 +97,7 @@ export class InventoryRelocationComponent implements OnInit {
                     this.isFormAvailable = false;
                     this.dataSource = null;
                     this.cdRef.detectChanges();
-                    this.localService.getStorageByPo(val['poCode']['id']).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getStorageByPo(val['poCode']['id'], val['id']).pipe(take(1)).subscribe( val1 => {
                         this.fillEdit([val, val1]);
                     }); 
                 } else {

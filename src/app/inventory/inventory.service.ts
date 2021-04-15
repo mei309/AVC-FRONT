@@ -87,11 +87,11 @@ export class InventoryService {
 
   getStorageTransferWithStorage(id: number, pos: Array<number>) {
     let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
-    return forkJoin([response1, this.http.get(this.inventorysurl+'findAllPoCodes')]);
+    return forkJoin([response1, this.http.get(this.inventorysurl+'getStoragePo/'+pos+'/'+id)]);
   }
 
-  getStorageByPo (poCode: number): Observable<any> {
-        return this.http.get(this.inventorysurl+'getStoragePo/'+poCode);
+  getStorageByPo (poCode: number, id?: number): Observable<any> {
+        return this.http.get(id? this.inventorysurl+'getStoragePo/'+poCode+'/'+id : this.inventorysurl+'getStoragePo/'+poCode);
   }
 
   getAllPos (): Observable<any> {

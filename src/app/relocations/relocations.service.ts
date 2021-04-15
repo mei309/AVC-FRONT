@@ -60,12 +60,12 @@ export class RelocationsService {
     return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }
 
-  getStorageByPo (poCode: number, num: number): Observable<any> {
+  getStorageByPo (poCode: number, num: number, id?: number): Observable<any> {
     switch (num) {
       case 0:
-        return this.http.get(this.inventorysurl+'getStorageRawPo/'+poCode);
+        return this.http.get(id? this.inventorysurl+'getStorageRawPo/'+poCode+'/'+id: this.inventorysurl+'getStorageRawPo/'+poCode);
       case 1:
-        return this.http.get(this.inventorysurl+'getStorageCleanPo/'+poCode);
+        return this.http.get(id? this.inventorysurl+'getStorageCleanPo/'+poCode+'/'+id: this.inventorysurl+'getStorageCleanPo/'+poCode);
     }
   }
 
@@ -89,7 +89,7 @@ export class RelocationsService {
     let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
     switch (num) {
       case 0:
-        return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos)]);
+        return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos+'/'+id)]);
       case 1:
         return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
     }
