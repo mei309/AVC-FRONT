@@ -1,1 +1,9 @@
 <p>onlymine works!</p>
+
+
+<input  type="file" (change)="onFileSelected($event)"/>
+<button (click)="onUpload()" > Upload to S3 </button> 
+ 
+<div *ngFor="let img of images">
+    <button (click)="onGet(img)" > {{img}} </button>
+</div>
