@@ -40,10 +40,10 @@ export class QcReceivePercentageComponent implements OnInit {
             this.localService.addEditCashewReceiveCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
-                    data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}
+                    data: {qcCheck: cloneDeep(val), fromNew: true, type: $localize`Raw cashew check`}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === 'Edit') { 
+                    if (data === $localize`Edit`) { 
                         this.isDataAvailable = false;
                         this.putData = val;
                         this.cdRef.detectChanges();
@@ -58,10 +58,10 @@ export class QcReceivePercentageComponent implements OnInit {
             this.localService.addEditCashewRoastCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
-                    data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Roast cashew check'}
+                    data: {qcCheck: cloneDeep(val), fromNew: true, type: $localize`Roast cashew check`}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === 'Edit') { 
+                    if (data === $localize`Edit`) { 
                         this.isDataAvailable = false;
                         this.putData = val;
                         this.cdRef.detectChanges();
@@ -135,18 +135,18 @@ export class QcReceivePercentageComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supllier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                         validations: [
                             {
                                 name: 'required',
                                 validator: Validators.required,
-                                message: '#PO Required',
+                                message: $localize`#PO Required`,
                             }
                         ]
                     },
@@ -154,7 +154,7 @@ export class QcReceivePercentageComponent implements OnInit {
             },
             {
                 type: 'date',
-                label: 'Date',
+                label: $localize`Date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -163,43 +163,43 @@ export class QcReceivePercentageComponent implements OnInit {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Date Required',
+                        message: $localize`Date Required`,
                     }
                 ]
             },
             {
               type: 'radiobutton',
               name: 'checkedBy',
-              label: 'Checked by',
+              label: $localize`Checked by`,
               value: 'avc lab',
               options: this.genral.getQcCheckOrganzition(),
               validations: [
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Required',
+                        message: $localize`Required`,
                     }
                 ]
             },
             {
                 type: 'input',
-                label: 'Inspector',
+                label: $localize`Inspector`,
                 name: 'inspector',
             },
             {
                 type: 'input',
-                label: 'Sample taker',
+                label: $localize`Sample taker`,
                 name: 'sampleTaker',
             },
             {
                 type: 'bigexpand',
                 name: 'testedItems',
-                label: 'Testes',
+                label: $localize`Testes`,
                 options: 'tabs',
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
                         options: this.genral.getItemsCashew(this.type.startsWith('QC roasting')? 'RoastPacked' : 'RawRoast'),
@@ -207,94 +207,94 @@ export class QcReceivePercentageComponent implements OnInit {
                     },
                     {
                         type: 'input',
-                        label: 'Number of samples',
+                        label: $localize`Number of samples`,
                         name: 'numberOfSamples',
                         inputType: 'numeric',
                     },
                     {
                         type: 'input',
-                        label: 'Sample Weight',
+                        label: $localize`Sample Weight`,
                         name: 'sampleWeight',
                         inputType: 'numeric',
                         options: 3,
                     },
                     {
                         type: 'selectNormal',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                         options: ['OZ', 'GRAM', 'LBS'],
                     },
                     {
                         type: 'percentinput',
-                        label: 'Humidity',
+                        label: $localize`Humidity`,
                         name: 'humidity',
                     },
                     {
                         type: 'input',
-                        label: 'Whole count per Lb',
+                        label: $localize`Whole count per Lb`,
                         name: 'wholeCountPerLb',
                         inputType: 'numeric',
                     },
                     {
                         type: 'percentinput',
-                        label: 'Small size',
+                        label: $localize`Small size`,
                         name: 'smallSize',
                     },
                     {
                         type: 'percentinput',
-                        label: 'WS',
+                        label: $localize`WS`,
                         name: 'ws',
                     },
                     {
                         type: 'percentinput',
-                        label: 'LP',
+                        label: $localize`LP`,
                         name: 'lp',
                     },
                     {
                         type: 'percentinput',
-                        label: 'Breakage',
+                        label: $localize`Breakage`,
                         name: 'breakage',
                     },
                     {
                         type: 'percentinput',
-                        label: 'Foreign material',
+                        label: $localize`Foreign material`,
                         name: 'foreignMaterial',
                     },
                     {
                         type: 'calculatefew',
                         name: 'damage',
-                        label: 'Damage (%)',
+                        label: $localize`Damage (%)`,
                         inputType: '+',
                         options: 'box',
                         collections: [
                             {
                                 type: 'percentinput',
-                                label: 'Mold',
+                                label: $localize`Mold`,
                                 name: 'mold',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Dirty',
+                                label: $localize`Dirty`,
                                 name: 'dirty',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Light dirty',
+                                label: $localize`Light dirty`,
                                 name: 'lightDirty',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Deacy',
+                                label: $localize`Deacy`,
                                 name: 'decay',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Insect damage',
+                                label: $localize`Insect damage`,
                                 name: 'insectDamage',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Testa',
+                                label: $localize`Testa`,
                                 name: 'testa',
                             },  
                         ]
@@ -302,56 +302,56 @@ export class QcReceivePercentageComponent implements OnInit {
                     {
                         type: 'calculatefew',
                         name: 'defects',
-                        label: 'Defects',
+                        label: $localize`Defects`,
                         inputType: '+',
                         options: 'box',
                         collections: [
                             {
                                 type: 'percentinput',
-                                label: 'Scrohed',
+                                label: $localize`Scrohed`,
                                 name: 'scorched',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Deep cut',
+                                label: $localize`Deep cut`,
                                 name: 'deepCut',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Off colour',
+                                label: $localize`Off colour`,
                                 name: 'offColour',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Shrivel',
+                                label: $localize`Shrivel`,
                                 name: 'shrivel',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Desert/dark',
+                                label: $localize`Desert/dark`,
                                 name: 'desert',
                             },
                             {
                                 type: 'percentinput',
-                                label: 'Deep spot',
+                                label: $localize`Deep spot`,
                                 name: 'deepSpot',
                             },
                         ]
                     },
                     {
                         type: 'percentinput',
-                        label: 'Total weight lost after roasting',
+                        label: $localize`Total weight lost after roasting`,
                         name: 'rostingWeightLoss',
                     },
                     {
                         type: 'radiobutton',
-                        label: 'Rosted color',
+                        label: $localize`Rosted color`,
                         name: 'colour',
                         options: ['NOT_OK', 'OK'],
                     },
                     {
                         type: 'radiobutton',
-                        label: 'Flavour',
+                        label: $localize`Flavour`,
                         name: 'flavour',
                         options: ['NOT_OK', 'OK'],
                     },
@@ -359,7 +359,7 @@ export class QcReceivePercentageComponent implements OnInit {
                 validations: [
                     {
                       name: 'item',
-                      message: 'a check must have a item and sample weight',
+                      message: $localize`a check must have a item and sample weight`,
                     },
                     {
                       name: 'sampleWeight',
@@ -372,32 +372,32 @@ export class QcReceivePercentageComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'processItems',
-                label: 'Storage(if stored)',
+                label: $localize`Storage(if stored)`,
                 options: 'aloneNoAdd',
                 collections: [
                     {
                         type: 'selectNormal',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                         // inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'bigexpand',
-                        label: 'Amounts',
+                        label: $localize`Amounts`,
                         name: 'storageForms',
                         options: 'aloneNoAddNoFrameInline',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Number of units',
+                                label: $localize`Number of units`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
@@ -411,7 +411,7 @@ export class QcReceivePercentageComponent implements OnInit {
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ];

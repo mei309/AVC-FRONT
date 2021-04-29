@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {uniq, isEqual} from 'lodash-es';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, take, takeUntil } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { Genral } from 'src/app/genral.service';
 import { FieldConfig } from '../../field.interface';
 
@@ -32,7 +32,7 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 
-<button type="button" *ngIf="field.label === 'withAllPos'" class="raised-margin" mat-raised-button color="accent" (click)="allPos()">All #POS</button>
+<button type="button" *ngIf="field.label === 'withAllPos'" class="raised-margin" mat-raised-button color="accent" (click)="allPos()" i18n>All #POS</button>
 `,
 })
 export class SelectgroupComponent implements OnInit {

@@ -26,7 +26,7 @@ export class PopupformComponent implements OnInit {
       this.show = this.field.label;
       if(this.group.controls[this.field.name].value) {
         this.isadd = false;
-        this.show = 'Edit ' + this.field.label;
+        this.show = $localize`Edit ` + this.field.label;
       }
   }
 
@@ -42,7 +42,7 @@ export class PopupformComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'closed' || !result) {
         } else {
-          this.show = 'Edit ' + this.field.label;
+          this.show = $localize`Edit ` + this.field.label;
           this.group.controls[this.field.name].setValue(result);
           this.isadd = false;
         }

@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -60,7 +59,7 @@ export class CountinersReportsComponent implements OnInit {
       data: {id: event['id'], fromNew: false, type: this.type},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
+      if (data === $localize`Edit`) {
         switch (this.tabIndex) {
               case 0:
                 this.router.navigate(['../Arrival',{id: event['id']}], { relativeTo: this._Activatedroute });
@@ -87,21 +86,21 @@ export class CountinersReportsComponent implements OnInit {
           this.columnsShow = [
             {
                 type: 'normal',
-                label: 'Container number',
+                label: $localize`Container number`,
                 name: 'containerNumber',
                 search: 'normal',
             },
             {
                 type: 'nameId',
                 name: 'productCompany',
-                label: 'Product company',
+                label: $localize`Product company`,
                 search: 'selectObjObj',
                 options: this.localService.getShippingSuppliers(),
             },
             {
                 type: 'dateTime',
                 name: 'recordedTime',
-                label: 'Recorded time',
+                label: $localize`Recorded time`,
                 search: 'dates',
             },
             // {
@@ -112,7 +111,7 @@ export class CountinersReportsComponent implements OnInit {
             // },
             {
                 type: 'date',
-                label: 'Eta',
+                label: $localize`Eta`,
                 name: 'eta',
                 search: 'dates',
             },
@@ -128,48 +127,48 @@ export class CountinersReportsComponent implements OnInit {
           this.totelColumn = {
             type: 'weight2',
             name: 'totalRow',
-            label: 'Total loaded',
+            label: $localize`Total loaded`,
             group: 'poCodes',
           };
           this.columnsShow = [
             {
                 type: 'nameId',
                 name: 'shipmentCode',
-                label: 'Shipment code',
+                label: $localize`Shipment code`,
                 search: 'object',
                 group: 'shipmentCode',
             },
             {
                 type: 'arrayVal',
                 name: 'poCodes',
-                label: 'PO#',
+                label: $localize`PO#`,
                 search: 'normal',
                 group: 'poCodes',
             },
             {
                 type: 'dateTime',
                 name: 'recordedTime',
-                label: 'Recorded time',
+                label: $localize`Recorded time`,
                 search: 'dates',
                 group: 'poCodes',
             },
             {
                 type: 'nameId',
                 name: 'item',
-                label: 'Product descrption',
+                label: $localize`Product descrption`,
                 search: 'selectObj',
                 options: this.genral.getItemsRoastPackedCashew(),
             },
             {
                 type: 'weight2',
                 name: 'totalRow',
-                label: 'Loaded amounts',
+                label: $localize`Loaded amounts`,
                 search: 'normal',
             },
             {
                 type: 'normal',
                 name: 'status',
-                label: 'Status',
+                label: $localize`Status`,
                 search: 'select',
                 options: this.genral.getProcessStatus(),
             },

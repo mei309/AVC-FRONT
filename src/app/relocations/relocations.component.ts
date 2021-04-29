@@ -12,14 +12,14 @@ import { RelocationsService } from './relocations.service';
 @Component({
   selector: 'app-relocations-reports',
   template: `
-  <h1 style="text-align:center">Inventory reports</h1>
+  <h1 style="text-align:center" i18n>Inventory reports</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)">
       <!-- <mat-tab label="Transfers">
       </mat-tab> -->
-      <mat-tab label="Raw relocation with weighing">
+      <mat-tab label="Raw relocation with weighing" i18n-label>
       </mat-tab>
-      <mat-tab label="Cleaned relocation with weighing">
+      <mat-tab label="Cleaned relocation with weighing" i18n-label>
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="mainSourceColumns" (details)="openDialog($event)">
@@ -51,14 +51,14 @@ export class RelocationsComponent implements OnInit {
         {
             type: 'arrayVal',
             name: 'poCodes',
-            label: 'PO#',
+            label: $localize`PO#`,
             group: 'poCodes',
             search: 'normal',
         },
         {
             type: 'arrayVal',
             name: 'suppliers',
-            label: 'Supplier',
+            label: $localize`Supplier`,
             search: 'selectObj',
             options: this.genral.getSuppliersCashew(),
             group: 'poCodes',
@@ -66,33 +66,33 @@ export class RelocationsComponent implements OnInit {
         {
             type: 'itemWeight',
             name: 'usedItems',
-            label: 'Used items',
+            label: $localize`Used items`,
             search: 'listAmountWithUnit',
             options: this.genral.getAllItemsCashew(),
         },
         {
             type: 'itemWeight',
             name: 'itemCounts',
-            label: 'Counted items',
+            label: $localize`Counted items`,
             search: 'listAmountWithUnit',
             options: this.genral.getAllItemsCashew(),
         },
         {
             type: 'weight2',
             name: 'usedCountDifference',
-            label: 'Difference',
+            label: $localize`Difference`,
             search: 'object',
         },
         {
             type: 'dateTime',
             name: 'recordedTime',
-            label: 'Recorded time',
+            label: $localize`Recorded time`,
             search: 'dates',
         },
         {
             type: 'normal',
             name: 'status',
-            label: 'Status',
+            label: $localize`Status`,
             search: 'select',
             options: this.genral.getProcessStatus(),
         },
@@ -123,10 +123,10 @@ export class RelocationsComponent implements OnInit {
   openDialog(event): void {
     const dialogRef = this.dialog.open(RelocationsDetailsDialogComponent, {
       width: '80%',
-      data: {id: event['id'], fromNew: false, type: this.tabIndex? 'Cleaned transfer': 'Raw transfer'},
+      data: {id: event['id'], fromNew: false, type: this.tabIndex? $localize`Cleaned transfer`: $localize`Raw transfer`},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
+      if (data === $localize`Edit`) {
           switch (this.tabIndex) {
                 case 0:
                     this.router.navigate(['../RelocationCount',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });

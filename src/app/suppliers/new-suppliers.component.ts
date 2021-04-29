@@ -11,7 +11,7 @@ import { SuppliersService } from './suppliers.service';
 @Component({
     selector: 'new-supplier',
     template: `
-    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'New supplier'" (submitForm)="submit($event)">
+    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" mainLabel="New supplier" (submitForm)="submit($event)" i18n-mainLabel>
     </dynamic-form>
     `
   })
@@ -38,58 +38,58 @@ export class NewSupplierComponent implements OnInit {
     this.regConfig = [
       {
         type: 'input',
-        label: 'supplier name',
+        label: $localize`supplier name`,
         inputType: 'text',
         name: 'name',
         validations: [
           {
             name: 'required',
             validator: Validators.required,
-            message: 'Required'
+            message: $localize`Required`
           },
         ]
       },
       {
         type: 'selectMultipile',
-        label: 'Supply category',
+        label: $localize`Supply category`,
         name: 'supplyCategories',
         options: this.LocalService.getSupplyType(),
         validations: [
           {
             name: 'required',
             validator: Validators.required,
-            message: 'Required',
+            message: $localize`Required`,
           }
         ]
       },  
       {
         type: 'input',
-        label: 'Legal english name',
+        label: $localize`Legal english name`,
         name: 'englishName',
       },
       {
         type: 'input',
-        label: 'Legal vietnamese name',
+        label: $localize`Legal vietnamese name`,
         name: 'localName',
       },
       {
         type: 'input',
-        label: 'Company license',
+        label: $localize`Company license`,
         name: 'license',
       },
       {
         type: 'input',
-        label: 'Tax code',
+        label: $localize`Tax code`,
         name: 'taxCode',
       },
       {
         type: 'input',
-        label: 'Registered location',
+        label: $localize`Registered location`,
         name: 'registrationLocation',
       },
       {
         type: 'bigoutside',
-        label: 'Contact info',
+        label: $localize`Contact info`,
         name: 'contactDetails',
         inputType: 'alone',
         collections: [
@@ -99,7 +99,7 @@ export class NewSupplierComponent implements OnInit {
             collections: [
               {
                 type: 'textarry',
-                label: 'Street address',
+                label: $localize`Street address`,
                 inputType: 'text',
                 name: 'streetAddress',
               },
@@ -110,12 +110,12 @@ export class NewSupplierComponent implements OnInit {
                 collections: [
                   {
                     type: 'select',
-                    label: 'Country',
+                    label: $localize`Country`,
                     value: 'Vietnam',
                   },
                   {
                     type: 'select',
-                    label: 'City/State',
+                    label: $localize`City/State`,
                     name: 'city',
                   },
                 ]
@@ -124,7 +124,7 @@ export class NewSupplierComponent implements OnInit {
             validations: [
               {
                 name: 'streetAddress',
-                message: 'a address must have a street and city',
+                message: $localize`a address must have a street and city`,
               },
               {
                 name: 'city',
@@ -133,7 +133,7 @@ export class NewSupplierComponent implements OnInit {
           },
           {
             type: 'array',
-            label: 'Phone',
+            label: $localize`Phone`,
             inputType: 'number',
             name: 'phones',
             collections: 'phonesmain',
@@ -149,7 +149,7 @@ export class NewSupplierComponent implements OnInit {
           },
           {
             type: 'array',
-            label: 'Email',
+            label: $localize`Email`,
             inputType: 'text',
             name: 'emails',
             validations: [
@@ -158,13 +158,13 @@ export class NewSupplierComponent implements OnInit {
                 validator: Validators.pattern(
                   '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$'
                 ),
-                message: 'Invalid email'
+                message: $localize`Invalid email`
               }
             ]
           },
           {
             type: 'array',
-            label: 'Fax',
+            label: $localize`Fax`,
             inputType: 'number',
             name: 'faxes',
             // validations: [
@@ -179,7 +179,7 @@ export class NewSupplierComponent implements OnInit {
           },
           {
             type: 'bigexpand',
-            label: 'bank accounts',
+            label: $localize`bank accounts`,
             name: 'paymentAccounts',
             collections: [
               {
@@ -188,12 +188,12 @@ export class NewSupplierComponent implements OnInit {
                 collections: [
                   {
                     type: 'input',
-                    label: 'Owner name',
+                    label: $localize`Owner name`,
                     name: 'ownerName',
                   },
                   {
                     type: 'input',
-                    label: 'Account number',
+                    label: $localize`Account number`,
                     name: 'accountNo',
                   },
                   {
@@ -203,11 +203,11 @@ export class NewSupplierComponent implements OnInit {
                     collections: [
                       {
                         type: 'select',
-                        label: 'Bank',
+                        label: $localize`Bank`,
                       },
                       {
                         type: 'select',
-                        label: 'Branch',
+                        label: $localize`Branch`,
                         name: 'branch',
                       },
                     ]
@@ -233,7 +233,7 @@ export class NewSupplierComponent implements OnInit {
                         name: 'branch',
                       }
                     ],
-                    message: 'a bank must have owner name and account and branch',
+                    message: $localize`a bank must have owner name and account and branch`,
                   }
               ]
           },
@@ -241,7 +241,7 @@ export class NewSupplierComponent implements OnInit {
       },
       {
         type: 'bigexpand',
-        label: 'Contact person',
+        label: $localize`Contact person`,
         name: 'companyContacts',
         collections: [
           {
@@ -250,7 +250,7 @@ export class NewSupplierComponent implements OnInit {
             collections: [
               {
                 type: 'input',
-                label: 'Name',
+                label: $localize`Name`,
                 inputType: 'text',
                 name: 'name',
               },
@@ -264,7 +264,7 @@ export class NewSupplierComponent implements OnInit {
                     collections: [
                       {
                         type: 'textarry',
-                        label: 'Street address',
+                        label: $localize`Street address`,
                         inputType: 'text',
                         name: 'streetAddress',
                       },
@@ -275,11 +275,11 @@ export class NewSupplierComponent implements OnInit {
                         collections: [
                           {
                             type: 'select',
-                            label: 'Country',
+                            label: $localize`Country`,
                           },
                           {
                             type: 'select',
-                            label: 'City/State',
+                            label: $localize`City/State`,
                             name: 'city',
                           },
                         ]
@@ -288,7 +288,7 @@ export class NewSupplierComponent implements OnInit {
                     validations: [
                       {
                         name: 'streetAddress',
-                        message: 'a address must have a street and city',
+                        message: $localize`a address must have a street and city`,
                       },
                       {
                         name: 'city',
@@ -297,14 +297,14 @@ export class NewSupplierComponent implements OnInit {
                   },
                   {
                     type: 'array',
-                    label: 'Phone',
+                    label: $localize`Phone`,
                     inputType: 'number',
                     name: 'phones',
                     collections: 'phoneschild'
                   },
                   {
                     type: 'array',
-                    label: 'Email',
+                    label: $localize`Email`,
                     inputType: 'text',
                     name: 'emails',
                     validations: [
@@ -313,13 +313,13 @@ export class NewSupplierComponent implements OnInit {
                         validator: Validators.pattern(
                           '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'
                         ),
-                        message: 'Invalid email'
+                        message: $localize`Invalid email`
                       }
                     ]
                   },
                   {
                     type: 'array',
-                    label: 'Fax',
+                    label: $localize`Fax`,
                     inputType: 'number',
                     name: 'faxes',
                   },
@@ -327,40 +327,40 @@ export class NewSupplierComponent implements OnInit {
               },
               {
                 type: 'popup',
-                label: 'ID infromtion',
+                label: $localize`ID infromtion`,
                 name: 'idCard',
                 collections: [
                   {
                     type: 'input',
-                    label: 'ID number',
+                    label: $localize`ID number`,
                     name: 'idNumber',
                     inputType: 'text'
                   },
                   {
                     type: 'date',
-                    label: 'ID date of issue',
+                    label: $localize`ID date of issue`,
                     name: 'dateOfIssue',
                   },
                   {
                     type: 'input',
-                    label: 'ID place of issue',
+                    label: $localize`ID place of issue`,
                     name: 'placeOfIssue',
                     inputType: 'text'
                   },
                   {
                     type: 'select',
-                    label: 'Nationality',
+                    label: $localize`Nationality`,
                     name: 'nationality',
                     options: this.LocalService.getCountries(),
                   },
                   {
                     type: 'date',
-                    label: 'Date of birth',
+                    label: $localize`Date of birth`,
                     name: 'dob',
                   },
                   {
                     type: 'button',
-                    label: 'Save ID',
+                    label: $localize`Save ID`,
                     name: 'submit',
                   }
                 ]
@@ -369,7 +369,7 @@ export class NewSupplierComponent implements OnInit {
           },
           {
             type: 'select',
-            label: 'Position',
+            label: $localize`Position`,
             name: 'position',
             options: this.LocalService.getCompanyPosition(),
           },
@@ -386,13 +386,13 @@ export class NewSupplierComponent implements OnInit {
                   name: 'name',
                 },
               ],
-              message: 'a person must have a name',
+              message: $localize`a person must have a name`,
             }
         ]
       },
       {
         type: 'button',
-        label: 'Save',
+        label: $localize`Save`,
         name: 'submit'
       }
     ];
@@ -405,7 +405,7 @@ export class NewSupplierComponent implements OnInit {
           data: {supplier: val, fromNew: true}
         });
         dialogRef.afterClosed().subscribe(result => {
-            if (result === 'edit') {
+            if (result === $localize`edit`) {
               this.router.navigate(['../EditSupplier', {id: val['id']}], { relativeTo: this._Activatedroute });
             } else {
               this.router.navigate(['../Suppliers'], { relativeTo: this._Activatedroute });

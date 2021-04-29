@@ -11,30 +11,30 @@ import { ReportsService } from './reports.service';
   selector: 'final-report',
   template:`
     <fieldset [ngStyle]="{'width':'90%'}">
-        <legend><h1>PO# Details</h1></legend>
+        <legend><h1 i18n>PO# Details</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
         <mat-tab-group *ngIf="isDataAvailable">
-            <mat-tab label="Summary">
+            <mat-tab label="Summary" i18n-label>
                 <ng-template matTabContent>
                     <final-report-summary [poCode]="poCode">
                     </final-report-summary>
                 </ng-template>
             </mat-tab>
-            <mat-tab label="Full details">
+            <mat-tab label="Full details" i18n-label>
                 <ng-template matTabContent>
                     <final-report-full [poCode]="poCode">
                     </final-report-full>
                 </ng-template>
             </mat-tab>
-            <mat-tab label="Graphs">
+            <mat-tab label="Graphs" i18n-label>
                 <ng-template matTabContent>
                     <final-report-charts *ngIf="finalReport" [finalReport]="finalReport">
                     </final-report-charts>
                     <mat-spinner *ngIf="!finalReport"></mat-spinner>
                 </ng-template>
             </mat-tab>
-            <mat-tab label="Final report">
+            <mat-tab label="Final report" i18n-label>
                 <ng-template matTabContent>
                     <final-report-table *ngIf="finalReport" [dataSource]="finalReport">
                     </final-report-table>
@@ -105,11 +105,11 @@ export class FinalReportComponent {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                     },

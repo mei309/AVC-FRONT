@@ -7,9 +7,7 @@ import { UserAccountService } from './user-account.service';
 @Component({
   selector: 'massages-list',
   template: `
-  <h1 style="text-align:center">
-    Massages center
-  </h1>
+  <h1 style="text-align:center" i18n>Massages center</h1>
   <div class="centerButtons">
     <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
       <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
@@ -29,38 +27,38 @@ export class MassagesListComponent {
     columnsMassages: OneColumn[] = [
       {
         name: 'title',
-        label: 'Title',
+        label: $localize`Title`,
         search: 'normal',
       },
       {
         name: 'processType',
-        label: 'Process type',
+        label: $localize`Process type`,
         search: 'select',
         options: this.genral.getProcess()
       },
       {
           type: 'arrayVal',
           name: 'poCodes',
-          label: 'PO#',
+          label: $localize`PO#`,
           // search: 'object',
           group: 'poCodes',
       },
       {
           type: 'arrayVal',
           name: 'suppliers',
-          label: 'Supplier',
+          label: $localize`Supplier`,
           search: 'selectObj',
           options: this.genral.getSuppliersCashew(),
       },
       {
         name: 'modifiedBy',
-        label: 'Modified by',
+        label: $localize`Modified by`,
         search: 'normal',
       },
       {
         type: 'dateTime',
         name: 'createdDate',
-        label: 'Created date',
+        label: $localize`Created date`,
         search: 'dates',
       },
     ];

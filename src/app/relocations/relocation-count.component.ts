@@ -99,7 +99,7 @@ export class RelocationCountComponent implements OnInit {
                 data: {relocationsItem: cloneDeep(val), fromNew: true, type: this.getTitels()}
             });
             dialogRef.afterClosed().subscribe(result => {
-                if(result === 'Edit') {
+                if(result === $localize`Edit`) {
                     // this.isDataAvailable = false;
                     this.isFormAvailable = false;
                     this.dataSource = null;
@@ -204,11 +204,11 @@ export class RelocationCountComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                     },
@@ -320,18 +320,18 @@ export class RelocationCountComponent implements OnInit {
             collections: [
                 {
                     type: 'select',
-                    label: 'Supllier',
+                    label: $localize`Supplier`,
                 },
                 {
                     type: 'select',
-                    label: '#PO',
+                    label: $localize`#PO`,
                     name: 'poCode',
                     collections: 'somewhere',
                     validations: [
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: '#PO Required',
+                            message: $localize`#PO Required`,
                         }
                     ]
                 },
@@ -339,7 +339,7 @@ export class RelocationCountComponent implements OnInit {
         },
         {
             type: 'date',
-            label: 'Date',
+            label: $localize`Date`,
             value: new Date(),
             name: 'recordedTime',
             options: 'withTime',
@@ -347,20 +347,20 @@ export class RelocationCountComponent implements OnInit {
                 {
                     name: 'required',
                     validator: Validators.required,
-                    message: 'Date Required',
+                    message: $localize`Date Required`,
                 }
             ]
         },
         {
             type: 'select',
-            label: 'Production line',
+            label: $localize`Production line`,
             name: 'productionLine',
             options: this.genral.getProductionLine(this.getFunctionality()),
         },
         {
              type: 'bigexpand',
              name: 'usedItemsNormal',
-             label: 'Transfering amounts',
+             label: $localize`Transfering amounts`,
              options: 'aloneNoAdd',
              collections: [
                  {
@@ -371,19 +371,19 @@ export class RelocationCountComponent implements OnInit {
                      collections: [
                          {
                              type: 'select',
-                             label: 'Item',
+                             label: $localize`Item`,
                              name: 'item',
                              disable: true,
                          },
                          {
                              type: 'date',
-                             label: 'Process date',
+                             label: $localize`Process date`,
                              name: 'itemProcessDate',
                              disable: true,
                          },
                          {
                              type: 'input',
-                             label: 'Weight unit',
+                             label: $localize`Weight unit`,
                              name: 'measureUnit',
                          },
                          {
@@ -392,14 +392,14 @@ export class RelocationCountComponent implements OnInit {
                              collections: [
                                  {
                                      type: 'input',
-                                     label: 'Number of units',
+                                     label: $localize`Number of units`,
                                      name: 'numberUnits',
                                      disable: true,
                                  },
                                  {
                                      type: 'input',
                                      name: 'unitAmount',
-                                     label: 'Unit weight',
+                                     label: $localize`Unit weight`,
                                      disable: true,
                                      // collections: [
                                      //     {
@@ -416,13 +416,13 @@ export class RelocationCountComponent implements OnInit {
                                  },
                                  {
                                      type: 'select',
-                                     label: 'Warehouse location',
+                                     label: $localize`Warehouse location`,
                                      name: 'warehouseLocation',
                                      disable: true,
                                  },
                                  {
                                      type: 'input',
-                                     label: 'Number available units',
+                                     label: $localize`Number available units`,
                                      name: 'numberAvailableUnits',
                                      disable: true,
                                  },
@@ -435,7 +435,7 @@ export class RelocationCountComponent implements OnInit {
          {
              type: 'bigexpand',
              name: 'usedItemsTable',
-             label: 'Transfering amounts',
+             label: $localize`Transfering amounts`,
              options: 'aloneNoAdd',
              collections: [
                  {
@@ -446,25 +446,25 @@ export class RelocationCountComponent implements OnInit {
                      collections: [
                          {
                              type: 'inputReadonlySelect',
-                             label: 'Item descrption',
+                             label: $localize`Item descrption`,
                              name: 'item',
                              disable: true,
                          },
                          {
                              type: 'date',
-                             label: 'Process date',
+                             label: $localize`Process date`,
                              name: 'itemProcessDate',
                              disable: true,
                          },
                          {
                              type: 'inputReadonly',
-                             label: 'Weight unit',
+                             label: $localize`Weight unit`,
                              name: 'measureUnit',
                              disable: true,
                          },
                          {
                              type: 'inputReadonlySelect',
-                             label: 'Warehouse location',
+                             label: $localize`Warehouse location`,
                              name: 'warehouseLocation',
                              disable: true,
                          },
@@ -476,7 +476,7 @@ export class RelocationCountComponent implements OnInit {
                         //  },
                          {
                              type: 'arrayordinal',
-                             label: 'Unit weight',
+                             label: $localize`Unit weight`,
                              name: 'amounts',
                              inputType: 'choose',
                              options: 3,
@@ -489,11 +489,11 @@ export class RelocationCountComponent implements OnInit {
          {
              type: 'bignotexpand',
              name: 'newWarehouse',
-             label: 'New warehouse location',
+             label: $localize`New warehouse location`,
              collections: [
                  {
                      type: 'select',
-                     label: 'Warehouse location',
+                     label: $localize`Warehouse location`,
                      name: 'warehouseLocation',
                      options: this.genral.getWearhouses(),
                  },
@@ -502,12 +502,12 @@ export class RelocationCountComponent implements OnInit {
             {
             type: 'bigexpand',
             name: 'itemCounts',
-            label: 'Count',
+            label: $localize`Count`,
             //  options: 'aloneNoAdd',
             collections: [
                 {
                     type: 'select',
-                    label: 'Item descrption',
+                    label: $localize`Item descrption`,
                     name: 'item',
                     collections: 'somewhere',
                     options: this.genral.getItemsCashew(this.num? 'Clean': 'Raw'),
@@ -522,7 +522,7 @@ export class RelocationCountComponent implements OnInit {
                 //  },
                 {
                     type: 'selectMU',
-                    label: 'Weight unit',
+                    label: $localize`Weight unit`,
                     name: 'measureUnit',
                 },
                 //  {
@@ -534,14 +534,14 @@ export class RelocationCountComponent implements OnInit {
                 //  },
                 {
                     type: 'input',
-                    label: 'All bags weight',
+                    label: $localize`All bags weight`,
                     name: 'accessWeight',
                     inputType: 'numeric',
                     options: 3,
                 },
                 {
                     type: 'arrayordinal',
-                    label: 'Unit weight',
+                    label: $localize`Unit weight`,
                     name: 'amounts',
                     options: 3,
                     collections: 30,
@@ -550,7 +550,7 @@ export class RelocationCountComponent implements OnInit {
         },
         {
             type: 'button',
-            label: 'Submit',
+            label: $localize`Submit`,
             name: 'submit',
         }
     ];
@@ -569,9 +569,9 @@ export class RelocationCountComponent implements OnInit {
    getTitels() {
        switch (this.num) {
             case 0:
-                return 'Raw relocation with weighing';
+                return $localize`Raw relocation with weighing`;
             case 1:
-                return 'Cleaned relocation with weighing';
+                return $localize`Cleaned relocation with weighing`;
        }
    }
 

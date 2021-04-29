@@ -2,14 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { Genral } from '../genral.service';
 import { CountinersService } from './countiners.service';
 @Component({
     selector: 'shipment-codes',
     template: `
-    <h1 style="text-align:center">Shipment codes</h1>
+    <h1 style="text-align:center" i18n>Shipment codes</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add code</button>
+        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()" i18n>Add code</button>
     </div>
     <search-details [dataSource]="shipmentSource" [oneColumns]="columnsShipment" (details)="newDialog($event)">
     </search-details>
@@ -28,11 +27,11 @@ export class ShipmentCodesComponent implements OnInit {
             {
                 type: 'normal',
                 name: 'code',
-                label: 'Code',
+                label: $localize`Code`,
             },
             {
                 type: 'normal',
-                label: 'Destination port',
+                label: $localize`Destination port`,
                 name: 'portOfDischargeValue',
                 // search: 'selectAsyncObject',
                 // options: this.localService.getShippingPorts(),
@@ -40,7 +39,7 @@ export class ShipmentCodesComponent implements OnInit {
             {
                 type: 'normal',
                 name: 'value',
-                label: 'Display',
+                label: $localize`Display`,
             },
         ];
         this.localService.findShipmentCodes().pipe(take(1)).subscribe(value => {
@@ -57,7 +56,7 @@ export class ShipmentCodesComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(data => {
-            if(data === 'success') {
+            if(data === $localize`success`) {
                 this.localService.findShipmentCodes().pipe(take(1)).subscribe(value => {
                     this.shipmentSource = value;
                 });
@@ -82,33 +81,33 @@ export class AddEditShipmentDialog {
             this.shipConfig = [
                 {
                     type: 'input',
-                    label: 'Code',
+                    label: $localize`Code`,
                     inputType: 'number',
                     name: 'code',
                     disable: true,
                 },
                 {
                     type: 'select',
-                    label: 'Destination port',
+                    label: $localize`Destination port`,
                     name: 'portOfDischarge',
                     options: this.localService.getShippingPorts(),
                     validations: [
                           {
                               name: 'required',
                               validator: Validators.required,
-                              message: 'Destination port Required',
+                              message: $localize`Destination port Required`,
                           }
                       ]
                 },
                 {
                     type: 'button',
-                    label: 'Submit',
+                    label: $localize`Submit`,
                     name: 'submit',
                 }
             ];
     }
     
-    constructor(private genral: Genral, private localService: CountinersService, public dialogRef: MatDialogRef<AddEditShipmentDialog>,
+    constructor(private localService: CountinersService, public dialogRef: MatDialogRef<AddEditShipmentDialog>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.putData = data.putData;
@@ -116,7 +115,7 @@ export class AddEditShipmentDialog {
     
     submit(value: any) {
         this.localService.addEditShipmentCode(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
-            this.dialogRef.close('success');
+            this.dialogRef.close($localize`success`);
         });
     }
 

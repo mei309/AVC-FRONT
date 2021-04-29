@@ -5,12 +5,12 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'app-order-details-dialog',
     template: `
-    <button printTitle="{{type}} order details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} order details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>{{type}} order details</h1>
+    <h1 mat-dialog-title i18n>{{type}} order details</h1>
     <mat-dialog-content id="print-section-orders">
-        <h1 class="only-print">{{type}} order details</h1>
+        <h1 class="only-print" i18n>{{type}} order details</h1>
         <show-details [dataSource]="order">
         </show-details>
     </mat-dialog-content>
@@ -18,7 +18,7 @@ import { OrdersService } from './orders.service';
         <ng-container *ngFor="let butt of buttons;">
             <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -42,13 +42,13 @@ export class OrderDetailsDialogComponent {
             this.LocalService.getOrder(this.id).pipe(take(1)).subscribe( val => {
                 this.order = val;
                 if('LOCKED' === val['editStatus']) {
-                    this.buttons.push('Receive');
+                    this.buttons.push($localize`Receive`);
                 } else {
-                    this.buttons.push('Edit order', 'Receive');
+                    this.buttons.push($localize`Edit order`, $localize`Receive`);
                 }
             });
         } else {
-            this.buttons.push('Edit order', 'Receive');
+            this.buttons.push($localize`Edit order`, $localize`Receive`);
         }
     }
     onNoClick(): void {

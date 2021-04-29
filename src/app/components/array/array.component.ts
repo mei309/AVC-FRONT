@@ -14,27 +14,24 @@ import { FieldConfig } from '../../field.interface';
         <button *ngIf="i!=0 && group.enabled" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeItem(i)">
           <mat-icon>close</mat-icon>
         </button>
-        <mat-error *ngIf="formArray.controls[i].get('value').hasError('maxlength')">Max length 255</mat-error>
+        <mat-error *ngIf="formArray.controls[i].get('value').hasError('maxlength')" i18n>Max length 255</mat-error>
         <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
           <mat-error *ngIf="formArray.controls[i].get('value').hasError(validation.name)">{{validation.message}}</mat-error>
         </ng-container>
       </mat-form-field>
     </div>
   </ng-container>
-  <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+  <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()" i18n>Add {{field.label}}</button>
 </div>
 `,
 })
-export class ArrayComponent implements OnInit {
+export class ArrayComponent {
   @ViewChildren('input') inputs: QueryList<ElementRef>;
   
   field: FieldConfig;
   group: FormGroup;
 
   constructor(private fb: FormBuilder) {}
-  ngOnInit() {
-    
-  }
   
   get formArray() { return <FormArray>this.group.get(this.field.name); }
 
@@ -97,31 +94,3 @@ keyDown(event: KeyboardEvent, ind) {
 }
 
 }
-
-// *ngIf="!field.collections"
-
-// <div [formGroup]="group" *ngIf="field.collections">
-//   {{field.label}}
-//   <div [formArrayName]="field.name" class="array-field-grid">
-//     <div *ngFor="let item of formArray.controls; let i = index;" (keydown)="keyDown($event, i)" class="one-cell-table">
-//       <span matPrefix>&nbsp; {{i+1}} &nbsp;</span>
-//       <mat-form-field [formGroupName]="i" style="width: 100px">
-//         <input matInput #input numeric formControlName="value" [decimals]="field.options" minus="true" type="text" maxlength="255">
-//       </mat-form-field>
-//     </div>
-//   </div>
-//   <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
-// </div>
-
-
-// const num = this.field.collections;
-//     for(let i = 1; i < num; i++) {
-//       this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
-//     }
-
-//     if(this.field.collections) {
-//       for (let index = 0; index < this.field.collections; index++) {
-//         this.formArray.push(this.fb.group({value: this.fb.control(this.field.value, this.bindValidations(this.field.validations || []) )}));
-//       }
-//     } else {
-//     }

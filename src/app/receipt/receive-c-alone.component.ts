@@ -10,7 +10,7 @@ import { ReceiptService } from './receipt.service';
 @Component({
     selector: 'receive-c-alone',
     template: `
-    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" [mainLabel]="'Receive Cashew Without Order'" (submitForm)="submit($event)">
+    <dynamic-form *ngIf="isRealodReady" [fields]="regConfig" mainLabel="Receive Cashew Without Order" (submitForm)="submit($event)" i18n-mainLabel>
     </dynamic-form>
     `
   })
@@ -34,18 +34,18 @@ export class ReceiveCAlone implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                         validations: [
                             {
                                 name: 'required',
                                 validator: Validators.required,
-                                message: 'PO code Required',
+                                message: $localize`PO code Required`,
                             }
                         ]
                     },
@@ -53,7 +53,7 @@ export class ReceiveCAlone implements OnInit {
             },
             {
                 type: 'date',
-                label: 'Receiving date',
+                label: $localize`Receiving date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -61,26 +61,26 @@ export class ReceiveCAlone implements OnInit {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Receiving date Required',
+                        message: $localize`Receiving date Required`,
                     }
                 ]
             },
             {
                 type: 'bigexpand',
-                label: 'Receive product',
+                label: $localize`Receive product`,
                 name: 'receiptItems',
                 value: 'required',
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
                         options: this.genral.getItemsRawCashew(),
                     },
                     {
                         type: 'selectMU',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                     },
                     {
@@ -89,14 +89,14 @@ export class ReceiveCAlone implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Extra requseted',
+                                label: $localize`Extra requseted`,
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'select',
-                                label: 'Weight unit',
+                                label: $localize`Weight unit`,
                                 name: 'measureUnit',
                                 options: ['KG', 'LBS'],
                             },
@@ -104,7 +104,7 @@ export class ReceiveCAlone implements OnInit {
                     },
                     {
                         type: 'popup',
-                        label: 'Extra received',
+                        label: $localize`Extra received`,
                         name: 'bouns',
                         collections: [
                             {
@@ -114,21 +114,21 @@ export class ReceiveCAlone implements OnInit {
                                 collections: [
                                     {
                                         type: 'input',
-                                        label: 'Bag weight',
+                                        label: $localize`Bag weight`,
                                         name: 'unitAmount',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
                                     {
                                         type: 'input',
-                                        label: 'Number of bags',
+                                        label: $localize`Number of bags`,
                                         name: 'numberUnits',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Warehouse location',
+                                        label: $localize`Warehouse location`,
                                         name: 'warehouseLocation',
                                         options: this.genral.getWearhouses(),
                                     },
@@ -140,7 +140,7 @@ export class ReceiveCAlone implements OnInit {
                                 validations: [
                                     {
                                         name: 'unitAmount',
-                                        message: 'a received storage must have unit weight and number of bags',
+                                        message: $localize`a received storage must have unit weight and number of bags`,
                                     },
                                     {
                                         name: 'numberUnits',
@@ -149,7 +149,7 @@ export class ReceiveCAlone implements OnInit {
                             },
                             {
                                 type: 'button',
-                                label: 'Save',
+                                label: $localize`Save`,
                                 name: 'submit',
                             }
                         ]
@@ -160,33 +160,33 @@ export class ReceiveCAlone implements OnInit {
                     },
                     {
                         type: 'bigexpand',
-                        label: 'Amounts',
+                        label: $localize`Amounts`,
                         name: 'storageForms',
                         options: 'Inline',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Bag weight',
+                                label: $localize`Bag weight`,
                                 name: 'unitAmount',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Number of bags',
+                                label: $localize`Number of bags`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
                             {
                                 type: 'popup',
-                                label: 'Samples',
+                                label: $localize`Samples`,
                                 name: 'samplesWeight',
                                 inputType: true,
                                 collections: [
@@ -199,7 +199,7 @@ export class ReceiveCAlone implements OnInit {
                                     // },
                                     {
                                         type: 'arrayordinal',
-                                        label: 'Empty bag weights',
+                                        label: $localize`Empty bag weights`,
                                         inputType: 'inline',
                                         name: 'sampleContainerWeights',
                                         options: 3,
@@ -207,7 +207,7 @@ export class ReceiveCAlone implements OnInit {
                                     },
                                     {
                                         type: 'arrayordinal',
-                                        label: 'Samples (+-from unit weight)',
+                                        label: $localize`Samples (+-from unit weight)`,
                                         // inputType: 'numeric',
                                         name: 'sampleWeights',
                                         options: 3,
@@ -215,20 +215,20 @@ export class ReceiveCAlone implements OnInit {
                                     },
                                     {
                                         type: 'input',
-                                        label: 'Avrage weight (full weight)',
+                                        label: $localize`Avrage weight (full weight)`,
                                         name: 'avgTestedWeight',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
                                     {
                                         type: 'input',
-                                        label: 'number of samples (if put avrage)',
+                                        label: $localize`number of samples (if put avrage)`,
                                         name: 'numberOfSamples',
                                         inputType: 'numeric',
                                     },
                                     {
                                         type: 'button',
-                                        label: 'Submit',
+                                        label: $localize`Submit`,
                                         name: 'submit',
                                     }
                                 ]
@@ -241,7 +241,7 @@ export class ReceiveCAlone implements OnInit {
                         validations: [
                             {
                                 name: 'unitAmount',
-                                message: 'a received storage must have weight and number of bags',
+                                message: $localize`a received storage must have weight and number of bags`,
                             },
                             {
                                 name: 'numberUnits',
@@ -251,7 +251,7 @@ export class ReceiveCAlone implements OnInit {
                     {
                         type: 'divider',
                         inputType: 'titel',
-                        label: 'Invoice amounts'
+                        label: $localize`Invoice amounts`
                     },
                     {
                         type: 'inputselect',
@@ -259,7 +259,7 @@ export class ReceiveCAlone implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Payable weight',
+                                label: $localize`Payable weight`,
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 3,
@@ -267,13 +267,13 @@ export class ReceiveCAlone implements OnInit {
                                     {
                                         name: 'required',
                                         validator: Validators.required,
-                                        message: 'Payable weight Required',
+                                        message: $localize`Payable weight Required`,
                                     }
                                 ]
                             },
                             {
                                 type: 'select',
-                                label: 'Measure unit',
+                                label: $localize`Measure unit`,
                                 name: 'measureUnit',
                                 value: 'LBS',
                                 options: this.genral.getMeasureUnit(),
@@ -286,14 +286,14 @@ export class ReceiveCAlone implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Price per unit',
+                                label: $localize`Price per unit`,
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 2,
                             },
                             {
                                 type: 'select',
-                                label: 'Currency',
+                                label: $localize`Currency`,
                                 name: 'currency',
                                 options: ['USD', 'VND'],
                             },
@@ -307,7 +307,7 @@ export class ReceiveCAlone implements OnInit {
                 validations: [
                     {
                         name: 'item',
-                        message: 'a received item must have an item, and at least one storage',
+                        message: $localize`a received item must have an item, and at least one storage`,
                     },
                     {
                         name: 'measureUnit',
@@ -327,7 +327,7 @@ export class ReceiveCAlone implements OnInit {
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ];
@@ -384,7 +384,7 @@ export class ReceiveCAlone implements OnInit {
                 data: {receipt: val, fromNew: true, type: 'Cashew'}
             });
             dialogRef.afterClosed().subscribe(data => {
-                if(data === 'Edit receive' || data === 'Receive bouns') {
+                if(data === $localize`Edit receive` || data === $localize`Receive bouns`) {
                     this.router.navigate(['../ReceiveCOrder', {poCode: val['poCode']['id'], id: val['id']}], { relativeTo: this._Activatedroute });
                 } else {
                     this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });

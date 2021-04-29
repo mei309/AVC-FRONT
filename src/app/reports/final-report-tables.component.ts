@@ -35,38 +35,38 @@ export class FinalReportTablesComponent {
         // },
         {
             name: 'inventory',
-            label: 'Inventory',
+            label: $localize`Inventory`,
             type: 'inventory',
         },
         {
             name: 'receipt',
-            label: 'Receiving',
+            label: $localize`Receiving`,
         },
         {
             name: 'receiptQC',
-            label: 'Receiving QC',
+            label: $localize`Receiving QC`,
             type: 'qc',
         },
         {
             name: 'cleaning',
-            label: 'Cleaning',
+            label: $localize`Cleaning`,
         },
         {
             name: 'roasting',
-            label: 'Roasting',
+            label: $localize`Roasting`,
         },
         {
             name: 'roastQC',
-            label: 'Roasting QC',
+            label: $localize`Roasting QC`,
             type: 'qc',
         },
         {
             name: 'packing',
-            label: 'Packing',
+            label: $localize`Packing`,
         },
         {
             name: 'loadings',
-            label: 'Loadings',
+            label: `Loadings`,
             type: 'shipping',
         },
     ];
@@ -76,56 +76,56 @@ export class FinalReportTablesComponent {
         {
             type: 'normal',
             name: 'checkedBy',
-            label: 'Checked by',
+            label: $localize`Checked by`,
             group: 'checkedBy'
         },
         {
             type: 'date',
             name: 'date',
-            label: 'Check date',
+            label: $localize`Check date`,
             group: 'checkedBy'
         },
         {
             type: 'normal',
             name: 'approvals',
-            label: 'Approvals',
+            label: $localize`Approvals`,
             group: 'checkedBy'
         },
         {
             type: 'normal',
             name: 'status',
-            label: 'Status',
+            label: $localize`Status`,
             group: 'checkedBy'
         },
         {
           type: 'nameId',
           name: 'item',
-          label: 'Product descrption',
+          label: $localize`Product descrption`,
         },
         {
             type: 'percent',
-            label: 'Humidity',
+            label: $localize`Humidity`,
             name: 'humidity',
         },
         {
             type: 'percentNormal',
-            label: 'Breakage',
+            label: $localize`Breakage`,
             name: 'breakage',
         },
         {
           type: 'percentNormal',
           name: 'totalDamage',
-          label: 'Total damage',
+          label: $localize`Total damage`,
         },
         {
           type: 'percentNormal',
           name: 'totalDefects',
-          label: 'Total defects',
+          label: $localize`Total defects`,
         },
         {
           type: 'percentNormal',
           name: 'totalDefectsAndDamage',
-          label: 'Total defects + damage',
+          label: $localize`Total defects + damage`,
         },
         {
             type: 'kidArray',
@@ -136,7 +136,7 @@ export class FinalReportTablesComponent {
       inventoryColumns = [
             {
                 name: 'inventory',
-                label: 'Inventory',
+                label: $localize`Inventory`,
                 foot: 'totalInventory',
             }
         ];

@@ -14,20 +14,20 @@ import { cloneDeep } from 'lodash-es';
 @Component({
     selector: 'countiners-loading',
     template: `
-    <h1 style="text-align:center">Loading</h1>
+    <h1 style="text-align:center" i18n>Loading</h1>
     <ng-container *ngIf="beginPage" mat-stretch-tabs>
-            <dynamic-form #first [fields]="beginConfig" [putData]="putFirstData" [mainLabel]="'Loading information'">
+            <dynamic-form #first [fields]="beginConfig" [putData]="putFirstData" mainLabel="Loading information" i18n-mainLabel>
             </dynamic-form>
             <ng-container dynamicField [field]="poConfig" [group]="form">
             </ng-container>
             <div *ngIf="isFormAvailable">
-                <dynamic-form #second [fields]="regConfig" [putData]="dataSource" [mainLabel]="'Material to load'">
+                <dynamic-form #second [fields]="regConfig" [putData]="dataSource" mainLabel="Material to load" i18n-mainLabel>
                 </dynamic-form>
             </div>
     </ng-container>
     <div class="margin-top" style="text-align:right" *ngIf="isFormAvailable">
-        <button type="button" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" (click)="onSubmitBoth()">Submit</button>
-        <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onResetBoth()">Reset</button>
+        <button type="button" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" (click)="onSubmitBoth()" i18n>Submit</button>
+        <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onResetBoth()" i18n>Reset</button>
     </div>
     `
   })
@@ -109,7 +109,7 @@ export class CountinersLoadingComponent {
                     });
                     dialogRef.afterClosed().subscribe(result => {
                         switch (result) {
-                            case 'Edit':
+                            case $localize`Edit`:
                                 this.beginPage = false;
                                 this.choosedPos = [];
                                 this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
@@ -121,10 +121,10 @@ export class CountinersLoadingComponent {
                                     this.fillEdit(val1);
                                 });
                                 break;
-                            case 'Security Doc':
+                            case $localize`Security Doc`:
                                 this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
                                 break;
-                            case 'Export Doc':
+                            case $localize`Export Doc`:
                                 this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
                                 break;
                         
@@ -268,7 +268,7 @@ export class CountinersLoadingComponent {
             {
                 type: 'bigexpand',
                 name: 'poCodes',
-                label: 'Loading PO#s',
+                label: $localize`Loading PO#s`,
                 options: 'aloneInline',
                 collections: [
                     {
@@ -278,11 +278,11 @@ export class CountinersLoadingComponent {
                         collections: [
                             {
                                 type: 'select',
-                                label: 'Supplier',
+                                label: $localize`Supplier`,
                             },
                             {
                                 type: 'select',
-                                label: '#PO',
+                                label: $localize`#PO`,
                                 name: 'poCode',
                                 collections: 'somewhere',
                             },
@@ -346,7 +346,7 @@ export class CountinersLoadingComponent {
         this.beginConfig = [
             {
                 type: 'date',
-                label: 'Date',
+                label: $localize`Date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -354,13 +354,13 @@ export class CountinersLoadingComponent {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Date Required',
+                        message: $localize`Date Required`,
                     }
                 ]
             },
             {
                 type: 'select',
-                label: 'Shipment code',
+                label: $localize`Shipment code`,
                 name: 'shipmentCode',
                 options: this.localService.findFreeShipmentCodes(),
                 disable: true,
@@ -368,13 +368,13 @@ export class CountinersLoadingComponent {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Shipment code Required',
+                        message: $localize`Shipment code Required`,
                     }
                 ]
             },
             {
                 type: 'select',
-                label: 'Container',
+                label: $localize`Container`,
                 name: 'arrival',
                 options: this.localService.findFreeArrivals(),
                 disable: true,
@@ -382,7 +382,7 @@ export class CountinersLoadingComponent {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Container Required',
+                        message: $localize`Container Required`,
                     }
                 ]
             },
@@ -609,7 +609,7 @@ export class CountinersLoadingComponent {
             {
                 type: 'bigexpand',
                 name: 'usedItemsNormal',
-                label: 'Transfer from',
+                label: $localize`Transfer from`,
                 options: 'aloneNoAdd',
                 collections: [
                     {
@@ -620,31 +620,31 @@ export class CountinersLoadingComponent {
                         collections: [
                             {
                                 type: 'input',
-                                label: '#PO',
+                                label: $localize`#PO`,
                                 name: 'itemPoCodes',
                                 disable: true,
                             },
                             {
                                 type: 'input',
-                                label: 'Supplier',
+                                label: $localize`Supplier`,
                                 name: 'itemSuppliers',
                                 disable: true,
                             },
                             {
                                 type: 'select',
-                                label: 'Item',
+                                label: $localize`Item`,
                                 name: 'item',
                                 disable: true,
                             },
                             {
                                 type: 'date',
-                                label: 'Process date',
+                                label: $localize`Process date`,
                                 name: 'itemProcessDate',
                                 disable: true,
                             },
                             {
                                 type: 'input',
-                                label: 'Weight unit',
+                                label: $localize`Weight unit`,
                                 name: 'measureUnit',
                             },
                             {
@@ -653,14 +653,14 @@ export class CountinersLoadingComponent {
                                 collections: [
                                     {
                                         type: 'input',
-                                        label: 'Number of units',
+                                        label: $localize`Number of units`,
                                         name: 'numberUnits',
                                         disable: true,
                                     },
                                     {
                                         type: 'input',
                                         name: 'unitAmount',
-                                        label: 'Unit weight',
+                                        label: $localize`Unit weight`,
                                         disable: true,
                                         // collections: [
                                         //     {
@@ -677,13 +677,13 @@ export class CountinersLoadingComponent {
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Warehouse location',
+                                        label: $localize`Warehouse location`,
                                         name: 'warehouseLocation',
                                         disable: true,
                                     },
                                     {
                                         type: 'input',
-                                        label: 'Number available units',
+                                        label: $localize`Number available units`,
                                         name: 'numberAvailableUnits',
                                         disable: true,
                                     },
@@ -701,7 +701,7 @@ export class CountinersLoadingComponent {
              {
                 type: 'bigexpand',
                 name: 'usedItemsTable',
-                label: 'Transfer from',
+                label: $localize`Transfer from`,
                 options: 'aloneNoAdd',
                 collections: [
                     {
@@ -712,37 +712,37 @@ export class CountinersLoadingComponent {
                         collections: [
                             {
                                 type: 'input',
-                                label: '#PO',
+                                label: $localize`#PO`,
                                 name: 'itemPoCodes',
                                 disable: true,
                             },
                             {
                                 type: 'input',
-                                label: 'Supplier',
+                                label: $localize`Supplier`,
                                 name: 'itemSuppliers',
                                 disable: true,
                             },
                             {
                                 type: 'inputReadonlySelect',
-                                label: 'Item descrption',
+                                label: $localize`Item descrption`,
                                 name: 'item',
                                 disable: true,
                             },
                             {
                                 type: 'date',
-                                label: 'Process date',
+                                label: $localize`Process date`,
                                 name: 'itemProcessDate',
                                 disable: true,
                             },
                             {
                                 type: 'inputReadonly',
-                                label: 'Weight unit',
+                                label: $localize`Weight unit`,
                                 name: 'measureUnit',
                                 disable: true,
                             },
                             {
                                 type: 'inputReadonlySelect',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 disable: true,
                             },
@@ -754,7 +754,7 @@ export class CountinersLoadingComponent {
                             // },
                             {
                                 type: 'arrayordinal',
-                                label: 'Unit weight',
+                                label: $localize`Unit weight`,
                                 name: 'amounts',
                                 inputType: 'choose',
                                 options: 3,

@@ -10,9 +10,9 @@ import { SuppliersService } from './suppliers.service';
 @Component({
   selector: 'app-suppliers',
   template: `
-  <h1 style="text-align:center">Suppliers</h1>
+  <h1 style="text-align:center" i18n>Suppliers</h1>
   <div class="centerButtons">
-      <button class="raised-margin" mat-raised-button color="primary" routerLink='../NewSupplier'>New Supplier</button>
+      <button class="raised-margin" mat-raised-button color="primary" routerLink='../NewSupplier' i18n>New Supplier</button>
   </div>
   <search-details [dataSource]="supplySource" [oneColumns]="columnsSupply" (details)="openDialog($event)">
   </search-details>
@@ -35,25 +35,25 @@ export class SuppliersComponent implements OnInit {
     this.columnsSupply = [
       {
         name: 'name',
-        label: 'Name',
+        label: $localize`Name`,
         search: 'normal',
       },
       {
         type: 'nameId',
         name: 'phones',
-        label: 'Phone',
+        label: $localize`Phone`,
         search: 'normal',
       },
       {
         type: 'nameId',
         name: 'emails',
-        label: 'Email',
+        label: $localize`Email`,
         search: 'normal',
       },
       {
         type: 'arrayVal',
         name: 'supplyCategories',
-        label: 'Supply category',
+        label: $localize`Supply category`,
         search: 'arraySelectAsyncObject2',
         options: this.localService.getSupplyType(),
       },

@@ -9,10 +9,18 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "en-UK": "i18n/messages.en-UK.xlf",
+          "vi": "i18n/messages.vi.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
             "outputPath": "dist/avc-vietnam",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -60,6 +68,21 @@
               ],
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
+            },
+            "en-US": {
+              "localize": [
+                "en-US"
+              ]
+            },
+            "en-UK": {
+              "localize": [
+                "en-UK"
+              ]
+            },
+            "vi": {
+              "localize": [
+                "vi"
+              ]
             }
           }
         },
@@ -72,6 +95,15 @@
           "configurations": {
             "production": {
               "browserTarget": "avc-vietnam:build:production"
+            },
+            "en-US": {
+              "browserTarget": "avc-vietnam:build:en-US"
+            },
+            "en-UK": {
+              "browserTarget": "avc-vietnam:build:en-UK"
+            },
+            "vi": {
+              "browserTarget": "avc-vietnam:build:vi"
             }
           }
         },

@@ -7,9 +7,9 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'po-codes',
     template: `
-    <h1 style="text-align:center">Cashew #POS</h1>
+    <h1 style="text-align:center" i18n>Cashew #POS</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">Add #PO</button>
+        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()" i18n>Add #PO</button>
     </div>
     <search-details [dataSource]="posSource" [oneColumns]="columnsPos" (details)="newDialog($event)">
     </search-details>
@@ -28,31 +28,31 @@ export class PoCodesComponent implements OnInit {
             {
                 type: 'normal',
                 name: 'code',
-                label: 'Code',
+                label: $localize`Code`,
             },
             {
                 type: 'normal',
                 name: 'supplierName',
-                label: 'Supplier',
+                label: $localize`Supplier`,
                 search: 'selectAsyncObject',
                 options: this.genral.getSuppliersCashew(),
             },
             {
                 type: 'normal',
                 name: 'contractTypeCode',
-                label: 'Contract type code',
+                label: $localize`Contract type code`,
                 search: 'object',
                 options: this.localService.getCashewContractTypes(),
             },
             {
                 type: 'normal',
                 name: 'contractTypeSuffix',
-                label: 'Suffix',
+                label: $localize`Suffix`,
             },
             {
                 type: 'normal',
                 name: 'value',
-                label: 'Display',
+                label: $localize`Display`,
             },
         ];
         this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
@@ -142,40 +142,40 @@ export class AddEditPoDialog {
             this.poConfig = [
                 {
                     type: 'select',
-                    label: 'Supplier',
+                    label: $localize`Supplier`,
                     name: 'supplier',
                     options: this.localService.getCashewSuppliers(),
                     validations: [
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: 'Supplier Required',
+                            message: $localize`Supplier Required`,
                         }
                     ]
                 },
                 {
                     type: 'select',
-                    label: 'PO initial',
+                    label: $localize`PO initial`,
                     name: 'contractType',
                     options: this.localService.getCashewContractTypes(),
                     validations: [
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: 'PO initial Required',
+                            message: $localize`PO initial Required`,
                         }
                     ]
                 },
                 {
                     type: 'input',
-                    label: '#PO',
+                    label: $localize`#PO`,
                     inputType: 'number',
                     name: 'code',
                     disable: true,
                 },
                 {
                     type: 'button',
-                    label: 'Submit',
+                    label: $localize`Submit`,
                     name: 'submit',
                 }
             ];

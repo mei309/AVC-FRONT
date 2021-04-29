@@ -164,13 +164,13 @@ export class ShowDetailsComponent implements OnInit {
             if(ind !== -1) {
                 (this.regShow[ind].collections as Array<any>).splice(0, 0, {
                       type: 'input',
-                      label: '#PO',
+                      label: $localize`#PO`,
                       name: 'itemPoCodes',
                       disable: true,
                   },
                   {
                       type: 'input',
-                      label: 'Supplier',
+                      label: $localize`Supplier`,
                       name: 'itemSuppliers',
                       disable: true,
                   }
@@ -180,13 +180,13 @@ export class ShowDetailsComponent implements OnInit {
             if(ind !== -1) {
                 (this.regShow[ind].collections as Array<any>).splice(0, 0, {
                       type: 'input',
-                      label: '#PO',
+                      label: $localize`#PO`,
                       name: 'itemPoCodes',
                       disable: true,
                   },
                   {
                       type: 'input',
-                      label: 'Supplier',
+                      label: $localize`Supplier`,
                       name: 'itemSuppliers',
                       disable: true,
                   },
@@ -333,7 +333,7 @@ export class ShowDetailsComponent implements OnInit {
   regShow = [
     {
         type: 'name2',
-        label: '#PO',
+        label: $localize`#PO`,
         name: 'poCode',
         collections: 'supplierName',
     },
@@ -343,215 +343,215 @@ export class ShowDetailsComponent implements OnInit {
         collections: [
           {
               type: 'name2',
-              label: '#PO',
+              label: $localize`#PO`,
               name: 'poCode',
               collections: 'supplierName',
           },
           {
               type: 'normal',
               name: 'weight',
-              label: 'Weight',
+              label: $localize`Weight`,
           },
         ]
     },
     {
         type: 'nameId',
-        label: 'Production line',
+        label: $localize`Production line`,
         name: 'productionLine',
     },
     {
         type: 'nameId',
-        label: 'Shipment code',
+        label: $localize`Shipment code`,
         name: 'shipmentCode',
     },
     {
         type: 'dateTime',
-        label: 'Date and time',
+        label: $localize`Date and time`,
         name: 'recordedTime',
     },
     {
         type: 'normal',
         name: 'personInCharge',
-        label: 'Person in charge',
+        label: $localize`Person in charge`,
     },
     {
         type: 'normal',
-        label: 'Strat time',
+        label: $localize`Strat time`,
         name: 'startTime',
     },
     {
         type: 'normal',
-        label: 'End time',
+        label: $localize`End time`,
         name: 'endTime',
     },
     {
         type: 'normal',
-        label: 'Approvals',
+        label: $localize`Approvals`,
         name: 'approvals',
     },
     {
         type: 'normal',
-        label: 'Number of workers',
+        label: $localize`Number of workers`,
         name: 'numOfWorkers',
     },
     {
         type: 'nameId',
-        label: 'Item descrption',
+        label: $localize`Item descrption`,
         name: 'item',
     },
     {
         type: 'normal',
-        label: 'Measure unit',
+        label: $localize`Measure unit`,
         name: 'measureUnit',
     },
     {
         type: 'normal',
-        label: 'Inspector',
+        label: $localize`Inspector`,
         name: 'inspector',
     },
     {
         type: 'normal',
-        label: 'Sample taker',
+        label: $localize`Sample taker`,
         name: 'sampleTaker',
     },
     {
         type: 'normal',
-        label: 'Checked by',
+        label: $localize`Checked by`,
         name: 'checkedBy',
     },
     {
         type: 'array',
-        label: 'Orderd products',
+        label: $localize`Orderd products`,
         name: 'orderItems',
         // processName: this.globelType+'_ORDER',
         collections: [
             {
                 type: 'nameId',
-                label: 'Item descrption',
+                label: $localize`Item descrption`,
                 name: 'item',
             },
             {
                 type: 'weight',
-                label: 'Weight',
+                label: $localize`Weight`,
                 name: 'numberUnits',
                 // collections: 'measureUnit',
             },
             {
                 type: 'currency',
-                label: 'Price per unit',
+                label: $localize`Price per unit`,
                 name: 'unitPrice',
                 // collections: 'currency',
             },
             {
                 type: 'normal',
-                label: 'Delivery date',
+                label: $localize`Delivery date`,
                 name: 'deliveryDate',
             },
             {
                 type: 'normal',
-                label: 'Defects',
+                label: $localize`Defects`,
                 name: 'defects',
             },
             {
                 type: 'normal',
-                label: 'Remarks',
+                label: $localize`Remarks`,
                 name: 'remarks',
             },
         ]
     },
     {
         type: 'arrayGroup',
-        label: 'Received products',
+        label: $localize`Received products`,
         name: 'receiptItems',
         // processName: this.globelType+'_RECEIPT',
         collections: [
             {
                 type: 'nameId',
-                label: 'Item descrption',
+                label: $localize`Item descrption`,
                 name: 'item',
             },
             {
               type: 'weight2',
-              label: 'Sum',
+              label: $localize`Sum`,
               name: 'totalAmount',
               bold: 'true',
               // collections: 'measureUnit',
             },
             {
               type: 'normal',
-              label: 'Totel sample difference',
+              label: $localize`Totel sample difference`,
               name: 'totalDifferance',
               bold: 'true',
               // collections: 'measureUnit',
             },
             {
               type: 'weight',
-              label: 'Extra requsted',
+              label: $localize`Extra requsted`,
               name: 'extraRequested',
               // collections: 'measureUnit',
             },
             {
               type: 'weight',
-              label: 'Payable units',
+              label: $localize`Payable units`,
               name: 'receivedOrderUnits',
               // collections: 'measureUnit',
             },
             {
               type: 'currency',
-              label: 'Unit price',
+              label: $localize`Unit price`,
               name: 'unitPrice',
               // collections: 'measureUnit',
             },
             {
                 type: 'normal',
-                label: 'Remarks',
+                label: $localize`Remarks`,
                 name: 'remarks',
             },
             {
               type: 'kidArray',
               name: 'storageForms',
-              label: 'Amounts and storage',
+              label: $localize`Amounts and storage`,
               collections: [
                   {
                       type: 'normal',
-                      label: 'Bag amount',
+                      label: $localize`Bag amount`,
                       name: 'unitAmount',
                       suffix: 'measureUnit',
                   },
                   {
                       type: 'normal',
-                      label: 'Number of bags',
+                      label: $localize`Number of bags`,
                       name: 'numberUnits',
                   },
                   {
                       type: 'nameId',
-                      label: 'Warehouse location',
+                      label: $localize`Warehouse location`,
                       name: 'warehouseLocation',
                   },
                   {
                     type: 'check',
-                    label: 'Extra',
+                    label: $localize`Extra`,
                     name: 'className',
                     collections: 'ExtraAdded',
                   },
                   {
                     type: 'normal',
-                    label: 'Empty bag weight',
+                    label: $localize`Empty bag weight`,
                     name: 'sampleContainerWeight',
                   },
                   {
                       type: 'normal',
-                      label: 'Number of samples',
+                      label: $localize`Number of samples`,
                       name: 'numberOfSamples',
                   },
                   {
                     type: 'normal',
-                    label: 'Avrage weight',
+                    label: $localize`Avrage weight`,
                     name: 'avgTestedWeight',
                   },
                   {
                     type: 'normal',
-                    label: 'Difference',
+                    label: $localize`Difference`,
                     name: 'weighedDifferance',
                     // collections: 'measureUnit',
                   },
@@ -561,7 +561,7 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
       type: 'detailsUpside',
-      label: 'Checked items',
+      label: $localize`Checked items`,
       name: 'testedItems',
       // processName: 'CASHEW_RECEIPT_QC',
       collections: [
@@ -603,42 +603,42 @@ export class ShowDetailsComponent implements OnInit {
     {
       type: 'object',
       name: 'shipingDetails',
-      label: 'Shiping details',
+      label: $localize`Shiping details`,
       // side: 'left',
       collections: [
         {
             type: 'normal',
-            label: 'Booking number',
+            label: $localize`Booking number`,
             name: 'bookingNumber',
         },
         {
             type: 'normal',
-            label: 'Vessel',
+            label: $localize`Vessel`,
             name: 'vessel',
         },
         {
             type: 'normal',
-            label: 'Shipping company',
+            label: $localize`Shipping company`,
             name: 'shippingCompany',
         },
         {
             type: 'nameId',
-            label: 'Port of loading',
+            label: $localize`Port of loading`,
             name: 'portOfLoading',
         },
         {
             type: 'date',
-            label: 'etd',
+            label: $localize`etd`,
             name: 'etd',
         },
         {
             type: 'nameId',
-            label: 'Port of discharge',
+            label: $localize`Port of discharge`,
             name: 'portOfDischarge',
         },
         {
             type: 'date',
-            label: 'eta',
+            label: $localize`eta`,
             name: 'eta',
         },
       ]
@@ -646,22 +646,22 @@ export class ShowDetailsComponent implements OnInit {
     {
       type: 'object',
       name: 'containerDetails',
-      label: 'Container details',
+      label: $localize`Container details`,
       // side: 'left',
       collections: [
         {
             type: 'normal',
-            label: 'Container number',
+            label: $localize`Container number`,
             name: 'containerNumber',
         },
         {
             type: 'normal',
-            label: 'Container type',
+            label: $localize`Container type`,
             name: 'containerType',
         },
         {
             type: 'normal',
-            label: 'Seal number',
+            label: $localize`Seal number`,
             name: 'sealNumber',
         },
       ]
@@ -669,7 +669,7 @@ export class ShowDetailsComponent implements OnInit {
 
     {
       type: 'arrayForEach',
-      label: 'Used amounts',
+      label: $localize`Used amounts`,
       name: 'usedItemGroups',
     },
     {
@@ -681,35 +681,35 @@ export class ShowDetailsComponent implements OnInit {
       collections: [
           {
               type: 'nameId',
-              label: 'Item descrption',
+              label: $localize`Item descrption`,
               name: 'item',
           },
           {
             type: 'parent',
             name: 'storage',
-            label: 'Amounts and storage',
+            label: $localize`Amounts and storage`,
             collections: [
                 {
                     type: 'normal',
-                    label: 'Bag weight',
+                    label: $localize`Bag weight`,
                     name: 'unitAmount',
                     suffix: 'measureUnit',
                 },
                 {
                     type: 'nameId',
-                    label: 'Warehouse location',
+                    label: $localize`Warehouse location`,
                     name: 'warehouseLocation',
                 },
               ]
           },
           {
               type: 'normal',
-              label: 'Number of bags',
+              label: $localize`Number of bags`,
               name: 'numberUsedUnits',
           },
           {
               type: 'date',
-              label: 'Last process date',
+              label: $localize`Last process date`,
               name: 'itemProcessDate',
           },
         ]
@@ -727,7 +727,7 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'nameId',
-            label: 'Item descrption',
+            label: $localize`Item descrption`,
             name: 'item',
         },
         // {
@@ -737,12 +737,12 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'normal',
-            label: 'Measure unit',
+            label: $localize`Measure unit`,
             name: 'measureUnit',
         },
         {
             type: 'nameId',
-            label: 'Warehouse location',
+            label: $localize`Warehouse location`,
             name: 'warehouseLocation',
         },
         {
@@ -754,7 +754,7 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
       type: 'arrayForEach',
-      label: 'Produced amounts',
+      label: $localize`Produced amounts`,
       name: 'processItemsTable',
     },
     // {
@@ -769,40 +769,40 @@ export class ShowDetailsComponent implements OnInit {
     // },
     {
       type: 'arrayGroup',
-      label: 'Produced amounts',
+      label: $localize`Produced amounts`,
       name: 'processItems',
       collections: [
           {
               type: 'nameId',
-              label: 'Item descrption',
+              label: $localize`Item descrption`,
               name: 'item',
           },
           {
             type: 'kidArray',
             name: 'storageForms',
-            label: 'Amounts and storage',
+            label: $localize`Amounts and storage`,
             collections: [
                 {
                     type: 'normal',
-                    label: 'Bag weight',
+                    label: $localize`Bag weight`,
                     name: 'unitAmount',
                     suffix: 'measureUnit',
                 },
                 {
                     type: 'normal',
-                    label: 'Number of units',
+                    label: $localize`Number of units`,
                     name: 'numberUnits',
                 },
                 {
                     type: 'nameId',
-                    label: 'Warehouse location',
+                    label: $localize`Warehouse location`,
                     name: 'warehouseLocation',
                 },
               ]
           },
           {
             type: 'weight2',
-            label: 'Weight sum',
+            label: $localize`Weight sum`,
             name: 'totalAmount',
             bold: 'true',
             // collections: 'measureUnit',
@@ -811,33 +811,33 @@ export class ShowDetailsComponent implements OnInit {
     },
     {
       type: 'arrayGroup',
-      label: 'Waste amounts',
+      label: $localize`Waste amounts`,
       name: 'wasteItems',
       collections: [
           {
               type: 'nameId',
-              label: 'Item descrption',
+              label: $localize`Item descrption`,
               name: 'item',
           },
           {
             type: 'kidArray',
             name: 'storageForms',
-            label: 'Amounts and storage',
+            label: $localize`Amounts and storage`,
             collections: [
                 {
                     type: 'normal',
-                    label: 'Bag weight',
+                    label: $localize`Bag weight`,
                     name: 'unitAmount',
                     suffix: 'measureUnit',
                 },
                 {
                     type: 'normal',
-                    label: 'Number of units',
+                    label: $localize`Number of units`,
                     name: 'numberUnits',
                 },
                 {
                     type: 'nameId',
-                    label: 'Warehouse location',
+                    label: $localize`Warehouse location`,
                     name: 'warehouseLocation',
                 },
               ]
@@ -907,7 +907,7 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'nameId',
-            label: 'Warehouse location',
+            label: $localize`Warehouse location`,
             name: 'warehouseLocation',
         },
         {
@@ -923,7 +923,7 @@ export class ShowDetailsComponent implements OnInit {
 
     {
       type: 'arrayForEach',
-      label: 'Storage moved',
+      label: $localize`Storage moved`,
       name: 'storageMovesGroups',
     },
     {
@@ -941,18 +941,18 @@ export class ShowDetailsComponent implements OnInit {
           // },
           {
               type: 'nameId',
-              label: 'Item descrption',
+              label: $localize`Item descrption`,
               name: 'item',
           },
           {
               type: 'normal',
-              label: 'Bag weight',
+              label: $localize`Bag weight`,
               name: 'unitAmount',
               suffix: 'measureUnit',
           },
           {
               type: 'normal',
-              label: 'Number of bags',
+              label: $localize`Number of bags`,
               name: 'numberUsedUnits',
           },
           {
@@ -961,13 +961,13 @@ export class ShowDetailsComponent implements OnInit {
               suffix: 'warehouseLocation',
               collections: {
                   type: 'nameId',
-                  label: 'Old warehouse location',
+                  label: $localize`Old warehouse location`,
                   name: 'oldWarehouseLocation',
               },
           },
           {
               type: 'nameId',
-              label: 'New warehouse location',
+              label: $localize`New warehouse location`,
               name: 'warehouseLocation',
           },
         ]
@@ -985,7 +985,7 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'nameId',
-            label: 'Item descrption',
+            label: $localize`Item descrption`,
             name: 'item',
         },
         // {
@@ -995,7 +995,7 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'normal',
-            label: 'Measure unit',
+            label: $localize`Measure unit`,
             name: 'measureUnit',
         },
         // {
@@ -1005,12 +1005,12 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'nameId',
-            label: 'Old warehouse location',
+            label: $localize`Old warehouse location`,
             name: 'warehouseLocation',
         },
         {
             type: 'nameId',
-            label: 'New warehouse location',
+            label: $localize`New warehouse location`,
             name: 'newWarehouseLocation',
         },
         {
@@ -1024,11 +1024,11 @@ export class ShowDetailsComponent implements OnInit {
     {
       type: 'arrayForEach',
       name: 'itemCounts',
-      label: 'Item counts',
+      label: $localize`Item counts`,
       collections: [
         {
             type: 'nameId',
-            label: 'Item descrption',
+            label: $localize`Item descrption`,
             name: 'item',
         },
         // {
@@ -1038,17 +1038,17 @@ export class ShowDetailsComponent implements OnInit {
         // },
         {
             type: 'normal',
-            label: 'Measure unit',
+            label: $localize`Measure unit`,
             name: 'measureUnit',
         },
         {
             type: 'nameId',
-            label: 'Warehouse location',
+            label: $localize`Warehouse location`,
             name: 'warehouseLocation',
         },
         {
             type: 'normal',
-            label: 'All bags weight',
+            label: $localize`All bags weight`,
             name: 'accessWeight',
         },
         {

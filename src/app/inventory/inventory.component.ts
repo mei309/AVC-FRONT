@@ -10,11 +10,11 @@ import { InventoryService } from './inventory.service';
 @Component({
   selector: 'inventory-reports',
   template: `
-  <h1 style="text-align:center">Inventory reports</h1>
+  <h1 style="text-align:center" i18n>Inventory reports</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
-      <mat-tab label="Material usages">
+      <mat-tab label="Material usages" i18n-label>
       </mat-tab>
-      <mat-tab label="Relocations">
+      <mat-tab label="Relocations" i18n-label>
       </mat-tab>
       <!-- <mat-tab label="Cashew stock by PO#">
       </mat-tab>
@@ -69,7 +69,7 @@ export class InventoryReportsComponent implements OnInit {
       data: {id: event['id'], fromNew: false, type: this.type},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
+      if (data === $localize`Edit`) {
           switch (this.tabIndex) {
               case 0:
                 this.router.navigate(['../MaterialUse',{id: event['id']}], { relativeTo: this._Activatedroute });
@@ -94,14 +94,14 @@ export class InventoryReportsComponent implements OnInit {
             {
                 type: 'arrayVal',
                 name: 'poCodes',
-                label: 'PO#',
+                label: $localize`PO#`,
                 search: 'normal',
                 group: 'poCodes',
             },
             {
                 type: 'arrayVal',
                 name: 'suppliers',
-                label: 'Supplier',
+                label: $localize`Supplier`,
                 search: 'selectObj',
                 options: this.genral.getSuppliersCashew(),
                 group: 'poCodes',
@@ -109,20 +109,20 @@ export class InventoryReportsComponent implements OnInit {
             {
                 type: 'itemWeight',
                 name: 'usedItems',
-                label: 'Used items',
+                label: $localize`Used items`,
                 search: 'listAmountWithUnit',
                 options: this.genral.getAllItemsCashew(),
             },
             {
                 type: 'dateTime',
                 name: 'recordedTime',
-                label: 'Recorded time',
+                label: $localize`Recorded time`,
                 search: 'dates',
             },
             {
                 type: 'normal',
                 name: 'status',
-                label: 'Status',
+                label: $localize`Status`,
                 search: 'select',
                 options: this.genral.getProcessStatus(),
             },
@@ -130,7 +130,7 @@ export class InventoryReportsComponent implements OnInit {
           this.localService.getMaterialUses().pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
           });
-          this.type = 'Material usage';
+          this.type = $localize`Material usage`;
           this.cdRef.detectChanges();
           break;
         case 1:
@@ -139,14 +139,14 @@ export class InventoryReportsComponent implements OnInit {
             {
                 type: 'arrayVal',
                 name: 'poCodes',
-                label: 'PO#',
+                label: $localize`PO#`,
                 group: 'poCodes',
                 search: 'normal',
             },
             {
                 type: 'arrayVal',
                 name: 'suppliers',
-                label: 'Supplier',
+                label: $localize`Supplier`,
                 search: 'selectObj',
                 options: this.genral.getSuppliersCashew(),
                 group: 'poCodes',
@@ -154,20 +154,20 @@ export class InventoryReportsComponent implements OnInit {
             {
                 type: 'itemWeight',
                 name: 'usedItems',
-                label: 'Used items',
+                label: $localize`Used items`,
                 search: 'listAmountWithUnit',
                 options: this.genral.getAllItemsCashew(),
             },
             {
                 type: 'dateTime',
                 name: 'recordedTime',
-                label: 'Recorded time',
+                label: $localize`Recorded time`,
                 search: 'dates',
             },
             {
                 type: 'normal',
                 name: 'status',
-                label: 'Status',
+                label: $localize`Status`,
                 search: 'select',
                 options: this.genral.getProcessStatus(),
             },
@@ -175,7 +175,7 @@ export class InventoryReportsComponent implements OnInit {
           this.localService.getStorageRelocations('PRODUCT_STORAGE').pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
           });
-          this.type = 'Relocation';
+          this.type = $localize`Relocation`;
           this.cdRef.detectChanges();
           break;
         default:

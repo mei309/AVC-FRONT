@@ -10,9 +10,9 @@ import { InventoryService } from './inventory.service';
 @Component({
   selector: 'app-cashew-inventory',
   template: `
-  <h1 style="text-align:center">Cashew inventory</h1>
+  <h1 style="text-align:center" i18n>Cashew inventory</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
-      <mat-tab label="Cashew stock by item">
+      <mat-tab label="Cashew stock by item" i18n-label>
           <div class="centerButtons">
               <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
                   <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
@@ -22,7 +22,7 @@ import { InventoryService } from './inventory.service';
               </mat-form-field>
           </div>
       </mat-tab>
-      <mat-tab label="Cashew stock by PO#">
+      <mat-tab label="Cashew stock by PO#" i18n-label>
       </mat-tab>
       <!-- <mat-tab label="Raw cashew stock and orders">
       </mat-tab> -->
@@ -78,7 +78,7 @@ export class CashewInventoryComponent implements OnInit {
   openDialog(event): void {
     const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
       width: '80%',
-      data: {id: event['id'], fromNew: false, type: 'Inventory item'},
+      data: {id: event['id'], fromNew: false, type: $localize`Inventory item`},
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
@@ -101,7 +101,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Item',
+              label: $localize`Item`,
               search: 'selectObjObj',
               options: this.genral.getAllItemsCashew(),
               group: 'item',
@@ -109,20 +109,20 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalStock',
-              label: 'Total item',
+              label: $localize`Total item`,
               search: 'object',
               group: 'item',
             },
             {
               type: 'nameId',
               name: 'poCode',
-              label: 'PO#',
+              label: $localize`PO#`,
               search: 'object',
               group: 'poCode',
             },
             {
               name: 'supplierName',
-              label: 'Supplier',
+              label: $localize`Supplier`,
               search: 'selectObj',
               options: this.genral.getSuppliersCashew(),
               group: 'poCode',
@@ -130,27 +130,27 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalBalance',
-              label: 'Amount',
+              label: $localize`Amount`,
               search: 'object',
               // group: 'poCode',
             },
             {
               type: 'arrayVal',
               name: 'warehouses',
-              label: 'Warehouse',
+              label: $localize`Warehouse`,
               search: 'selectObj',
               options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
                 name: 'receiptDate',
-                label: 'Receipt date',
+                label: $localize`Receipt date`,
                 search: 'dates',
             },
             {
                 type: 'date',
                 name: 'processDate',
-                label: 'Process date',
+                label: $localize`Process date`,
                 search: 'dates',
             },
             {
@@ -170,13 +170,13 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'poCode',
-              label: 'PO#',
+              label: $localize`PO#`,
               search: 'object',
               group: 'poCode',
             },
             {
               name: 'supplierName',
-              label: 'Supplier',
+              label: $localize`Supplier`,
               search: 'selectObj',
               options: this.genral.getSuppliersCashew(),
               group: 'poCode',
@@ -184,14 +184,14 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalStock',
-              label: 'Total po',
+              label: $localize`Total po`,
               search: 'object',
               group: 'poCode',
             },
             {
               type: 'nameId',
               name: 'item',
-              label: 'Item',
+              label: $localize`Item`,
               search: 'selectObjObj',
               options: this.genral.getAllItemsCashew(),
               group: 'item',
@@ -199,27 +199,27 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalBalance',
-              label: 'Amount',
+              label: $localize`Amount`,
               search: 'object',
               // group: 'item',
             },
             {
               type: 'arrayVal',
               name: 'warehouses',
-              label: 'Warehouse',
+              label: $localize`Warehouse`,
               search: 'selectObj',
               options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
                 name: 'receiptDate',
-                label: 'Receipt date',
+                label: $localize`Receipt date`,
                 search: 'dates',
             },
             {
                 type: 'date',
                 name: 'processDate',
-                label: 'Process date',
+                label: $localize`Process date`,
                 search: 'dates',
             },
             {
@@ -239,7 +239,7 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Item',
+              label: $localize`Item`,
               search: 'selectObjObj',
               options: this.genral.getAllItemsCashew(),
               group: 'item',
@@ -247,13 +247,13 @@ export class CashewInventoryComponent implements OnInit {
             {
               type: 'weight',
               name: 'inventoryAmount',
-              label: 'Inventory amount',
+              label: $localize`Inventory amount`,
               search: 'object',
             },
             {
               type: 'weight',
               name: 'orderedAmount',
-              label: 'Orderd amount',
+              label: $localize`Orderd amount`,
               search: 'object',
             },
           ];

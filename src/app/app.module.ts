@@ -1,12 +1,12 @@
-import { NgxMatDateAdapter, NgxMatDateFormats, NgxMatNativeDateModule, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+import { NgxMatDateFormats, NgxMatNativeDateModule, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { DateAdapter, MatDateFormats, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
+import { MatDateFormats, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -110,8 +110,8 @@ export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
   entryComponents: [],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
-    { provide: LOCALE_ID, useValue: 'en-GB' }, 
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    // { provide: LOCALE_ID, useValue: 'en-GB' }, 
+    // { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     // { provide: DateFnsConfigurationService, useValue: enGBConfig },
     // { provide: NgxMatDateAdapter, useClass: NgxMatNativeDateModule},
     {provide: NGX_MAT_DATE_FORMATS, useValue: NG_MAT_DATEFNS_DATE_FORMATS_MY},

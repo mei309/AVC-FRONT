@@ -7,3 +7,7 @@
 <div *ngFor="let img of images">
     <button (click)="onGet(img)" > {{img}} </button>
 </div>
+
+<div *ngIf="fileUrl">
+<img mat-card-image src="{{fileUrl}}" alt="Photo of a Shiba Inu">
+</div>

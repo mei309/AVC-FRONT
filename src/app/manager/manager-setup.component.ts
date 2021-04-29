@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {isEqual} from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { FieldConfig, OneColumn } from '../field.interface';
 import { ManagerService } from './manager.service';
@@ -12,21 +11,21 @@ import { Validators } from '@angular/forms';
     selector: 'managment-setup',
     template: `
     <div style="text-align: center;">
-        <h1>Setup managment</h1>
+        <h1 i18n>Setup managment</h1>
         <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()">
-            <mat-button-toggle value="Countries">Countries</mat-button-toggle>
-            <mat-button-toggle value="Cities">Cities</mat-button-toggle>
-            <mat-button-toggle value="Banks">Banks</mat-button-toggle>
-            <mat-button-toggle value="BankBranches">Branchs</mat-button-toggle>
-            <mat-button-toggle value="Warehouses">Warehouses</mat-button-toggle>
-            <mat-button-toggle value="SupplyCategories">Supply categories</mat-button-toggle>
-            <mat-button-toggle value="CompanyPositions">Company positions</mat-button-toggle>
-            <mat-button-toggle value="ContractTypes">Contract types</mat-button-toggle>
-            <mat-button-toggle value="ProductionLines">Production lines</mat-button-toggle>
-            <mat-button-toggle value="CashewStandards">Cashew standerts</mat-button-toggle>
-            <mat-button-toggle value="ShippingPorts">Shipping ports</mat-button-toggle>
+            <mat-button-toggle value="Countries" i18n>Countries</mat-button-toggle>
+            <mat-button-toggle value="Cities" i18n>Cities</mat-button-toggle>
+            <mat-button-toggle value="Banks" i18n>Banks</mat-button-toggle>
+            <mat-button-toggle value="BankBranches" i18n>Branchs</mat-button-toggle>
+            <mat-button-toggle value="Warehouses" i18n>Warehouses</mat-button-toggle>
+            <mat-button-toggle value="SupplyCategories" i18n>Supply categories</mat-button-toggle>
+            <mat-button-toggle value="CompanyPositions" i18n>Company positions</mat-button-toggle>
+            <mat-button-toggle value="ContractTypes" i18n>Contract types</mat-button-toggle>
+            <mat-button-toggle value="ProductionLines" i18n>Production lines</mat-button-toggle>
+            <mat-button-toggle value="CashewStandards" i18n>Cashew standerts</mat-button-toggle>
+            <mat-button-toggle value="ShippingPorts" i18n>Shipping ports</mat-button-toggle>
         </mat-button-toggle-group>
-        <h2>{{choosedOne}}</h2>
+        <h2>{{choosedOne | namingPipe : false}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
             <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : false}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
@@ -55,14 +54,14 @@ export class ManagmentSetupComponent {
         this.columnsSetup = [
             {
                 name: 'value',
-                label: 'Descrption',
+                label: $localize`Descrption`,
                 search: 'normal',
             }
         ];
         this.regConfigTemp = [
             {
                 name: 'value',
-                label: 'Descrption',
+                label: $localize`Descrption`,
                 type: 'input',
             }
         ];
@@ -70,7 +69,7 @@ export class ManagmentSetupComponent {
             this.columnsSetup.push(
                 {
                     name: 'supplyGroup',
-                    label: 'Supply group',
+                    label: $localize`Supply group`,
                     search: 'select',
                     options: this.genral.getSupplyGroup(),
                 },
@@ -78,7 +77,7 @@ export class ManagmentSetupComponent {
             this.regConfigTemp.push(
                 {
                     name: 'supplyGroup',
-                    label: 'Supply group',
+                    label: $localize`Supply group`,
                     type: 'selectNormal',
                     options: this.genral.getSupplyGroup(),
                 },
@@ -87,35 +86,35 @@ export class ManagmentSetupComponent {
                 this.columnsSetup.push(
                     {
                         name: 'code',
-                        label: 'Code',
+                        label: $localize`Code`,
                         search: 'normal',
                     },
                     {
                         name: 'currency',
-                        label: 'Currency',
+                        label: $localize`Currency`,
                         search: 'normal',
                     },
                     {
                         name: 'suffix',
-                        label: 'Suffix',
+                        label: $localize`Suffix`,
                         search: 'normal',
                     },
                 );
                 this.regConfigTemp.push(
                     {
                         name: 'code',
-                        label: 'Code',
+                        label: $localize`Code`,
                         type: 'input',
                     },
                     {
                         name: 'currency',
-                        label: 'Currency',
+                        label: $localize`Currency`,
                         type: 'selectNormal',
                         options: ['USD', 'VND'],
                     },
                     {
                         name: 'suffix',
-                        label: 'Suffix',
+                        label: $localize`Suffix`,
                         type: 'input',
                     },
                 );
@@ -124,14 +123,14 @@ export class ManagmentSetupComponent {
             this.columnsSetup.push(
                 {
                     name: 'code',
-                    label: 'Code',
+                    label: $localize`Code`,
                     search: 'normal',
                 },
             );
             this.regConfigTemp.push(
                 {
                     name: 'code',
-                    label: 'Code',
+                    label: $localize`Code`,
                     type: 'input',
                 },
             );
@@ -140,14 +139,14 @@ export class ManagmentSetupComponent {
                 {
                     type: 'nameId',
                     name: 'country',
-                    label: 'Country',
+                    label: $localize`Country`,
                     search: 'object',
                 }
             );
             this.regConfigTemp.push(
                 {
                     name: 'country',
-                    label: 'Country',
+                    label: $localize`Country`,
                     type: 'select',
                     options: this.localService.getCountries(),
                 }
@@ -157,14 +156,14 @@ export class ManagmentSetupComponent {
                 {
                     type: 'nameId',
                     name: 'bank',
-                    label: 'Bank',
+                    label: $localize`Bank`,
                     search: 'object',
                 }
             );
             this.regConfigTemp.push(
                 {
                     name: 'bank',
-                    label: 'Bank',
+                    label: $localize`Bank`,
                     type: 'select',
                     options: this.localService.getBanks(),
                 }
@@ -173,14 +172,14 @@ export class ManagmentSetupComponent {
             this.columnsSetup.push(
                 {
                     name: 'productionFunctionality',
-                    label: 'Production functionality',
+                    label: $localize`Production functionality`,
                     search: 'object',
                 }
             );
             this.regConfigTemp.push(
                 {
                     name: 'productionFunctionality',
-                    label: 'Production functionality',
+                    label: $localize`Production functionality`,
                     type: 'selectNormal',
                     options: this.genral.getProductionFunctionality(),
                 }
@@ -189,24 +188,24 @@ export class ManagmentSetupComponent {
             this.columnsSetup.push(
                 {
                     name: 'weightCapacityKg',
-                    label: 'Weight capacity Kg',
+                    label: $localize`Weight capacity Kg`,
                     search: 'normal',
                 },
                 {
                     name: 'volumeSpaceM3',
-                    label: 'Volume space M3',
+                    label: $localize`Volume space M3`,
                     search: 'normal',
                 }
             );
             this.regConfigTemp.push(
                 {
                     name: 'weightCapacityKg',
-                    label: 'Weight capacity Kg',
+                    label: $localize`Weight capacity Kg`,
                     type: 'input',
                 },
                 {
                     name: 'volumeSpaceM3',
-                    label: 'Volume space M3',
+                    label: $localize`Volume space M3`,
                     type: 'input',
                 }
             );
@@ -215,43 +214,43 @@ export class ManagmentSetupComponent {
                 {
                     type: 'nameId',
                     name: 'items',
-                    label: 'Item descrption',
+                    label: $localize`Item descrption`,
                     search: 'none',
                     // options: this.genral.getAllItemsCashew(),
                 },
                 {
                     name: 'standardOrganization',
-                    label: 'Standard organization',
+                    label: $localize`Standard organization`,
                     search: 'normal',
                 },
                 {
                     name: 'wholeCountPerLb',
-                    label: 'Whole count per Lb',
+                    label: $localize`Whole count per Lb`,
                     search: 'normal',
                 },
                 {
                     name: 'smallSize',
-                    label: 'Small size',
+                    label: $localize`Small size`,
                     search: 'normal',
                 },
                 {
                     name: 'ws',
-                    label: 'WS',
+                    label: $localize`WS`,
                     search: 'normal',
                 },
                 {
                     name: 'lp',
-                    label: 'LP',
+                    label: $localize`LP`,
                     search: 'normal',
                 },
                 {
                     name: 'humidity',
-                    label: 'Humidity',
+                    label: $localize`Humidity`,
                     search: 'normal',
                 },
                 {
                     name: 'breakage',
-                    label: 'Breakage',
+                    label: $localize`Breakage`,
                     search: 'normal',
                 },
                 // {
@@ -281,7 +280,7 @@ export class ManagmentSetupComponent {
                 // },
                 {
                     name: 'totalDamage',
-                    label: 'Total damage',
+                    label: $localize`Total damage`,
                     search: 'normal',
                 },
                 // {
@@ -321,17 +320,17 @@ export class ManagmentSetupComponent {
                 // },
                 { 
                     name: 'totalDefects',
-                    label: 'Total defects',
+                    label: $localize`Total defects`,
                     search: 'normal',
                 },
                 {
                     name: 'totalDefectsAndDamage',
-                    label: 'Total defects + damage',
+                    label: $localize`Total defects + damage`,
                     search: 'normal',
                 },
                 {
                     name: 'rostingWeightLoss',
-                    label: 'Total weight lost after roasting',
+                    label: $localize`Total weight lost after roasting`,
                     type: 'normal',
                 },
                 // {
@@ -348,7 +347,7 @@ export class ManagmentSetupComponent {
             this.regConfigTemp.push(
                 {
                     type: 'selectMultipile',
-                    label: 'Item descrption',
+                    label: $localize`Item descrption`,
                     name: 'items',
                     collections: 'somewhere',
                     options: this.genral.getAllItemsCashew(),
@@ -356,95 +355,95 @@ export class ManagmentSetupComponent {
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: 'Item Required',
+                            message: $localize`Item Required`,
                         }
                     ]
                 },
                 {
                     type: 'radiobutton',
                     name: 'standardOrganization',
-                    label: 'Standard organzion',
+                    label: $localize`Standard organzion`,
                     value: 'avc lab',
                     options: this.genral.getQcCheckOrganzition(),
                     validations: [
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: 'Required',
+                            message: $localize`Required`,
                         }
                     ]
                 },
                 {
                     type: 'input',
-                    label: 'Whole count per Lb',
+                    label: $localize`Whole count per Lb`,
                     name: 'wholeCountPerLb',
                     inputType: 'numeric',
                 },
                 {
                     type: 'percentinput',
-                    label: 'Small size',
+                    label: $localize`Small size`,
                     name: 'smallSize',
                 },
                 {
                     type: 'percentinput',
-                    label: 'WS',
+                    label: $localize`WS`,
                     name: 'ws',
                 },
                 {
                     type: 'percentinput',
-                    label: 'LP',
+                    label: $localize`LP`,
                     name: 'lp',
                 },
                 {
                     type: 'percentinput',
-                    label: 'Humidity',
+                    label: $localize`Humidity`,
                     name: 'humidity',
                 },
                 {
                     type: 'percentinput',
-                    label: 'Breakage',
+                    label: $localize`Breakage`,
                     name: 'breakage',
                 },
                 {
                     type: 'percentinput',
-                    label: 'Foreign material',
+                    label: $localize`Foreign material`,
                     name: 'foreignMaterial',
                 },
                 {
                     type: 'calculatefew',
                     name: 'damage',
-                    label: 'Damage',
+                    label: $localize`Damage`,
                     options: 'box',
                     inputType: '+',
                     collections: [
                         {
                             type: 'percentinput',
-                            label: 'Mold',
+                            label: $localize`Mold`,
                             name: 'mold',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Dirty',
+                            label: $localize`Dirty`,
                             name: 'dirty',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Light dirty',
+                            label: $localize`Light dirty`,
                             name: 'lightDirty',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Deacy',
+                            label: $localize`Deacy`,
                             name: 'decay',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Insect damage',
+                            label: $localize`Insect damage`,
                             name: 'insectDamage',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Testa',
+                            label: $localize`Testa`,
                             name: 'testa',
                         }, 
                     ]
@@ -452,66 +451,66 @@ export class ManagmentSetupComponent {
                 {
                     type: 'calculatefew',
                     name: 'defects',
-                    label: 'Defects',
+                    label: $localize`Defects`,
                     options: 'box',
                     inputType: '+',
                     collections: [
                         {
                             type: 'percentinput',
-                            label: 'Scrohed',
+                            label: $localize`Scrohed`,
                             name: 'scorched',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Deep cut',
+                            label: $localize`Deep cut`,
                             name: 'deepCut',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Off colour',
+                            label: $localize`Off colour`,
                             name: 'offColour',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Shrivel',
+                            label: $localize`Shrivel`,
                             name: 'shrivel',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Desert/dark',
+                            label: $localize`Desert/dark`,
                             name: 'desert',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Deep spot',
+                            label: $localize`Deep spot`,
                             name: 'deepSpot',
                         },
                     ]
                 },
                 {
                     type: 'calculatefew',
-                    label: 'All totels',
+                    label: $localize`All totels`,
                     options: 'box',
                     inputType: '+',
                     collections: [
                         {
                             type: 'percentinput',
-                            label: 'Total damage',
+                            label: $localize`Total damage`,
                             name: 'totalDamage',
                         }, 
                         {
                             type: 'input',
-                            label: 'Total defects',
+                            label: $localize`Total defects`,
                             name: 'totalDefects',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Total defects + damage',
+                            label: $localize`Total defects + damage`,
                             name: 'totalDefectsAndDamage',
                         },
                         {
                             type: 'percentinput',
-                            label: 'Total weight lost after roasting',
+                            label: $localize`Total weight lost after roasting`,
                             name: 'rostingWeightLoss',
                         },
                     ]
@@ -533,7 +532,7 @@ export class ManagmentSetupComponent {
         this.regConfigTemp.push(
             {
                 name: 'submit',
-                label: 'Submit',
+                label: $localize`Submit`,
                 type: 'button',
             }
         );

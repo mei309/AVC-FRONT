@@ -65,12 +65,12 @@ export class SumsTableComponent {
                 this.sumClumensTable.push(val);
                 sum += newLine[val];
               });
-              newLine['sum'] = sum;
+              newLine[$localize`sum`] = sum;
               this.sumDataSource.push(newLine);
             });
             this.sumClumensTable = [...new Set(this.sumClumensTable)]; 
-            this.sumClumensTable.push('sum');
-            var newSumLine = {key: 'Totel'};
+            this.sumClumensTable.push($localize`sum`);
+            var newSumLine = {key: $localize`Totel`};
             this.sumClumensTable.forEach(newCloumn => {
               if(newCloumn !== 'key') {
                 var sum = 0;

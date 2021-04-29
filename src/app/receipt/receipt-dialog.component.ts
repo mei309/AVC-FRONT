@@ -6,12 +6,12 @@ import { ReceiptService } from './receipt.service';
 @Component({
     selector: 'receipt-dialog',
     template: `
-    <button printTitle="{{type}} receive details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} receive details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>{{type}} receive details</h1>
+    <h1 mat-dialog-title i18n>{{type}} receive details</h1>
     <mat-dialog-content id="print-section-orders">
-        <h1 class="only-print">{{type}} receive details</h1>
+        <h1 class="only-print" i18n>{{type}} receive details</h1>
         <show-details [dataSource]="receipt">
         </show-details>
     </mat-dialog-content>
@@ -19,7 +19,7 @@ import { ReceiptService } from './receipt.service';
         <ng-container *ngFor="let butt of buttons;">
             <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -46,17 +46,17 @@ export class ReceiptDialog {
                     // if(val['referencedOrder']) {
                     //     this.buttons.push('Edit order');
                     // }
-                    this.buttons.push('Edit receive');
+                    this.buttons.push($localize`Edit receive`);
                 }
             });
         } else {
             // if(this.receipt['referencedOrder']) {
             //     this.buttons.push('Edit order');
             // }
-            this.buttons.push('Edit receive');
+            this.buttons.push($localize`Edit receive`);
         }
         if(this.type.includes('Cashew')) {
-            this.buttons.push('Receive extra');
+            this.buttons.push($localize`Receive extra`);
         }
     }
     onNoClick(): void {

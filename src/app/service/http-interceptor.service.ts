@@ -93,7 +93,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     handle401Error(req: HttpRequest<any>, next: HttpHandler) {
         if(req.url.includes('authenticate')) {
           this.authenticateService.logOut();
-          window.alert('Incorrect username or password you are redirected to login');
+          window.alert($localize`Incorrect username or password you are redirected to login`);
           return throwError('');
         }
         if (this.refreshTokenInProgress) {
@@ -115,7 +115,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           this.refreshTokenInProgress = true;
           this.refreshTokenSubject.next(null);
           this.authenticateService.refreshToken();
-          var person = prompt("Please enter your password again", "");
+          var person = prompt($localize`Please enter your password again`, "");
           return this.authenticateService.authenticate(sessionStorage.getItem('username'), person).pipe(
             switchMap((token: Response) => {
                 this.refreshTokenInProgress = false;
@@ -129,13 +129,13 @@ export class HttpInterceptorService implements HttpInterceptor {
             })
             ,catchError((error: HttpErrorResponse) => {
               this.authenticateService.logOut();
-              window.alert('Incorrect username or password you are redirected to login');
+              window.alert($localize`Incorrect username or password you are redirected to login`);
               return throwError('');
             })
           );
         } else {
           this.authenticateService.logOut();
-          window.alert('Incorrect username or password you are redirected to login');
+          window.alert($localize`Incorrect username or password you are redirected to login`);
           return throwError('');
         }
     }

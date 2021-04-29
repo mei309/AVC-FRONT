@@ -45,13 +45,13 @@ export class AllQcsComponent implements OnInit {
       {
         type: 'nameId',
         name: 'poCode',
-        label: 'PO#',
+        label: $localize`PO#`,
         search: 'object',
         group: 'poCode',
       },
       {
         name: 'supplierName',
-        label: 'Supplier',
+        label: $localize`Supplier`,
         search: 'selectObj',
         options: this.genral.getSuppliersCashew(),
         group: 'poCode',
@@ -59,32 +59,32 @@ export class AllQcsComponent implements OnInit {
       {
         type: 'nameId',
         name: 'item',
-        label: 'Product descrption',
+        label: $localize`Product descrption`,
         search: 'selectObjObj',
         options: this.genral.getItemsRawCashew(),
       },
       {
         type: 'percentNormal',
         name: 'totalDamage',
-        label: 'Total damage',
+        label: $localize`Total damage`,
         search: 'normal',
       },
       {
         type: 'percentNormal',
         name: 'totalDefects',
-        label: 'Total defects',
+        label: $localize`Total defects`,
         search: 'normal',
       },
       {
         type: 'percentNormal',
         name: 'totalDefectsAndDamage',
-        label: 'Total defects + damage',
+        label: $localize`Total defects + damage`,
         search: 'normal',
       },
       {
         type: 'dateTime',
         name: 'checkDate',
-        label: 'Check date',
+        label: $localize`Check date`,
         search: 'dates',
       },
     ];

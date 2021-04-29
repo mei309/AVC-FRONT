@@ -11,7 +11,7 @@ import { ManagerService } from './manager.service';
 @Component({
     selector: 'managment-users',
     template: `
-    <h1 style="text-align:center">Users Management</h1>
+    <h1 style="text-align:center" i18n>Users Management</h1>
     <div class="centerButtons">
         <button class="raised-margin" mat-raised-button color="primary" (click)="newUserDialog()">{{'User' | namingPipe : false}}</button>
         <button class="raised-margin" mat-raised-button color="primary" (click)="newPersonDialog()">{{'UserPerson' | namingPipe : false}}</button>
@@ -27,17 +27,17 @@ export class ManagmentUsersComponent implements OnInit {
     columnsUsers: OneColumn[] = [
         {
             name: 'personName',
-            label: 'Name',
+            label: $localize`Name`,
             search: 'normal',
         },
         {
             name: 'username',
-            label: 'Username',
+            label: $localize`Username`,
             search: 'normal',
         },
         {
             name: 'roles',
-            label: 'Roles',
+            label: $localize`Roles`,
             search: 'select',
             options: this.genral.getRoles(),
         },
@@ -59,14 +59,14 @@ export class ManagmentUsersComponent implements OnInit {
     this.regConfig = [
         {
             type: 'select',
-            label: 'Select person',
+            label: $localize`Select person`,
             name: 'person',
             options: this.localService.getPersons(),
             validations: [
                 {
                     name: 'required',
                     validator: Validators.required,
-                    message: 'Person Required'
+                    message: $localize`Person Required`
                 }
             ]
         },
@@ -113,7 +113,7 @@ export class ManagmentUsersComponent implements OnInit {
                 collections: [
                     {
                         type: 'input',
-                        label: 'Name',
+                        label: $localize`Name`,
                         name: 'name',
                         inputType: 'text',
                         disable: true,
@@ -122,7 +122,7 @@ export class ManagmentUsersComponent implements OnInit {
             },
             {
                 type: 'input',
-                label: 'Username',
+                label: $localize`Username`,
                 name: 'username',
                 inputType: 'text',
                 disable: true,
@@ -130,19 +130,19 @@ export class ManagmentUsersComponent implements OnInit {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Username Required'
+                        message: $localize`Username Required`
                     }
                 ]
             },
             {
                 type: 'selectNormalMultiple',
-                label: 'Roles',
+                label: $localize`Roles`,
                 name: 'roles',
                 options: this.genral.getRoles(),
             },     
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ];
@@ -165,39 +165,39 @@ export class ManagmentUsersComponent implements OnInit {
       this.regConfig.push(
         {
             type: 'input',
-            label: 'Username',
+            label: $localize`Username`,
             name: 'username',
             inputType: 'text',
             validations: [
                 {
                     name: 'required',
                     validator: Validators.required,
-                    message: 'Username Required'
+                    message: $localize`Username Required`
                 }
             ]
         },
         {
             type: 'input',
-            label: 'Password',
+            label: $localize`Password`,
             name: 'password',
             inputType: 'password',
             validations: [
                 {
                     name: 'required',
                     validator: Validators.required,
-                    message: 'Password Required'
+                    message: $localize`Password Required`
                 }
             ]
         },
         {
             type: 'selectNormalMultiple',
-            label: 'Roles',
+            label: $localize`Roles`,
             name: 'roles',
             options: this.genral.getRoles(),
         },     
         {
             type: 'button',
-            label: 'Submit',
+            label: $localize`Submit`,
             name: 'submit',
         }
       );

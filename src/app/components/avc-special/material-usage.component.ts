@@ -20,7 +20,7 @@ import { take } from 'rxjs/operators';
 
             <!-- Complex Column -->
             <ng-container matColumnDef="inputField">
-                <th mat-header-cell *matHeaderCellDef> Amount </th>
+                <th mat-header-cell *matHeaderCellDef i18n>Amount</th>
                 <td mat-cell *matCellDef="let element; let i = index;" [formGroupName]="i">
                     <mat-form-field class="one-field">
                         <input matInput [formControlName]="inputField" numeric decimals="3" type="text" maxlength="255">
@@ -74,12 +74,12 @@ export class MaterialUsageComponent implements OnInit {
         {
             type: 'bigexpand',
             name: 'items',
-            label: 'Item',
+            label: $localize`Item`,
             options: 'aloneInline',
             collections: [
                 {
                     type: 'select',
-                    label: 'Item descrption',
+                    label: $localize`Item descrption`,
                     name: 'item',
                     options: this.genral.getItemsGeneral(),
                 },
@@ -92,7 +92,6 @@ export class MaterialUsageComponent implements OnInit {
 
 
     this.dataSource = this.group.get(this.field.name).value; 
-    console.log(this.dataSource);
     
     this.columnsSetup(this.field);
     this.kidSetup(this.field);
@@ -140,13 +139,9 @@ export class MaterialUsageComponent implements OnInit {
     tempField.collections.forEach(element => {
         switch (element.type) {
             // case 'array':
-            //     this.dataSource.forEach(ele => {
-            //         ele[element.name] = 'arr';
-            //     });
-            //     this.oneColumns.push(element);
-            //     this.displayedColumns.push(element.name);
             //     break;
-            case 'select' || 'selectNormal':
+            case 'select':
+            case 'selectNormal':
                 if(element.inputType === 'multiple') {
                     this.dataSource.forEach(ele => {
                         ele[element.name] = 'arr';
@@ -215,12 +210,10 @@ export class MaterialUsageComponent implements OnInit {
     val?.forEach(element => { 
         if(element['storageForms']) {
             element['storageForms'].forEach(ele => {
-                // if(!this.removeIds.includes(ele['id'])) {
                     var obj = {itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele};
                     var group2 = this.fb.group({});
                     items.push(group2);
                     this.createItem(group2, this.field, obj);
-                // }
             });
         }
     });

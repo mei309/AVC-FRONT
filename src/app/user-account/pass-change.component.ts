@@ -10,7 +10,7 @@ import { UserAccountService } from './user-account.service';
   selector: 'pass-change',
   template:`
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}">
-    <dynamic-form [fields]="regConfig" [mainLabel]="'Change Passsword'" (submitForm)="changePass($event)">
+    <dynamic-form [fields]="regConfig" mainLabel="Change Passsword" (submitForm)="changePass($event)" i18n-mainLabel>
     </dynamic-form>
   </div>
   ` ,
@@ -21,45 +21,45 @@ export class PassChangeComponent {
     {
       type: 'input',
       name: 'oldPassword',
-      label: 'Old password',
+      label: $localize`Old password`,
       inputType: 'password',
       validations: [
         {
           name: 'required',
           validator: Validators.required,
-          message: 'Old password Required'
+          message: $localize`Old password Required`
         }
       ]
     },
     {
         type: 'input',
         name: 'newPassword',
-        label: 'New password',
+        label: $localize`New password`,
         inputType: 'password',
         validations: [
             {
                 name: 'required',
                 validator: Validators.required,
-                message: 'New password Required'
+                message: $localize`New password Required`
             }
         ]
     },
     {
         type: 'input',
         name: 'confirmPassword',
-        label: 'Confirm password',
+        label: $localize`Confirm password`,
         inputType: 'password',
         validations: [
             {
                 name: 'required',
                 validator: Validators.required,
-                message: 'Confirm password Required'
+                message: $localize`Confirm password Required`
             }
         ]
     },
     {
       type: 'button',
-      label: 'Submit',
+      label: $localize`Submit`,
       name: 'submit'
     }
   ];
@@ -73,14 +73,14 @@ export class PassChangeComponent {
         if(value['newPassword'] === value['confirmPassword']) {
             delete value['confirmPassword'];
             this.LocalService.passChange(value).pipe(take(1)).subscribe(val => {
-                this._snackBar.open('Changed password successfully', 'ok', {
+                this._snackBar.open($localize`Changed password successfully`, 'ok', {
                     duration: 5000,
                     verticalPosition:'top'
                   });
                   this.router.navigate(['Main/']);
             });
         } else {
-            alert('Passwords aren`t equal');
+            alert($localize`Passwords aren\`t equal`);
         }
 	}
 

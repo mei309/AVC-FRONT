@@ -8,24 +8,22 @@ import { SchedulesService } from './schedules.service';
 @Component({
   selector: 'receiving-schedule',
   template: `
-  <h1 style="text-align:center">
-    Receiving cashew schedule
-  </h1>
+  <h1 style="text-align:center" i18n>Receiving cashew schedule</h1>
   <div class="centerButtons">
     <mat-form-field>
-      <mat-label>Enter a date range</mat-label>
+      <mat-label i18n>Enter a date range</mat-label>
       <mat-date-range-input [formGroup]="dateRangeDisp" [rangePicker]="picker4">
-        <input matStartDate formControlName="start" placeholder="Start date" (focus)="picker4.open()">
-        <input matEndDate formControlName="end" placeholder="End date" (focus)="picker4.open()" (dateChange)="inlineRangeChange()">
+        <input matStartDate formControlName="start" placeholder="Start date" (focus)="picker4.open()" i18n-placeholder>
+        <input matEndDate formControlName="end" placeholder="End date" (focus)="picker4.open()" (dateChange)="inlineRangeChange()" i18n-placeholder>
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-date-range-picker #picker4></mat-date-range-picker>
     </mat-form-field>
-    <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek($event.checked)">See all</mat-checkbox>
+    <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek($event.checked)" i18n>See all</mat-checkbox>
   </div>
   <normal-group-details [mainDetailsSource]="cashewSourceColumns" [mainColumns]="columnsShow">
   </normal-group-details>
-  <h1 style="text-align:center">Amounts</h1>
+  <h1 style="text-align:center" i18n>Amounts</h1>
   <sums-table [mainDetailsSource]="sumsSource">
   </sums-table>
   `,
@@ -61,22 +59,22 @@ export class ReceivingCashewScheduleComponent implements OnInit {
       {
         type: 'date',
         name: 'deliveryDate',
-        label: 'Delivery date',
+        label: $localize`Delivery date`,
         group: 'deliveryDate',
       },
       {
         name: 'personInCharge',
-        label: 'Person in charge',
+        label: $localize`Person in charge`,
         group: 'value',
       },
       {
         name: 'value',
-        label: 'PO#',
+        label: $localize`PO#`,
         group: 'value',
       },
       {
         name: 'supplierName',
-        label: 'Supplier',
+        label: $localize`Supplier`,
         group: 'value',
       },
       // {
@@ -88,39 +86,39 @@ export class ReceivingCashewScheduleComponent implements OnInit {
       {
         type: 'nameId',
         name: 'item',
-        label: 'Product descrption',
+        label: $localize`Product descrption`,
       },
       {
         type: 'weight2',
         name: 'numberUnits',
-        label: 'Amount',
+        label: $localize`Amount`,
         // options: 'measureUnit',
       },
       {
         type: 'currency',
         name: 'unitPrice',
-        label: 'Price per unit',
+        label: $localize`Price per unit`,
         // options: 'currency',
       },
       {
         name: 'defects',
-        label: '% defects',
+        label: $localize`% defects`,
       },
       {
         type: 'dateTime',
         name: 'contractDate',
-        label: 'Contract date',
+        label: $localize`Contract date`,
       },
       {
         type: 'arrayVal',
         name: 'approvals',
-        label: 'Approvals',
+        label: $localize`Approvals`,
         search: 'object',
       },
       {
         type: 'arrayVal',
         name: 'orderStatus',
-        label: 'Status',
+        label: $localize`Status`,
         search: 'select',
         options: ['OPEN', 'RECEIVED', 'REJECTED'],
       },

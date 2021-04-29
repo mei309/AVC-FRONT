@@ -6,7 +6,7 @@ import { CountinersService } from './countiners.service';
 @Component({
     selector: 'countiners-booking-component',
     template: `
-    <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submitForm)="submit($event)">
+    <dynamic-form [putData]="putData" mainLabel="Cashew order" [fields]="regConfig" (submitForm)="submit($event)" i18n-mainLabel>
     </dynamic-form>
     `
   })
@@ -24,7 +24,7 @@ export class CountinersBookingComponent implements OnInit {
         this.regConfig = [
             {
                 type: 'date',
-                label: 'Contract date',
+                label: $localize`Contract date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -32,53 +32,53 @@ export class CountinersBookingComponent implements OnInit {
             },
             {
                 type: 'input',
-                label: 'Person in charge',
+                label: $localize`Person in charge`,
                 name: 'personInCharge',
                 inputType: 'text',
             },
             {
                 type: 'select',
-                label: 'Logistics company',
+                label: $localize`Logistics company`,
                 name: 'logisticsCompany',
                 options: this.genral.getAllItemsCashew(),
             },
             {
                 type: 'bigexpand',
-                label: 'Booked containers',
+                label: $localize`Booked containers`,
                 name: 'bookedContainers',
                 value: 'required',
                 collections: [
                     {
                         type: 'input',
-                        label: 'Bill number',
+                        label: $localize`Bill number`,
                         name: 'billNumber',
                     },
                     {
                         type: 'input',
-                        label: 'Vessel',
+                        label: $localize`Vessel`,
                         name: 'vessel',
                     },
                     {
                         type: 'input',
-                        label: 'Shipping company',
+                        label: $localize`Shipping company`,
                         name: 'shippingCompany',
                     },
                     {
                         type: 'select',
-                        label: 'Destination port',
+                        label: $localize`Destination port`,
                         name: 'destinationPort',
                         options: this.localService.getShippingPorts(),
                         // disable: true,
                     },
                     {
                         type: 'date',
-                        label: 'Etd',
+                        label: $localize`Etd`,
                         name: 'etd',
                         // value: new Date()
                     },
                     {
                         type: 'selectNormal',
-                        label: 'Container type',
+                        label: $localize`Container type`,
                         name: 'containerType',
                         value: '_20FEET',
                         options: this.genral.getShippingContainerType(),
@@ -109,7 +109,7 @@ export class CountinersBookingComponent implements OnInit {
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ]

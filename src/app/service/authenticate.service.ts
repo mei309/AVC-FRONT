@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // import { jwt_decode } from 'jwt-decode';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'

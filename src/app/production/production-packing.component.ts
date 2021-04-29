@@ -10,7 +10,7 @@ import { cloneDeep } from 'lodash-es';
     selector: 'production-packing',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Packing cashew process</h1></legend>
+        <legend><h1 i18n>Packing cashew process</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
@@ -39,7 +39,7 @@ export class ProductionPackingComponent implements OnInit {
                 data: {productionCheck: cloneDeep(val), fromNew: true, type: 'Packing'}
             });
             dialogRef.afterClosed().subscribe(result => {
-                if (result === 'Edit') {
+                if (result === $localize`Edit`) {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
                     if(val['weightedPos']) {
@@ -136,11 +136,11 @@ export class ProductionPackingComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                     },
@@ -148,13 +148,13 @@ export class ProductionPackingComponent implements OnInit {
             },
             {
                 type: 'popup',
-                label: 'Mix #PO',
+                label: $localize`Mix #PO`,
                 name: 'mixPos',
                 collections: [
                     {
                         type: 'bigexpand',
                         name: 'weightedPos',
-                        label: 'Mixed PO#s',
+                        label: $localize`Mixed PO#s`,
                         options: 'aloneInline',
                         collections: [
                             {
@@ -164,11 +164,11 @@ export class ProductionPackingComponent implements OnInit {
                                 collections: [
                                     {
                                         type: 'select',
-                                        label: 'Supplier',
+                                        label: $localize`Supplier`,
                                     },
                                     {
                                         type: 'select',
-                                        label: '#PO',
+                                        label: $localize`#PO`,
                                         name: 'poCode',
                                         collections: 'somewhere',
                                     },
@@ -201,7 +201,7 @@ export class ProductionPackingComponent implements OnInit {
                     },
                     {
                         type: 'button',
-                        label: 'Submit',
+                        label: $localize`Submit`,
                         name: 'submit',
                     }
                 ]

@@ -9,9 +9,7 @@ import { TodoMassagesPopupComponent } from './todo-massagess-popup.component';
 @Component({
   selector: 'todo-list',
   template: `
-  <h1 style="text-align:center">
-    Task center
-  </h1>
+  <h1 style="text-align:center" i18n>Task center</h1>
   <search-details [dataSource]="tasksSource" [oneColumns]="columnsTasks" (details)="openDialog($event)">
   </search-details>
   `,
@@ -21,41 +19,41 @@ export class TodoListComponent {
   columnsTasks: OneColumn[] = [
       {
         name: 'title',
-        label: 'Title',
+        label: $localize`Title`,
         search: 'normal',
       },
       {
         name: 'processType',
-        label: 'Process type',
+        label: $localize`Process type`,
         search: 'select',
         options: this.genral.getProcess(),
       },
       {
           type: 'arrayVal',
           name: 'poCodes',
-          label: 'PO#',
+          label: $localize`PO#`,
       },
       {
           type: 'arrayVal',
           name: 'suppliers',
-          label: 'Supplier',
+          label: $localize`Supplier`,
           search: 'selectObj',
           options: this.genral.getSuppliersCashew(),
       },
       {
         type: 'dateTime',
         name: 'createdDate',
-        label: 'Created date',
+        label: $localize`Created date`,
         search: 'dates',
       },
       {
         name: 'modifiedBy',
-        label: 'Modified by',
+        label: $localize`Modified by`,
         search: 'normal',
       },
       {
         name: 'decisionType',
-        label: 'Decision type',
+        label: $localize`Decision type`,
         search: 'select',
         options: this.genral.getDecisionType(),
       },

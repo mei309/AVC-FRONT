@@ -210,11 +210,11 @@ export class ExportImportComponent implements OnInit {
                     collections: [
                         {
                             type: 'select',
-                            label: 'Supllier',
+                            label: $localize`Supllier`,
                         },
                         {
                             type: 'select',
-                            label: '#PO',
+                            label: $localize`#PO`,
                             name: 'poCode',
                             collections: 'somewhere',
                         },
@@ -233,11 +233,11 @@ export class ExportImportComponent implements OnInit {
                             collections: [
                                 {
                                     type: 'select',
-                                    label: 'Supplier',
+                                    label: $localize`Supplier`,
                                 },
                                 {
                                     type: 'select',
-                                    label: '#PO',
+                                    label: $localize`#PO`,
                                     name: 'poCode',
                                     collections: 'somewhere',
                                 },
@@ -246,7 +246,7 @@ export class ExportImportComponent implements OnInit {
                         ...this.beginData? [
                             {
                                 type: 'input',
-                                label: 'Weight',
+                                label: $localize`Weight`,
                                 name: 'weight',
                                 disable: true,
                             }
@@ -260,7 +260,7 @@ export class ExportImportComponent implements OnInit {
             ],
             {
                 type: 'date',
-                label: 'Date',
+                label: $localize`Date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -268,7 +268,7 @@ export class ExportImportComponent implements OnInit {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Date Required',
+                        message: $localize`Date Required`,
                     }
                 ]
             },
@@ -280,26 +280,26 @@ export class ExportImportComponent implements OnInit {
             // },
             {
                 type: 'input',
-                label: 'Start time',
+                label: $localize`Start time`,
                 name: 'startTime',
                 // inputType: 'datetime-local',
                 inputType: 'time',
             },
             {
                 type: 'input',
-                label: 'End time',
+                label: $localize`End time`,
                 name: 'endTime',
                 inputType: 'time',
             },
             {
                 type: 'input',
-                label: 'Number of workers',
+                label: $localize`Number of workers`,
                 name: 'numOfWorkers',
                 inputType: 'number'
             },
             {
                 type: 'select',
-                label: 'Production line',
+                label: $localize`Production line`,
                 name: 'productionLine',
                 options: this.genral.getProductionLine(this.mainLabel),
             },
@@ -319,32 +319,32 @@ export class ExportImportComponent implements OnInit {
                                 ...this.isOnePo? []: [
                                     {
                                         type: 'input',
-                                        label: '#PO',
+                                        label: $localize`#PO`,
                                         name: 'itemPoCodes',
                                         disable: true,
                                     },
                                     {
                                         type: 'input',
-                                        label: 'Supplier',
+                                        label: $localize`Supplier`,
                                         name: 'itemSuppliers',
                                         disable: true,
                                     },
                                 ],
                                 {
                                     type: 'select',
-                                    label: 'Item',
+                                    label: $localize`Item`,
                                     name: 'item',
                                     disable: true,
                                 },
                                 {
                                     type: 'date',
-                                    label: 'Process date',
+                                    label: $localize`Process date`,
                                     name: 'itemProcessDate',
                                     disable: true,
                                 },
                                 {
                                     type: 'input',
-                                    label: 'Weight unit',
+                                    label: $localize`Weight unit`,
                                     name: 'measureUnit',
                                     disable: true,
                                 },
@@ -354,14 +354,14 @@ export class ExportImportComponent implements OnInit {
                                     collections: [
                                         {
                                             type: 'input',
-                                            label: 'Number of units',
+                                            label: $localize`Number of units`,
                                             name: 'numberUnits',
                                             disable: true,
                                         },
                                         {
                                             type: 'input',
                                             name: 'unitAmount',
-                                            label: 'Unit weight',
+                                            label: $localize`Unit weight`,
                                             disable: true,
                                         //     collections: [
                                         //         {
@@ -378,13 +378,13 @@ export class ExportImportComponent implements OnInit {
                                         },
                                         {
                                             type: 'select',
-                                            label: 'Warehouse location',
+                                            label: $localize`Warehouse location`,
                                             name: 'warehouseLocation',
                                             disable: true,
                                         },
                                         {
                                             type: 'input',
-                                            label: 'Number available units',
+                                            label: $localize`Number available units`,
                                             name: 'numberAvailableUnits',
                                             disable: true,
                                         },
@@ -411,38 +411,38 @@ export class ExportImportComponent implements OnInit {
                                 ...this.isOnePo? []: [
                                     {
                                         type: 'input',
-                                        label: '#PO',
+                                        label: $localize`#PO`,
                                         name: 'itemPoCodes',
                                         disable: true,
                                     },
                                     {
                                         type: 'input',
-                                        label: 'Supplier',
+                                        label: $localize`Supplier`,
                                         name: 'itemSuppliers',
                                         disable: true,
                                     },
                                 ],
                                 {
                                     type: 'inputReadonlySelect',
-                                    label: 'Item descrption',
+                                    label: $localize`Item descrption`,
                                     name: 'item',
                                     disable: true,
                                 },
                                 {
                                     type: 'date',
-                                    label: 'Process date',
+                                    label: $localize`Process date`,
                                     name: 'itemProcessDate',
                                     disable: true,
                                 },
                                 {
                                     type: 'inputReadonly',
-                                    label: 'Weight unit',
+                                    label: $localize`Weight unit`,
                                     name: 'measureUnit',
                                     disable: true,
                                 },
                                 {
                                     type: 'inputReadonlySelect',
-                                    label: 'Warehouse location',
+                                    label: $localize`Warehouse location`,
                                     name: 'warehouseLocation',
                                     disable: true,
                                 },
@@ -454,7 +454,7 @@ export class ExportImportComponent implements OnInit {
                                 // },
                                 {
                                     type: 'arrayordinal',
-                                    label: 'Unit weight',
+                                    label: $localize`Unit weight`,
                                     name: 'amounts',
                                     inputType: 'choose',
                                     options: 3,
@@ -473,7 +473,7 @@ export class ExportImportComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
                         // disable: true,
@@ -481,18 +481,18 @@ export class ExportImportComponent implements OnInit {
                     },
                     {
                         type: 'selectMU',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                     },
                     {
                         type: 'bigexpand',
-                        label: 'Amounts',
+                        label: $localize`Amounts`,
                         name: 'storageForms',
                         options: 'Inline',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Number of units',
+                                label: $localize`Number of units`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
                                 options: 3,
@@ -518,7 +518,7 @@ export class ExportImportComponent implements OnInit {
                             // },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
@@ -566,14 +566,14 @@ export class ExportImportComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         // disable: true,
                         options: this.genral.getItemsCashew(this.mainLabel),
                     },
                     {
                         type: 'selectMU',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                     },
                     {
@@ -589,7 +589,7 @@ export class ExportImportComponent implements OnInit {
                             // },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
@@ -602,7 +602,7 @@ export class ExportImportComponent implements OnInit {
                             // },
                             {
                                 type: 'arrayordinal',
-                                label: 'Unit weight',
+                                label: $localize`Unit weight`,
                                 name: 'amounts',
                                 options: 3,
                                 collections: 30,
@@ -620,29 +620,29 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'wasteItems',
-                label: 'Waste amounts',
+                label: $localize`Waste amounts`,
                 // options: 'alone',
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         options: this.genral.getItemsCashew('Waste'),
                     },
                     {
                         type: 'selectMU',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                     },
                     {
                         type: 'bigexpand',
-                        label: 'Amounts',
+                        label: $localize`Amounts`,
                         name: 'storageForms',
                         options: 'aloneNoAddNoFrameInline',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Number of units',
+                                label: $localize`Number of units`,
                                 name: 'numberUnits',
                                 // value: 1,
                                 inputType: 'numeric',
@@ -671,7 +671,7 @@ export class ExportImportComponent implements OnInit {
                             // },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
@@ -687,7 +687,7 @@ export class ExportImportComponent implements OnInit {
                 {
                     type: 'bigexpand',
                     name: 'materialUsed',
-                    label: 'Material used',
+                    label: $localize`Material used`,
                     options: 'aloneNoAdd',
                     collections: [
                         {
@@ -704,11 +704,11 @@ export class ExportImportComponent implements OnInit {
                                     collections: [
                                         {
                                             type: 'select',
-                                            label: 'Supplier',
+                                            label: $localize`Supplier`,
                                         },
                                         {
                                             type: 'select',
-                                            label: '#PO',
+                                            label: $localize`#PO`,
                                             name: 'itemPo',
                                             collections: 'somewhere',
                                         },
@@ -716,19 +716,19 @@ export class ExportImportComponent implements OnInit {
                                 },
                                 {
                                     type: 'select',
-                                    label: 'Item',
+                                    label: $localize`Item`,
                                     name: 'item',
                                     disable: true,
                                 },
                                 {
                                     type: 'date',
-                                    label: 'Process date',
+                                    label: $localize`Process date`,
                                     name: 'itemProcessDate',
                                     disable: true,
                                 },
                                 {
                                     type: 'input',
-                                    label: 'Weight unit',
+                                    label: $localize`Weight unit`,
                                     name: 'measureUnit',
                                     disable: true,
                                 },
@@ -738,14 +738,14 @@ export class ExportImportComponent implements OnInit {
                                     collections: [
                                         {
                                             type: 'input',
-                                            label: 'Number of units',
+                                            label: $localize`Number of units`,
                                             name: 'numberUnits',
                                             disable: true,
                                         },
                                         {
                                             type: 'input',
                                             name: 'unitAmount',
-                                            label: 'Unit weight',
+                                            label: $localize`Unit weight`,
                                             disable: true,
                                         //     collections: [
                                         //         {
@@ -762,13 +762,13 @@ export class ExportImportComponent implements OnInit {
                                         },
                                         {
                                             type: 'select',
-                                            label: 'Warehouse location',
+                                            label: $localize`Warehouse location`,
                                             name: 'warehouseLocation',
                                             disable: true,
                                         },
                                         {
                                             type: 'input',
-                                            label: 'Number available units',
+                                            label: $localize`Number available units`,
                                             name: 'numberAvailableUnits',
                                             disable: true,
                                         },
@@ -837,7 +837,7 @@ export class ExportImportComponent implements OnInit {
             // },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ];

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class OnlymineComponent implements OnInit {
 
   selectedFile: File = null;
-  showFile = null;
+  fileUrl = null;
   images = ['mmexport1568785553247.jpg'];
   private httpClient: HttpClient;
     constructor(private http: HttpClient, private handler: HttpBackend) {
@@ -47,12 +47,13 @@ export class OnlymineComponent implements OnInit {
       console.log('3. Get File (binary) from S3')
   
       let reader = new FileReader();
-      
-      const upload = this.httpClient.get(preSignedUrl.toString(),{ responseType: 'blob' }).toPromise();
-      upload.then(() => {
-        this.showFile = reader.result;
-        console.log('=> ' )
-      }).catch(err => console.log('error: ', err))
+      this.fileUrl = preSignedUrl.toString();
+      // window.open(preSignedUrl.toString());
+      // const upload = this.httpClient.get(preSignedUrl.toString(),{ responseType: 'blob' }).toPromise();
+      // upload.then(() => {
+      //   this.showFile = reader.result;
+      //   console.log('=> ' )
+      // }).catch(err => console.log('error: ', err))
     });  
   }
 

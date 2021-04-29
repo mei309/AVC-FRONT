@@ -14,24 +14,22 @@ import { cloneDeep } from 'lodash-es';
 @Component({
     selector: 'edit-supplier',
     template: `
-    <h1 style="text-align:center">
-      Edit Supplier
-    </h1>
+    <h1 style="text-align:center" i18n>Edit Supplier</h1>
     <div *ngIf="isDataAvalible">
       <mat-tab-group [(selectedIndex)]="tabIndex">
-          <mat-tab label="Supplier">
+          <mat-tab label="Supplier" i18n-label>
               <dynamic-form [putData]="putData" [fields]="regConfig" (submitForm)="submitMain($event)">
               </dynamic-form>
           </mat-tab>
-          <mat-tab label="Contact details">
+          <mat-tab label="Contact details" i18n-label>
               <dynamic-form [putData]="putData1" [fields]="regConfigContact" (submitForm)="submitContact($event)">
               </dynamic-form>
           </mat-tab>
-          <mat-tab label="Contact people">
+          <mat-tab label="Contact people" i18n-label>
               <dynamic-form [putData]="putData2" [fields]="regConfigPeople" (submitForm)="submitPeople($event)">
               </dynamic-form>
           </mat-tab>
-          <mat-tab label="Bank accounts">
+          <mat-tab label="Bank accounts" i18n-label>
               <dynamic-form [putData]="putData3" [fields]="regConfigBanks" (submitForm)="submitAccounts($event)">
               </dynamic-form>
           </mat-tab>
@@ -70,52 +68,52 @@ export class EditSupplierComponent implements OnInit {
     this.regConfig = [
       {
         type: 'input',
-        label: 'supplier name',
+        label: $localize`supplier name`,
         inputType: 'text',
         name: 'name',
         disable: true,
       },
       {
         type: 'selectMultipile',
-        label: 'Supply category',
+        label: $localize`Supply category`,
         name: 'supplyCategories',
         options: this.LocalService.getSupplyType(),
         validations: [
           {
             name: 'required',
             validator: Validators.required,
-            message: 'Required',
+            message: $localize`Required`,
           }
         ]
       },    
       {
         type: 'input',
-        label: 'Legal english name',
+        label: $localize`Legal english name`,
         name: 'englishName',
       },
       {
         type: 'input',
-        label: 'Legal vietnamese name',
+        label: $localize`Legal vietnamese name`,
         name: 'localName',
       },
       {
         type: 'input',
-        label: 'Company license',
+        label: $localize`Company license`,
         name: 'license',
       },
       {
         type: 'input',
-        label: 'Tax code',
+        label: $localize`Tax code`,
         name: 'taxCode',
       },
       {
         type: 'input',
-        label: 'Registered location',
+        label: $localize`Registered location`,
         name: 'registrationLocation',
       },   
       {
         type: 'button',
-        label: 'Save',
+        label: $localize`Save`,
         name: 'submit'
       }
     ];
@@ -123,7 +121,7 @@ export class EditSupplierComponent implements OnInit {
     this.regConfigContact = [
       {
         type: 'bigoutside',
-        label: 'Contact info',
+        label: $localize`Contact info`,
         name: 'contactDetails',
         collections: [
           {
@@ -132,7 +130,7 @@ export class EditSupplierComponent implements OnInit {
             collections: [
               {
                 type: 'textarry',
-                label: 'Street address',
+                label: $localize`Street address`,
                 inputType: 'text',
                 name: 'streetAddress',
               },
@@ -143,11 +141,11 @@ export class EditSupplierComponent implements OnInit {
                 collections: [
                   {
                     type: 'select',
-                    label: 'Country',
+                    label: $localize`Country`,
                   },
                   {
                     type: 'select',
-                    label: 'City/State',
+                    label: $localize`City/State`,
                     name: 'city',
                   },
                 ]
@@ -156,7 +154,7 @@ export class EditSupplierComponent implements OnInit {
             validations: [
               {
                 name: 'streetAddress',
-                message: 'a address must have a street and city',
+                message: $localize`a address must have a street and city`,
               },
               {
                 name: 'city',
@@ -165,13 +163,13 @@ export class EditSupplierComponent implements OnInit {
           },
           {
             type: 'array',
-            label: 'Phone',
+            label: $localize`Phone`,
             inputType: 'number',
             name: 'phones',
           },
           {
             type: 'array',
-            label: 'Email',
+            label: $localize`Email`,
             inputType: 'text',
             name: 'emails',
             validations: [
@@ -180,13 +178,13 @@ export class EditSupplierComponent implements OnInit {
                 validator: Validators.pattern(
                   '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$'
                 ),
-                message: 'Invalid email'
+                message: $localize`Invalid email`
               }
             ]
           },
           {
             type: 'array',
-            label: 'Fax',
+            label: $localize`Fax`,
             inputType: 'number',
             name: 'faxes',
           },
@@ -194,7 +192,7 @@ export class EditSupplierComponent implements OnInit {
       },
       {
         type: 'button',
-        label: 'Save',
+        label: $localize`Save`,
         name: 'submit'
       }
     ];
@@ -202,7 +200,7 @@ export class EditSupplierComponent implements OnInit {
     this.regConfigPeople = [
       {
         type: 'bigexpand',
-        label: 'Contact person',
+        label: $localize`Contact person`,
         name: 'companyContacts',
         options: 'NoFrame',
         collections: [
@@ -212,7 +210,7 @@ export class EditSupplierComponent implements OnInit {
             collections: [
               {
                 type: 'input',
-                label: 'Name',
+                label: $localize`Name`,
                 inputType: 'text',
                 name: 'name',
                 disable: true,
@@ -227,7 +225,7 @@ export class EditSupplierComponent implements OnInit {
                     collections: [
                       {
                         type: 'textarry',
-                        label: 'Street address',
+                        label: $localize`Street address`,
                         inputType: 'text',
                         name: 'streetAddress',
                       },
@@ -238,11 +236,11 @@ export class EditSupplierComponent implements OnInit {
                         collections: [
                           {
                             type: 'select',
-                            label: 'Country',
+                            label: $localize`Country`,
                           },
                           {
                             type: 'select',
-                            label: 'City/State',
+                            label: $localize`City/State`,
                             name: 'city',
                           },
                         ]
@@ -251,7 +249,7 @@ export class EditSupplierComponent implements OnInit {
                     validations: [
                       {
                         name: 'streetAddress',
-                        message: 'a address must have a street and city',
+                        message: $localize`a address must have a street and city`,
                       },
                       {
                         name: 'city',
@@ -260,13 +258,13 @@ export class EditSupplierComponent implements OnInit {
                   },
                   {
                     type: 'array',
-                    label: 'Phone',
+                    label: $localize`Phone`,
                     inputType: 'number',
                     name: 'phones',
                   },
                   {
                     type: 'array',
-                    label: 'Email',
+                    label: $localize`Email`,
                     inputType: 'text',
                     name: 'emails',
                     validations: [
@@ -275,13 +273,13 @@ export class EditSupplierComponent implements OnInit {
                         validator: Validators.pattern(
                           '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'
                         ),
-                        message: 'Invalid email'
+                        message: $localize`Invalid email`
                       }
                     ]
                   },
                   {
                     type: 'array',
-                    label: 'Fax',
+                    label: $localize`Fax`,
                     inputType: 'number',
                     name: 'faxes',
                   },
@@ -289,40 +287,40 @@ export class EditSupplierComponent implements OnInit {
               },
               {
                 type: 'popup',
-                label: 'ID infromtion',
+                label: $localize`ID infromtion`,
                 name: 'idCard',
                 collections: [
                   {
                     type: 'input',
-                    label: 'ID number',
+                    label: $localize`ID number`,
                     name: 'idNumber',
                     inputType: 'text'
                   },
                   {
                     type: 'date',
-                    label: 'ID date of issue',
+                    label: $localize`ID date of issue`,
                     name: 'dateOfIssue',
                   },
                   {
                     type: 'input',
-                    label: 'ID place of issue',
+                    label: $localize`ID place of issue`,
                     name: 'placeOfIssue',
                     inputType: 'text'
                   },
                   {
                     type: 'select',
-                    label: 'Nationality',
+                    label: $localize`Nationality`,
                     name: 'nationality',
                     options: this.LocalService.getCountries(),
                   },
                   {
                     type: 'date',
-                    label: 'Date of birth',
+                    label: $localize`Date of birth`,
                     name: 'dob',
                   },
                   {
                     type: 'button',
-                    label: 'Save ID',
+                    label: $localize`Save ID`,
                     name: 'submit',
                   }
                 ]
@@ -331,7 +329,7 @@ export class EditSupplierComponent implements OnInit {
           },
           {
             type: 'select',
-            label: 'Position',
+            label: $localize`Position`,
             name: 'position',
             options: this.LocalService.getCompanyPosition(),
           },
@@ -348,7 +346,7 @@ export class EditSupplierComponent implements OnInit {
                   name: 'name',
                 },
               ],
-              message: 'a person must have a name and position',
+              message: $localize`a person must have a name and position`,
             },
             {
               name: 'position',
@@ -357,7 +355,7 @@ export class EditSupplierComponent implements OnInit {
       },
       {
         type: 'button',
-        label: 'Save',
+        label: $localize`Save`,
         name: 'submit'
       }
     ];
@@ -365,7 +363,7 @@ export class EditSupplierComponent implements OnInit {
     this.regConfigBanks = [
       {
         type: 'bigexpand',
-        label: 'bank accounts',
+        label: $localize`bank accounts`,
         name: 'paymentAccounts',
         options: 'NoFrame',
         collections: [
@@ -375,12 +373,12 @@ export class EditSupplierComponent implements OnInit {
             collections: [
               {
                 type: 'input',
-                label: 'Owner name',
+                label: $localize`Owner name`,
                 name: 'ownerName',
               },
               {
                 type: 'input',
-                label: 'Account number',
+                label: $localize`Account number`,
                 name: 'accountNo',
                 inputType: 'text'
               },
@@ -391,11 +389,11 @@ export class EditSupplierComponent implements OnInit {
                 collections: [
                   {
                     type: 'select',
-                    label: 'Bank',
+                    label: $localize`Bank`,
                   },
                   {
                     type: 'select',
-                    label: 'Branch',
+                    label: $localize`Branch`,
                     name: 'branch',
                   },
                 ]
@@ -421,13 +419,13 @@ export class EditSupplierComponent implements OnInit {
                   name: 'branch',
                 }
               ],
-              message: 'a bank must have owner name and account and branch',
+              message: $localize`a bank must have owner name and account and branch`,
             }
         ]
       },
       {
         type: 'button',
-        label: 'Save',
+        label: $localize`Save`,
         name: 'submit'
       }
     ];

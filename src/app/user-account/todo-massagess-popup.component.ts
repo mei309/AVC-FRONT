@@ -6,19 +6,19 @@ import { UserAccountService } from './user-account.service';
     selector: 'massages-todo-popup',
     template: `
     <ng-container *ngFor="let po of poCodes;">
-      <button mat-raised-button color="accent" (click)="goFullPo(po.id)" style="float: right;">Go to full {{po.value}} details</button>
+      <button mat-raised-button color="accent" (click)="goFullPo(po.id)" style="float: right;" i18n>Go to full {{po.value}} details</button>
     </ng-container>
-    <button printTitle="Task Details" printSectionId="print-section-task" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="Task Details" printSectionId="print-section-task" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>Task Details</h1>
+    <h1 mat-dialog-title i18n>Task Details</h1>
     <mat-dialog-content id="print-section-task">
-        <h1 class="only-print">Task Details</h1>
+        <h1 class="only-print" i18n>Task Details</h1>
         <show-details [dataSource]="task" [secondSource]="processSnapshot">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">  
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })

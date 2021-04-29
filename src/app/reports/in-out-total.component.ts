@@ -15,15 +15,15 @@ import { Component, Input } from '@angular/core';
                         <th mat-header-cell *matHeaderCellDef colspan="3"><h3>{{column.label}}</h3></th>
                     </ng-container>
                     <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef><h3>Date</h3></th>
+                        <th mat-header-cell *matHeaderCellDef><h3 i18n>Date</h3></th>
                         <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
                     </ng-container>
                     <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef><h4>Status</h4></th>
+                        <th mat-header-cell *matHeaderCellDef><h4 i18n>Status</h4></th>
                         <td mat-cell *matCellDef="let element"> {{element.status}} </td>
                     </ng-container>
                     <ng-container matColumnDef="approvals">
-                        <th mat-header-cell *matHeaderCellDef><h4>Approvals</h4></th>
+                        <th mat-header-cell *matHeaderCellDef><h4 i18n>Approvals</h4></th>
                         <td mat-cell *matCellDef="let element"> {{element.approvals}} </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="['titel']"></tr>
@@ -38,17 +38,17 @@ import { Component, Input } from '@angular/core';
                         <th mat-header-cell *matHeaderCellDef colspan="3"><h3>{{column.label}}</h3></th>
                     </ng-container>
                     <ng-container matColumnDef="item">
-                        <th mat-header-cell *matHeaderCellDef><h4>Item</h4></th>
+                        <th mat-header-cell *matHeaderCellDef><h4 i18n>Item</h4></th>
                         <td mat-cell *matCellDef="let element"> {{element.item.value}} </td>
                     </ng-container>
                     <ng-container matColumnDef="amount">
-                        <th mat-header-cell *matHeaderCellDef><h4>Amount</h4></th>
+                        <th mat-header-cell *matHeaderCellDef><h4 i18n>Amount</h4></th>
                         <td mat-cell *matCellDef="let element"> 
                             {{element.amount | tableCellPipe: 'weight' : null}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="weight">
-                        <th mat-header-cell *matHeaderCellDef><h4>Weight</h4></th>
+                        <th mat-header-cell *matHeaderCellDef><h4 i18n>Weight</h4></th>
                         <td mat-cell *matCellDef="let element">
                             {{element.weight | tableCellPipe: 'weight2' : null}} 
                         </td>
@@ -86,36 +86,36 @@ export class InOutTotalComponent {
   regShow = [
     {
         name: 'processes',
-        label: 'Processes',
+        label: $localize`Processes`,
     },
     {
         name: 'productIn',
-        label: 'Product in',
+        label: $localize`Product in`,
         foot: 'totalProductIn',
     },
     {
         name: 'received',
-        label: 'Received',
+        label: $localize`Received`,
         foot: 'totalReceived',
     },
     {
         name: 'productOut',
-        label: 'Product out',
+        label: $localize`Product out`,
         foot: 'totalProductOut',
     },
     {
         name: 'waste',
-        label: 'Waste',
+        label: $localize`Waste`,
         foot: 'totalWaste',
     },
     {
         name: 'productCount',
-        label: 'Product count',
+        label: $localize`Product count`,
         foot: 'totalProductCount',
     },
     {
         name: 'ingredients',
-        label: 'Ingredients',
+        label: $localize`Ingredients`,
         foot: 'totalIngredients',
     },
     {
@@ -126,39 +126,39 @@ loadingColumns = [
     {
         type: 'nameId',
         name: 'shipmentCode',
-        label: 'Shipment code',
+        label: $localize`Shipment code`,
     },
     {
         type: 'date',
         name: 'date',
-        label: 'Date and time',
+        label: $localize`Date and time`,
     },
     {
         type: 'normal',
         name: 'approvals',
-        label: 'Approvals',
+        label: $localize`Approvals`,
     },
     {
         type: 'normal',
         name: 'status',
-        label: 'Status',
+        label: $localize`Status`,
     },
     {
         type: 'object',
         name: 'containerDetails',
-        label: 'Container details',
+        label: $localize`Container details`,
         collections: [
             {
                 name: 'containerNumber',
-                label: 'Container number',
+                label: $localize`Container number`,
             },
             {
                 name: 'sealNumber',
-                label: 'Seal number',
+                label: $localize`Seal number`,
             },
             {
                 name: 'containerType',
-                label: 'Container type'
+                label: $localize`Container type`
             }
         ],
     }

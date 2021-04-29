@@ -6,18 +6,18 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-supplier-details-dialog',
     template: `
-    <button printTitle="Supplier Details" printSectionId="print-section-supplier" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="Supplier Details" printSectionId="print-section-supplier" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>Supplier Details</h1>
+    <h1 mat-dialog-title i18n>Supplier Details</h1>
     <mat-dialog-content id="print-section-supplier">
-        <h1 class="only-print">Supplier Details</h1>
+        <h1 class="only-print" i18n>Supplier Details</h1>
         <show-details [oneColumns]="regShow" [dataSource]="supllier">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">       
-      <button class="raised-margin" mat-raised-button color="accent" (click)="editClick()">Edit</button>
-      <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+      <button class="raised-margin" mat-raised-button color="accent" (click)="editClick()" i18n>Edit</button>
+      <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     
     `,
@@ -30,42 +30,42 @@ export class SupplierDetailsDialogComponent {
     regShow = [
       {
         type: 'normal',
-        label: 'supplier name',
+        label: $localize`supplier name`,
         name: 'name',
       },
       {
         type: 'nameId',
-        label: 'Supply category',
+        label: $localize`Supply category`,
         name: 'supplyCategories',
       },    
       {
         type: 'normal',
-        label: 'Legal english name',
+        label: $localize`Legal english name`,
         name: 'englishName',
       },
       {
         type: 'normal',
-        label: 'Legal vietnamese name',
+        label: $localize`Legal vietnamese name`,
         name: 'localName',
       },
       {
         type: 'normal',
-        label: 'Company license',
+        label: $localize`Company license`,
         name: 'license',
       },
       {
         type: 'normal',
-        label: 'Tax code',
+        label: $localize`Tax code`,
         name: 'taxCode',
       },
       {
         type: 'normal',
-        label: 'Registered location',
+        label: $localize`Registered location`,
         name: 'registrationLocation',
       },
       {
         type: 'object',
-        label: 'Contact info',
+        label: $localize`Contact info`,
         name: 'contactDetails',
         collections: [
           {
@@ -74,12 +74,12 @@ export class SupplierDetailsDialogComponent {
             collections: [
               {
                 type: 'normal',
-                label: 'Street address',
+                label: $localize`Street address`,
                 name: 'streetAddress',
               },
               {
                 type: 'name2',
-                label: 'City/State',
+                label: $localize`City/State`,
                 name: 'city',
                 collections:'countryName',
               },
@@ -87,22 +87,22 @@ export class SupplierDetailsDialogComponent {
           },
           {
             type: 'nameId',
-            label: 'Phone',
+            label: $localize`Phone`,
             name: 'phones',
           },
           {
             type: 'nameId',
-            label: 'Email',
+            label: $localize`Email`,
             name: 'emails',
           },
           {
             type: 'nameId',
-            label: 'Fax',
+            label: $localize`Fax`,
             name: 'faxes',
           },
           {
             type: 'array',
-            label: 'bank accounts',
+            label: $localize`bank accounts`,
             name: 'paymentAccounts',
             collections: [
               {
@@ -111,17 +111,17 @@ export class SupplierDetailsDialogComponent {
                 collections: [
                   {
                     type: 'normal',
-                    label: 'Owner name',
+                    label: $localize`Owner name`,
                     name: 'ownerName',
                   },
                   {
                     type: 'normal',
-                    label: 'Account number',
+                    label: $localize`Account number`,
                     name: 'accountNo',
                   },
                   {
                     type: 'name2',
-                    label: 'Branch',
+                    label: $localize`Branch`,
                     name: 'branch',
                     collections: 'bankName',
                   },  
@@ -133,7 +133,7 @@ export class SupplierDetailsDialogComponent {
       },
       {
         type: 'array',
-        label: 'Contact person',
+        label: $localize`Contact person`,
         name: 'companyContacts',
         collections: [
           {
@@ -142,7 +142,7 @@ export class SupplierDetailsDialogComponent {
             collections: [
               {
                 type: 'normal',
-                label: 'Name',
+                label: $localize`Name`,
                 name: 'name',
               },
               {
@@ -155,12 +155,12 @@ export class SupplierDetailsDialogComponent {
                     collections: [
                       {
                         type: 'normal',
-                        label: 'Street address',
+                        label: $localize`Street address`,
                         name: 'streetAddress',
                       },
                       {
                         type: 'name2',
-                        label: 'City/State',
+                        label: $localize`City/State`,
                         name: 'city',
                         collections:'countryName',
                       },
@@ -168,49 +168,49 @@ export class SupplierDetailsDialogComponent {
                   },
                   {
                     type: 'nameId',
-                    label: 'Phone',
+                    label: $localize`Phone`,
                     name: 'phones',
                   },
                   {
                     type: 'nameId',
-                    label: 'Email',
+                    label: $localize`Email`,
                     name: 'emails',
                   },
                   {
                     type: 'nameId',
-                    label: 'Fax',
+                    label: $localize`Fax`,
                     name: 'faxes',
                   },
                 ]
               },
               {
                 type: 'parent',
-                label: 'ID infromtion',
+                label: $localize`ID infromtion`,
                 name: 'idCard',
                 collections: [
                   {
                     type: 'normal',
-                    label: 'ID number',
+                    label: $localize`ID number`,
                     name: 'idNumber',
                   },
                   {
                     type: 'normal',
-                    label: 'ID date of issue',
+                    label: $localize`ID date of issue`,
                     name: 'dateOfIssue',
                   },
                   {
                     type: 'normal',
-                    label: 'ID place of issue',
+                    label: $localize`ID place of issue`,
                     name: 'placeOfIssue',
                   },
                   {
                     type: 'normal',
-                    label: 'Date of birth',
+                    label: $localize`Date of birth`,
                     name: 'dob',
                   },
                   {
                     type: 'nameId',
-                    label: 'Nationality',
+                    label: $localize`Nationality`,
                     name: 'nationality',
                   },
                 ]
@@ -219,7 +219,7 @@ export class SupplierDetailsDialogComponent {
           },
           {
             type: 'nameId',
-            label: 'Position',
+            label: $localize`Position`,
             name: 'position',
           },
         ]
@@ -247,7 +247,7 @@ export class SupplierDetailsDialogComponent {
 
 
     editClick(): void {
-      this.dialogRef.close('edit');
+      this.dialogRef.close($localize`edit`);
     }
     
 }

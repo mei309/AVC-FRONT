@@ -9,14 +9,14 @@ import { ReceiptService } from './receipt.service';
 @Component({
   selector: 'receive-c-reports',
   template: `
-  <h1 style="text-align:center">Cashew Receivings</h1>
+  <h1 style="text-align:center" i18n>Cashew Receivings</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)">
-      <mat-tab label="Pending(received)">
+      <mat-tab label="Pending(received)" i18n-label>
       </mat-tab>
-      <mat-tab label="Finalized">
+      <mat-tab label="Finalized" i18n-label>
       </mat-tab>
-      <mat-tab label="All">
+      <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
@@ -50,13 +50,13 @@ export class ReceiveCReports implements OnInit {
       {
         type: 'nameId',
         name: 'poCode',
-        label: 'PO#',
+        label: $localize`PO#`,
         search: 'object',
         group: 'poCode',
       },
       {
         name: 'supplierName',
-        label: 'Supplier',
+        label: $localize`Supplier`,
         search: 'selectObj',
         options: this.genral.getSuppliersCashew(),
         group: 'poCode',
@@ -64,21 +64,21 @@ export class ReceiveCReports implements OnInit {
       {
         type: 'weight2',
         name: 'totalAmount',
-        label: 'Total receipt',
+        label: $localize`Total receipt`,
         search: 'object',
         group: 'poCode',
       },
       {
         type: 'nameId',
         name: 'item',
-        label: 'Product descrption',
+        label: $localize`Product descrption`,
         search: 'selectObjObj',
         options: this.genral.getItemsRawCashew(),
       },
       {
         type: 'weight',
         name: 'receivedOrderUnits',
-        label: 'Payable units',
+        label: $localize`Payable units`,
         search: 'object',
         compare: {
           name: 'orderBalance',
@@ -88,7 +88,7 @@ export class ReceiveCReports implements OnInit {
       {
         type: 'weight2',
         name: 'receiptAmount',
-        label: 'Item amount',
+        label: $localize`Item amount`,
         search: 'object',
         compare: {
           name: 'orderBalance',
@@ -98,19 +98,19 @@ export class ReceiveCReports implements OnInit {
       {
         type: 'weight',
         name: 'extraAdded',
-        label: 'Extra requsted',
+        label: $localize`Extra requsted`,
         search: 'object',
       },
       {
         type: 'dateTime',
         name: 'receiptDate',
-        label: 'Receipt date',
+        label: $localize`Receipt date`,
         search: 'dates',
       },
       {
         type: 'array',
         name: 'storage',
-        label: 'Storage',
+        label: $localize`Storage`,
         search: 'selectObj',
         options: this.genral.getWearhouses(),
       },
@@ -153,9 +153,9 @@ export class ReceiveCReports implements OnInit {
       // if (data === 'Edit order') {
       //   this.router.navigate(['Main/ordready/NewCashewOrder',{id: event['poCode']['id']}]);
       // } else 
-      if(data === 'Receive') {
+      if(data === $localize`Receive`) {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
-      } else if(data === 'Edit receive' || data === 'Receive extra') {
+      } else if(data === $localize`Edit receive` || data === $localize`Receive extra`) {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
       } else {
         this.changed(this.tabIndex);
@@ -198,7 +198,7 @@ export class ReceiveCReports implements OnInit {
             this.columnsShow.push({
                 type: 'normal',
                 name: 'status',
-                label: 'Status',
+                label: $localize`Status`,
                 search: 'select',
                 options: this.genral.getProcessStatus(),
               });

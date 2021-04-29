@@ -10,13 +10,13 @@ import { InventoryService } from './inventory.service';
 @Component({
   selector: 'app-genral-inventory',
   template: `
-  <h1 style="text-align:center">General inventory</h1>
+  <h1 style="text-align:center" i18n>General inventory</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
-      <mat-tab label="General stock by item">
+      <mat-tab label="General stock by item" i18n-label>
       </mat-tab>
-      <mat-tab label="General stock by PO#">
+      <mat-tab label="General stock by PO#" i18n-label>
       </mat-tab>
-      <mat-tab label="General stock and orders">
+      <mat-tab label="General stock and orders" i18n-label>
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [withPaginator]="false">
@@ -64,7 +64,7 @@ export class GenralInventoryComponent implements OnInit {
   openDialog(event): void {
     const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
       width: '80%',
-      data: {id: event['id'], fromNew: false, type: 'Inventory item'},
+      data: {id: event['id'], fromNew: false, type: $localize`Inventory item`},
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
@@ -85,7 +85,7 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Item',
+              label: $localize`Item`,
               search: 'selectObjObj',
               options: this.genral.getItemsGeneral(),
               group: 'item',
@@ -93,27 +93,27 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalStock',
-              label: 'Total stock',
+              label: $localize`Total stock`,
               search: 'object',
               group: 'item',
             },
             {
               type: 'nameId',
               name: 'poCode',
-              label: 'PO#',
+              label: $localize`PO#`,
               search: 'object',
               group: 'poCode',
             },
             {
               name: 'supplierName',
-              label: 'Supplier',
+              label: $localize`Supplier`,
               search: 'selectObj',
               options: this.genral.getSuppliersGeneral(),
               group: 'poCode',
             },
             {
               type: 'weight2',
-              name: 'totalBalance',
+              name: $localize`totalBalance`,
               label: 'Total balance',
               search: 'object',
               // group: 'poCode',
@@ -121,14 +121,14 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'arrayVal',
               name: 'warehouses',
-              label: 'Warehouse',
+              label: $localize`Warehouse`,
               search: 'selectObj',
               options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
                 name: 'receiptDate',
-                label: 'Receipt date',
+                label: $localize`Receipt date`,
                 search: 'dates',
             },
             {
@@ -148,13 +148,13 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'poCode',
-              label: 'PO#',
+              label: $localize`PO#`,
               search: 'object',
               group: 'poCode',
             },
             {
               name: 'supplierName',
-              label: 'Supplier',
+              label: $localize`Supplier`,
               search: 'selectObj',
               options: this.genral.getSuppliersGeneral(),
               group: 'poCode',
@@ -169,7 +169,7 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'nameId',
               name: 'item',
-              label: 'Item',
+              label: $localize`Item`,
               search: 'selectObjObj',
               options: this.genral.getItemsGeneral(),
               group: 'item',
@@ -177,21 +177,21 @@ export class GenralInventoryComponent implements OnInit {
             {
               type: 'weight2',
               name: 'totalBalance',
-              label: 'Total balance',
+              label: $localize`Total balance`,
               search: 'object',
               // group: 'item',
             },
             {
               type: 'arrayVal',
               name: 'warehouses',
-              label: 'Warehouse',
+              label: $localize`Warehouse`,
               search: 'selectObj',
               options: this.genral.getWearhouses(),
             },
             {
                 type: 'date',
                 name: 'receiptDate',
-                label: 'Receipt date',
+                label: $localize`Receipt date`,
                 search: 'dates',
             },
             {
@@ -211,7 +211,7 @@ export class GenralInventoryComponent implements OnInit {
               {
                 type: 'nameId',
                 name: 'item',
-                label: 'Item',
+                label: $localize`Item`,
                 search: 'selectObjObj',
                 options: this.genral.getAllItemsCashew(),
                 group: 'item',
@@ -219,13 +219,13 @@ export class GenralInventoryComponent implements OnInit {
               {
                 type: 'weight',
                 name: 'inventoryAmount',
-                label: 'Inventory amount',
+                label: $localize`Inventory amount`,
                 search: 'object',
               },
               {
                 type: 'weight',
                 name: 'orderedAmount',
-                label: 'Orderd amount',
+                label: $localize`Orderd amount`,
                 search: 'object',
               },
             ];

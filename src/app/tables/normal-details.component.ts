@@ -30,6 +30,7 @@ import { OneColumn } from '../field.interface';
                       <ng-template #notFirst><span style="white-space: nowrap;">({{amountElem | tableCellPipe: 'weight' : null}})</span></ng-template>
                     </ng-container>
                     <small *ngIf="itemElem.warehouses">({{itemElem.warehouses}})</small>
+                    <span *ngIf="itemElem.newWarehouses"> => ({{itemElem.newWarehouses}})</span>
                     <br/>
                   </ng-container>
                 </span>
@@ -40,7 +41,7 @@ import { OneColumn } from '../field.interface';
  </table>
 </div>
 <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
-<div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.length === 0"><h2>No records found</h2></div>
+<div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.length === 0"><h2 i18n>No records found</h2></div>
   `,
 })
 export class NormalDetailsComponent {

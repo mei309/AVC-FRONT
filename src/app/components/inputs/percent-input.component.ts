@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { FieldConfig } from '../../field.interface';
 

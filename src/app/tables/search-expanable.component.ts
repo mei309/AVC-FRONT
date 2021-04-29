@@ -19,31 +19,31 @@ import { OneColumn } from '../field.interface';
         <th mat-header-cell *matHeaderCellDef>
           <h3 mat-sort-header>{{column.label}}</h3>
           <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print">
-              <mat-select *ngSwitchCase="'select'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
+              <mat-select *ngSwitchCase="'select'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
+              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
+              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
               </mat-select>
 
               <input *ngSwitchCase="'none'" matInput readonly>
 
-              <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4">
-                <input matStartDate placeholder="Start date" #dateRangeStart>
-                <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)">
+              <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4" i18n-placeholder>
+                <input matStartDate placeholder="Start date" #dateRangeStart i18n-placeholder>
+                <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)" i18n-placeholder>
               </mat-date-range-input>
               <mat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker4"></mat-datepicker-toggle>
               <mat-date-range-picker #picker4></mat-date-range-picker>
 
-              <input *ngSwitchCase="'object'" autocomplete="off" matInput type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilterObject(column.name)" placeholder="Search">
+              <input *ngSwitchCase="'object'" autocomplete="off" matInput type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilterObject(column.name)" placeholder="Search" i18n-placeholder>
 
-              <input *ngSwitchDefault matInput autocomplete="off" type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(column.name)" placeholder="Search">
+              <input *ngSwitchDefault matInput autocomplete="off" type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(column.name)" placeholder="Search" i18n-placeholder>
           </mat-form-field>
         </th>
         <td mat-cell *matCellDef="let element">
@@ -83,7 +83,7 @@ import { OneColumn } from '../field.interface';
  <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>
 <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
-<div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2>No records found</h2></div>
+<div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2 i18n>No records found</h2></div>
   `,
   animations: [
     trigger('detailExpand', [

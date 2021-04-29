@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChildren, QueryList, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FieldConfig } from '../../field.interface';
-// [readOnly]="infoBox.checked" 
-// <mat-button-toggle matSuffix #infoBox><mat-icon>edit</mat-icon></mat-button-toggle>
 @Component({
   selector: 'app-array-ordinal',
   template: `
   <ng-container [ngSwitch]="field.inputType">
     <div [formGroup]="group" *ngSwitchCase="'choose'">
       {{field.label}}
-      <mat-checkbox [checked]="allComplete" (change)="setAll($event.checked)" [indeterminate]="someComplete()">Choose all</mat-checkbox>
+      <mat-checkbox [checked]="allComplete" (change)="setAll($event.checked)" [indeterminate]="someComplete()" i18n>Choose all</mat-checkbox>
       <div [formArrayName]="field.name" class="array-field-grid">
         <div *ngFor="let item of formArray.controls; let i = index;" [formGroupName]="i" (keydown)="keyDown($event, i)" class="one-cell-table">
           <span>&nbsp; {{item.get('ordinal').value}} &nbsp;</span>
@@ -33,7 +31,7 @@ import { FieldConfig } from '../../field.interface';
           </mat-form-field>
         </div>
       </div>
-      <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+      <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()" i18n>Add {{field.label}}</button>
     </div>
 
     <div [formGroup]="group" *ngSwitchDefault>
@@ -46,7 +44,7 @@ import { FieldConfig } from '../../field.interface';
           </mat-form-field>
         </div>
       </div>
-      <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+      <button *ngIf="group.enabled" type="button" class="add-button" (click)="addItem()" i18n>Add {{field.label}}</button>
     </div>
   </ng-container>
 `,

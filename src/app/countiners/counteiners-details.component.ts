@@ -7,12 +7,12 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
 @Component({
     selector: 'counteiners-details-dialog',
     template: `
-    <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>{{type}} details</h1>
+    <h1 mat-dialog-title i18n>{{type}} details</h1>
     <mat-dialog-content id="print-section-continers">
-        <h1 class="only-print">{{type}} details</h1>
+        <h1 class="only-print" i18n>{{type}} details</h1>
         <show-details [dataSource]="loading">
         </show-details>
     </mat-dialog-content>
@@ -20,7 +20,7 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
         <ng-container *ngFor="let butt of buttons;">
             <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -52,7 +52,7 @@ export class CounteinersDetailsDialogComponent {
                 } else {
                     this.id = this.loading['id'];
                 }
-                this.buttons.push('Security Doc', 'Export Doc');
+                this.buttons.push($localize`Security Doc`, $localize`Export Doc`);
                 break;
             case 'Arrivals':
                 if(!this.fromNew) {
@@ -63,14 +63,14 @@ export class CounteinersDetailsDialogComponent {
             default:
                 break;
         }
-        this.buttons.push('Edit');
+        this.buttons.push($localize`Edit`);
     }
     onNoClick(): void {
         this.dialogRef.close('closed');
     }
 
     onClickElement(opartion: string): void {
-        if('Security Doc' === opartion) {
+        if($localize`Security Doc` === opartion) {
             const dialogRef1 = this.dialog.open(SecurityExportDocComponent, {
                 width: '80%',
                 data: {id: this.id, isSecurity: true},
@@ -78,7 +78,7 @@ export class CounteinersDetailsDialogComponent {
             dialogRef1.afterClosed().subscribe(data => {
 
             });
-        } else if('Export Doc' === opartion) {
+        } else if($localize`Export Doc` === opartion) {
             const dialogRef2 = this.dialog.open(SecurityExportDocComponent, {
                 width: '80%',
                 data: {id: this.id, isSecurity: false},

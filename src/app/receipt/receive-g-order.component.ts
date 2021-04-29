@@ -13,12 +13,12 @@ import { ReceiptDialog } from './receipt-dialog.component';
     selector: 'receive-g-order',
     template: `
     <fieldset *ngIf="isFirstDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>PO# receving</h1></legend>
+        <legend><h1 i18n>PO# receving</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isDataAvailable">
-        <dynamic-form [fields]="regConfig" [putData]="putData" [mainLabel]="'Receving general order'" (submitForm)="submit($event)">
+        <dynamic-form [fields]="regConfig" [putData]="putData" mainLabel="Receving general order" (submitForm)="submit($event)" i18n-mainLabel>
         </dynamic-form>
     </div>
     `
@@ -96,11 +96,11 @@ export class ReceiveGOrder implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                     },
@@ -154,18 +154,18 @@ export class ReceiveGOrder implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                     },
                 ]
             },
             {
                 type: 'date',
-                label: 'Receiving date',
+                label: $localize`Receiving date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -180,7 +180,7 @@ export class ReceiveGOrder implements OnInit {
             },
             {
                 type: 'bigexpand',
-                label: 'Receive product',
+                label: $localize`Receive product`,
                 name: 'receiptItems',
                 value: 'required',
                 // options: 'aloneNoAdd',
@@ -188,7 +188,7 @@ export class ReceiveGOrder implements OnInit {
                     {
                         type: 'selectLine',
                         name: 'orderItem',
-                        label: 'Orderd item',
+                        label: $localize`Orderd item`,
                         options: this.getOrderdItems(),
                         collections: [
                             {
@@ -203,7 +203,7 @@ export class ReceiveGOrder implements OnInit {
                     },
                     {
                         type: 'select',
-                        label: 'Item reciving',
+                        label: $localize`Item reciving`,
                         name: 'item',
                         collections: 'somewhere',
                         inputType: 'orderItem',
@@ -211,7 +211,7 @@ export class ReceiveGOrder implements OnInit {
                     },
                     {
                         type: 'selectMU',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                     },
                     {
@@ -220,26 +220,26 @@ export class ReceiveGOrder implements OnInit {
                     },
                     {
                         type: 'bigexpand',
-                        label: 'Amounts',
+                        label: $localize`Amounts`,
                         name: 'storageForms',
                         options: 'Inline',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Unit amount',
+                                label: $localize`Unit amount`,
                                 name: 'unitAmount',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Number of units',
+                                label: $localize`Number of units`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
                             },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
@@ -251,7 +251,7 @@ export class ReceiveGOrder implements OnInit {
                         validations: [
                             {
                                 name: 'unitAmount',
-                                message: 'a received storage must have weight and number of bags',
+                                message: $localize`a received storage must have weight and number of bags`,
                             },
                             {
                                 name: 'numberUnits',
@@ -261,7 +261,7 @@ export class ReceiveGOrder implements OnInit {
                     {
                         type: 'divider',
                         inputType: 'titel',
-                        label: 'Invoice amounts'
+                        label: $localize`Invoice amounts`
                     },
                     {
                         type: 'inputselect',
@@ -271,14 +271,14 @@ export class ReceiveGOrder implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Payable amount',
+                                label: $localize`Payable amount`,
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'select',
-                                label: 'Measure unit',
+                                label: $localize`Measure unit`,
                                 name: 'measureUnit',
                                 value: 'LBS',
                                 options: this.genral.getMeasureUnit(),
@@ -293,14 +293,14 @@ export class ReceiveGOrder implements OnInit {
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Price per unit',
+                                label: $localize`Price per unit`,
                                 name: 'amount',
                                 inputType: 'numeric',
                                 options: 2,
                             },
                             {
                                 type: 'select',
-                                label: 'Currency',
+                                label: $localize`Currency`,
                                 name: 'currency',
                                 options: ['VND', 'USD'],
                             },
@@ -314,7 +314,7 @@ export class ReceiveGOrder implements OnInit {
                 validations: [
                     {
                         name: 'item',
-                        message: 'a received item must have an item, and at least one storage',
+                        message: $localize`a received item must have an item, and at least one storage`,
                     },
                     {
                         name: 'storageForms',
@@ -331,7 +331,7 @@ export class ReceiveGOrder implements OnInit {
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ];
@@ -357,7 +357,7 @@ export class ReceiveGOrder implements OnInit {
                     data: {receipt: cloneDeep(val), fromNew: true, type: 'General'}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === 'Edit receive') {
+                    if (data === $localize`Edit receive`) {
                         this.fromNew = false;
                         this.isDataAvailable = false;
                         this.setOrderItemsEdit(+val['poCode']['id'], val);

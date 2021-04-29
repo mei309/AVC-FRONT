@@ -6,12 +6,12 @@ import { InventoryService } from './inventory.service';
 @Component({
     selector: 'app-inventory-details-dialog',
     template: `
-    <button printTitle="{{type}} details" printSectionId="print-section-inventory" printLazyLoad class="example-icon" mat-mini-fab style="float: right;">
+    <button printTitle="{{type}} details" printSectionId="print-section-inventory" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
-    <h1 mat-dialog-title>{{type}} details</h1>
+    <h1 mat-dialog-title i18n>{{type}} details</h1>
     <mat-dialog-content id="print-section-inventory">
-        <h1 class="only-print">{{type}} details</h1>
+        <h1 class="only-print" i18n>{{type}} details</h1>
         <show-details [dataSource]="inventoryItem">
         </show-details>
     </mat-dialog-content>
@@ -19,7 +19,7 @@ import { InventoryService } from './inventory.service';
         <ng-container *ngFor="let butt of buttons;">
             <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial>Close</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -44,12 +44,12 @@ export class InventoryDetailsDialogComponent {
     ngOnInit() {
         if(!this.fromNew) {
             switch (this.type) {
-                case 'Material usage':
+                case $localize`Material usage`:
                     this.LocalService.getMaterialUse(this.id).pipe(take(1)).subscribe( val => {
                         this.inventoryItem = val;
                     });
                     break;
-                case 'Relocation':
+                case $localize`Relocation`:
                     this.LocalService.getStorageRelocation(this.id).pipe(take(1)).subscribe( val => {
                         this.inventoryItem = val;
                     });
@@ -57,7 +57,7 @@ export class InventoryDetailsDialogComponent {
                     break;
             }
         }
-        this.buttons.push('Edit');
+        this.buttons.push($localize`Edit`);
     }
     onNoClick(): void {
         this.dialogRef.close('closed');

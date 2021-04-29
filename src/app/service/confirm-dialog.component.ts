@@ -6,15 +6,13 @@ import { Globals } from '../global-params.component';
 @Component({
   selector: 'confirm-dialog',
   template: ` 
-    <h1 mat-dialog-title>Process Managment</h1>
-    <h3 style="color: red">
-      {{message}}
-    </h3>
+    <h1 mat-dialog-title i18n>Process Managment</h1>
+    <h3 style="color: red">{{message}}</h3>
     <mat-dialog-content>
       <div *ngIf="manager" class="mat-checbox-group">
-        <mat-checkbox [disabled]="locked" [(ngModel)]="toLock">Lock</mat-checkbox>
-        <mat-checkbox [disabled]="fineled" [(ngModel)]="toFinal">Finalize</mat-checkbox>
-        <mat-checkbox [(ngModel)]="toCancal">Cancel process</mat-checkbox>
+        <mat-checkbox [disabled]="locked" [(ngModel)]="toLock" i18n>Lock</mat-checkbox>
+        <mat-checkbox [disabled]="fineled" [(ngModel)]="toFinal" i18n>Finalize</mat-checkbox>
+        <mat-checkbox [(ngModel)]="toCancal" i18n>Cancel process</mat-checkbox>
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end"> 
@@ -22,11 +20,11 @@ import { Globals } from '../global-params.component';
         <mat-form-field class="one-field">
             <textarea autocomplete="chrome-off" matInput [(ngModel)]="remarks" placeholder="Remarks"></textarea>
         </mat-form-field>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="confirm()">Confirm</button>       
-        <button class="raised-margin" mat-raised-button color="accent" (click)="reject()">Reject</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="confirm()" i18n>Confirm</button>       
+        <button class="raised-margin" mat-raised-button color="accent" (click)="reject()" i18n>Reject</button>
       </ng-container>
-      <button *ngIf="manager" class="raised-margin" mat-raised-button color="accent" (click)="onSave()">Save</button>
-      <button class="raised-margin" mat-raised-button color="accent" (click)="dialogRef.close('closed')">Close</button>
+      <button *ngIf="manager" class="raised-margin" mat-raised-button color="accent" (click)="onSave()" i18n>Save</button>
+      <button class="raised-margin" mat-raised-button color="accent" (click)="dialogRef.close('closed')" i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -58,7 +56,7 @@ export class ConfirmationDialog {
 
   confirm() {
     if(this.toCancal) {
-      this.message = 'Can not cancel with confirm';
+      this.message = $localize`Can not cancel with confirm`;
     } else {
       this.dialogRef.close({process: 'confirm', remarks: this.remarks, toLock: this.locked? false: this.toLock, toFinal: this.fineled? false: this.toFinal, toCancal: false});
     }
@@ -66,7 +64,7 @@ export class ConfirmationDialog {
 
   reject() {
     if((this.toLock && !this.locked) || (this.toFinal && !this.fineled)) {
-      this.message = 'Can not finalize or lock with reject';
+      this.message = $localize`Can not finalize or lock with reject`;
     } else {
       this.dialogRef.close({process: 'reject', remarks: this.remarks, toLock: false, toFinal: false, toCancal: this.toCancal});
     }

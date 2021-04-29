@@ -13,7 +13,7 @@ import { InventoryService } from './inventory.service';
     selector: 'material-use',
     template: `
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigUse" [putData]="dataSource" [mainLabel]="'Material use'" (submitForm)="submit($event)">
+        <dynamic-form [fields]="regConfigUse" [putData]="dataSource" mainLabel="Material use" (submitForm)="submit($event)" i18n-mainLabel>
         </dynamic-form>
     </div>
     `
@@ -41,7 +41,7 @@ export class MaterialUsageComponent implements OnInit {
         this.localService.addEditMaterialUse(value, this.dataSource? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
-                data: {inventoryItem: cloneDeep(val), fromNew: true, type: 'Material usage'}
+                data: {inventoryItem: cloneDeep(val), fromNew: true, type: $localize`Material usage`}
             });
             dialogRef.afterClosed().subscribe(result => {
                 if(result === 'Edit') {
@@ -99,7 +99,7 @@ export class MaterialUsageComponent implements OnInit {
     this.regConfigUse = [
         {
             type: 'date',
-            label: 'Date',
+            label: $localize`Date`,
             value: new Date(),
             name: 'recordedTime',
             options: 'withTime',
@@ -107,20 +107,20 @@ export class MaterialUsageComponent implements OnInit {
                 {
                     name: 'required',
                     validator: Validators.required,
-                    message: 'Date Required',
+                    message: $localize`Date Required`,
                 }
             ]
         },
         {
             type: 'select',
-            label: 'Production line',
+            label: $localize`Production line`,
             name: 'productionLine',
             options: this.genral.getProductionLine('PRODUCT_STORAGE'),
         },
         {
             type: 'bigexpand',
             name: 'materialUsed',
-            label: 'Material used',
+            label: $localize`Material used`,
             options: 'aloneNoAdd',
             collections: [
                 {
@@ -137,11 +137,11 @@ export class MaterialUsageComponent implements OnInit {
                             collections: [
                                 {
                                     type: 'select',
-                                    label: 'Supplier',
+                                    label: $localize`Supplier`,
                                 },
                                 {
                                     type: 'select',
-                                    label: '#PO',
+                                    label: $localize`#PO`,
                                     name: 'itemPo',
                                     collections: 'somewhere',
                                 },
@@ -149,19 +149,19 @@ export class MaterialUsageComponent implements OnInit {
                         },
                         {
                             type: 'select',
-                            label: 'Item',
+                            label: $localize`Item`,
                             name: 'item',
                             disable: true,
                         },
                         {
                             type: 'date',
-                            label: 'Process date',
+                            label: $localize`Process date`,
                             name: 'itemProcessDate',
                             disable: true,
                         },
                         {
                             type: 'input',
-                            label: 'Weight unit',
+                            label: $localize`Weight unit`,
                             name: 'measureUnit',
                             disable: true,
                         },
@@ -171,14 +171,14 @@ export class MaterialUsageComponent implements OnInit {
                             collections: [
                                 {
                                     type: 'input',
-                                    label: 'Number of units',
+                                    label: $localize`Number of units`,
                                     name: 'numberUnits',
                                     disable: true,
                                 },
                                 {
                                     type: 'input',
                                     name: 'unitAmount',
-                                    label: 'Unit weight',
+                                    label: $localize`Unit weight`,
                                     disable: true,
                                 //     collections: [
                                 //         {
@@ -195,13 +195,13 @@ export class MaterialUsageComponent implements OnInit {
                                 },
                                 {
                                     type: 'select',
-                                    label: 'Warehouse location',
+                                    label: $localize`Warehouse location`,
                                     name: 'warehouseLocation',
                                     disable: true,
                                 },
                                 {
                                     type: 'input',
-                                    label: 'Number available units',
+                                    label: $localize`Number available units`,
                                     name: 'numberAvailableUnits',
                                     disable: true,
                                 },
@@ -213,7 +213,7 @@ export class MaterialUsageComponent implements OnInit {
         },
         {
             type: 'button',
-            label: 'Submit',
+            label: $localize`Submit`,
             name: 'submit',
         }
     ];

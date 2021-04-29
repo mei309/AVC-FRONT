@@ -12,12 +12,12 @@ import { InventoryService } from './inventory.service';
     selector: 'inventory-relocation',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Relocation</h1></legend>
+        <legend><h1 i18n>Relocation</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" [mainLabel]="'Relocation'" (submitForm)="submit($event)">
+        <dynamic-form [fields]="regConfigHopper" [putData]="dataSource" mainLabel="Relocation" (submitForm)="submit($event)" i18n-mainLabel>
         </dynamic-form>
     </div>
     `
@@ -89,10 +89,10 @@ export class InventoryRelocationComponent implements OnInit {
         this.localService.addEditRelocationTransfer(value, this.isNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
-                data: {inventoryItem: cloneDeep(val), fromNew: true, type: 'Relocation'}
+                data: {inventoryItem: cloneDeep(val), fromNew: true, type: $localize`Relocation`}
             });
             dialogRef.afterClosed().subscribe(result => {
-                if(result === 'Edit') {
+                if(result === $localize`Edit`) {
                     // this.isDataAvailable = false;
                     this.isFormAvailable = false;
                     this.dataSource = null;
@@ -193,11 +193,11 @@ export class InventoryRelocationComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                     },
@@ -296,18 +296,18 @@ export class InventoryRelocationComponent implements OnInit {
             collections: [
                 {
                     type: 'select',
-                    label: 'Supllier',
+                    label: $localize`Supllier`,
                 },
                 {
                     type: 'select',
-                    label: '#PO',
+                    label: $localize`#PO`,
                     name: 'poCode',
                     collections: 'somewhere',
                     validations: [
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: '#PO Required',
+                            message: $localize`#PO Required`,
                         }
                     ]
                 },
@@ -315,7 +315,7 @@ export class InventoryRelocationComponent implements OnInit {
         },
         {
             type: 'date',
-            label: 'Date',
+            label: $localize`Date`,
             value: new Date(),
             name: 'recordedTime',
             options: 'withTime',
@@ -323,20 +323,20 @@ export class InventoryRelocationComponent implements OnInit {
                 {
                     name: 'required',
                     validator: Validators.required,
-                    message: 'Date Required',
+                    message: $localize`Date Required`,
                 }
             ]
         },
         {
             type: 'select',
-            label: 'Production line',
+            label: $localize`Production line`,
             name: 'productionLine',
             options: this.genral.getProductionLine('PRODUCT_STORAGE'),
         },
         {
              type: 'bigexpand',
              name: 'usedItemsNormal',
-             label: 'Transfering amounts',
+             label: $localize`Transfering amounts`,
              options: 'aloneNoAdd',
              collections: [
                  {
@@ -347,19 +347,19 @@ export class InventoryRelocationComponent implements OnInit {
                      collections: [
                          {
                              type: 'select',
-                             label: 'Item',
+                             label: $localize`Item`,
                              name: 'item',
                              disable: true,
                          },
                          {
                              type: 'date',
-                             label: 'Process date',
+                             label: $localize`Process date`,
                              name: 'itemProcessDate',
                              disable: true,
                          },
                          {
                              type: 'input',
-                             label: 'Weight unit',
+                             label: $localize`Weight unit`,
                              name: 'measureUnit',
                          },
                          {
@@ -368,25 +368,25 @@ export class InventoryRelocationComponent implements OnInit {
                              collections: [
                                  {
                                      type: 'input',
-                                     label: 'Number of units',
+                                     label: $localize`Number of units`,
                                      name: 'numberUnits',
                                      disable: true,
                                  },
                                  {
                                      type: 'input',
                                      name: 'unitAmount',
-                                     label: 'Unit weight',
+                                     label: $localize`Unit weight`,
                                      disable: true,
                                  },
                                  {
                                      type: 'select',
-                                     label: 'Warehouse location',
+                                     label: $localize`Warehouse location`,
                                      name: 'warehouseLocation',
                                      disable: true,
                                  },
                                  {
                                      type: 'input',
-                                     label: 'Number available units',
+                                     label: $localize`Number available units`,
                                      name: 'numberAvailableUnits',
                                      disable: true,
                                  },
@@ -399,7 +399,7 @@ export class InventoryRelocationComponent implements OnInit {
          {
              type: 'bigexpand',
              name: 'usedItemsTable',
-             label: 'Transfering amounts',
+             label: $localize`Transfering amounts`,
              options: 'aloneNoAdd',
              collections: [
                  {
@@ -410,25 +410,25 @@ export class InventoryRelocationComponent implements OnInit {
                      collections: [
                          {
                              type: 'inputReadonlySelect',
-                             label: 'Item descrption',
+                             label: $localize`Item descrption`,
                              name: 'item',
                              disable: true,
                          },
                          {
                              type: 'date',
-                             label: 'Process date',
+                             label: $localize`Process date`,
                              name: 'itemProcessDate',
                              disable: true,
                          },
                          {
                              type: 'inputReadonly',
-                             label: 'Weight unit',
+                             label: $localize`Weight unit`,
                              name: 'measureUnit',
                              disable: true,
                          },
                          {
                              type: 'inputReadonlySelect',
-                             label: 'Warehouse location',
+                             label: $localize`Warehouse location`,
                              name: 'warehouseLocation',
                              disable: true,
                          },
@@ -440,7 +440,7 @@ export class InventoryRelocationComponent implements OnInit {
                         //  },
                          {
                              type: 'arrayordinal',
-                             label: 'Unit weight',
+                             label: $localize`Unit weight`,
                              name: 'amounts',
                              inputType: 'choose',
                              options: 3,
@@ -453,11 +453,11 @@ export class InventoryRelocationComponent implements OnInit {
          {
              type: 'bignotexpand',
              name: 'newWarehouse',
-             label: 'New warehouse location',
+             label: $localize`New warehouse location`,
              collections: [
                  {
                      type: 'select',
-                     label: 'Warehouse location',
+                     label: $localize`Warehouse location`,
                      name: 'warehouseLocation',
                      options: this.genral.getWearhouses(),
                  },
@@ -465,7 +465,7 @@ export class InventoryRelocationComponent implements OnInit {
          },
         {
             type: 'button',
-            label: 'Submit',
+            label: $localize`Submit`,
             name: 'submit',
         }
     ];

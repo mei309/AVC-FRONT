@@ -11,13 +11,13 @@ import { Genral } from '../genral.service';
     selector: 'items-setup',
     template: `
     <div style="text-align: center;">
-        <h1>Items setup</h1>
+        <h1 i18n>Items setup</h1>
         <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()">
-            <mat-button-toggle value="Cbulk">Cashew bulk items</mat-button-toggle>
-            <mat-button-toggle value="Cpacked">Cashew packed items</mat-button-toggle>
-            <mat-button-toggle value="Gbulk">General bulk items</mat-button-toggle>
-            <mat-button-toggle value="Gpacked">General packed items</mat-button-toggle>
-            <mat-button-toggle value="waste">Waste items</mat-button-toggle>
+            <mat-button-toggle value="Cbulk" i18n>Cashew bulk items</mat-button-toggle>
+            <mat-button-toggle value="Cpacked" i18n>Cashew packed items</mat-button-toggle>
+            <mat-button-toggle value="Gbulk" i18n>General bulk items</mat-button-toggle>
+            <mat-button-toggle value="Gpacked" i18n>General packed items</mat-button-toggle>
+            <mat-button-toggle value="waste" i18n>Waste items</mat-button-toggle>
         </mat-button-toggle-group>
         <h2>{{choosedOne}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
@@ -47,14 +47,14 @@ export class ItemsSetupComponent {
         this.columnsSetup = [
             {
                 name: 'value',
-                label: 'Descrption',
+                label: $localize`Descrption`,
                 search: 'normal',
             }
         ];
         this.regConfigTemp = [
             {
                 name: 'value',
-                label: 'Descrption',
+                label: $localize`Descrption`,
                 type: 'input',
             }
         ];
@@ -62,7 +62,7 @@ export class ItemsSetupComponent {
             this.columnsSetup.push(
                 {
                     type: 'weight',
-                    label: 'Bag weight',
+                    label: $localize`Bag weight`,
                     name: 'unit',
                     search: 'normal',
                     // collections: 'measureUnit',
@@ -76,14 +76,14 @@ export class ItemsSetupComponent {
                     collections: [
                         {
                             type: 'input',
-                            label: 'Unit weight',
+                            label: $localize`Unit weight`,
                             name: 'amount',
                             inputType: 'numeric',
                             options: 3,
                         },
                         {
                             type: 'select',
-                            label: 'Weight unit',
+                            label: $localize`Weight unit`,
                             name: 'measureUnit',
                             options: this.genral.getMeasureUnit(),
                         },
@@ -94,7 +94,7 @@ export class ItemsSetupComponent {
             this.columnsSetup.push(
                 {
                     name: 'measureUnit',
-                    label: 'Default measure unit',
+                    label: $localize`Default measure unit`,
                     search: 'select',
                     options: this.getMU(this.choosedOne.charAt(0)),
                 }
@@ -102,7 +102,7 @@ export class ItemsSetupComponent {
             this.regConfigTemp.push(
                 {
                     name: 'measureUnit',
-                    label: 'Default measure unit',
+                    label: $localize`Default measure unit`,
                     type: 'selectNormal',
                     options: this.getMU(this.choosedOne.charAt(0)),
                     // disable: true,
@@ -112,7 +112,7 @@ export class ItemsSetupComponent {
         this.columnsSetup.push(
             {
                 name: 'productionUse',
-                label: 'Production use',
+                label: $localize`Production use`,
                 search: 'select',
                 options: this.getProductionUse(this.choosedOne.charAt(0)),
             }
@@ -120,7 +120,7 @@ export class ItemsSetupComponent {
         this.regConfigTemp.push(
             {
                 name: 'productionUse',
-                label: 'Production use',
+                label: $localize`Production use`,
                 type: 'selectNormal',
                 options: this.getProductionUse(this.choosedOne.charAt(0)),
             }
@@ -129,7 +129,7 @@ export class ItemsSetupComponent {
         this.regConfigTemp.push(
             {
                 name: 'submit',
-                label: 'Submit',
+                label: $localize`Submit`,
                 type: 'button',
             }
         );
@@ -141,7 +141,7 @@ export class ItemsSetupComponent {
             case 'C':
                 return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'];
             case 'G':
-                return ['INGREDIENTS', 'PACKING_SUPPLYES'];
+                return ['INGREDIENTS', 'PACKING_SUPPLYES', 'GENERAL_INVENTORY'];
             default:
                 return ['WASTE'];
         }

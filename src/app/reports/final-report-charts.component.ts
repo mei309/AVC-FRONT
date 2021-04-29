@@ -60,21 +60,21 @@ export class FinalReportChartsComponent {
           if (matches) {
             return [
               // { title: 'Total + Product Loss Per Process', cols: 1, rows: 1, type: 'vertical-2d', result: 'bothLoss' },
-              { title: 'Unaccounted Difference', cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
-              { title: 'Product Difference', cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
+              { title: $localize`Unaccounted Difference`, cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
+              { title: $localize`Product Difference`, cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
               // { title: 'Aggregate Difference from Receipt (Order, Real)', cols: 1, rows: 1, type: 'vertical-2d', result: this.orderLoss },
-              { title: 'Aggregate Difference from Receipt (Order)', cols: 1, rows: 1, type: 'vertical', result: this.receiptOrder },
-              { title: 'Aggregate Difference from Receipt (Real)', cols: 1, rows: 1, type: 'vertical', result: this.receiptReal },
+              { title: $localize`Aggregate Difference from Receipt (Order)`, cols: 1, rows: 1, type: 'vertical', result: this.receiptOrder },
+              { title: $localize`Aggregate Difference from Receipt (Real)`, cols: 1, rows: 1, type: 'vertical', result: this.receiptReal },
             ];
           }
     
           return [
             // { title: 'Total + Product Loss Per Process', cols: 2, rows: 1, type: 'vertical-2d', result: 'bothLoss' },
-            { title: 'Unaccounted Difference', cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
-            { title: 'Product Difference', cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
+            { title: $localize`Unaccounted Difference`, cols: 1, rows: 1, type: 'vertical', result: this.totalLoss },
+            { title: $localize`Product Difference`, cols: 1, rows: 1, type: 'vertical', result: this.productLoss },
             // { title: 'Aggregate Difference from Receipt (Order, Real)', cols: 2, rows: 1, type: 'vertical-2d', result: this.orderLoss },
-            { title: 'Aggregate Difference from Receipt (Order)', cols: 1, rows: 1, type: 'vertical', result: this.receiptOrder },
-            { title: 'Aggregate Difference from Receipt (Real)', cols: 1, rows: 1, type: 'vertical', result: this.receiptReal },
+            { title: $localize`Aggregate Difference from Receipt (Order)`, cols: 1, rows: 1, type: 'vertical', result: this.receiptOrder },
+            { title: $localize`Aggregate Difference from Receipt (Real)`, cols: 1, rows: 1, type: 'vertical', result: this.receiptReal },
           ];
         })
       );
@@ -145,14 +145,18 @@ export class FinalReportChartsComponent {
                 //         }
                 //     ]
                 // });
-                this.receiptOrder.push({
-                  name: el['process'],
-                  value: el['receivedOrderUnitsLoss']? el['receivedOrderUnitsLoss'] : 0,
-              });
-              this.receiptReal.push({
-                name: el['process'],
-                value: el['receivedCountLoss']? el['receivedCountLoss'] : 0,
-            });
+                if(el['receivedOrderUnitsLoss']) {
+                  this.receiptOrder.push({
+                    name: el['process'],
+                    value: el['receivedOrderUnitsLoss'],
+                  });
+                }
+                if(el['receivedCountLoss']) {
+                  this.receiptReal.push({
+                    name: el['process'],
+                    value: el['receivedCountLoss'],
+                  });
+                }
         });
     }
 

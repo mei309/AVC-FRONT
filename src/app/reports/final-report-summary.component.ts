@@ -42,38 +42,38 @@ export class FinalReportSummaryComponent {
     processess = [
         {
             name: 'orders',
-            label: 'Orders',
+            label: $localize`Orders`,
             type: 'normal',
             collections: [
                   {
                     type: 'dateTime',
                     name: 'contractDate',
-                    label: 'Contract date',
+                    label: $localize`Contract date`,
                   },
                   {
                     type: 'nameId',
                     name: 'item',
-                    label: 'Product descrption',
+                    label: $localize`Product descrption`,
                   },
                   {
                     type: 'weight2',
                     name: 'numberUnits',
-                    label: 'Amount',
+                    label: $localize`Amount`,
                   },
                   {
                     type: 'currency',
                     name: 'unitPrice',
-                    label: 'Price per unit',
+                    label: $localize`Price per unit`,
                   },
                   {
                     name: 'defects',
-                    label: '% defects',
+                    label: $localize`% defects`,
                     search: 'normal',
                   },
                   {
                     type: 'date',
                     name: 'deliveryDate',
-                    label: 'Delivery date',
+                    label: $localize`Delivery date`,
                     compare: {
                       type: 'date',
                       condition: 'RECEIVED',
@@ -83,29 +83,29 @@ export class FinalReportSummaryComponent {
                   {
                     type: 'arrayVal',
                     name: 'approvals',
-                    label: 'Approvals',
+                    label: $localize`Approvals`,
                   },
             ]
         },
         {
             name: 'receiving',
-            label: 'Receiving',
+            label: $localize`Receiving`,
             type: 'group',
             collections: [
                   {
                     type: 'weight2',
                     name: 'totalAmount',
-                    label: 'Total receipt',
+                    label: $localize`Total receipt`,
                   },
                   {
                     type: 'nameId',
                     name: 'item',
-                    label: 'Product descrption',
+                    label: $localize`Product descrption`,
                   },
                   {
                     type: 'weight',
                     name: 'receivedOrderUnits',
-                    label: 'Payable units',
+                    label: $localize`Payable units`,
                     compare: {
                       name: 'orderBalance',
                       type: 'weight',
@@ -114,7 +114,7 @@ export class FinalReportSummaryComponent {
                   {
                     type: 'weight2',
                     name: 'receiptAmount',
-                    label: 'Item amount',
+                    label: $localize`Item amount`,
                     compare: {
                       name: 'orderBalance',
                       type: 'weight',
@@ -123,17 +123,17 @@ export class FinalReportSummaryComponent {
                   {
                     type: 'weight',
                     name: 'extraAdded',
-                    label: 'Extra requsted',
+                    label: $localize`Extra requsted`,
                   },
                   {
                     type: 'dateTime',
                     name: 'receiptDate',
-                    label: 'Receipt date',
+                    label: $localize`Receipt date`,
                   },
                   {
                     type: 'array',
                     name: 'storage',
-                    label: 'Storage',
+                    label: $localize`Storage`,
                   },
                   {
                     name: 'receiptRows',
@@ -145,76 +145,76 @@ export class FinalReportSummaryComponent {
         },
         {
             name: 'qcRaw',
-            label: 'Receiving QC',
+            label: $localize`Receiving QC`,
             type: 'normal',
             collections: [
                   {
                     type: 'nameId',
                     name: 'item',
-                    label: 'Product descrption',
+                    label: $localize`Product descrption`,
                   },
                   {
                     type: 'percentNormal',
                     name: 'totalDamage',
-                    label: 'Total damage',
+                    label: $localize`Total damage`,
                   },
                   {
                     type: 'percentNormal',
                     name: 'totalDefects',
-                    label: 'Total defects',
+                    label: $localize`Total defects`,
                   },
                   {
                     type: 'percentNormal',
                     name: 'totalDefectsAndDamage',
-                    label: 'Total defects + damage',
+                    label: $localize`Total defects + damage`,
                   },
                   {
                     type: 'dateTime',
                     name: 'checkDate',
-                    label: 'Check date',
+                    label: $localize`Check date`,
                   },
             ]
         },
         {
             name: 'cleaning',
-            label: 'Cleaning',
+            label: $localize`Cleaning`,
             type: 'normal'
         },
         {
             name: 'relocation',
-            label: 'Relocation',
+            label: $localize`Relocation`,
             type: 'normal',
             collections: [
                 {
                     type: 'itemWeight',
                     name: 'usedItems',
-                    label: 'Used items',
+                    label: $localize`Used items`,
                 },
                 {
                     type: 'itemWeight',
                     name: 'itemCounts',
-                    label: 'Counted items',
+                    label: $localize`Counted items`,
                 },
                 {
                     type: 'weight2',
                     name: 'usedCountDifference',
-                    label: 'Difference',
+                    label: $localize`Difference`,
                 },
                 {
                     type: 'dateTime',
                     name: 'recordedTime',
-                    label: 'Recorded time',
+                    label: $localize`Recorded time`,
                 },
                 {
                     type: 'normal',
                     name: 'status',
-                    label: 'Status',
+                    label: $localize`Status`,
                 },
             ]
         },
         {
             name: 'roasting',
-            label: 'Roasting',
+            label: $localize`Roasting`,
             type: 'normal'
         },
         // {
@@ -224,49 +224,49 @@ export class FinalReportSummaryComponent {
         // },
         {
             name: 'packing',
-            label: 'Packing',
+            label: $localize`Packing`,
             type: 'normal'
         },
         {
             name: 'loading',
-            label: 'Loading',
+            label: $localize`Loading`,
             type: 'group',
             collections: [
               {
                   type: 'nameId',
                   name: 'shipmentCode',
-                  label: 'Shipment code',
+                  label: $localize`Shipment code`,
                   group: 'shipmentCode',
               },
               {
                   type: 'arrayVal',
                   name: 'poCodes',
-                  label: 'PO#',
+                  label: $localize`PO#`,
                   // search: 'object',
                   group: 'poCodes',
               },
               {
                   type: 'dateTime',
                   name: 'recordedTime',
-                  label: 'Recorded time',
+                  label: $localize`Recorded time`,
                   group: 'poCodes',
               },
               {
                   type: 'nameId',
                   name: 'item',
-                  label: 'Product descrption',
+                  label: $localize`Product descrption`,
               },
               {
                   type: 'weight2',
                   name: 'totalRow',
-                  label: 'Loaded amounts',
+                  label: $localize`Loaded amounts`,
                   // type: 'object',
                   // options: 'currency',
               },
               {
                   type: 'normal',
                   name: 'status',
-                  label: 'Status',
+                  label: $localize`Status`,
               },
               {
                 name: 'loadedTotals',
@@ -282,27 +282,27 @@ export class FinalReportSummaryComponent {
             {
                 type: 'itemWeight',
                 name: 'usedItems',
-                label: 'Used items',
+                label: $localize`Used items`,
             },
             {
                 type: 'itemWeight',
                 name: 'producedItems',
-                label: 'Produced items',
+                label: $localize`Produced items`,
             },
             {
                 type: 'weight2',
                 name: 'processGain',
-                label: 'Difference',
+                label: $localize`Difference`,
             },
             {
                 type: 'dateTime',
                 name: 'recordedTime',
-                label: 'Recorded time',
+                label: $localize`Recorded time`,
             },
             {
                 type: 'normal',
                 name: 'status',
-                label: 'Status',
+                label: $localize`Status`,
             },
         ];
 

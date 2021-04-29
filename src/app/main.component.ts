@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Genral } from './genral.service';
-import { AuthGaurdService } from './service/auth-gaurd.service';
 import { AuthenticateService } from './service/authenticate.service';
 import { LoadingService } from './service/loading-service.service';
-
 
 @Component({
   selector: 'app-main',
@@ -14,6 +14,13 @@ import { LoadingService } from './service/loading-service.service';
 export class MainComponent {
   // public visibility: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   // this.visibility = this.loadingService.visibility;
+  language: FormControl;
+  languageList = [
+    { code: 'en-US', label: 'US' },
+    { code: 'en-UK', label: 'UK' },
+    { code: 'vi', label: 'Tiếng Việt' },
+    { code: 'INDIA', label: 'हिंदी' },
+  ]; 
   
   destroySubject$: Subject<void> = new Subject();
   
@@ -22,10 +29,12 @@ export class MainComponent {
 
   roleNumber: number = 0;
 
-  constructor(private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {
+  constructor(@Inject(LOCALE_ID) private _locale: string, private router: Router,
+    private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {
     if (sessionStorage.getItem('username') === 'isral') {
       this.roleNumber = 1;
     }
+    this.language = new FormControl(this.languageList.find(lang => lang.code === _locale));
   }
   
   ngOnInit() {
@@ -46,6 +55,10 @@ export class MainComponent {
   }
   onPrint() {
     window.print();
+  }
+
+  navigateTo(value){
+    this.router.navigate([value.code]);
   }
 
   ngOnDestroy() {

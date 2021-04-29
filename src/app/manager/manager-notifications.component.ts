@@ -67,13 +67,13 @@ export class ManagmentNotificationsComponent implements OnInit {
 @Component({
   selector: 'app-edit-notifiction-dialog',
   template: ` 
-  <h1 style="text-align:center">Alert for {{proccesName}}</h1>
+  <h1 style="text-align:center" i18n>Alert for {{proccesName}}</h1>
   <div *ngIf="isDataAvailable" class="tables mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="user">
             <th mat-header-cell *matHeaderCellDef>
-              <h3>User</h3>
+              <h3 i18n>User</h3>
             </th>
             <td mat-cell *matCellDef="let element"> {{element['user']}} </td>
         </ng-container>
@@ -90,7 +90,7 @@ export class ManagmentNotificationsComponent implements OnInit {
     </table>
   </div>
   <div style="text-align: right;">
-    <button class="raised-margin" mat-raised-button color="primary" (click)="submit()">Submit</button>
+    <button class="raised-margin" mat-raised-button color="primary" (click)="submit()" i18n>Submit</button>
   </div>
   `,
 })

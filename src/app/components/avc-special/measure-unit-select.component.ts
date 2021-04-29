@@ -1,11 +1,9 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-
 import { FieldConfig } from '../../field.interface';
+
 
 @Component({
   selector: 'select-measure-unit',
@@ -81,7 +79,6 @@ export class SelectMeasureUnitComponent implements OnInit {
             this.group.controls[this.field.name].setValue(null);
         }
     }, 300);
-    // this.group.controls[this.field.name].setValue(event.target);
   }
 
   ngOnDestroy() {

@@ -77,8 +77,8 @@ import { PopupformDialog } from '../popupform/popupform.component';
 
     </table>
     <div class="margin-top" style="text-align:right">
-        <button type="submit" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary">Submit</button>
-        <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onReset()">Reset</button>
+        <button type="submit" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" i18n>Submit</button>
+        <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onReset()" i18n>Reset</button>
     </div>
 </form>
   `,
@@ -298,7 +298,7 @@ export class TableInfoGroupComponent implements OnInit {
       });
       this.submitForm.emit(final);
     } else {
-      this._snackBar.open('please fill in all required fields', 'ok', {
+      this._snackBar.open($localize`please fill in all required fields`, 'ok', {
         duration: 5000,
         // panelClass: 'blue-snackbar',
         verticalPosition:'top'

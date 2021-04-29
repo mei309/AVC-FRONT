@@ -47,10 +47,10 @@ export class QcReceiveComponent implements OnInit {
             this.localService.addEditCashewReceiveCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
-                    data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Raw cashew check'}
+                    data: {qcCheck: cloneDeep(val), fromNew: true, type: $localize`Raw cashew check`}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === 'Edit') { 
+                    if (data === $localize`Edit`) { 
                         this.isDataAvailable = false;
                         this.putData = val;
                         this.cdRef.detectChanges();
@@ -65,10 +65,10 @@ export class QcReceiveComponent implements OnInit {
             this.localService.addEditCashewRoastCheck(value, fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(QcDetailsDialogComponent, {
                     width: '80%',
-                    data: {qcCheck: cloneDeep(val), fromNew: true, type: 'Roast cashew check'}
+                    data: {qcCheck: cloneDeep(val), fromNew: true, type: $localize`Roast cashew check`}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === 'Edit') { 
+                    if (data === $localize`Edit`) { 
                         this.isDataAvailable = false;
                         this.putData = val;
                         this.cdRef.detectChanges();
@@ -155,18 +155,18 @@ export class QcReceiveComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supllier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                         validations: [
                             {
                                 name: 'required',
                                 validator: Validators.required,
-                                message: '#PO Required',
+                                message: $localize`#PO Required`,
                             }
                         ]
                     },
@@ -174,7 +174,7 @@ export class QcReceiveComponent implements OnInit {
             },
             {
                 type: 'date',
-                label: 'Date',
+                label: $localize`Date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -183,43 +183,43 @@ export class QcReceiveComponent implements OnInit {
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Date Required',
+                        message: $localize`Date Required`,
                     }
                 ]
             },
             {
               type: 'radiobutton',
               name: 'checkedBy',
-              label: 'Checked by',
+              label: $localize`Checked by`,
               value: 'avc lab',
               options: this.genral.getQcCheckOrganzition(),
               validations: [
                     {
                         name: 'required',
                         validator: Validators.required,
-                        message: 'Required',
+                        message: $localize`Required`,
                     }
                 ]
             },
             {
                 type: 'input',
-                label: 'Inspector',
+                label: $localize`Inspector`,
                 name: 'inspector',
             },
             {
                 type: 'input',
-                label: 'Sample taker',
+                label: $localize`Sample taker`,
                 name: 'sampleTaker',
             },
             {
                 type: 'bigexpand',
                 name: 'testedItems',
-                label: 'Weights',
+                label: $localize`Weights`,
                 options: 'tabs',
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
                         options: this.genral.getItemsCashew(this.type.startsWith('QC roasting')? 'RoastPacked' : 'RawRoast'),
@@ -227,43 +227,43 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'input',
-                        label: 'Number of samples',
+                        label: $localize`Number of samples`,
                         name: 'numberOfSamples',
                         inputType: 'numeric',
                     },
                     {
                         type: 'input',
-                        label: 'Sample Weight',
+                        label: $localize`Sample Weight`,
                         name: 'sampleWeight',
                         inputType: 'numeric',
                         options: 3,
                     },
                     {
                         type: 'selectNormal',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                         options: ['OZ', 'GRAM', 'LBS'],
                     },
                     {
                         type: 'percentinput',
-                        label: 'Humidity',
+                        label: $localize`Humidity`,
                         name: 'humidity',
                     },
                     {
                         type: 'input',
-                        label: 'Whole count per Lb',
+                        label: $localize`Whole count per Lb`,
                         name: 'wholeCountPerLb',
                         inputType: 'numeric',
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'Small size',
+                        label: $localize`Small size`,
                         name: 'smallSize',
                         collections: 'wholeCountPerLb',
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'WS',
+                        label: $localize`WS`,
                         name: 'ws',
                         inputType: 'measureUnit',
                         options: 3,
@@ -271,7 +271,7 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'LP',
+                        label: $localize`LP`,
                         name: 'lp',
                         inputType: 'measureUnit',
                         options: 3,
@@ -279,7 +279,7 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'Breakage',
+                        label: $localize`Breakage`,
                         name: 'breakage',
                         inputType: 'measureUnit',
                         options: 3,
@@ -287,7 +287,7 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'Foreign material',
+                        label: $localize`Foreign material`,
                         name: 'foreignMaterial',
                         inputType: 'measureUnit',
                         options: 3,
@@ -296,49 +296,49 @@ export class QcReceiveComponent implements OnInit {
                     {
                         type: 'calculatefew',
                         name: 'damage',
-                        label: 'Damage',
+                        label: $localize`Damage`,
                         options: 'measureUnit',
                         inputType: '+',
                         value: 'sampleWeight',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Mold',
+                                label: $localize`Mold`,
                                 name: 'mold',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Dirty',
+                                label: $localize`Dirty`,
                                 name: 'dirty',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Light dirty',
+                                label: $localize`Light dirty`,
                                 name: 'lightDirty',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Deacy',
+                                label: $localize`Deacy`,
                                 name: 'decay',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Insect damage',
+                                label: $localize`Insect damage`,
                                 name: 'insectDamage',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Testa',
+                                label: $localize`Testa`,
                                 name: 'testa',
                                 inputType: 'numeric',
                                 options: 3,
@@ -348,49 +348,49 @@ export class QcReceiveComponent implements OnInit {
                     {
                         type: 'calculatefew',
                         name: 'defects',
-                        label: 'Defects',
+                        label: $localize`Defects`,
                         options: 'measureUnit',
                         inputType: '+',
                         value: 'sampleWeight',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Scrohed',
+                                label: $localize`Scrohed`,
                                 name: 'scorched',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Deep cut',
+                                label: $localize`Deep cut`,
                                 name: 'deepCut',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Off colour',
+                                label: $localize`Off colour`,
                                 name: 'offColour',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Shrivel',
+                                label: $localize`Shrivel`,
                                 name: 'shrivel',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Desert/dark',
+                                label: $localize`Desert/dark`,
                                 name: 'desert',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'input',
-                                label: 'Deep spot',
+                                label: $localize`Deep spot`,
                                 name: 'deepSpot',
                                 inputType: 'numeric',
                                 options: 3,
@@ -399,7 +399,7 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'inputtopercentage',
-                        label: 'Total weight lost after roasting',
+                        label: $localize`Total weight lost after roasting`,
                         name: 'rostingWeightLoss',
                         inputType: 'measureUnit',
                         options: 3,
@@ -407,13 +407,13 @@ export class QcReceiveComponent implements OnInit {
                     },
                     {
                         type: 'radiobutton',
-                        label: 'Rosted color',
+                        label: $localize`Rosted color`,
                         name: 'colour',
                         options: ['NOT_OK', 'OK'],
                     },
                     {
                         type: 'radiobutton',
-                        label: 'Flavour',
+                        label: $localize`Flavour`,
                         name: 'flavour',
                         options: ['NOT_OK', 'OK'],
                     },
@@ -421,7 +421,7 @@ export class QcReceiveComponent implements OnInit {
                 validations: [
                     {
                       name: 'item',
-                      message: 'a check must have a item and sample weight',
+                      message: $localize`a check must have a item and sample weight`,
                     },
                     {
                       name: 'sampleWeight',
@@ -623,32 +623,32 @@ export class QcReceiveComponent implements OnInit {
             {
                 type: 'bigexpand',
                 name: 'processItems',
-                label: 'Storage(if stored)',
+                label: $localize`Storage(if stored)`,
                 options: 'aloneNoAdd',
                 collections: [
                     {
                         type: 'selectNormal',
-                        label: 'Weight unit',
+                        label: $localize`Weight unit`,
                         name: 'measureUnit',
                         // inputType: 'item',
                         options: this.genral.getMeasureUnit(),
                     },
                     {
                         type: 'bigexpand',
-                        label: 'Amounts',
+                        label: $localize`Amounts`,
                         name: 'storageForms',
                         options: 'aloneNoAddNoFrameInline',
                         collections: [
                             {
                                 type: 'input',
-                                label: 'Number of units',
+                                label: $localize`Number of units`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
                                 options: 3,
                             },
                             {
                                 type: 'select',
-                                label: 'Warehouse location',
+                                label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
                                 options: this.genral.getWearhouses(),
                             },
@@ -662,7 +662,7 @@ export class QcReceiveComponent implements OnInit {
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
         ];

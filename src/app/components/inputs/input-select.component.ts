@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
   template: `
 <mat-form-field class="one-group" [formGroup]="myFormGroup">
   <input matInput numeric [formControlName]="field.collections[0].name" [decimals]="field.collections[0].options" [placeholder]="field.collections[0].label" type="text" maxlength="255">
-  <mat-error *ngIf="myFormGroup.get(field.collections[0].name).hasError('maxlength')">Max length 255</mat-error>
+  <mat-error *ngIf="myFormGroup.get(field.collections[0].name).hasError('maxlength')" i18n>Max length 255</mat-error>
   <ng-container *ngFor="let validation of field.collections[0].validations;" ngProjectAs="mat-error">
     <mat-error *ngIf="myFormGroup.get(field.collections[0].name).hasError(validation.name)">{{validation.message}}</mat-error>
   </ng-container>

@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { isEqual } from 'lodash-es';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 @Component({
   selector: 'search-group-details',
@@ -10,19 +13,19 @@ import { OneColumn } from '../field.interface';
   <div class="tables mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource">
         
-        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns">
+        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns" [formGroup]="searchGroup">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
-                <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print">
-                    <mat-select *ngSwitchCase="'select'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
+                <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print" [formGroupName]="column.name">
+                    <mat-select *ngSwitchCase="'select'" placeholder="Search" formControlName="val" i18n-placeholder>
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
                     </mat-select>
-                    <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)">
+                    <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" formControlName="val" i18n-placeholder>
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
-                    <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)">
+                    <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" formControlName="val" i18n-placeholder>
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
@@ -30,16 +33,16 @@ import { OneColumn } from '../field.interface';
                     
                     <input *ngSwitchCase="'none'" matInput readonly>
 
-                    <mat-date-range-input *ngSwitchCase="'dates'" [rangePicker]="picker4">
-                      <input matStartDate placeholder="Start date" #dateRangeStart (focus)="picker4.open()">
-                      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)" (focus)="picker4.open()">
+                    <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" [rangePicker]="picker4" i18n-placeholder>
+                      <input matStartDate placeholder="Start date" #dateRangeStart (focus)="picker4.open()" i18n-placeholder>
+                      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="inlineRangeChange(dateRangeStart.value, dateRangeEnd.value, column.name)" (focus)="picker4.open()" i18n-placeholder>
                     </mat-date-range-input>
                     <mat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker4"></mat-datepicker-toggle>
                     <mat-date-range-picker #picker4></mat-date-range-picker>
 
-                    <input *ngSwitchCase="'object'"  autocomplete="off" matInput type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilterObject(column.name)" placeholder="Search">
+                    <input *ngSwitchCase="'object'"  autocomplete="off" matInput type="search" formControlName="val" placeholder="Search" i18n-placeholder>
 
-                    <input *ngSwitchDefault matInput autocomplete="off" type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(column.name)" placeholder="Search">
+                    <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
                 </mat-form-field>
             </th>
             <td mat-cell style="vertical-align: top;
@@ -55,11 +58,11 @@ import { OneColumn } from '../field.interface';
         </ng-container>
 
 
-        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localItemWeightColumns">
+        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localItemWeightColumns" [formGroup]="searchGroup">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
-                <mat-form-field style="width:90%" class="no-print">
-                    <mat-select placeholder="Search" (focus)="listAmountWithUnit(column.name)" (selectionChange)="applyFilter($event.value)">
+                <mat-form-field style="width:90%" class="no-print" [formGroupName]="column.name">
+                    <mat-select placeholder="Search" formControlName="val" i18n-placeholder>
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
@@ -107,15 +110,18 @@ import { OneColumn } from '../field.interface';
   <ng-container *ngIf="!dataSource">
     <mat-spinner *ngIf="secondToUpload"></mat-spinner>
   </ng-container>
-  <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2>No records found</h2></div>
+  <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2 i18n>No records found</h2></div>
   `,
 })
 export class SearchGroupDetailsComponent {
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     
+    destroySubject$: Subject<void> = new Subject();
+
     @Input() withPaginator: boolean = true;
 
+    searchGroup: FormGroup;
     
     totalColumn: OneColumn;
     @Input() set totelColumn(value) {
@@ -174,7 +180,7 @@ export class SearchGroupDetailsComponent {
 
   t0;
   
-  constructor() {
+  constructor(private fb: FormBuilder) {
     // this.t0 = performance.
   }
   // ngAfterViewChecked() {
@@ -229,6 +235,7 @@ export class SearchGroupDetailsComponent {
   }
 
   preperColumns() {
+    this.searchGroup = this.fb.group({});
     if(this.oneColumns[0].type === 'idGroup'){
       this.oneColumns.splice(0, 1);
       this.groupId = true;
@@ -239,11 +246,29 @@ export class SearchGroupDetailsComponent {
       } else if(element.type === 'itemWeight') {
           this.localItemWeightColumns.push(element);
           this.columnsDisplay.push(element.name);
+          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search}));
       } else {
           this.localGroupOneColumns.push(element);
           this.columnsDisplay.push(element.name);
+          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search}));
       }
     });
+    this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {
+      this.setFilters(filters);
+    });
+  }
+
+  setFilters(filters) {
+      let newFilters = [];
+      Object.keys(filters).forEach(filt => {
+        if(filters[filt].val){
+          filters[filt].cloumn = filt;
+          newFilters.push(filters[filt]);
+        }
+      });
+      this.dataSource.filterPredicate = this.customFilterPredicate;
+      this.dataSource.filter = newFilters;
+      this.readySpanData();
   }
 
   // columnsKidArray(element) {
@@ -266,6 +291,39 @@ export class SearchGroupDetailsComponent {
 
   openDetails(value: any) {
     this.details.emit(value);
+  }
+
+
+  customFilterPredicate(data: any, filters): boolean {        
+    for (let i = 0; i < filters.length; i++) {
+      switch (filters[i].type) {
+        case 'selectObjObj':
+        case 'object':
+          const fitsThisObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          if (!fitsThisObj) {
+            return false;
+          }
+          break;
+        case 'listAmountWithUnit':
+          const fitsThisList = data[filters[i].cloumn].some(a => a['item']['value'].includes(filters[i].val));
+          if (!fitsThisList) {
+            return false;
+          }
+          break;
+        case 'dates':
+          var dateStamp = (new Date(data[filters[i].cloumn])).getTime();
+          if(!(dateStamp > filters[i].val.begin.setHours(0,0,0,0) && dateStamp < filters[i].val.end.setHours(23,59,59,999))){
+            return false;
+          }
+          break;
+        default:
+          const fitsThisFilter = data[filters[i].cloumn].includes(filters[i].val);
+          if (!fitsThisFilter) {
+            return false;
+          }
+      }
+    }
+    return true;
   }
 
 
@@ -292,9 +350,10 @@ export class SearchGroupDetailsComponent {
   }
   inlineRangeChange($eventstart: Date, $eventend: Date, column: string) {
     if($eventend) {
-      this.setupDateFilter(column);
-      this.dataSource.filter = {begin: new Date($eventstart), end: new Date($eventend)};
-      this.readySpanData();
+      // this.setupDateFilter(column);
+      let filters = this.searchGroup.value;
+      filters[column]['val'] = {begin: new Date($eventstart), end: new Date($eventend)};
+      this.setFilters(filters);
     }
   }
   setupDateFilter(column: string) {
@@ -445,9 +504,9 @@ export class SearchGroupDetailsComponent {
           }
           for (let ind = index; ind < index+this.spans[index][this.totalColumn.group]; ind++) {
             if(this.dataSource.filteredData[ind][this.totalColumn.name]) {
-              if(startNumber && this.dataSource.filteredData[ind][this.totalColumn.name][0]['amount']) {
+              if(startNumber && this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount']) {
                 totalLoss += this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount'];
-                totalAll += (this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount'])/this.dataSource.filteredData[ind][this.totalColumn.name][0]['amount'];
+                totalAll += this.dataSource.filteredData[ind]['usedAmounts']['amount'];
               }
               for (let m = startNumber; m < weightSize; m++) {
                 myNumbers[m] += this.dataSource.filteredData[ind][this.totalColumn.name][m]['amount'];
@@ -456,7 +515,7 @@ export class SearchGroupDetailsComponent {
           }
           var result = new Array<object>(weightSize);
           if(startNumber) {
-            if(totalLoss) {
+            if(totalAll) {
               result[0] = {amount: totalLoss/totalAll, measureUnit: '%'};
             } else {
               result[0] = {amount: 0, measureUnit: '%'};
@@ -470,5 +529,9 @@ export class SearchGroupDetailsComponent {
           break;
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.destroySubject$.next();
   }
 }

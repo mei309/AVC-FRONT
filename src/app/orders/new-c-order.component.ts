@@ -12,7 +12,7 @@ import { cloneDeep } from 'lodash-es';
     selector: 'new-cashew-order',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [putData]="putData" [mainLabel]="'Cashew order'" [fields]="regConfig" (submitForm)="submit($event)">
+        <dynamic-form [putData]="putData" mainLabel="Cashew order" [fields]="regConfig" (submitForm)="submit($event)" i18n-mainLabel>
         </dynamic-form>
     </div>
     `
@@ -40,18 +40,18 @@ export class NewCashewOrder implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                         validations: [
                             {
                                 name: 'required',
                                 validator: Validators.required,
-                                message: 'PO code Required',
+                                message: $localize`PO code Required`,
                             }
                         ]
                     },
@@ -59,7 +59,7 @@ export class NewCashewOrder implements OnInit {
             },
             {
                 type: 'date',
-                label: 'Contract date',
+                label: $localize`Contract date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
@@ -67,19 +67,19 @@ export class NewCashewOrder implements OnInit {
             },
             {
                 type: 'input',
-                label: 'Person in charge',
+                label: $localize`Person in charge`,
                 name: 'personInCharge',
                 inputType: 'text',
             },
             {
                 type: 'bigexpand',
-                label: 'Orderd products',
+                label: $localize`Orderd products`,
                 name: 'orderItems',
                 value: 'required',
                 collections: [
                     {
                         type: 'select',
-                        label: 'Item descrption',
+                        label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
                         options: this.genral.getItemsRawCashew(),
@@ -87,7 +87,7 @@ export class NewCashewOrder implements OnInit {
                     },
                     {
                         type: 'calculatefew',
-                        label: 'price',
+                        label: $localize`price`,
                         inputType: '*',
                         collections: [
                             {
@@ -96,14 +96,14 @@ export class NewCashewOrder implements OnInit {
                                 collections: [
                                     {
                                         type: 'input',
-                                        label: 'Weight',
+                                        label: $localize`Weight`,
                                         name: 'amount',
                                         inputType: 'numeric',
                                         options: 3,
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Weight unit',
+                                        label: $localize`Weight unit`,
                                         name: 'measureUnit',
                                         value: 'LBS',
                                         options: this.genral.getMeasureUnit(),
@@ -116,14 +116,14 @@ export class NewCashewOrder implements OnInit {
                                 collections: [
                                     {
                                         type: 'input',
-                                        label: 'Price per unit',
+                                        label: $localize`Price per unit`,
                                         name: 'amount',
                                         inputType: 'numeric',
                                         options: 2,
                                     },
                                     {
                                         type: 'select',
-                                        label: 'Currency',
+                                        label: $localize`Currency`,
                                         name: 'currency',
                                         options: ['USD', 'VND'],
                                     },
@@ -133,20 +133,20 @@ export class NewCashewOrder implements OnInit {
                     },
                     {
                         type: 'date',
-                        label: 'Delivery date',
+                        label: $localize`Delivery date`,
                         name: 'deliveryDate',
                         // value: new Date()
                     },
                     {
                         type: 'radiobutton',
-                        label: 'Defects',
+                        label: $localize`Defects`,
                         name: 'defects',
                         inputType: 'withInput',
                         options: ['By supplier sample', 'By standard'],
                     },
                     {
                         type: 'textarry',
-                        label: 'Remarks',
+                        label: $localize`Remarks`,
                         inputType: 'text',
                         name: 'remarks',
                     },
@@ -158,7 +158,7 @@ export class NewCashewOrder implements OnInit {
                 validations: [
                     {
                         name: 'numberUnits',
-                        message: 'a orderd item must have weight and price and delivery date',
+                        message: $localize`a orderd item must have weight and price and delivery date`,
                         validator: [
                             {
                                 name: 'amount',
@@ -175,7 +175,7 @@ export class NewCashewOrder implements OnInit {
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
        ];
@@ -215,7 +215,7 @@ export class NewCashewOrder implements OnInit {
                 data: {order: cloneDeep(val), fromNew: true, type: 'Cashew'}
             });
             dialogRef.afterClosed().subscribe(data => {
-                if (data === 'Edit order') {
+                if (data === $localize`Edit order`) {
                     this.putData = val;
                     this.isDataAvailable = false;
                     this.cdRef.detectChanges();

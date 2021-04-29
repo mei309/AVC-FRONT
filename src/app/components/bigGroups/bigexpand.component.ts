@@ -71,7 +71,7 @@ const componentMapper = {
   <ng-container *ngSwitchCase="'tabs'">
     <div style="background-color: lightGrey;">
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <mat-tab-group (selectedIndexChange)="onTabChange($event)" [selectedIndex]="selectedTab">
           <mat-tab *ngFor="let item of formArray.controls; let i = index;">
@@ -100,17 +100,17 @@ const componentMapper = {
   <ng-container *ngSwitchCase="['aloneInline', 'Inline'].includes(field.options) ? field.options : !field.options">
     <div class="div-inline">
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
-      <button type="button" style="margin-top: 10px; width: 100%;" class="add-button" (click)="addItem()">Add {{field.label}}</button>
+      <button type="button" style="margin-top: 10px; width: 100%;" class="add-button" (click)="addItem()" i18n>Add {{field.label}}</button>
     </div>
   </ng-container>
   
   <ng-container *ngSwitchCase="'aloneNoAddNoFrameInline'">
     <div class="div-inline">
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
     </div>
@@ -119,7 +119,7 @@ const componentMapper = {
   <ng-container *ngSwitchCase="'aloneNoAddNoFrame'">
     <div>
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
     </div>
@@ -129,7 +129,7 @@ const componentMapper = {
     <fieldset [ngStyle]="{'border': '2px groove'}">
       <legend><h1>{{field.label}}</h1></legend>
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
     </fieldset>
@@ -139,7 +139,7 @@ const componentMapper = {
     <fieldset [ngStyle]="{'border': '2px groove'}">
       <legend><h1>{{field.label}}</h1></legend>
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
     </fieldset>
@@ -147,20 +147,20 @@ const componentMapper = {
 
   <ng-container *ngSwitchCase="'NoFrame'">
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
-      <button type="button" style="margin-top: 10px;" mat-raised-button color="accent" (click)="addItem()">Add {{field.label}}</button>
+      <button type="button" style="margin-top: 10px;" mat-raised-button color="accent" (click)="addItem()" i18n>Add {{field.label}}</button>
   </ng-container>
 
   <ng-container *ngSwitchDefault>
     <fieldset [ngStyle]="{'border': '2px groove'}">
       <legend><h1>{{field.label}}</h1></legend>
       <ng-container ngProjectAs="mat-error">
-        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()">at least one line required</mat-error>
+        <mat-error *ngIf="group.get(field.name).hasError('atLeastOneRequired') && checkAllTouchedArray()" i18n>at least one line required</mat-error>
       </ng-container>
       <ng-template #container></ng-template>
-      <button type="button" style="margin-top: 10px;" mat-raised-button color="accent" (click)="addItem()">Add {{field.label}}</button>
+      <button type="button" style="margin-top: 10px;" mat-raised-button color="accent" (click)="addItem()" i18n>Add {{field.label}}</button>
     </fieldset>
   </ng-container>
 </div>

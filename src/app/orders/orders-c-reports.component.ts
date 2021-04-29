@@ -9,12 +9,12 @@ import { OrdersService } from './orders.service';
 @Component({
   selector: 'orders-c-reports',
   template: `
-  <h1 style="text-align:center">Cashew Orders</h1>
+  <h1 style="text-align:center" i18n>Cashew Orders</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)">
-      <mat-tab label="Open">
+      <mat-tab label="Open" i18n-label>
       </mat-tab>
-      <mat-tab label="All">
+      <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
@@ -43,13 +43,13 @@ export class OrdersCReports implements OnInit {
       {
         type: 'nameId',
         name: 'poCode',
-        label: 'PO#',
+        label: $localize`PO#`,
         search: 'object',
         group: 'poCode',
       },
       {
         name: 'supplierName',
-        label: 'Supplier',
+        label: $localize`Supplier`,
         search: 'selectObj',
         options: this.genral.getSuppliersCashew(),
         group: 'poCode',
@@ -57,39 +57,39 @@ export class OrdersCReports implements OnInit {
       {
         type: 'dateTime',
         name: 'contractDate',
-        label: 'Contract date',
+        label: $localize`Contract date`,
         search: 'dates',
       },
       {
         type: 'nameId',
         name: 'item',
-        label: 'Product descrption',
+        label: $localize`Product descrption`,
         search: 'selectObjObj',
         options: this.genral.getItemsRawCashew(),
       },
       {
         type: 'weight2',
         name: 'numberUnits',
-        label: 'Amount',
+        label: $localize`Amount`,
         search: 'object',
         // options: 'measureUnit',
       },
       {
         type: 'currency',
         name: 'unitPrice',
-        label: 'Price per unit',
+        label: $localize`Price per unit`,
         search: 'object',
         // options: 'currency',
       },
       {
         name: 'defects',
-        label: '% defects',
+        label: $localize`% defects`,
         search: 'normal',
       },
       {
         type: 'date',
         name: 'deliveryDate',
-        label: 'Delivery date',
+        label: $localize`Delivery date`,
         search: 'dates',
         compare: {
           type: 'date',
@@ -100,7 +100,7 @@ export class OrdersCReports implements OnInit {
       {
         type: 'arrayVal',
         name: 'approvals',
-        label: 'Approvals',
+        label: $localize`Approvals`,
         search: 'object',
       },
     ];
@@ -167,7 +167,7 @@ export class OrdersCReports implements OnInit {
               this.columnsShow.push({
                 type: 'arrayVal',
                 name: 'orderStatus',
-                label: 'Status',
+                label: $localize`Status`,
                 search: 'select',
                 options: this.genral.getOrderStatus(),
               });

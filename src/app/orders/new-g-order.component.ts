@@ -12,7 +12,7 @@ import { cloneDeep } from 'lodash-es';
     selector: 'new-genral-order',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [putData]="putData" [mainLabel]="'General order'" [fields]="regConfig" (submitForm)="submit($event)">
+        <dynamic-form [putData]="putData" mainLabel="General order" [fields]="regConfig" (submitForm)="submit($event)" i18n-mainLabel>
         </dynamic-form>
     </div>
     `
@@ -65,27 +65,27 @@ export class NewGenralOrder implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                         name: 'supplier',
                         options: this.localService.getGeneralSuppliers(),
                         validations: [
                             {
                                 name: 'required',
                                 validator: Validators.required,
-                                message: 'Supplier Required',
+                                message: $localize`Supplier Required`,
                             }
                         ]
                     },
                     {
                         type: 'select',
-                        label: 'PO initial',
+                        label: $localize`PO initial`,
                         name: 'contractType',
                         options: this.localService.getGeneralContractTypes(),
                         validations: [
                             {
                                 name: 'required',
                                 validator: Validators.required,
-                                message: 'PO initial Required',
+                                message: $localize`PO initial Required`,
                             }
                         ]
                     },
@@ -98,7 +98,7 @@ export class NewGenralOrder implements OnInit {
                 collections: [
                     {
                         type: 'input',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                         name: 'supplierName',
                         disable: true,
                         // options: this.localService.getSupplierGeneral(),
@@ -112,7 +112,7 @@ export class NewGenralOrder implements OnInit {
                     },
                     {
                         type: 'input',
-                        label: 'PO initial',
+                        label: $localize`PO initial`,
                         name: 'contractTypeCode',
                         disable: true,
                         // options: this.genral.getContractType(),
@@ -126,7 +126,7 @@ export class NewGenralOrder implements OnInit {
                     },
                     {
                         type: 'input',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         inputType: 'number',
                         name: 'code',
                         disable: true,
@@ -136,7 +136,7 @@ export class NewGenralOrder implements OnInit {
         ],
         {
             type: 'date',
-            label: 'Contract date',
+            label: $localize`Contract date`,
             value: new Date(),
             name: 'recordedTime',
             options: 'withTime',
@@ -144,19 +144,19 @@ export class NewGenralOrder implements OnInit {
         },
         {
             type: 'input',
-            label: 'Person in charge',
+            label: $localize`Person in charge`,
             name: 'personInCharge',
             inputType: 'text',
         },
         {
             type: 'bigexpand',
-            label: 'Orderd products',
+            label: $localize`Orderd products`,
             name: 'orderItems',
             value: 'required',
             collections: [
                 {
                     type: 'select',
-                    label: 'Item descrption',
+                    label: $localize`Item descrption`,
                     name: 'item',
                     collections: 'somewhere',
                     options: this.genral.getItemsGeneral(),
@@ -164,7 +164,7 @@ export class NewGenralOrder implements OnInit {
                 },
                 {
                     type: 'calculatefew',
-                    label: 'price',
+                    label: $localize`price`,
                     inputType: '*',
                     collections: [
                         {
@@ -175,14 +175,14 @@ export class NewGenralOrder implements OnInit {
                             collections: [
                                 {
                                     type: 'input',
-                                    label: 'Amount',
+                                    label: $localize`Amount`,
                                     name: 'amount',
                                     inputType: 'numeric',
                                     options: 3,
                                 },
                                 {
                                     type: 'select',
-                                    label: 'Weight unit',
+                                    label: $localize`Weight unit`,
                                     name: 'measureUnit',
                                     options: this.genral.getMeasureUnit(),
                                 },
@@ -194,14 +194,14 @@ export class NewGenralOrder implements OnInit {
                             collections: [
                                 {
                                     type: 'input',
-                                    label: 'Price per unit',
+                                    label: $localize`Price per unit`,
                                     name: 'amount',
                                     inputType: 'numeric',
                                     options: 2,
                                 },
                                 {
                                     type: 'select',
-                                    label: 'Currency',
+                                    label: $localize`Currency`,
                                     name: 'currency',
                                     options: ['VND', 'USD'],
                                 },
@@ -211,13 +211,13 @@ export class NewGenralOrder implements OnInit {
                 },
                 {
                     type: 'date',
-                    label: 'Delivery date',
+                    label: $localize`Delivery date`,
                     name: 'deliveryDate',
                     // value: new Date()
                 },
                 {
                     type: 'textarry',
-                    label: 'Remarks',
+                    label: $localize`Remarks`,
                     inputType: 'text',
                     name: 'remarks',
                 },
@@ -229,7 +229,7 @@ export class NewGenralOrder implements OnInit {
             validations: [
                 {
                     name: 'numberUnits',
-                    message: 'a orderd item must have weight and price and delivery date',
+                    message: $localize`a orderd item must have weight and price and delivery date`,
                 },
                 {
                     name: 'unitPrice',
@@ -241,7 +241,7 @@ export class NewGenralOrder implements OnInit {
         },
         {
             type: 'button',
-            label: 'Submit',
+            label: $localize`Submit`,
             name: 'submit',
         }
     ];
@@ -261,13 +261,13 @@ export class NewGenralOrder implements OnInit {
                 data: {order: cloneDeep(val), fromNew: true, type: 'General'}
             });
             dialogRef.afterClosed().subscribe(data => {
-                if (data === 'Edit order') {
+                if (data === $localize`Edit order`) {
                     this.putData = val;
                     this.isDataAvailable = false;
                     this.setRegConfig(false);
                     this.cdRef.detectChanges();
                     this.isDataAvailable = true;
-                } else if(data === 'Receive') {
+                } else if(data === $localize`Receive`) {
                     this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: val['poCode']['id']}]);
                 } else {
                     this.router.navigate(['../OrdersGReports'], { relativeTo: this._Activatedroute });

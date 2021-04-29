@@ -15,7 +15,7 @@ import { allOrNoneRequired, FieldConfig, atLeastOneRequired } from '../../field.
   </ng-container>
   <div *ngIf="submitText" class="margin-top" style="text-align:right">
     <button type="submit" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary">{{submitText}}</button>
-    <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onReset()">Reset</button>
+    <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onReset()" i18n>Reset</button>
   </div>
   </fieldset>
   </form>
@@ -78,7 +78,7 @@ export class DynamicFormComponent implements OnInit {
       this.emptyEmptyArray(mmm);
       return mmm.getRawValue();
     } else {
-      this._snackBar.open('please fill in all required fields', 'ok', {
+      this._snackBar.open($localize`please fill in all required fields`, 'ok', {
         duration: 5000,
         // panelClass: 'blue-snackbar',
         verticalPosition:'top'
@@ -122,7 +122,7 @@ export class DynamicFormComponent implements OnInit {
       // this.submit.emit(emptyNull);
       //}
     } else {
-      this._snackBar.open('please fill in all required fields', 'ok', {
+      this._snackBar.open($localize`please fill in all required fields`, 'ok', {
         duration: 5000,
         // panelClass: 'blue-snackbar',
         verticalPosition:'top'

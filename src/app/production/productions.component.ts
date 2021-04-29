@@ -26,7 +26,7 @@ export class ProductionsComponent implements OnInit {
   totelColumn: OneColumn = {
       type: 'weight2',
       name: 'processGain',
-      label: 'Total difference',
+      label: $localize`Total difference`,
       group: 'poCodes',
   };
   type: string = '';
@@ -50,14 +50,14 @@ export class ProductionsComponent implements OnInit {
           {
               type: 'arrayVal',
               name: 'poCodes',
-              label: 'PO#',
+              label: $localize`PO#`,
               search: 'normal',
               group: 'poCodes',
           },
           {
               type: 'arrayVal',
               name: 'suppliers',
-              label: 'Supplier',
+              label: $localize`Supplier`,
               search: 'selectObj',
               options: this.genral.getSuppliersCashew(),
               group: 'poCodes',
@@ -65,33 +65,33 @@ export class ProductionsComponent implements OnInit {
           {
               type: 'itemWeight',
               name: 'usedItems',
-              label: 'Used items',
+              label: $localize`Used items`,
               search: 'listAmountWithUnit',
               options: this.genral.getAllItemsCashew(),
           },
           {
               type: 'itemWeight',
               name: 'producedItems',
-              label: 'Produced items',
+              label: $localize`Produced items`,
               search: 'listAmountWithUnit',
               options: this.genral.getAllItemsCashew(),
           },
           {
               type: 'weight2',
               name: 'processGain',
-              label: 'Difference',
+              label: $localize`Difference`,
               search: 'none',
           },
           {
               type: 'dateTime',
               name: 'recordedTime',
-              label: 'Recorded time',
+              label: $localize`Recorded time`,
               search: 'dates',
           },
           {
               type: 'normal',
               name: 'status',
-              label: 'Status',
+              label: $localize`Status`,
               search: 'select',
               options: this.genral.getProcessStatus(),
           },
@@ -129,7 +129,7 @@ export class ProductionsComponent implements OnInit {
       data: {id: event['id'], fromNew: false, type: this.type},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
+      if (data === $localize`Edit`) {
           switch (this.tabIndex) {
                 case 0:
                     this.router.navigate(['../Cleaning',{id: event['id'], poCode: event['poCodeIds'][0]}], { relativeTo: this._Activatedroute });

@@ -12,7 +12,7 @@ import { CountinersService } from './countiners.service';
     selector: 'countiners-arrival',
     template: `
     <div *ngIf="isDataAvailable">
-        <dynamic-form [putData]="putData" [mainLabel]="'Countiners arrival'" [fields]="regConfig" (submitForm)="submit($event)">
+        <dynamic-form [putData]="putData" mainLabel="Countiners arrival" [fields]="regConfig" (submitForm)="submit($event)" i18n-mainLabel>
         </dynamic-form>
     </div>
     `
@@ -34,70 +34,54 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
        this.regConfig = [
             {
                 type: 'date',
-                label: 'Contract date',
+                label: $localize`Contract date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',
             },
             {
                 type: 'select',
-                label: 'Product company',
+                label: $localize`Product company`,
                 name: 'productCompany',
                 options: this.localService.getShippingSuppliers(),
             },
             {
                 type: 'bignotexpand',
-                label: 'Shiping details',
+                label: $localize`Shiping details`,
                 name: 'shipingDetails',
                 value: 'required',
                 collections: [
                     {
                         type: 'input',
-                        label: 'Vessel',
+                        label: $localize`Vessel`,
                         name: 'vessel',
                     },
                     {
                         type: 'input',
-                        label: 'Shipping company',
+                        label: $localize`Shipping company`,
                         name: 'shippingCompany',
                     },
                     {
                         type: 'select',
-                        label: 'Loading port',
+                        label: $localize`Loading port`,
                         name: 'portOfLoading',
                         options: this.localService.getShippingPorts(),
                     },
                     {
                         type: 'date',
-                        label: 'Etd',
+                        label: $localize`Etd`,
                         name: 'etd',
-                        // value: new Date()
-                        validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: 'Etd Required',
-                            }
-                        ]
                     },
                     {
                         type: 'select',
-                        label: 'Destination port',
+                        label: $localize`Destination port`,
                         name: 'portOfDischarge',
                         options: this.localService.getShippingPorts(),
                     },
                     {
                         type: 'date',
-                        label: 'Eta',
+                        label: $localize`Eta`,
                         name: 'eta',
-                        // value: new Date()
-                        validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: 'Eta Required',
-                            }
-                        ]
                     },
                     {
                         type: 'divider',
@@ -107,52 +91,52 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
             },
             {
                 type: 'bignotexpand',
-                label: 'Container details',
+                label: $localize`Container details`,
                 name: 'containerDetails',
                 collections: [
                     {
                         type: 'input',
-                        label: 'Container number',
+                        label: $localize`Container number`,
                         name: 'containerNumber',
                         validations: [
                         {
                             name: 'required',
                             validator: Validators.required,
-                            message: 'Container number Required',
+                            message: $localize`Container number Required`,
                         }
                         ]
                     },
                     {
                         type: 'input',
-                        label: 'Seal number',
+                        label: $localize`Seal number`,
                         name: 'sealNumber',
                         validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Seal number Required',
-                        }
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: $localize`Seal number Required`,
+                            }
                         ]
                     },
                     {
                         type: 'selectNormal',
-                        label: 'Container type',
+                        label: $localize`Container type`,
                         name: 'containerType',
                     //   value: '20\'',
                         options: this.genral.getShippingContainerType(),
                         validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: 'Container type Required',
-                        }
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: $localize`Container type Required`,
+                            }
                         ]
                     },
                 ],
             },
             {
                 type: 'button',
-                label: 'Submit',
+                label: $localize`Submit`,
                 name: 'submit',
             }
        ];
@@ -187,7 +171,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                 data: {loading: cloneDeep(val), fromNew: true, type: 'Arrivals'}
             });
             dialogRef.afterClosed().subscribe(data => {
-                if (data === 'Edit') {
+                if (data === $localize`Edit`) {
                     this.putData = val;
                     this.isDataAvailable = false;
                     this.cdRef.detectChanges();

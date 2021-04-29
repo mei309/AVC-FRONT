@@ -36,13 +36,13 @@ export class OrdersGReports implements OnInit {
       {
         type: 'nameId',
         name: 'poCode',
-        label: 'PO#',
+        label: $localize`PO#`,
         search: 'object',
         group: 'poCode',
       },
       {
         name: 'supplierName',
-        label: 'Supplier',
+        label: $localize`Supplier`,
         search: 'selectObj',
         options: this.genral.getSuppliersGeneral(),
         group: 'poCode',
@@ -50,34 +50,34 @@ export class OrdersGReports implements OnInit {
       {
         type: 'dateTime',
         name: 'contractDate',
-        label: 'Contract date',
+        label: $localize`Contract date`,
         search: 'dates',
       },
       {
         type: 'nameId',
         name: 'item',
-        label: 'Product descrption',
+        label: $localize`Product descrption`,
         search: 'selectObjObj',
         options: this.genral.getItemsGeneral(),
       },
       {
         type: 'weight2',
         name: 'numberUnits',
-        label: 'Amount',
+        label: $localize`Amount`,
         search: 'object',
         // options: 'measureUnit',
       },
       {
         type: 'currency',
         name: 'unitPrice',
-        label: 'Price per unit',
+        label: $localize`Price per unit`,
         search: 'object',
         // options: 'currency',
       },
       {
         type: 'date',
         name: 'deliveryDate',
-        label: 'Delivery date',
+        label: $localize`Delivery date`,
         search: 'dates',
         compare: {
           type: 'date',
@@ -88,7 +88,7 @@ export class OrdersGReports implements OnInit {
       {
         type: 'arrayVal',
         name: 'approvals',
-        label: 'Approvals',
+        label: $localize`Approvals`,
         search: 'object',
       },
     ];
@@ -153,7 +153,7 @@ export class OrdersGReports implements OnInit {
             this.columnsShow.push({
               type: 'arrayVal',
               name: 'orderStatus',
-              label: 'Status',
+              label: $localize`Status`,
               search: 'select',
               options: this.genral.getOrderStatus(),
             });

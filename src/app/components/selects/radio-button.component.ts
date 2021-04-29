@@ -76,19 +76,6 @@ export class RadiobuttonComponent implements OnInit {
       if(this.group.controls[this.field.name].disabled) {
         this.selectedRadio.disable({emitEvent: false});
       }
-      // this.group.get(this.field.name).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
-      //   if(this.field.options.includes(val)) {
-      //     this.selectedRadio.setValue(val, {emitEvent: false});
-      //   } else if(val) {
-      //     this.selectedRadio.setValue('other', {emitEvent: false});
-      //     this.inputOther.setValue(val, {emitEvent: false});
-      //   }
-      //   if(this.group.controls[this.field.name].disabled) {
-      //     this.selectedRadio.disable({emitEvent: false});
-      //   } else {
-      //     this.selectedRadio.enable({emitEvent: false});
-      //   }
-      // });
     }
   }
 

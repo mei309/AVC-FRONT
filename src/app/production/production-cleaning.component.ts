@@ -10,7 +10,7 @@ import { cloneDeep } from 'lodash-es';
     selector: 'production-cleaning',
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
-        <legend><h1>Cleaning cashew process</h1></legend>
+        <legend><h1 i18n>Cleaning cashew process</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
@@ -37,7 +37,7 @@ export class ProductionCleaningComponent implements OnInit {
                 data: {productionCheck: cloneDeep(val), fromNew: true, type: 'Cleaning'}
               });
               dialogRef.afterClosed().subscribe(result => {
-                  if (result === 'Edit') {
+                  if (result === $localize`Edit`) {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
                     this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'raw').pipe(take(1)).subscribe( val => {
@@ -108,11 +108,11 @@ export class ProductionCleaningComponent implements OnInit {
                 collections: [
                     {
                         type: 'select',
-                        label: 'Supplier',
+                        label: $localize`Supplier`,
                     },
                     {
                         type: 'select',
-                        label: '#PO',
+                        label: $localize`#PO`,
                         name: 'poCode',
                         collections: 'somewhere',
                     },

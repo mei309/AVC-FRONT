@@ -11,7 +11,7 @@ import { FieldConfig } from '../../field.interface';
 <mat-form-field class="one-field" [formGroup]="group">
   <mat-label>{{field.label}}<span *ngIf="prefix">&nbsp;({{prefix}})</span></mat-label>
   <input matInput numeric [formControlName]="field.name" [decimals]="field.options" type="text" maxlength="255">
-  <mat-error *ngIf="group.get(field.name).hasError('maxlength')">Max length 255</mat-error>
+  <mat-error *ngIf="group.get(field.name).hasError('maxlength')" i18n>Max length 255</mat-error>
   <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
     <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
   </ng-container>
