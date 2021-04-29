@@ -504,9 +504,9 @@ export class SearchGroupDetailsComponent {
           }
           for (let ind = index; ind < index+this.spans[index][this.totalColumn.group]; ind++) {
             if(this.dataSource.filteredData[ind][this.totalColumn.name]) {
-              if(startNumber && this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount']) {
-                totalLoss += this.dataSource.filteredData[ind][this.totalColumn.name][1]['amount'];
-                totalAll += this.dataSource.filteredData[ind]['usedAmounts']['amount'];
+              if(startNumber) {
+                totalLoss += this.dataSource.filteredData[ind]['uniformTotals']['loss'];
+                totalAll += this.dataSource.filteredData[ind]['uniformTotals']['used'];
               }
               for (let m = startNumber; m < weightSize; m++) {
                 myNumbers[m] += this.dataSource.filteredData[ind][this.totalColumn.name][m]['amount'];
@@ -516,7 +516,7 @@ export class SearchGroupDetailsComponent {
           var result = new Array<object>(weightSize);
           if(startNumber) {
             if(totalAll) {
-              result[0] = {amount: totalLoss/totalAll, measureUnit: '%'};
+              result[0] = {amount: (totalLoss/totalAll)*100, measureUnit: '%'};
             } else {
               result[0] = {amount: 0, measureUnit: '%'};
             }

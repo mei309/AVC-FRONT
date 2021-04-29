@@ -89,6 +89,13 @@ export class NewGenralOrder implements OnInit {
                             }
                         ]
                     },
+                    {
+                        type: 'input',
+                        label: $localize`#PO`,
+                        inputType: 'number',
+                        name: 'code',
+                        disable: true,
+                    },
                 ]
             },
         ]: [

@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 
 @Component({
@@ -18,15 +21,15 @@ import { OneColumn } from '../field.interface';
         <th mat-header-cell *matHeaderCellDef>
           <h3 mat-sort-header>{{column.label}}</h3>
           <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print">
-              <mat-select *ngSwitchCase="'select'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)" i18n-placeholder>
+              <mat-select *ngSwitchCase="'select'" placeholder="Search" formControlName="val" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" (focus)="setupFilter(column.name)" (selectionChange)="applyFilter($event.value)" i18n-placeholder>
+              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" formControlName="val" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" (focus)="setupFilterObject(column.name)" (selectionChange)="applyFilter($event.value)" i18n-placeholder>
+              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" formControlName="val" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
               </mat-select>
@@ -40,9 +43,9 @@ import { OneColumn } from '../field.interface';
               <mat-datepicker-toggle *ngSwitchCase="'dates'" matSuffix [for]="picker4"></mat-datepicker-toggle>
               <mat-date-range-picker #picker4></mat-date-range-picker>
 
-              <input *ngSwitchCase="'object'"  autocomplete="off" matInput type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilterObject(column.name)" placeholder="Search" i18n-placeholder>
+              <input *ngSwitchCase="'object'"  autocomplete="off" matInput type="search" formControlName="val" placeholder="Search" i18n-placeholder>
 
-              <input *ngSwitchDefault matInput autocomplete="off" type="search" (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(column.name)" placeholder="Search" i18n-placeholder>
+              <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
           </mat-form-field>
         </th>
         <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
@@ -65,6 +68,10 @@ export class SearchDetailsComponent {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  destroySubject$: Subject<void> = new Subject();
+
+  searchGroup: FormGroup;
+
   dataTable;
   @Input() set dataSource(value) {
     if(value) {
@@ -81,25 +88,79 @@ export class SearchDetailsComponent {
   @Input() set oneColumns(value: OneColumn[]) {
     if(value) {
       this.columnsDisplay = ['position'];
-      value.forEach(element => {
-        this.columnsDisplay.push(element.name);
-      });
       this.columns =  value;
+      this.preperColumns();
     }
   }
   get oneColumns() { return this.columns}
   
+
+  preperColumns() {
+    this.searchGroup = this.fb.group({});
+    this.oneColumns.forEach(element => {
+          this.columnsDisplay.push(element.name);
+          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search}));
+    });
+    this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {
+      this.setFilters(filters);
+    });
+  }
+
   @Output() details: EventEmitter<any> = new EventEmitter<any>();
 
   
   columnsDisplay: string[] = [];
 
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
   }
 
   openDetails(value: any) {
     this.details.emit(value);
+  }
+
+  setFilters(filters) {
+    let newFilters = [];
+    Object.keys(filters).forEach(filt => {
+      if(filters[filt].val){
+        filters[filt].cloumn = filt;
+        newFilters.push(filters[filt]);
+      }
+    });
+    this.dataSource.filterPredicate = this.customFilterPredicate;
+    this.dataSource.filter = newFilters;
+  }
+
+  customFilterPredicate(data: any, filters): boolean {        
+    for (let i = 0; i < filters.length; i++) {
+      switch (filters[i].type) {
+        case 'selectObjObj':
+        case 'object':
+          const fitsThisObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          if (!fitsThisObj) {
+            return false;
+          }
+          break;
+        case 'listAmountWithUnit':
+          const fitsThisList = data[filters[i].cloumn].some(a => a['item']['value'].includes(filters[i].val));
+          if (!fitsThisList) {
+            return false;
+          }
+          break;
+        case 'dates':
+          var dateStamp = (new Date(data[filters[i].cloumn])).getTime();
+          if(!(dateStamp > filters[i].val.begin.setHours(0,0,0,0) && dateStamp < filters[i].val.end.setHours(23,59,59,999))){
+            return false;
+          }
+          break;
+        default:
+          const fitsThisFilter = data[filters[i].cloumn].includes(filters[i].val);
+          if (!fitsThisFilter) {
+            return false;
+          }
+      }
+    }
+    return true;
   }
 
   setupFilter(column: string) {
@@ -128,8 +189,11 @@ export class SearchDetailsComponent {
   }
   inlineRangeChange($eventstart: Date, $eventend: Date, column: string) {
     if($eventend) {
-      this.setupDateFilter(column);
-      this.dataSource.filter = {begin: new Date($eventstart), end: new Date($eventend)};
+      // this.setupDateFilter(column);
+      // this.dataSource.filter = {begin: new Date($eventstart), end: new Date($eventend)};
+      let filters = this.searchGroup.value;
+      filters[column]['val'] = {begin: new Date($eventstart), end: new Date($eventend)};
+      this.setFilters(filters);
       if (this.dataSource.paginator) {
         this.dataSource.paginator.firstPage();
       }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import {isEqual} from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from './../genral.service';
@@ -163,6 +162,19 @@ export class ManagmentUsersComponent implements OnInit {
 
   addUserConfig() {
       this.regConfig.push(
+        {
+            type: 'bigoutside',
+            name: 'person',
+            collections: [
+                {
+                    type: 'input',
+                    label: $localize`Name`,
+                    name: 'name',
+                    inputType: 'text',
+                    disable: true,
+                },
+            ]
+        },
         {
             type: 'input',
             label: $localize`Username`,
