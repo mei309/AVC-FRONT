@@ -19,7 +19,7 @@ export class MainComponent {
     { code: 'en-US', label: 'US' },
     { code: 'en-UK', label: 'UK' },
     { code: 'vi', label: 'Tiếng Việt' },
-    { code: 'INDIA', label: 'हिंदी' },
+    // { code: 'INDIA', label: 'हिंदी' },
   ]; 
   
   destroySubject$: Subject<void> = new Subject();
@@ -34,7 +34,7 @@ export class MainComponent {
     if (sessionStorage.getItem('username') === 'isral') {
       this.roleNumber = 1;
     }
-    this.language = new FormControl(this.languageList.find(lang => lang.code === _locale));
+    this.language = new FormControl(this.languageList.find(lang => lang.code === this._locale));
   }
   
   ngOnInit() {

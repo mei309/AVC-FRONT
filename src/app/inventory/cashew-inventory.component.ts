@@ -27,7 +27,7 @@ import { InventoryService } from './inventory.service';
       <!-- <mat-tab label="Raw cashew stock and orders">
       </mat-tab> -->
   </mat-tab-group>
-  <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" [withPaginator]="false">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" [totelAll]="totelAll" [withPaginator]="false">
   </search-group-details>
     `
 })
@@ -43,7 +43,11 @@ export class CashewInventoryComponent implements OnInit {
 
   itemCategory;
 
-  // sumsSource;
+  totelAll: OneColumn = {
+    type: 'weight2',
+    name: 'totalBalance',
+    label: $localize`Total all`,
+  };
   
 
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,

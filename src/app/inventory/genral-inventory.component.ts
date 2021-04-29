@@ -19,7 +19,7 @@ import { InventoryService } from './inventory.service';
       <mat-tab label="General stock and orders" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [withPaginator]="false">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [totelAll]="totelAll" [withPaginator]="false">
   </search-group-details>
     `
 })
@@ -32,6 +32,12 @@ export class GenralInventoryComponent implements OnInit {
 
   generalSource: any[];
   generalSourceColumns: any[];
+
+  totelAll: OneColumn = {
+    type: 'weight2',
+    name: 'totalBalance',
+    label: $localize`Total all`,
+  };
 
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
     private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {

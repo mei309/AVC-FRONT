@@ -11,7 +11,7 @@ import { OneColumn } from '../field.interface';
   selector: 'search-group-details',
   template: `
   <div class="tables mat-elevation-z8">
-    <table mat-table matSort [dataSource]="dataSource">
+    <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
         
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns" [formGroup]="searchGroup">
             <th mat-header-cell *matHeaderCellDef>
@@ -105,7 +105,14 @@ import { OneColumn } from '../field.interface';
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
         <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (dblclick)="openDetails(row)"></tr>
     </table>
-    <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
+        <span class="example-spacer"></span>
+        <span *ngIf="totalAll">{{totalAll.label}}: {{getTotelAll() | tableCellPipe: totalAll.type : totalAll.collections}}</span>
+        <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+      </mat-toolbar-row>
+    </mat-toolbar>
   </div>
   <ng-container *ngIf="!dataSource">
     <mat-spinner *ngIf="secondToUpload"></mat-spinner>
@@ -126,6 +133,11 @@ export class SearchGroupDetailsComponent {
     totalColumn: OneColumn;
     @Input() set totelColumn(value) {
         this.totalColumn = value;
+    }
+
+    totalAll: OneColumn;
+    @Input() set totelAll(value) {
+        this.totalAll = value;
     }
 
     dataSource;
@@ -530,6 +542,60 @@ export class SearchGroupDetailsComponent {
       }
     }
   }
+
+  getTotelAll() {
+    if(this.dataSource && this.dataSource.filteredData.length) {
+      switch (this.totalAll.type) {
+        case 'weight2':
+          var weightSize: number = this.dataSource.filteredData[0][this.totalAll.name].length;
+          var myNumbers = new Array<number>(weightSize);
+          var myMesareUnit = new Array<number>(weightSize);
+          for (let i = 0; i < weightSize; i++) {
+            myNumbers[i] = 0;
+            myMesareUnit[i] = this.dataSource.filteredData[0][this.totalAll.name][i]['measureUnit'];
+          }
+          for (let ind = 0; ind < this.dataSource.filteredData.length; ind++) {
+            if(this.dataSource.filteredData[ind][this.totalAll.name]) {
+              for (let m = 0; m < weightSize; m++) {
+                myNumbers[m] += this.dataSource.filteredData[ind][this.totalAll.name][m]['amount'];
+              }
+            }
+          }
+          var result = new Array<object>(weightSize);
+          for (let t = 0; t < weightSize; t++) {
+            result[t] = {amount: myNumbers[t], measureUnit: myMesareUnit[t]};
+          }
+          return result;
+        default:
+          break;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+
+  // downloadFile() {
+  //   const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here
+  //   const header = Object.keys(this.dataSource.filteredData[0]);
+  //   const csv = this.dataSource.filteredData.map((row) =>
+  //     header
+  //       .map((fieldName) => JSON.stringify(this.tableCellPipe.transform(row[fieldName], null, null), replacer))
+  //       .join(',')
+  //   );
+  //   csv.unshift(header.join(','));
+  //   const csvArray = csv.join('\r\n');
+  
+  //   const a = document.createElement('a');
+  //   const blob = new Blob([csvArray], { type: 'text/csv' });
+  //   const url = window.URL.createObjectURL(blob);
+  
+  //   a.href = url;
+  //   a.download = 'myFile.csv';
+  //   a.click();
+  //   window.URL.revokeObjectURL(url);
+  //   a.remove();
+  // }
 
   ngOnDestroy() {
     this.destroySubject$.next();

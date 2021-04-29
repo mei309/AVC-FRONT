@@ -61,6 +61,7 @@ import { PrintLazyLoadDirective } from './libraries/print-lazy-load.directive';
 import { MaterialUsageComponent } from './components/avc-special/material-usage.component';
 import { SelectMeasureUnitComponent } from './components/avc-special/measure-unit-select.component';
 import { SelectMultipileComponent } from './components/selects/select-multipile.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
@@ -208,7 +209,7 @@ import { SelectMultipileComponent } from './components/selects/select-multipile.
     FormsModule,
     MaterialModule,
     CommonModule,
-    // MatTableExporterModule,
+    MatTableExporterModule,
     // BrowserModule,
   ],
   entryComponents: [

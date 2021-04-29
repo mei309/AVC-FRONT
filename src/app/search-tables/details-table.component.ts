@@ -192,15 +192,6 @@
 //     return Array.isArray(obj)
 //   }
 
-//   exportTable(){
-//     //import { TableUtil } from './../tableUtil';
-//     // TableUtil.exportToExcel("ExampleTable");
-//     //<button mat-raised-button (click)="exporter.exportTable('xlsx')">mmmm</button>
-//     // <div class="export-container">
-//     //   <button mat-raised-button color="primary" (click)="exportTable()">Export</button>
-//     // </div>
-//     // matTableExporter #exporter="matTableExporter"
-//   }
-// }
+
 
 

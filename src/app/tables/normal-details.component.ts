@@ -5,7 +5,7 @@ import { OneColumn } from '../field.interface';
   selector: 'normal-details',
   template: `
 <div class="tables mat-elevation-z8">
-  <table mat-table id="ExampleTable" [dataSource]="dataSource">
+  <table mat-table id="ExampleTable" [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
     <ng-container matColumnDef="{{column.name}}" *ngFor="let column of oneColumns">
         <th mat-header-cell *matHeaderCellDef>
           <h3>{{column.label}}</h3>
@@ -39,6 +39,7 @@ import { OneColumn } from '../field.interface';
     <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
     <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
  </table>
+  <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
 </div>
 <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
 <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.length === 0"><h2 i18n>No records found</h2></div>

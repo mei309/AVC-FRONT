@@ -11,7 +11,7 @@ import { OneColumn } from '../field.interface';
   selector: 'search-expandable',
   template: `
 <div class="tables mat-elevation-z8">
-  <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
+  <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows matTableExporter #exporter="matTableExporter">
     
   <ng-container matColumnDef="position">
     <th mat-header-cell *matHeaderCellDef mat-sort-header><h3>N.O.</h3> </th>
@@ -83,7 +83,13 @@ import { OneColumn } from '../field.interface';
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
  </table>
- <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
+      <span class="example-spacer"></span>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </div>
 <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
 <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2 i18n>No records found</h2></div>

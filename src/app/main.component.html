@@ -207,10 +207,14 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-icon >refresh</mat-icon>
     </button>
 
-    <mat-form-field>
+    <mat-form-field appearance="none" style="width: 100px;">
       <mat-select (selectionChange)="navigateTo($event.value)" [formControl]="language">
-        <mat-option *ngFor="let language of languageList" [value]="language">
-          {{language.label}}
+        <mat-select-trigger>
+          <img width="100px" height="30px" src="assets/countries/{{language.value.code}}.svg">
+        </mat-select-trigger>
+        <mat-option *ngFor="let lang of languageList" [value]="lang">
+          <img width="100px" height="30px" src="assets/countries/{{lang.code}}.svg">
+          {{lang.label}}
         </mat-option>
       </mat-select>
     </mat-form-field>

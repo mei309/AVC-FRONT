@@ -30,6 +30,7 @@
     "@angular/service-worker": "^11.2.4",
     "@swimlane/ngx-charts": "^16.0.0",
     "lodash-es": "^4.17.21",
+    "mat-table-exporter": "^10.2.3",
     "protractor-fail-fast": "^3.1.0",
     "rxjs": "^6.6.6",
     "tslib": "^2.1.0",
