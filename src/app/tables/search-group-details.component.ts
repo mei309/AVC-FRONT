@@ -109,7 +109,7 @@ import { OneColumn } from '../field.interface';
       <mat-toolbar-row>
         <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
         <span class="example-spacer"></span>
-        <span *ngIf="totalAll">{{totalAll.label}}: {{getTotelAll() | tableCellPipe: totalAll.type : totalAll.collections}}</span>
+        <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: totelAll.type : totelAll.collections}}</span>
         <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -135,10 +135,9 @@ export class SearchGroupDetailsComponent {
         this.totalColumn = value;
     }
 
-    totalAll: OneColumn;
-    @Input() set totelAll(value) {
-        this.totalAll = value;
-    }
+    @Input() totelAll;
+
+    currentTotalAll = undefined;
 
     dataSource;
   @Input() set detailsSource(value) {
@@ -214,6 +213,9 @@ export class SearchGroupDetailsComponent {
         clearTimeout(this.secondTimer);
       }
       this.secondToUpload = false;
+      if(this.totelAll) {
+        this.currentTotalAll = this.getTotelAll();
+      }
   }
 
 
@@ -281,6 +283,9 @@ export class SearchGroupDetailsComponent {
       this.dataSource.filterPredicate = this.customFilterPredicate;
       this.dataSource.filter = newFilters;
       this.readySpanData();
+      if(this.totelAll) {
+        this.currentTotalAll = this.getTotelAll();
+      }
   }
 
   // columnsKidArray(element) {
@@ -544,20 +549,20 @@ export class SearchGroupDetailsComponent {
   }
 
   getTotelAll() {
-    if(this.dataSource && this.dataSource.filteredData.length) {
-      switch (this.totalAll.type) {
+    if(this.dataSource.filteredData.length) {
+      switch (this.totelAll.type) {
         case 'weight2':
-          var weightSize: number = this.dataSource.filteredData[0][this.totalAll.name].length;
+          var weightSize: number = this.dataSource.filteredData[0][this.totelAll.name].length;
           var myNumbers = new Array<number>(weightSize);
           var myMesareUnit = new Array<number>(weightSize);
           for (let i = 0; i < weightSize; i++) {
             myNumbers[i] = 0;
-            myMesareUnit[i] = this.dataSource.filteredData[0][this.totalAll.name][i]['measureUnit'];
+            myMesareUnit[i] = this.dataSource.filteredData[0][this.totelAll.name][i]['measureUnit'];
           }
           for (let ind = 0; ind < this.dataSource.filteredData.length; ind++) {
-            if(this.dataSource.filteredData[ind][this.totalAll.name]) {
+            if(this.dataSource.filteredData[ind][this.totelAll.name]) {
               for (let m = 0; m < weightSize; m++) {
-                myNumbers[m] += this.dataSource.filteredData[ind][this.totalAll.name][m]['amount'];
+                myNumbers[m] += this.dataSource.filteredData[ind][this.totelAll.name][m]['amount'];
               }
             }
           }
