@@ -115,6 +115,19 @@ export class CountinersReportsComponent implements OnInit {
                 name: 'eta',
                 search: 'dates',
             },
+            {
+              type: 'arrayVal',
+              name: 'orderStatus',
+              label: $localize`Status`,
+              search: 'select',
+              options: this.genral.getOrderStatus(),
+            },
+            {
+              type: 'arrayVal',
+              name: 'approvals',
+              label: $localize`Approvals`,
+              search: 'object',
+            }
           ];
           this.localService.findContainerArrivals().pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;

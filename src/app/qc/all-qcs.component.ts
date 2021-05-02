@@ -87,6 +87,12 @@ export class AllQcsComponent implements OnInit {
         label: $localize`Check date`,
         search: 'dates',
       },
+      {
+        type: 'arrayVal',
+        name: 'approvals',
+        label: $localize`Approvals`,
+        search: 'object',
+      },
     ];
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component

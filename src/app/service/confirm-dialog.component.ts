@@ -70,7 +70,7 @@ export class ConfirmationDialog {
     }
   }
   onSave() {
-    this.dialogRef.close({process: 'onSave', remarks: this.remarks, toLock: this.locked? false: this.toLock, toFinal: this.locked? false: this.toFinal, toCancal: this.toCancal});
+    this.dialogRef.close({process: 'onSave', remarks: this.remarks, toLock: this.locked? false: this.toLock, toFinal: this.fineled? false: this.toFinal, toCancal: this.toCancal});
   }
 }
 

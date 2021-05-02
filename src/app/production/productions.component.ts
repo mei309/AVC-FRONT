@@ -51,7 +51,7 @@ export class ProductionsComponent implements OnInit {
               type: 'arrayVal',
               name: 'poCodes',
               label: $localize`PO#`,
-              search: 'normal',
+              search: 'object',
               group: 'poCodes',
           },
           {

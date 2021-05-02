@@ -34,7 +34,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
        this.regConfig = [
             {
                 type: 'date',
-                label: $localize`Contract date`,
+                label: $localize`arrival date`,
                 value: new Date(),
                 name: 'recordedTime',
                 options: 'withTime',

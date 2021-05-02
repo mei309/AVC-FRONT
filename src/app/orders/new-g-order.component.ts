@@ -91,7 +91,7 @@ export class NewGenralOrder implements OnInit {
                     },
                     {
                         type: 'input',
-                        label: $localize`#PO`,
+                        label: $localize`Code`,
                         inputType: 'number',
                         name: 'code',
                         disable: true,
@@ -100,44 +100,28 @@ export class NewGenralOrder implements OnInit {
             },
         ]: [
             {
-                type: 'bigoutside',
-                name: 'poCode',
+                type: 'selectgroup',
+                inputType: 'supplierName',
+                options: this.localService.findFreePoCodes(),
+                disable: true,
                 collections: [
                     {
-                        type: 'input',
+                        type: 'select',
                         label: $localize`Supplier`,
-                        name: 'supplierName',
-                        disable: true,
-                        // options: this.localService.getSupplierGeneral(),
-                        // validations: [
-                        //     {
-                        //         name: 'required',
-                        //         validator: Validators.required,
-                        //         message: 'Supplier Required',
-                        //     }
-                        // ]
                     },
                     {
-                        type: 'input',
-                        label: $localize`PO initial`,
-                        name: 'contractTypeCode',
-                        disable: true,
-                        // options: this.genral.getContractType(),
-                        // validations: [
-                        //     {
-                        //         name: 'required',
-                        //         validator: Validators.required,
-                        //         message: 'PO initial Required',
-                        //     }
-                        // ]
-                    },
-                    {
-                        type: 'input',
+                        type: 'select',
                         label: $localize`#PO`,
-                        inputType: 'number',
-                        name: 'code',
-                        disable: true,
-                    }
+                        name: 'poCode',
+                        collections: 'somewhere',
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: $localize`PO code Required`,
+                            }
+                        ]
+                    },
                 ]
             },
         ],
