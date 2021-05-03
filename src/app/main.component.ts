@@ -35,6 +35,7 @@ export class MainComponent {
       this.roleNumber = 1;
     }
     this.language = new FormControl(this.languageList.find(lang => lang.code === this._locale));
+    this.genral.doInitiel();
   }
   
   ngOnInit() {
@@ -58,7 +59,7 @@ export class MainComponent {
   }
 
   navigateTo(value){
-    this.router.navigate([value.code]);
+    window.location.href = 'https://d34djkpi615opt.cloudfront.net/'+value.code
   }
 
   ngOnDestroy() {

@@ -34,14 +34,14 @@ export class PoCodesComponent implements OnInit {
                 type: 'normal',
                 name: 'supplierName',
                 label: $localize`Supplier`,
-                search: 'selectAsyncObject',
+                search: 'selectObj',
                 options: this.genral.getSuppliersCashew(),
             },
             {
                 type: 'normal',
                 name: 'contractTypeCode',
                 label: $localize`Contract type code`,
-                search: 'object',
+                search: 'selectObj',
                 options: this.localService.getCashewContractTypes(),
             },
             {

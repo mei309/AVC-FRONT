@@ -126,7 +126,7 @@ export class CountinersReportsComponent implements OnInit {
               type: 'arrayVal',
               name: 'approvals',
               label: $localize`Approvals`,
-              search: 'object',
+              search: 'normal',
             }
           ];
           this.localService.findContainerArrivals().pipe(take(1)).subscribe(value => {
@@ -169,14 +169,14 @@ export class CountinersReportsComponent implements OnInit {
                 type: 'nameId',
                 name: 'item',
                 label: $localize`Product descrption`,
-                search: 'selectObj',
+                search: 'selectObjObj',
                 options: this.genral.getItemsRoastPackedCashew(),
             },
             {
                 type: 'weight2',
                 name: 'totalRow',
                 label: $localize`Loaded amounts`,
-                search: 'normal',
+                search: 'objArray',
             },
             {
                 type: 'normal',

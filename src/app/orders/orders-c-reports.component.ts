@@ -71,7 +71,7 @@ export class OrdersCReports implements OnInit {
         type: 'weight2',
         name: 'numberUnits',
         label: $localize`Amount`,
-        search: 'object',
+        search: 'objArray',
         // options: 'measureUnit',
       },
       {
@@ -101,7 +101,7 @@ export class OrdersCReports implements OnInit {
         type: 'arrayVal',
         name: 'approvals',
         label: $localize`Approvals`,
-        search: 'object',
+        search: 'normal',
       },
     ];
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {

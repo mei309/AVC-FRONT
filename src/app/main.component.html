@@ -197,12 +197,15 @@ fxShow="true" fxHide.lt-md="true" -->
     <button class="example-icon" mat-mini-fab (click)="onPrint()">
       <mat-icon>print</mat-icon>
     </button>
+    &nbsp;
     <button class="example-icon" mat-mini-fab routerLink='useraccount/PassChange'>
       <mat-icon>account_circle</mat-icon>
     </button>
+    &nbsp;
     <button class="example-icon" mat-mini-fab (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
+    &nbsp;
     <button class="example-icon" mat-mini-fab (click)="onInitilRefresh()">
       <mat-icon >refresh</mat-icon>
     </button>
@@ -213,8 +216,8 @@ fxShow="true" fxHide.lt-md="true" -->
           <img width="100px" height="30px" src="assets/countries/{{language.value.code}}.svg">
         </mat-select-trigger>
         <mat-option *ngFor="let lang of languageList" [value]="lang">
-          <img width="100px" height="30px" src="assets/countries/{{lang.code}}.svg">
-          {{lang.label}}
+            <img width="100px" height="30px" src="assets/countries/{{lang.code}}.svg">
+            {{lang.label}}
         </mat-option>
       </mat-select>
     </mat-form-field>

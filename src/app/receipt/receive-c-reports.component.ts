@@ -65,7 +65,7 @@ export class ReceiveCReports implements OnInit {
         type: 'weight2',
         name: 'totalAmount',
         label: $localize`Total receipt`,
-        search: 'object',
+        search: 'objArray',
         group: 'poCode',
       },
       {
@@ -89,7 +89,7 @@ export class ReceiveCReports implements OnInit {
         type: 'weight2',
         name: 'receiptAmount',
         label: $localize`Item amount`,
-        search: 'object',
+        search: 'objArray',
         compare: {
           name: 'orderBalance',
           type: 'weight',

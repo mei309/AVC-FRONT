@@ -81,7 +81,7 @@ export class MaterialUsageComponent implements OnInit {
                     type: 'select',
                     label: $localize`Item descrption`,
                     name: 'item',
-                    options: this.genral.getItemsGeneral(),
+                    options: this.genral.findAvailableItems(),
                 },
                 {
                     type: 'divider',

@@ -87,7 +87,7 @@ export class ReceiveGReports implements OnInit {
         type: 'weight2',
         name: 'receiptAmount',
         label: $localize`Item amount`,
-        search: 'object',
+        search: 'objArray',
         compare: {
           name: 'orderBalance',
           type: 'weight',

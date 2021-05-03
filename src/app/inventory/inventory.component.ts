@@ -126,6 +126,12 @@ export class InventoryReportsComponent implements OnInit {
                 search: 'select',
                 options: this.genral.getProcessStatus(),
             },
+            {
+              type: 'normal',
+              label: $localize`Remarks`,
+              name: 'remarks',
+              search: 'normal',
+            },
           ];
           this.localService.getMaterialUses().pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;

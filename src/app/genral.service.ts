@@ -34,6 +34,9 @@ export class Genral {
   mainurl = environment.baseUrl;
 
   constructor(private http: HttpClient, private globels: Globals) {
+  }
+
+  doInitiel() {
     this.setInitiel();
     this.getUserTasksNumber().pipe(take(1)).subscribe(value => {
       this.setNumOfTodo(<number>value);
@@ -189,16 +192,20 @@ export class Genral {
   getItemsWasteCashew (): Observable<any> {
     return this.ItemsWasteCashew.asObservable();
   }
-  getItemsCashew(type: string): Observable<any> {
+  getItemsCashew(type: string | number): Observable<any> {
     switch (type) {
+      case 0:
       case 'Raw':
         return this.getItemsRawCashew();
       case 'RawRoast':
         return this.getItemsRawRoastCashew();
+      case 1:
       case 'Clean':
         return this.getItemsCleanCashew();
+      case 2:
       case 'Roast':
         return this.getItemsRoastCashew();
+      case 3:
       case 'Pack':
         return this.getItemsPackedCashew();
       case 'RoastPacked':
@@ -251,6 +258,10 @@ export class Genral {
 
   getStorageGeneralItem(itemId: number): Observable<any> {
     return this.http.get(this.mainurl+'getStorageGeneralItem/'+itemId);
+  }
+
+  findAvailableItems(): Observable<any> {
+    return this.http.get(this.mainurl+'findAvailableItems');
   }
   
   getRoles(): string[] {

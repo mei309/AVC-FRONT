@@ -19,7 +19,7 @@ import { InventoryService } from './inventory.service';
       <mat-tab label="General stock and orders" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [totelAll]="totelAll" [withPaginator]="false">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [withPaginator]="false">
   </search-group-details>
     `
 })
@@ -33,11 +33,11 @@ export class GenralInventoryComponent implements OnInit {
   generalSource: any[];
   generalSourceColumns: any[];
 
-  totelAll: OneColumn = {
-    type: 'weight2',
-    name: 'totalBalance',
-    label: $localize`Total all`,
-  };
+  // totelAll: OneColumn = {
+  //   type: 'weight2',
+  //   name: 'totalBalance',
+  //   label: $localize`Total all`,
+  // };[totelAll]="totelAll"
 
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
     private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
@@ -100,7 +100,7 @@ export class GenralInventoryComponent implements OnInit {
               type: 'weight2',
               name: 'totalStock',
               label: $localize`Total stock`,
-              search: 'object',
+              search: 'objArray',
               group: 'item',
             },
             {
@@ -121,7 +121,7 @@ export class GenralInventoryComponent implements OnInit {
               type: 'weight2',
               name: $localize`totalBalance`,
               label: 'Total balance',
-              search: 'object',
+              search: 'objArray',
               // group: 'poCode',
             },
             {
@@ -184,7 +184,7 @@ export class GenralInventoryComponent implements OnInit {
               type: 'weight2',
               name: 'totalBalance',
               label: $localize`Total balance`,
-              search: 'object',
+              search: 'objArray',
               // group: 'item',
             },
             {
@@ -219,7 +219,7 @@ export class GenralInventoryComponent implements OnInit {
                 name: 'item',
                 label: $localize`Item`,
                 search: 'selectObjObj',
-                options: this.genral.getAllItemsCashew(),
+                options: this.genral.getItemsGeneral(),
                 group: 'item',
               },
               {

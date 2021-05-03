@@ -173,7 +173,8 @@ export class ManagmentSetupComponent {
                 {
                     name: 'productionFunctionality',
                     label: $localize`Production functionality`,
-                    search: 'object',
+                    search: 'select',
+                    options: this.genral.getProductionFunctionality(),
                 }
             );
             this.regConfigTemp.push(

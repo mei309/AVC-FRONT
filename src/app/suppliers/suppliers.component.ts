@@ -42,19 +42,19 @@ export class SuppliersComponent implements OnInit {
         type: 'nameId',
         name: 'phones',
         label: $localize`Phone`,
-        search: 'normal',
+        search: 'objArray',
       },
       {
         type: 'nameId',
         name: 'emails',
         label: $localize`Email`,
-        search: 'normal',
+        search: 'objArray',
       },
       {
         type: 'arrayVal',
         name: 'supplyCategories',
         label: $localize`Supply category`,
-        search: 'arraySelectAsyncObject2',
+        search: 'selectObj',
         options: this.localService.getSupplyType(),
       },
     ];

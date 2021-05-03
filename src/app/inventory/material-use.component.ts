@@ -118,6 +118,12 @@ export class MaterialUsageComponent implements OnInit {
             options: this.genral.getProductionLine('PRODUCT_STORAGE'),
         },
         {
+            type: 'textarry',
+            label: $localize`Remarks`,
+            inputType: 'text',
+            name: 'remarks',
+        },
+        {
             type: 'bigexpand',
             name: 'materialUsed',
             label: $localize`Material used`,

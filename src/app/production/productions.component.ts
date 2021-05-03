@@ -2,8 +2,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OneColumn } from './../field.interface';
+import { DropNormal, OneColumn } from './../field.interface';
 import { Genral } from './../genral.service';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
@@ -33,6 +34,9 @@ export class ProductionsComponent implements OnInit {
   
   cashewSourceColumns;
 
+  ItemsChangable1 = new ReplaySubject<any[]>();
+  ItemsChangable2 = new ReplaySubject<any[]>();
+
   constructor(private router: Router, public dialog: MatDialog, private localService: ProductionService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
   }
@@ -51,7 +55,7 @@ export class ProductionsComponent implements OnInit {
               type: 'arrayVal',
               name: 'poCodes',
               label: $localize`PO#`,
-              search: 'object',
+              search: 'normal',
               group: 'poCodes',
           },
           {
@@ -67,20 +71,20 @@ export class ProductionsComponent implements OnInit {
               name: 'usedItems',
               label: $localize`Used items`,
               search: 'listAmountWithUnit',
-              options: this.genral.getAllItemsCashew(),
+              options: this.ItemsChangable1,
           },
           {
               type: 'itemWeight',
               name: 'producedItems',
               label: $localize`Produced items`,
               search: 'listAmountWithUnit',
-              options: this.genral.getAllItemsCashew(),
+              options: this.ItemsChangable2,
           },
           {
               type: 'weight2',
               name: 'processGain',
               label: $localize`Difference`,
-              search: 'none',
+              search: 'objArray',
           },
           {
               type: 'dateTime',
@@ -266,6 +270,12 @@ export class ProductionsComponent implements OnInit {
         default:
           break;
       }
+      this.genral.getItemsCashew(this.tabIndex).pipe(take(1)).subscribe(val => {
+        this.ItemsChangable1.next(val);
+      });
+      this.genral.getItemsCashew(this.tabIndex+1).pipe(take(1)).subscribe(val => {
+        this.ItemsChangable2.next(val);
+      });
     }
 
     
@@ -280,6 +290,8 @@ export class ProductionsComponent implements OnInit {
       if (this.navigationSubscription) {  
          this.navigationSubscription.unsubscribe();
       }
+      this.ItemsChangable1.unsubscribe();
+      this.ItemsChangable2.unsubscribe();
     }
 
 }

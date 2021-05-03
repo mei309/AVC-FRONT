@@ -420,6 +420,11 @@ export class ShowDetailsComponent implements OnInit {
         name: 'checkedBy',
     },
     {
+        type: 'normal',
+        label: $localize`Remarks`,
+        name: 'remarks',
+    },
+    {
         type: 'array',
         label: $localize`Orderd products`,
         name: 'orderItems',

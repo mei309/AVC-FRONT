@@ -313,6 +313,7 @@ export class SearchGroupDetailsComponent {
 
   customFilterPredicate(data: any, filters): boolean {        
     for (let i = 0; i < filters.length; i++) {
+      if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
         case 'object':
@@ -321,9 +322,21 @@ export class SearchGroupDetailsComponent {
             return false;
           }
           break;
+        case 'objArray':
+          const fitsObjArr = data[filters[i].cloumn].some(a => a['value'].includes(filters[i].val));
+          if (!fitsObjArr) {
+            return false;
+          }
+          break;
         case 'listAmountWithUnit':
           const fitsThisList = data[filters[i].cloumn].some(a => a['item']['value'].includes(filters[i].val));
           if (!fitsThisList) {
+            return false;
+          }
+          break;
+        case 'percentage':
+          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)/100).toString());
+          if (!fitsPercentage) {
             return false;
           }
           break;
@@ -334,7 +347,7 @@ export class SearchGroupDetailsComponent {
           }
           break;
         default:
-          const fitsThisFilter = data[filters[i].cloumn].includes(filters[i].val);
+          const fitsThisFilter = data[filters[i].cloumn].toString().includes(filters[i].val);
           if (!fitsThisFilter) {
             return false;
           }
@@ -552,23 +565,30 @@ export class SearchGroupDetailsComponent {
     if(this.dataSource.filteredData.length) {
       switch (this.totelAll.type) {
         case 'weight2':
-          var weightSize: number = this.dataSource.filteredData[0][this.totelAll.name].length;
-          var myNumbers = new Array<number>(weightSize);
-          var myMesareUnit = new Array<number>(weightSize);
-          for (let i = 0; i < weightSize; i++) {
-            myNumbers[i] = 0;
-            myMesareUnit[i] = this.dataSource.filteredData[0][this.totelAll.name][i]['measureUnit'];
-          }
-          for (let ind = 0; ind < this.dataSource.filteredData.length; ind++) {
-            if(this.dataSource.filteredData[ind][this.totelAll.name]) {
-              for (let m = 0; m < weightSize; m++) {
-                myNumbers[m] += this.dataSource.filteredData[ind][this.totelAll.name][m]['amount'];
-              }
-            }
-          }
+          const weightSize = this.totelAll.options.length;
+          // var myNumbers = new Array<any>(weightSize);
+          // for (let i = 0; i < weightSize; i++) {
+          //   myNumbers[i] = (this.dataSource.filteredData.map(a => a[this.totelAll.name].find(b => b['measureUnit'] === this.totelAll.options[i])))
+          //   // .reduce((sum, record) => sum + record['amount']);
+          //   .reduce((sum, record) => sum + record['amount'], 0);
+            
+          // }
+          // console.log(myNumbers);
+          
+          // this.dataSource.filteredData.forEach(elem => {
+            
+          // });
+          // for (let ind = 0; ind < this.dataSource.filteredData.length; ind++) {
+          //   if(this.dataSource.filteredData[ind][this.totelAll.name]) {
+          //     for (let m = 0; m < weightSize; m++) {
+          //       myNumbers[m] += this.dataSource.filteredData[ind][this.totelAll.name][m]['amount'];
+          //     }
+          //   }
+          // }
           var result = new Array<object>(weightSize);
           for (let t = 0; t < weightSize; t++) {
-            result[t] = {amount: myNumbers[t], measureUnit: myMesareUnit[t]};
+            result[t] = {amount: (this.dataSource.filteredData.map(a => a[this.totelAll.name].find(b => b['measureUnit'] === this.totelAll.options[t])))
+              .reduce((sum, record) => sum + record['amount'], 0), measureUnit: this.totelAll.options[t]};
           }
           return result;
         default:

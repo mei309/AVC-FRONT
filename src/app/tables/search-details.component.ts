@@ -17,10 +17,10 @@ import { OneColumn } from '../field.interface';
       <td mat-cell *matCellDef="let i = index">{{ this.paginator.pageIndex == 0 ?  1 + i : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="{{column.name}}" *ngFor="let column of oneColumns">
+    <ng-container matColumnDef="{{column.name}}" *ngFor="let column of oneColumns" [formGroup]="searchGroup">
         <th mat-header-cell *matHeaderCellDef>
           <h3 mat-sort-header>{{column.label}}</h3>
-          <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print">
+          <mat-form-field style="width:90%" [ngSwitch]="column.search" class="no-print" [formGroupName]="column.name">
               <mat-select *ngSwitchCase="'select'" placeholder="Search" formControlName="val" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
@@ -139,6 +139,7 @@ export class SearchDetailsComponent {
 
   customFilterPredicate(data: any, filters): boolean {        
     for (let i = 0; i < filters.length; i++) {
+      if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
         case 'object':
@@ -147,9 +148,21 @@ export class SearchDetailsComponent {
             return false;
           }
           break;
+        case 'objArray':
+          const fitsObjArr = data[filters[i].cloumn].some(a => a['value'].includes(filters[i].val));
+          if (!fitsObjArr) {
+            return false;
+          }
+          break;
         case 'listAmountWithUnit':
           const fitsThisList = data[filters[i].cloumn].some(a => a['item']['value'].includes(filters[i].val));
           if (!fitsThisList) {
+            return false;
+          }
+          break;
+        case 'percentage':
+          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)/100).toString());
+          if (!fitsPercentage) {
             return false;
           }
           break;
@@ -160,7 +173,7 @@ export class SearchDetailsComponent {
           }
           break;
         default:
-          const fitsThisFilter = data[filters[i].cloumn].includes(filters[i].val);
+          const fitsThisFilter = data[filters[i].cloumn].toString().includes(filters[i].val);
           if (!fitsThisFilter) {
             return false;
           }

@@ -47,6 +47,7 @@ export class CashewInventoryComponent implements OnInit {
     type: 'weight2',
     name: 'totalBalance',
     label: $localize`Total all`,
+    options: ['KG', 'LBS']
   };
   
 
@@ -114,7 +115,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'weight2',
               name: 'totalStock',
               label: $localize`Total item`,
-              search: 'object',
+              search: 'objArray',
               group: 'item',
             },
             {
@@ -135,7 +136,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'weight2',
               name: 'totalBalance',
               label: $localize`Amount`,
-              search: 'object',
+              search: 'objArray',
               // group: 'poCode',
             },
             {
@@ -189,7 +190,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'weight2',
               name: 'totalStock',
               label: $localize`Total po`,
-              search: 'object',
+              search: 'objArray',
               group: 'poCode',
             },
             {
@@ -204,7 +205,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'weight2',
               name: 'totalBalance',
               label: $localize`Amount`,
-              search: 'object',
+              search: 'objArray',
               // group: 'item',
             },
             {

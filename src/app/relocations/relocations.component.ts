@@ -7,12 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.component';
 import { RelocationsService } from './relocations.service';
+import { ReplaySubject } from 'rxjs';
 // import { InventoryDetailsDialogComponent } from './inventory-details-dialog.component';
 // import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-relocations-reports',
   template: `
-  <h1 style="text-align:center" i18n>Inventory reports</h1>
+  <h1 style="text-align:center" i18n>Relocations reports</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)">
       <!-- <mat-tab label="Transfers">
@@ -42,6 +43,8 @@ export class RelocationsComponent implements OnInit {
   
   mainSourceColumns;
 
+  ItemsChangable1 = new ReplaySubject<any[]>();
+
   constructor(private router: Router, private dialog: MatDialog, private localService: RelocationsService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
   }
@@ -68,20 +71,20 @@ export class RelocationsComponent implements OnInit {
             name: 'usedItems',
             label: $localize`Used items`,
             search: 'listAmountWithUnit',
-            options: this.genral.getAllItemsCashew(),
+            options: this.ItemsChangable1,
         },
         {
             type: 'itemWeight',
             name: 'itemCounts',
             label: $localize`Counted items`,
             search: 'listAmountWithUnit',
-            options: this.genral.getAllItemsCashew(),
+            options: this.ItemsChangable1,
         },
         {
             type: 'weight2',
             name: 'usedCountDifference',
             label: $localize`Difference`,
-            search: 'object',
+            search: 'objArray',
         },
         {
             type: 'dateTime',
@@ -119,6 +122,7 @@ export class RelocationsComponent implements OnInit {
         }
       });
   }
+
 
   openDialog(event): void {
     const dialogRef = this.dialog.open(RelocationsDetailsDialogComponent, {
@@ -161,6 +165,9 @@ export class RelocationsComponent implements OnInit {
         default:
           break;
       }
+      this.genral.getItemsCashew(this.tabIndex).pipe(take(1)).subscribe(val => {
+        this.ItemsChangable1.next(val);
+      });
     }
 
     
@@ -175,6 +182,7 @@ export class RelocationsComponent implements OnInit {
       if (this.navigationSubscription) {  
          this.navigationSubscription.unsubscribe();
       }
+      this.ItemsChangable1.unsubscribe();
     }
 
 }
