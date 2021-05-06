@@ -25,12 +25,11 @@ import { diff } from '../libraries/diffArrayObjects.interface';
   </show-details>
   <h2 *ngIf="line[0]['totalAmount']" style="float: right">Total: {{line[0]['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
 </div>
-<h2 *ngIf="dataSource['totalWeight'] && dataSource.length > 1" style="float: right">Total all: {{dataSource['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
   `,
   styleUrls: ['show-details-table.css'],
 })
 export class ForEachEditComponent implements OnInit {
-    
+    // <h2 *ngIf="dataSource['totalWeight'] && dataSource.length > 1" style="float: right">Total all: {{dataSource['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
   @Input() dataSource;
   @Input() secondSource;
   @Input() oneColumns;
