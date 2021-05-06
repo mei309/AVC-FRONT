@@ -7,6 +7,7 @@ import { isEqual } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
+
 @Component({
   selector: 'search-group-details',
   template: `
@@ -316,14 +317,19 @@ export class SearchGroupDetailsComponent {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
+          const fitsObjObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          if (!fitsObjObj) {
+            return false;
+          }
+          break;
         case 'object':
-          const fitsThisObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          const fitsThisObj = data[filters[i].cloumn]['value'].toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisObj) {
             return false;
           }
           break;
         case 'objArray':
-          const fitsObjArr = data[filters[i].cloumn].some(a => a['value'].includes(filters[i].val));
+          const fitsObjArr = data[filters[i].cloumn].some(a => a['value'].toLowerCase().includes((filters[i].val).trim().toLowerCase()));
           if (!fitsObjArr) {
             return false;
           }
@@ -347,7 +353,7 @@ export class SearchGroupDetailsComponent {
           }
           break;
         default:
-          const fitsThisFilter = data[filters[i].cloumn].toString().includes(filters[i].val);
+          const fitsThisFilter = data[filters[i].cloumn].toString().toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisFilter) {
             return false;
           }

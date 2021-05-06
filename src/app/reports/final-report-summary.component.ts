@@ -232,43 +232,43 @@ export class FinalReportSummaryComponent {
             label: $localize`Packing`,
             type: 'normal'
         },
-        {
-          name: 'arrivals',
-          label: $localize`Arrivals`,
-          type: 'normal',
-          collections: [
-            {
-                type: 'normal',
-                label: $localize`Container number`,
-                name: 'containerNumber',
-            },
-            {
-                type: 'nameId',
-                name: 'productCompany',
-                label: $localize`Product company`,
-            },
-            {
-                type: 'dateTime',
-                name: 'recordedTime',
-                label: $localize`Recorded time`,
-            },
-            {
-                type: 'date',
-                label: $localize`Eta`,
-                name: 'eta',
-            },
-            {
-                type: 'arrayVal',
-                name: 'orderStatus',
-                label: $localize`Status`,
-            },
-            {
-                type: 'arrayVal',
-                name: 'approvals',
-                label: $localize`Approvals`,
-            }
-          ]
-        },
+        // {
+        //   name: 'arrivals',
+        //   label: $localize`Arrivals`,
+        //   type: 'normal',
+        //   collections: [
+        //     {
+        //         type: 'normal',
+        //         label: $localize`Container number`,
+        //         name: 'containerNumber',
+        //     },
+        //     {
+        //         type: 'nameId',
+        //         name: 'productCompany',
+        //         label: $localize`Product company`,
+        //     },
+        //     {
+        //         type: 'dateTime',
+        //         name: 'recordedTime',
+        //         label: $localize`Recorded time`,
+        //     },
+        //     {
+        //         type: 'date',
+        //         label: $localize`Eta`,
+        //         name: 'eta',
+        //     },
+        //     {
+        //         type: 'arrayVal',
+        //         name: 'orderStatus',
+        //         label: $localize`Status`,
+        //     },
+        //     {
+        //         type: 'arrayVal',
+        //         name: 'approvals',
+        //         label: $localize`Approvals`,
+        //     }
+        //   ]
+        // },
         {
             name: 'loading',
             label: $localize`Loading`,

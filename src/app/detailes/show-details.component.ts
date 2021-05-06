@@ -103,6 +103,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                                 </show-details>
                                 <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
                               </div>
+                              <h2 *ngIf="dataSource[column.name]['totalWeight'] && dataSource[column.name].length > 1" style="float: right">Total all: {{dataSource[column.name]['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
                             </ng-container>
                           </ng-container>
                         </fieldset>
@@ -448,7 +449,7 @@ export class ShowDetailsComponent implements OnInit {
                 // collections: 'currency',
             },
             {
-                type: 'normal',
+                type: 'date',
                 label: $localize`Delivery date`,
                 name: 'deliveryDate',
             },

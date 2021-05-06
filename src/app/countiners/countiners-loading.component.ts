@@ -364,6 +364,7 @@ export class CountinersLoadingComponent {
                 name: 'shipmentCode',
                 options: this.localService.findFreeShipmentCodes(),
                 disable: true,
+                collections: 'somewhere',
                 validations: [
                     {
                         name: 'required',
@@ -378,6 +379,7 @@ export class CountinersLoadingComponent {
                 name: 'arrival',
                 options: this.localService.findFreeArrivals(),
                 disable: true,
+                collections: 'somewhere',
                 validations: [
                     {
                         name: 'required',

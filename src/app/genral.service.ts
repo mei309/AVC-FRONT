@@ -204,8 +204,9 @@ export class Genral {
         return this.getItemsCleanCashew();
       case 2:
       case 'Roast':
-        return this.getItemsRoastCashew();
       case 3:
+        return this.getItemsRoastCashew();
+      case 4:
       case 'Pack':
         return this.getItemsPackedCashew();
       case 'RoastPacked':
@@ -235,6 +236,8 @@ export class Genral {
             return value.filter(a => a.productionFunctionality === 'ROASTER');
           case 'ROASTER_IN':
             return value.filter(a => a.productionFunctionality === 'ROASTER_IN');
+          case 'Toffee':
+            return value.filter(a => a.productionFunctionality === 'TOFFEE');
           case 'Pack':
             return value.filter(a => a.productionFunctionality === 'PACKING');
           case 'PRODUCT_STORAGE':

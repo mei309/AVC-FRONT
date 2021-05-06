@@ -80,7 +80,7 @@ import { ReportsService } from './reports.service';
                     <mat-panel-title i18n>Arrivals</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{arrivalsItemsObj: poDetails['arrivalsItemsObj']}" [oneColumns]="[regShow[6]]">
+                    <show-details [dataSource]="{arrivalsItemsObj: poDetails['arrivalsItemsObj']}" [oneColumns]="[regShow[7]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
@@ -89,7 +89,7 @@ import { ReportsService } from './reports.service';
                     <mat-panel-title i18n>Loading</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{loadingItemsObj: poDetails['loadingItemsObj']}" [oneColumns]="[regShow[6]]">
+                    <show-details [dataSource]="{loadingItemsObj: poDetails['loadingItemsObj']}" [oneColumns]="[regShow[8]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>

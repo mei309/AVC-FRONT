@@ -22,6 +22,9 @@ export class ProductionService {
   getAllRoasting() {
     return this.getAllProduction('CASHEW_ROASTING');
   }
+  getAllToffee() {
+    return this.getAllProduction('CASHEW_TOFFEE');
+  }
   getAllPacking() {
     return this.getAllProduction('PACKING');
   }
@@ -36,6 +39,13 @@ export class ProductionService {
   addEditRoastingTransfer(value, fromNew: boolean) {
     if(fromNew) {
       return this.http.post(this.productionurl+'addRoastingTransfer', value);
+    } else {
+      return this.http.put(this.productionurl+'editProductionTransfer', value);
+    }
+  }
+  addEditToffeeTransfer(value, fromNew: boolean) {
+    if(fromNew) {
+      return this.http.post(this.productionurl+'addToffeeTransfer', value);
     } else {
       return this.http.put(this.productionurl+'editProductionTransfer', value);
     }

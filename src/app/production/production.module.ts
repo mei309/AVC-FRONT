@@ -5,13 +5,13 @@ import { ProductionDetailsDialogComponent } from './production-detailes-dialog.c
 import { ProductionPackingComponent } from './production-packing.component';
 import { ProductionRoastingComponent } from './production-roasting.component';
 import { ProductionRoutingModule } from './production-routing.module';
-import { ProductionToffyComponent } from './production-toffy.component';
+import { ProductionToffeeComponent } from './production-toffee.component';
 import { ProductionsComponent } from './productions.component';
 import { ExportImportComponent } from './export-import.component';
 // import { NewProductionPackingComponent } from './new-production-packing.component';NewProductionPackingComponent
 @NgModule({
   declarations: [ProductionCleaningComponent, ProductionPackingComponent, ProductionRoastingComponent, ProductionDetailsDialogComponent,
-  ProductionToffyComponent, ProductionsComponent, ExportImportComponent,
+  ProductionToffeeComponent, ProductionsComponent, ExportImportComponent,
   ],
   imports: [
     SheardModule,

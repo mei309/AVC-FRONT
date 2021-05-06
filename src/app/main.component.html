@@ -43,7 +43,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [matMenuTriggerFor]="poordernew" i18n>New</button>
         <button mat-menu-item [matMenuTriggerFor]="orderscreports" i18n>Cashew Reports</button>
         <button mat-menu-item [matMenuTriggerFor]="ordersgreports" i18n>General Reports</button>
-        <button mat-menu-item routerLink='ordready/PoCodesComponent' i18n>Cashew #POS</button>
+        <button mat-menu-item [matMenuTriggerFor]="postab" i18n>#POS</button>
         <button mat-menu-item [matMenuTriggerFor]="menuSupp" i18n>Suppliers</button>
       </mat-menu>
       <mat-menu #poordernew="matMenu" >
@@ -57,6 +57,10 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-menu #ordersgreports="matMenu" >
         <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 0}]" i18n>Open</button>
         <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 1}]" i18n>All</button>
+      </mat-menu>
+      <mat-menu #postab="matMenu" >
+        <button mat-menu-item [routerLink]="['ordready/PoCodesComponent', {number: 0}]" i18n>Cashew</button>
+        <button mat-menu-item [routerLink]="['ordready/PoCodesComponent', {number: 1}]" i18n>General</button>
       </mat-menu>
       <mat-menu #menuSupp="matMenu" >
         <button mat-menu-item routerLink='supready/NewSupplier' cdkFocusRegionStart i18n>New Supplier</button>
@@ -107,12 +111,14 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-menu #productionnew="matMenu" >
         <button mat-menu-item routerLink='production/Cleaning' i18n>Cleaning</button>
         <button mat-menu-item routerLink='production/Roasting' i18n>Roasting</button>
+        <button mat-menu-item routerLink='production/Toffee' i18n>Toffee</button>
         <button mat-menu-item routerLink='production/Packing' i18n>Packing</button>
       </mat-menu>
       <mat-menu #productionreports="matMenu" >
         <button mat-menu-item [routerLink]="['production/Productions', {number: 0}]" i18n>Cleaning</button>
         <button mat-menu-item [routerLink]="['production/Productions', {number: 1}]" i18n>Roasting</button>
-        <button mat-menu-item [routerLink]="['production/Productions', {number: 2}]" i18n>Packing</button>
+        <button mat-menu-item [routerLink]="['production/Productions', {number: 2}]" i18n>Toffee</button>
+        <button mat-menu-item [routerLink]="['production/Productions', {number: 3}]" i18n>Packing</button>
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="menuCountiners" i18n>Shipping</button>
@@ -180,7 +186,7 @@ fxShow="true" fxHide.lt-md="true" -->
 
 
       <button mat-button [matBadge]="todo" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Todo' i18n>Tasks</button>
-      <button mat-button [matBadge]="massages" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Massages' i18n>Massages</button>
+      <button mat-button [matBadge]="massages" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Massages' i18n>Messages</button>
 
 
       <!-- <button mat-button [matMenuTriggerFor]="menuTests">tests</button>

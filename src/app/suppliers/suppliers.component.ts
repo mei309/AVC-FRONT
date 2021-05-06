@@ -39,16 +39,16 @@ export class SuppliersComponent implements OnInit {
         search: 'normal',
       },
       {
-        type: 'nameId',
+        type: 'arrayVal',
         name: 'phones',
         label: $localize`Phone`,
-        search: 'objArray',
+        search: 'normal',
       },
       {
-        type: 'nameId',
+        type: 'arrayVal',
         name: 'emails',
         label: $localize`Email`,
-        search: 'objArray',
+        search: 'normal',
       },
       {
         type: 'arrayVal',

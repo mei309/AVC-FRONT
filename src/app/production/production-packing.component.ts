@@ -59,7 +59,7 @@ export class ProductionPackingComponent implements OnInit {
                         });
                     }
                 } else {
-                    this.router.navigate(['../Productions', {number: 2}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Productions', {number: 3}], { relativeTo: this._Activatedroute });
                 }
             });
             

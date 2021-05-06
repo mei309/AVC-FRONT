@@ -19,7 +19,7 @@ import { Genral } from '../genral.service';
             <mat-button-toggle value="Gpacked" i18n>General packed items</mat-button-toggle>
             <mat-button-toggle value="waste" i18n>Waste items</mat-button-toggle>
         </mat-button-toggle-group>
-        <h2>{{choosedOne}}</h2>
+        <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : false}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
             <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : false}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">

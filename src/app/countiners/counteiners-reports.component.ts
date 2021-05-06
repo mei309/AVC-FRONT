@@ -116,11 +116,11 @@ export class CountinersReportsComponent implements OnInit {
                 search: 'dates',
             },
             {
-              type: 'arrayVal',
-              name: 'orderStatus',
+              type: 'normal',
+              name: 'status',
               label: $localize`Status`,
               search: 'select',
-              options: this.genral.getOrderStatus(),
+              options: this.genral.getProcessStatus(),
             },
             {
               type: 'arrayVal',

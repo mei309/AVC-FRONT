@@ -68,9 +68,10 @@ table {
       font-size: 0.8em;
    }
 
-   span .half {float: left; width: 175px; padding: 1%; }
-   .half { display: inline-block; width: 180px; }
+   span .half {float: left; width: 175px; padding: 1%;}
+   .half { display: inline-block; width: 180px; overflow-wrap: break-word;}
 
+   /* white-space:normal; word-wrap:break-word;*/
    h3 {
     margin: 0px;
     margin-top: 8px;

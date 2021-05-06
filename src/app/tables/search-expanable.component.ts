@@ -192,14 +192,19 @@ export class SearchExpandableComponent implements OnInit {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
+          const fitsObjObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          if (!fitsObjObj) {
+            return false;
+          }
+          break;
         case 'object':
-          const fitsThisObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          const fitsThisObj = data[filters[i].cloumn]['value'].toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisObj) {
             return false;
           }
           break;
         case 'objArray':
-          const fitsObjArr = data[filters[i].cloumn].some(a => a['value'].includes(filters[i].val));
+          const fitsObjArr = data[filters[i].cloumn].some(a => a['value'].toLowerCase().includes((filters[i].val).trim().toLowerCase()));
           if (!fitsObjArr) {
             return false;
           }
@@ -223,7 +228,7 @@ export class SearchExpandableComponent implements OnInit {
           }
           break;
         default:
-          const fitsThisFilter = data[filters[i].cloumn].toString().includes(filters[i].val);
+          const fitsThisFilter = data[filters[i].cloumn].toString().toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisFilter) {
             return false;
           }

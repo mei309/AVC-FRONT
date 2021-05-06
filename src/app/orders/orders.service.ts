@@ -141,8 +141,16 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'findFreePoCodes');
   }
 
+  findFreeGeneralPoCodes(): Observable<any> {
+    return this.http.get(this.ordersurl+'findFreeGeneralPoCodes');
+  }
+
   findAllPoCodes (): Observable<any> {
     return this.http.get(this.ordersurl+'findAllPoCodes');
+  }
+
+  findAllGeneralPoCodes (): Observable<any> {
+    return this.http.get(this.ordersurl+'findAllGeneralPoCodes');
   }
 
   getPoCode(po: number) {
@@ -156,6 +164,14 @@ export class OrdersService {
         return this.http.put(this.ordersurl+'editPoCode', value);
       }
   }
+
+  addEditGeneralPoCode (value, fromNew: boolean): Observable<any> {
+    if(fromNew) {
+      return this.http.post(this.ordersurl+'addGeneralPoCode', value);
+    } else {
+      return this.http.put(this.ordersurl+'editGeneralPoCode', value);
+    }
+}
 
   addEditMixPoCode (value, fromNew: boolean): Observable<any> {
     if(fromNew) {
@@ -177,5 +193,7 @@ export class OrdersService {
     getGeneralContractTypes (): Observable<any> {
       return this.http.get(this.ordersurl+'getGeneralContractTypes');
     }
+
+    
 
 }

@@ -1,26 +1,42 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
 import { OrdersService } from './orders.service';
 @Component({
     selector: 'po-codes',
     template: `
-    <h1 style="text-align:center" i18n>Cashew #POS</h1>
+    <h1 style="text-align:center" i18n>#POS</h1>
     <div class="centerButtons">
         <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()" i18n>Add #PO</button>
     </div>
+    <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
+        (selectedIndexChange)="changed($event)">
+        <mat-tab label="Cashew" i18n-label>
+        </mat-tab>
+        <mat-tab label="General" i18n-label>
+        </mat-tab>
+    </mat-tab-group>
     <search-details [dataSource]="posSource" [oneColumns]="columnsPos" (details)="newDialog($event)">
     </search-details>
     `
   })
 export class PoCodesComponent implements OnInit {
-    
+    navigationSubscription;
+
     posSource;
     columnsPos;
+
+    tabIndex: number = 0;
+
+    suppliersChangable = new ReplaySubject<any[]>();
+    contractTypesChangable = new ReplaySubject<any[]>();
     
-    constructor(private genral: Genral, private localService: OrdersService, public dialog: MatDialog) {
+    constructor(private router: Router, private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef,
+        private genral: Genral, private localService: OrdersService, public dialog: MatDialog) {
       }
 
     ngOnInit() {
@@ -35,14 +51,14 @@ export class PoCodesComponent implements OnInit {
                 name: 'supplierName',
                 label: $localize`Supplier`,
                 search: 'selectObj',
-                options: this.genral.getSuppliersCashew(),
+                options: this.suppliersChangable,
             },
             {
                 type: 'normal',
                 name: 'contractTypeCode',
                 label: $localize`Contract type code`,
                 search: 'selectObj',
-                options: this.localService.getCashewContractTypes(),
+                options: this.contractTypesChangable,
             },
             {
                 type: 'normal',
@@ -55,8 +71,26 @@ export class PoCodesComponent implements OnInit {
                 label: $localize`Display`,
             },
         ];
-        this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-            this.posSource = value;
+        this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+            if(params.get('number')) {
+              this.tabIndex = +params.get('number');
+              this.changed(+params.get('number'));
+            } else {
+              this.changed(0);
+            }
+        });
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+          // If it is a NavigationEnd event re-initalise the component
+          if (e instanceof NavigationEnd) {
+            this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+              if(params.get('number')) {
+                this.tabIndex = +params.get('number');
+                this.changed(+params.get('number'));
+              } else {
+                this.changed(0);
+              }
+            });
+          }
         });
     }
 
@@ -64,52 +98,59 @@ export class PoCodesComponent implements OnInit {
         const dialogRef = this.dialog.open(AddEditPoDialog, {
           width: '80%',
           height: '80%',
-          data: {poCode: value? value['id'] : null}
+          data: {poCode: value? value['id'] : null, tab: this.tabIndex}
         });
         dialogRef.afterClosed().subscribe(data => {
             if(data === 'success') {
-                this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-                    this.posSource = value;
-                });
+                this.changed(this.tabIndex, true);
             }
         });
     }
 
-    // editDialog(value: any): void {
-    //     const dialogRef = this.dialog.open(AddEditPoDialog, {
-    //       width: '80%',
-    //       height: '80%',
-    //       data: {poCode: value['id'], mainLabel: 'Edit PO#'}
-    //     });
-    //     dialogRef.afterClosed().subscribe(data => {
-    //         if(data && data !== 'closed') {
-    //             this.localService.addEditPoCode(data, false).pipe(take(1)).subscribe( val => {
-    //                 this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-    //                     this.posSource = value;
-    //                 });
-    //             });
-    //         }
-    //     });
-    // }
+    changed(event, isSame?: boolean) {
+        switch (+event) {
+          case 0:
+            this.posSource = null;
+            if(!isSame) {
+                this.genral.getSuppliersCashew().pipe(take(1)).subscribe(val => {
+                    this.suppliersChangable.next(val);
+                });
+                this.localService.getCashewContractTypes().pipe(take(1)).subscribe(val => {
+                    this.contractTypesChangable.next(val);
+                });
+            }
+            this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+                this.posSource = value;
+            });
+            this.cdRef.detectChanges();
+            break;
+          case 1:
+            this.posSource = null;
+            if(!isSame) {
+                this.genral.getSuppliersGeneral().pipe(take(1)).subscribe(val => {
+                    this.suppliersChangable.next(val);
+                });
+                this.localService.getGeneralContractTypes().pipe(take(1)).subscribe(val => {
+                    this.contractTypesChangable.next(val);
+                });
+            }
+            this.localService.findAllGeneralPoCodes().pipe(take(1)).subscribe(value => {
+                this.posSource = value;
+            });
+            this.cdRef.detectChanges();
+            break;
+          default:
+            break;
+        }
+      }
 
-    // newMixDialog(): void {
-    //     const dialogRef = this.dialog.open(AddEditPoDialog, {
-    //       width: '80%',
-    //       height: '80%',
-    //       data: {mainLabel: 'Add mix #PO'}
-    //     });
-    //     dialogRef.afterClosed().subscribe(data => {
-    //         if(data && data !== 'closed') {
-    //             this.localService.addEditMixPoCode(data, true).pipe(take(1)).subscribe( val => {
-    //                 this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
-    //                     this.posSource = value;
-    //                 });
-    //             });
-    //         }
-    //     });
-    // }
-    // <button class="raised-margin" mat-raised-button color="primary" (click)="newMixDialog()">Add mix #PO's</button>
-
+    ngOnDestroy(){
+        if (this.navigationSubscription) {  
+            this.navigationSubscription.unsubscribe();
+        }
+        this.suppliersChangable.unsubscribe();
+        this.contractTypesChangable.unsubscribe();
+    }
 }
 
 @Component({
@@ -129,6 +170,8 @@ export class AddEditPoDialog {
     poCode: number;
     isDataAvailable: boolean = false;
 
+    tab: number;
+
     ngOnInit(){
         // if(!this.mainLabel.startsWith('Add mix')) {
             if(this.poCode) {
@@ -144,7 +187,7 @@ export class AddEditPoDialog {
                     type: 'select',
                     label: $localize`Supplier`,
                     name: 'supplier',
-                    options: this.localService.getCashewSuppliers(),
+                    options: this.getSuppliers(this.tab),
                     validations: [
                         {
                             name: 'required',
@@ -157,7 +200,7 @@ export class AddEditPoDialog {
                     type: 'select',
                     label: $localize`PO initial`,
                     name: 'contractType',
-                    options: this.localService.getCashewContractTypes(),
+                    options: this.getContractTypes(this.tab),
                     validations: [
                         {
                             name: 'required',
@@ -179,66 +222,44 @@ export class AddEditPoDialog {
                     name: 'submit',
                 }
             ];
-        // } else{
-        //     this.isDataAvailable = true;
-        //     this.poConfig = [
-        //         {
-        //             type: 'bigexpand',
-        //             name: 'origionPoCodes',
-        //             label: 'Mixed PO#s',
-        //             options: 'aloneInline',
-        //             collections: [
-        //                 {
-        //                     type: 'selectgroup',
-        //                     inputType: 'supplierName',
-        //                     options: this.localService.findAllPoCodes(),
-        //                     collections: [
-        //                         {
-        //                             type: 'select',
-        //                             label: 'Supplier',
-        //                         },
-        //                         {
-        //                             type: 'select',
-        //                             label: '#PO',
-        //                             name: 'poCode',
-        //                             collections: 'somewhere',
-        //                         },
-        //                     ]
-        //                 },
-        //                 {
-        //                     type: 'divider',
-        //                     inputType: 'divide'
-        //                 },
-        //             ]
-        //         },
-        //         {
-        //             type: 'input',
-        //             label: 'Display value',
-        //             inputType: 'text',
-        //             name: 'display',
-        //             // disable: true,
-        //         },
-        //         {
-        //             type: 'button',
-        //             label: 'Submit',
-        //             name: 'submit',
-        //         }
-        //     ];
-        // }
     }
     
-    constructor(private genral: Genral, private localService: OrdersService, public dialogRef: MatDialogRef<AddEditPoDialog>,
+    constructor(private localService: OrdersService, public dialogRef: MatDialogRef<AddEditPoDialog>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.poCode = data.poCode;
+            this.tab = data.tab;
         }
     
     submit(value: any) {
-        this.localService.addEditPoCode(value, this.poCode? false : true).pipe(take(1)).subscribe( val => {
-            this.dialogRef.close('success');
-        });
+        if(this.tab === 0) {
+            this.localService.addEditPoCode(value, this.poCode? false : true).pipe(take(1)).subscribe( val => {
+                this.dialogRef.close('success');
+            });
+        } else {
+            this.localService.addEditGeneralPoCode(value, this.poCode? false : true).pipe(take(1)).subscribe( val => {
+                this.dialogRef.close('success');
+            });
+        }
     }
 
+    getSuppliers(tab: number): Observable<any> {
+        if(tab === 0) {
+            return this.localService.getCashewSuppliers();
+        } else {
+            return this.localService.getGeneralSuppliers();
+        }
+      }
+  
+  
+  
+      getContractTypes(tab: number): Observable<any> {
+        if(tab === 0) {
+            return this.localService.getCashewContractTypes();
+        } else {
+            return this.localService.getGeneralContractTypes();
+        }
+      }
 
     onNoClick(): void {
         this.dialogRef.close('closed');

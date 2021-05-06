@@ -172,101 +172,20 @@ export class ProductionsComponent implements OnInit {
           break;
         case 2:
           this.cashewSourceColumns = null;
+          this.localService.getAllToffee().pipe(take(1)).subscribe(value => {
+            this.cashewSourceColumns = <any[]>value;
+          });
+          this.type = 'Toffee';
+          this.cdRef.detectChanges();
+          break;
+        case 3:
+          this.cashewSourceColumns = null;
           this.localService.getAllPacking().pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Packing';
           this.cdRef.detectChanges();
           break;
-        // case 3:
-        //   this.cashewSourceColumns = null;
-        //   this.localService.getAllCashewOrders().pipe(take(1)).subscribe(value => {
-        //     this.cashewSourceColumns = [<any[]>value, this.columnsShow];
-        //     console.log(value);
-            
-        //   });
-        //   this.type = 'history';
-        //   this.columnsShow = [
-        //     {
-        //       name: 'poCode',
-        //       titel: 'PO#',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       group: 'poCode',
-        //     },
-        //     {
-        //       name: 'totalAmount',
-        //       titel: 'Total amount',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       group: 'poCode',
-        //     },
-        //     {
-        //       name: 'supplierName',
-        //       titel: 'Supplier',
-        //       type: 'selectAsyncObject',
-        //       options: this.localService.getSupplierCashew(),
-        //       group: 'poCode',
-        //     },
-        //     {
-        //       name: 'itemName',
-        //       titel: 'Product descrption',
-        //       type: 'selectAsyncObject',
-        //       options: this.genral.getItemsCashew(),
-        //       group: 'itemName',
-        //     },
-        //     {
-        //       name: 'numberUnits',
-        //       titel: 'Amount',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       // options: 'measureUnit',
-        //     },
-        //     {
-        //       name: 'unitPrice',
-        //       titel: 'Price per unit',
-        //       type: 'object',
-        //       pipes: 'object',
-        //       // options: 'currency',
-        //     },
-        //     {
-        //       name: 'defects',
-        //       titel: '% defects',
-        //       type: 'normal',
-        //     },
-        //     {
-        //       name: 'contractDate',
-        //       titel: 'Contract date',
-        //       type: 'dates',
-        //       pipes: 'datesTime',
-        //     },
-        //     {
-        //       name: 'deliveryDate',
-        //       titel: 'Delivery date',
-        //       type: 'dates',
-        //       pipes: 'dates',
-        //       compare: {
-        //         type: '<',
-        //         pipes: new Date().toISOString().substring(0, 10),
-        //       },
-        //     },
-        //     {
-        //       name: 'orderStatus',
-        //       titel: 'Order status',
-        //       type: 'select',
-        //       options: this.genral.getProcessStatus(),
-        //     },
-        //     {
-        //       name: 'poRows',
-        //       titel: 'Supplier',
-        //       type: 'kidArray',
-        //       collections: [
-                
-        //       ]
-        //     }
-        //   ];
-        //   this.cdRef.detectChanges();
-        //   break;
         default:
           break;
       }

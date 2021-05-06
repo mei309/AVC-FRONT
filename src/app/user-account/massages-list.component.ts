@@ -7,7 +7,7 @@ import { UserAccountService } from './user-account.service';
 @Component({
   selector: 'massages-list',
   template: `
-  <h1 style="text-align:center" i18n>Massages center</h1>
+  <h1 style="text-align:center" i18n>Messages center</h1>
   <div class="centerButtons">
     <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
       <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">

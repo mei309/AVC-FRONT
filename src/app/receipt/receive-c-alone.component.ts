@@ -289,7 +289,7 @@ export class ReceiveCAlone implements OnInit {
                                 label: $localize`Price per unit`,
                                 name: 'amount',
                                 inputType: 'numeric',
-                                options: 2,
+                                options: 3,
                             },
                             {
                                 type: 'select',

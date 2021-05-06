@@ -5,14 +5,27 @@ import { diff } from '../libraries/diffArrayObjects.interface';
 @Component({
   selector: 'for-each-edit',
   template: `
-<show-details class="change-color" *ngFor="let line of dataSource['same']" [dataSource]="line" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
-</show-details>
-<show-details class="change-color added-item" *ngFor="let line of dataSource['added']" [dataSource]="line" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
-</show-details>
-<show-details class="change-color removed-item" *ngFor="let line of dataSource['removed']" [dataSource]="line" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
-</show-details>
-<show-details class="change-color" *ngFor="let line of dataSource['updated']" [dataSource]="line[0]" [secondSource]="line[1]" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
-</show-details>
+<div *ngFor="let line of secondSource['same']" style="width: fit-content;">
+  <show-details class="change-color" [dataSource]="line" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
+  </show-details>
+  <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+</div>
+<div *ngFor="let line of secondSource['added']" style="width: fit-content;">
+  <show-details class="change-color added-item" [dataSource]="line" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
+  </show-details>
+  <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+</div>
+<div *ngFor="let line of secondSource['removed']" style="width: fit-content;">
+  <show-details class="change-color removed-item" [dataSource]="line" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
+  </show-details>
+  <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+</div>
+<div *ngFor="let line of secondSource['updated']" style="width: fit-content;">
+  <show-details class="change-color" [dataSource]="line[0]" [secondSource]="line[1]" [withPo]="oneColumns? true : false" [oneColumns]="oneColumns">
+  </show-details>
+  <h2 *ngIf="line[0]['totalAmount']" style="float: right">Total: {{line[0]['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+</div>
+<h2 *ngIf="dataSource['totalWeight'] && dataSource.length > 1" style="float: right">Total all: {{dataSource['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
   `,
   styleUrls: ['show-details-table.css'],
 })
@@ -31,6 +44,6 @@ export class ForEachEditComponent implements OnInit {
                 return key === 'version' ? true : undefined;
             })
         } });
-        this.dataSource = result;
+        this.secondSource = result;
     }
 }

@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductionCleaningComponent } from './production-cleaning.component';
 import { ProductionPackingComponent } from './production-packing.component';
 import { ProductionRoastingComponent } from './production-roasting.component';
-import { ProductionToffyComponent } from './production-toffy.component';
+import { ProductionToffeeComponent } from './production-toffee.component';
 import { ProductionsComponent } from './productions.component';
 
 const routes: Routes = [
@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'Roasting', component: ProductionRoastingComponent, runGuardsAndResolvers: 'always'},
   { path: 'Packing', component:  ProductionPackingComponent, runGuardsAndResolvers: 'always'},
   // { path: 'Packing', component:  NewProductionPackingComponent, runGuardsAndResolvers: 'always'},
-  { path: 'Toffy', component:  ProductionToffyComponent, runGuardsAndResolvers: 'always'},
+  { path: 'Toffee', component:  ProductionToffeeComponent, runGuardsAndResolvers: 'always'},
   { path: 'Productions', component:  ProductionsComponent},
 ];
 

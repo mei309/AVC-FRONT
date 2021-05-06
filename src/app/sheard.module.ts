@@ -209,7 +209,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     FormsModule,
     MaterialModule,
     CommonModule,
-    MatTableExporterModule,
+    MatTableExporterModule.forRoot({xlsxLightWeight: true}),
     // BrowserModule,
   ],
   entryComponents: [
