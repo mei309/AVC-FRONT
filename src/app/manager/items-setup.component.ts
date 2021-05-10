@@ -13,15 +13,15 @@ import { Genral } from '../genral.service';
     <div style="text-align: center;">
         <h1 i18n>Items setup</h1>
         <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()">
-            <mat-button-toggle value="Cbulk" i18n>Cashew bulk items</mat-button-toggle>
+            <mat-button-toggle value="Cbulk" i18n>Cashew bulk items (material)</mat-button-toggle>
             <mat-button-toggle value="Cpacked" i18n>Cashew packed items</mat-button-toggle>
-            <mat-button-toggle value="Gbulk" i18n>General bulk items</mat-button-toggle>
+            <mat-button-toggle value="Gbulk" i18n>General bulk items (material)</mat-button-toggle>
             <mat-button-toggle value="Gpacked" i18n>General packed items</mat-button-toggle>
             <mat-button-toggle value="waste" i18n>Waste items</mat-button-toggle>
         </mat-button-toggle-group>
-        <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : false}}</h2>
+        <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
-            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : false}}</button>
+            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>

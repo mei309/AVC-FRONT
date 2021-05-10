@@ -10,13 +10,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { LayoutModule } from '@angular/cdk/layout';
 import { FinalReportFullComponent } from './final-report-full.component';
 import { FinalReportSummaryComponent } from './final-report-summary.component';
+import { ProductionsByTimeComponent } from './production-by-time.component';
+import { InventoryByTypeComponent } from './inventory-by-type.component';
 
 
 
 
 @NgModule({
   declarations: [FinalReportComponent, FinalReportChartsComponent, FinalReportTablesComponent, 
-    InOutTotalComponent, FinalReportFullComponent, FinalReportSummaryComponent],
+    InOutTotalComponent, FinalReportFullComponent, FinalReportSummaryComponent, ProductionsByTimeComponent,
+    InventoryByTypeComponent],
   imports: [
     SheardModule,
     ReportsRoutingModule,

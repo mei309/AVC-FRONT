@@ -52,7 +52,7 @@ import { OneColumn } from '../field.interface';
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
-                <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
+                <span *ngIf="element[column.name] && getRowSpan(i, column.group)" style="white-space: pre-wrap;">
                   {{element[column.name] | tableCellPipe: column.type : column.collections}}
                 </span>
             </td>
@@ -108,9 +108,9 @@ import { OneColumn } from '../field.interface';
     </table>
     <mat-toolbar>
       <mat-toolbar-row>
-        <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
+        <button><mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
         <span class="example-spacer"></span>
-        <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: totelAll.type : totelAll.collections}}</span>
+        <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: 'weight2' : totelAll.collections}}</span>
         <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -191,6 +191,8 @@ export class SearchGroupDetailsComponent {
   waitForCols: boolean = false;
 
   t0;
+
+  paginatorSize: number = 0;
   
   constructor(private fb: FormBuilder) {
     // this.t0 = performance.
@@ -208,6 +210,9 @@ export class SearchGroupDetailsComponent {
       this.dataSource.sort = this.sort;
       if(this.withPaginator) {
         this.dataSource.paginator = this.paginator;
+        this.paginator.page.pipe(takeUntil(this.destroySubject$)).subscribe(pag => {
+          this.paginatorSize = pag.pageIndex*pag.pageSize;
+        });
       }
       this.readySpanData();
       if(this.secondTimer) {
@@ -436,14 +441,14 @@ export class SearchGroupDetailsComponent {
     if(!key) {
       return 1;
     }
-    if(!index && !(this.spans[this.paginator.pageIndex * this.paginator.pageSize] && this.spans[this.paginator.pageIndex * this.paginator.pageSize][key])) {
-      for (let ind = this.paginator.pageIndex * this.paginator.pageSize -1; ; ind--) {
+    if(!index && !(this.spans[this.paginatorSize] && this.spans[this.paginatorSize][key])) {
+      for (let ind = this.paginatorSize -1; ; ind--) {
         if (this.spans[ind] && this.spans[ind][key]) {
-          return this.spans[ind][key] -(this.paginator.pageIndex * this.paginator.pageSize -ind);
+          return this.spans[ind][key] -(this.paginatorSize -ind);
         }
       }
     } else {
-      return this.spans[index+ this.paginator.pageIndex * this.paginator.pageSize] && this.spans[index+ this.paginator.pageIndex * this.paginator.pageSize][key];
+      return this.spans[index+ this.paginatorSize] && this.spans[index+ this.paginatorSize][key];
     }
   }
 
@@ -572,31 +577,21 @@ export class SearchGroupDetailsComponent {
       switch (this.totelAll.type) {
         case 'weight2':
           const weightSize = this.totelAll.options.length;
-          // var myNumbers = new Array<any>(weightSize);
-          // for (let i = 0; i < weightSize; i++) {
-          //   myNumbers[i] = (this.dataSource.filteredData.map(a => a[this.totelAll.name].find(b => b['measureUnit'] === this.totelAll.options[i])))
-          //   // .reduce((sum, record) => sum + record['amount']);
-          //   .reduce((sum, record) => sum + record['amount'], 0);
-            
-          // }
-          // console.log(myNumbers);
-          
-          // this.dataSource.filteredData.forEach(elem => {
-            
-          // });
-          // for (let ind = 0; ind < this.dataSource.filteredData.length; ind++) {
-          //   if(this.dataSource.filteredData[ind][this.totelAll.name]) {
-          //     for (let m = 0; m < weightSize; m++) {
-          //       myNumbers[m] += this.dataSource.filteredData[ind][this.totelAll.name][m]['amount'];
-          //     }
-          //   }
-          // }
           var result = new Array<object>(weightSize);
           for (let t = 0; t < weightSize; t++) {
             result[t] = {amount: (this.dataSource.filteredData.map(a => a[this.totelAll.name].find(b => b['measureUnit'] === this.totelAll.options[t])))
               .reduce((sum, record) => sum + record['amount'], 0), measureUnit: this.totelAll.options[t]};
           }
           return result;
+        case 'listAmountWithUnit':
+          const weightSize1 = this.totelAll.options.length;
+          var result1 = new Array<object>(weightSize1);
+          for (let t = 0; t < weightSize1; t++) {
+            let nested = this.dataSource.filteredData.map(a => a[this.totelAll.name].map(b => b['amountList'].find(c => c['measureUnit'] === this.totelAll.options[t])));
+            let flat = [].concat.apply([], nested);
+            result1[t] = {amount: flat.reduce((sum, record) => sum + record['amount'], 0), measureUnit: this.totelAll.options[t]};
+          }
+          return result1;
         default:
           break;
       }

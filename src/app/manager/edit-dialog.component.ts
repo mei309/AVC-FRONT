@@ -7,7 +7,7 @@ import { ManagerService } from './manager.service';
 @Component({
     selector: 'app-edit-dialog',
     template: `
-    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="mainLabel | namingPipe : type.startsWith('edit')" (submitForm)="submit($event)" popup="true">
+    <dynamic-form [putData]="putData" [fields]="regConfig" [mainLabel]="mainLabel | namingPipe : (type.startsWith('edit')? 'edit' : 'add')" (submitForm)="submit($event)" popup="true">
     </dynamic-form>
     `,
 })

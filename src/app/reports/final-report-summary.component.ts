@@ -181,8 +181,8 @@ export class FinalReportSummaryComponent {
             ]
         },
         {
-            name: 'relocation',
-            label: $localize`Relocation`,
+            name: 'rawRelocation',
+            label: $localize`Raw relocation`,
             type: 'normal',
             collections: [
                 {
@@ -216,6 +216,38 @@ export class FinalReportSummaryComponent {
             name: 'cleaning',
             label: $localize`Cleaning`,
             type: 'normal'
+        },
+        {
+            name: 'cleanRelocation',
+            label: $localize`Cleaned relocation`,
+            type: 'normal',
+            collections: [
+                {
+                    type: 'itemWeight',
+                    name: 'usedItems',
+                    label: $localize`Used items`,
+                },
+                {
+                    type: 'itemWeight',
+                    name: 'itemCounts',
+                    label: $localize`Counted items`,
+                },
+                {
+                    type: 'weight2',
+                    name: 'usedCountDifference',
+                    label: $localize`Difference`,
+                },
+                {
+                    type: 'dateTime',
+                    name: 'recordedTime',
+                    label: $localize`Recorded time`,
+                },
+                {
+                    type: 'normal',
+                    name: 'status',
+                    label: $localize`Status`,
+                },
+            ]
         },
         {
             name: 'roasting',

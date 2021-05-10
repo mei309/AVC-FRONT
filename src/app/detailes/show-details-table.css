@@ -59,6 +59,12 @@ table {
     }
        
 
+    .bottom-legend {
+      position: absolute;
+      bottom: -2.6ex;
+      right: 20px;
+      background: white;
+    }
 
 
     label{

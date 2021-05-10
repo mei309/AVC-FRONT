@@ -33,7 +33,7 @@ export class TableCellPipe implements PipeTransform {
             case 'name2':
                 return element['value'] +', '+ element[second];
             case 'currency':
-                return new CurrencyPipe(this.locale).transform(element['amount'], element['currency']);
+                return new CurrencyPipe(this.locale).transform(element['amount'], element['currency'], 'symbol', '1.0-3');
             case 'weight':
             case 'weight2': 
                 if(element) {

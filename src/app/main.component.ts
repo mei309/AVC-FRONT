@@ -59,7 +59,7 @@ export class MainComponent {
   }
 
   navigateTo(value){
-    window.location.href = 'https://d34djkpi615opt.cloudfront.net/'+value.code
+    window.location.href = window.location.origin+'/'+value.code+'/'+this.router.url
   }
 
   ngOnDestroy() {

@@ -29,4 +29,16 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getAllPoCodes');
   }
 
+  allProductionByTime (date: Date, type: string) {
+    return this.http.get(this.reportsurl+'allProductionByTime/'+date.getTime()/1000+'/'+type);
+  }
+
+  getCashewInventoryPacked () {
+    return this.http.get(this.reportsurl+'getCashewInventoryPacked');
+  }
+
+  getCashewInventoryBullk () {
+    return this.http.get(this.reportsurl+'getCashewInventoryBullk');
+  }
+
 }

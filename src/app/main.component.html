@@ -13,9 +13,9 @@
 fxShow="true" fxHide.lt-md="true" -->
     <h1 style="color: lightcoral;">AVC</h1>
     <span class="menu-spacer"></span>
+
     <div>
-        
-      
+         
       <button mat-button [matMenuTriggerFor]="menuQc" i18n>QC</button>
       <mat-menu #menuQc="matMenu" >
         <button mat-menu-item [matMenuTriggerFor]="qcnew" i18n>New</button>
@@ -170,6 +170,8 @@ fxShow="true" fxHide.lt-md="true" -->
       <button mat-button [matMenuTriggerFor]="menuReports" i18n>Reports</button>
       <mat-menu #menuReports="matMenu">
         <button mat-menu-item routerLink='reports/FullPoReport' i18n>Full PO# Details</button>
+        <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions By Time</button>
+        <button mat-menu-item routerLink='reports/InventoryByType' i18n>Inventory By Type</button>
       </mat-menu>
       
       <button mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>

@@ -25,9 +25,9 @@ import { Validators } from '@angular/forms';
             <mat-button-toggle value="CashewStandards" i18n>Cashew standerts</mat-button-toggle>
             <mat-button-toggle value="ShippingPorts" i18n>Shipping ports</mat-button-toggle>
         </mat-button-toggle-group>
-        <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : false}}</h2>
+        <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
-            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : false}}</button>
+            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>
