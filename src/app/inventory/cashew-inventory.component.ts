@@ -11,7 +11,7 @@ import { InventoryService } from './inventory.service';
   selector: 'app-cashew-inventory',
   template: `
   <h1 style="text-align:center" i18n>Cashew inventory</h1>
-  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew stock by item" i18n-label>
           <div class="centerButtons">
               <mat-form-field style="margin-bottom:10px; margin-left:25px;" >

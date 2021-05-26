@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
   template: `
   <h1 style="text-align:center" i18n>Cashew Orders</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
-  (selectedIndexChange)="changed($event)">
+  (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Open" i18n-label>
       </mat-tab>
       <mat-tab label="All" i18n-label>

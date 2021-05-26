@@ -40,5 +40,25 @@ export class ReportsService {
   getCashewInventoryBullk () {
     return this.http.get(this.reportsurl+'getCashewInventoryBullk');
   }
+  
+  getCashewInventoryFinished (date: Date) {
+    return this.http.get(this.reportsurl+'getCashewInventoryFinished/'+date.getTime()/1000);
+  }
+  
+  getCashewInventoryBagged (date: Date) {
+    return this.http.get(this.reportsurl+'getCashewInventoryBagged/'+date.getTime()/1000);
+  }
+
+  getCashewInventoryRaw (date: Date) {
+    return this.http.get(this.reportsurl+'getCashewInventoryRaw/'+date.getTime()/1000);
+  }
+
+  getCashewExportReport (firstDate: Date, secondDate: Date) {
+    return this.http.get(this.reportsurl+'getCashewExportReport/'+firstDate.getTime()/1000+'/'+secondDate.getTime()/1000);
+  }
+
+  getBulkPackCashewItems (packageType: string) {
+    return this.http.get(this.reportsurl+'getBulkPackCashewItems/'+packageType);
+  }
 
 }

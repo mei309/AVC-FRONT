@@ -15,7 +15,7 @@ import { ReplaySubject } from 'rxjs';
   template: `
   <h1 style="text-align:center" i18n>Relocations reports</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
-  (selectedIndexChange)="changed($event)">
+  (selectedIndexChange)="changed($event)" class="spac-print">
       <!-- <mat-tab label="Transfers">
       </mat-tab> -->
       <mat-tab label="Raw relocation with weighing" i18n-label>

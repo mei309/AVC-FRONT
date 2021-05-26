@@ -11,15 +11,11 @@ import { InventoryService } from './inventory.service';
   selector: 'inventory-reports',
   template: `
   <h1 style="text-align:center" i18n>Inventory reports</h1>
-  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Material usages" i18n-label>
       </mat-tab>
       <mat-tab label="Relocations" i18n-label>
       </mat-tab>
-      <!-- <mat-tab label="Cashew stock by PO#">
-      </mat-tab>
-      <mat-tab label="Raw cashew stock and orders">
-      </mat-tab> -->
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="inventorySource" (details)="openDialog($event)">
   </search-group-details>

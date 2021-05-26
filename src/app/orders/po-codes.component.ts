@@ -14,7 +14,7 @@ import { OrdersService } from './orders.service';
         <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()" i18n>Add #PO</button>
     </div>
     <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
-        (selectedIndexChange)="changed($event)">
+        (selectedIndexChange)="changed($event)" class="spac-print">
         <mat-tab label="Cashew" i18n-label>
         </mat-tab>
         <mat-tab label="General" i18n-label>

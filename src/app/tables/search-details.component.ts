@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -71,6 +71,18 @@ import { OneColumn } from '../field.interface';
   `,
 })
 export class SearchDetailsComponent {
+  @HostListener('window:beforeprint', ['$event'])
+    onBeforePrint(event){
+      this.paginator.pageSize = this.dataSource.filteredData.length;
+      this.dataSource.paginator = this.paginator;
+      this.cdRef.detectChanges();
+    }
+    @HostListener('window:afterprint', ['$event'])
+    onAfterPrint(event){
+      this.paginator.pageSize = 10;
+      this.dataSource.paginator = this.paginator;
+      this.cdRef.detectChanges();
+    }
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -118,7 +130,7 @@ export class SearchDetailsComponent {
   columnsDisplay: string[] = [];
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdRef:ChangeDetectorRef) {
   }
 
   openDetails(value: any) {

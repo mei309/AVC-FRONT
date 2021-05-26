@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -108,10 +108,10 @@ import { OneColumn } from '../field.interface';
     </table>
     <mat-toolbar>
       <mat-toolbar-row>
-        <button><mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
+        <button class="no-print"><mat-icon (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
         <span class="example-spacer"></span>
         <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: 'weight2' : totelAll.collections}}</span>
-        <mat-paginator [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+        <mat-paginator class="no-print" [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
@@ -122,6 +122,18 @@ import { OneColumn } from '../field.interface';
   `,
 })
 export class SearchGroupDetailsComponent {
+    @HostListener('window:beforeprint', ['$event'])
+    onBeforePrint(event){
+      this.paginator.pageSize = this.dataSource.filteredData.length;
+      this.dataSource.paginator = this.paginator;
+      this.cdRef.detectChanges();
+    }
+    @HostListener('window:afterprint', ['$event'])
+    onAfterPrint(event){
+      this.paginator.pageSize = 5;
+      this.dataSource.paginator = this.paginator;
+      this.cdRef.detectChanges();
+    }
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     
@@ -194,7 +206,7 @@ export class SearchGroupDetailsComponent {
 
   paginatorSize: number = 0;
   
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdRef:ChangeDetectorRef) {
     // this.t0 = performance.
   }
   // ngAfterViewChecked() {

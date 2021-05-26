@@ -11,7 +11,7 @@ import { ReportsService } from './reports.service';
   selector: 'inventory-by-type',
   template: `
   <h1 style="text-align:center" i18n>Cashew inventory report</h1>
-  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew material stock" i18n-label>
       </mat-tab>
       <mat-tab label="Cashew items stock" i18n-label>
@@ -135,8 +135,8 @@ export class InventoryByTypeComponent implements OnInit {
           this.localService.getCashewInventoryBullk().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
           });
-          this.genral.getItemsCashew('All').pipe(take(1)).subscribe(val => {
-            this.ItemsChangable.next(val.filter(a => a.clazz == 'com.avc.mis.beta.entities.item.BulkItem'));
+          this.localService.getBulkPackCashewItems('BULK').pipe(take(1)).subscribe(val => {
+            this.ItemsChangable.next(<any[]>val);
           });
           this.cdRef.detectChanges();
           break;
@@ -145,8 +145,8 @@ export class InventoryByTypeComponent implements OnInit {
           this.localService.getCashewInventoryPacked().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
           });
-          this.genral.getItemsCashew('All').pipe(take(1)).subscribe(val => {
-            this.ItemsChangable.next(val.filter(a => a.clazz == 'com.avc.mis.beta.entities.item.PackedItem'));
+          this.localService.getBulkPackCashewItems('PACKED').pipe(take(1)).subscribe(val => {
+            this.ItemsChangable.next(<any[]>val);
           });
           this.cdRef.detectChanges();
           break;

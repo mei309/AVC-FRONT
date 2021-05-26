@@ -12,7 +12,7 @@ import { Validators } from '@angular/forms';
     template: `
     <div style="text-align: center;">
         <h1 i18n>Setup managment</h1>
-        <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()">
+        <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()" class="no-print">
             <mat-button-toggle value="Countries" i18n>Countries</mat-button-toggle>
             <mat-button-toggle value="Cities" i18n>Cities</mat-button-toggle>
             <mat-button-toggle value="Banks" i18n>Banks</mat-button-toggle>

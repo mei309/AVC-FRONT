@@ -59,7 +59,7 @@ export class MainComponent {
   }
 
   navigateTo(value){
-    window.location.href = window.location.origin+'/'+value.code+'/'+this.router.url
+    window.location.href = window.location.origin+'/'+value.code;
   }
 
   ngOnDestroy() {

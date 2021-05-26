@@ -12,7 +12,7 @@ import { Genral } from '../genral.service';
     template: `
     <div style="text-align: center;">
         <h1 i18n>Items setup</h1>
-        <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()">
+        <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()" class="no-print">
             <mat-button-toggle value="Cbulk" i18n>Cashew bulk items (material)</mat-button-toggle>
             <mat-button-toggle value="Cpacked" i18n>Cashew packed items</mat-button-toggle>
             <mat-button-toggle value="Gbulk" i18n>General bulk items (material)</mat-button-toggle>

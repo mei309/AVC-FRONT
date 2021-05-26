@@ -1,20 +1,9 @@
 <h1 style="text-align:center" i18n>General orders</h1>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
-(selectedIndexChange)="changed($event)">
+(selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Open" i18n-label>
     </mat-tab>
     <mat-tab label="All" i18n-label>
-        <!-- not implemnted yet
-        <mat-form-field>
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value)" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
-              <input matStartDate formControlName="start" placeholder="Start date">
-              <input matEndDate formControlName="end" placeholder="End date">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker4></mat-date-range-picker>
-        </mat-form-field> -->
-        
     </mat-tab>
 </mat-tab-group>
 <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" (details)="openDialog($event)">

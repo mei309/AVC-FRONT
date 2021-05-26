@@ -94,6 +94,11 @@ export class InOutTotalComponent {
         foot: 'totalProductIn',
     },
     {
+        name: 'ingredients',
+        label: $localize`Ingredients`,
+        foot: 'totalIngredients',
+    },
+    {
         name: 'received',
         label: $localize`Received`,
         foot: 'totalReceived',
@@ -112,11 +117,6 @@ export class InOutTotalComponent {
         name: 'productCount',
         label: $localize`Product count`,
         foot: 'totalProductCount',
-    },
-    {
-        name: 'ingredients',
-        label: $localize`Ingredients`,
-        foot: 'totalIngredients',
     },
     {
         name: 'difference',

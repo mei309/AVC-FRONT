@@ -12,7 +12,7 @@ import { ReceiptService } from './receipt.service';
   template: `
   <h1 style="text-align:center" i18n>General Receivings</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
-  (selectedIndexChange)="changed($event)">
+  (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
       </mat-tab>
       <mat-tab label="Finalized" i18n-label>

@@ -11,7 +11,7 @@ import { InventoryService } from './inventory.service';
   selector: 'app-genral-inventory',
   template: `
   <h1 style="text-align:center" i18n>General inventory</h1>
-  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)">
+  <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="General stock by item" i18n-label>
       </mat-tab>
       <mat-tab label="General stock by PO#" i18n-label>
