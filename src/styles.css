@@ -163,6 +163,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: inline-block;
     width: fit-content;
   }
+
+  .button-center {
+    position:relative;
+    left:25%;
+  }
   
   /* table {
     width: 90%;
@@ -209,6 +214,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       top: 0; /* Sets the sticky toolbar to be on top */
       z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
     }
+
+
     .mat-radio-group {
       display: inline-flex;
       flex-direction: column;
@@ -274,11 +281,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       left: 0;
       top: 0;
     }
-
-    /* .tables {
-      width: fit-content;
-      margin: auto;
-      max-width: 100vw;
-      overflow:auto;
-    } */
   }

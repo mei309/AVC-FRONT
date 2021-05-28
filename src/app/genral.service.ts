@@ -19,6 +19,7 @@ export class Genral {
   ItemsPackedCashew = new ReplaySubject<DropNormal[]>();
   ItemsRoastPackedCashew = new ReplaySubject<DropNormal[]>();
   ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
+  ItemsToffee = new ReplaySubject<DropNormal[]>();
   allItemsCashew = new ReplaySubject<DropNormal[]>();
   ItemsGeneral = new ReplaySubject<DropNormal[]>();
   productionLine = new ReplaySubject<DropNormalPLine[]>();
@@ -56,6 +57,7 @@ export class Genral {
     this.ItemsPackedCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsRoastPackedCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
+    this.ItemsToffee = new ReplaySubject<DropNormal[]>();
     this.allItemsCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsGeneral = new ReplaySubject<DropNormal[]>();
     this.productionLine = new ReplaySubject<DropNormalPLine[]>();
@@ -64,7 +66,7 @@ export class Genral {
     this.setInitiel();
   }
 
-
+  
   setInitiel() {
     this.getMainSetUp().pipe(take(1)).subscribe(value => {
       this.wearhouses.next(value[0]);
@@ -75,6 +77,7 @@ export class Genral {
       this.ItemsCleanCashew.next(value[2].filter(w => w.productionUse === 'CLEAN'));
       this.ItemsRoastCashew.next(value[2].filter(w => w.productionUse === 'ROAST'));
       this.ItemsPackedCashew.next(value[2].filter(w => w.productionUse === 'PACKED'));
+      this.ItemsToffee.next(value[2].filter(w => w.productionUse === 'TOFFEE'));
       this.ItemsRoastPackedCashew.next(value[2].filter(w => ['ROAST', 'PACKED'].includes(w.productionUse)));
       this.allItemsCashew.next(value[2]);
 
@@ -192,6 +195,9 @@ export class Genral {
   getItemsWasteCashew (): Observable<any> {
     return this.ItemsWasteCashew.asObservable();
   }
+  getItemsToffee (): Observable<any> {
+    return this.ItemsToffee.asObservable();
+  }
   getItemsCashew(type: string | number): Observable<any> {
     switch (type) {
       case 0:
@@ -213,7 +219,8 @@ export class Genral {
         return this.getItemsRoastPackedCashew();
       case 'Waste':
         return this.getItemsWasteCashew();
-    
+      case 'Toffee':
+        return this.getItemsToffee();
       default:
         return this.getAllItemsCashew();
     }

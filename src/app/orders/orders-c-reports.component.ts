@@ -17,6 +17,7 @@ import { OrdersService } from './orders.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../NewCashewOrder' i18n>New Cashew Order</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `

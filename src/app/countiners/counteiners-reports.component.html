@@ -5,19 +5,8 @@
     </mat-tab>
     <mat-tab label="Loadings" i18n-label>
     </mat-tab>
-    <!-- <mat-tab label="History">
-        not implemnted yet
-        <mat-form-field>
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input (focus)="picker4.open()" (dateChange)="inlineRangeChange($event.value)" [formGroup]="dateRangeDisp" [rangePicker]="picker4">
-              <input matStartDate formControlName="start" placeholder="Start date">
-              <input matEndDate formControlName="end" placeholder="End date">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker4></mat-date-range-picker>
-        </mat-form-field>
-        
-    </mat-tab> -->
 </mat-tab-group>
+<button class="button-center" mat-raised-button color="primary" routerLink='../Arrival' i18n>New Arrival</button>
+<button class="button-center" mat-raised-button color="primary" routerLink='../Loading' i18n>New Loading</button>
 <search-group-details [mainColumns]="columnsShow" [detailsSource]="mainSourceColumns" [totelColumn]="totelColumn" (details)="openDialog($event)">
 </search-group-details>

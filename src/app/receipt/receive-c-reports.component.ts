@@ -19,6 +19,8 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveCOrder' i18n>Receive Cashew Order</button>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveCAlone' i18n>Receive Cashew Without Order</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `

@@ -12,5 +12,9 @@
         
     </mat-tab>-->
 </mat-tab-group>
+<button class="button-center" mat-raised-button color="primary" routerLink='../Raw' i18n>New Raw Check (weights)</button>
+<button class="button-center" mat-raised-button color="primary" routerLink='../RawPercntage' i18n>New Raw Check (percntage)</button>
+<button class="button-center" mat-raised-button color="primary" [routerLink]="['../Raw', {roast: true}]" i18n>New Roast Check (weights)</button>
+<button class="button-center" mat-raised-button color="primary" [routerLink]="['../RawPercntage', {roast: true}]" i18n>New Roast Check (percntage)</button>
 <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" (details)="openDialog($event)">
 </search-group-details>

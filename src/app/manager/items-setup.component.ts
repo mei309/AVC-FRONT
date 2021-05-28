@@ -58,6 +58,75 @@ export class ItemsSetupComponent {
                 type: 'input',
             }
         ];
+        if(this.choosedOne.startsWith('C')) {
+            this.columnsSetup.push(
+                {
+                    name: 'grade',
+                    label: $localize`Grade`,
+                    search: 'select',
+                    options: this.getCashewGrades(),
+                },
+                {
+                    name: 'saltLevel',
+                    label: $localize`Salt level`,
+                    search: 'select',
+                    options: this.getSaltLevel(),
+                }
+            );
+            this.regConfigTemp.push(
+                {
+                    name: 'grade',
+                    label: $localize`Grade`,
+                    type: 'selectNormal',
+                    options: this.getCashewGrades(),
+                },
+                {
+                    name: 'saltLevel',
+                    label: $localize`Salt level`,
+                    type: 'selectNormal',
+                    options: this.getSaltLevel(),
+                }
+            );
+            if(this.choosedOne.endsWith('packed')) {
+                this.columnsSetup.push(
+                    {
+                        name: 'brand',
+                        label: $localize`Brand`,
+                        search: 'normal',
+                    },
+                    {
+                        name: 'code',
+                        label: $localize`Code`,
+                        search: 'select',
+                        options: this.getSaltLevel(),
+                    },
+                    {
+                        name: 'numBags',
+                        label: $localize`Bags in box`,
+                        search: 'select',
+                        options: this.getSaltLevel(),
+                    }
+                );
+                this.regConfigTemp.push(
+                    {
+                        name: 'brand',
+                        label: $localize`Brand`,
+                        type: 'input',
+                    },
+                    {
+                        name: 'code',
+                        label: $localize`Code`,
+                        type: 'input',
+                    },
+                    {
+                        type: 'input',
+                        label: $localize`Bags in box`,
+                        name: 'numBags',
+                        inputType: 'numeric',
+                    }
+                );
+            }
+        }
         if(this.choosedOne.endsWith('packed')) {
             this.columnsSetup.push(
                 {
@@ -139,12 +208,20 @@ export class ItemsSetupComponent {
     getProductionUse(type: string) {
         switch (type) {
             case 'C':
-                return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED'];
+                return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'TOFFEE', 'PACKED'];
             case 'G':
                 return ['INGREDIENTS', 'PACKING_SUPPLYES', 'GENERAL_INVENTORY'];
             default:
                 return ['WASTE'];
         }
+    }
+
+    getCashewGrades() {
+        return ['W240', 'W320', 'W340', 'W350', 'W360', 'W450', 'AW', 'DW', 'DW_CUT', 'DW_SCRAPE', 'SK', 'SW320', 'WB', 'WS', 'WSLP'];
+    }
+
+    getSaltLevel() {
+        return ['NS', 'S', 'LS'];
     }
 
     getMU(type: string) {

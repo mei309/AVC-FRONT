@@ -17,6 +17,8 @@ import { InventoryService } from './inventory.service';
       <mat-tab label="Relocations" i18n-label>
       </mat-tab>
   </mat-tab-group>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../MaterialUse' i18n>New Material Usage</button>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../Relocation' i18n>New Relocation</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="inventorySource" (details)="openDialog($event)">
   </search-group-details>
     `

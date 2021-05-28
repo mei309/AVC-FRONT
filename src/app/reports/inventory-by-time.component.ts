@@ -95,12 +95,6 @@ export class InventoryByTimeComponent implements OnInit {
         this.columnsShow = [
           {
               type: 'normal',
-              name: 'poCode',
-              label: $localize`PO#`,
-              search: 'normal',
-          },
-          {
-              type: 'normal',
               name: 'supplier',
               label: $localize`Supplier`,
               search: 'normal',
@@ -109,9 +103,21 @@ export class InventoryByTimeComponent implements OnInit {
           {
               type: 'normal',
               name: 'item',
-              label: $localize`Product descrption`,
+              label: $localize`Material`,
               search: 'selectObj',
               options: this.genral.getItemsRawCashew(),
+          },
+          {
+              type: 'normal',
+              name: 'poCode',
+              label: $localize`PO#`,
+              search: 'normal',
+          },
+          {
+              type: 'date',
+              name: 'receiptDate',
+              label: $localize`Receipt date`,
+              search: 'dates',
           },
           {
               type: 'arrayVal',
@@ -120,13 +126,7 @@ export class InventoryByTimeComponent implements OnInit {
               search: 'normal',
           },
           {
-              type: 'dateTime',
-              name: 'receiptDate',
-              label: $localize`Receipt date`,
-              search: 'dates',
-          },
-          {
-              type: 'normal',
+              type: 'decimalNumber',
               name: 'weightInLbs',
               label: $localize`LBS weight`,
               search: 'normal',
@@ -136,6 +136,13 @@ export class InventoryByTimeComponent implements OnInit {
               name: 'unitPrice',
               label: $localize`Price per unit`,
               search: 'object',
+          },
+          {
+              type: 'normal',
+              name: 'currency',
+              label: $localize`Currency`,
+              search: 'select',
+              options: ['USD', 'VND'],
           },
           {
               type: 'arrayVal',
@@ -169,10 +176,10 @@ export class InventoryByTimeComponent implements OnInit {
           },
           {
               type: 'normal',
-              name: 'grade',
-              label: $localize`Grade`,
+              name: 'code',
+              label: $localize`Code`,
               search: 'normal',
-              group: 'grade',
+              group: 'code',
           },
           {
               type: 'normal',
@@ -185,7 +192,7 @@ export class InventoryByTimeComponent implements OnInit {
               type: 'weight',
               name: 'bagSize',
               label: $localize`Bag size`,
-              search: 'objArray',
+              search: 'object',
           },
           {
               type: 'normal',
@@ -194,25 +201,25 @@ export class InventoryByTimeComponent implements OnInit {
               search: 'normal',
           },
           {
-              type: 'normal',
+              type: 'decimalNumber',
               name: 'bagsInBox',
               label: $localize`Bags in box`,
               search: 'normal',
           },
           {
-              type: 'normal',
+              type: 'decimalNumber',
               name: 'boxQuantity',
               label: $localize`Box quantity`,
               search: 'normal',
           },
           {
-              type: 'normal',
+              type: 'decimalNumber',
               name: 'bagQuantity',
               label: $localize`Bag quantity`,
               search: 'normal',
           },
           {
-              type: 'normal',
+              type: 'decimalNumber',
               name: 'weightInLbs',
               label: $localize`LBS weight`,
               search: 'normal',
@@ -228,18 +235,19 @@ export class InventoryByTimeComponent implements OnInit {
         });
         this.columnsShow = [
           {
+              type: 'nameId',
+              name: 'item',
+              label: $localize`product`,
+              search: 'selectObjObj',
+              options: this.genral.getItemsRoastPackedCashew(),
+              group: 'item',
+          },
+          {
               type: 'arrayVal',
               name: 'poCodes',
               label: $localize`PO#`,
               search: 'normal',
               group: 'poCodes',
-          },
-          {
-              type: 'nameId',
-              name: 'item',
-              label: $localize`Item`,
-              search: 'selectObjObj',
-              options: this.genral.getItemsRoastPackedCashew(),
           },
           {
               type: 'arrayVal',
@@ -254,16 +262,22 @@ export class InventoryByTimeComponent implements OnInit {
               search: 'dates',
           },
           {
-              type: 'normal',
-              name: 'weightInLbs',
-              label: $localize`LBS weight`,
+              type: 'decimalNumber',
+              name: 'boxQuantity',
+              label: $localize`Box quantity`,
               search: 'normal',
           },
           {
               type: 'weight',
-              name: 'totalAmount',
-              label: $localize`Total amount`,
-              search: 'objArray',
+              name: 'BoxWeight',
+              label: $localize`Box weight`,
+              search: 'object',
+          },
+          {
+              type: 'decimalNumber',
+              name: 'weightInLbs',
+              label: $localize`LBS weight`,
+              search: 'normal',
           },
           {
               type: 'arrayVal',

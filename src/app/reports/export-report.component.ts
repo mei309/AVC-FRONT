@@ -11,7 +11,7 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'export-report',
   template: `
-    <h1 style="text-align:center" i18n>All production</h1>
+    <h1 style="text-align:center" i18n>Export report</h1>
     <mat-form-field>
       <mat-label i18n>Enter a date range</mat-label>
       <mat-date-range-input [formGroup]="dateRangeDisp" [rangePicker]="picker4">
@@ -51,20 +51,33 @@ export class ExportReportComponent implements OnInit {
     this.columnsShow = [
         {
             type: 'normal',
-            name: 'poCode',
-            label: $localize`PO#`,
-            search: 'normal',
-        },
-        {
-            type: 'normal',
             name: 'containerNumber',
             label: $localize`Container number`,
             search: 'normal',
         },
         {
+            type: 'nameId',
+            name: 'shipmentCode',
+            label: $localize`Shipment code`,
+            search: 'object',
+        },
+        {
             type: 'normal',
             name: 'containerSize',
             label: $localize`Container size`,
+            search: 'normal',
+        },
+        {
+            type: 'nameId',
+            name: 'item',
+            label: $localize`Commodity`,
+            search: 'selectObj',
+            options: this.genral.getItemsRawCashew(),
+        },
+        {
+            type: 'normal',
+            name: 'poCode',
+            label: $localize`PO#`,
             search: 'normal',
         },
         {
@@ -74,31 +87,25 @@ export class ExportReportComponent implements OnInit {
             search: 'dates',
         },
         {
-            type: 'date',
-            name: 'eta',
-            label: $localize`Eta`,
-            search: 'dates',
+            name: 'saltLevel',
+            label: $localize`Salt level`,
+            type: 'selectNormal',
+            options: ['NS', 'S', 'LS'],
         },
         {
-            type: 'nameId',
-            name: 'bagSize',
-            label: $localize`Bag size`,
-            search: 'object',
-        },
-        {
-            type: 'normal',
-            name: 'bagsInBox',
-            label: $localize`Bags in box`,
-            search: 'normal',
-        },
-        {
-            type: 'normal',
+            type: 'decimalNumber',
             name: 'boxQuantity',
             label: $localize`Box quantity`,
             search: 'normal',
         },
         {
-            type: 'normal',
+            type: 'decimalNumber',
+            name: 'bagQuantity',
+            label: $localize`Bag quantity`,
+            search: 'normal',
+        },
+        {
+            type: 'decimalNumber',
             name: 'weightInLbs',
             label: $localize`LBS weight`,
             search: 'normal',
@@ -108,12 +115,6 @@ export class ExportReportComponent implements OnInit {
             name: 'remarks',
             label: $localize`Remarks`,
             search: 'normal',
-        },
-        {
-            type: 'nameId',
-            name: 'shipmentCode',
-            label: $localize`Shipment code`,
-            search: 'object',
         },
       ];
   }
