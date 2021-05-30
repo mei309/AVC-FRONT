@@ -58,6 +58,12 @@ export class TableCellPipe implements PipeTransform {
                 } else {
                     return ;
                 }
+            case 'checkBool':
+                // if(element === second){
+                    return '\u2713';
+                // } else {
+                //     return ;
+                // }
             case 'percent':
                 return new PercentPipe(this.locale).transform(element/100, '1.0-3');
             case 'percentNormal':

@@ -50,7 +50,6 @@ import { NormalDetailsComponent } from './tables/normal-details.component';
 import { SearchExpandableComponent } from './tables/search-expanable.component';
 import { SearchGroupDetailsComponent } from './tables/search-group-details.component';
 import { NormalGroupDetailsComponent } from './tables/normal-group-details.component';
-import { SumsTableComponent } from './tables/sums-table.component';
 import { PercentInputComponent } from './components/inputs/percent-input.component';
 import { PercentageDirective } from './libraries/percentage.directive';
 import { ForEachEditComponent } from './detailes/for-each-edit.component';
@@ -78,7 +77,6 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     SearchExpandableComponent,
     SearchGroupDetailsComponent,
     NormalGroupDetailsComponent,
-    SumsTableComponent,
     
 
     FormDirective,
@@ -146,7 +144,6 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     SearchExpandableComponent,
     SearchGroupDetailsComponent,
     NormalGroupDetailsComponent,
-    SumsTableComponent,
 
     FormDirective,
     NumericDirective,

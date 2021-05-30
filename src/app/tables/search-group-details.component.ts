@@ -7,6 +7,7 @@ import { isEqual } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
+import { groupBy, mapValues } from 'lodash-es';
 
 @Component({
   selector: 'search-group-details',
@@ -17,7 +18,7 @@ import { OneColumn } from '../field.interface';
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns" [formGroup]="searchGroup">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
-                <mat-form-field style="width:90%;" [ngSwitch]="column.search" class="no-print" [formGroupName]="column.name">
+                <mat-form-field [ngSwitch]="column.search" class="no-print table-searc" [formGroupName]="column.name">
                     <mat-select *ngSwitchCase="'select'" placeholder="Search" formControlName="val" i18n-placeholder>
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
@@ -110,10 +111,15 @@ import { OneColumn } from '../field.interface';
       <mat-toolbar-row>
         <button class="no-print"><mat-icon (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
         <span class="example-spacer"></span>
-        <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: 'weight2' : totelAll.collections}}</span>
+        <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: 'weight2' : null}}</span>
         <mat-paginator class="no-print" [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
       </mat-toolbar-row>
     </mat-toolbar>
+  </div>
+  <div *ngIf="listTotal" style="float: right; margin-right: 15px;">
+    <ng-container *ngFor="let total of currentListTotales">
+      <h2>{{total.key}}: {{total.val | tableCellPipe: 'decimalNumber' : null}}</h2>
+    </ng-container>
   </div>
   <ng-container *ngIf="!dataSource">
     <mat-spinner *ngIf="secondToUpload"></mat-spinner>
@@ -149,8 +155,13 @@ export class SearchGroupDetailsComponent {
     }
 
     @Input() totelAll;
-
     currentTotalAll = undefined;
+
+    listTotal;
+    @Input() set listTotales(val) {
+      this.listTotal = val;
+    }
+    currentListTotales;
 
     dataSource;
   @Input() set detailsSource(value) {
@@ -234,6 +245,9 @@ export class SearchGroupDetailsComponent {
       if(this.totelAll) {
         this.currentTotalAll = this.getTotelAll();
       }
+      if(this.listTotal) {
+        this.currentListTotales = this.getListTotales();
+      }
   }
 
 
@@ -303,6 +317,9 @@ export class SearchGroupDetailsComponent {
       this.readySpanData();
       if(this.totelAll) {
         this.currentTotalAll = this.getTotelAll();
+      }
+      if(this.listTotal) {
+        this.currentListTotales = this.getListTotales();
       }
   }
 
@@ -604,6 +621,11 @@ export class SearchGroupDetailsComponent {
             result1[t] = {amount: flat.reduce((sum, record) => sum + record['amount'], 0), measureUnit: this.totelAll.options[t]};
           }
           return result1;
+        case 'decimalNumber':
+          var result = new Array<object>(1);
+          result[0] = {amount: (this.dataSource.filteredData)
+            .reduce((sum, record) => sum + record[this.totelAll.name], 0), measureUnit: this.totelAll.options};
+          return result;
         default:
           break;
       }
@@ -613,6 +635,15 @@ export class SearchGroupDetailsComponent {
   }
 
 
+  getListTotales(){
+    const tempTable = mapValues(groupBy(this.dataSource.filteredData, this.listTotal[0]));
+    const weightSize1 = Object.keys(tempTable).length;
+    var result1 = new Array<object>(weightSize1);
+    for (let t = 0; t < weightSize1; t++) {
+      result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[this.listTotal[1]] , 0)};
+    }
+    return result1;
+  }
   // downloadFile() {
   //   const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here
   //   const header = Object.keys(this.dataSource.filteredData[0]);

@@ -48,6 +48,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     grid-template-columns: auto auto auto auto auto;
   }
   
+  .table-searc {
+    width:140px;
+    max-width:90%;
+    min-width:80%
+  }
   
   .div-fit {
     display: inline-block;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { groupBy, mapValues } from 'lodash-es';
 @Component({
-  selector: 'sums-table',
+  selector: 'sums-table-schedules',
   template: `
 <table mat-table [dataSource]="sumDataSource" style="text-align: center !important;">
     
@@ -25,7 +25,7 @@ import { groupBy, mapValues } from 'lodash-es';
  </table>
   `,
 })
-export class SumsTableComponent {
+export class SumsTableSchedulesComponent {
   
   dataSource;
   sumDataSource = [];
@@ -60,7 +60,7 @@ export class SumsTableComponent {
             Object.keys(tempTable).forEach(key => {
               var newLine = {key: key};
               var sum = 0;
-              Object.keys(tempTable[key]).forEach(val => {//+c['numberUnits'][1]['amount']
+              Object.keys(tempTable[key]).forEach(val => {
                 newLine[val] = tempTable[key][val].reduce((b, c) => +b + +c['numberLots']['amount'] , 0);
                 this.sumClumensTable.push(val);
                 sum += newLine[val];

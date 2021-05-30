@@ -24,8 +24,8 @@ import { SchedulesService } from './schedules.service';
   <normal-group-details [mainDetailsSource]="cashewSourceColumns" [mainColumns]="columnsShow">
   </normal-group-details>
   <h1 style="text-align:center" i18n>Amounts</h1>
-  <sums-table [mainDetailsSource]="sumsSource">
-  </sums-table>
+  <sums-table-schedules [mainDetailsSource]="sumsSource">
+  </sums-table-schedules>
   `,
 })
 export class ReceivingCashewScheduleComponent implements OnInit {

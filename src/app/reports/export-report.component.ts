@@ -54,18 +54,28 @@ export class ExportReportComponent implements OnInit {
             name: 'containerNumber',
             label: $localize`Container number`,
             search: 'normal',
+            group: 'containerNumber',
         },
         {
             type: 'nameId',
             name: 'shipmentCode',
             label: $localize`Shipment code`,
             search: 'object',
+            group: 'containerNumber',
         },
         {
             type: 'normal',
             name: 'containerSize',
             label: $localize`Container size`,
             search: 'normal',
+            group: 'containerNumber',
+        },
+        {
+            type: 'normal',
+            name: 'poCode',
+            label: $localize`PO#`,
+            search: 'normal',
+            group: 'poCode',
         },
         {
             type: 'nameId',
@@ -73,12 +83,6 @@ export class ExportReportComponent implements OnInit {
             label: $localize`Commodity`,
             search: 'selectObj',
             options: this.genral.getItemsRawCashew(),
-        },
-        {
-            type: 'normal',
-            name: 'poCode',
-            label: $localize`PO#`,
-            search: 'normal',
         },
         {
             type: 'date',
@@ -109,6 +113,12 @@ export class ExportReportComponent implements OnInit {
             name: 'weightInLbs',
             label: $localize`LBS weight`,
             search: 'normal',
+        },
+        {
+            type: 'checkBool',
+            name: 'roast',
+            label: $localize`Roast`,
+            search: 'none',
         },
         {
             type: 'normal',

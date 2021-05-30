@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -28,7 +27,7 @@ import { ReportsService } from './reports.service';
         <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotales]="totelByType" [withPaginator]="false">
       </search-group-details>
     </div>
     `,
@@ -45,6 +44,17 @@ export class InventoryByTimeComponent implements OnInit {
   columnsShow: OneColumn[];
   
   cashewSource;
+
+  totelAll: OneColumn = {
+    type: 'decimalNumber',
+    name: 'weightInLbs',
+    label: $localize`Total all`,
+    options: 'LBS',
+  };
+
+  totelByType;
+
+
 
   constructor(private router: Router, public dialog: MatDialog, private localService: ReportsService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -77,8 +87,6 @@ export class InventoryByTimeComponent implements OnInit {
 
   changed(event) {
     if(this.dateDay.value) {
-      console.log(this.dateDay.value);
-      
       this.changedAndDate(+event, this.dateDay.value);
     } else {
       this.isDataAvailable = false;
@@ -89,6 +97,7 @@ export class InventoryByTimeComponent implements OnInit {
     switch (+event) {
       case 0:
         this.cashewSource = null; 
+        this.totelByType = null;
         this.localService.getCashewInventoryRaw(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
@@ -163,6 +172,7 @@ export class InventoryByTimeComponent implements OnInit {
         break;
       case 1:
         this.cashewSource = null; 
+        this.totelByType = ['type', 'weightInLbs'];
         this.localService.getCashewInventoryBagged(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
@@ -230,6 +240,7 @@ export class InventoryByTimeComponent implements OnInit {
         break;
       case 2:
         this.cashewSource = null; 
+        this.totelByType = null;
         this.localService.getCashewInventoryFinished(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
