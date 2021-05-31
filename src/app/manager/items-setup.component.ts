@@ -105,6 +105,12 @@ export class ItemsSetupComponent {
                         label: $localize`Bags in box`,
                         search: 'select',
                         options: this.getSaltLevel(),
+                    },
+                    {
+                        type: 'checkBool',
+                        name: 'whole',
+                        label: $localize`Whole`,
+                        search: 'none',
                     }
                 );
                 this.regConfigTemp.push(
@@ -123,6 +129,11 @@ export class ItemsSetupComponent {
                         label: $localize`Bags in box`,
                         name: 'numBags',
                         inputType: 'numeric',
+                    },
+                    {
+                        type: 'checkbox',
+                        label: $localize`Whole`,
+                        name: 'whole',
                     }
                 );
             }

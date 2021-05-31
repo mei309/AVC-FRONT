@@ -14,6 +14,8 @@ import { ReplaySubject } from 'rxjs';
   selector: 'app-relocations-reports',
   template: `
   <h1 style="text-align:center" i18n>Relocations reports</h1>
+  <button class="button-center" mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 0}]" i18n>Raw Relocation Count</button>
+  <button class="button-center" mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 1}]" i18n>New Cleaned Relocation Count</button>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Raw relocation with weighing" i18n-label>
@@ -21,8 +23,6 @@ import { ReplaySubject } from 'rxjs';
       <mat-tab label="Cleaned relocation with weighing" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <button class="button-center" mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 0}]" i18n>Raw Relocation Count</button>
-  <button class="button-center" mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 1}]" i18n>New Cleaned Relocation Count</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="mainSourceColumns" (details)="openDialog($event)">
   </search-group-details>
     `

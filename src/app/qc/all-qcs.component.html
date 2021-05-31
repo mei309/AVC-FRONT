@@ -1,4 +1,8 @@
 <h1 style="text-align:center" i18n>QC Reports</h1>
+<button class="button-center" mat-raised-button color="primary" routerLink='../Raw' i18n>New Raw Check (weights)</button>
+<button class="button-center" mat-raised-button color="primary" routerLink='../RawPercntage' i18n>New Raw Check (percntage)</button>
+<button class="button-center" mat-raised-button color="primary" [routerLink]="['../Raw', {roast: true}]" i18n>New Roast Check (weights)</button>
+<button class="button-center" mat-raised-button color="primary" [routerLink]="['../RawPercntage', {roast: true}]" i18n>New Roast Check (percntage)</button>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Raw QC" i18n-label>
@@ -12,9 +16,5 @@
         
     </mat-tab>-->
 </mat-tab-group>
-<button class="button-center" mat-raised-button color="primary" routerLink='../Raw' i18n>New Raw Check (weights)</button>
-<button class="button-center" mat-raised-button color="primary" routerLink='../RawPercntage' i18n>New Raw Check (percntage)</button>
-<button class="button-center" mat-raised-button color="primary" [routerLink]="['../Raw', {roast: true}]" i18n>New Roast Check (weights)</button>
-<button class="button-center" mat-raised-button color="primary" [routerLink]="['../RawPercntage', {roast: true}]" i18n>New Roast Check (percntage)</button>
 <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" (details)="openDialog($event)">
 </search-group-details>

@@ -280,7 +280,7 @@ export class InventoryByTimeComponent implements OnInit {
           },
           {
               type: 'weight',
-              name: 'BoxWeight',
+              name: 'boxWeight',
               label: $localize`Box weight`,
               search: 'object',
           },

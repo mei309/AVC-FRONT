@@ -10,6 +10,8 @@ import { ReceiptService } from './receipt.service';
   selector: 'receive-c-reports',
   template: `
   <h1 style="text-align:center" i18n>Cashew Receivings</h1>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveCOrder' i18n>Receive Cashew Order</button>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveCAlone' i18n>Receive Cashew Without Order</button>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
@@ -19,8 +21,6 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveCOrder' i18n>Receive Cashew Order</button>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveCAlone' i18n>Receive Cashew Without Order</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `

@@ -11,6 +11,7 @@ import { ReceiptService } from './receipt.service';
   selector: 'receive-g-reports',
   template: `
   <h1 style="text-align:center" i18n>General Receivings</h1>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveGOrder' i18n>Receive General Order</button>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
@@ -20,7 +21,6 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveGOrder' i18n>Receive General Order</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" (details)="openDialog($event)">
   </search-group-details>
     `

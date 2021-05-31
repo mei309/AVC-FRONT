@@ -21,7 +21,7 @@ import { OneColumn } from '../field.interface';
     <ng-container matColumnDef="{{column.name}}" *ngFor="let column of oneColumns" [formGroup]="searchGroup">
         <th mat-header-cell *matHeaderCellDef>
           <h3 mat-sort-header>{{column.label}}</h3>
-          <mat-form-field [ngSwitch]="column.search" class="no-print table-searc" [formGroupName]="column.name">
+          <mat-form-field [ngSwitch]="column.search" class="no-print table-search" [formGroupName]="column.name">
               <mat-select *ngSwitchCase="'select'" placeholder="Search" formControlName="val" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>

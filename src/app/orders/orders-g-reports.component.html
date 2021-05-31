@@ -1,4 +1,5 @@
 <h1 style="text-align:center" i18n>General orders</h1>
+<button class="button-center" mat-raised-button color="primary" routerLink='../NewGenralOrder' i18n>New General Order</button>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Open" i18n-label>
@@ -6,6 +7,5 @@
     <mat-tab label="All" i18n-label>
     </mat-tab>
 </mat-tab-group>
-<button class="button-center" mat-raised-button color="primary" routerLink='../NewGenralOrder' i18n>New General Order</button>
 <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" (details)="openDialog($event)">
 </search-group-details>

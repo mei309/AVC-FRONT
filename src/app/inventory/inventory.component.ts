@@ -11,14 +11,14 @@ import { InventoryService } from './inventory.service';
   selector: 'inventory-reports',
   template: `
   <h1 style="text-align:center" i18n>Inventory reports</h1>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../MaterialUse' i18n>New Material Usage</button>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../Relocation' i18n>New Relocation</button>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Material usages" i18n-label>
       </mat-tab>
       <mat-tab label="Relocations" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../MaterialUse' i18n>New Material Usage</button>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../Relocation' i18n>New Relocation</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="inventorySource" (details)="openDialog($event)">
   </search-group-details>
     `

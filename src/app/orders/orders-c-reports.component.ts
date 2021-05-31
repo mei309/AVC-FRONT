@@ -10,6 +10,7 @@ import { OrdersService } from './orders.service';
   selector: 'orders-c-reports',
   template: `
   <h1 style="text-align:center" i18n>Cashew Orders</h1>
+  <button class="button-center" mat-raised-button color="primary" routerLink='../NewCashewOrder' i18n>New Cashew Order</button>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Open" i18n-label>
@@ -17,7 +18,6 @@ import { OrdersService } from './orders.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../NewCashewOrder' i18n>New Cashew Order</button>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `
