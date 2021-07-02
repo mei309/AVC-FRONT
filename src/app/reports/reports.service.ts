@@ -61,4 +61,8 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getBulkPackCashewItems/'+packageType);
   }
 
+  getSuppliersGroups (): Observable<any> {
+    return this.http.get(this.reportsurl+'getSuppliersGroups');
+  }
+
 }

@@ -61,6 +61,8 @@ import { MaterialUsageComponent } from './components/avc-special/material-usage.
 import { SelectMeasureUnitComponent } from './components/avc-special/measure-unit-select.component';
 import { SelectMultipileComponent } from './components/selects/select-multipile.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { DateRangeSelect } from './tables/date-range-select.component';
+import { WeekPickerDirective } from './libraries/weekPicker.directive';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
@@ -77,6 +79,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     SearchExpandableComponent,
     SearchGroupDetailsComponent,
     NormalGroupDetailsComponent,
+    DateRangeSelect,
     
 
     FormDirective,
@@ -84,6 +87,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MyDurationPickerDirective,
     PercentageDirective,
     PrintLazyLoadDirective,
+    WeekPickerDirective,
     
     ShowOrdinalComponent,
     ShowDetailsComponent,
@@ -144,12 +148,15 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     SearchExpandableComponent,
     SearchGroupDetailsComponent,
     NormalGroupDetailsComponent,
+    DateRangeSelect,
+    
 
     FormDirective,
     NumericDirective,
     MyDurationPickerDirective,
     PercentageDirective,
     PrintLazyLoadDirective,
+    WeekPickerDirective,
     
     ShowOrdinalComponent,
     ShowDetailsComponent,

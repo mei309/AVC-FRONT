@@ -11,7 +11,9 @@ import { ReceiptService } from './receipt.service';
   selector: 'receive-g-reports',
   template: `
   <h1 style="text-align:center" i18n>General Receivings</h1>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../ReceiveGOrder' i18n>Receive General Order</button>
+  <div class="centerButtons">
+    <button mat-raised-button color="primary" routerLink='../ReceiveGOrder' i18n>Receive General Order</button>
+  </div>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
@@ -153,7 +155,7 @@ export class ReceiveGReports implements OnInit {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === $localize`Edit receive`) {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
-      } else {
+      } else if(data === 'reload') {
         this.changed(this.tabIndex);
       }
     });

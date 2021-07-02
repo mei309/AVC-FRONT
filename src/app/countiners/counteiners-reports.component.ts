@@ -73,6 +73,8 @@ export class CountinersReportsComponent implements OnInit {
             default:
                 break;
         }
+      } else if(data === 'reload') {
+        this.changed(this.tabIndex);
       }
     });
   }

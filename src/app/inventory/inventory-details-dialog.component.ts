@@ -12,7 +12,7 @@ import { InventoryService } from './inventory.service';
     <h1 mat-dialog-title i18n>{{type}} details</h1>
     <mat-dialog-content id="print-section-inventory">
         <h1 class="only-print" i18n>{{type}} details</h1>
-        <show-details [dataSource]="inventoryItem">
+        <show-details [dataSource]="inventoryItem" (approveChange)="setApproveChange()">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -29,7 +29,7 @@ export class InventoryDetailsDialogComponent {
     inventoryItem: any;
     type: string;
     buttons: string[] = [];
-
+    approveChange: boolean = false;
     
 
     constructor(private LocalService: InventoryService, public dialogRef: MatDialogRef<InventoryDetailsDialogComponent>,
@@ -59,8 +59,17 @@ export class InventoryDetailsDialogComponent {
         }
         this.buttons.push($localize`Edit`);
     }
+    
     onNoClick(): void {
-        this.dialogRef.close('closed');
+        if (this.approveChange) {
+            this.dialogRef.close('reload');
+        } else {
+            this.dialogRef.close('closed');
+        }
+    }
+
+    setApproveChange() {
+        this.approveChange = true;
     }
 
     onClickElement(opartion: string): void {

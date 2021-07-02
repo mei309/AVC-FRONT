@@ -82,6 +82,10 @@ export class TodoListComponent {
       if(data) {
         if(typeof data == 'number') {
           this.router.navigate(['Main/reports/FullPoReport',{poCode: data}]);
+        } else if(data === 'reload') {
+          this.genral.getUserTasks().pipe(take(1)).subscribe(value => {
+            this.tasksSource = <any[]>value;
+          });
         }
       }
     });

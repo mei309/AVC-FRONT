@@ -8,7 +8,7 @@ import { CountinersService } from './countiners.service';
     template: `
     <h1 style="text-align:center" i18n>Shipment codes</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()" i18n>Add code</button>
+        <button mat-raised-button color="primary" (click)="newDialog()" i18n>Add code</button>
     </div>
     <search-details [dataSource]="shipmentSource" [oneColumns]="columnsShipment" (details)="newDialog($event)">
     </search-details>

@@ -1,8 +1,10 @@
 <h1 style="text-align:center" i18n>Productions reports</h1>
-<button class="button-center" mat-raised-button color="primary" routerLink='../Cleaning' i18n>New Cleaning</button>
-<button class="button-center" mat-raised-button color="primary" routerLink='../Roasting' i18n>New Roasting</button>
-<button class="button-center" mat-raised-button color="primary" routerLink='../Toffee' i18n>New Toffee</button>
-<button class="button-center" mat-raised-button color="primary" routerLink='../Packing' i18n>New Packing</button>
+<div class="centerButtons">
+    <button mat-raised-button color="primary" routerLink='../Cleaning' i18n>New Cleaning</button>
+    <button mat-raised-button color="primary" routerLink='../Roasting' i18n>New Roasting</button>
+    <button mat-raised-button color="primary" routerLink='../Toffee' i18n>New Toffee</button>
+    <button mat-raised-button color="primary" routerLink='../Packing' i18n>New Packing</button>
+</div>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Cleaning" i18n-label>

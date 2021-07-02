@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { isEqualWith } from 'lodash-es';
 import { take } from 'rxjs/operators';
@@ -129,6 +129,8 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
 })
 export class ShowDetailsComponent implements OnInit {
   globelType = 'CASHEW';
+
+  @Output() approveChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   dataTable;
   @Input() set dataSource(value) {
@@ -279,6 +281,7 @@ export class ShowDetailsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result != 'closed') {
+        this.approveChange.emit(true);
         result['id'] = this.dataSource['id'];
         result['processName'] = this.dataSource['processName'];
         if(result['process'] === 'confirm') {

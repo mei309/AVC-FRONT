@@ -173,6 +173,8 @@ export class SearchExpandableComponent implements OnInit {
 
   
   openExpanded(element) {
+    console.log('lll');
+    
     if(this.expandedElement === element){
       this.expandedElement = null;
     } else {

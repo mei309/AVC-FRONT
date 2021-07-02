@@ -260,6 +260,11 @@ export class FinalReportSummaryComponent {
         //     type: 'qc',
         // },
         {
+            name: 'toffee',
+            label: $localize`Toffee`,
+            type: 'normal'
+        },
+        {
             name: 'packing',
             label: $localize`Packing`,
             type: 'normal'

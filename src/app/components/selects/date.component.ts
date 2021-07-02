@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { getDecade } from 'date-fns';
 import { FieldConfig } from '../../field.interface';
 
 @Component({
@@ -15,6 +16,7 @@ import { FieldConfig } from '../../field.interface';
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
       </ng-container>
+      {{getDad()}}
     </mat-form-field>
 
 
@@ -27,10 +29,14 @@ import { FieldConfig } from '../../field.interface';
     </mat-form-field>
 
     <mat-form-field *ngSwitchDefault class="one-field margin-top" [formGroup]="group">
-      <input matInput type="date" [formControlName]="field.name" [placeholder]="field.label">
+      
+      <input matInput [matDatepicker]="picker1" [formControlName]="field.name" [placeholder]="field.label">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
       </ng-container>
+      {{getDad()}}
     </mat-form-field>
 </ng-container>
 
@@ -51,6 +57,9 @@ export class DateComponent implements OnInit {
     }
   }
 
+  getDad() {
+    return this.group.get(this.field.name).value;
+  }
 }
 
 // <input matInput [matDatepicker]="picker1" [formControlName]="field.name" [placeholder]="field.label">

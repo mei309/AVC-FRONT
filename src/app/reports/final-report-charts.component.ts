@@ -84,7 +84,7 @@ export class FinalReportChartsComponent {
     ngOnInit() {
         this.LossDataLabel = this.formatLoss.bind(this);
         
-        ['cleaning', 'roasting', 'packing'].forEach(v => {
+        ['cleaning', 'roasting', 'toffee', 'packing'].forEach(v => {
             var val1 = this.finalReport[v];
             if(val1 && val1['difference']) {
                 // this.bothLoss.push({

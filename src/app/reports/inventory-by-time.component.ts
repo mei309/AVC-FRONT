@@ -97,7 +97,21 @@ export class InventoryByTimeComponent implements OnInit {
     switch (+event) {
       case 0:
         this.cashewSource = null; 
-        this.totelByType = null;
+        this.totelByType = [
+          {
+            type: 'multi', 
+            name: 'productionFunctionality',
+            label: $localize`Total raw`,
+            option: 'weightInLbs',
+            collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
+          },
+          {
+            type: 'multi', 
+            name: 'productCompany',
+            label: $localize`Total by supplier`,
+            option: 'weightInLbs',
+          }
+        ];
         this.localService.getCashewInventoryRaw(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
@@ -108,6 +122,13 @@ export class InventoryByTimeComponent implements OnInit {
               label: $localize`Supplier`,
               search: 'normal',
               options: this.genral.getSuppliersCashew(),
+          },
+          {
+              type: 'select',
+              label: $localize`Product company`,
+              name: 'productCompany',
+              search: 'selectObj',
+              options: this.localService.getSuppliersGroups(),
           },
           {
               type: 'normal',
@@ -172,7 +193,24 @@ export class InventoryByTimeComponent implements OnInit {
         break;
       case 1:
         this.cashewSource = null; 
-        this.totelByType = ['type', 'weightInLbs'];
+        this.totelByType = [
+          {
+            type: 'sum', 
+            name: 'boxQuantity',
+            label: $localize`Total box quantity`,
+          },
+          {
+            type: 'sum', 
+            name: 'bagQuantity',
+            label: $localize`Total bag quantity`,
+          },
+          {
+            type: 'multi', 
+            name: 'type',
+            label: $localize`Total by type`,
+            option: 'weightInLbs'
+          }
+        ];
         this.localService.getCashewInventoryBagged(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
@@ -274,7 +312,7 @@ export class InventoryByTimeComponent implements OnInit {
           },
           {
               type: 'decimalNumber',
-              name: 'boxQuantity',
+              name: 'boxes',
               label: $localize`Box quantity`,
               search: 'normal',
           },

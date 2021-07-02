@@ -12,6 +12,7 @@ import { ReportsService } from './reports.service';
   selector: 'export-report',
   template: `
     <h1 style="text-align:center" i18n>Export report</h1>
+    <date-range-select></date-range-select>
     <mat-form-field>
       <mat-label i18n>Enter a date range</mat-label>
       <mat-date-range-input [formGroup]="dateRangeDisp" [rangePicker]="picker4">
@@ -23,7 +24,7 @@ import { ReportsService } from './reports.service';
     </mat-form-field>
     
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotales]="totelByType" [withPaginator]="false">
       </search-group-details>
     </div>
     `,
@@ -38,9 +39,25 @@ export class ExportReportComponent implements OnInit {
     end: new FormControl()
   });
 
+  totelAll: OneColumn = {
+    type: 'decimalNumber',
+    name: 'weightInLbs',
+    label: $localize`Total all`,
+    options: 'LBS',
+  };
+
   columnsShow: OneColumn[];
   
-  
+  totelByType = [
+    {
+      type: 'multi', 
+      name: 'whole',
+      label: $localize`Total by type`,
+      option: 'weightInLbs',
+      collections: {true: 'WHOLE', false: 'H&P'}
+    }
+  ];
+
   cashewSource;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: ReportsService,

@@ -48,7 +48,7 @@ export class WeekDayRangeSelectionStrategy<D> implements MatDateRangeSelectionSt
     <h1 style="text-align:center" i18n>All production</h1>
     <mat-form-field appearance="fill">
         <mat-label i18n>Day</mat-label>
-        <input matInput [matDatepicker]="picker1" (focus)="picker1.open()" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay" readonly>
+        <input matInput [matDatepicker]="picker1" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>

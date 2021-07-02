@@ -56,6 +56,10 @@ export class FinalReportTablesComponent {
             label: $localize`Roasting`,
         },
         {
+            name: 'toffee',
+            label: $localize`Toffee`,
+        },
+        {
             name: 'roastQC',
             label: $localize`Roasting QC`,
             type: 'qc',

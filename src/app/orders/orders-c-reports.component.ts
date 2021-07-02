@@ -10,7 +10,9 @@ import { OrdersService } from './orders.service';
   selector: 'orders-c-reports',
   template: `
   <h1 style="text-align:center" i18n>Cashew Orders</h1>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../NewCashewOrder' i18n>New Cashew Order</button>
+  <div class="centerButtons">
+    <button mat-raised-button color="primary" routerLink='../NewCashewOrder' i18n>New Cashew Order</button>
+  </div>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Open" i18n-label>
@@ -140,7 +142,7 @@ export class OrdersCReports implements OnInit {
         this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id']}]);
       } else if(data === 'Edit receive' || data === 'Receive extra') {
         this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}]);
-      } else {
+      } else if(data === 'reload') {
         this.changed(this.tabIndex);
       }
     });

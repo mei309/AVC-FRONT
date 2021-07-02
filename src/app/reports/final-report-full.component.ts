@@ -66,12 +66,21 @@ import { ReportsService } from './reports.service';
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="poDetails['toffeeItemsObj'].length">
+                <mat-expansion-panel-header>
+                    <mat-panel-title i18n>Toffee</mat-panel-title>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <show-details [dataSource]="{toffeeItemsObj: poDetails['toffeeItemsObj']}" [oneColumns]="[regShow[6]]">
+                    </show-details>
+                </ng-template>
+            </mat-expansion-panel>
             <mat-expansion-panel *ngIf="poDetails['packingItemsObj'].length">
                 <mat-expansion-panel-header>
                     <mat-panel-title i18n>Packings</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{packingItemsObj: poDetails['packingItemsObj']}" [oneColumns]="[regShow[6]]">
+                    <show-details [dataSource]="{packingItemsObj: poDetails['packingItemsObj']}" [oneColumns]="[regShow[7]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
@@ -80,7 +89,7 @@ import { ReportsService } from './reports.service';
                     <mat-panel-title i18n>Arrivals</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{arrivalsItemsObj: poDetails['arrivalsItemsObj']}" [oneColumns]="[regShow[7]]">
+                    <show-details [dataSource]="{arrivalsItemsObj: poDetails['arrivalsItemsObj']}" [oneColumns]="[regShow[8]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
@@ -89,7 +98,7 @@ import { ReportsService } from './reports.service';
                     <mat-panel-title i18n>Loading</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{loadingItemsObj: poDetails['loadingItemsObj']}" [oneColumns]="[regShow[8]]">
+                    <show-details [dataSource]="{loadingItemsObj: poDetails['loadingItemsObj']}" [oneColumns]="[regShow[9]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
@@ -197,6 +206,11 @@ export class FinalReportFullComponent {
             type: 'arrayForEach',
             label: $localize`Roasting`,
             name: 'roastingItemsObj',
+        },
+        {
+            type: 'arrayForEach',
+            label: $localize`Toffee`,
+            name: 'toffeeItemsObj',
         },
         {
             type: 'arrayForEach',

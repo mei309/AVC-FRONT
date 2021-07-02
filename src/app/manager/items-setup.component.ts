@@ -111,6 +111,18 @@ export class ItemsSetupComponent {
                         name: 'whole',
                         label: $localize`Whole`,
                         search: 'none',
+                    },
+                    {
+                        type: 'checkBool',
+                        name: 'roast',
+                        label: $localize`Roast`,
+                        search: 'none',
+                    },
+                    {
+                        type: 'checkBool',
+                        name: 'toffee',
+                        label: $localize`Toffee`,
+                        search: 'none',
                     }
                 );
                 this.regConfigTemp.push(
@@ -134,6 +146,16 @@ export class ItemsSetupComponent {
                         type: 'checkbox',
                         label: $localize`Whole`,
                         name: 'whole',
+                    },
+                    {
+                        type: 'checkbox',
+                        label: $localize`Roast`,
+                        name: 'roast',
+                    },
+                    {
+                        type: 'checkbox',
+                        label: $localize`Toffee`,
+                        name: 'toffee',
                     }
                 );
             }

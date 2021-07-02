@@ -11,7 +11,9 @@ import { SuppliersService } from './suppliers.service';
   selector: 'app-suppliers',
   template: `
   <h1 style="text-align:center" i18n>Suppliers</h1>
-  <button class="button-center" mat-raised-button color="primary" routerLink='../NewSupplier' i18n>New Supplier</button>
+  <div class="centerButtons">
+    <button mat-raised-button color="primary" routerLink='../NewSupplier' i18n>New Supplier</button>
+  </div>
   <search-details [dataSource]="supplySource" [oneColumns]="columnsSupply" (details)="openDialog($event)">
   </search-details>
   `,

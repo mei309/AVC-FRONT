@@ -14,7 +14,7 @@ import { UserAccountService } from './user-account.service';
     <h1 mat-dialog-title i18n>Task Details</h1>
     <mat-dialog-content id="print-section-task">
         <h1 class="only-print" i18n>Task Details</h1>
-        <show-details [dataSource]="task" [secondSource]="processSnapshot">
+        <show-details [dataSource]="task" [secondSource]="processSnapshot" (approveChange)="setApproveChange()">
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">  
@@ -30,6 +30,7 @@ export class TodoMassagesPopupComponent {
     processSnapshot =  null;
     lineData = null;
     task: any;
+    approveChange: boolean = false;
 
     poCodes;
     
@@ -59,7 +60,15 @@ export class TodoMassagesPopupComponent {
     }
 
     onNoClick(): void {
-      this.dialogRef.close('closed');
+      if (this.approveChange) {
+          this.dialogRef.close('reload');
+      } else {
+          this.dialogRef.close('closed');
+      }
+    }
+
+    setApproveChange() {
+        this.approveChange = true;
     }
 
     

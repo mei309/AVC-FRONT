@@ -194,6 +194,9 @@ export class OrdersService {
       return this.http.get(this.ordersurl+'getGeneralContractTypes');
     }
 
+    getSuppliersGroups (): Observable<any> {
+      return this.http.get(this.ordersurl+'getSuppliersGroups');
+    }
     
 
 }

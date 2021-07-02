@@ -6,6 +6,7 @@ import { OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
 import { QcService } from './qc.service';
 import { QcDetailsDialogComponent } from './qc-details-dialog.component';
+import { ReplaySubject } from 'rxjs';
 @Component({
   selector: 'app-all-qcs',
   templateUrl: './all-qcs.component.html',
@@ -14,6 +15,8 @@ export class AllQcsComponent implements OnInit {
   navigationSubscription;
 
   tabIndex: number = 0;
+
+  ItemsChangable1 = new ReplaySubject<any[]>();
 
   dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
 
@@ -61,7 +64,7 @@ export class AllQcsComponent implements OnInit {
         name: 'item',
         label: $localize`Product descrption`,
         search: 'selectObjObj',
-        options: this.genral.getItemsCashew('RawRoast'),
+        options: this.ItemsChangable1,
       },
       {
         type: 'percentNormal',
@@ -130,20 +133,9 @@ export class AllQcsComponent implements OnInit {
           }
         }
         
+      } else if(data === 'reload') {
+        this.changed(this.tabIndex);
       }
-      // else if() {
-      //   this.router.navigate(['../Bouns'], { relativeTo: this._Activatedroute });
-      // } 
-      // else if(data === 'Finalize') {
-      //   this.tabIndex = 2;
-      //   this.changed(2);
-      // } else if(data === 'Receive') {
-      //   this.router.navigate(['../CashewReceived',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
-      // } else if(data === 'Edit receive' || data === 'Receive extra') {
-      //   this.router.navigate(['../CashewReceived',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
-      // } else if(data === 'Sample weights') {
-      //   this.router.navigate(['../SampleWeights',{poCode: JSON.stringify(event['poCode'])}], { relativeTo: this._Activatedroute });
-      // } 
     });
   }
 
@@ -156,6 +148,9 @@ export class AllQcsComponent implements OnInit {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Raw';
+          this.localService.getItemsCashewBulk(false).pipe(take(1)).subscribe(val => {
+            this.ItemsChangable1.next(val);
+          });
           this.cdRef.detectChanges();
           break;
         case 1:
@@ -164,6 +159,9 @@ export class AllQcsComponent implements OnInit {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Roast';
+          this.localService.getItemsCashewBulk(true).pipe(take(1)).subscribe(val => {
+            this.ItemsChangable1.next(val);
+          });
           this.cdRef.detectChanges();
           break;
         case 2:
@@ -186,5 +184,6 @@ export class AllQcsComponent implements OnInit {
       if (this.navigationSubscription) {  
          this.navigationSubscription.unsubscribe();
       }
+      this.ItemsChangable1.unsubscribe();
     }
 }

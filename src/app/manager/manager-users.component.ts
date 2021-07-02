@@ -12,8 +12,8 @@ import { ManagerService } from './manager.service';
     template: `
     <h1 style="text-align:center" i18n>Users Management</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newUserDialog()">{{'User' | namingPipe : 'add'}}</button>
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newPersonDialog()">{{'UserPerson' | namingPipe : 'add'}}</button>
+        <button mat-raised-button color="primary" (click)="newUserDialog()">{{'User' | namingPipe : 'add'}}</button>
+        <button mat-raised-button color="primary" (click)="newPersonDialog()">{{'UserPerson' | namingPipe : 'add'}}</button>
     </div>
     <search-details [dataSource]="usersSource" [oneColumns]="columnsUsers" (details)="editNewDialog($event)">
     </search-details>

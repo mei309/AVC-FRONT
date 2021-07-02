@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
     template: `
     <h1 style="text-align:center" i18n>#POS</h1>
     <div class="centerButtons">
-        <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()" i18n>Add #PO</button>
+        <button mat-raised-button color="primary" (click)="newDialog()" i18n>Add #PO</button>
     </div>
     <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
         (selectedIndexChange)="changed($event)" class="spac-print">
@@ -119,6 +119,17 @@ export class PoCodesComponent implements OnInit {
                     this.contractTypesChangable.next(val);
                 });
             }
+            var ind = this.columnsPos.findIndex((em) => em['name'] === 'productCompany');
+            if(ind === -1) {
+                this.columnsPos.push({
+                        type: 'select',
+                        label: $localize`Product company`,
+                        name: 'productCompany',
+                        search: 'select',
+                        options: this.localService.getSuppliersGroups(),
+                    });
+                this.columnsPos = this.columnsPos.slice();
+            }
             this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
                 this.posSource = value;
             });
@@ -133,6 +144,11 @@ export class PoCodesComponent implements OnInit {
                 this.localService.getGeneralContractTypes().pipe(take(1)).subscribe(val => {
                     this.contractTypesChangable.next(val);
                 });
+                var ind = this.columnsPos.findIndex((em) => em['name'] === 'productCompany');
+                if(ind !== -1) {
+                    this.columnsPos.splice(ind, 1);
+                    this.columnsPos = this.columnsPos.slice();
+                }
             }
             this.localService.findAllGeneralPoCodes().pipe(take(1)).subscribe(value => {
                 this.posSource = value;
@@ -216,6 +232,14 @@ export class AddEditPoDialog {
                     name: 'code',
                     disable: true,
                 },
+                ...this.tab? [] : [
+                    {
+                        type: 'select',
+                        label: $localize`Product company`,
+                        name: 'productCompany',
+                        options: this.localService.getSuppliersGroups(),
+                    }
+                ],
                 {
                     type: 'button',
                     label: $localize`Submit`,

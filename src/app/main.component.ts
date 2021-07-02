@@ -1,5 +1,6 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,7 +18,7 @@ export class MainComponent {
   language: FormControl;
   languageList = [
     { code: 'en-US', label: 'US' },
-    { code: 'en-UK', label: 'UK' },
+    // { code: 'en-UK', label: 'UK' },
     { code: 'vi', label: 'Tiếng Việt' },
     // { code: 'INDIA', label: 'हिंदी' },
   ]; 
@@ -29,12 +30,13 @@ export class MainComponent {
 
   roleNumber: number = 0;
 
-  constructor(@Inject(LOCALE_ID) private _locale: string, private router: Router,
+  constructor(@Inject(LOCALE_ID) private _locale: string, private router: Router, private _adapter: DateAdapter<any>,
     private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {
     if (sessionStorage.getItem('username') === 'isral') {
       this.roleNumber = 1;
     }
     this.language = new FormControl(this.languageList.find(lang => lang.code === this._locale));
+    this._adapter.setLocale(this._locale);
     this.genral.doInitiel();
   }
   
@@ -59,8 +61,7 @@ export class MainComponent {
   }
 
   navigateTo(value){
-    console.log(window.location.origin);
-    
+    this._adapter.setLocale(this._locale);
     window.location.href = window.location.origin+'/'+value.code;
   }
 

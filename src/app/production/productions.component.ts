@@ -150,6 +150,8 @@ export class ProductionsComponent implements OnInit {
               default:
                   break;
           }
+      } else if(data === 'reload') {
+        this.changed(this.tabIndex);
       }
     });
   }
