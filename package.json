@@ -5,13 +5,12 @@
     "ng": "ng",
     "start": "ng serve --configuration=en-US",
     "start:vi": "ng serve --configuration=vi",
-    "start:en-UK": "ng serve --configuration=en-UK",
     "build": "ng build --prod --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "extract-i18n": "ng extract-i18n --output-path i18n && xliffmerge --profile xliffmerge.json en-US en-UK vi",
-    "analyze": "ng build --prod --build-optimizer --stats-json && webpack-bundle-analyzer dist/avc-vietnam/en-UK/stats.json"
+    "extract-i18n": "ng extract-i18n --output-path i18n && xliffmerge --profile xliffmerge.json en-US vi",
+    "analyze": "ng build --prod --build-optimizer --stats-json && webpack-bundle-analyzer dist/avc-vietnam/en-US/stats.json"
   },
   "private": true,
   "dependencies": {

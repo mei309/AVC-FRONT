@@ -45,4 +45,8 @@ export class QcService {
     return this.http.get(this.qcurl+'getPoCashew/'+roast);
   }
 
+  getItemsCashewBulk (roast: boolean): Observable<any> {
+      return this.http.get(this.qcurl+'getItemsCashewBulk/'+ roast);
+  }
+
 }

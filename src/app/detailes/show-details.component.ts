@@ -366,6 +366,11 @@ export class ShowDetailsComponent implements OnInit {
         name: 'shipmentCode',
     },
     {
+        type: 'nameId',
+        label: $localize`Container`,
+        name: 'arrival',
+    },
+    {
         type: 'dateTime',
         label: $localize`Date and time`,
         name: 'recordedTime',

@@ -11,6 +11,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
 import { cloneDeep } from 'lodash-es';
+import { ReplaySubject } from 'rxjs';
 @Component({
     selector: 'countiners-loading',
     template: `
@@ -36,6 +37,9 @@ export class CountinersLoadingComponent {
 
     @ViewChild('first', {static: false}) formFirst: DynamicFormComponent;
     @ViewChild('second', {static: false}) formSecond: DynamicFormComponent;
+
+    allShipmentCodes = new ReplaySubject<any[]>();
+    allContainers = new ReplaySubject<any[]>();
 
     form: FormGroup;
     
@@ -340,6 +344,19 @@ export class CountinersLoadingComponent {
                 this.beginPage = false;
                 this.localService.getLoading(id).pipe(take(1)).subscribe( val => {
                     this.fillEdit(val);
+                    this.localService.findFreeShipmentCodes().pipe(take(1)).subscribe(val1 => {
+                        this.allShipmentCodes.next((<any[]>val1).concat(val['shipmentCode']));
+                    });
+                    this.localService.findFreeArrivals().pipe(take(1)).subscribe(val2 => {
+                        this.allContainers.next((<any[]>val2).concat(val['arrival']));
+                    });
+                });
+            } else {
+                this.localService.findFreeShipmentCodes().pipe(take(1)).subscribe(val1 => {
+                    this.allShipmentCodes.next(<any[]>val1);
+                });
+                this.localService.findFreeArrivals().pipe(take(1)).subscribe(val2 => {
+                    this.allContainers.next(<any[]>val2);
                 });
             }
         });
@@ -362,8 +379,8 @@ export class CountinersLoadingComponent {
                 type: 'select',
                 label: $localize`Shipment code`,
                 name: 'shipmentCode',
-                options: this.localService.findFreeShipmentCodes(),
-                disable: true,
+                options: this.allShipmentCodes,
+                // disable: true,
                 collections: 'somewhere',
                 validations: [
                     {
@@ -377,8 +394,8 @@ export class CountinersLoadingComponent {
                 type: 'select',
                 label: $localize`Container`,
                 name: 'arrival',
-                options: this.localService.findFreeArrivals(),
-                disable: true,
+                options: this.allContainers,
+                // disable: true,
                 collections: 'somewhere',
                 validations: [
                     {
@@ -543,6 +560,12 @@ export class CountinersLoadingComponent {
                 this.preperChoosingPO();
                 this.cdRef.detectChanges();
                 this.beginPage = true;
+                this.localService.findFreeShipmentCodes().pipe(take(1)).subscribe(val => {
+                    this.allShipmentCodes.next(<any[]>val);
+                });
+                this.localService.findFreeArrivals().pipe(take(1)).subscribe(val => {
+                    this.allContainers.next(<any[]>val);
+                });
             }
         });
     }
@@ -773,6 +796,8 @@ export class CountinersLoadingComponent {
         if (this.navigationSubscription) {  
            this.navigationSubscription.unsubscribe();
         }
+        this.allShipmentCodes.unsubscribe();
+        this.allContainers.unsubscribe();
       }
 
 }

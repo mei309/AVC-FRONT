@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -12,7 +15,6 @@
       "i18n": {
         "sourceLocale": "en-US",
         "locales": {
-          "en-UK": "i18n/messages.en-UK.xlf",
           "vi": "i18n/messages.vi.xlf"
         }
       },
@@ -74,11 +76,6 @@
                 "en-US"
               ]
             },
-            "en-UK": {
-              "localize": [
-                "en-UK"
-              ]
-            },
             "vi": {
               "localize": [
                 "vi"
@@ -98,9 +95,6 @@
             },
             "en-US": {
               "browserTarget": "avc-vietnam:build:en-US"
-            },
-            "en-UK": {
-              "browserTarget": "avc-vietnam:build:en-UK"
             },
             "vi": {
               "browserTarget": "avc-vietnam:build:vi"

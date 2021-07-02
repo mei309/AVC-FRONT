@@ -96,14 +96,23 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
         label: $localize`Price per unit`,
         // options: 'currency',
       },
-      // {
-      //   name: 'defects',
-      //   label: '% defects',
-      // },
       {
         type: 'dateTime',
         name: 'contractDate',
         label: $localize`Contract date`,
+      },
+      {
+        type: 'arrayVal',
+        name: 'approvals',
+        label: $localize`Approvals`,
+        search: 'object',
+      },
+      {
+        type: 'arrayVal',
+        name: 'orderStatus',
+        label: $localize`Status`,
+        search: 'select',
+        options: ['OPEN', 'RECEIVED', 'REJECTED'],
       },
       // {
       //   name: 'poRows',

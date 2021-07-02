@@ -222,7 +222,7 @@ export class QcReceiveComponent implements OnInit {
                         label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
-                        options: this.genral.getItemsCashew(this.type.startsWith('QC roasting')? 'RoastPacked' : 'RawRoast'),
+                        options: this.localService.getItemsCashewBulk(this.type.startsWith('QC roasting')),
                         // disable: true,
                     },
                     {

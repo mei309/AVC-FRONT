@@ -59,6 +59,8 @@ export class MainComponent {
   }
 
   navigateTo(value){
+    console.log(window.location.origin);
+    
     window.location.href = window.location.origin+'/'+value.code;
   }
 
