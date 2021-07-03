@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { getDecade } from 'date-fns';
 import { FieldConfig } from '../../field.interface';
 
 @Component({
@@ -16,7 +15,6 @@ import { FieldConfig } from '../../field.interface';
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
       </ng-container>
-      {{getDad()}}
     </mat-form-field>
 
 
@@ -36,7 +34,6 @@ import { FieldConfig } from '../../field.interface';
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
       </ng-container>
-      {{getDad()}}
     </mat-form-field>
 </ng-container>
 
@@ -50,16 +47,13 @@ export class DateComponent implements OnInit {
   constructor() {
   }
   ngOnInit() {
-    if(this.field.options !== 'withTime') {
-      if(this.group.get(this.field.name).value && typeof this.group.get(this.field.name).value !== 'string'){
-        this.group.get(this.field.name).setValue((this.group.get(this.field.name).value).toISOString().substring(0, 10));
-      }
-    }
+    // if(this.field.options !== 'withTime') {
+    //   if(this.group.get(this.field.name).value && typeof this.group.get(this.field.name).value !== 'string'){
+    //     this.group.get(this.field.name).setValue((this.group.get(this.field.name).value).toISOString().substring(0, 10));
+    //   }
+    // }
   }
 
-  getDad() {
-    return this.group.get(this.field.name).value;
-  }
 }
 
 // <input matInput [matDatepicker]="picker1" [formControlName]="field.name" [placeholder]="field.label">

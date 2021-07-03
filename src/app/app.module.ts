@@ -1,9 +1,11 @@
 import { NgxMatDateAdapter, NgxMatDateFormats, NgxMatNativeDateModule, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { DateAdapter, MatDateFormats, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -16,9 +18,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import enUS from 'date-fns/esm/locale/en-US';
-import vi from 'date-fns/esm/locale/vi';
-import { NgxMatDateFnsDateModule, NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS, NGX_MAT_DATEFNS_LOCALES } from 'ngx-mat-datefns-date-adapter';
+// import enUS from 'date-fns/esm/locale/en-US';
+// import vi from 'date-fns/esm/locale/vi';
+// import { NgxMatDateFnsDateModule, NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS, NGX_MAT_DATEFNS_LOCALES } from 'ngx-mat-datefns-date-adapter';
 // import localeENIL from '@angular/common/locales/en-IL';
 // import { registerLocaleData } from '@angular/common';
 // registerLocaleData(localeENIL);
@@ -26,7 +28,7 @@ import { NgxMatDateFnsDateModule, NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS, NGX_MAT_
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgxDateFnsDateAdapterMine, NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE } from './detatime';
+// import { NgxDateFnsDateAdapterMine, NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE } from './detatime';
 // import { MyDateAdapter, NgxDateFnsDateAdapterMine, NG_MAT_DATEFNS_DATE_FORMATS_MY } from './detatime';
 import { Globals } from './global-params.component';
 import { LoginComponent } from './Login.component';
@@ -104,11 +106,13 @@ export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatMomentDateModule,
+    NgxMatMomentModule,
     // NgxMatDateFnsDateModule,
     // MatNativeDateModule,
     // NgxMatDateFnsDateModule,
     // DateFnsModule.forRoot(),
-    NgxMatDateFnsDateModule,
+    // NgxMatDateFnsDateModule,
     // NgxMatNativeDateModule,
   ],
   bootstrap: [AppComponent],
@@ -116,18 +120,25 @@ export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
 
-    {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }},
-    // {provide: MAT_DATE_LOCALE, useValue: "en-US"},
-    {provide: NGX_MAT_DATEFNS_LOCALES, useValue: [enUS, vi]},
+    // {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }},
+    // // {provide: MAT_DATE_LOCALE, useValue: "en-US"},
+    // {provide: NGX_MAT_DATEFNS_LOCALES, useValue: [enUS, vi]},
     // { provide: LOCALE_ID, useValue: 'en-GB' }, 
     // { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     // { provide: DateFnsConfigurationService, useValue: enGBConfig },
-    {provide: NgxMatDateAdapter, useClass: NgxDateFnsDateAdapterMine},
-    {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE, useValue: { useUtc: true }},
-    {provide: NGX_MAT_DATE_FORMATS, useValue: NG_MAT_DATEFNS_DATE_FORMATS_MY},
+    // {provide: NgxMatDateAdapter, useClass: NgxDateFnsDateAdapterMine},
+    // {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE, useValue: { useUtc: true }},
+    // {provide: NGX_MAT_DATE_FORMATS, useValue: NG_MAT_DATEFNS_DATE_FORMATS_MY},
     // {provide: DateAdapter, useClass: AppDateAdapter},
     // {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
+
+
+    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    // {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
+    {provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
+    // {provide: NgxMatDateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS]}
     // { provide: }
     //otherProviders...
     Globals,

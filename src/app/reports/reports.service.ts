@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -29,8 +29,11 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getAllPoCodes');
   }
 
-  allProductionByTime (date: Date, type: string) {
-    return this.http.get(this.reportsurl+'allProductionByTime/'+date.getTime()/1000+'/'+type);
+  allProductionByTime (begin: string, end: string) {
+    const params = new HttpParams()
+      .set('begin',  begin)
+      .set('end', end);
+    return this.http.get(this.reportsurl+'allProductionByTime',{params});
   }
 
   getCashewInventoryPacked () {

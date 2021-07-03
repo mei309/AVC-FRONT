@@ -11,89 +11,63 @@ import { Genral } from './../genral.service';
 import { ReportsService } from './reports.service';
 
 
-import {DateAdapter} from '@angular/material/core';
-import {
-  MatDateRangeSelectionStrategy,
-  DateRange,
-  MAT_DATE_RANGE_SELECTION_STRATEGY,
-} from '@angular/material/datepicker';
+// import {DateAdapter} from '@angular/material/core';
+// import {
+//   MatDateRangeSelectionStrategy,
+//   DateRange,
+//   MAT_DATE_RANGE_SELECTION_STRATEGY,
+// } from '@angular/material/datepicker';
+// import * as moment from 'moment';
+// import { Moment } from 'moment';
 
-@Injectable()
-export class WeekDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
-  constructor(private _dateAdapter: DateAdapter<D>) {}
+// @Injectable()
+// export class WeekDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
+//   constructor(private _dateAdapter: DateAdapter<D>) {}
 
-  selectionFinished(date: D | null): DateRange<D> {
-    return this._createWeekDayRange(date);
-  }
+//   selectionFinished(date: D | null): DateRange<D> {
+//     return this._createWeekDayRange(date);
+//   }
 
-  createPreview(activeDate: D | null): DateRange<D> {
-    return this._createWeekDayRange(activeDate);
-  }
+//   createPreview(activeDate: D | null): DateRange<D> {
+//     return this._createWeekDayRange(activeDate);
+//   }
 
-  private _createWeekDayRange(date: D | null): DateRange<D> {
-    if (date) {
-      const start = this._dateAdapter.addCalendarDays(date, -this._dateAdapter.getDayOfWeek(date));
-      const end = this._dateAdapter.addCalendarDays(date, 6-this._dateAdapter.getDayOfWeek(date));
-      return new DateRange<D>(start, end);
-    }
+//   private _createWeekDayRange(date: D | null): DateRange<D> {
+//     if (date) {
+//       const start = this._dateAdapter.addCalendarDays(date, -this._dateAdapter.getDayOfWeek(date));
+//       const end = this._dateAdapter.addCalendarDays(date, 6-this._dateAdapter.getDayOfWeek(date));
+//       return new DateRange<D>(start, end);
+//     }
 
-    return new DateRange<D>(null, null);
-  }
-}
+//     return new DateRange<D>(null, null);
+//   }
+// }
 
 
 @Component({
   selector: 'productions-by-time',
   template: `
     <h1 style="text-align:center" i18n>All production</h1>
-    <mat-form-field appearance="fill">
-        <mat-label i18n>Day</mat-label>
-        <input matInput [matDatepicker]="picker1" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label i18n>Week</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" #dateRangeStart (focus)="picker.open()" readonly i18n-placeholder>
-        <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="chosenWeekHandler(dateRangeStart.value, dateRangeEnd.value)" i18n-placeholder>
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label i18n>Month</mat-label>
-        <input matInput [matDatepicker]="dp" (focus)="dp.open()" [formControl]="dateMonth" readonly>
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker #dp startView="year" (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
-        </mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label i18n>Year</mat-label>
-        <input matInput [matDatepicker]="dy" (focus)="dy.open()" [formControl]="dateYear" readonly>
-        <mat-datepicker-toggle matSuffix [for]="dy"></mat-datepicker-toggle>
-        <mat-datepicker #dy startView="multi-year" (yearSelected)="chosenYearHandler($event, dy)" panelClass="example-year-picker">
-        </mat-datepicker>
-    </mat-form-field>
+    <date-range-select (submitRange)="getAllProduction($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSourceColumns" [totelColumn]="totelColumn" [totelAll]="totelAll" [withPaginator]="false">
       </search-group-details>
     </div>
     `,
-    providers: [{
-      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
-      useClass: WeekDayRangeSelectionStrategy
-    }]
+    // providers: [{
+    //   provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+    //   useClass: WeekDayRangeSelectionStrategy
+    // }]
 })
 export class ProductionsByTimeComponent implements OnInit {
   navigationSubscription;
   
   isDataAvailable: boolean = false;
 
-  dateDay = new FormControl(Date());
-  dateWeek = new FormControl(Date());
-  dateMonth = new FormControl(Date());
-  dateYear = new FormControl(Date());
+  // dateDay = new FormControl('');
+  // dateWeek = new FormControl('');
+  // dateMonth = new FormControl('');
+  // dateYear = new FormControl('');
 
   columnsShow: OneColumn[];
   
@@ -170,48 +144,59 @@ export class ProductionsByTimeComponent implements OnInit {
       ];
   }
 
-    chosenWeekHandler($eventstart: Date, $eventend: Date) {
-      if($eventend) {
-        this.isDataAvailable = true;
-        this.cashewSourceColumns = null;
-        this.localService.allProductionByTime(new Date($eventstart), 'WEEK').pipe(take(1)).subscribe(value => {
-          this.cashewSourceColumns = <any[]>value;
-        });
-        this.cdRef.detectChanges();
-      }
-    }
+  getAllProduction($event) {
+    console.log($event);
+    
+    this.isDataAvailable = true;
+    this.cashewSourceColumns = null;
+    this.localService.allProductionByTime($event.begin, $event.end).pipe(take(1)).subscribe(value => {
+      this.cashewSourceColumns = <any[]>value;
+    });
+    this.cdRef.detectChanges();
+  }
 
-    chosenYearHandler(normalizedYear: Date, datepicker: MatDatepicker<Date>) {
-        this.isDataAvailable = true;
+  //   chosenWeekHandler($eventstart: Moment, $eventend: Moment) {
+  //     if($eventend) {
+  //       this.isDataAvailable = true;
+  //       this.cashewSourceColumns = null;
+  //       this.localService.allProductionByTime($eventstart, 'WEEK').pipe(take(1)).subscribe(value => {
+  //         this.cashewSourceColumns = <any[]>value;
+  //       });
+  //       this.cdRef.detectChanges();
+  //     }
+  //   }
+
+  //   chosenYearHandler(normalizedYear: Moment, datepicker: MatDatepicker<Moment>) {
+  //       this.isDataAvailable = true;
         
-        this.cashewSourceColumns = null;
-        this.localService.allProductionByTime(normalizedYear, 'YEAR').pipe(take(1)).subscribe(value => {
-          this.cashewSourceColumns = <any[]>value;
-        });
-        this.cdRef.detectChanges();
-        this.dateYear.setValue(normalizedYear);
-        datepicker.close();
-    }
+  //       this.cashewSourceColumns = null;
+  //       this.localService.allProductionByTime(normalizedYear, 'YEAR').pipe(take(1)).subscribe(value => {
+  //         this.cashewSourceColumns = <any[]>value;
+  //       });
+  //       this.cdRef.detectChanges();
+  //       this.dateYear.setValue(normalizedYear);
+  //       datepicker.close();
+  //   }
 
-  chosenMonthHandler(normalizedMonth: Date, datepicker: MatDatepicker<Date>) {
-    this.isDataAvailable = true;
-    this.cashewSourceColumns = null;
-    this.localService.allProductionByTime(normalizedMonth, 'MONTH').pipe(take(1)).subscribe(value => {
-      this.cashewSourceColumns = <any[]>value;
-    });
-    this.cdRef.detectChanges();
-    this.dateMonth.setValue(normalizedMonth);
-    datepicker.close();
-  }
+  // chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+  //   this.isDataAvailable = true;
+  //   this.cashewSourceColumns = null;
+  //   this.localService.allProductionByTime(normalizedMonth, 'MONTH').pipe(take(1)).subscribe(value => {
+  //     this.cashewSourceColumns = <any[]>value;
+  //   });
+  //   this.cdRef.detectChanges();
+  //   this.dateMonth.setValue(normalizedMonth);
+  //   datepicker.close();
+  // }
 
-  chosenDayHandler(normalizedDay: Date) {
-    this.isDataAvailable = true;
-    this.cashewSourceColumns = null;
-    this.localService.allProductionByTime(normalizedDay, 'DAY').pipe(take(1)).subscribe(value => {
-      this.cashewSourceColumns = <any[]>value;
-    });
-    this.cdRef.detectChanges();
-  }
+  // chosenDayHandler(normalizedDay: Moment) {
+  //   this.isDataAvailable = true;
+  //   this.cashewSourceColumns = null;
+  //   this.localService.allProductionByTime(normalizedDay, 'DAY').pipe(take(1)).subscribe(value => {
+  //     this.cashewSourceColumns = <any[]>value;
+  //   });
+  //   this.cdRef.detectChanges();
+  // }
 
     ngOnDestroy() {
       if (this.navigationSubscription) {  
@@ -220,3 +205,33 @@ export class ProductionsByTimeComponent implements OnInit {
     }
 
 }
+
+// <mat-form-field appearance="fill">
+//         <mat-label i18n>Day</mat-label>
+//         <input matInput [matDatepicker]="picker1" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
+//         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+//         <mat-datepicker #picker1></mat-datepicker>
+//     </mat-form-field>
+//     <mat-form-field appearance="fill">
+//       <mat-label i18n>Week</mat-label>
+//       <mat-date-range-input [rangePicker]="picker">
+//         <input matStartDate placeholder="Start date" #dateRangeStart (focus)="picker.open()" readonly i18n-placeholder>
+//         <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="chosenWeekHandler(dateRangeStart.value, dateRangeEnd.value)" i18n-placeholder>
+//       </mat-date-range-input>
+//       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+//       <mat-date-range-picker #picker></mat-date-range-picker>
+//     </mat-form-field>
+//     <mat-form-field appearance="fill">
+//         <mat-label i18n>Month</mat-label>
+//         <input matInput [matDatepicker]="dp" (focus)="dp.open()" [formControl]="dateMonth" readonly>
+//         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+//         <mat-datepicker #dp startView="year" (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+//         </mat-datepicker>
+//     </mat-form-field>
+//     <mat-form-field appearance="fill">
+//         <mat-label i18n>Year</mat-label>
+//         <input matInput [matDatepicker]="dy" (focus)="dy.open()" [formControl]="dateYear" readonly>
+//         <mat-datepicker-toggle matSuffix [for]="dy"></mat-datepicker-toggle>
+//         <mat-datepicker #dy startView="multi-year" (yearSelected)="chosenYearHandler($event, dy)" panelClass="example-year-picker">
+//         </mat-datepicker>
+//     </mat-form-field>
