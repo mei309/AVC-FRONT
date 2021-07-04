@@ -1,6 +1,7 @@
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 @Injectable({
@@ -29,10 +30,10 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getAllPoCodes');
   }
 
-  allProductionByTime (begin: string, end: string) {
+  allProductionByTime (rangeDate) {
     const params = new HttpParams()
-      .set('begin',  begin)
-      .set('end', end);
+      .set('begin',  rangeDate.begin)
+      .set('end', rangeDate.end);
     return this.http.get(this.reportsurl+'allProductionByTime',{params});
   }
 
@@ -44,20 +45,29 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getCashewInventoryBullk');
   }
   
-  getCashewInventoryFinished (date: Date) {
-    return this.http.get(this.reportsurl+'getCashewInventoryFinished/'+date.getTime()/1000);
+  getCashewInventoryFinished (date: moment.Moment) {
+    const params = new HttpParams()
+      .set('date', moment.utc(date).toISOString());
+    return this.http.get(this.reportsurl+'getCashewInventoryFinished',{params});
   }
   
-  getCashewInventoryBagged (date: Date) {
-    return this.http.get(this.reportsurl+'getCashewInventoryBagged/'+date.getTime()/1000);
+  getCashewInventoryBagged (date: moment.Moment) {
+    const params = new HttpParams()
+      .set('date', moment.utc(date).toISOString());
+    return this.http.get(this.reportsurl+'getCashewInventoryBagged',{params});
   }
 
-  getCashewInventoryRaw (date: Date) {
-    return this.http.get(this.reportsurl+'getCashewInventoryRaw/'+date.getTime()/1000);
+  getCashewInventoryRaw (date: moment.Moment) {
+    const params = new HttpParams()
+      .set('date', moment.utc(date).toISOString());
+    return this.http.get(this.reportsurl+'getCashewInventoryRaw',{params});
   }
 
-  getCashewExportReport (firstDate: Date, secondDate: Date) {
-    return this.http.get(this.reportsurl+'getCashewExportReport/'+firstDate.getTime()/1000+'/'+secondDate.getTime()/1000);
+  getCashewExportReport (rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.reportsurl+'getCashewExportReport',{params});
   }
 
   getBulkPackCashewItems (packageType: string) {

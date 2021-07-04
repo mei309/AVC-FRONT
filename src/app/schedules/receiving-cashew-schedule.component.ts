@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { SchedulesService } from './schedules.service';
@@ -134,16 +135,14 @@ export class ReceivingCashewScheduleComponent implements OnInit {
   }
 
   showWeek() {
-    const tempDate: Date = new Date();
-    tempDate.setDate(tempDate.getDate()+7);
-    this.dateRangeDisp.setValue({start: new Date(), end: tempDate});
+    this.dateRangeDisp.setValue({start: moment().utc().startOf("day").toDate(), end: moment().utc().add(7, "day").startOf("day").toDate()});
   }
 
   inlineRangeChange() {
       var dates = this.dateRangeDisp.value;
       if(dates.end) {
         this.ordersSource = this.mainSource.filter(e=> 
-          (new Date(e['deliveryDate'])).getTime() > (dates.start).setHours(0,0,0,0) && (new Date(e['deliveryDate'])).getTime() < (dates.end).setHours(23,59,59,999) ) ; 
+          (moment(e['deliveryDate']).isBetween(dates.start, dates.end.add(1, "day")))); 
         this.cashewSourceColumns = this.ordersSource;
         this.sumsSource = [this.ordersSource, ['personInCharge', 'itemName'], ['item', 'itemName']];
         if(this.ordersSource.length < this.mainSource.length) {

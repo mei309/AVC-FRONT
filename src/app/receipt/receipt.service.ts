@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -48,28 +48,46 @@ export class ReceiptService {
     return this.http.get(this.receipturl+'receiveDetails/'+id);
   }
 
-  getPendingCashew(): Observable<any> {
-    return this.http.get(this.receipturl+'getPendingCashew');
+  getPendingCashew(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.receipturl+'getPendingCashew',{params})
   }
 
-  getReceivedCashew() {
-    return this.http.get(this.receipturl+'getReceivedCashew');
+  getReceivedCashew(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.receipturl+'getReceivedCashew',{params});
   }
 
-  findCashewReceiptsHistory() {
-    return this.http.get(this.receipturl+'findCashewReceiptsHistory');
+  findCashewReceiptsHistory(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.receipturl+'findCashewReceiptsHistory',{params});
   }
   
-  findGeneralReceiptsHistory() {
-    return this.http.get(this.receipturl+'findGeneralReceiptsHistory');
+  findGeneralReceiptsHistory(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.receipturl+'findGeneralReceiptsHistory',{params});
   }
 
-  getPendingGeneral() {
-    return this.http.get(this.receipturl+'getPendingGeneral');
+  getPendingGeneral(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.receipturl+'getPendingGeneral',{params});
   }
 
-  getReceivedGeneral() {
-    return this.http.get(this.receipturl+'getReceivedGeneral');
+  getReceivedGeneral(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.receipturl+'getReceivedGeneral',{params});
   }
 
   

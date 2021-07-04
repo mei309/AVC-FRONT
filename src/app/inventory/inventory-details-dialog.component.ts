@@ -45,7 +45,12 @@ export class InventoryDetailsDialogComponent {
         if(!this.fromNew) {
             switch (this.type) {
                 case $localize`Material usage`:
-                    this.LocalService.getMaterialUse(this.id).pipe(take(1)).subscribe( val => {
+                    this.LocalService.getStroageUse(this.id).pipe(take(1)).subscribe( val => {
+                        this.inventoryItem = val;
+                    });
+                    break;
+                case $localize`Cashew usage`:
+                    this.LocalService.getStroageUse(this.id).pipe(take(1)).subscribe( val => {
                         this.inventoryItem = val;
                     });
                     break;

@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable, ReplaySubject } from 'rxjs';
@@ -65,8 +65,11 @@ export class CountinersService {
     return this.http.get(this.contianerurl+'getLoadingSecurityDoc/'+id);
   }
 
-  getAllLoadings () {
-    return this.http.get(this.contianerurl+'getAllLoadings');
+  getAllLoadings (rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end)
+    return this.http.get(this.contianerurl+'getAllLoadings', {params});
   }
 
 
@@ -90,8 +93,11 @@ export class CountinersService {
     return this.http.get(this.contianerurl+'findShipmentCodes');
   }
 
-  findContainerArrivals () {
-    return this.http.get(this.contianerurl+'findContainerArrivals');
+  findContainerArrivals (rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end)
+    return this.http.get(this.contianerurl+'findContainerArrivals', {params});
   }
 
   getShippingPorts (): Observable<any> {

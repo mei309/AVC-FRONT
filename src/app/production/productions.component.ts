@@ -16,11 +16,6 @@ export class ProductionsComponent implements OnInit {
   navigationSubscription;
   
   tabIndex: number = 0;
-
-  dateRangeDisp= new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
   
   columnsShow: OneColumn[];
 
@@ -34,6 +29,8 @@ export class ProductionsComponent implements OnInit {
   
   cashewSourceColumns;
 
+  dateRange;
+
   ItemsChangable1 = new ReplaySubject<any[]>();
   ItemsChangable2 = new ReplaySubject<any[]>();
 
@@ -45,9 +42,6 @@ export class ProductionsComponent implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-        } else {
-            this.changed(0);
         }
     });
     this.columnsShow = [
@@ -118,10 +112,8 @@ export class ProductionsComponent implements OnInit {
           this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('number')) {
               this.tabIndex = +params.get('number');
-              this.changed(+params.get('number'));
-            } else {
-              this.changed(0);
             }
+            this.changedAndDate(this.tabIndex);
           });
         }
       });
@@ -147,21 +139,31 @@ export class ProductionsComponent implements OnInit {
                 case 3:
                     this.router.navigate(['../Packing',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
                     break;
+                  case 2:
+                    this.router.navigate(['../QcPacking',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
+                    break;
               default:
                   break;
           }
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
 
-    changed(event) {
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.cashewSourceColumns = null;
-          this.localService.getAllCleaning().pipe(take(1)).subscribe(value => {
+          this.localService.getAllCleaning(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Cleaning';
@@ -169,7 +171,7 @@ export class ProductionsComponent implements OnInit {
           break;
         case 1:
           this.cashewSourceColumns = null;
-          this.localService.getAllRoasting().pipe(take(1)).subscribe(value => {
+          this.localService.getAllRoasting(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Roasting';
@@ -177,7 +179,7 @@ export class ProductionsComponent implements OnInit {
           break;
         case 2:
           this.cashewSourceColumns = null;
-          this.localService.getAllToffee().pipe(take(1)).subscribe(value => {
+          this.localService.getAllToffee(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Toffee';
@@ -185,16 +187,24 @@ export class ProductionsComponent implements OnInit {
           break;
         case 3:
           this.cashewSourceColumns = null;
-          this.localService.getAllPacking().pipe(take(1)).subscribe(value => {
+          this.localService.getAllPacking(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Packing';
           this.cdRef.detectChanges();
           break;
+        case 4:
+          this.cashewSourceColumns = null;
+          // this.localService.getAllPacking(this.dateRange).pipe(take(1)).subscribe(value => {
+          //   this.cashewSourceColumns = <any[]>value;
+          // });
+          this.type = 'QC Packing';
+          this.cdRef.detectChanges();
+          break;
         default:
           break;
       }
-      this.genral.getItemsCashew(this.tabIndex).pipe(take(1)).subscribe(val => {
+      this.genral.getItemsCashew(this.type == 'QC Packing'? 6 : this.tabIndex).pipe(take(1)).subscribe(val => {
         this.ItemsChangable1.next(val);
       });
       this.genral.getItemsCashew(this.tabIndex+1).pipe(take(1)).subscribe(val => {
@@ -202,13 +212,6 @@ export class ProductionsComponent implements OnInit {
       });
     }
 
-    
-
-    inlineRangeChange($event) {
-      let begin = $event.begin.value;
-      let end = $event.end.value;
-      // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
-    }
 
     ngOnDestroy() {
       if (this.navigationSubscription) {  

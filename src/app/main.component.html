@@ -113,12 +113,14 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='production/Roasting' i18n>Roasting</button>
         <button mat-menu-item routerLink='production/Toffee' i18n>Toffee</button>
         <button mat-menu-item routerLink='production/Packing' i18n>Packing</button>
+        <button mat-menu-item routerLink='production/QcPacking' i18n>QC Packing</button>
       </mat-menu>
       <mat-menu #productionreports="matMenu" >
         <button mat-menu-item [routerLink]="['production/Productions', {number: 0}]" i18n>Cleaning</button>
         <button mat-menu-item [routerLink]="['production/Productions', {number: 1}]" i18n>Roasting</button>
         <button mat-menu-item [routerLink]="['production/Productions', {number: 2}]" i18n>Toffee</button>
         <button mat-menu-item [routerLink]="['production/Productions', {number: 3}]" i18n>Packing</button>
+        <button mat-menu-item [routerLink]="['production/Productions', {number: 4}]" i18n>QC Packing</button>
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="menuCountiners" i18n>Shipping</button>
@@ -154,11 +156,13 @@ fxShow="true" fxHide.lt-md="true" -->
       </mat-menu>
       <mat-menu #inventorynew="matMenu" >
         <button mat-menu-item routerLink='invready/MaterialUse' i18n>Material Usage</button>
+        <button mat-menu-item routerLink='invready/CashewUse' i18n>Cashew Usage</button>
         <button mat-menu-item routerLink='invready/Relocation' i18n>Relocation</button>
       </mat-menu>
       <mat-menu #inventoryreport="matMenu" >
         <button mat-menu-item [routerLink]="['invready/Reports', {number: 0}]" i18n>Material Usage</button>
-        <button mat-menu-item [routerLink]="['invready/Reports', {number: 1}]" i18n>Relocations</button>
+        <button mat-menu-item [routerLink]="['invready/Reports', {number: 1}]" i18n>Cashew Usage</button>
+        <button mat-menu-item [routerLink]="['invready/Reports', {number: 2}]" i18n>Relocations</button>
       </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>

@@ -9,11 +9,12 @@ import { ReceiptService } from './receipt.service';
 @Component({
   selector: 'receive-c-reports',
   template: `
-  <h1 style="text-align:center" i18n>Cashew Receivings</h1>
   <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../ReceiveCOrder' i18n>Receive Cashew Order</button>
     <button mat-raised-button color="primary" routerLink='../ReceiveCAlone' i18n>Receive Cashew Without Order</button>
   </div>
+  <h1 style="text-align:center" i18n>Cashew Receivings</h1>
+  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
@@ -40,7 +41,7 @@ export class ReceiveCReports implements OnInit {
   
   cashewSource;
 
-  
+  dateRange;
   constructor(private router: Router, public dialog: MatDialog, private localService: ReceiptService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
   }
@@ -128,9 +129,6 @@ export class ReceiveCReports implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
           this.tabIndex = +params.get('number');
-          this.changed(+params.get('number'));
-        } else {
-          this.changed(0);
         }
     });
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -139,10 +137,8 @@ export class ReceiveCReports implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-          } else {
-            this.changed(0);
           }
+          this.changedAndDate(this.tabIndex);
         });
       }
     });
@@ -154,21 +150,25 @@ export class ReceiveCReports implements OnInit {
       data: {id: event['id'], fromNew: false, type: 'Cashew'},
     });
     dialogRef.afterClosed().subscribe(data => {
-      // if (data === 'Edit order') {
-      //   this.router.navigate(['Main/ordready/NewCashewOrder',{id: event['poCode']['id']}]);
-      // } else 
       if(data === $localize`Receive`) {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === $localize`Edit receive` || data === $localize`Receive extra`) {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
 
-    changed(event) {
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.cashewSource = null;
@@ -177,7 +177,7 @@ export class ReceiveCReports implements OnInit {
               this.columnsShow.splice(ind, 1);
               this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getPendingCashew().pipe(take(1)).subscribe(value => {
+          this.localService.getPendingCashew(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSource = value;
           });
           this.cdRef.detectChanges();
@@ -189,7 +189,7 @@ export class ReceiveCReports implements OnInit {
               this.columnsShow.splice(ind, 1);
               this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getReceivedCashew().pipe(take(1)).subscribe(value => {
+          this.localService.getReceivedCashew(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSource = value;
           });
           
@@ -208,7 +208,7 @@ export class ReceiveCReports implements OnInit {
               });
               this.columnsShow = this.columnsShow.slice();
             }
-          this.localService.findCashewReceiptsHistory().pipe(take(1)).subscribe(value => {
+          this.localService.findCashewReceiptsHistory(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSource = value;
           });
           this.cdRef.detectChanges();

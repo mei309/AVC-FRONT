@@ -49,33 +49,57 @@ import { SheardModule } from './sheard.module';
 //       return date.toUTCString();
 //   }
 // }
-export const APP_DATE_FORMATS: MatDateFormats = {
+// export const APP_DATE_FORMATS: MatDateFormats = {
+//   parse: {
+//     dateInput: 'P',
+//   },
+//   display: {
+//     dateInput: 'MMM d, y HH:mm',
+//     monthYearLabel: 'MMM d, y HH:mm',
+//     dateA11yLabel: 'MMMM d, y HH:mm',
+//     monthYearA11yLabel: 'MMMM y HH:mm'
+//   }
+// };
+
+// export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
+//     parse: {
+//         dateInput: "Pp",
+//         // monthInput: "MMMM",
+//         // timeInput: "LT",
+//         // datetimeInput: "L LT"
+//       },
+//       display: { 
+//         dateInput: 'MMM d, y HH:mm',
+//         monthYearLabel: 'MMM d, y HH:mm',
+//         dateA11yLabel: 'MMMM d, y HH:mm',
+//         monthYearA11yLabel: 'MMMM YYYY'
+//       }
+    
+//   };
+
+export const MAT_MOMENT_DATE_FORMATS_MY: MatDateFormats = {
   parse: {
-    dateInput: 'P',
+    dateInput: 'l',
   },
   display: {
-    dateInput: 'MMM d, y HH:mm',
-    monthYearLabel: 'MMM d, y HH:mm',
-    dateA11yLabel: 'MMMM d, y HH:mm',
-    monthYearA11yLabel: 'MMMM y HH:mm'
-  }
+    dateInput: 'll',//'YYYY-MM-DD',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
 };
 
-export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
-    parse: {
-        dateInput: "Pp",
-        // monthInput: "MMMM",
-        // timeInput: "LT",
-        // datetimeInput: "L LT"
-      },
-      display: { 
-        dateInput: 'MMM d, y HH:mm',
-        monthYearLabel: 'MMM d, y HH:mm',
-        dateA11yLabel: 'MMMM d, y HH:mm',
-        monthYearA11yLabel: 'MMMM YYYY'
-      }
-    
-  };
+export const NGX_MAT_MOMENT_FORMATS_MY: NgxMatDateFormats = {
+  parse: {
+    dateInput: 'l, LTS',
+  },
+  display: {
+    dateInput: 'lll',//'YYYY-MM-DD HH:mm',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -128,9 +152,9 @@ export const NG_MAT_DATEFNS_DATE_FORMATS_MY: NgxMatDateFormats  = {
     // { provide: DateFnsConfigurationService, useValue: enGBConfig },
     // {provide: NgxMatDateAdapter, useClass: NgxDateFnsDateAdapterMine},
     // {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE, useValue: { useUtc: true }},
-    // {provide: NGX_MAT_DATE_FORMATS, useValue: NG_MAT_DATEFNS_DATE_FORMATS_MY},
+    {provide: NGX_MAT_DATE_FORMATS, useValue: NGX_MAT_MOMENT_FORMATS_MY},
     // {provide: DateAdapter, useClass: AppDateAdapter},
-    // {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS_MY},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
 
 

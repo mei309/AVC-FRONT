@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -33,12 +33,18 @@ export class QcService {
     return this.http.get(this.qcurl+'getQcCheck/'+ id);
   }
 
-  getRawQC (): Observable<any> {
-    return this.http.get(this.qcurl+'getRawQC');
+  getRawQC(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.qcurl+'getRawQC',{params});
   }
 
-  getRoastQC (): Observable<any> {
-    return this.http.get(this.qcurl+'getRoastQC');
+  getRoastQC(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.qcurl+'getRoastQC',{params});
   }
 
   getPoCashew (roast: boolean): Observable<any> {

@@ -12,17 +12,7 @@ import { ReportsService } from './reports.service';
   selector: 'export-report',
   template: `
     <h1 style="text-align:center" i18n>Export report</h1>
-    <date-range-select></date-range-select>
-    <mat-form-field>
-      <mat-label i18n>Enter a date range</mat-label>
-      <mat-date-range-input [formGroup]="dateRangeDisp" [rangePicker]="picker4">
-        <input matStartDate formControlName="start" placeholder="Start date" (focus)="picker4.open()" i18n-placeholder>
-        <input matEndDate formControlName="end" placeholder="End date" (focus)="picker4.open()" (dateChange)="inlineRangeChange()" i18n-placeholder>
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker4></mat-date-range-picker>
-    </mat-form-field>
-    
+    <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotales]="totelByType" [withPaginator]="false">
       </search-group-details>
@@ -33,11 +23,6 @@ export class ExportReportComponent implements OnInit {
   navigationSubscription;
   
   isDataAvailable: boolean = false;
-
-  dateRangeDisp= new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
 
   totelAll: OneColumn = {
     type: 'decimalNumber',
@@ -147,18 +132,14 @@ export class ExportReportComponent implements OnInit {
   }
 
     
-
-    inlineRangeChange() {
-        var dates = this.dateRangeDisp.value;
-        if(dates.end) {
-            this.isDataAvailable = true;
-            this.cashewSource = null;
-            this.localService.getCashewExportReport(dates.start, dates.end).pipe(take(1)).subscribe(value => {
-                this.cashewSource = <any[]>value;
-            });
-            this.cdRef.detectChanges();
-        }
-    }
+  getAllByDate($event) {
+    this.isDataAvailable = true;
+    this.cashewSource = null;
+    this.localService.getCashewExportReport($event).pipe(take(1)).subscribe(value => {
+        this.cashewSource = <any[]>value;
+    });
+    this.cdRef.detectChanges();
+  }
 
     ngOnDestroy() {
       if (this.navigationSubscription) {  

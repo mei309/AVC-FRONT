@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -74,7 +74,7 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'receiveDetails/'+id);
   }
 
-  getCashewOrdersOpen () {
+  getCashewOrdersOpen (){
     return this.http.get(this.ordersurl+'getCashewOrdersOpen');
   }
 
@@ -86,8 +86,11 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'getReceivedCashew');
   }
 
-  getHistoryCashewOrders() {
-    return this.http.get(this.ordersurl+'getHistoryCashewOrders');
+  getHistoryCashewOrders(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.ordersurl+'getHistoryCashewOrders', {params});
   }
 
   findCashewReceiptsHistory() {
@@ -98,7 +101,7 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'getAllCashewReciveRejected');
   }
 
-  getGeneralOrdersOpen () {
+  getGeneralOrdersOpen (){
     return this.http.get(this.ordersurl+'getGeneralOrdersOpen');
   }
 
@@ -110,8 +113,11 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'getReceivedGeneral');
   }
 
-  getAllGeneralOrders() {
-    return this.http.get(this.ordersurl+'getAllGeneralOrders');
+  getAllGeneralOrders(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.ordersurl+'getAllGeneralOrders', {params});
   }
 
   

@@ -10,6 +10,7 @@ import { TodoMassagesPopupComponent } from './todo-massagess-popup.component';
   selector: 'todo-list',
   template: `
   <h1 style="text-align:center" i18n>Task center</h1>
+  <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
   <search-details [dataSource]="tasksSource" [oneColumns]="columnsTasks" (details)="openDialog($event)">
   </search-details>
   `,
@@ -61,11 +62,16 @@ export class TodoListComponent {
 
   tasksSource: any[];
   
+  dateRange;
 
   constructor(private genral: Genral, public dialog: MatDialog, private router: Router) {}
   
   ngOnInit() {
-    this.genral.getUserTasks().pipe(take(1)).subscribe(value => {
+  }
+
+  getAllByDate($event) {
+    this.dateRange = $event;
+    this.genral.getUserTasks($event).pipe(take(1)).subscribe(value => {
       this.tasksSource = <any[]>value;
     });
   }
@@ -83,7 +89,7 @@ export class TodoListComponent {
         if(typeof data == 'number') {
           this.router.navigate(['Main/reports/FullPoReport',{poCode: data}]);
         } else if(data === 'reload') {
-          this.genral.getUserTasks().pipe(take(1)).subscribe(value => {
+          this.genral.getUserTasks(this.dateRange).pipe(take(1)).subscribe(value => {
             this.tasksSource = <any[]>value;
           });
         }

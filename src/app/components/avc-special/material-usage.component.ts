@@ -5,7 +5,7 @@ import { Genral } from 'src/app/genral.service';
 import { FieldConfig } from '../../field.interface';
 import { isEqual, map } from 'lodash-es';
 import { diff } from 'src/app/libraries/diffArrayObjects.interface';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 @Component({
   selector: 'material-usage',
   template: `
@@ -56,7 +56,7 @@ export class MaterialUsageComponent implements OnInit {
     this.form = this.fb.group({});
     this.form.addControl('items', this.fb.array([this.fb.group({item: null})]));
     
-    this.form.get('items').valueChanges.subscribe(selectedValue => {
+    this.form.get('items').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
         selectedValue = selectedValue.filter(ele => ele.item && ele.item.id);
         selectedValue = map(selectedValue, 'item'); 
         if(selectedValue.length && !isEqual(selectedValue, this.choosedItems)) {

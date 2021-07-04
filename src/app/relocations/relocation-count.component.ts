@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { cloneDeep } from 'lodash-es';
@@ -181,7 +181,7 @@ export class RelocationCountComponent implements OnInit {
     setBeginChoose(){
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
-        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+        this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
                 this.localService.getStorageByPo(selectedValue['id'], this.num).pipe(take(1)).subscribe( val => {
                     this.dataSource = {poCode: selectedValue, usedItemsTable: [], usedItemsNormal: [], itemCounts: []};

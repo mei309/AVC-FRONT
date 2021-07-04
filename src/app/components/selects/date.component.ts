@@ -9,7 +9,7 @@ import { FieldConfig } from '../../field.interface';
 
     <mat-form-field *ngSwitchCase="'withTime'" class="one-field margin-top" [formGroup]="group">
       <mat-label>{{field.label}}</mat-label>
-      <input matInput [ngxMatDatetimePicker]="picker" [formControlName]="field.name" placeholder="YYYY-MM-DD hh:mm">
+      <input matInput [ngxMatDatetimePicker]="picker" [formControlName]="field.name">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">

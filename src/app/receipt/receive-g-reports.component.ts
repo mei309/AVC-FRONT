@@ -10,10 +10,11 @@ import { ReceiptService } from './receipt.service';
 @Component({
   selector: 'receive-g-reports',
   template: `
-  <h1 style="text-align:center" i18n>General Receivings</h1>
   <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../ReceiveGOrder' i18n>Receive General Order</button>
   </div>
+  <h1 style="text-align:center" i18n>General Receivings</h1>
+  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
@@ -37,6 +38,8 @@ export class ReceiveGReports implements OnInit {
   columnsOpenPending: OneColumn[];
   
   generalSourceColumns;
+
+  dateRange;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: ReceiptService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -119,9 +122,6 @@ export class ReceiveGReports implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
           this.tabIndex = +params.get('number');
-          this.changed(+params.get('number'));
-        } else {
-          this.changed(0);
         }
     });
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -130,10 +130,8 @@ export class ReceiveGReports implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-          } else {
-            this.changed(0);
           }
+          this.changedAndDate(this.tabIndex);
         });
       }
     });
@@ -156,13 +154,19 @@ export class ReceiveGReports implements OnInit {
       } else if(data === $localize`Edit receive`) {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
 
-
-    changed(event) {
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.generalSourceColumns = null;
@@ -171,7 +175,7 @@ export class ReceiveGReports implements OnInit {
               this.columnsShow.splice(ind, 1);
               this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getPendingGeneral().pipe(take(1)).subscribe(value => {
+          this.localService.getPendingGeneral(this.dateRange).pipe(take(1)).subscribe(value => {
             this.generalSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
@@ -183,7 +187,7 @@ export class ReceiveGReports implements OnInit {
               this.columnsShow.splice(ind, 1);
               this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getReceivedGeneral().pipe(take(1)).subscribe(value => {
+          this.localService.getReceivedGeneral(this.dateRange).pipe(take(1)).subscribe(value => {
             this.generalSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
@@ -201,7 +205,7 @@ export class ReceiveGReports implements OnInit {
               });
               this.columnsShow = this.columnsShow.slice();
             }
-          this.localService.findGeneralReceiptsHistory().pipe(take(1)).subscribe(value => {
+          this.localService.findGeneralReceiptsHistory(this.dateRange).pipe(take(1)).subscribe(value => {
             this.generalSourceColumns = value;
           });
           this.cdRef.detectChanges();

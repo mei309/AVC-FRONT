@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
 import { cloneDeep } from 'lodash-es';
@@ -107,7 +107,7 @@ export class ProductionPackingComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.addControl('mixPos', this.fb.control(''));
-        this.form.get('mixPos').valueChanges.subscribe(selectedValue => {
+        this.form.get('mixPos').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
                 this.posArray = selectedValue['weightedPos'];
                 let pos = selectedValue['weightedPos'].map(a => a.poCode.id);
@@ -118,7 +118,7 @@ export class ProductionPackingComponent implements OnInit {
                 this.isDataAvailable = false;
             }
         });
-        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+        this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) { 
                 this.localService.getStorageRoastPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;

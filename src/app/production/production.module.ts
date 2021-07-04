@@ -8,15 +8,18 @@ import { ProductionRoutingModule } from './production-routing.module';
 import { ProductionToffeeComponent } from './production-toffee.component';
 import { ProductionsComponent } from './productions.component';
 import { ExportImportComponent } from './export-import.component';
+import { ProductionQcPackComponent } from './production-qc-pack.component';
 // import { NewProductionPackingComponent } from './new-production-packing.component';NewProductionPackingComponent
 @NgModule({
   declarations: [ProductionCleaningComponent, ProductionPackingComponent, ProductionRoastingComponent, ProductionDetailsDialogComponent,
-  ProductionToffeeComponent, ProductionsComponent, ExportImportComponent,
+  ProductionToffeeComponent, ProductionsComponent, ExportImportComponent, ProductionQcPackComponent
   ],
   imports: [
     SheardModule,
     ProductionRoutingModule
   ],
-  entryComponents: [ProductionDetailsDialogComponent, ExportImportComponent]
+  entryComponents: [ProductionDetailsDialogComponent, 
+    // ExportImportComponent
+  ]
 })
 export class ProductionModule { }

@@ -1,12 +1,13 @@
-<h1 style="text-align:center" i18n>General orders</h1>
 <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../NewGenralOrder' i18n>New General Order</button>
 </div>
+<h1 style="text-align:center" i18n>General orders</h1>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Open" i18n-label>
     </mat-tab>
     <mat-tab label="All" i18n-label>
+        <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
     </mat-tab>
 </mat-tab-group>
 <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" (details)="openDialog($event)">

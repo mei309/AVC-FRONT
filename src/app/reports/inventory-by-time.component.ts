@@ -21,10 +21,10 @@ import { ReportsService } from './reports.service';
       </mat-tab>
     </mat-tab-group>
     <mat-form-field appearance="fill">
-        <mat-label i18n>Day</mat-label>
-        <input matInput [matDatepicker]="picker1" (focus)="picker1.open()" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay" readonly>
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
+        <mat-label i18n>Day & time</mat-label>
+        <input matInput [ngxMatDatetimePicker]="picker" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
     </mat-form-field>
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotales]="totelByType" [withPaginator]="false">
@@ -81,7 +81,7 @@ export class InventoryByTimeComponent implements OnInit {
       });
   }
 
-  chosenDayHandler(normalizedDay: Date) {
+  chosenDayHandler(normalizedDay: moment.Moment) {
     this.changedAndDate(this.tabIndex, normalizedDay);
   }
 
@@ -92,7 +92,7 @@ export class InventoryByTimeComponent implements OnInit {
       this.isDataAvailable = false;
     }
   }
-  changedAndDate(event, normalizedDay: Date) {
+  changedAndDate(event, normalizedDay: moment.Moment) {
     this.isDataAvailable = true;
     switch (+event) {
       case 0:

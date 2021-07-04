@@ -196,7 +196,7 @@ export class ExportImportComponent implements OnInit {
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = arrNormal;
         }
-        this.preper(this.mainLabel === 'Clean'? false : true, arrTable.length > 0, arrNormal.length > 0);
+        this.preper(this.mainLabel === 'Clean' || this.mainLabel === 'QC pack'? false : true, arrTable.length > 0, arrNormal.length > 0);
         this.isDataAvailable = true;
     }
 

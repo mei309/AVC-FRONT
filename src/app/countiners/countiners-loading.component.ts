@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { isEqual, map } from 'lodash-es';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -237,7 +237,7 @@ export class CountinersLoadingComponent {
         this.form = this.fb.group({});
         this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
         
-        this.form.get('poCodes').valueChanges.subscribe(selectedValue => {
+        this.form.get('poCodes').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             selectedValue = selectedValue.filter(ele => ele.poCode && ele.poCode.id);
             selectedValue = map(selectedValue, 'poCode'); 
             if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {

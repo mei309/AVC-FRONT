@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CashewCountComponent } from './cashew-count.component';
 import { CashewInventoryComponent } from './cashew-inventory.component';
+import { CashewUseComponent } from './cashew-use.component';
 import { GenralCountComponent } from './genral-count.component';
 import { GenralInventoryComponent } from './genral-inventory.component';
 import { InventoryRelocationComponent } from './inventory-reloaction.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'MaterialUse', component: MaterialUsageComponent},
       { path: 'Reports', component: InventoryReportsComponent},
       { path: 'Relocation', component: InventoryRelocationComponent},
+      { path: 'CashewUse', component: CashewUseComponent},
     ];
 
 @NgModule({

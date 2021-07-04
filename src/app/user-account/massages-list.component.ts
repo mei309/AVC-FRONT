@@ -8,6 +8,7 @@ import { UserAccountService } from './user-account.service';
   selector: 'massages-list',
   template: `
   <h1 style="text-align:center" i18n>Messages center</h1>
+  <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
   <div class="centerButtons">
     <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
       <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
@@ -69,7 +70,10 @@ export class MassagesListComponent {
   constructor(private genral: Genral, private LocalService: UserAccountService) {}
   
   ngOnInit() {
-    this.genral.getUserMassages().pipe(take(1)).subscribe(value => {
+  }
+
+  getAllByDate($event) {
+    this.genral.getUserMassages($event).pipe(take(1)).subscribe(value => {
       this.massagesSource = <any[]>value;
       this.source = <any[]>value;
     });

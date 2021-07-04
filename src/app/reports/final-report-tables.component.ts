@@ -142,6 +142,11 @@ export class FinalReportTablesComponent {
                 name: 'inventory',
                 label: $localize`Inventory`,
                 foot: 'totalInventory',
+            },
+            {
+                name: 'inventoryUse',
+                label: $localize`Inventory usage`,
+                foot: 'totalInventoryUse',
             }
         ];
 

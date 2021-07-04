@@ -10,13 +10,16 @@ import { InventoryService } from './inventory.service';
 @Component({
   selector: 'inventory-reports',
   template: `
-  <h1 style="text-align:center" i18n>Inventory reports</h1>
   <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../MaterialUse' i18n>New Material Usage</button>
     <button mat-raised-button color="primary" routerLink='../Relocation' i18n>New Relocation</button>
   </div>
+  <h1 style="text-align:center" i18n>Inventory reports</h1>
+  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Material usages" i18n-label>
+      </mat-tab>
+      <mat-tab label="Cashew usages" i18n-label>
       </mat-tab>
       <mat-tab label="Relocations" i18n-label>
       </mat-tab>
@@ -35,6 +38,8 @@ export class InventoryReportsComponent implements OnInit {
 
   type;
 
+  dateRange;
+
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
     private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
   }
@@ -43,9 +48,6 @@ export class InventoryReportsComponent implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
       if(params.get('number')) {
         this.tabIndex = +params.get('number');
-        this.changed(+params.get('number'));
-      } else {
-        this.changed(0);
       }
     });
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -54,9 +56,9 @@ export class InventoryReportsComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
+            this.changedAndDate(+params.get('number'));
           } else {
-            this.changed(0);
+            this.changedAndDate(0);
           }
         });
       }
@@ -75,73 +77,49 @@ export class InventoryReportsComponent implements OnInit {
                 this.router.navigate(['../MaterialUse',{id: event['id']}], { relativeTo: this._Activatedroute });
                 break;
               case 1:
+                this.router.navigate(['../CashewUse',{id: event['id']}], { relativeTo: this._Activatedroute });
+                break;
+              case 2:
                 this.router.navigate(['../Relocation',{id: event['id']}], { relativeTo: this._Activatedroute });
                 break;
               default:
                   break;
           }
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
 
-
-    changed(event) {
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.inventorySource = null; 
-          this.columnsShow = [
-            {
-                type: 'arrayVal',
-                name: 'poCodes',
-                label: $localize`PO#`,
-                search: 'normal',
-                group: 'poCodes',
-            },
-            {
-                type: 'arrayVal',
-                name: 'suppliers',
-                label: $localize`Supplier`,
-                search: 'selectObj',
-                options: this.genral.getSuppliersCashew(),
-                group: 'poCodes',
-            },
-            {
-                type: 'itemWeight',
-                name: 'usedItems',
-                label: $localize`Used items`,
-                search: 'listAmountWithUnit',
-                options: this.genral.getAllItemsCashew(),
-            },
-            {
-                type: 'dateTime',
-                name: 'recordedTime',
-                label: $localize`Recorded time`,
-                search: 'dates',
-            },
-            {
-                type: 'normal',
-                name: 'status',
-                label: $localize`Status`,
-                search: 'select',
-                options: this.genral.getProcessStatus(),
-            },
-            {
-              type: 'normal',
-              label: $localize`Remarks`,
-              name: 'remarks',
-              search: 'normal',
-            },
-          ];
-          this.localService.getMaterialUses().pipe(take(1)).subscribe(value => {
+          this.setUsageCols();
+          this.localService.getMaterialUses(this.dateRange).pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
           });
           this.type = $localize`Material usage`;
           this.cdRef.detectChanges();
           break;
         case 1:
+          this.inventorySource = null; 
+          this.setUsageCols();
+          this.localService.getCashewUses(this.dateRange).pipe(take(1)).subscribe(value => {
+            this.inventorySource = <any[]>value;
+          });
+          this.type = $localize`Cashew usage`;
+          this.cdRef.detectChanges();
+          break;
+        case 2:
           this.inventorySource = null;
           this.columnsShow = [
             {
@@ -180,7 +158,7 @@ export class InventoryReportsComponent implements OnInit {
                 options: this.genral.getProcessStatus(),
             },
           ];
-          this.localService.getStorageRelocations('PRODUCT_STORAGE').pipe(take(1)).subscribe(value => {
+          this.localService.getStorageRelocations('PRODUCT_STORAGE', this.dateRange).pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
           });
           this.type = $localize`Relocation`;
@@ -189,6 +167,52 @@ export class InventoryReportsComponent implements OnInit {
         default:
           break;
       }
+    }
+
+    setUsageCols() {
+      this.columnsShow = [
+        {
+            type: 'arrayVal',
+            name: 'poCodes',
+            label: $localize`PO#`,
+            search: 'normal',
+            group: 'poCodes',
+        },
+        {
+            type: 'arrayVal',
+            name: 'suppliers',
+            label: $localize`Supplier`,
+            search: 'selectObj',
+            options: this.genral.getSuppliersCashew(),
+            group: 'poCodes',
+        },
+        {
+            type: 'itemWeight',
+            name: 'usedItems',
+            label: $localize`Used items`,
+            search: 'listAmountWithUnit',
+            options: this.genral.getAllItemsCashew(),
+        },
+        {
+            type: 'dateTime',
+            name: 'recordedTime',
+            label: $localize`Recorded time`,
+            search: 'dates',
+        },
+        {
+            type: 'normal',
+            name: 'status',
+            label: $localize`Status`,
+            search: 'select',
+            options: this.genral.getProcessStatus(),
+        },
+        {
+          type: 'normal',
+          label: $localize`Remarks`,
+          name: 'remarks',
+          search: 'normal',
+        },
+      ];
     }
 
     ngOnDestroy() {

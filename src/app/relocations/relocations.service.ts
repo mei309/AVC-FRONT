@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -16,8 +16,11 @@ export class RelocationsService {
     return this.http.get(this.inventorysurl+'getTransferCounts');
   }
   
-  getStorageRelocations(functionality: string) {
-    return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality);
+  getStorageRelocations(functionality: string, rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality, {params});
   }
 
   addEditTransfer (value, fromNew: boolean) {

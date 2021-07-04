@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -16,8 +16,11 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getTransferCounts');
   }
   
-  getStorageRelocations(functionality: string) {
-    return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality);
+  getStorageRelocations(functionality: string, rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality, {params});
   }
 
   addEditMaterialUse (value, fromNew: boolean) {
@@ -25,6 +28,14 @@ export class InventoryService {
       return this.http.post(this.inventorysurl+'addMaterialUse', value);
     } else {
       return this.http.put(this.inventorysurl+'editMaterialUse', value);
+    }
+  }
+
+  addEditCashewUse (value, fromNew: boolean) {
+    if(fromNew) {
+      return this.http.post(this.inventorysurl+'addCashewUse', value);
+    } else {
+      return this.http.put(this.inventorysurl+'editCashewUse', value);
     }
   }
 
@@ -56,8 +67,18 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getGeneralInventoryByPo');
   }
 
-  getMaterialUses() {
-    return this.http.get(this.inventorysurl+'getMaterialUses');
+  getMaterialUses(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.inventorysurl+'getMaterialUses', {params});
+  }
+
+  getCashewUses(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.inventorysurl+'getCashewUses', {params});
   }
 
   getGeneralInventoryOrder() {
@@ -76,8 +97,8 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
   }
 
-  getMaterialUse (id: number): Observable<any> {
-    return this.http.get(this.inventorysurl+'getMaterialUse/'+id);
+  getStroageUse (id: number): Observable<any> {
+    return this.http.get(this.inventorysurl+'getStroageUse/'+id);
   }
 
   getPoCashewCodesInventory (): Observable<any> {
@@ -98,4 +119,17 @@ export class InventoryService {
       return this.http.get(this.inventorysurl+'findAllPoCodes');
   }
 
+  getAllCashewPos(): Observable<any> {
+    return this.http.get(this.inventorysurl+'getAllCashewPos');
+  }
+
+  getAllStorageCashew(poCode: number): Observable<any> {
+    return this.http.get(this.inventorysurl+'getAllStorageCashew/'+poCode);
+  }
+
+  getUsageWithStorage(id: number, poCode: number) {
+    // this.http.get(this.productionurl+'getTransferProduction/'+id);
+    let response1 = this.http.get(this.inventorysurl+'getStroageUse/'+id);
+    return forkJoin([response1, this.http.get(this.inventorysurl+'getAllStorageCashew/'+poCode)]);
+  }
 }

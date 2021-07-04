@@ -8,7 +8,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'date-range-select',
   template: `
-    <mat-form-field appearance="fill" style="width: 300px">
+    <mat-form-field appearance="fill" style="width: 400px">
         <mat-label i18n>Showing results</mat-label>
         <mat-select [formControl]="choosedDate">
             <mat-select-trigger>
@@ -42,6 +42,17 @@ import * as moment from 'moment';
             </mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label i18n>Strat of day</mat-label>
+        <mat-select [formControl]="inputTime">
+            <mat-option *ngFor="let hour of hours" [value]="hour.val">
+                {{hour.tex}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
     <div hidden="true">
         <mat-form-field>
             <input matInput [matDatepicker]="picker1" (dateChange)="chosenDayHandler($event.value)" readonly>
@@ -83,6 +94,9 @@ export class DateRangeSelect {
 
     @Output() submitRange: EventEmitter<any> = new EventEmitter<any>();
 
+    inputTime = new FormControl(6);
+    hours = [{tex: '00:00',val: 0},{tex:'01:00',val:1},{tex:'02:00',varl:2},{tex:'03:00',val:3},{tex:'04:00',val:4},{tex:'05:00',val:5},{tex:'06:00',val:6},{tex:'07:00',val:7},{tex:'08:00',val:8},{tex:'09:00',val:9},{tex:'10:00',val:10},
+        {tex:'11:00',val:11},{tex:'12:00',val:12},{tex:'13:00',val:13},{tex:'14:00',val:14},{tex:'15:00',val:15},{tex:'16:00',val:16},{tex:'17:00',val:17},{tex:'18:00',val:18},{tex:'19:00',val:19},{tex:'20:00',val:20},{tex:'21:00',val:21},{tex:'22:00',val:22},{tex:'23:00',val:23}];
     datesList = [
         {
             format: 'mediumDate',
@@ -125,19 +139,20 @@ export class DateRangeSelect {
   }
 
   ngOnInit() {
+    this.last2Weeks();
   }
 
   last2Weeks() {
     this.datesList[5]['value'] = {begin: moment().subtract(13, "day").startOf("day").toDate(), end: moment().add(1, "days").startOf("day").toDate()};
     this.choosedDate.setValue(this.datesList[5]);
-    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").toDate().toISOString()});
+    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.inputTime.value, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add(this.inputTime.value, 'hours').toDate().toISOString()});
   }
 
     chosenWeekHandler($eventstart: moment.Moment, $eventend: moment.Moment) {
       if($eventend) {
         this.datesList[1]['value'] = {begin: $eventstart, end: $eventend};
         this.choosedDate.setValue(this.datesList[1]);
-        this.submitRange.emit({begin: moment.utc($eventstart).toISOString(), end: (moment.utc($eventend)).add(1, 'days').toISOString()});
+        this.submitRange.emit({begin: moment.utc($eventstart).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc($eventend)).add(1, 'days').add(this.inputTime.value, 'hours').toISOString()});
       }
     }
 
@@ -145,7 +160,7 @@ export class DateRangeSelect {
         if($eventend) {
           this.datesList[4]['value'] = {begin: $eventstart, end: $eventend};
           this.choosedDate.setValue(this.datesList[4]);
-          this.submitRange.emit({begin: moment.utc($eventstart).toISOString(), end: (moment.utc($eventend)).add(1, 'days').toISOString()})
+          this.submitRange.emit({begin: moment.utc($eventstart).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc($eventend)).add(1, 'days').add(this.inputTime.value, 'hours').toISOString()})
         }
       }
 
@@ -155,20 +170,20 @@ export class DateRangeSelect {
         datepicker.close();
         console.log(normalizedYear);
         
-        this.submitRange.emit({begin: moment.utc(normalizedYear).toISOString(), end: (moment.utc(normalizedYear)).add(1, 'years').toISOString()});
+        this.submitRange.emit({begin: moment.utc(normalizedYear).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc(normalizedYear)).add(1, 'years').add(this.inputTime.value, 'hours').toISOString()});
     }
 
   chosenMonthHandler(normalizedMonth: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
     this.datesList[2]['value'] = normalizedMonth;
     this.choosedDate.setValue(this.datesList[2]);
     datepicker.close();
-    this.submitRange.emit({begin: moment.utc(normalizedMonth).toISOString(), end: (moment.utc(normalizedMonth)).add(1, 'months').toISOString()});
+    this.submitRange.emit({begin: moment.utc(normalizedMonth).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc(normalizedMonth)).add(1, 'months').add(this.inputTime.value, 'hours').toISOString()});
   }
 
   chosenDayHandler(normalizedDay: moment.Moment) {
     this.datesList[0]['value'] = normalizedDay;
     this.choosedDate.setValue(this.datesList[0]);
-    this.submitRange.emit({begin: moment.utc(normalizedDay).toISOString(), end: (moment.utc(normalizedDay)).add(1, 'days').toISOString()})
+    this.submitRange.emit({begin: moment.utc(normalizedDay).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc(normalizedDay)).add(1, 'days').add(this.inputTime.value, 'hours').toISOString()})
   }
 
     ngOnDestroy() {

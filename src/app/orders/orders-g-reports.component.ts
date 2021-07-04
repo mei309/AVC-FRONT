@@ -16,16 +16,14 @@ export class OrdersGReports implements OnInit {
   
   tabIndex: number = 0;
 
-  dateRangeDisp= new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
   
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];
   
   cashewSourceColumns;
+
+  dateRange;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: OrdersService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -95,9 +93,6 @@ export class OrdersGReports implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
           this.tabIndex = +params.get('number');
-          this.changed(+params.get('number'));
-        } else {
-          this.changed(0);
         }
     });
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -106,9 +101,9 @@ export class OrdersGReports implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
+            this.changedAndDate(+params.get('number'));
           } else {
-            this.changed(0);
+            this.changedAndDate(0);
           }
         });
       }
@@ -128,13 +123,20 @@ export class OrdersGReports implements OnInit {
       } else if(data === 'Edit receive') {
         this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}]);
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
 
-    changed(event) {
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.cashewSourceColumns = null;
@@ -161,7 +163,7 @@ export class OrdersGReports implements OnInit {
             });
             this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getAllGeneralOrders().pipe(take(1)).subscribe(value => {
+          this.localService.getAllGeneralOrders(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = value;
           });
           this.cdRef.detectChanges();
@@ -171,13 +173,6 @@ export class OrdersGReports implements OnInit {
       }
     }
 
-    
-
-    inlineRangeChange($event) {
-      let begin = $event.begin.value;
-      let end = $event.end.value;
-      // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
-    }
 
     ngOnDestroy() {
       if (this.navigationSubscription) {  

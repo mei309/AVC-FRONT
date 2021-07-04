@@ -18,6 +18,8 @@ import { Genral } from '../genral.service';
             <mat-button-toggle value="Gbulk" i18n>General bulk items (material)</mat-button-toggle>
             <mat-button-toggle value="Gpacked" i18n>General packed items</mat-button-toggle>
             <mat-button-toggle value="waste" i18n>Waste items</mat-button-toggle>
+            <mat-button-toggle value="CbulkQC" i18n>QC bulk items (material)</mat-button-toggle>
+            <mat-button-toggle value="CpackedQC" i18n>QC packed items</mat-button-toggle>
         </mat-button-toggle-group>
         <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
         <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
@@ -87,7 +89,7 @@ export class ItemsSetupComponent {
                     options: this.getSaltLevel(),
                 }
             );
-            if(this.choosedOne.endsWith('packed')) {
+            if(this.choosedOne.includes('packed')) {
                 this.columnsSetup.push(
                     {
                         name: 'brand',

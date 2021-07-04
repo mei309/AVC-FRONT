@@ -9,15 +9,16 @@ import { OrdersService } from './orders.service';
 @Component({
   selector: 'orders-c-reports',
   template: `
-  <h1 style="text-align:center" i18n>Cashew Orders</h1>
   <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../NewCashewOrder' i18n>New Cashew Order</button>
   </div>
+  <h1 style="text-align:center" i18n>Cashew Orders</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Open" i18n-label>
       </mat-tab>
       <mat-tab label="All" i18n-label>
+        <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
@@ -29,13 +30,13 @@ export class OrdersCReports implements OnInit {
   
   tabIndex: number = 0;
 
-  dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
-
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];
   
   cashewSource;
+
+  dateRange;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: OrdersService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -110,9 +111,6 @@ export class OrdersCReports implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
           this.tabIndex = +params.get('number');
-          this.changed(+params.get('number'));
-        } else {
-          this.changed(0);
         }
     });
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -121,9 +119,9 @@ export class OrdersCReports implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
+            this.changedAndDate(+params.get('number'));
           } else {
-            this.changed(0);
+            this.changedAndDate(0);
           }
         });
       }
@@ -143,13 +141,21 @@ export class OrdersCReports implements OnInit {
       } else if(data === 'Edit receive' || data === 'Receive extra') {
         this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}]);
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
 
-    changed(event) {
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
+
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.cashewSource = null;
@@ -176,7 +182,7 @@ export class OrdersCReports implements OnInit {
               });
               this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getHistoryCashewOrders().pipe(take(1)).subscribe(value => {
+          this.localService.getHistoryCashewOrders(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSource = value;
           });
           this.cdRef.detectChanges();

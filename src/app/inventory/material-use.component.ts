@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -49,7 +49,7 @@ export class MaterialUsageComponent implements OnInit {
                     this.isFormAvailable = false;
                     this.dataSource = null;
                     this.cdRef.detectChanges();
-                    this.localService.getMaterialUse(val['id']).pipe(take(1)).subscribe( val1 => {
+                    this.localService.getStroageUse(val['id']).pipe(take(1)).subscribe( val1 => {
                         this.dataSource = val1;
                         this.isFormAvailable = true;
                     }); 
@@ -70,7 +70,7 @@ export class MaterialUsageComponent implements OnInit {
    ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.localService.getMaterialUse(+params.get('id')).pipe(take(1)).subscribe( val => {
+                this.localService.getStroageUse(+params.get('id')).pipe(take(1)).subscribe( val => {
                     val['materialUsed'] = val['usedItemGroups'];
                     delete val['usedItemGroups'];
                     this.dataSource = val;

@@ -10,10 +10,10 @@ import { SuppliersService } from './suppliers.service';
 @Component({
   selector: 'app-suppliers',
   template: `
-  <h1 style="text-align:center" i18n>Suppliers</h1>
   <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../NewSupplier' i18n>New Supplier</button>
   </div>
+  <h1 style="text-align:center" i18n>Suppliers</h1>
   <search-details [dataSource]="supplySource" [oneColumns]="columnsSupply" (details)="openDialog($event)">
   </search-details>
   `,

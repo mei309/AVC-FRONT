@@ -164,10 +164,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   
   .centerButtons {
     position:relative;
-    left:15%;
+    left:10%;
     display: inline-block;
     width: fit-content;
-    padding-bottom: 10px;
+    padding-top: 5px;
   }
 
   .centerButtons *{

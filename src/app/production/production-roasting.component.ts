@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
 import { cloneDeep } from 'lodash-es';
@@ -90,7 +90,7 @@ export class ProductionRoastingComponent implements OnInit {
     setBeginChoose() {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
-        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+        this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) { 
                 this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;

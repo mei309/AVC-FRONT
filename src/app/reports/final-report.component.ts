@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { ReportsService } from './reports.service';
@@ -78,7 +78,7 @@ export class FinalReportComponent {
                 });
             }
         });  
-        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+        this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 if(selectedValue['id'] !== this.poCode) {
                     this.isDataAvailable = false;

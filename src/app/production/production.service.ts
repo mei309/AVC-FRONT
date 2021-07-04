@@ -13,20 +13,23 @@ export class ProductionService {
   constructor(private http: HttpClient) {
   } 
 
-  getAllProduction(processName: string) {
-    return this.http.get(this.productionurl+'allProduction/'+processName);
+  getAllProduction(processName: string, rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.productionurl+'allProduction/'+processName, {params});
   }
-  getAllCleaning() {
-    return this.getAllProduction('CASHEW_CLEANING');
+  getAllCleaning(rangeDate) {
+    return this.getAllProduction('CASHEW_CLEANING', rangeDate);
   }
-  getAllRoasting() {
-    return this.getAllProduction('CASHEW_ROASTING');
+  getAllRoasting(rangeDate) {
+    return this.getAllProduction('CASHEW_ROASTING', rangeDate);
   }
-  getAllToffee() {
-    return this.getAllProduction('CASHEW_TOFFEE');
+  getAllToffee(rangeDate) {
+    return this.getAllProduction('CASHEW_TOFFEE', rangeDate);
   }
-  getAllPacking() {
-    return this.getAllProduction('PACKING');
+  getAllPacking(rangeDate) {
+    return this.getAllProduction('PACKING', rangeDate);
   }
 
   addEditCleaningTransfer(value, fromNew: boolean) {
@@ -72,6 +75,9 @@ export class ProductionService {
   getAllPosRoast() {
     return this.http.get(this.productionurl+'getAllPos/ROAST');
   }
+  getAllPosQc(){
+    return this.http.get(this.productionurl+'getAllPosQc');
+  }
 
   findFreeMixPoCodes() {
     return this.http.get(this.productionurl+'findFreeMixPoCodes');
@@ -97,6 +103,8 @@ export class ProductionService {
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageCleanPo/'+poCode)]);
       case 'roast':
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPo/'+poCode)]);
+      case 'qc':
+        return forkJoin([response1, this.http.get(this.productionurl+'getStorageQcPo/'+poCode)]);
       default:
         break;
     }

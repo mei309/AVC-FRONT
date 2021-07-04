@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -12,6 +12,7 @@ export class Genral {
 
   wearhouses = new ReplaySubject<DropNormal[]>();
   standarts = new ReplaySubject<DropNormal[]>();
+  ItemsQCCashew = new ReplaySubject<DropNormal[]>();
   ItemsRawCashew = new ReplaySubject<DropNormal[]>();
   ItemsRawRoastCashew = new ReplaySubject<DropNormal[]>();
   ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
@@ -50,6 +51,7 @@ export class Genral {
   backToInitil() {
     this.wearhouses = new ReplaySubject<DropNormal[]>();
     this.standarts = new ReplaySubject<DropNormal[]>();
+    this.ItemsQCCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsRawCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsCleanCashew = new ReplaySubject<DropNormal[]>();
     this.ItemsRawRoastCashew = new ReplaySubject<DropNormal[]>();
@@ -72,6 +74,7 @@ export class Genral {
       this.wearhouses.next(value[0]);
       this.standarts.next(value[1]);
       
+      this.ItemsQCCashew.next(value[2].filter(w => w.group === 'QC'));
       this.ItemsRawCashew.next(value[2].filter(w => w.productionUse === 'RAW_KERNEL'));
       this.ItemsRawRoastCashew.next(value[2].filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse)));
       this.ItemsCleanCashew.next(value[2].filter(w => w.productionUse === 'CLEAN'));
@@ -96,8 +99,11 @@ export class Genral {
   
 
   
-  getUserMassages() {
-    return this.http.get(this.mainurl+'getUserMassages').pipe(
+  getUserMassages(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.mainurl+'getUserMassages', {params}).pipe(
       map(value => {
         this.setNumOfMassages((<any[]>value).length);
         return value;
@@ -113,8 +119,11 @@ export class Genral {
   //   return this.http.get(this.mainurl+'getMassage/'+processId + '/' + maasageId +'/'+ value);
   // }
 
-  getUserTasks() {
-    return this.http.get(this.mainurl+'getUserTasks').pipe(
+  getUserTasks(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.mainurl+'getUserTasks', {params}).pipe(
       map(value => {
         this.setNumOfTodo((<any[]>value).length);
         return value;
@@ -174,6 +183,9 @@ export class Genral {
   getStandarts (): Observable<any> {
     return this.standarts.asObservable();
   }
+  getItemsQCCashew (): Observable<any> {
+    return this.ItemsQCCashew.asObservable();
+  }
   getItemsRawCashew (): Observable<any> {
     return this.ItemsRawCashew.asObservable();
   }
@@ -214,6 +226,7 @@ export class Genral {
         return this.getItemsRoastCashew();
       case 4:
       case 'Pack':
+      case 5:
         return this.getItemsPackedCashew();
       case 'RoastPacked':
         return this.getItemsRoastPackedCashew();
@@ -221,6 +234,9 @@ export class Genral {
         return this.getItemsWasteCashew();
       case 'Toffee':
         return this.getItemsToffee();
+      case 'QC pack':
+      case 6:
+        return this.getItemsQCCashew();
       default:
         return this.getAllItemsCashew();
     }
@@ -249,6 +265,8 @@ export class Genral {
             return value.filter(a => a.productionFunctionality === 'PACKING');
           case 'PRODUCT_STORAGE':
             return value.filter(a => a.productionFunctionality === 'PRODUCT_STORAGE');
+          case 'QC pack':
+              return;
           default:
             return value;
         }
@@ -288,7 +306,7 @@ export class Genral {
       'CASHEW_TOFFEE',
       'PACKING',
       'CONTAINER_LOADING', 'CONTAINER_BOOKING', 'CONTAINER_ARRIVAL',
-      'GENERAL_USE'];
+      'GENERAL_USE', 'PRODUCT_USE'];
   }
 
   getDecisionType(): string[] {
@@ -341,34 +359,5 @@ export class Genral {
     return ['RAW_STORAGE', 'RAW_STATION', 'SCREEN_TABLE', 'ROASTER_IN', 'ROASTER', 'ROASTER_OUT', 'PACKING',
     'FINAL_PRODUCT', 'LOADING', 'GENERPRODUCT_STORAGEAL_STORAGE', 'PACKING_STATION'];
   }
-
-
-
-
-//   poConfig = [
-//     {
-//       type: 'date',
-//       label: 'Delivery date',
-//       name: 'deliveryDate',
-//       // options: 'withTime',
-//   },
-//   {
-//     type: 'button',
-//     label: 'Submit',
-//     name: 'submit',
-// }
-//   ];
-//   submit(val) {
-//     this.submit(val).pipe(take(1)).subscribe(value => {
-//       console.log(value);
-      
-//     });
-//   }
-//   <dynamic-form [fields]="poConfig" [mainLabel]="'PO# receving'" (submitForm)="submit($event)">
-//     </dynamic-form>
-//   checkDate(snapshot): Observable<any> {
-//     console.log(snapshot);
-//     return this.http.post(this.mainurl+'checkDate', snapshot);
-//   }
 
 }

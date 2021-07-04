@@ -13,11 +13,12 @@ import { ReplaySubject } from 'rxjs';
 @Component({
   selector: 'app-relocations-reports',
   template: `
-  <h1 style="text-align:center" i18n>Relocations reports</h1>
   <div class="centerButtons">
     <button mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 0}]" i18n>Raw Relocation Count</button>
     <button mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 1}]" i18n>New Cleaned Relocation Count</button>
   </div>
+  <h1 style="text-align:center" i18n>Relocations reports</h1>
+  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Raw relocation with weighing" i18n-label>
@@ -34,11 +35,6 @@ export class RelocationsComponent implements OnInit {
   
   tabIndex: number = 0;
 
-  dateRangeDisp= new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
-
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];
@@ -46,6 +42,8 @@ export class RelocationsComponent implements OnInit {
   mainSourceColumns;
 
   ItemsChangable1 = new ReplaySubject<any[]>();
+
+  dateRange;
 
   constructor(private router: Router, private dialog: MatDialog, private localService: RelocationsService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -105,9 +103,6 @@ export class RelocationsComponent implements OnInit {
       this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-        } else {
-            this.changed(0);
         }
       });
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -116,9 +111,9 @@ export class RelocationsComponent implements OnInit {
           this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('number')) {
               this.tabIndex = +params.get('number');
-              this.changed(+params.get('number'));
+              this.changedAndDate(+params.get('number'));
             } else {
-              this.changed(0);
+              this.changedAndDate(0);
             }
           });
         }
@@ -144,24 +139,32 @@ export class RelocationsComponent implements OnInit {
                   break;
           }
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
 
-    changed(event) {
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
+
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
-          this.localService.getStorageRelocations('RAW_STATION').pipe(take(1)).subscribe(value => {
+          this.localService.getStorageRelocations('RAW_STATION', this.dateRange).pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
         case 1:
           this.mainSourceColumns = null;
-          this.localService.getStorageRelocations('ROASTER_IN').pipe(take(1)).subscribe(value => {
+          this.localService.getStorageRelocations('ROASTER_IN', this.dateRange).pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
@@ -172,14 +175,6 @@ export class RelocationsComponent implements OnInit {
       this.genral.getItemsCashew(this.tabIndex).pipe(take(1)).subscribe(val => {
         this.ItemsChangable1.next(val);
       });
-    }
-
-    
-
-    inlineRangeChange($event) {
-      let begin = $event.begin.value;
-      let end = $event.end.value;
-      // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
     }
 
     ngOnDestroy() {

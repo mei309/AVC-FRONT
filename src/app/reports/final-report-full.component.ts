@@ -84,12 +84,21 @@ import { ReportsService } from './reports.service';
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="poDetails['usageItemsObj'].length">
+                <mat-expansion-panel-header>
+                    <mat-panel-title i18n>Usage</mat-panel-title>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <show-details [dataSource]="{usageItemsObj: poDetails['usageItemsObj']}" [oneColumns]="[regShow[8]]">
+                    </show-details>
+                </ng-template>
+            </mat-expansion-panel>
             <mat-expansion-panel *ngIf="poDetails['arrivalsItemsObj'].length">
                 <mat-expansion-panel-header>
                     <mat-panel-title i18n>Arrivals</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{arrivalsItemsObj: poDetails['arrivalsItemsObj']}" [oneColumns]="[regShow[8]]">
+                    <show-details [dataSource]="{arrivalsItemsObj: poDetails['arrivalsItemsObj']}" [oneColumns]="[regShow[9]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
@@ -98,7 +107,7 @@ import { ReportsService } from './reports.service';
                     <mat-panel-title i18n>Loading</mat-panel-title>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <show-details [dataSource]="{loadingItemsObj: poDetails['loadingItemsObj']}" [oneColumns]="[regShow[9]]">
+                    <show-details [dataSource]="{loadingItemsObj: poDetails['loadingItemsObj']}" [oneColumns]="[regShow[10]]">
                     </show-details>
                 </ng-template>
             </mat-expansion-panel>
@@ -216,6 +225,11 @@ export class FinalReportFullComponent {
             type: 'arrayForEach',
             label: $localize`Packing`,
             name: 'packingItemsObj',
+        },
+        {
+            type: 'arrayForEach',
+            label: $localize`Usage`,
+            name: 'usageItemsObj',
         },
         {
             type: 'arrayForEach',

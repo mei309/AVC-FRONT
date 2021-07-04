@@ -1,10 +1,11 @@
-<h1 style="text-align:center" i18n>QC Reports</h1>
 <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../Raw' i18n>New Raw Check (weights)</button>
     <button mat-raised-button color="primary" routerLink='../RawPercntage' i18n>New Raw Check (percntage)</button>
     <button mat-raised-button color="primary" [routerLink]="['../Raw', {roast: true}]" i18n>New Roast Check (weights)</button>
     <button mat-raised-button color="primary" [routerLink]="['../RawPercntage', {roast: true}]" i18n>New Roast Check (percntage)</button>
 </div>
+<h1 style="text-align:center" i18n>QC Reports</h1>
+<date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Raw QC" i18n-label>

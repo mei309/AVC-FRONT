@@ -25,6 +25,8 @@ export class CountinersReportsComponent implements OnInit {
 
   totelColumn: OneColumn;
 
+  dateRange;
+
   constructor(private router: Router, private dialog: MatDialog, private localService: CountinersService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
   }
@@ -33,9 +35,6 @@ export class CountinersReportsComponent implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-        } else {
-            this.changed(0);
         }
     });
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -44,9 +43,9 @@ export class CountinersReportsComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
+            this.changedAndDate(+params.get('number'));
           } else {
-            this.changed(0);
+            this.changedAndDate(0);
           }
         });
       }
@@ -74,13 +73,21 @@ export class CountinersReportsComponent implements OnInit {
                 break;
         }
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
 
-    changed(event) {
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
+
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.mainSourceColumns = null;
@@ -131,7 +138,7 @@ export class CountinersReportsComponent implements OnInit {
               search: 'normal',
             }
           ];
-          this.localService.findContainerArrivals().pipe(take(1)).subscribe(value => {
+          this.localService.findContainerArrivals(this.dateRange).pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
           this.type = 'Arrivals';
@@ -201,7 +208,7 @@ export class CountinersReportsComponent implements OnInit {
               ]
             }
           ];
-          this.localService.getAllLoadings().pipe(take(1)).subscribe(value => {
+          this.localService.getAllLoadings(this.dateRange).pipe(take(1)).subscribe(value => {
             this.mainSourceColumns = <any[]>value;
           });
           this.type = 'Loading';
@@ -210,14 +217,6 @@ export class CountinersReportsComponent implements OnInit {
         default:
           break;
       }
-    }
-
-    
-
-    inlineRangeChange($event) {
-      let begin = $event.begin.value;
-      let end = $event.end.value;
-      // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
     }
 
     ngOnDestroy() {

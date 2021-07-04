@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { ReplaySubject, Observable } from 'rxjs';
@@ -91,7 +91,7 @@ export class ReceiveCOrder implements OnInit {
     setBeginChoose(){
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
-        this.form.get('poCode').valueChanges.subscribe(selectedValue => {
+        this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
                 this.setUpOrderItems(selectedValue['id']);
                 this.isFirstDataAvailable = false;

@@ -18,13 +18,13 @@ export class AllQcsComponent implements OnInit {
 
   ItemsChangable1 = new ReplaySubject<any[]>();
 
-  dateRangeDisp = {begin: new Date(2022, 7, 5), end: new Date(2022, 7, 25)};
-
   columnsShow: OneColumn[];
 
   type: string;
   
   cashewSourceColumns;
+
+  dateRange;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: QcService,
     private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -34,9 +34,6 @@ export class AllQcsComponent implements OnInit {
     this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
         if(params.get('number')) {
           this.tabIndex = +params.get('number');
-          this.changed(+params.get('number'));
-        } else {
-          this.changed(0);
         }
     });
     this.columnsShow = [
@@ -103,10 +100,8 @@ export class AllQcsComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
-          } else {
-            this.changed(0);
           }
+          this.changedAndDate(this.tabIndex);
         });
       }
     });
@@ -134,17 +129,24 @@ export class AllQcsComponent implements OnInit {
         }
         
       } else if(data === 'reload') {
-        this.changed(this.tabIndex);
+        this.changedAndDate(this.tabIndex);
       }
     });
   }
 
+  changed(event) {
+    this.changedAndDate(event);
+  }
+  setDateRange($event) {
+    this.dateRange = $event;
+    this.changedAndDate(this.tabIndex);
+  }
 
-    changed(event) {
+  changedAndDate(event) {
       switch (+event) {
         case 0:
           this.cashewSourceColumns = null;
-          this.localService.getRawQC().pipe(take(1)).subscribe(value => {
+          this.localService.getRawQC(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Raw';
@@ -155,7 +157,7 @@ export class AllQcsComponent implements OnInit {
           break;
         case 1:
           this.cashewSourceColumns = null;
-          this.localService.getRoastQC().pipe(take(1)).subscribe(value => {
+          this.localService.getRoastQC(this.dateRange).pipe(take(1)).subscribe(value => {
             this.cashewSourceColumns = <any[]>value;
           });
           this.type = 'Roast';
@@ -171,13 +173,6 @@ export class AllQcsComponent implements OnInit {
       }
     }
 
-    
-
-    inlineRangeChange($event) {
-      let begin = $event.begin.value;
-      let end = $event.end.value;
-      // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
-    }
 
 
     ngOnDestroy() {

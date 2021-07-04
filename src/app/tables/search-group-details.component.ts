@@ -568,7 +568,7 @@ export class SearchGroupDetailsComponent {
     if(this.spans[index]) {
       switch (this.totalColumn.type) {
         case 'weight2':
-          // if(!this.dataSource.filteredData[index][this.totalColumn.name]) return;
+          if(!this.dataSource.filteredData[index][this.totalColumn.name]) return;
           var weightSize: number = this.dataSource.filteredData[index][this.totalColumn.name].length;
           var startNumber = 0;
           var totalAll = 0;
@@ -591,6 +591,8 @@ export class SearchGroupDetailsComponent {
               for (let m = startNumber; m < weightSize; m++) {
                 myNumbers[m] += this.dataSource.filteredData[ind][this.totalColumn.name][m]['amount'];
               }
+            } else {
+              return;
             }
           }
           var result = new Array<object>(weightSize);
@@ -619,23 +621,24 @@ export class SearchGroupDetailsComponent {
           var result = new Array<object>(weightSize);
           for (let t = 0; t < weightSize; t++) {
             result[t] = {amount: (this.dataSource.filteredData.map(a => a[this.totelAll.name].find(b => b['measureUnit'] === this.totelAll.options[t])))
-              .reduce((sum, record) => sum + record['amount'], 0), measureUnit: this.totelAll.options[t]};
+              .reduce((sum, record) => record? sum + record['amount'] : sum, 0), measureUnit: this.totelAll.options[t]};
           }
           return result;
         case 'listAmountWithUnit':
           const weightSize1 = this.totelAll.options.length;
           var result1 = new Array<object>(weightSize1);
           for (let t = 0; t < weightSize1; t++) {
-            let nested = this.dataSource.filteredData.map(a => a[this.totelAll.name].map(b => b['amountList'].find(c => c['measureUnit'] === this.totelAll.options[t])));
+            let nested = this.dataSource.filteredData.map(a => a[this.totelAll.name]? a[this.totelAll.name].map(b => b['amountList'].find(c => c['measureUnit'] === this.totelAll.options[t])) : []);
+            
             let flat = [].concat.apply([], nested);
-            result1[t] = {amount: flat.reduce((sum, record) => sum + record['amount'], 0), measureUnit: this.totelAll.options[t]};
+            result1[t] = {amount: flat.reduce((sum, record) => record? sum + record['amount'] : sum, 0), measureUnit: this.totelAll.options[t]};
           }
           return result1;
         case 'decimalNumber':
-          var result = new Array<object>(1);
-          result[0] = {amount: (this.dataSource.filteredData)
+          var result2 = new Array<object>(1);
+          result2[0] = {amount: (this.dataSource.filteredData)
             .reduce((sum, record) => sum + record[this.totelAll.name], 0), measureUnit: this.totelAll.options};
-          return result;
+          return result2;
         default:
           break;
       }
