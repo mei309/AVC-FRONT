@@ -166,7 +166,7 @@ export class ReceiveGOrder implements OnInit {
             {
                 type: 'date',
                 label: $localize`Receiving date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 // disable: disable,

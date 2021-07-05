@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 import { FieldConfig } from '../../field.interface';
 
 @Component({
@@ -27,10 +28,8 @@ import { FieldConfig } from '../../field.interface';
     </mat-form-field>
 
     <mat-form-field *ngSwitchDefault class="one-field margin-top" [formGroup]="group">
+      <input matInput type="date" [formControlName]="field.name" [placeholder]="field.label">
       
-      <input matInput [matDatepicker]="picker1" [formControlName]="field.name" [placeholder]="field.label">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
       </ng-container>
@@ -40,6 +39,10 @@ import { FieldConfig } from '../../field.interface';
 `,
 })
 export class DateComponent implements OnInit {
+// IMPORTENT FOR DATEPICKER
+  // <input matInput [matDatepicker]="picker1" [formControlName]="field.name" [placeholder]="field.label">
+  //     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  //     <mat-datepicker #picker1></mat-datepicker>
   // date = new FormControl(Date());
   field: FieldConfig;
   group: FormGroup;
@@ -52,6 +55,9 @@ export class DateComponent implements OnInit {
     //     this.group.get(this.field.name).setValue((this.group.get(this.field.name).value).toISOString().substring(0, 10));
     //   }
     // }
+    if(this.group.get(this.field.name).value === 'timeNow') {
+      this.group.get(this.field.name).setValue(moment().utc().add(moment().utcOffset(), 'm'));
+    }
   }
 
 }

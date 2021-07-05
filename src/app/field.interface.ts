@@ -23,6 +23,14 @@ export interface DropNormal {
   id: number;
 }
 
+export interface DropCashewItems {
+  value: string;
+  id: number;
+  productionUse: string;
+  group: string;
+  grade: string;
+}
+
 export interface DropNormalPLine extends DropNormal {
   productionFunctionality: string;
 }

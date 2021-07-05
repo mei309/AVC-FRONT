@@ -54,7 +54,7 @@ export class ReceiveCAlone implements OnInit {
             {
                 type: 'date',
                 label: $localize`Receiving date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 validations: [
@@ -76,7 +76,7 @@ export class ReceiveCAlone implements OnInit {
                         label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
-                        options: this.genral.getItemsRawCashew(),
+                        options: this.genral.getItemsCashew('Raw'),
                     },
                     {
                         type: 'selectMU',

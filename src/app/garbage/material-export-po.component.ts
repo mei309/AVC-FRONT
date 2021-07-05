@@ -81,7 +81,7 @@
 //             {
 //                 type: 'date',
 //                 label: 'Transfering date',
-//                 value: new Date(),
+//                 value: 'timeNow',
 //                 name: 'recordedTime',
 //                 options: 'withTime',
 //                 disable: true,
@@ -462,7 +462,7 @@
 // //             {
 // //                 type: 'date',
 // //                 label: 'Transfering date',
-// //                 value: new Date(),
+// //                 value: 'timeNow',
 // //                 name: 'recordedTime',
 // //                 options: 'withTime',
 // //                 disable: true,

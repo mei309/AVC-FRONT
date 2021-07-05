@@ -98,6 +98,7 @@ export class ExportImportComponent implements OnInit {
         var arrNormal = [];
         var arrTable = [];
         var removeIds = [];
+        var cashewGrades = [];
         if(this.beginData) {
             if(this.beginData['weightedPos']) {
                 this.isOnePo = false;
@@ -105,12 +106,14 @@ export class ExportImportComponent implements OnInit {
             var arrMaterial = [];
             this.beginData['usedItemGroups']?.forEach(element => {
                 if(element['groupName'].startsWith('table')) {
+                    cashewGrades.push(element['cashewGrade']);
                     element['usedItem']['amounts'].forEach(ele => {
                         ele['take'] = true;
                     });
                     arrTable.push(element);
                 } else if(element['groupName'].startsWith('normal')) {
                     element['usedItems'].forEach(el => {
+                        cashewGrades.push(el['cashewGrade']);
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIds.push(el['storage']['id']);
                     });
@@ -168,6 +171,7 @@ export class ExportImportComponent implements OnInit {
         }
         var arrUsedItems = [];
         this.newUsed?.forEach(element => {
+            cashewGrades.push(element['cashewGrade']);
             if(element['storage']) {
                 element['storage']['item'] = element['item'];
                 element['storage']['measureUnit'] = element['measureUnit'];
@@ -196,11 +200,11 @@ export class ExportImportComponent implements OnInit {
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = arrNormal;
         }
-        this.preper(this.mainLabel === 'Clean' || this.mainLabel === 'QC pack'? false : true, arrTable.length > 0, arrNormal.length > 0);
+        this.preper(this.mainLabel === 'Clean' || this.mainLabel === 'QC pack'? false : true, arrTable.length > 0, arrNormal.length > 0, cashewGrades);
         this.isDataAvailable = true;
     }
 
-    preper(isNotClean: boolean, hasItemsTable: boolean, hasItemsNormal: boolean) {
+    preper(isNotClean: boolean, hasItemsTable: boolean, hasItemsNormal: boolean, cashewGrades: string[]) {
         this.regConfig = [
             ...this.isOnePo? [
                 {
@@ -261,7 +265,7 @@ export class ExportImportComponent implements OnInit {
             {
                 type: 'date',
                 label: $localize`Date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 validations: [
@@ -477,7 +481,7 @@ export class ExportImportComponent implements OnInit {
                         name: 'item',
                         collections: 'somewhere',
                         // disable: true,
-                        options: this.genral.getItemsCashew(this.mainLabel),
+                        options: this.genral.getItemsCashewGrades(this.mainLabel, cashewGrades),
                     },
                     {
                         type: 'selectMU',
@@ -569,7 +573,7 @@ export class ExportImportComponent implements OnInit {
                         label: $localize`Item descrption`,
                         name: 'item',
                         // disable: true,
-                        options: this.genral.getItemsCashew(this.mainLabel),
+                        options: this.genral.getItemsCashewGrades(this.mainLabel, cashewGrades),
                     },
                     {
                         type: 'selectMU',
@@ -627,7 +631,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'select',
                         label: $localize`Item descrption`,
                         name: 'item',
-                        options: this.genral.getItemsCashew('Waste'),
+                        options: this.genral.getItemsWasteCashew(),
                     },
                     {
                         type: 'selectMU',

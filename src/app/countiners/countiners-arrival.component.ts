@@ -35,7 +35,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
             {
                 type: 'date',
                 label: $localize`arrival date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
             },

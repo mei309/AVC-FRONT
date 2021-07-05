@@ -8,6 +8,7 @@ import { Genral } from '../genral.service';
 import { OrderDetailsDialogComponent } from './order-details-dialog-component';
 import { OrdersService } from './orders.service';
 import { cloneDeep } from 'lodash-es';
+import * as moment from 'moment';
 @Component({
     selector: 'new-cashew-order',
     template: `
@@ -60,7 +61,7 @@ export class NewCashewOrder implements OnInit {
             {
                 type: 'date',
                 label: $localize`Contract date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 // disable: true,
@@ -82,7 +83,7 @@ export class NewCashewOrder implements OnInit {
                         label: $localize`Item descrption`,
                         name: 'item',
                         collections: 'somewhere',
-                        options: this.genral.getItemsRawCashew(),
+                        options: this.genral.getItemsCashew('Raw'),
                         // disable: true,
                     },
                     {

@@ -340,7 +340,7 @@ export class RelocationCountComponent implements OnInit {
         {
             type: 'date',
             label: $localize`Date`,
-            value: new Date(),
+            value: 'timeNow',
             name: 'recordedTime',
             options: 'withTime',
             validations: [

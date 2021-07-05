@@ -5,7 +5,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { DateAdapter, MatDateFormats, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -152,6 +152,7 @@ export const NGX_MAT_MOMENT_FORMATS_MY: NgxMatDateFormats = {
     // { provide: DateFnsConfigurationService, useValue: enGBConfig },
     // {provide: NgxMatDateAdapter, useClass: NgxDateFnsDateAdapterMine},
     // {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE, useValue: { useUtc: true }},
+    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: NGX_MAT_DATE_FORMATS, useValue: NGX_MAT_MOMENT_FORMATS_MY},
     // {provide: DateAdapter, useClass: AppDateAdapter},
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS_MY},

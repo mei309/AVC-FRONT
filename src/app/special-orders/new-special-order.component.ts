@@ -62,7 +62,7 @@ export class NewSpecialOrderComponent implements OnInit, OnDestroy {
             {
                 type: 'date',
                 label: 'Orderd date',
-                value: new Date(),
+                value: 'timeNow',
                 name: 'orderdDate',
             },
             {

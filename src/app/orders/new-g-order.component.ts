@@ -60,7 +60,7 @@ export class NewGenralOrder implements OnInit {
             {
                 type: 'date',
                 label: $localize`Contract date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 // disable: true,

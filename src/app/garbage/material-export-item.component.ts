@@ -76,7 +76,7 @@ export class MaterialExportItemComponent implements OnInit {
             {
                 type: 'date',
                 label: 'Transfering date',
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 disable: true,

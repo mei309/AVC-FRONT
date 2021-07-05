@@ -116,7 +116,7 @@ export class QcRoastingComponent implements OnInit, OnDestroy {
             {
                 type: 'date',
                 label: 'Date',
-                value: new Date(),
+                value: 'timeNow',
                 name: 'Date',
             },
             {

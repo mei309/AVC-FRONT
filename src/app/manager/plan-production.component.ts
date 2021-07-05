@@ -337,13 +337,13 @@ export class PlanProductionComponent implements OnInit, OnDestroy {
                 type: 'date',
                 label: 'From date',
                 name: 'degliveryDate',
-                value: new Date(),
+                value: 'timeNow',
             },
             {
                 type: 'date',
                 label: 'To date',
                 name: 'deliveryDate',
-                value: new Date(),
+                value: 'timeNow',
             },
             {
                 type: 'bigexpand',

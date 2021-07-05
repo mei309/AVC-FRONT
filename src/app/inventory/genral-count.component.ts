@@ -44,7 +44,7 @@ export class GenralCountComponent implements OnInit, OnDestroy {
             {
                 type: 'date',
                 label: 'Date',
-                value: new Date(),
+                value: 'timeNow',
                 name: 'Date',
             },
             {

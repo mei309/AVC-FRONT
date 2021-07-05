@@ -275,7 +275,7 @@
 //             {
 //                 type: 'date',
 //                 label: 'Date',
-//                 value: new Date(),
+//                 value: 'timeNow',
 //                 name: 'recordedTime',
 //                 options: 'withTime',
 //                 validations: [

@@ -201,7 +201,7 @@ export class ReceiveCOrder implements OnInit {
             {
                 type: 'date',
                 label: $localize`Receiving date`,
-                value: new Date(),
+                value: 'timeNow',
                 name: 'recordedTime',
                 options: 'withTime',
                 // disable: disable,
@@ -249,7 +249,7 @@ export class ReceiveCOrder implements OnInit {
                         name: 'item',
                         collections: 'somewhere',
                         inputType: 'orderItem',
-                        options: this.genral.getItemsRawCashew(),
+                        options: this.genral.getItemsCashew('Raw'),
                     },
                     {
                         type: 'selectMU',
