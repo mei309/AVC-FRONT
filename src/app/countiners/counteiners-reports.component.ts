@@ -179,7 +179,7 @@ export class CountinersReportsComponent implements OnInit {
                 name: 'item',
                 label: $localize`Product descrption`,
                 search: 'selectObjObj',
-                options: this.genral.getItemsRoastPackedCashew(),
+                options: this.genral.getItemsCashew('RoastPacked'),
             },
             {
                 type: 'weight2',

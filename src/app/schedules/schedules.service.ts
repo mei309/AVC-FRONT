@@ -12,11 +12,17 @@ export class SchedulesService {
   constructor(private http: HttpClient) {
   } 
 
-  getCashewOrdersOpen (){
-    return this.http.get(this.Schedulesurl+'getCashewOrdersOpen');
+  getAllCashewOrders(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.Schedulesurl+'getAllCashewOrders', {params});
   }
 
-  getGeneralOrdersOpen () {
-    return this.http.get(this.Schedulesurl+'getGeneralOrdersOpen');
+  getAllGeneralOrders(rangeDate) {
+    const params = new HttpParams()
+      .set('begin', rangeDate.begin)
+      .set('end', rangeDate.end);
+    return this.http.get(this.Schedulesurl+'getAllGeneralOrders', {params});
   }
 }

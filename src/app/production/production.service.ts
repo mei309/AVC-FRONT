@@ -31,6 +31,9 @@ export class ProductionService {
   getAllPacking(rangeDate) {
     return this.getAllProduction('PACKING', rangeDate);
   }
+  getAllQcPacking(rangeDate) {
+    return this.getAllProduction('BAD_QUALITY_PACKING', rangeDate);
+  }
 
   addEditCleaningTransfer(value, fromNew: boolean) {
     if(fromNew) {
@@ -56,6 +59,13 @@ export class ProductionService {
   addEditPackingTransfer(value, fromNew: boolean) {
     if(fromNew) {
       return this.http.post(this.productionurl+'addPackingTransfer', value);
+    } else {
+      return this.http.put(this.productionurl+'editProductionTransfer', value);
+    }
+  }
+  addEditQcPackingTransfer(value, fromNew: boolean) {
+    if(fromNew) {
+      return this.http.post(this.productionurl+'addQcPackingTransfer', value);
     } else {
       return this.http.put(this.productionurl+'editProductionTransfer', value);
     }

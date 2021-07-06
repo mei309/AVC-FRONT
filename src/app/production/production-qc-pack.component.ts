@@ -31,7 +31,7 @@ export class ProductionQcPackComponent implements OnInit {
     newUsed;
 
     submit(value: any) {
-        this.localService.addEditPackingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
+        this.localService.addEditQcPackingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
                 width: '80%',
                 data: {productionCheck: cloneDeep(val), fromNew: true, type: 'QC pack'}

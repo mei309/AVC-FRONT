@@ -143,7 +143,7 @@ export class PlanReceivingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.localService.getCashewOrdersOpen().pipe(takeUntil(this.destroySubject$)).subscribe(value => {
+    this.localService.getAllCashewOrders({}).pipe(takeUntil(this.destroySubject$)).subscribe(value => {
       this.supplySource = <Supllier[]>value;
     });
   }

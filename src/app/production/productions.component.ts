@@ -195,9 +195,9 @@ export class ProductionsComponent implements OnInit {
           break;
         case 4:
           this.cashewSourceColumns = null;
-          // this.localService.getAllPacking(this.dateRange).pipe(take(1)).subscribe(value => {
-          //   this.cashewSourceColumns = <any[]>value;
-          // });
+          this.localService.getAllQcPacking(this.dateRange).pipe(take(1)).subscribe(value => {
+            this.cashewSourceColumns = <any[]>value;
+          });
           this.type = 'QC Packing';
           this.cdRef.detectChanges();
           break;

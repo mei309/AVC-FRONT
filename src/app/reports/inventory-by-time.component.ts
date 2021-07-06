@@ -135,7 +135,7 @@ export class InventoryByTimeComponent implements OnInit {
               name: 'item',
               label: $localize`Material`,
               search: 'selectObj',
-              options: this.genral.getItemsRawCashew(),
+              options: this.genral.getItemsCashew('Raw'),
           },
           {
               type: 'normal',
@@ -288,7 +288,7 @@ export class InventoryByTimeComponent implements OnInit {
               name: 'item',
               label: $localize`product`,
               search: 'selectObjObj',
-              options: this.genral.getItemsRoastPackedCashew(),
+              options: this.genral.getItemsCashew('RoastPacked'),
               group: 'item',
           },
           {

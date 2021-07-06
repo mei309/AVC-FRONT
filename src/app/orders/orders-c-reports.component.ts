@@ -69,7 +69,7 @@ export class OrdersCReports implements OnInit {
         name: 'item',
         label: $localize`Product descrption`,
         search: 'selectObjObj',
-        options: this.genral.getItemsRawCashew(),
+        options: this.genral.getItemsCashew('Raw'),
       },
       {
         type: 'weight2',

@@ -84,7 +84,7 @@ export class ExportReportComponent implements OnInit {
             name: 'item',
             label: $localize`Commodity`,
             search: 'selectObj',
-            options: this.genral.getItemsRawCashew(),
+            options: this.genral.getItemsCashew('Raw'),
         },
         {
             type: 'date',

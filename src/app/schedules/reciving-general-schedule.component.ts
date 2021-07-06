@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { SchedulesService } from './schedules.service';
@@ -11,47 +9,22 @@ import { SchedulesService } from './schedules.service';
   selector: 'receiving-general-schedule',
   template: `
   <h1 style="text-align:center" i18n>Receiving general schedule</h1>
-  <div class="centerButtons">
-    <mat-form-field>
-      <mat-label i18n>Enter a date range</mat-label>
-      <mat-date-range-input [formGroup]="dateRangeDisp" [rangePicker]="picker4">
-        <input matStartDate formControlName="start" (focus)="picker4.open()" placeholder="Start date" i18n-placeholder>
-        <input matEndDate formControlName="end" (focus)="picker4.open()" placeholder="End date" (dateChange)="inlineRangeChange()" i18n-placeholder>
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker4></mat-date-range-picker>
-    </mat-form-field>
-    <mat-checkbox [checked]="seeAll" (change)="showAllOrWeek($event.checked)" i18n>See all</mat-checkbox>
-  </div>
-  <normal-group-details [mainDetailsSource]="cashewSourceColumns" [mainColumns]="columnsShow">
+  <date-range-select class="no-print" (submitRange)="inlineRangeChange($event)"></date-range-select>
+  <normal-group-details [mainDetailsSource]="cashewSource" [mainColumns]="columnsShow">
   </normal-group-details>
   `,
 })
 export class ReceivingGeneralScheduleComponent implements OnInit {
 
-  dateRangeDisp= new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
+  cashewSource;
   
-  cashewSourceColumns;
-  
-  seeAll: boolean;
   columnsShow: OneColumn[];
   
-  ordersSource: any[];
-  mainSource: any[];
-
   constructor(public dialog: MatDialog, private localService: SchedulesService) {
     
   }
 
   ngOnInit() {
-    this.showWeek();
-    this.localService.getGeneralOrdersOpen().pipe(take(1)).subscribe(value => {
-      this.mainSource = <any[]>value;
-      this.inlineRangeChange();
-    });
     this.columnsShow = [
       {
         type: 'date',
@@ -126,31 +99,11 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
     ];
   }
 
-  showWeek() {
-    this.dateRangeDisp.setValue({start: moment().utc().startOf("day").toDate(), end: moment().utc().add(7, "day").startOf("day").toDate()});
-  }
-
-  inlineRangeChange() {
-      var dates = this.dateRangeDisp.value;
-      if(dates.end) {
-        this.ordersSource = this.mainSource.filter(e=> 
-          (moment(e['deliveryDate']).isBetween(dates.start, dates.end.add(1, "day"))));
-        this.cashewSourceColumns = this.ordersSource;
-        if(this.ordersSource.length < this.mainSource.length) {
-          this.seeAll = false;
-        }
-      }
-  }
-
-  showAllOrWeek(seeAll) {
-    this.seeAll = seeAll;
-    if(seeAll) {
-      // this.ordersSource = this.mainSource;
-      this.cashewSourceColumns = this.mainSource;
-    } else {
-      this.showWeek();
-      this.inlineRangeChange();
-    }
+ 
+  inlineRangeChange($event) {
+    this.localService.getAllGeneralOrders($event).pipe(take(1)).subscribe(value => {
+      this.cashewSource = <any[]>value;
+    });
   }
 
 
