@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // import { TransferCountComponent } from '../garbage/transfer-count.component';
 import { RelocationCountComponent } from './relocation-count.component';
+import { RelocationWeighingComponent } from './relocation-weighing.component';
 import { RelocationsComponent } from './relocations.component';
 
 const routes: Routes = [
@@ -10,7 +11,7 @@ const routes: Routes = [
       // { path: 'MaterialExport', component: MaterialExportComponent},
       { path: 'RelocationsReports', component: RelocationsComponent},
       // { path: 'TransferCount', component:  TransferCountComponent, runGuardsAndResolvers: 'always'},
-      { path: 'RelocationCount', component:  RelocationCountComponent, runGuardsAndResolvers: 'always'},
+      { path: 'RelocationCount', component:  RelocationWeighingComponent, runGuardsAndResolvers: 'always'},
     ];
 
 @NgModule({

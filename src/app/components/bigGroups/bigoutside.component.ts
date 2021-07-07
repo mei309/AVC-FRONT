@@ -15,6 +15,7 @@ import { CheckboxComponent } from '../selects/checkbox.component';
 import { DateComponent } from '../selects/date.component';
 import { RadiobuttonComponent } from '../selects/radio-button.component';
 import { SelectgroupComponent } from '../selects/select-group.component';
+import { SelectItemComponent } from '../selects/select-item.component';
 import { SelectMultipileComponent } from '../selects/select-multipile.component';
 import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
 import { SelectNormalComponent } from '../selects/select-normal.component';
@@ -32,6 +33,7 @@ const componentMapper = {
   input: InputComponent,
   inputselect: InputSelectComponent,
   select: SelectComponent,
+  selectItem: SelectItemComponent,
   selectMultipile: SelectMultipileComponent,
   date: DateComponent,
   radiobutton: RadiobuttonComponent,

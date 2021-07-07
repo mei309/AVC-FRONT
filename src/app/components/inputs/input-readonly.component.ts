@@ -68,6 +68,7 @@ export class InputReadonlyComponent implements OnInit {
             this.type = 'array';
             break;
         case 'select':
+        case 'selectItem':
         case 'inputReadonlySelect':
             if(this.field.inputType === 'multiple') {
                 this.type = 'array';

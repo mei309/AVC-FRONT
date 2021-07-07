@@ -8,7 +8,7 @@ import { SchedulesService } from './schedules.service';
   selector: 'receiving-schedule',
   template: `
   <h1 style="text-align:center" i18n>Receiving cashew schedule</h1>
-  <date-range-select class="no-print" (submitRange)="inlineRangeChange($event)"></date-range-select>
+  <date-range-select class="no-print" [withTime]="false" (submitRange)="inlineRangeChange($event)"></date-range-select>
   <normal-group-details [mainDetailsSource]="cashewSource" [mainColumns]="columnsShow">
   </normal-group-details>
   <h1 style="text-align:center" i18n>Amounts</h1>

@@ -17,9 +17,14 @@ export class RelocationsService {
   }
   
   getStorageRelocations(functionality: string, rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality, {params});
   }
 
@@ -94,7 +99,7 @@ export class RelocationsService {
       case 0:
         return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageRawPo/'+pos+'/'+id)]);
       case 1:
-        return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos)]);
+        return forkJoin([response1, this.http.get(this.inventorysurl+'getStorageCleanPo/'+pos+'/'+id)]);
     }
   }
 

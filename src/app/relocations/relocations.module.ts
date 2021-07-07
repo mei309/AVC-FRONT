@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { RelocationsDetailsDialogComponent } from './relocations-details-dialog.component';
 import { RelocationCountComponent } from './relocation-count.component';
 import { RelocationsComponent } from './relocations.component';
+import { RelocationWeighingComponent } from './relocation-weighing.component';
+import { ExpImpRelocationComponent } from './exp-imp-relocation.component';
 
 @NgModule({
   declarations: [
   // MaterialExportPoComponent, MaterialExportItemComponent, 
-  RelocationsComponent, RelocationsDetailsDialogComponent, RelocationCountComponent, 
+  RelocationsComponent, RelocationsDetailsDialogComponent, RelocationCountComponent, RelocationWeighingComponent, ExpImpRelocationComponent
   // TransferCountComponent,
   ],
   imports: [

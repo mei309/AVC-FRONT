@@ -1,9 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Genral } from './../genral.service';
 import * as moment from 'moment';
 @Component({
   selector: 'date-range-select',
@@ -11,15 +8,20 @@ import * as moment from 'moment';
     <mat-form-field appearance="fill" style="width: 400px">
         <mat-label i18n>Showing results</mat-label>
         <mat-select [formControl]="choosedDate">
-            <mat-select-trigger>
+            <mat-select-trigger> 
                 <span *ngIf="choosedDate.value">
-                    <ng-container *ngIf="choosedDate.value.type === 'range'; else noRange">
-                        {{choosedDate.value.label}}: {{choosedDate.value.value.begin | date:choosedDate.value.format}}
-                        - {{choosedDate.value.value.end | date:choosedDate.value.format}}
+                    <ng-container [ngSwitch]="choosedDate.value.type">
+                        <ng-container *ngSwitchCase="'range'">
+                            {{choosedDate.value.label}}: {{choosedDate.value.value.begin | date:choosedDate.value.format}}
+                            - {{choosedDate.value.value.end | date:choosedDate.value.format}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'none'">
+                            {{choosedDate.value.label}}
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            {{choosedDate.value.label}}: {{choosedDate.value.value | date:choosedDate.value.format}}
+                        </ng-container>
                     </ng-container>
-                    <ng-template #noRange>
-                        {{choosedDate.value.label}}: {{choosedDate.value.value | date:choosedDate.value.format}}
-                    </ng-template>
                 </span>
             </mat-select-trigger>
             <mat-option (click)="picker1.open()" [value]="datesList[0]">
@@ -40,10 +42,13 @@ import * as moment from 'moment';
             <mat-option (click)="last2Weeks()" [value]="datesList[5]">
                 <mat-label i18n>Last 2 weeks</mat-label>
             </mat-option>
+            <mat-option (click)="allTimes()" [value]="datesList[6]">
+                <mat-label i18n>All records</mat-label>
+            </mat-option>
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field *ngIf="withTime" appearance="fill">
         <mat-label i18n>Strat of day</mat-label>
         <mat-select [formControl]="inputTime">
             <mat-option *ngFor="let hour of hours" [value]="hour.val">
@@ -94,6 +99,8 @@ export class DateRangeSelect {
 
     @Output() submitRange: EventEmitter<any> = new EventEmitter<any>();
 
+    @Input() withTime: boolean = true;
+
     inputTime = new FormControl(6);
     hours = [{tex: '00:00',val: 0},{tex:'01:00',val:1},{tex:'02:00',varl:2},{tex:'03:00',val:3},{tex:'04:00',val:4},{tex:'05:00',val:5},{tex:'06:00',val:6},{tex:'07:00',val:7},{tex:'08:00',val:8},{tex:'09:00',val:9},{tex:'10:00',val:10},
         {tex:'11:00',val:11},{tex:'12:00',val:12},{tex:'13:00',val:13},{tex:'14:00',val:14},{tex:'15:00',val:15},{tex:'16:00',val:16},{tex:'17:00',val:17},{tex:'18:00',val:18},{tex:'19:00',val:19},{tex:'20:00',val:20},{tex:'21:00',val:21},{tex:'22:00',val:22},{tex:'23:00',val:23}];
@@ -131,11 +138,15 @@ export class DateRangeSelect {
             label: $localize`For last 2 weeks`,
             value: {begin: null, end: null},
         },
+        {
+            type: 'none',
+            label: $localize`Of all records`,
+            value: null,
+        },
     ];
     choosedDate = new FormControl();
   
-  constructor(private router: Router, public dialog: MatDialog,
-    private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -146,6 +157,10 @@ export class DateRangeSelect {
     this.datesList[5]['value'] = {begin: moment().subtract(13, "day").startOf("day").toDate(), end: moment().add(1, "days").startOf("day").toDate()};
     this.choosedDate.setValue(this.datesList[5]);
     this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.inputTime.value, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add(this.inputTime.value, 'hours').toDate().toISOString()});
+  }
+  allTimes(){
+    this.choosedDate.setValue(this.datesList[6]);
+    this.submitRange.emit({begin: null, end: null});
   }
 
     chosenWeekHandler($eventstart: moment.Moment, $eventend: moment.Moment) {

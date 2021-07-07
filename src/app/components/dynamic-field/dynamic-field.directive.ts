@@ -28,12 +28,14 @@ import { InputToPercentageComponent } from '../inputs/input-to-percentage.compon
 import { PercentInputComponent } from '../inputs/percent-input.component';
 import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple.component';
 import { SelectMultipileComponent } from '../selects/select-multipile.component';
+import { SelectItemComponent } from '../selects/select-item.component';
 
 
 const componentMapper = {
   input: InputComponent,
   inputselect: InputSelectComponent,
   select: SelectComponent,
+  selectItem: SelectItemComponent,
   selectMultipile: SelectMultipileComponent,
   selectNormal: SelectNormalComponent,
   selectNormalMultiple: SelectNormalMultipleComponent,

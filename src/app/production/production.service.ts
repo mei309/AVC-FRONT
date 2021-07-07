@@ -14,9 +14,14 @@ export class ProductionService {
   } 
 
   getAllProduction(processName: string, rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.productionurl+'allProduction/'+processName, {params});
   }
   getAllCleaning(rangeDate) {

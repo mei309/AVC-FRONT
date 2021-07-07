@@ -87,9 +87,14 @@ export class OrdersService {
   }
 
   getHistoryCashewOrders(rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.ordersurl+'getHistoryCashewOrders', {params});
   }
 
@@ -114,9 +119,14 @@ export class OrdersService {
   }
 
   getAllGeneralOrders(rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.ordersurl+'getAllGeneralOrders', {params});
   }
 

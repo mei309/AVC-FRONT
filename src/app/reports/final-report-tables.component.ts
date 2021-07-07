@@ -150,6 +150,52 @@ export class FinalReportTablesComponent {
             }
         ];
 
+
+        regShow = [
+            // {
+            //     name: 'processes',
+            //     label: $localize`Processes`,
+            // },
+            {
+                type: 'itemWeight',
+                name: 'productIn',
+                label: $localize`Product in`,
+                foot: 'totalProductIn',
+            },
+            {
+                type: 'itemWeight',
+                name: 'ingredients',
+                label: $localize`Ingredients`,
+                foot: 'totalIngredients',
+            },
+            {
+                type: 'itemWeight',
+                name: 'received',
+                label: $localize`Received`,
+                foot: 'totalReceived',
+            },
+            {
+                type: 'itemWeight',
+                name: 'productOut',
+                label: $localize`Product out`,
+                foot: 'totalProductOut',
+            },
+            {
+                type: 'itemWeight',
+                name: 'waste',
+                label: $localize`Waste`,
+                foot: 'totalWaste',
+            },
+            {
+                type: 'itemWeight',
+                name: 'productCount',
+                label: $localize`Product count`,
+                foot: 'totalProductCount',
+            },
+            // {
+            //     name: 'difference',
+            // },
+        ];
     getDisplayedColumns(myData): string[] {
         if(myData.some(a => a.amount)) {
             return ['item', 'amount', 'weight'];

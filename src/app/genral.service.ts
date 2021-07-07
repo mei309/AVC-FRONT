@@ -77,9 +77,14 @@ export class Genral {
 
   
   getUserMassages(rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.mainurl+'getUserMassages', {params}).pipe(
       map(value => {
         this.setNumOfMassages((<any[]>value).length);
@@ -97,9 +102,14 @@ export class Genral {
   // }
 
   getUserTasks(rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.mainurl+'getUserTasks', {params}).pipe(
       map(value => {
         this.setNumOfTodo((<any[]>value).length);
@@ -163,15 +173,20 @@ export class Genral {
   getItemsWasteCashew (): Observable<any> {
     return this.ItemsWasteCashew.asObservable();
   }
-  getItemsCashewGrades(type: string, cashewGrades: string[]): Observable<any> {
+  getItemsCashewGrades(type: string | number, cashewGrades: string[]): Observable<any> {
+    if(!cashewGrades){
+      return this.getItemsCashew(type);
+    }
     return this.allItemsCashew.asObservable().pipe(
       map(value => { 
         switch (type) {
+          case 0:
           case 'Raw':
             return value.filter(w => w.productionUse === 'RAW_KERNEL' && cashewGrades.includes(w.grade));
           case 'RawRoast':
             return value.filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse) && cashewGrades.includes(w.grade));
           case 'Clean':
+          case 1:
             return value.filter(w => w.productionUse === 'CLEAN' && cashewGrades.includes(w.grade));
           case 'Roast':
             return value.filter(w => w.productionUse === 'ROAST' && cashewGrades.includes(w.grade));

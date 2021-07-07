@@ -29,6 +29,7 @@ import { SelectNormalMultipleComponent } from '../selects/select-normal-multiple
 import { MaterialUsageComponent } from '../avc-special/material-usage.component';
 import { SelectMeasureUnitComponent } from '../avc-special/measure-unit-select.component';
 import { SelectMultipileComponent } from '../selects/select-multipile.component';
+import { SelectItemComponent } from '../selects/select-item.component';
 
 
 
@@ -36,6 +37,7 @@ const componentMapper = {
   input: InputComponent,
   inputselect: InputSelectComponent,
   select: SelectComponent,
+  selectItem: SelectItemComponent,
   selectMultipile: SelectMultipileComponent,
   selectNormal: SelectNormalComponent,
   selectNormalMultiple: SelectNormalMultipleComponent,

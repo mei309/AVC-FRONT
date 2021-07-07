@@ -31,10 +31,15 @@ export class ReportsService {
   }
 
   allProductionByTime (rangeDate) {
-    const params = new HttpParams()
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
       .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
-    return this.http.get(this.reportsurl+'allProductionByTime',{params});
+    } else {
+      params = new HttpParams();
+    }
+    return this.http.get(this.reportsurl+'allProductionByTime', {params});
   }
 
   getCashewInventoryPacked () {
@@ -64,9 +69,14 @@ export class ReportsService {
   }
 
   getCashewExportReport (rangeDate) {
-    const params = new HttpParams()
-      .set('begin', rangeDate.begin)
+    var params: HttpParams;
+    if(rangeDate.begin) {
+      params = new HttpParams()
+      .set('begin',  rangeDate.begin)
       .set('end', rangeDate.end);
+    } else {
+      params = new HttpParams();
+    }
     return this.http.get(this.reportsurl+'getCashewExportReport',{params});
   }
 

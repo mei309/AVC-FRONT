@@ -53,18 +53,18 @@ export class PoCodesComponent implements OnInit {
                 search: 'selectObj',
                 options: this.suppliersChangable,
             },
-            {
-                type: 'normal',
-                name: 'contractTypeCode',
-                label: $localize`Contract type code`,
-                search: 'selectObj',
-                options: this.contractTypesChangable,
-            },
-            {
-                type: 'normal',
-                name: 'contractTypeSuffix',
-                label: $localize`Suffix`,
-            },
+            // {
+            //     type: 'normal',
+            //     name: 'contractTypeCode',
+            //     label: $localize`Contract type code`,
+            //     search: 'selectObj',
+            //     options: this.contractTypesChangable,
+            // },
+            // {
+            //     type: 'normal',
+            //     name: 'contractTypeSuffix',
+            //     label: $localize`Suffix`,
+            // },
             {
                 type: 'normal',
                 name: 'value',

@@ -63,6 +63,7 @@ import { SelectMultipileComponent } from './components/selects/select-multipile.
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { DateRangeSelect } from './tables/date-range-select.component';
 import { WeekPickerDirective } from './libraries/weekPicker.directive';
+import { SelectItemComponent } from './components/selects/select-item.component';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
@@ -105,6 +106,7 @@ import { WeekPickerDirective } from './libraries/weekPicker.directive';
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
+    SelectItemComponent,
     SelectMultipileComponent,
     SelectNormalComponent,
     SelectNormalMultipleComponent,
@@ -173,6 +175,7 @@ import { WeekPickerDirective } from './libraries/weekPicker.directive';
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
+    SelectItemComponent,
     SelectMultipileComponent,
     SelectNormalComponent,
     SelectNormalMultipleComponent,
@@ -224,6 +227,7 @@ import { WeekPickerDirective } from './libraries/weekPicker.directive';
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
+    SelectItemComponent,
     SelectMultipileComponent,
     SelectNormalComponent,
     SelectNormalMultipleComponent,

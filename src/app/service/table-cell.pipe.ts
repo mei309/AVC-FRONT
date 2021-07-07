@@ -39,13 +39,13 @@ export class TableCellPipe implements PipeTransform {
                 if(element) {
                     if (Array.isArray(element)) {
                         var str = '';
-                        if(element[0]['amount']) {
+                        // if(element[0]['amount']) {dose problem when 0
                             str = new DecimalPipe(this.locale).transform(element[0]['amount'])+' '+element[0]['measureUnit'];
-                        }
+                        // }
                         for (let ind = 1; ind < element.length; ind++) {
-                            if(element[ind]['amount']) {
+                            // if(element[ind]['amount']) {
                                 str += ' (' + new DecimalPipe(this.locale).transform(element[ind]['amount'])+' '+element[ind]['measureUnit'] + ')';
-                            }
+                            // }
                         }
                         return str;
                     } else {

@@ -171,17 +171,3 @@ loadingColumns = [
         }
     }
 }
-
-// <div class="half" *ngIf="dataSource.shipmentCode">
-//             <label>Shipment code</label>
-//             <span class="half">{{dataSource.shipmentCode | tableCellPipe: 'nameId' : null}}</span>
-//     </div>
-//     <ng-container *ngIf="dataSource.containerDetails">
-//         <h3>Container details</h3>
-//         <ng-container *ngFor="let key of containerColumns">
-//             <div class="half" *ngIf="dataSource.containerDetails[key.name]">
-//                 <label>{{key.label}}</label>
-//                 <span class="half">{{dataSource.containerDetails[key.name] | tableCellPipe: 'normal' : null}}</span>
-//             </div>
-//         </ng-container>
-//     </ng-container>

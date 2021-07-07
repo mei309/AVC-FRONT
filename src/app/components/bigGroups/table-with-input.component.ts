@@ -53,7 +53,7 @@ export class TableWithInputComponent implements OnInit {
             //     this.oneColumns.push(element);
             //     this.displayedColumns.push(element.name);
             //     break;
-            case 'select' || 'selectNormal':
+            case 'select' || 'selectNormal' || 'selectItem':
                 if(element.inputType === 'multiple') {
                     this.dataSource.forEach(ele => {
                         ele[element.name] = 'arr';
@@ -98,7 +98,7 @@ export class TableWithInputComponent implements OnInit {
                     const biggroup = ele[element.name];
                     element.collections.forEach(el => {
                         switch (el.type) {
-                            case 'select' || 'selectNormal':
+                            case 'select' || 'selectNormal' || 'selectItem':
                                 if(el.inputType === 'multiple') {
                                     ele[el.name] = 'arr';
                                 } else {
