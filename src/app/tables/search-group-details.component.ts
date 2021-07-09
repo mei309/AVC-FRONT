@@ -110,7 +110,7 @@ import { groupBy, mapValues } from 'lodash-es';
     <div *ngIf="listTotal" style="float: right; margin-right: 15px;">
       <div style="display: inline-block; margin-right: 25px" *ngFor="let sum of listTotal">
         <h3>{{sum.label}}</h3>
-        <ng-container *ngIf="sum.type === 'multi'; else oneSum">
+        <ng-container *ngIf="sum.type.includes('Param'); else oneSum">
           <ng-container *ngFor="let total of sum.val">
             <h4 style="display: inline; margin-right: 15px;">{{total.key}}: {{total.val | tableCellPipe: 'decimalNumber' : null}}</h4>
           </ng-container>
@@ -650,22 +650,29 @@ export class SearchGroupDetailsComponent {
 
   getListTotales(){
     this.listTotal.forEach(ele => {
-      if(ele.type === 'multi') {
-        const tempTable = mapValues(groupBy(this.dataSource.filteredData, ele.name));
-        const weightSize1 = Object.keys(tempTable).length;
-        
-        var result1 = new Array<object>(weightSize1);
-        for (let t = 0; t < weightSize1; t++) {
-          result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
-        }
-        if (ele.collections && weightSize1) {
-          result1.forEach(a => {
-            a['key'] = ele.collections[a['key']];
-          });
-        }
-        ele.val = result1;
-      } else {
-        ele.val = this.dataSource.filteredData.reduce((b, c) => +b + +c[ele.name] , 0)
+      switch (ele.type) {
+        case 'sumByParam':
+          const tempTable = mapValues(groupBy(this.dataSource.filteredData, ele.name));
+          const weightSize1 = Object.keys(tempTable).length;
+          
+          var result1 = new Array<object>(weightSize1);
+          for (let t = 0; t < weightSize1; t++) {
+            result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
+          }
+          if (ele.collections && weightSize1) {
+            result1.forEach(a => {
+              a['key'] = ele.collections[a['key']];
+            });
+          }
+          ele.val = result1;
+          break;
+        case 'sum':
+          ele.val = this.dataSource.filteredData.reduce((b, c) => +b + +c[ele.name] , 0);
+        case 'recordAmountGroup':
+          ele.val = (new Set(this.dataSource.filteredData.map(a => a[ele.name]))).size;
+          
+        default:
+          break;
       }
     });
   }

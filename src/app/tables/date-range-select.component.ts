@@ -49,8 +49,16 @@ import * as moment from 'moment';
     </mat-form-field>
 
     <mat-form-field *ngIf="withTime" appearance="fill">
-        <mat-label i18n>Strat of day</mat-label>
-        <mat-select [formControl]="inputTime">
+        <mat-label i18n>Strat time</mat-label>
+        <mat-select [formControl]="startTime" (selectionChange)="firstChanged($event.value)">
+            <mat-option *ngFor="let hour of hours" [value]="hour.val">
+                {{hour.tex}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="choosedDate.value.endTime" appearance="fill">
+        <mat-label i18n>End time</mat-label>
+        <mat-select [formControl]="endTime" (selectionChange)="secondChanged($event.value)">
             <mat-option *ngFor="let hour of hours" [value]="hour.val">
                 {{hour.tex}}
             </mat-option>
@@ -101,13 +109,14 @@ export class DateRangeSelect {
 
     @Input() withTime: boolean = true;
 
-    inputTime = new FormControl(6);
+    startTime = new FormControl(6);
+    endTime = new FormControl(6);
     hours = [{tex: '00:00',val: 0},{tex:'01:00',val:1},{tex:'02:00',varl:2},{tex:'03:00',val:3},{tex:'04:00',val:4},{tex:'05:00',val:5},{tex:'06:00',val:6},{tex:'07:00',val:7},{tex:'08:00',val:8},{tex:'09:00',val:9},{tex:'10:00',val:10},
         {tex:'11:00',val:11},{tex:'12:00',val:12},{tex:'13:00',val:13},{tex:'14:00',val:14},{tex:'15:00',val:15},{tex:'16:00',val:16},{tex:'17:00',val:17},{tex:'18:00',val:18},{tex:'19:00',val:19},{tex:'20:00',val:20},{tex:'21:00',val:21},{tex:'22:00',val:22},{tex:'23:00',val:23}];
     datesList = [
         {
             format: 'mediumDate',
-            label: $localize`For year`,
+            label: $localize`For date`,
             value: null,
         },
         {
@@ -127,6 +136,7 @@ export class DateRangeSelect {
             value: null,
         },
         {
+            endTime: true,
             type: 'range',
             format: 'mediumDate',
             label: $localize`For range`,
@@ -156,7 +166,7 @@ export class DateRangeSelect {
   last2Weeks() {
     this.datesList[5]['value'] = {begin: moment().subtract(13, "day").startOf("day").toDate(), end: moment().add(1, "days").startOf("day").toDate()};
     this.choosedDate.setValue(this.datesList[5]);
-    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.inputTime.value, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add(this.inputTime.value, 'hours').toDate().toISOString()});
+    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.startTime.value, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add(this.startTime.value, 'hours').toDate().toISOString()});
   }
   allTimes(){
     this.choosedDate.setValue(this.datesList[6]);
@@ -167,7 +177,7 @@ export class DateRangeSelect {
       if($eventend) {
         this.datesList[1]['value'] = {begin: $eventstart, end: $eventend};
         this.choosedDate.setValue(this.datesList[1]);
-        this.submitRange.emit({begin: moment.utc($eventstart).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc($eventend)).add(1, 'days').add(this.inputTime.value, 'hours').toISOString()});
+        this.submitRange.emit({begin: moment.utc($eventstart).add(this.startTime.value, 'hours').toISOString(), end: (moment.utc($eventend)).add(1, 'days').add(this.startTime.value, 'hours').toISOString()});
       }
     }
 
@@ -175,7 +185,7 @@ export class DateRangeSelect {
         if($eventend) {
           this.datesList[4]['value'] = {begin: $eventstart, end: $eventend};
           this.choosedDate.setValue(this.datesList[4]);
-          this.submitRange.emit({begin: moment.utc($eventstart).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc($eventend)).add(1, 'days').add(this.inputTime.value, 'hours').toISOString()})
+          this.submitRange.emit({begin: moment.utc($eventstart).add(this.startTime.value, 'hours').toISOString(), end: (moment.utc($eventend)).add(this.endTime.value, 'hours').toISOString()});
         }
       }
 
@@ -183,23 +193,49 @@ export class DateRangeSelect {
         this.datesList[3]['value'] = normalizedYear;
         this.choosedDate.setValue(this.datesList[3]);
         datepicker.close();
-        console.log(normalizedYear);
-        
-        this.submitRange.emit({begin: moment.utc(normalizedYear).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc(normalizedYear)).add(1, 'years').add(this.inputTime.value, 'hours').toISOString()});
+        this.submitRange.emit({begin: moment.utc(normalizedYear).add(this.startTime.value, 'hours').toISOString(), end: (moment.utc(normalizedYear)).add(1, 'years').add(this.startTime.value, 'hours').toISOString()});
     }
 
   chosenMonthHandler(normalizedMonth: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
     this.datesList[2]['value'] = normalizedMonth;
     this.choosedDate.setValue(this.datesList[2]);
     datepicker.close();
-    this.submitRange.emit({begin: moment.utc(normalizedMonth).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc(normalizedMonth)).add(1, 'months').add(this.inputTime.value, 'hours').toISOString()});
+    this.submitRange.emit({begin: moment.utc(normalizedMonth).add(this.startTime.value, 'hours').toISOString(), end: (moment.utc(normalizedMonth)).add(1, 'months').add(this.startTime.value, 'hours').toISOString()});
   }
 
   chosenDayHandler(normalizedDay: moment.Moment) {
     this.datesList[0]['value'] = normalizedDay;
     this.choosedDate.setValue(this.datesList[0]);
-    this.submitRange.emit({begin: moment.utc(normalizedDay).add(this.inputTime.value, 'hours').toISOString(), end: (moment.utc(normalizedDay)).add(1, 'days').add(this.inputTime.value, 'hours').toISOString()})
+    this.submitRange.emit({begin: moment.utc(normalizedDay).add(this.startTime.value, 'hours').toISOString(), end: (moment.utc(normalizedDay)).add(1, 'days').add(this.startTime.value, 'hours').toISOString()});
   }
+
+    firstChanged($event) {
+        switch (this.choosedDate.value.label) {
+            case $localize`For last 2 weeks`:
+                this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add($event, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add($event, 'hours').toDate().toISOString()});
+                break;
+            case $localize`For week`:
+                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value.begin).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value.end)).add(1, 'days').add($event, 'hours').toISOString()});
+                break;
+            case $localize`For range`:
+                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value.begin).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value.end)).add(this.endTime.value, 'hours').toISOString()});
+                break;
+            case $localize`For year`:
+                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'years').add($event, 'hours').toISOString()});
+                break;
+            case $localize`For month`:
+                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'months').add($event, 'hours').toISOString()});
+                break;
+            case $localize`For date`:
+                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'days').add($event, 'hours').toISOString()})
+            default:
+                break;
+        }
+    }
+
+    secondChanged($event) {
+        this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value.begin).add(this.startTime.value, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value.end)).add($event, 'hours').toISOString()});
+    }
 
     ngOnDestroy() {
     }

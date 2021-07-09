@@ -99,16 +99,16 @@ export class InventoryByTimeComponent implements OnInit {
         this.cashewSource = null; 
         this.totelByType = [
           {
-            type: 'multi', 
+            type: 'sumByParam', 
             name: 'productionFunctionality',
-            label: $localize`Total raw`,
+            label: $localize`Total LBS raw`,
             option: 'weightInLbs',
             collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
           },
           {
-            type: 'multi', 
+            type: 'sumByParam', 
             name: 'productCompany',
-            label: $localize`Total by supplier`,
+            label: $localize`Total LBS by supplier`,
             option: 'weightInLbs',
           }
         ];
@@ -205,7 +205,7 @@ export class InventoryByTimeComponent implements OnInit {
             label: $localize`Total bag quantity`,
           },
           {
-            type: 'multi', 
+            type: 'sumByParam', 
             name: 'type',
             label: $localize`Total by type`,
             option: 'weightInLbs'

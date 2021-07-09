@@ -1,8 +1,12 @@
-<div *ngIf="loadingService.visibility | async">
-  We are working on your requset
-  <mat-spinner></mat-spinner>
-</div>
 
+<ng-container *ngIf="loadingService.visibility | async">
+  <div class="overlay">
+      <div class="center">
+        <h2 style="text-align: center;">We are working on your requset please wait</h2>
+        <mat-spinner></mat-spinner>
+      </div>
+  </div>
+</ng-container>
 <mat-toolbar color="accent" class="my-toolbar no-print">
   
   <!-- <div fxShow="true" fxHide.gt-sm="true">

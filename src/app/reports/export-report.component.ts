@@ -35,18 +35,23 @@ export class ExportReportComponent implements OnInit {
   
   totelByType = [
     {
-      type: 'multi', 
+      type: 'sumByParam', 
       name: 'whole',
-      label: $localize`Total by type`,
+      label: $localize`Total LBS by type`,
       option: 'weightInLbs',
       collections: {true: 'WHOLE', false: 'H&P'}
+    },
+    {
+      type: 'recordAmountGroup', 
+      name: 'containerNumber',
+      label: $localize`Container amount`,
     }
   ];
 
   cashewSource;
 
-  constructor(private router: Router, public dialog: MatDialog, private localService: ReportsService,
-    private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
+  constructor(public dialog: MatDialog, private localService: ReportsService,
+    private genral: Genral, private cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {

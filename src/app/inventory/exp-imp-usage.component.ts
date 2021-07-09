@@ -200,6 +200,12 @@ export class ExportUsageComponent implements OnInit {
                     }
                 ]
             },
+            {
+                type: 'textarry',
+                label: $localize`Remarks`,
+                inputType: 'text',
+                name: 'remarks',
+            },
             ...hasItemsNormal? [
                 {
                     type: 'bigexpand',
