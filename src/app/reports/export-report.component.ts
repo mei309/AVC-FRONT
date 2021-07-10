@@ -1,7 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from './../genral.service';

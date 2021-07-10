@@ -38,7 +38,7 @@ export class SelectMeasureUnitComponent implements OnInit {
           this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => val ? this.filter(val) : this.options.slice()));
         }
         this.group.get('item').valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
-            if(val[this.field.name]) {
+            if(val && val[this.field.name]) {
                 if(['KG', 'LBS', 'OZ', 'GRAM', 'LOT'].includes(val[this.field.name])) {
                     this.options = ['KG', 'LBS', 'OZ', 'GRAM', 'LOT'];
                 } else {

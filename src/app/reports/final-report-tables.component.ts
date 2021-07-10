@@ -24,7 +24,8 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./final-report-tables.css']
 })
 export class FinalReportTablesComponent {
-    
+    // <cells-final-report [dataSource]="dataSource[process.name]" *ngSwitchDefault>
+    //             </cells-final-report>
     
     
     @Input() dataSource;

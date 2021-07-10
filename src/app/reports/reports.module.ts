@@ -14,6 +14,7 @@ import { ProductionsByTimeComponent } from './production-by-time.component';
 import { InventoryByTypeComponent } from './inventory-by-type.component';
 import { InventoryByTimeComponent } from './inventory-by-time.component';
 import { ExportReportComponent } from './export-report.component';
+import { CellsFinalReport } from './cells-final-report.component';
 
 
 
@@ -21,7 +22,7 @@ import { ExportReportComponent } from './export-report.component';
 @NgModule({
   declarations: [FinalReportComponent, FinalReportChartsComponent, FinalReportTablesComponent, 
     InOutTotalComponent, FinalReportFullComponent, FinalReportSummaryComponent, ProductionsByTimeComponent,
-    InventoryByTypeComponent, InventoryByTimeComponent, ExportReportComponent],
+    InventoryByTypeComponent, InventoryByTimeComponent, ExportReportComponent, CellsFinalReport],
   imports: [
     SheardModule,
     ReportsRoutingModule,

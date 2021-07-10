@@ -4,7 +4,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -114,7 +113,6 @@ export const NGX_MAT_MOMENT_FORMATS_MY: NgxMatDateFormats = {
     // BrowserModule,
     ],
   imports: [
-    FlexLayoutModule,
     BrowserAnimationsModule,
     SheardModule,
     AppRoutingModule,

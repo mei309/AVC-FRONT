@@ -73,8 +73,8 @@ export class ExpImpRelocationComponent implements OnInit {
         var arrTable = [];
         var removeIds = [];
         var cashewGrades = [];
-        if(this.beginData) {
-            this.beginData['storageMovesGroups']?.forEach(element => {
+        if(this.beginData && this.beginData['storageMovesGroups']) {
+            this.beginData['storageMovesGroups'].forEach(element => {
                 if(element['groupName'].startsWith('table')) {
                     cashewGrades.push(element['cashewGrade']);
                     element['storageMove']['amounts'].forEach(ele => {
@@ -90,7 +90,13 @@ export class ExpImpRelocationComponent implements OnInit {
                     arrNormal.push(element);
                 }
             });
-            delete this.beginData['usedItemGroups'];
+            const temp = this.beginData['storageMovesGroups'][0];
+            if(temp['storageMove']){
+                this.beginData['newWarehouse'] = {warehouseLocation: temp['storageMove']['newWarehouseLocation']};
+            } else {
+                this.beginData['newWarehouse'] = {warehouseLocation: temp['storageMoves'][0]['warehouseLocation']};
+            }
+            delete this.beginData['storageMovesGroups'];
             this.dataSource = this.beginData;
             if(!this.dataSource['itemCounts']) {
                 this.dataSource['itemCounts'] = [];
