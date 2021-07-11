@@ -66,7 +66,7 @@ export class ItemsSetupComponent {
                     name: 'grade',
                     label: $localize`Grade`,
                     search: 'select',
-                    options: this.getCashewGrades(),
+                    options: this.localService.getCashewGrades(),
                 },
                 {
                     name: 'saltLevel',
@@ -80,7 +80,7 @@ export class ItemsSetupComponent {
                     name: 'grade',
                     label: $localize`Grade`,
                     type: 'selectNormal',
-                    options: this.getCashewGrades(),
+                    options: this.localService.getCashewGrades(),
                 },
                 {
                     name: 'saltLevel',
@@ -249,10 +249,6 @@ export class ItemsSetupComponent {
             default:
                 return ['WASTE'];
         }
-    }
-
-    getCashewGrades() {
-        return ['W240', 'W320', 'W340', 'W350', 'W360', 'W450', 'AW', 'DW', 'DW_CUT', 'DW_SCRAPE', 'SK', 'SW320', 'WB', 'WS', 'WSLP', 'LP'];
     }
 
     getSaltLevel() {

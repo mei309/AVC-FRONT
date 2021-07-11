@@ -14,7 +14,13 @@ import { ReportsService } from './reports.service';
         <legend><h1 i18n>PO# Details</h1></legend>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
-        <mat-tab-group *ngIf="isDataAvailable">
+        <div class="only-print-block">
+            <div class="half">
+                    <label>Date and time</label>
+                    <span class="half">{{currentDate | tableCellPipe: 'dateTime' : null}}</span>
+            </div>
+        </div>
+        <mat-tab-group *ngIf="isDataAvailable" class="spac-print">
             <mat-tab label="Summary" i18n-label>
                 <ng-template matTabContent>
                     <final-report-summary [poCode]="poCode">
@@ -45,12 +51,14 @@ import { ReportsService } from './reports.service';
         <mat-spinner *ngIf="!isDataAvailable && poCode"></mat-spinner>
     </fieldset>
   ` ,
+  styleUrls: ['./final-report-tables.css']
 })
 export class FinalReportComponent {
 
     @ViewChild(MatAccordion) accordion: MatAccordion;
     navigationSubscription;
 
+    currentDate = new Date();
     
     form: FormGroup;
     poCode: number;

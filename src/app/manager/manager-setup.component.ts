@@ -19,6 +19,7 @@ import { Validators } from '@angular/forms';
             <mat-button-toggle value="BankBranches" i18n>Branchs</mat-button-toggle>
             <mat-button-toggle value="Warehouses" i18n>Warehouses</mat-button-toggle>
             <mat-button-toggle value="SupplyCategories" i18n>Supply categories</mat-button-toggle>
+            <mat-button-toggle value="CashewGrades" i18n>Cashew grades</mat-button-toggle>
             <mat-button-toggle value="CompanyPositions" i18n>Company positions</mat-button-toggle>
             <mat-button-toggle value="ContractTypes" i18n>Contract types</mat-button-toggle>
             <mat-button-toggle value="ProductionLines" i18n>Production lines</mat-button-toggle>

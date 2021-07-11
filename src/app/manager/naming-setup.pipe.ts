@@ -18,7 +18,8 @@ const namesMapper = {
     Gpacked: $localize`General packed item`,
     waste: $localize`Waste item`,
     User: $localize`User`,
-    UserPerson: $localize`User for person`
+    UserPerson: $localize`User for person`,
+    CashewGrades: $localize`Cashew grades`
   };
 @Pipe({
     name: 'namingPipe'

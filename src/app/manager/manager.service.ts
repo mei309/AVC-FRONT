@@ -113,6 +113,10 @@ export class ManagerService {
     return this.http.get(this.usersurl+'getBanks');
   }
 
+  getCashewGrades(): Observable<any> {
+    return this.http.get(this.usersurl+'getCashewGrades');
+  }
+
   removeAllProcesses (val: number): Observable<any> {
     return this.http.delete(this.usersurl+'removeAllProcesses/'+val);
   }

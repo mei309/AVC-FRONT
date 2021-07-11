@@ -270,12 +270,17 @@ position:   fixed;
   .only-print {
     display: none;
   }
-  
+  .only-print-block {
+    display: none;
+  }
 
   @media print {
 
     .only-print {
       display: block;
+    }
+    .only-print-block {
+      display: inline-block;
     }
     /* body * {
       visibility: hidden;

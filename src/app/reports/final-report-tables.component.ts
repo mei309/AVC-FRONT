@@ -4,21 +4,18 @@ import { Component, Input } from '@angular/core';
   selector: 'final-report-table',
   template:`
     <ng-container *ngFor="let process of processess">
-        <fieldset *ngIf="dataSource[process.name]">
-            <legend><h1>{{process.label}}</h1></legend>
+        <ng-container *ngIf="dataSource[process.name]">
             <ng-container [ngSwitch]="process.type">
-                <normal-group-details *ngSwitchCase="'qc'" [mainDetailsSource]="dataSource[process.name]" [mainColumns]="columnsQc">
-                </normal-group-details>
-                <ng-container *ngSwitchCase="'shipping'">
-                    <in-out-total  *ngFor="let line of dataSource[process.name]" [dataSource]="line" shipping="true">
-                    </in-out-total>
-                </ng-container>
-                <in-out-total *ngSwitchCase="'inventory'" [oneColumns]="inventoryColumns" [dataSource]="dataSource[process.name]">
-                </in-out-total>
-                <in-out-total *ngSwitchDefault [dataSource]="dataSource[process.name]">
-                </in-out-total>
+                <cells-qcs *ngSwitchCase="'qc'" [dataSource]="dataSource[process.name]" [process]="process.label">
+                </cells-qcs>
+                <cells-loading *ngSwitchCase="'shipping'" [dataSource]="dataSource[process.name]">
+                </cells-loading>
+                <cells-processes *ngSwitchCase="'inventory'" [process]="process.label" [oneColumns]="inventoryColumns" [dataSource]="dataSource[process.name]">
+                </cells-processes>
+                <cells-processes [process]="process.label" [dataSource]="dataSource[process.name]" *ngSwitchDefault>
+                </cells-processes>
             </ng-container>
-        </fieldset>
+        </ng-container>
     </ng-container>
     ` ,
     styleUrls: ['./final-report-tables.css']
@@ -26,7 +23,8 @@ import { Component, Input } from '@angular/core';
 export class FinalReportTablesComponent {
     // <cells-final-report [dataSource]="dataSource[process.name]" *ngSwitchDefault>
     //             </cells-final-report>
-    
+    // <in-out-total *ngSwitchDefault [dataSource]="dataSource[process.name]">
+    //             </in-out-total>
     
     @Input() dataSource;
     processess = [
@@ -71,7 +69,6 @@ export class FinalReportTablesComponent {
         },
         {
             name: 'loadings',
-            label: `Loadings`,
             type: 'shipping',
         },
     ];
@@ -82,30 +79,30 @@ export class FinalReportTablesComponent {
             type: 'normal',
             name: 'checkedBy',
             label: $localize`Checked by`,
-            group: 'checkedBy'
+            group: 'date'
         },
         {
             type: 'date',
             name: 'date',
             label: $localize`Check date`,
-            group: 'checkedBy'
+            group: 'date'
         },
         {
             type: 'normal',
             name: 'approvals',
             label: $localize`Approvals`,
-            group: 'checkedBy'
+            group: 'date'
         },
         {
             type: 'normal',
             name: 'status',
             label: $localize`Status`,
-            group: 'checkedBy'
+            group: 'date'
         },
         {
-          type: 'nameId',
-          name: 'item',
-          label: $localize`Product descrption`,
+            type: 'nameId',
+            name: 'item',
+            label: $localize`Product descrption`,
         },
         {
             type: 'percent',
@@ -151,52 +148,6 @@ export class FinalReportTablesComponent {
             }
         ];
 
-
-        regShow = [
-            // {
-            //     name: 'processes',
-            //     label: $localize`Processes`,
-            // },
-            {
-                type: 'itemWeight',
-                name: 'productIn',
-                label: $localize`Product in`,
-                foot: 'totalProductIn',
-            },
-            {
-                type: 'itemWeight',
-                name: 'ingredients',
-                label: $localize`Ingredients`,
-                foot: 'totalIngredients',
-            },
-            {
-                type: 'itemWeight',
-                name: 'received',
-                label: $localize`Received`,
-                foot: 'totalReceived',
-            },
-            {
-                type: 'itemWeight',
-                name: 'productOut',
-                label: $localize`Product out`,
-                foot: 'totalProductOut',
-            },
-            {
-                type: 'itemWeight',
-                name: 'waste',
-                label: $localize`Waste`,
-                foot: 'totalWaste',
-            },
-            {
-                type: 'itemWeight',
-                name: 'productCount',
-                label: $localize`Product count`,
-                foot: 'totalProductCount',
-            },
-            // {
-            //     name: 'difference',
-            // },
-        ];
     getDisplayedColumns(myData): string[] {
         if(myData.some(a => a.amount)) {
             return ['item', 'amount', 'weight'];

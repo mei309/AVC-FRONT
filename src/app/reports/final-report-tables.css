@@ -86,3 +86,44 @@ table {
     .mat-expansion-panel-header.mat-expanded:focus {
         background-color:yellow;
     }
+
+    label{
+      float:left;
+      width:100%;
+      color: green;
+      font-size: 0.8em;
+   }
+
+   span .half {float: left; width: 175px; padding: 1%;}
+   .half { display: inline-block; width: 180px; overflow-wrap: break-word;}
+   
+   
+    .table-look {
+      display: flex;
+      flex-direction:row;
+      border: solid;
+    }
+    
+    .col {
+      flex: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .col:first-of-type {
+      flex-flow: wrap;
+    }
+    
+    /* .row .rowspan2 {
+      flex: 1 1 100%;
+    } */
+    
+    .col div {
+      border: solid;
+      padding: 1em;
+      flex: auto;
+    }
+
+    .title{
+      max-height: 40px;
+    }
