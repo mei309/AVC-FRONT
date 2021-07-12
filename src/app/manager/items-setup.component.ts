@@ -65,7 +65,7 @@ export class ItemsSetupComponent {
                 {
                     name: 'grade',
                     label: $localize`Grade`,
-                    search: 'select',
+                    search: 'selectObj',
                     options: this.localService.getCashewGrades(),
                 },
                 {
@@ -79,7 +79,7 @@ export class ItemsSetupComponent {
                 {
                     name: 'grade',
                     label: $localize`Grade`,
-                    type: 'selectNormal',
+                    type: 'select',
                     options: this.localService.getCashewGrades(),
                 },
                 {

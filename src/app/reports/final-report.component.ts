@@ -16,7 +16,7 @@ import { ReportsService } from './reports.service';
         </ng-container>
         <div class="only-print-block">
             <div class="half">
-                    <label>Date and time</label>
+                    <label i18n>Date and time</label>
                     <span class="half">{{currentDate | tableCellPipe: 'dateTime' : null}}</span>
             </div>
         </div>
