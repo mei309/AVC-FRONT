@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 <div class="grid-container">
   <mat-grid-list cols="3" rowHeight="400px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
+      <mat-card class="dashboard-card" *ngIf="card.result.length">
         <mat-card-header>
           <mat-card-title>
             {{card.title}}
@@ -131,7 +131,7 @@ export class FinalReportChartsComponent {
             }
         });
 
-        this.finalReport['productPercentageLoss'].forEach(el => {
+        this.finalReport['productPercentageLoss']?.forEach(el => {
                 // this.orderLoss.push({
                 //     name: el['process'],
                 //     series: [

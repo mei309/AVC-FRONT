@@ -119,7 +119,7 @@ table {
     } */
     
     .col div {
-      border: solid;
+      border:groove;
       padding: 1em;
       flex: auto;
     }

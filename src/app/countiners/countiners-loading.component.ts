@@ -64,7 +64,7 @@ export class CountinersLoadingComponent {
                 var arr = [];
                 if(secondData['usedItemsNormal']) {
                     secondData['usedItemsNormal'].forEach(element => {
-                        element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
+                        element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
                         element['groupName'] = 'normalPos';
                     });
                     secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.usedItems.length);
@@ -73,8 +73,8 @@ export class CountinersLoadingComponent {
                 }
                 if(secondData['usedItemsTable']) {
                     secondData['usedItemsTable'].forEach(element => {
-                        element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                        element['usedItem']['amounts'].forEach(ele => {
+                        element['storageMove']['amounts'] = element['storageMove']['amounts'].filter(amou => amou.take);
+                        element['storageMove']['amounts'].forEach(ele => {
                             if(!ele['storageId']) {
                                 ele['storageId'] = ele['id'];
                                 delete ele['id'];
@@ -106,36 +106,39 @@ export class CountinersLoadingComponent {
                 // });
                 // this.firstData['processItems'] = proccesItems;
 
-                this.localService.addEditLoading(firstData, this.isNew).pipe(take(1)).subscribe( val => {
-                    const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
-                        width: '80%',
-                        data: {loading: cloneDeep(val), fromNew: true, type: 'Loading'}
-                    });
-                    dialogRef.afterClosed().subscribe(result => {
-                        switch (result) {
-                            case $localize`Edit`:
-                                this.beginPage = false;
-                                this.choosedPos = [];
-                                this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
-                                this.putFirstData = null;
-                                this.removeIds = [];
-                                // this.removeIdsTable = [];
-                                this.cdRef.detectChanges();
-                                this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
-                                    this.fillEdit(val1);
-                                });
-                                break;
-                            case $localize`Security Doc`:
-                                this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
-                                break;
-                            case $localize`Export Doc`:
-                                this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
-                                break;
-                        
-                            default:
-                                this.router.navigate(['../CountinerReports', {number: 1}], { relativeTo: this._Activatedroute });
-                                break;
-                        }
+                this.genral.getProductionLine('Loading').pipe(take(1)).subscribe( val1 => {
+                    firstData['productionLine'] = val1[0];
+                    this.localService.addEditLoading(firstData, this.isNew).pipe(take(1)).subscribe( val => {
+                        const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
+                            width: '80%',
+                            data: {loading: cloneDeep(val), fromNew: true, type: 'Loading'}
+                        });
+                        dialogRef.afterClosed().subscribe(result => {
+                            switch (result) {
+                                case $localize`Edit`:
+                                    this.beginPage = false;
+                                    this.choosedPos = [];
+                                    this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                                    this.putFirstData = null;
+                                    this.removeIds = [];
+                                    // this.removeIdsTable = [];
+                                    this.cdRef.detectChanges();
+                                    this.localService.getLoading(val['id']).pipe(take(1)).subscribe( val1 => {
+                                        this.fillEdit(val1);
+                                    });
+                                    break;
+                                case $localize`Security Doc`:
+                                    this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Security'}], { relativeTo: this._Activatedroute });
+                                    break;
+                                case $localize`Export Doc`:
+                                    this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
+                                    break;
+                            
+                                default:
+                                    this.router.navigate(['../CountinerReports', {number: 1}], { relativeTo: this._Activatedroute });
+                                    break;
+                            }
+                        });
                     });
                 });
             }
@@ -182,7 +185,7 @@ export class CountinersLoadingComponent {
                     element['storage']['itemSuppliers'] = element['suppliers'];
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
-                    arrTable.push({usedItem: element['storage']});
+                    arrTable.push({storageMove: element['storage']});
                     element['storage']['amounts'].forEach(ele => {
                         ele['amount'] = ele['numberAvailableUnits'];
                         // this.removeIdsTable.push(ele['id']);
@@ -200,7 +203,7 @@ export class CountinersLoadingComponent {
             arrDeclared.push({poCode: element['poCode'], item: element['item']});
         });
         if(arrUsedItems.length) {
-            arrNormal.push({usedItems: arrUsedItems});
+            arrNormal.push({storageMoves: arrUsedItems});
         }
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = this.dataSource['usedItemsTable'].concat(arrTable);
@@ -306,13 +309,13 @@ export class CountinersLoadingComponent {
         var arrTable = [];
         val['usedItemGroups']?.forEach(element => {
             if(element['groupName'].startsWith('table')) {
-                element['usedItem']['amounts'].forEach(ele => {
+                element['storageMove']['amounts'].forEach(ele => {
                     ele['take'] = true;
                     // this.removeIdsTable.push(ele['id']);
                 });
                 arrTable.push(element);
             } else if(element['groupName'].startsWith('normal')) {
-                element['usedItems'].forEach(el => {
+                element['storageMoves'].forEach(el => {
                     el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                     this.removeIds.push(el['storage']['id']);
                 });
@@ -640,7 +643,7 @@ export class CountinersLoadingComponent {
                     {
                         type: 'tableWithInput',
                         // label: 'Transfer from',
-                        name: 'usedItems',
+                        name: 'storageMoves',
                         options: 'numberUsedUnits',
                         collections: [
                             {
@@ -731,7 +734,7 @@ export class CountinersLoadingComponent {
                 collections: [
                     {
                         type: 'bignotexpand',
-                        name: 'usedItem',
+                        name: 'storageMove',
                         // label: 'Transfer from',
                         options: 'aloneNoAdd',
                         collections: [
