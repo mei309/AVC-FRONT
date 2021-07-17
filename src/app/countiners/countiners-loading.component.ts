@@ -67,7 +67,7 @@ export class CountinersLoadingComponent {
                         element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
                         element['groupName'] = 'normalPos';
                     });
-                    secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.usedItems.length);
+                    secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.storageMoves.length);
                     arr = arr.concat(secondData['usedItemsNormal']);
                     delete secondData['usedItemsNormal'];
                 }
@@ -84,11 +84,11 @@ export class CountinersLoadingComponent {
                         });
                         element['groupName'] = 'tablePos';
                     });
-                    secondData['usedItemsTable'] = secondData['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
+                    secondData['usedItemsTable'] = secondData['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
                     arr = arr.concat(secondData['usedItemsTable']);
                     delete secondData['usedItemsTable'];
                 }
-                firstData['usedItemGroups'] = arr;
+                firstData['storageMovesGroups'] = arr;
                 // firstData['loadedItems'] = secondData['loadedItems'];
 
                 // var proccesItems = [];
@@ -307,7 +307,7 @@ export class CountinersLoadingComponent {
     fillEdit(val) {
         var arrNormal = [];
         var arrTable = [];
-        val['usedItemGroups']?.forEach(element => {
+        val['storageMovesGroups']?.forEach(element => {
             if(element['groupName'].startsWith('table')) {
                 element['storageMove']['amounts'].forEach(ele => {
                     ele['take'] = true;
@@ -322,7 +322,7 @@ export class CountinersLoadingComponent {
                 arrNormal.push(element);
             }
         });
-        delete val['usedItemGroups'];
+        delete val['storageMovesGroups'];
         this.dataSource['loadedItems'] = val['loadedItems'];
         delete val['loadedItems'];
         this.putFirstData = val;

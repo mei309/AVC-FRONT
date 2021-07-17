@@ -101,7 +101,8 @@ table {
     .table-look {
       display: flex;
       flex-direction:row;
-      border: solid;
+      border:groove;
+      margin-bottom: 20px;
     }
     
     .col {
@@ -119,11 +120,14 @@ table {
     } */
     
     .col div {
-      border:groove;
+      border:ridge;
       padding: 1em;
       flex: auto;
     }
 
     .title{
       max-height: 40px;
+    }
+    .footer{
+      max-height: 20px;
     }

@@ -88,7 +88,7 @@ export class TodoListComponent {
       if(data) {
         if(typeof data == 'number') {
           this.router.navigate(['Main/reports/FullPoReport',{poCode: data}]);
-        } else if(data === 'reload') {
+        } else if(dialogRef.componentInstance.approveChange) {
           this.genral.getUserTasks(this.dateRange).pipe(take(1)).subscribe(value => {
             this.tasksSource = <any[]>value;
           });

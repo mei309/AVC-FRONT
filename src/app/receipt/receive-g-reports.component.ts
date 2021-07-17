@@ -153,7 +153,7 @@ export class ReceiveGReports implements OnInit {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === $localize`Edit receive`) {
         this.router.navigate(['../ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
-      } else if(data === 'reload') {
+      } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
     });

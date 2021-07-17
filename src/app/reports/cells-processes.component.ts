@@ -11,10 +11,10 @@ import { Component, Input, OnInit } from "@angular/core";
             <div class="cell title"><h3 i18n>Date-Status-Approvals</h3></div>
             <div class="cell">
                 <span style="white-space: pre-wrap;">
-                <ng-container *ngFor="let ele of dataSource['processes']">
-                    {{ele.date | date}}-{{ele.status}}-{{ele.approvals}}
-                    <br/>
-                </ng-container>
+                    <ng-container *ngFor="let ele of dataSource['processes']">
+                        {{ele.date | date}}-{{ele.status}}-{{ele.approvals}}
+                        <br/>
+                    </ng-container>
                 </span>
             </div>
         </div>
@@ -33,7 +33,7 @@ import { Component, Input, OnInit } from "@angular/core";
                     </ng-container>
                     </span>
                 </div>
-                <div class="cell" *ngIf="dataSource[el.name].length > 1">
+                <div class="cell footer" *ngIf="dataSource[el.name].length > 1">
                     <b>Total:</b> {{dataSource[el.foot] | tableCellPipe: 'weight' : null}}
                 </div>
             </div>

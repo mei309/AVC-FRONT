@@ -143,9 +143,9 @@ export class DateRangeSelect {
             value: {begin: null, end: null},
         },
         {
-            type: 'range',
+            // type: 'range',
             format: 'mediumDate',
-            label: $localize`For last 2 weeks`,
+            label: $localize`From date`,
             value: {begin: null, end: null},
         },
         {
@@ -164,9 +164,9 @@ export class DateRangeSelect {
   }
 
   last2Weeks() {
-    this.datesList[5]['value'] = {begin: moment().subtract(13, "day").startOf("day").toDate(), end: moment().add(1, "days").startOf("day").toDate()};
+    this.datesList[5]['value'] = moment().subtract(13, "day").startOf("day").toDate();
     this.choosedDate.setValue(this.datesList[5]);
-    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.startTime.value, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add(this.startTime.value, 'hours').toDate().toISOString()});
+    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.startTime.value, 'hours').toDate().toISOString(), end: null});
   }
   allTimes(){
     this.choosedDate.setValue(this.datesList[6]);

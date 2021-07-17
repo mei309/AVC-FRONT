@@ -77,13 +77,18 @@ export class Genral {
 
   
   getUserMassages(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.mainurl+'getUserMassages', {params}).pipe(
       map(value => {
@@ -102,13 +107,18 @@ export class Genral {
   // }
 
   getUserTasks(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.mainurl+'getUserTasks', {params}).pipe(
       map(value => {
@@ -213,6 +223,8 @@ export class Genral {
             return value.filter(w => w.productionUse === 'RAW_KERNEL');
           case 'RawRoast':
             return value.filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse));
+          case 'RawCleanRoast':
+            return value.filter(w => ['ROAST', 'CLEAN', 'RAW_KERNEL'].includes(w.productionUse));
           case 1:
           case 'Clean':
             return value.filter(w => w.productionUse === 'CLEAN');

@@ -72,7 +72,7 @@ export class CountinersReportsComponent implements OnInit {
             default:
                 break;
         }
-      } else if(data === 'reload') {
+      } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
     });

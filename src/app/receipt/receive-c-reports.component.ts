@@ -154,7 +154,7 @@ export class ReceiveCReports implements OnInit {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id']}], { relativeTo: this._Activatedroute });
       } else if(data === $localize`Edit receive` || data === $localize`Receive extra`) {
         this.router.navigate(['../ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}], { relativeTo: this._Activatedroute });
-      } else if(data === 'reload') {
+      } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
     });

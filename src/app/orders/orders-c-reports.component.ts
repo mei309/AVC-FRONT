@@ -140,7 +140,7 @@ export class OrdersCReports implements OnInit {
         this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id']}]);
       } else if(data === 'Edit receive' || data === 'Receive extra') {
         this.router.navigate(['Main/receiptready/ReceiveCOrder',{poCode: event['poCode']['id'], id: event['id']}]);
-      } else if(data === 'reload') {
+      } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
     });

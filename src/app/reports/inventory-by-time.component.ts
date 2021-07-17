@@ -120,7 +120,7 @@ export class InventoryByTimeComponent implements OnInit {
               type: 'normal',
               name: 'supplier',
               label: $localize`Supplier`,
-              search: 'normal',
+              search: 'selectObj',
               options: this.genral.getSuppliersCashew(),
           },
           {
@@ -246,7 +246,8 @@ export class InventoryByTimeComponent implements OnInit {
               type: 'normal',
               name: 'saltLevel',
               label: $localize`Salt level`,
-              search: 'normal',
+              search: 'select',
+              options: ['NS', 'S', 'LS'],
           },
           {
               type: 'decimalNumber',

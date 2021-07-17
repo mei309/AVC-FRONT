@@ -63,9 +63,10 @@ export class ItemsSetupComponent {
         if(this.choosedOne.startsWith('C')) {
             this.columnsSetup.push(
                 {
+                    type: 'nameId',
                     name: 'grade',
                     label: $localize`Grade`,
-                    search: 'selectObj',
+                    search: 'selectObjObj',
                     options: this.localService.getCashewGrades(),
                 },
                 {

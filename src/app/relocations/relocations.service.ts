@@ -17,13 +17,18 @@ export class RelocationsService {
   }
   
   getStorageRelocations(functionality: string, rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality, {params});
   }

@@ -49,73 +49,103 @@ export class ReceiptService {
   }
 
   getPendingCashew(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.receipturl+'getPendingCashew',{params})
   }
 
   getReceivedCashew(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.receipturl+'getReceivedCashew',{params});
   }
 
   findCashewReceiptsHistory(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.receipturl+'findCashewReceiptsHistory',{params});
   }
   
   findGeneralReceiptsHistory(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.receipturl+'findGeneralReceiptsHistory',{params});
   }
 
   getPendingGeneral(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.receipturl+'getPendingGeneral',{params});
   }
 
   getReceivedGeneral(rangeDate) {
-    var params: HttpParams;
+    let params: HttpParams;
     if(rangeDate.begin) {
-      params = new HttpParams()
-      .set('begin',  rangeDate.begin)
-      .set('end', rangeDate.end);
+      if(rangeDate.end) {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+      } else {
+        params = new HttpParams().
+        set('begin',  rangeDate.begin);
+      }
     } else {
-      params = new HttpParams();
+      params = new HttpParams()
     }
     return this.http.get(this.receipturl+'getReceivedGeneral',{params});
   }

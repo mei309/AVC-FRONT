@@ -72,7 +72,8 @@ export class ExportReportComponent implements OnInit {
             type: 'normal',
             name: 'containerSize',
             label: $localize`Container size`,
-            search: 'normal',
+            search: 'select',
+            options: this.genral.getShippingContainerType(),
             group: 'containerNumber',
         },
         {
@@ -87,7 +88,7 @@ export class ExportReportComponent implements OnInit {
             name: 'item',
             label: $localize`Commodity`,
             search: 'selectObj',
-            options: this.genral.getItemsCashew('Raw'),
+            options: this.genral.getItemsCashew('RoastPacked'),
         },
         {
             type: 'date',
@@ -98,7 +99,7 @@ export class ExportReportComponent implements OnInit {
         {
             name: 'saltLevel',
             label: $localize`Salt level`,
-            type: 'selectNormal',
+            search: 'select',
             options: ['NS', 'S', 'LS'],
         },
         {

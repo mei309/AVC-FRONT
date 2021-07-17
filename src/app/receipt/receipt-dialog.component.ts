@@ -62,11 +62,7 @@ export class ReceiptDialog {
         }
     }
     onNoClick(): void {
-        if (this.approveChange) {
-            this.dialogRef.close('reload');
-        } else {
-            this.dialogRef.close('closed');
-        }
+        this.dialogRef.close('closed');
     }
 
     setApproveChange() {

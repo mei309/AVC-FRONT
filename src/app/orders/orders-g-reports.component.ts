@@ -122,7 +122,7 @@ export class OrdersGReports implements OnInit {
         this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: event['poCode']['id']}]);
       } else if(data === 'Edit receive') {
         this.router.navigate(['Main/receiptready/ReceiveGOrder',{poCode: event['poCode']['id'], id: event['id']}]);
-      } else if(data === 'reload') {
+      } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
     });
