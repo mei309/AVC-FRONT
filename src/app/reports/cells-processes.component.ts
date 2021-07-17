@@ -17,8 +17,11 @@ import { Component, Input, OnInit } from "@angular/core";
                     </ng-container>
                 </span>
             </div>
+            <ng-container *ngIf="doseHaveFooter">
+                <span class="empty-footer"></span>
+            </ng-container>
         </div>
-        <ng-container *ngFor="let el of regShow">
+        <ng-container *ngFor="let el of oneColumns">
             <div class="col" *ngIf="dataSource[el.name]">
                 <div class="cell title"><h3>{{el.label}}</h3></div>
                 <div class="cell">
@@ -33,9 +36,14 @@ import { Component, Input, OnInit } from "@angular/core";
                     </ng-container>
                     </span>
                 </div>
-                <div class="cell footer" *ngIf="dataSource[el.name].length > 1">
-                    <b>Total:</b> {{dataSource[el.foot] | tableCellPipe: 'weight' : null}}
-                </div>
+                <ng-container *ngIf="doseHaveFooter">
+                    <div class="cell footer" *ngIf="dataSource[el.name].length > 1; else noContent">
+                        <b>Total:</b> {{dataSource[el.foot] | tableCellPipe: 'weight' : null}}
+                    </div>
+                    <ng-template #noContent>
+                        <span class="empty-footer"></span>
+                    </ng-template>
+                </ng-container>
             </div>
         </ng-container>
         <div class="col" *ngIf="dataSource['difference']">
@@ -43,6 +51,9 @@ import { Component, Input, OnInit } from "@angular/core";
             <div class="cell">
                 <h2>{{dataSource['difference'] | tableCellPipe: 'weight' : null}} ({{dataSource['percentageLoss']}}%)</h2>
             </div>
+            <ng-container *ngIf="doseHaveFooter">
+                <span class="empty-footer"></span>
+            </ng-container>
         </div>
     </div>
       `,
@@ -53,49 +64,53 @@ import { Component, Input, OnInit } from "@angular/core";
     @Input() process;
     @Input() dataSource;
 
-    @Input() set oneColumns(value) {
-        if(value){
-            this.regShow = value;
-        }
-    }
-    get oneColumns() { return this.regShow; }
+    @Input() oneColumns;
 
-    regShow = [
-        {
-            type: 'itemWeight',
-            name: 'productIn',
-            label: $localize`Product in`,
-            foot: 'totalProductIn',
-        },
-        {
-            type: 'itemWeight',
-            name: 'ingredients',
-            label: $localize`Ingredients`,
-            foot: 'totalIngredients',
-        },
-        {
-            type: 'itemWeight',
-            name: 'received',
-            label: $localize`Received`,
-            foot: 'totalReceived',
-        },
-        {
-            type: 'itemWeight',
-            name: 'productOut',
-            label: $localize`Product out`,
-            foot: 'totalProductOut',
-        },
-        {
-            type: 'itemWeight',
-            name: 'waste',
-            label: $localize`Waste`,
-            foot: 'totalWaste',
-        },
-        {
-            type: 'itemWeight',
-            name: 'productCount',
-            label: $localize`Product count`,
-            foot: 'totalProductCount',
-        },
-    ];
+    doseHaveFooter: boolean = false;
+    
+
+    ngOnInit() {
+        if(!this.oneColumns) {
+            this.oneColumns = [
+                {
+                    type: 'itemWeight',
+                    name: 'productIn',
+                    label: $localize`Product in`,
+                    foot: 'totalProductIn',
+                },
+                {
+                    type: 'itemWeight',
+                    name: 'ingredients',
+                    label: $localize`Ingredients`,
+                    foot: 'totalIngredients',
+                },
+                {
+                    type: 'itemWeight',
+                    name: 'received',
+                    label: $localize`Received`,
+                    foot: 'totalReceived',
+                },
+                {
+                    type: 'itemWeight',
+                    name: 'productOut',
+                    label: $localize`Product out`,
+                    foot: 'totalProductOut',
+                },
+                {
+                    type: 'itemWeight',
+                    name: 'waste',
+                    label: $localize`Waste`,
+                    foot: 'totalWaste',
+                },
+                {
+                    type: 'itemWeight',
+                    name: 'productCount',
+                    label: $localize`Product count`,
+                    foot: 'totalProductCount',
+                },
+            ];
+        }
+        this.doseHaveFooter = this.oneColumns.some(el => this.dataSource[el.name] && this.dataSource[el.name].length > 1); 
+    }
+
   }

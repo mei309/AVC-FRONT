@@ -129,5 +129,14 @@ table {
       max-height: 40px;
     }
     .footer{
-      max-height: 20px;
+      /* min-height: fit-content; */
+      height: 14px;
+      max-height: 18px;
+    }
+
+    .col .empty-footer {
+      height: 18px;
+      max-height: 18px;
+      padding: 1em;
+      flex: auto;
     }

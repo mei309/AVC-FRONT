@@ -74,66 +74,6 @@ export class FinalReportTablesComponent {
     ];
 
     
-    columnsQc = [
-        {
-            type: 'normal',
-            name: 'checkedBy',
-            label: $localize`Checked by`,
-            group: 'date'
-        },
-        {
-            type: 'date',
-            name: 'date',
-            label: $localize`Check date`,
-            group: 'date'
-        },
-        {
-            type: 'normal',
-            name: 'approvals',
-            label: $localize`Approvals`,
-            group: 'date'
-        },
-        {
-            type: 'normal',
-            name: 'status',
-            label: $localize`Status`,
-            group: 'date'
-        },
-        {
-            type: 'nameId',
-            name: 'item',
-            label: $localize`Product descrption`,
-        },
-        {
-            type: 'percent',
-            label: $localize`Humidity`,
-            name: 'humidity',
-        },
-        {
-            type: 'percentNormal',
-            label: $localize`Breakage`,
-            name: 'breakage',
-        },
-        {
-          type: 'percentNormal',
-          name: 'totalDamage',
-          label: $localize`Total damage`,
-        },
-        {
-          type: 'percentNormal',
-          name: 'totalDefects',
-          label: $localize`Total defects`,
-        },
-        {
-          type: 'percentNormal',
-          name: 'totalDefectsAndDamage',
-          label: $localize`Total defects + damage`,
-        },
-        {
-            type: 'kidArray',
-            name: 'itemQcs',
-        },
-      ];
 
       inventoryColumns = [
             {
