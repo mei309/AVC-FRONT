@@ -33,6 +33,22 @@ export class ExportReportComponent implements OnInit {
   
   totelByType = [
     {
+      type: 'sumByParamCond', 
+      name: 'whole',
+      label: $localize`Total LBS by type (25/50 LBS packaging)`,
+      option: 'weightInLbs',
+      collections: {true: 'WHOLE', false: 'H&P'},
+      condision: (arr) => arr.filter(d => d['bagSize']['amount'] === 25 || d['bagSize']['amount'] === 50),
+    },
+    {
+      type: 'sumByParamCond', 
+      name: 'whole',
+      label: $localize`Total LBS by type (not 25/50)`,
+      option: 'weightInLbs',
+      collections: {true: 'WHOLE', false: 'H&P'},
+      condision: (arr) => arr.filter(d => d['bagSize']['amount'] !== 25 && d['bagSize']['amount'] !== 50),
+    },
+    {
       type: 'sumByParam', 
       name: 'whole',
       label: $localize`Total LBS by type`,

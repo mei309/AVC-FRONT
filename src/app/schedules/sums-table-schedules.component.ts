@@ -34,7 +34,7 @@ export class SumsTableSchedulesComponent {
   sumClumensshow: string[];
 
   @Input() set mainDetailsSource(value) {
-    if(value) {
+    if(value[0]) {
         this.dataSource = <any[]>value[0];
         this.sumCloumns = value[1];
         if(this.sumCloumns.length) {
@@ -70,7 +70,7 @@ export class SumsTableSchedulesComponent {
             });
             this.sumClumensTable = [...new Set(this.sumClumensTable)]; 
             this.sumClumensTable.push($localize`sum`);
-            var newSumLine = {key: $localize`Totel`};
+            var newSumLine = {key: $localize`Total`};
             this.sumClumensTable.forEach(newCloumn => {
               if(newCloumn !== 'key') {
                 var sum = 0;

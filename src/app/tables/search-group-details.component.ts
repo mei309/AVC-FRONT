@@ -652,29 +652,36 @@ export class SearchGroupDetailsComponent {
     this.listTotal.forEach(ele => {
       switch (ele.type) {
         case 'sumByParam':
-          const tempTable = mapValues(groupBy(this.dataSource.filteredData, ele.name));
-          const weightSize1 = Object.keys(tempTable).length;
-          
-          var result1 = new Array<object>(weightSize1);
-          for (let t = 0; t < weightSize1; t++) {
-            result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
-          }
-          if (ele.collections && weightSize1) {
-            result1.forEach(a => {
-              a['key'] = ele.collections[a['key']];
-            });
-          }
-          ele.val = result1;
+          ele.val = this.doTotalSumParam(this.dataSource.filteredData, ele);
           break;
         case 'sum':
           ele.val = this.dataSource.filteredData.reduce((b, c) => +b + +c[ele.name] , 0);
+          break;
         case 'recordAmountGroup':
           ele.val = (new Set(this.dataSource.filteredData.map(a => a[ele.name]))).size;
-          
+          break;
+        case 'sumByParamCond':
+          ele.val = this.doTotalSumParam(ele.condision(this.dataSource.filteredData), ele);
         default:
           break;
       }
     });
+  }
+
+  doTotalSumParam(filtered, ele) {
+    const tempTable = mapValues(groupBy(filtered, ele.name));
+    const weightSize1 = Object.keys(tempTable).length;
+    
+    var result1 = new Array<object>(weightSize1);
+    for (let t = 0; t < weightSize1; t++) {
+      result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
+    }
+    if (ele.collections && weightSize1) {
+      result1.forEach(a => {
+        a['key'] = ele.collections[a['key']];
+      });
+    }
+    return result1;
   }
   // downloadFile() {
   //   const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here

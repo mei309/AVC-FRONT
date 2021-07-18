@@ -12,10 +12,13 @@ import { ReportsService } from './reports.service';
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [withPaginator]="false">
       </search-group-details>
-      <sums-qc-table [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem']]">
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']">
+      </sums-qc-table>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'roastDefectsAndDamage']">
       </sums-qc-table>
     </div>
     `,
+    styleUrls: ['./final-report-tables.css']
 })
 export class QcsTotalsComponent implements OnInit {
   navigationSubscription;

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ArrayOrdinalComponent } from './components/array/array-ordinal.component';
 import { ArrayComponent } from './components/array/array.component';
-import { MaterialUsageComponent } from './components/avc-special/material-usage.component';
+import { MaterialUsageComponent, MaterialUsageDialog } from './components/avc-special/material-usage.component';
 import { SelectMeasureUnitComponent } from './components/avc-special/measure-unit-select.component';
 import { BigexpandComponent } from './components/bigGroups/bigexpand.component';
 import { BignotexpandComponent } from './components/bigGroups/bignotexpand.component';
@@ -68,6 +68,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
 @NgModule({
   declarations: [
     MaterialUsageComponent,
+    MaterialUsageDialog,
     SelectMeasureUnitComponent,
     // ExpandableTableComponent,
     // NormalTableComponent,
@@ -138,6 +139,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
   ],
   exports: [
     MaterialUsageComponent,
+    MaterialUsageDialog,
     SelectMeasureUnitComponent,
     // ExpandableTableComponent,
     // NormalTableComponent,
@@ -223,6 +225,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
   ],
   entryComponents: [
     MaterialUsageComponent,
+    MaterialUsageDialog,
     SelectMeasureUnitComponent,
 
     

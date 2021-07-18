@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Genral } from 'src/app/genral.service';
 import { FieldConfig } from '../../field.interface';
 import { isEqual, map } from 'lodash-es';
 import { diff } from 'src/app/libraries/diffArrayObjects.interface';
 import { distinctUntilChanged, take } from 'rxjs/operators';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'material-usage',
   template: `
@@ -28,8 +29,16 @@ import { distinctUntilChanged, take } from 'rxjs/operators';
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns.concat('inputField')"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns.concat('inputField');" ></tr>
+            <!-- Complex Column -->
+            <ng-container matColumnDef="weightAmount">
+                <th mat-header-cell *matHeaderCellDef i18n></th>
+                <td mat-cell *matCellDef="let element; let i = index;">
+                    <button type="button" mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
         </table>
 </div>
 `,
@@ -50,7 +59,7 @@ export class MaterialUsageComponent implements OnInit {
   oneColumns = [];
 
   constructor(@Inject(LOCALE_ID) private locale: string,
-  private fb: FormBuilder, private cdRef:ChangeDetectorRef,
+  private fb: FormBuilder, public dialog: MatDialog,
          private genral: Genral) {}
   ngOnInit() {
     this.form = this.fb.group({});
@@ -130,6 +139,8 @@ export class MaterialUsageComponent implements OnInit {
                 break;
         }
     });
+    this.displayedColumns.push('inputField')
+    this.displayedColumns.push('weightAmount');
     if(tempField.options) {
         this.inputField = tempField.options;
     }
@@ -265,5 +276,54 @@ export class MaterialUsageComponent implements OnInit {
     });
     return group3;
   }
+
+  openDialog(index: number): void {
+    const dialogRef = this.dialog.open(MaterialUsageDialog, {
+      data: {weight: this.dataSource[index]['measureUnit']},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      (this.group.get([this.field.name]) as FormArray).at(index).get(this.inputField).setValue(result/+this.dataSource[index]['unitAmount']);
+      
+    });
+  }
+
 }
 
+
+
+@Component({
+    selector: 'material-usage-dialog',
+    template: `
+    <h1 mat-dialog-title i18n>Amount in {{weight}}</h1>
+    <mat-dialog-content>
+        <mat-form-field class="one-field">
+            <input matInput cdkFocusInitial numeric [formControl]="amountUsed" decimals="3" placeholder="Amount" type="text">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">       
+        <button class="raised-margin" mat-raised-button color="accent" (click)="submitAmount()" i18n>Save</button>
+        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" i18n>Close</button>
+    </mat-dialog-actions>
+    `,
+  })
+  export class MaterialUsageDialog {
+  
+    amountUsed = new FormControl('');
+    
+    weight;
+  
+    constructor(public dialogRef: MatDialogRef<MaterialUsageDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.weight = data.weight;
+      }
+  
+    
+    submitAmount() {
+      this.dialogRef.close(this.amountUsed.value);
+    }
+  
+    onNoClick() {
+      this.dialogRef.close('closed');
+    }
+  
+  }
+  

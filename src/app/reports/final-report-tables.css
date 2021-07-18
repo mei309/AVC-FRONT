@@ -140,3 +140,12 @@ table {
       padding: 1em;
       flex: auto;
     }
+
+    .sums-qc {
+      display: inline-block;
+      /* margin: 15px; */
+      /* width: 45%; */
+    }
+    .sums-qc + .sums-qc {
+      margin-left: 12px;
+  }

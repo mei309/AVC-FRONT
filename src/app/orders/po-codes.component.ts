@@ -125,7 +125,7 @@ export class PoCodesComponent implements OnInit {
                         type: 'select',
                         label: $localize`Product company`,
                         name: 'productCompany',
-                        search: 'select',
+                        search: 'selectObj',
                         options: this.localService.getSuppliersGroups(),
                     });
                 this.columnsPos = this.columnsPos.slice();
