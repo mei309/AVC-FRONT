@@ -119,12 +119,12 @@ export class PoCodesComponent implements OnInit {
                     this.contractTypesChangable.next(val);
                 });
             }
-            var ind = this.columnsPos.findIndex((em) => em['name'] === 'productCompany');
+            var ind = this.columnsPos.findIndex((em) => em['name'] === 'productCompanyName');
             if(ind === -1) {
                 this.columnsPos.push({
                         type: 'select',
                         label: $localize`Product company`,
-                        name: 'productCompany',
+                        name: 'productCompanyName',
                         search: 'selectObj',
                         options: this.localService.getSuppliersGroups(),
                     });
@@ -144,7 +144,7 @@ export class PoCodesComponent implements OnInit {
                 this.localService.getGeneralContractTypes().pipe(take(1)).subscribe(val => {
                     this.contractTypesChangable.next(val);
                 });
-                var ind = this.columnsPos.findIndex((em) => em['name'] === 'productCompany');
+                var ind = this.columnsPos.findIndex((em) => em['name'] === 'productCompanyName');
                 if(ind !== -1) {
                     this.columnsPos.splice(ind, 1);
                     this.columnsPos = this.columnsPos.slice();

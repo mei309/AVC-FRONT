@@ -12,8 +12,10 @@ import { ReportsService } from './reports.service';
     <h1 style="text-align:center" i18n>Export report</h1>
     <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotales]="totelByType" [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll"  [withPaginator]="false">
       </search-group-details>
+      <sum-list-tables [mainDetailsSource]="[cashewSource, totelByType]">
+      </sum-list-tables>
     </div>
     `,
 })
@@ -51,7 +53,7 @@ export class ExportReportComponent implements OnInit {
     {
       type: 'sumByParam', 
       name: 'whole',
-      label: $localize`Total LBS by type`,
+      label: $localize`Total LBS by type (all)`,
       option: 'weightInLbs',
       collections: {true: 'WHOLE', false: 'H&P'}
     },

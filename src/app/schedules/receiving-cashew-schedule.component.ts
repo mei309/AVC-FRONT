@@ -12,15 +12,14 @@ import { SchedulesService } from './schedules.service';
   <normal-group-details [mainDetailsSource]="cashewSource" [mainColumns]="columnsShow">
   </normal-group-details>
   <h1 style="text-align:center" i18n>Amounts</h1>
-  <sums-table-schedules [mainDetailsSource]="[sumsSource, ['personInCharge', 'itemName'], ['item', 'itemName']]">
+  <sums-table-schedules [mainDetailsSource]="[cashewSource, ['personInCharge', 'itemName'], ['item', 'itemName']]">
   </sums-table-schedules>
   `,
 })
 export class ReceivingCashewScheduleComponent implements OnInit {
   
   cashewSource;
-  sumsSource;
-
+  
   columnsShow: OneColumn[];
 
   constructor(public dialog: MatDialog, private localService: SchedulesService) {
@@ -109,7 +108,6 @@ export class ReceivingCashewScheduleComponent implements OnInit {
   inlineRangeChange($event) {
     this.localService.getAllCashewOrders($event).pipe(take(1)).subscribe(value => {
       this.cashewSource = <any[]>value;
-      this.sumsSource = <any[]>value;
     });
   }
 

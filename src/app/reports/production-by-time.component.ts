@@ -35,7 +35,7 @@ export class ProductionsByTimeComponent implements OnInit {
     type: 'listAmountWithUnit',
     name: 'producedItems',
     label: $localize`Total all produced`,
-    options: ['KG', 'LBS']
+    options: ['LBS']
   };
   
   cashewSourceColumns;

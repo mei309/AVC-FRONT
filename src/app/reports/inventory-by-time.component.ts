@@ -27,8 +27,10 @@ import { ReportsService } from './reports.service';
         <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
     </mat-form-field>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotales]="totelByType" [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [withPaginator]="false">
       </search-group-details>
+      <sum-list-tables [mainDetailsSource]="[cashewSource, totelByType]">
+      </sum-list-tables>
     </div>
     `,
 })
@@ -108,7 +110,7 @@ export class InventoryByTimeComponent implements OnInit {
           {
             type: 'sumByParam', 
             name: 'productCompany',
-            label: $localize`Total LBS by supplier`,
+            label: $localize`Total LBS by product company`,
             option: 'weightInLbs',
           }
         ];

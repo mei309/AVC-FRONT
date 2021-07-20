@@ -192,24 +192,24 @@ export class Genral {
         switch (type) {
           case 0:
           case 'Raw':
-            return value.filter(w => w.productionUse === 'RAW_KERNEL' && cashewGrades.includes(w.grade));
+            return value.filter(w => w.productionUse === 'RAW_KERNEL' && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'RawRoast':
-            return value.filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse) && cashewGrades.includes(w.grade));
+            return value.filter(w => ['ROAST', 'RAW_KERNEL'].includes(w.productionUse) && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'Clean':
           case 1:
-            return value.filter(w => w.productionUse === 'CLEAN' && cashewGrades.includes(w.grade));
+            return value.filter(w => w.productionUse === 'CLEAN' && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'Roast':
-            return value.filter(w => w.productionUse === 'ROAST' && cashewGrades.includes(w.grade));
+            return value.filter(w => w.productionUse === 'ROAST' && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'Pack':
-            return value.filter(w => w.productionUse === 'PACKED' && cashewGrades.includes(w.grade));
+            return value.filter(w => w.productionUse === 'PACKED' && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'RoastPacked':
-            return value.filter(w => ['ROAST', 'PACKED'].includes(w.productionUse) && cashewGrades.includes(w.grade));
+            return value.filter(w => ['ROAST', 'PACKED'].includes(w.productionUse) && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'Toffee':
-            return value.filter(w => w.productionUse === 'TOFFEE' && cashewGrades.includes(w.grade));
+            return value.filter(w => w.productionUse === 'TOFFEE' && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           case 'QC pack':
-            return value.filter(w => w.group === 'QC' && cashewGrades.includes(w.grade));
+            return value.filter(w => w.group === 'QC' && w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
           default:
-            return value.filter(w => cashewGrades.includes(w.grade));
+            return value.filter(w => w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
         }
       })
     );

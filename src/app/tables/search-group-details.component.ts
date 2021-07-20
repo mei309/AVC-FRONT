@@ -7,7 +7,6 @@ import { isEqual } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
-import { groupBy, mapValues } from 'lodash-es';
 
 @Component({
   selector: 'search-group-details',
@@ -107,19 +106,6 @@ import { groupBy, mapValues } from 'lodash-es';
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
         <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (dblclick)="openDetails(row)"></tr>
     </table>
-    <div *ngIf="listTotal" style="float: right; margin-right: 15px;">
-      <div style="display: inline-block; margin-right: 25px" *ngFor="let sum of listTotal">
-        <h3>{{sum.label}}</h3>
-        <ng-container *ngIf="sum.type.includes('Param'); else oneSum">
-          <ng-container *ngFor="let total of sum.val">
-            <h4 style="display: inline; margin-right: 15px;">{{total.key}}: {{total.val | tableCellPipe: 'decimalNumber' : null}}</h4>
-          </ng-container>
-        </ng-container>
-        <ng-template #oneSum>
-          <h4>{{sum.val | tableCellPipe: 'decimalNumber' : null}}</h4>
-        </ng-template>
-      </div>
-    </div>
     <mat-toolbar>
       <mat-toolbar-row>
         <button class="no-print"><mat-icon (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
@@ -165,11 +151,11 @@ export class SearchGroupDetailsComponent {
     @Input() totelAll;
     currentTotalAll = undefined;
 
-    listTotal;
-    @Input() set listTotales(val) {
-      this.listTotal = val;
-    }
-    currentListTotales;
+    // listTotal;
+    // @Input() set listTotales(val) {
+    //   this.listTotal = val;
+    // }
+    // currentListTotales;
 
     dataSource;
   @Input() set detailsSource(value) {
@@ -327,9 +313,9 @@ export class SearchGroupDetailsComponent {
       if(this.totelAll) {
         this.currentTotalAll = this.getTotelAll();
       }
-      if(this.listTotal) {
-        this.currentListTotales = this.getListTotales();
-      }
+      // if(this.listTotal) {
+      //   this.currentListTotales = this.getListTotales();
+      // }
   }
 
   // columnsKidArray(element) {
@@ -648,41 +634,56 @@ export class SearchGroupDetailsComponent {
   }
 
 
-  getListTotales(){
-    this.listTotal.forEach(ele => {
-      switch (ele.type) {
-        case 'sumByParam':
-          ele.val = this.doTotalSumParam(this.dataSource.filteredData, ele);
-          break;
-        case 'sum':
-          ele.val = this.dataSource.filteredData.reduce((b, c) => +b + +c[ele.name] , 0);
-          break;
-        case 'recordAmountGroup':
-          ele.val = (new Set(this.dataSource.filteredData.map(a => a[ele.name]))).size;
-          break;
-        case 'sumByParamCond':
-          ele.val = this.doTotalSumParam(ele.condision(this.dataSource.filteredData), ele);
-        default:
-          break;
-      }
-    });
-  }
 
-  doTotalSumParam(filtered, ele) {
-    const tempTable = mapValues(groupBy(filtered, ele.name));
-    const weightSize1 = Object.keys(tempTable).length;
+  // <div *ngIf="listTotal" style="float: right; margin-right: 15px;">
+  //     <div style="display: inline-block; margin-right: 25px" *ngFor="let sum of listTotal">
+  //       <h3>{{sum.label}}</h3>
+  //       <ng-container *ngIf="sum.type.includes('Param'); else oneSum">
+  //         <ng-container *ngFor="let total of sum.val">
+  //           <h4 style="display: inline; margin-right: 15px;">{{total.key}}: {{total.val | tableCellPipe: 'decimalNumber' : null}}</h4>
+  //         </ng-container>
+  //       </ng-container>
+  //       <ng-template #oneSum>
+  //         <h4>{{sum.val | tableCellPipe: 'decimalNumber' : null}}</h4>
+  //       </ng-template>
+  //     </div>
+  //   </div>
+
+  // getListTotales(){
+  //   this.listTotal.forEach(ele => {
+  //     switch (ele.type) {
+  //       case 'sumByParam':
+  //         ele.val = this.doTotalSumParam(this.dataSource.filteredData, ele);
+  //         break;
+  //       case 'sum':
+  //         ele.val = this.dataSource.filteredData.reduce((b, c) => +b + +c[ele.name] , 0);
+  //         break;
+  //       case 'recordAmountGroup':
+  //         ele.val = (new Set(this.dataSource.filteredData.map(a => a[ele.name]))).size;
+  //         break;
+  //       case 'sumByParamCond':
+  //         ele.val = this.doTotalSumParam(ele.condision(this.dataSource.filteredData), ele);
+  //       default:
+  //         break;
+  //     }
+  //   });
+  // }
+
+  // doTotalSumParam(filtered, ele) {
+  //   const tempTable = mapValues(groupBy(filtered, ele.name));
+  //   const weightSize1 = Object.keys(tempTable).length;
     
-    var result1 = new Array<object>(weightSize1);
-    for (let t = 0; t < weightSize1; t++) {
-      result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
-    }
-    if (ele.collections && weightSize1) {
-      result1.forEach(a => {
-        a['key'] = ele.collections[a['key']];
-      });
-    }
-    return result1;
-  }
+  //   var result1 = new Array<object>(weightSize1);
+  //   for (let t = 0; t < weightSize1; t++) {
+  //     result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
+  //   }
+  //   if (ele.collections && weightSize1) {
+  //     result1.forEach(a => {
+  //       a['key'] = ele.collections[a['key']];
+  //     });
+  //   }
+  //   return result1;
+  // }
   // downloadFile() {
   //   const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here
   //   const header = Object.keys(this.dataSource.filteredData[0]);
