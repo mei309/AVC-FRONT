@@ -12,9 +12,9 @@ import { ReportsService } from './reports.service';
     <h1 style="text-align:center" i18n>Export report</h1>
     <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll"  [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
-      <sum-list-tables [mainDetailsSource]="[cashewSource, totelByType]">
+      <sum-list-tables [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
     </div>
     `,
@@ -65,6 +65,7 @@ export class ExportReportComponent implements OnInit {
   ];
 
   cashewSource;
+  sumsSource;
 
   constructor(public dialog: MatDialog, private localService: ReportsService,
     private genral: Genral, private cdRef:ChangeDetectorRef) {
@@ -161,6 +162,10 @@ export class ExportReportComponent implements OnInit {
         this.cashewSource = <any[]>value;
     });
     this.cdRef.detectChanges();
+  }
+
+  filteredSums($event) {
+    this.sumsSource = $event;
   }
 
     ngOnDestroy() {

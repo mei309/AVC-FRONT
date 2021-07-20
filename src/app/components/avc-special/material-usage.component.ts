@@ -21,7 +21,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
             <!-- Complex Column -->
             <ng-container matColumnDef="inputField">
-                <th mat-header-cell *matHeaderCellDef i18n>Amount</th>
+                <th mat-header-cell *matHeaderCellDef i18n>Amount of units</th>
                 <td mat-cell *matCellDef="let element; let i = index;" [formGroupName]="i">
                     <mat-form-field class="one-field">
                         <input matInput [formControlName]="inputField" numeric decimals="3" type="text" maxlength="255">
@@ -33,7 +33,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
             <ng-container matColumnDef="weightAmount">
                 <th mat-header-cell *matHeaderCellDef i18n></th>
                 <td mat-cell *matCellDef="let element; let i = index;">
-                    <button type="button" mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
+                    <button type="button"  [disabled]="this.dataSource[i]['unitAmount'] === 1" mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
                 </td>
             </ng-container>
 

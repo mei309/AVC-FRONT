@@ -205,7 +205,7 @@ position:   fixed;
     overflow: auto;
   }
   .mat-header-cell {
-    min-width: 140px;
+    min-width: 120px;
     text-align: center !important;
   }
   .is-alert {
@@ -288,6 +288,11 @@ position:   fixed;
     /* mat-form-field {
       display: none !important;
     } */
+
+    .mat-header-cell {
+      min-width: 50px;
+      text-align: center !important;
+    }
     .no-print, .raised-margin, .centerButtons {
       display: none !important;
     }

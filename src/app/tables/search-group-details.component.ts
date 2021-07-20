@@ -152,7 +152,8 @@ export class SearchGroupDetailsComponent {
     currentTotalAll = undefined;
 
     // listTotal;
-    // @Input() set listTotales(val) {
+    @Input() listTotals: boolean = false;
+    @Output() filteredInfo: EventEmitter<any> = new EventEmitter<any>();
     //   this.listTotal = val;
     // }
     // currentListTotales;
@@ -313,9 +314,10 @@ export class SearchGroupDetailsComponent {
       if(this.totelAll) {
         this.currentTotalAll = this.getTotelAll();
       }
-      // if(this.listTotal) {
-      //   this.currentListTotales = this.getListTotales();
-      // }
+      if(this.listTotals) {
+        this.filteredInfo.emit(this.dataSource.filteredData)
+        // this.currentListTotales = this.getListTotales();
+      }
   }
 
   // columnsKidArray(element) {

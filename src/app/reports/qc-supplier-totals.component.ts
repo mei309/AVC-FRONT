@@ -10,7 +10,7 @@ import { ReportsService } from './reports.service';
     <h1 style="text-align:center" i18n>QC totals</h1>
     <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
       <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']">
       </sums-qc-table>
@@ -113,9 +113,12 @@ export class QcsTotalsComponent implements OnInit {
     this.qcSource = null;
     this.localService.sumQcBySupplier($event).pipe(take(1)).subscribe(value => {
       this.qcSource = <any[]>value;
-      this.sumsSource = value;
     });
     this.cdRef.detectChanges();
+  }
+
+  filteredSums($event) {
+    this.sumsSource = $event;
   }
   
     ngOnDestroy() {

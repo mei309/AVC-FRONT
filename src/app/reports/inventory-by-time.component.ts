@@ -27,9 +27,9 @@ import { ReportsService } from './reports.service';
         <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
     </mat-form-field>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [withPaginator]="false">
+      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
-      <sum-list-tables [mainDetailsSource]="[cashewSource, totelByType]">
+      <sum-list-tables [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
     </div>
     `,
@@ -46,6 +46,7 @@ export class InventoryByTimeComponent implements OnInit {
   columnsShow: OneColumn[];
   
   cashewSource;
+  sumsSource;
 
   totelAll: OneColumn = {
     type: 'decimalNumber',
@@ -352,6 +353,12 @@ export class InventoryByTimeComponent implements OnInit {
         break;
     }
   }
+
+  filteredSums($event) {
+    this.sumsSource = $event;
+  }
+
+  
 
     ngOnDestroy() {
       if (this.navigationSubscription) {  
