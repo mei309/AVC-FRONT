@@ -66,6 +66,13 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                         label: $localize`Loading port`,
                         name: 'portOfLoading',
                         options: this.localService.getShippingPorts(),
+                        validations: [
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: $localize`Loading port Required`,
+                            }
+                        ]
                     },
                     {
                         type: 'date',
@@ -99,11 +106,11 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                         label: $localize`Container number`,
                         name: 'containerNumber',
                         validations: [
-                        {
-                            name: 'required',
-                            validator: Validators.required,
-                            message: $localize`Container number Required`,
-                        }
+                            {
+                                name: 'required',
+                                validator: Validators.required,
+                                message: $localize`Container number Required`,
+                            }
                         ]
                     },
                     {

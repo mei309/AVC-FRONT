@@ -54,7 +54,7 @@ export class SumsQcsTableComponent {
             const tempTable = nest(this.dataSource, this.sumCloumns);
             this.sumClumensTable = ['key'];
 
-            var newSumLine = {key: $localize`Totel`};
+            var newSumLine = {key: $localize`Average`};
 
             Object.keys(tempTable).forEach(key => {
               var newLine = {key: key};
@@ -70,14 +70,14 @@ export class SumsQcsTableComponent {
                   newSumLine[val] = newSumLine[val]? newSumLine[val] + 1 : 1;
                 }
               });
-              newLine[$localize`sum`] = sum/diveder;
+              newLine[$localize`Average`] = sum/diveder;
               this.sumDataSource.push(newLine);
             });
             this.sumClumensTable = [...new Set(this.sumClumensTable)]; 
-            this.sumClumensTable.push($localize`sum`);
+            this.sumClumensTable.push($localize`Average`);
             
             this.sumClumensTable.forEach(newCloumn => {
-              if(newCloumn === $localize`sum`) {
+              if(newCloumn === $localize`Average`) {
                 var sum = 0;
                 var diveder = 0;
                 this.sumDataSource.forEach(aLine => {

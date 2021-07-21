@@ -63,34 +63,22 @@ export class QcsTotalsComponent implements OnInit {
         search: 'object',
         // group: 'poCode',
       },
-      {
-        type: 'percentNormal',
-        name: 'rawDamage',
-        label: $localize`Total raw damage`,
-        search: 'percentage',
-      },
-      {
-        type: 'percentNormal',
-        name: 'rawDefects',
-        label: $localize`Total raw defects`,
-        search: 'percentage',
-      },
+      // {
+      //   type: 'percentNormal',
+      //   name: 'rawDamage',
+      //   label: $localize`Total raw damage`,
+      //   search: 'percentage',
+      // },
+      // {
+      //   type: 'percentNormal',
+      //   name: 'rawDefects',
+      //   label: $localize`Total raw defects`,
+      //   search: 'percentage',
+      // },
       {
         type: 'percentNormal',
         name: 'rawDefectsAndDamage',
         label: $localize`Total raw defects + damage`,
-        search: 'percentage',
-      },
-      {
-        type: 'percentNormal',
-        name: 'roastDamage',
-        label: $localize`Total roast damage`,
-        search: 'percentage',
-      },
-      {
-        type: 'percentNormal',
-        name: 'roastDefects',
-        label: $localize`Total roast defects`,
         search: 'percentage',
       },
       {
@@ -100,9 +88,39 @@ export class QcsTotalsComponent implements OnInit {
         search: 'percentage',
       },
       {
+        type: 'percentNormal',
+        name: 'loss',
+        label: $localize`Loss`,
+        search: 'percentage',
+      },
+      {
+        type: 'weight',
+        name: 'badQuality',
+        label: $localize`Bad quality`,
+        search: 'object',
+      },
+      {
+        type: 'weight',
+        name: 'waste',
+        label: $localize`Waste`,
+        search: 'object',
+      },
+      // {
+      //   type: 'percentNormal',
+      //   name: 'roastDamage',
+      //   label: $localize`Total roast damage`,
+      //   search: 'percentage',
+      // },
+      // {
+      //   type: 'percentNormal',
+      //   name: 'roastDefects',
+      //   label: $localize`Total roast defects`,
+      //   search: 'percentage',
+      // },
+      {
         type: 'dateTime',
         name: 'receiptTime',
-        label: $localize`Check date`,
+        label: $localize`Receiving date`,
         search: 'dates',
       },
     ];
