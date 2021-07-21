@@ -184,6 +184,7 @@ export class Genral {
     return this.ItemsWasteCashew.asObservable();
   }
   getItemsCashewGrades(type: string | number, cashewGrades: string[]): Observable<any> {
+    cashewGrades = cashewGrades.filter(a => a);
     if(!cashewGrades){
       return this.getItemsCashew(type);
     }

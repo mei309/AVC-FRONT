@@ -121,6 +121,7 @@ table {
     
     .col div {
       border:ridge;
+      border-width: thin;
       padding: 1em;
       flex: auto;
     }

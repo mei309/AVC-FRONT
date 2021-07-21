@@ -40,24 +40,29 @@ export class SelectItemComponent implements OnInit {
     this.temp = this.field.options;
     this.temp.pipe(take(1)).subscribe(
       arg => {
-          this.options = arg;
-          if(typeof this.group.controls[this.field.name].value == 'string' && this.field.value !== undefined) {
-            let putNull: boolean = true;
-            this.options.forEach(option => {
-                if (option.value === this.field.value) {
-                    this.group.controls[this.field.name].setValue(option);
-                    putNull = false;
-                }
+          if(this.group.controls[this.field.name].value && !arg.some(b => b.value === this.group.controls[this.field.name].value.value)) {
+            this.genral.getItemsCashew(this.field.collections).pipe(take(1)).subscribe(arg1 => {
+                this.options = arg1;
+                this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filterSomewhere(val)));
             });
-            if(putNull) {
-              this.group.controls[this.field.name].setValue(null);
-            }
-          }
-        //   if(this.field.collections === 'somewhere') {
+          } else {
+            this.options = arg;
             this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filterSomewhere(val)));
-        //   } else {
-        //     this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filter(val)));
-        //   }
+          }
+          
+          
+          // if(typeof this.group.controls[this.field.name].value == 'string' && this.field.value !== undefined) {
+          //   let putNull: boolean = true;
+          //   this.options.forEach(option => {
+          //       if (option.value === this.field.value) {
+          //           this.group.controls[this.field.name].setValue(option);
+          //           putNull = false;
+          //       }
+          //   });
+          //   if(putNull) {
+          //     this.group.controls[this.field.name].setValue(null);
+          //   }
+          // }
       } 
     );
     if(this.field.inputType) {
@@ -69,15 +74,15 @@ export class SelectItemComponent implements OnInit {
     }
   }
   
-  filter(val: string): any[] {
-    if(val && typeof(val) === 'string') {
-      const filterValue = val.toLowerCase();
-      return this.options.filter(option =>
-        option.value.toLowerCase().indexOf(filterValue) === 0);
-    } else {
-      return this.options;
-    }
-  }
+  // filter(val: string): any[] {
+  //   if(val && typeof(val) === 'string') {
+  //     const filterValue = val.toLowerCase();
+  //     return this.options.filter(option =>
+  //       option.value.toLowerCase().indexOf(filterValue) === 0);
+  //   } else {
+  //     return this.options;
+  //   }
+  // }
 
   filterSomewhere(val: string): any[] {
     if(val && typeof(val) === 'string') {

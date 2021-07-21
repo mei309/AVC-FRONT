@@ -57,6 +57,13 @@ export class AllQcsComponent implements OnInit {
         group: 'poCode',
       },
       {
+        type: 'normal',
+        name: 'checkedBy',
+        label: $localize`Checked by`,
+        search: 'select',
+        options: this.genral.getQcCheckOrganzition(),
+      },
+      {
         type: 'nameId',
         name: 'item',
         label: $localize`Product descrption`,

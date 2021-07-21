@@ -33,7 +33,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
             <ng-container matColumnDef="weightAmount">
                 <th mat-header-cell *matHeaderCellDef i18n></th>
                 <td mat-cell *matCellDef="let element; let i = index;">
-                    <button type="button"  [disabled]="this.dataSource[i]['unitAmount'] === 1" mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
+                    <button type="button"  mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
                 </td>
             </ng-container>
 
@@ -283,7 +283,7 @@ export class MaterialUsageComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       (this.group.get([this.field.name]) as FormArray).at(index).get(this.inputField).setValue(result/+this.dataSource[index]['unitAmount']);
-      
+      (this.group.get([this.field.name]) as FormArray).at(index).get(this.inputField).markAsDirty();
     });
   }
 

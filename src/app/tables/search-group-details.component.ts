@@ -636,6 +636,21 @@ export class SearchGroupDetailsComponent {
   }
 
 
+  // _pageData(data: T[]): T[] {
+  //   if (!this.paginator) { return data; }
+
+  //   const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+  //   return data.slice(startIndex, startIndex + this.paginator.pageSize);
+  // }
+  // this.dataSource._pageData = (data: Row[]) => {
+  //   const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+  //   // find start/end index with groups excluded
+  //   const filter = data.filter(r => !r.isGroup).splice(startIndex, this.paginator.pageSize);
+  //   const start = filter[0];
+  //   const end = filter[filter.length - 1];
+  //   // return all data between first and last item (including groups)
+  //   return data.slice().splice(data.indexOf(start), data.indexOf(end));
+  // }
 
   // <div *ngIf="listTotal" style="float: right; margin-right: 15px;">
   //     <div style="display: inline-block; margin-right: 25px" *ngFor="let sum of listTotal">

@@ -241,6 +241,7 @@ export class ReceiveGOrder implements OnInit {
                                 type: 'select',
                                 label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
+                                collections: 'somewhere',
                                 options: this.genral.getWearhouses(),
                             },
                             {

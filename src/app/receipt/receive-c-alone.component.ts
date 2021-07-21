@@ -130,6 +130,7 @@ export class ReceiveCAlone implements OnInit {
                                         type: 'select',
                                         label: $localize`Warehouse location`,
                                         name: 'warehouseLocation',
+                                        collections: 'somewhere',
                                         options: this.genral.getWearhouses(),
                                     },
                                     {
@@ -182,6 +183,7 @@ export class ReceiveCAlone implements OnInit {
                                 type: 'select',
                                 label: $localize`Warehouse location`,
                                 name: 'warehouseLocation',
+                                collections: 'somewhere',
                                 options: this.genral.getWearhouses(),
                             },
                             {
