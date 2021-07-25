@@ -185,7 +185,7 @@ export class Genral {
   }
   getItemsCashewGrades(type: string | number, cashewGrades: string[]): Observable<any> {
     cashewGrades = cashewGrades.filter(a => a);
-    if(!cashewGrades){
+    if(!cashewGrades.length){
       return this.getItemsCashew(type);
     }
     return this.allItemsCashew.asObservable().pipe(

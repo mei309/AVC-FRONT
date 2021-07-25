@@ -75,6 +75,8 @@ export class InventoryByTimeComponent implements OnInit {
           this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('number')) {
               this.tabIndex = +params.get('number');
+            } else {
+              this.tabIndex = 0;
             }
             if(this.dateDay.value){
               this.changedAndDate(this.tabIndex, this.dateDay.value);

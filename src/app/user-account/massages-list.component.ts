@@ -9,14 +9,12 @@ import { UserAccountService } from './user-account.service';
   template: `
   <h1 style="text-align:center" i18n>Messages center</h1>
   <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
-  <div class="centerButtons">
-    <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
-      <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
-        <mat-option value="">--all--</mat-option>
-        <mat-option *ngFor="let item of myTypes" [value]="item">{{item}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
+    <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
+      <mat-option value="">--all--</mat-option>
+      <mat-option *ngFor="let item of myTypes" [value]="item">{{item}}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <search-expandable [dataSource]="massagesSource" [oneColumns]="columnsMassages" [buttons]="myButtons" [expandableMassage]="poInfromtion" (expanded)="expandElement($event)" (elemnetClick)="goToOpartion($event)">
   </search-expandable>
   `,

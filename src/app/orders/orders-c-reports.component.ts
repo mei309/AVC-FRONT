@@ -119,10 +119,10 @@ export class OrdersCReports implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changedAndDate(+params.get('number'));
           } else {
-            this.changedAndDate(0);
+            this.tabIndex = 0;
           }
+          this.changedAndDate(this.tabIndex);
         });
       }
     });

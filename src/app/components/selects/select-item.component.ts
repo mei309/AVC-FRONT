@@ -22,7 +22,7 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 
-<button type="button" *ngIf="field.collections !== 'Pack'" class="raised-margin" mat-raised-button color="accent" (click)="allItems()" i18n>All items</button>
+<button type="button" *ngIf="field.collections" class="raised-margin" mat-raised-button color="accent" (click)="allItems()" i18n>All items</button>
 `,
 })
 export class SelectItemComponent implements OnInit {

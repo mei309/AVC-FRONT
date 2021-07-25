@@ -3,7 +3,7 @@ import { groupBy, mapValues } from 'lodash-es';
 @Component({
   selector: 'sums-qc-table',
   template: `
-<h2 style="text-align:center" i18n>Total {{type}} defects + damage</h2>
+<h2 style="text-align:center" i18n>Total {{title}}</h2>
 <table mat-table [dataSource]="sumDataSource" style="text-align: center !important;">
     
     <ng-container matColumnDef="key">
@@ -18,7 +18,7 @@ import { groupBy, mapValues } from 'lodash-es';
           <h3>{{column}}</h3>
         </th>
         <td mat-cell *matCellDef="let element">
-          {{element[column] | tableCellPipe: 'percentNormal' : null}}
+          {{element[column] | tableCellPipe: type : null}}
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="sumClumensTable"></tr>
@@ -33,13 +33,13 @@ export class SumsQcsTableComponent {
   sumCloumns = [];
   sumClumensTable: string[];
   sumClumensshow: string[];
-  type;
+  @Input() title;
+  @Input() type;
 
   @Input() set mainDetailsSource(value) {
     if(value) {
         this.dataSource = <any[]>value[0];
         this.sumCloumns = value[1];
-        value[2] === 'rawDefectsAndDamage'? this.type = $localize`raw` : this.type = $localize`roast`;
         if(this.sumCloumns.length) {
             this.sumDataSource = [];
             var nest = function (seq, keys) {
@@ -57,21 +57,30 @@ export class SumsQcsTableComponent {
             var newSumLine = {key: $localize`Average`};
 
             Object.keys(tempTable).forEach(key => {
-              var newLine = {key: key};
+              var newLine = {};
               var sum = 0;
               var diveder = 0;
+              var numChecks = 0;
               Object.keys(tempTable[key]).forEach(val => {
                 var temp = tempTable[key][val].filter(f => f[value[2]] !== null && f[value[2]] !== undefined);
                 if(temp.length) {
-                  newLine[val] = (temp.reduce((b, c) => +b + +c[value[2]] , 0))/temp.length;
+                  if(this.type === 'decimalNumber') {
+                    newLine[val] = (temp.reduce((b, c) => +b + +c[value[2]]['amount'] , 0))/temp.length;
+                  } else {
+                    newLine[val] = (temp.reduce((b, c) => +b + +c[value[2]] , 0))/temp.length;
+                  }
                   this.sumClumensTable.push(val);
                   sum += newLine[val];
                   diveder ++;
+                  numChecks += temp.length;
                   newSumLine[val] = newSumLine[val]? newSumLine[val] + 1 : 1;
                 }
               });
-              newLine[$localize`Average`] = sum/diveder;
-              this.sumDataSource.push(newLine);
+              if(numChecks) {
+                newLine['key'] = key + ' (' + numChecks +')';
+                newLine[$localize`Average`] = sum/diveder;
+                this.sumDataSource.push(newLine);
+              }
             });
             this.sumClumensTable = [...new Set(this.sumClumensTable)]; 
             this.sumClumensTable.push($localize`Average`);

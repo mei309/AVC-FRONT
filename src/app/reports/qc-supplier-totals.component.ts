@@ -12,9 +12,15 @@ import { ReportsService } from './reports.service';
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']">
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']" title="raw defects + damage" type="percentNormal" i18n-title>
       </sums-qc-table>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'roastDefectsAndDamage']">
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'roastDefectsAndDamage']" title="roast defects + damage" type="percentNormal" i18n-title>
+      </sums-qc-table>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'loss']" title="loss" type="percent" i18n-title>
+      </sums-qc-table>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'badQuality']" title="bad quality (LBS)" type="decimalNumber" i18n-title>
+      </sums-qc-table>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'waste']" title="waste (LBS)" type="decimalNumber" i18n-title>
       </sums-qc-table>
     </div>
     `,
@@ -88,7 +94,7 @@ export class QcsTotalsComponent implements OnInit {
         search: 'percentage',
       },
       {
-        type: 'percentNormal',
+        type: 'percent',
         name: 'loss',
         label: $localize`Loss`,
         search: 'percentage',

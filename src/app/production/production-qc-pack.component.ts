@@ -92,7 +92,7 @@ export class ProductionQcPackComponent implements OnInit {
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) { 
-                this.localService.getStorageRawPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageQcPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 

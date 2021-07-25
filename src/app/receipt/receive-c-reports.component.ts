@@ -14,7 +14,6 @@ import { ReceiptService } from './receipt.service';
     <button mat-raised-button color="primary" routerLink='../ReceiveCAlone' i18n>Receive Cashew Without Order</button>
   </div>
   <h1 style="text-align:center" i18n>Cashew Receivings</h1>
-  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Pending(received)" i18n-label>
@@ -24,6 +23,7 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
+  <date-range-select [hidden]="!tabIndex" class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `
@@ -137,6 +137,8 @@ export class ReceiveCReports implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
+          } else {
+            this.tabIndex = 0;
           }
           this.changedAndDate(this.tabIndex);
         });
@@ -177,7 +179,7 @@ export class ReceiveCReports implements OnInit {
               this.columnsShow.splice(ind, 1);
               this.columnsShow = this.columnsShow.slice();
           }
-          this.localService.getPendingCashew(this.dateRange).pipe(take(1)).subscribe(value => {
+          this.localService.getPendingCashew().pipe(take(1)).subscribe(value => {
             this.cashewSource = value;
           });
           this.cdRef.detectChanges();

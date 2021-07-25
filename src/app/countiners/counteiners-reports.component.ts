@@ -43,10 +43,10 @@ export class CountinersReportsComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changedAndDate(+params.get('number'));
           } else {
-            this.changedAndDate(0);
+            this.tabIndex = 0;
           }
+          this.changedAndDate(this.tabIndex);
         });
       }
     });
@@ -93,6 +93,13 @@ export class CountinersReportsComponent implements OnInit {
           this.mainSourceColumns = null;
           this.totelColumn = null;
           this.columnsShow = [
+            {
+                type: 'nameId',
+                name: 'shipmentCode',
+                label: $localize`Shipment code`,
+                search: 'object',
+                group: 'shipmentCode',
+            },
             {
                 type: 'normal',
                 label: $localize`Container number`,
@@ -159,6 +166,12 @@ export class CountinersReportsComponent implements OnInit {
                 label: $localize`Shipment code`,
                 search: 'object',
                 group: 'shipmentCode',
+            },
+            {
+                type: 'normal',
+                label: $localize`Container number`,
+                name: 'containerNumber',
+                search: 'normal',
             },
             {
                 type: 'arrayVal',

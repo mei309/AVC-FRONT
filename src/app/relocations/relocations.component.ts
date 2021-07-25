@@ -109,12 +109,14 @@ export class RelocationsComponent implements OnInit {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
           this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
-            if(params.get('number')) {
-              this.tabIndex = +params.get('number');
-              this.changedAndDate(+params.get('number'));
-            } else {
-              this.changedAndDate(0);
-            }
+            this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
+              if(params.get('number')) {
+                this.tabIndex = +params.get('number');
+              } else {
+                this.tabIndex = 0;
+              }
+              this.changedAndDate(this.tabIndex);
+            });
           });
         }
       });

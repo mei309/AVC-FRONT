@@ -112,6 +112,9 @@ export class ProductionService {
   getStorageRoastPo (poCode: number): Observable<any> {
     return this.http.get(this.productionurl+'getStorageRoastPo/'+poCode);
   }
+  getStorageQcPo (poCode: number): Observable<any> {
+    return this.http.get(this.productionurl+'getStorageQcPo/'+poCode);
+  }
 
   getProductionWithStorage(id: number, poCode: number, processType: string) {
     // this.http.get(this.productionurl+'getTransferProduction/'+id);

@@ -58,10 +58,10 @@ export class GenralInventoryComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
           if(params.get('number')) {
             this.tabIndex = +params.get('number');
-            this.changed(+params.get('number'));
           } else {
-            this.changed(0);
+            this.tabIndex = 0;
           }
+          this.changed(this.tabIndex);
         });
       }
     });
