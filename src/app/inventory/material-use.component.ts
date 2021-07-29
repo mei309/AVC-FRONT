@@ -29,14 +29,14 @@ export class MaterialUsageComponent implements OnInit {
         var arr = [];
         if(value['materialUsed']) {
             value['materialUsed'].forEach(element => {
-                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
+                element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
                 element['groupName'] = 'meterialUsedPos';
             });
-            value['materialUsed'] = value['materialUsed'].filter(amou => amou.usedItems.length);
+            value['materialUsed'] = value['materialUsed'].filter(amou => amou.storageMoves.length);
             arr = arr.concat(value['materialUsed']);
             delete value['materialUsed'];
         }
-        value['usedItemGroups'] = arr;
+        value['storageMovesGroups'] = arr;
         
         this.localService.addEditMaterialUse(value, this.dataSource? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
@@ -71,8 +71,8 @@ export class MaterialUsageComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
                 this.localService.getStroageUse(+params.get('id')).pipe(take(1)).subscribe( val => {
-                    val['materialUsed'] = val['usedItemGroups'];
-                    delete val['usedItemGroups'];
+                    val['materialUsed'] = val['storageMovesGroups'];
+                    delete val['storageMovesGroups'];
                     this.dataSource = val;
                     this.isFormAvailable = true;
                 });
@@ -114,8 +114,16 @@ export class MaterialUsageComponent implements OnInit {
         {
             type: 'select',
             label: $localize`Production line`,
+            value: 'General Use',
             name: 'productionLine',
-            options: this.genral.getProductionLine('PRODUCT_STORAGE'),
+            options: this.genral.getProductionLine('GENERAL_USE'),
+            validations: [
+                {
+                    name: 'required',
+                    validator: Validators.required,
+                    message: $localize`Production line Required`,
+                }
+            ]
         },
         {
             type: 'textarry',
@@ -132,7 +140,7 @@ export class MaterialUsageComponent implements OnInit {
                 {
                     type: 'materialUsage',
                     // label: 'Transfer from',
-                    name: 'usedItems',
+                    name: 'storageMoves',
                     options: 'numberUsedUnits',
                     collections: [
                         {

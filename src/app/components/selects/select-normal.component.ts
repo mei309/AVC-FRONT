@@ -68,7 +68,7 @@ export class SelectNormalComponent implements OnInit {
   }
 
   InputControl(event) {
-    setTimeout(() => {
+    // setTimeout(() => {
         let isValueTrue = this.options.filter(opt =>
             opt.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -76,7 +76,7 @@ export class SelectNormalComponent implements OnInit {
         } else {
             this.group.controls[this.field.name].setValue(null);
         }
-    }, 300);
+    // }, 300);
   }
 
   ngOnDestroy() {

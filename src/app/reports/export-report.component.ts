@@ -45,7 +45,7 @@ export class ExportReportComponent implements OnInit {
     {
       type: 'sumByParamCond', 
       name: 'whole',
-      label: $localize`not 25/50 (LBS)`,
+      label: $localize`Items packaging`,
       option: 'weightInLbs',
       collections: {true: 'WHOLE', false: 'H&P'},
       condision: (arr) => arr.filter(d => d['bagSize']['amount'] !== 25 && d['bagSize']['amount'] !== 50),

@@ -211,9 +211,6 @@ export class DateRangeSelect {
 
     firstChanged($event) {
         switch (this.choosedDate.value.label) {
-            case $localize`For last 2 weeks`:
-                this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add($event, 'hours').toDate().toISOString(), end: moment.utc().add(1, 'days').startOf("day").add($event, 'hours').toDate().toISOString()});
-                break;
             case $localize`For week`:
                 this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value.begin).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value.end)).add(1, 'days').add($event, 'hours').toISOString()});
                 break;
@@ -227,7 +224,10 @@ export class DateRangeSelect {
                 this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'months').add($event, 'hours').toISOString()});
                 break;
             case $localize`For date`:
-                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'days').add($event, 'hours').toISOString()})
+                this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'days').add($event, 'hours').toISOString()});
+                break;
+            case $localize`From date`:
+                this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add($event, 'hours').toDate().toISOString(), end: null});
             default:
                 break;
         }

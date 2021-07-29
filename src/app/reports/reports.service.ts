@@ -90,20 +90,38 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getCashewExportReport',{params});
   }
 
-  sumQcBySupplier (rangeDate) {
+  sumQcBySupplier (supplier ,rangeDate) {
     let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin).
-        set('end', rangeDate.end);
+    if(supplier) {
+      if(rangeDate.begin) {
+        if(rangeDate.end) {
+          params = new HttpParams().
+          set('supplier',  supplier).
+          set('begin',  rangeDate.begin).
+          set('end', rangeDate.end);
+        } else {
+          params = new HttpParams().
+          set('supplier',  supplier).
+          set('begin',  rangeDate.begin);
+        }
       } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
+        params = new HttpParams()
       }
     } else {
-      params = new HttpParams()
+      if(rangeDate.begin) {
+        if(rangeDate.end) {
+          params = new HttpParams().
+          set('begin',  rangeDate.begin).
+          set('end', rangeDate.end);
+        } else {
+          params = new HttpParams().
+          set('begin',  rangeDate.begin);
+        }
+      } else {
+        params = new HttpParams()
+      }
     }
+    
     return this.http.get(this.reportsurl+'sumQcBySupplier',{params});
   }
 

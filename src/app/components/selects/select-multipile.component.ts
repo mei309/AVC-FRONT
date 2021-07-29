@@ -17,7 +17,7 @@ import { FieldConfig } from '../../field.interface';
         {{fruit.value}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input matInput #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [formControl]="searchControl"
+    <input matInput #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [value]="searchControl.value" [formControl]="searchControl"
       [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
   </mat-chip-list>
   <mat-autocomplete autoActiveFirstOption  #auto1="matAutocomplete" (optionSelected)="selected($event)" panelWidth="fit-content">
@@ -35,7 +35,7 @@ export class SelectMultipileComponent implements OnInit {
   @ViewChild('multipileInput', { read: MatAutocompleteTrigger }) multipileInput: MatAutocompleteTrigger;
   
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  searchControl = new FormControl();
+  searchControl = new FormControl(null);
 
   field: FieldConfig;
   group: FormGroup;
@@ -91,7 +91,6 @@ export class SelectMultipileComponent implements OnInit {
   }
 
   InputControlMultipile(event) {
-    setTimeout(() => {
         let isValueTrue = this.options.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -105,9 +104,9 @@ export class SelectMultipileComponent implements OnInit {
             if (index > -1) {
               this.options.splice(index, 1);
             }
-            this.searchControl.setValue('');
+            
+            this.searchControl.setValue(null);
         }
-    }, 300);
   }
 
 
@@ -137,9 +136,8 @@ export class SelectMultipileComponent implements OnInit {
     if (index > -1) {
       this.options.splice(index, 1);
     }
-    
     // this.multipileInput.value = '';
-    this.searchControl.setValue('');
+    this.searchControl.setValue(null);
     // event.stopPropagation();
     setTimeout(() => {
       this.multipileInput.openPanel();

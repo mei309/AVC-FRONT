@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OneColumn } from '../field.interface';
+import { DropNormal, OneColumn } from '../field.interface';
 import { Genral } from '../genral.service';
 import { ReportsService } from './reports.service';
 @Component({
@@ -9,6 +11,12 @@ import { ReportsService } from './reports.service';
   template: `
     <h1 style="text-align:center" i18n>QC totals</h1>
     <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
+    <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
+      <mat-select placeholder="Supplier" [formControl]="supplier" (selectionChange)="applySupplier($event.value)" i18n-placeholder>
+        <mat-option value="">--all--</mat-option>
+        <mat-option *ngFor="let sup of suppliers | async" [value]="sup.id">{{sup.value}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
@@ -28,10 +36,15 @@ import { ReportsService } from './reports.service';
 })
 export class QcsTotalsComponent implements OnInit {
   navigationSubscription;
+  
+  suppliers = new ReplaySubject<DropNormal[]>();
 
+  supplier = new FormControl(null);
   isDataAvailable: boolean = false;
 
   columnsShow: OneColumn[];
+
+  dateRange;
 
   qcSource;
   sumsSource;
@@ -41,6 +54,9 @@ export class QcsTotalsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.genral.getSuppliersCashew().pipe(take(1)).subscribe(val => {
+      this.suppliers.next(val);
+    });
     this.columnsShow = [
       // {
       //   name: 'id',
@@ -66,7 +82,7 @@ export class QcsTotalsComponent implements OnInit {
         type: 'normal',
         name: 'poCode',
         label: $localize`PO#`,
-        search: 'object',
+        // search: 'object',
         // group: 'poCode',
       },
       // {
@@ -133,9 +149,19 @@ export class QcsTotalsComponent implements OnInit {
   }
 
   getAllByDate($event) {
+    this.dateRange = $event;
     this.isDataAvailable = true;
     this.qcSource = null;
-    this.localService.sumQcBySupplier($event).pipe(take(1)).subscribe(value => {
+    this.localService.sumQcBySupplier(this.supplier.value? this.supplier.value.id : null, $event).pipe(take(1)).subscribe(value => {
+      this.qcSource = <any[]>value;
+    });
+    this.cdRef.detectChanges();
+  }
+
+  applySupplier($event) {
+    this.isDataAvailable = true;
+    this.qcSource = null;
+    this.localService.sumQcBySupplier($event, this.dateRange).pipe(take(1)).subscribe(value => {
       this.qcSource = <any[]>value;
     });
     this.cdRef.detectChanges();
@@ -145,9 +171,10 @@ export class QcsTotalsComponent implements OnInit {
     this.sumsSource = $event;
   }
   
-    ngOnDestroy() {
-      if (this.navigationSubscription) {  
-         this.navigationSubscription.unsubscribe();
-      }
+  ngOnDestroy() {
+    if (this.navigationSubscription) {  
+       this.navigationSubscription.unsubscribe();
     }
+    this.suppliers.unsubscribe();
+  }
 }

@@ -13,25 +13,13 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
-            <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside'].includes(column.type); else notImportEdit"> 
-                <ng-container *ngIf="['parent', 'parentArray', 'object', 'arrayOrdinal'].includes(column.type); else legendBoxEdit">
-                      <ng-container *ngIf="'arrayOrdinal' === column.type; else notArrayOrdinalEdit">
-                          <show-details-ordinal [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                          </show-details-ordinal>
-                      </ng-container>
-                      <ng-template #notArrayOrdinalEdit>
-                        <h3 *ngIf="column.type === 'object'">{{column.label}}</h3>
-                        <ng-container *ngIf="['parent', 'object'].includes(column.type); else onlyzero">
-                          <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
-                          </show-details>
-                        </ng-container>
-                        <ng-template #onlyzero>
-                          <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
-                          </show-details>
-                        </ng-template>
-                      </ng-template>
+            <ng-container *ngIf="['object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImportEdit"> 
+                <ng-container *ngSwitchCase="'object'">
+                    <h3>{{column.label}}</h3>
+                    <inside-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                    </inside-details>
                 </ng-container>
-                <ng-template #legendBoxEdit>
+                
                       <fieldset [ngSwitch]="column.type" [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
                           <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
@@ -40,13 +28,10 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                           </show-details-group-table>
                           <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]" [processName]="column.processName">
                           </show-details-upside-table>
-                          <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]">
-                          </show-details>
-
-                          <for-each-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]" [oneColumns]="column.collections">
-                          </for-each-edit> 
+                          
+                          <inside-fe-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]" [oneColumns]="column.collections">
+                          </inside-fe-edit> 
                       </fieldset>
-                </ng-template>
             </ng-container>
             <ng-template #notImportEdit>
                   
@@ -68,40 +53,34 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
     <ng-template #noSecond>
         <ng-container *ngFor="let column of oneColumns">
             <ng-container *ngIf="checkNotEmpty(dataSource[column.name])">
-              <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'arrayOrdinal', 'putArray'].includes(column.type); else notImport">
+              <ng-container *ngIf="['object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImport">
                   <ng-container [ngSwitch]="column.type">
-                        <show-details-ordinal *ngSwitchCase="'arrayOrdinal'" [dataSource]="dataSource[column.name]" >
-                        </show-details-ordinal>
                         <ng-container *ngSwitchCase="'object'">
                             <h3>{{column.label}}</h3>
-                            <show-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
-                            </show-details>
+                            <inside-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
+                            </inside-details>
                         </ng-container>
-                        <show-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
-                        </show-details>
-                        <show-details *ngSwitchCase="'parentArray'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
-                        </show-details>
-
-                        
 
                         <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
                           <ng-container [ngSwitch]="column.type">
                             <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                             </show-details-table>
-                            <show-details-table *ngSwitchCase="'putArray'" [oneColumns]="column.collections" [dataSource]="[dataSource[column.name]]">
-                            </show-details-table>
                             <show-details-group-table *ngSwitchCase="'arrayGroup'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                             </show-details-group-table>
                             <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [processName]="column.processName">
                             </show-details-upside-table>
-                            <show-details *ngSwitchCase="'parentArrayObject'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
-                            </show-details>
+                            <ng-container *ngSwitchCase="'insideForEach'">
+                              <div *ngFor="let line of dataSource[column.name]" style="width: fit-content;">
+                                <inside-details class="change-color" [dataSource]="line" [oneColumns]="column.collections">
+                                </inside-details>
+                                <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
+                              </div>
+                            </ng-container>
                             <ng-container *ngSwitchCase="'arrayForEach'">
                               <div *ngFor="let line of dataSource[column.name]" style="width: fit-content;">
                                 <show-details class="change-color" [dataSource]="line" [withPo]="column.collections? true : false" [oneColumns]="column.collections">
                                 </show-details>
-                                <h2 *ngIf="line['totalAmount']" style="float: right">Total: {{line['totalAmount'] | tableCellPipe: 'weight2' : null}}</h2>
                               </div>
                               <h2 *ngIf="dataSource['totalWeight'] && column.name === 'usedItemGroups' && dataSource[column.name].length > 1" class="bottom-legend">Total all: {{dataSource['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
                             </ng-container>
@@ -161,42 +140,6 @@ export class ShowDetailsComponent implements OnInit {
             value['wasteItems'] = wasteView;
           }
         }
-        if(value.hasOwnProperty('groupName') && value['groupName']) {
-          if(value['groupName'].endsWith('Pos')) {
-            var ind = this.regShow.findIndex((em) => em['name'] === 'usedItems');
-            if(ind !== -1) {
-                (this.regShow[ind].collections as Array<any>).splice(0, 0, {
-                      type: 'input',
-                      label: $localize`#PO`,
-                      name: 'itemPoCodes',
-                      disable: true,
-                  },
-                  {
-                      type: 'input',
-                      label: $localize`Supplier`,
-                      name: 'itemSuppliers',
-                      disable: true,
-                  }
-                );
-            }
-            var ind = this.regShow.findIndex((em) => em['name'] === 'usedItem');
-            if(ind !== -1) {
-                (this.regShow[ind].collections as Array<any>).splice(0, 0, {
-                      type: 'input',
-                      label: $localize`#PO`,
-                      name: 'itemPoCodes',
-                      disable: true,
-                  },
-                  {
-                      type: 'input',
-                      label: $localize`Supplier`,
-                      name: 'itemSuppliers',
-                      disable: true,
-                  },
-                );
-            }
-          }
-        };
         this.dataTable = value;
         if(this.secondSource && this.secondSource['version'] === this.dataTable['version']) {
           this.secondSourceTemp = undefined;
@@ -342,7 +285,7 @@ export class ShowDetailsComponent implements OnInit {
         collections: 'supplierName',
     },
     {
-        type: 'arrayForEach',
+        type: 'insideForEach',
         name: 'weightedPos',
         collections: [
           {
@@ -682,105 +625,15 @@ export class ShowDetailsComponent implements OnInit {
     },
 
     {
-      type: 'arrayForEach',
+      type: 'insideForEach',
       label: $localize`Used amounts`,
       name: 'usedItemGroups',
     },
     {
-      type: 'arrayGroup',
-      // label: 'Used amounts',
-      name: 'usedItems',
-      // side: 'left',
-      // processName: this.globelType+'_CLEANING',
-      collections: [
-          {
-              type: 'nameId',
-              label: $localize`Item descrption`,
-              name: 'item',
-          },
-          {
-            type: 'parent',
-            name: 'storage',
-            label: $localize`Amounts and storage`,
-            collections: [
-                {
-                    type: 'normal',
-                    label: $localize`Bag weight`,
-                    name: 'unitAmount',
-                    suffix: 'measureUnit',
-                },
-                {
-                    type: 'nameId',
-                    label: $localize`Warehouse location`,
-                    name: 'warehouseLocation',
-                },
-              ]
-          },
-          {
-              type: 'normal',
-              label: $localize`Number of bags`,
-              name: 'numberUsedUnits',
-          },
-          {
-              type: 'date',
-              label: $localize`Last process date`,
-              name: 'itemProcessDate',
-          },
-        ]
-    },
-    {
-      type: 'parent',
-      name: 'usedItem',
-      // side: 'left',
-      collections: [
-        // {
-        //     type: 'name2',
-        //     label: '#PO',
-        //     name: 'itemPo',
-        //     collections: 'supplierName',
-        // },
-        {
-            type: 'nameId',
-            label: $localize`Item descrption`,
-            name: 'item',
-        },
-        // {
-        //     type: 'normal',
-        //     label: 'Container weight',
-        //     name: 'containerWeight',
-        // },
-        {
-            type: 'normal',
-            label: $localize`Measure unit`,
-            name: 'measureUnit',
-        },
-        {
-            type: 'nameId',
-            label: $localize`Warehouse location`,
-            name: 'warehouseLocation',
-        },
-        {
-          type: 'arrayOrdinal',
-          // label: 'Produced amounts',
-          name: 'amounts',
-        },
-      ]
-    },
-    {
-      type: 'arrayForEach',
+      type: 'insideForEach',
       label: $localize`Produced amounts`,
       name: 'processItemsTable',
     },
-    // {
-    //   type: 'arrayForEach',
-    //   label: 'Produced amounts',
-    //   name: 'processItems',
-    // },
-    // {
-    //   type: 'arrayForEach',
-    //   label: 'Waste amounts',
-    //   name: 'wasteItems',
-    // },
     {
       type: 'arrayGroup',
       label: $localize`Produced amounts`,
@@ -904,139 +757,16 @@ export class ShowDetailsComponent implements OnInit {
     // },
     //     ]
     // },
-    {
-      type: 'parent',
-      name: 'storage',
-      // side: 'right',
-      collections: [
-        // {
-        //     type: 'normal',
-        //     label: 'Container weight',
-        //     name: 'containerWeight',
-        // },
-        // {
-        //     type: 'normal',
-        //     label: 'Measure unit',
-        //     name: 'measureUnit',
-        // },
-        {
-            type: 'nameId',
-            label: $localize`Warehouse location`,
-            name: 'warehouseLocation',
-        },
-        {
-          type: 'arrayOrdinal',
-          // label: 'Produced amounts',
-          name: 'amounts',
-        },
-      ]
-    },
-
-
-
+    
 
     {
-      type: 'arrayForEach',
+      type: 'insideForEach',
       label: $localize`Storage moved`,
       name: 'storageMovesGroups',
     },
-    {
-      type: 'array',
-      // label: 'Used amounts',
-      name: 'storageMoves',
-      // side: 'left',
-      // processName: this.globelType+'_CLEANING',
-      collections: [
-          // {
-          //     type: 'name2',
-          //     label: '#PO',
-          //     name: 'itemPo',
-          //     collections: 'supplierName',
-          // },
-          {
-              type: 'nameId',
-              label: $localize`Item descrption`,
-              name: 'item',
-          },
-          {
-              type: 'normal',
-              label: $localize`Bag weight`,
-              name: 'unitAmount',
-              suffix: 'measureUnit',
-          },
-          {
-              type: 'normal',
-              label: $localize`Number of bags`,
-              name: 'numberUsedUnits',
-          },
-          {
-              type: 'fromObj',
-              name: 'storage',
-              suffix: 'warehouseLocation',
-              collections: {
-                  type: 'nameId',
-                  label: $localize`Old warehouse location`,
-                  name: 'oldWarehouseLocation',
-              },
-          },
-          {
-              type: 'nameId',
-              label: $localize`New warehouse location`,
-              name: 'warehouseLocation',
-          },
-        ]
-    },
-    {
-      type: 'parent',
-      name: 'storageMove',
-      // side: 'left',
-      collections: [
-        // {
-        //     type: 'name2',
-        //     label: '#PO',
-        //     name: 'itemPo',
-        //     collections: 'supplierName',
-        // },
-        {
-            type: 'nameId',
-            label: $localize`Item descrption`,
-            name: 'item',
-        },
-        // {
-        //     type: 'normal',
-        //     label: 'Container weight',
-        //     name: 'containerWeight',
-        // },
-        {
-            type: 'normal',
-            label: $localize`Measure unit`,
-            name: 'measureUnit',
-        },
-        // {
-        //     type: 'nameId',
-        //     label: 'Old warehouse location',
-        //     name: 'warehouseLocation',
-        // },
-        {
-            type: 'nameId',
-            label: $localize`Old warehouse location`,
-            name: 'warehouseLocation',
-        },
-        {
-            type: 'nameId',
-            label: $localize`New warehouse location`,
-            name: 'newWarehouseLocation',
-        },
-        {
-          type: 'arrayOrdinal',
-          // label: 'Produced amounts',
-          name: 'amounts',
-        },
-      ]
-    },
 
     {
-      type: 'arrayForEach',
+      type: 'insideForEach',
       name: 'itemCounts',
       label: $localize`Item counts`,
       collections: [
@@ -1074,21 +804,3 @@ export class ShowDetailsComponent implements OnInit {
     },
   ];
 }
-
-
-
-// <mat-form-field appearance="none" provideReadonly>
-//                         <mat-label>{{column.label}}</mat-label>
-//                         <input style="white-space: pre-wrap;" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
-//                     </mat-form-field>
-
-// <mat-form-field appearance="none" provideReadonly>
-//                       <mat-label>{{column.label}}</mat-label>
-//                       <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">      
-//                         <input *ngIf="dataSource[column.name]" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
-//                       </ng-container>
-//                       <ng-template  #notEqual1>
-//                         <input class="added-item" *ngIf="dataSource[column.name]" readonly matInput [value]="dataSource[column.name] | tableCellPipe: column.type : column.collections">
-//                         <input class="removed-item" *ngIf="secondSource[column.name]" readonly matInput [value]="secondSource[column.name] | tableCellPipe: column.type : column.collections" >
-//                       </ng-template>
-//                   </mat-form-field>

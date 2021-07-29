@@ -17,7 +17,7 @@ import { FieldConfig } from '../../field.interface';
         {{fruit}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input matInput #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [formControl]="searchControl"
+    <input matInput #multipileInput (blur)="InputControlMultipile($event)" [placeholder]="field.label" [matAutocomplete]="auto1" [value]="searchControl.value" [formControl]="searchControl"
       [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
   </mat-chip-list>
   <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" (optionSelected)="selected($event)">
@@ -82,7 +82,6 @@ export class SelectNormalMultipleComponent implements OnInit {
   }
 
   InputControlMultipile(event) {
-    setTimeout(() => {
         let isValueTrue = this.options.filter(opt =>
             opt.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -96,9 +95,8 @@ export class SelectNormalMultipleComponent implements OnInit {
             if (index > -1) {
               this.options.splice(index, 1);
             }
-            this.searchControl.setValue('');
+            this.searchControl.setValue(null);
         }
-    }, 300);
   }
 
   

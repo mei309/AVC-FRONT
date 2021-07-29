@@ -44,7 +44,7 @@ export class InventoryRelocationComponent implements OnInit {
             value['usedItemsNormal'].forEach(element => {
                 // element['measureUnit'] = element['storageMoves'][0]['measureUnit'];
                 element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'normal';
+                element['groupName'] = 'normalRelocation';
                 element['storageMoves'].forEach(ele => {
                     ele['unitAmount'] = ele['storage']['unitAmount'];
                     ele['numberUnits'] = ele['numberUsedUnits'];
@@ -67,7 +67,7 @@ export class InventoryRelocationComponent implements OnInit {
                     }
                 });
                 element['storageMove']['newWarehouseLocation'] = newWarehouse;
-                element['groupName'] = 'table';
+                element['groupName'] = 'tableRelocation';
                 element['measureUnit'] = element['storageMove']['measureUnit'];
             });
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);

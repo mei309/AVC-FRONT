@@ -12,7 +12,7 @@ import { FieldConfig } from '../../field.interface';
   selector: 'app-selectgroup',
   template: `
 <mat-form-field class="one-field margin-top">
-  <input matInput (blur)="InputControlOne($event)" [placeholder]="field.collections[0].label" [matAutocomplete]="auto" [formControl]="selectFormFirst">
+  <input matInput (blur)="InputControlOne($event)" [placeholder]="field.collections[0].label" [matAutocomplete]="auto" [value]="selectFormFirst.value" [formControl]="selectFormFirst">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let item of filteredOptions1 | async" [value]="item">
         {{item}}
@@ -22,11 +22,11 @@ import { FieldConfig } from '../../field.interface';
 
 <mat-form-field class="one-field margin-top" [formGroup]="group">
   <input #trigger matInput (blur)="InputControlTwo($event)" [placeholder]="field.collections[1].label" [matAutocomplete]="auto2" [formControlName]="field.collections[1].name">
-      <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="getOptionText" (optionSelected)="selectedTwo($event.option.value)">
-        <mat-option *ngFor="let item of filteredOptions2 | async" [value]="item">
-          {{item.value}}
-        </mat-option>
-      </mat-autocomplete>
+  <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="getOptionText" (optionSelected)="selectedTwo($event.option.value)">
+    <mat-option *ngFor="let item of filteredOptions2 | async" [value]="item">
+      {{item.value}}
+    </mat-option>
+  </mat-autocomplete>
   <ng-container *ngFor="let validation of field.collections[1].validations;" ngProjectAs="mat-error">
     <mat-error *ngIf="group.get(field.collections[1].name).hasError(validation.name)">{{validation.message}}</mat-error>
   </ng-container>
@@ -216,7 +216,7 @@ export class SelectgroupComponent implements OnInit {
    }
 
    InputControlOne(event) {
-    setTimeout(() => {
+    // setTimeout(() => {
         let isValueTrue = this.linkedone.filter(opt =>
             opt.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -231,23 +231,27 @@ export class SelectgroupComponent implements OnInit {
             let isExist = options.filter(opt =>
               opt === this.group.controls[this.field.collections[1].name].value);
             if (isExist.length === 0) {
-              this.group.controls[this.field.collections[1].name].setValue('');
+              this.group.controls[this.field.collections[1].name].setValue(null);
             }
             if(!this.group.controls[this.field.collections[1].name].value) {
-              this.trigger.openPanel();
+              setTimeout(() => {
+                this.trigger.openPanel();
+              }, 100);
             }
         } else {
-            this.selectFormFirst.setValue('');
+            this.selectFormFirst.setValue(null);
             this.options2 = this.linkedtwo;
             this.group.controls[this.field.collections[1].name].updateValueAndValidity({ onlySelf: true, emitEvent: true });
-            this.trigger.openPanel();
+            setTimeout(() => {
+              this.trigger.openPanel();
+            }, 100);
             
         }
-    }, 300);
+    // }, 300);
   }
 
   InputControlTwo(event) {
-    setTimeout(() => {
+    // setTimeout(() => {
         let isValueTrue = this.linkedtwo.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -258,7 +262,7 @@ export class SelectgroupComponent implements OnInit {
         } else {
             this.group.controls[this.field.collections[1].name].setValue('');
         }
-    }, 300);
+    // }, 300);
   }
 
   selectedTwo(event) {

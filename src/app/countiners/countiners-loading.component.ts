@@ -65,7 +65,7 @@ export class CountinersLoadingComponent {
                 if(secondData['usedItemsNormal']) {
                     secondData['usedItemsNormal'].forEach(element => {
                         element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
-                        element['groupName'] = 'normalPos';
+                        element['groupName'] = 'normalPosLoading';
                     });
                     secondData['usedItemsNormal'] = secondData['usedItemsNormal'].filter(amou => amou.storageMoves.length);
                     arr = arr.concat(secondData['usedItemsNormal']);
@@ -82,7 +82,7 @@ export class CountinersLoadingComponent {
                                 delete ele['version'];
                             }
                         });
-                        element['groupName'] = 'tablePos';
+                        element['groupName'] = 'tablePosLoading';
                     });
                     secondData['usedItemsTable'] = secondData['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
                     arr = arr.concat(secondData['usedItemsTable']);

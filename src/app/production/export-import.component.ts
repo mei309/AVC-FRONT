@@ -480,7 +480,7 @@ export class ExportImportComponent implements OnInit {
                         label: $localize`Item descrption`,
                         name: 'item',
                         collections: this.mainLabel.endsWith('ack')? false : true,
-                        options: this.genral.getItemsCashewGrades(this.mainLabel, cashewGrades),
+                        options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? [] : cashewGrades),
                     },
                     {
                         type: 'selectMU',
@@ -574,7 +574,7 @@ export class ExportImportComponent implements OnInit {
                         name: 'item',
                         // disable: true,
                         collections: this.mainLabel.endsWith('ack')? false : true,
-                        options: this.genral.getItemsCashewGrades(this.mainLabel, cashewGrades),
+                        options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? []: cashewGrades),
                     },
                     {
                         type: 'selectMU',

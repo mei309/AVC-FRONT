@@ -28,7 +28,7 @@ export class ExpImpRelocationComponent implements OnInit {
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
                 element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = 'normal';
+                element['groupName'] = 'normalRelocation';
                 element['storageMoves'].forEach(ele => {ele['warehouseLocation'] = newWarehouse;});
             });
             value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.storageMoves.length);
@@ -47,7 +47,7 @@ export class ExpImpRelocationComponent implements OnInit {
                     }
                 });
                 element['storageMove']['newWarehouseLocation'] = newWarehouse;
-                element['groupName'] = 'table';
+                element['groupName'] = 'tableRelocation';
             });
             value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
             arr = arr.concat(value['usedItemsTable']);

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // import { TransferCountComponent } from '../garbage/transfer-count.component';
-import { RelocationCountComponent } from './relocation-count.component';
 import { RelocationWeighingComponent } from './relocation-weighing.component';
 import { RelocationsComponent } from './relocations.component';
 

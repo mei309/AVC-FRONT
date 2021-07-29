@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FieldConfig } from '../field.interface';
+import { Genral } from '../genral.service';
 @Component({
     selector: 'export-usage',
     template: `
@@ -26,17 +27,17 @@ export class ExportUsageComponent implements OnInit {
         var arr = [];
         if(value['usedItemsNormal']) {
             value['usedItemsNormal'].forEach(element => {
-                element['usedItems'] = element['usedItems'].filter(amou => amou.numberUsedUnits);
-                element['groupName'] = this.isOnePo? 'normal' : 'normalPos';
+                element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
+                element['groupName'] = this.isOnePo? 'normalUsed' : 'normalUsedPos';
             });
-            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.usedItems.length);
+            value['usedItemsNormal'] = value['usedItemsNormal'].filter(amou => amou.storageMoves.length);
             arr = arr.concat(value['usedItemsNormal']);
             delete value['usedItemsNormal'];
         }
         if(value['usedItemsTable']) {
             value['usedItemsTable'].forEach(element => {
-                element['usedItem']['amounts'] = element['usedItem']['amounts'].filter(amou => amou.take);
-                element['usedItem']['amounts'].forEach(ele => {
+                element['storageMove']['amounts'] = element['storageMove']['amounts'].filter(amou => amou.take);
+                element['storageMove']['amounts'].forEach(ele => {
                     if(!ele['storageId']) {
                         ele['storageId'] = ele['id'];
                         delete ele['id'];
@@ -44,19 +45,19 @@ export class ExportUsageComponent implements OnInit {
                         delete ele['version'];
                     }
                 });
-                element['groupName'] = this.isOnePo? 'table' : 'tablePos';
+                element['groupName'] = this.isOnePo? 'tableUsed' : 'tableUsedPos';
             });
-            value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.usedItem.amounts.length);
+            value['usedItemsTable'] = value['usedItemsTable'].filter(amou => amou.storageMove.amounts.length);
             arr = arr.concat(value['usedItemsTable']);
             delete value['usedItemsTable'];
         }
-        value['usedItemGroups'] = arr;
+        value['storageMovesGroups'] = arr;
 
         
         this.submitExIm.emit(value);
     }
 
-      constructor(public dialog: MatDialog) {
+      constructor(public dialog: MatDialog, private genral: Genral) {
         }
 
     ngOnInit() {
@@ -67,14 +68,14 @@ export class ExportUsageComponent implements OnInit {
             if(this.beginData['weightedPos']) {
                 this.isOnePo = false;
             }
-            this.beginData['usedItemGroups']?.forEach(element => {
+            this.beginData['storageMovesGroups']?.forEach(element => {
                 if(element['groupName'].startsWith('table')) {
-                    element['usedItem']['amounts'].forEach(ele => {
+                    element['storageMove']['amounts'].forEach(ele => {
                         ele['take'] = true;
                     });
                     arrTable.push(element);
                 } else if(element['groupName'].startsWith('normal')) {
-                    element['usedItems'].forEach(el => {
+                    element['storageMoves'].forEach(el => {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         removeIds.push(el['storage']['id']);
                     });
@@ -83,7 +84,7 @@ export class ExportUsageComponent implements OnInit {
             });
 
 
-            delete this.beginData['usedItemGroups'];
+            delete this.beginData['storageMovesGroups'];
             
             this.dataSource = this.beginData;
         } else {
@@ -105,7 +106,7 @@ export class ExportUsageComponent implements OnInit {
                 element['storage']['amounts'].forEach(ele => {
                     ele['amount'] = ele['numberAvailableUnits'];
                 });
-                arrTable.push({usedItem: element['storage']});
+                arrTable.push({storageMove: element['storage']});
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => { 
                     if(!removeIds.includes(ele['id'])) {
@@ -116,7 +117,7 @@ export class ExportUsageComponent implements OnInit {
             }
         });
         if(arrUsedItems.length) {
-            arrNormal.push({usedItems: arrUsedItems});
+            arrNormal.push({storageMoves: arrUsedItems});
         }
         if(arrTable.length) {
             this.dataSource['usedItemsTable'] = arrTable;
@@ -201,6 +202,20 @@ export class ExportUsageComponent implements OnInit {
                 ]
             },
             {
+                type: 'select',
+                label: $localize`Production line`,
+                value: 'Product Use',
+                name: 'productionLine',
+                options: this.genral.getProductionLine('PRODUCT_USE'),
+                validations: [
+                    {
+                        name: 'required',
+                        validator: Validators.required,
+                        message: $localize`Production line Required`,
+                    }
+                ]
+            },
+            {
                 type: 'textarry',
                 label: $localize`Remarks`,
                 inputType: 'text',
@@ -216,7 +231,7 @@ export class ExportUsageComponent implements OnInit {
                         {
                             type: 'tableWithInput',
                             // label: 'Transfer from',
-                            name: 'usedItems',
+                            name: 'storageMoves',
                             options: 'numberUsedUnits',
                             collections: [
                                 ...this.isOnePo? []: [
@@ -307,7 +322,7 @@ export class ExportUsageComponent implements OnInit {
                     collections: [
                         {
                             type: 'bignotexpand',
-                            name: 'usedItem',
+                            name: 'storageMove',
                             // label: 'Transfer from',
                             options: 'aloneNoAdd',
                             collections: [

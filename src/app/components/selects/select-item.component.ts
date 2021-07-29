@@ -95,7 +95,7 @@ export class SelectItemComponent implements OnInit {
   }
 
   InputControl(event) {
-    setTimeout(() => {
+    // setTimeout(() => {
         let isValueTrue = this.options.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -103,7 +103,7 @@ export class SelectItemComponent implements OnInit {
         } else {
             this.group.controls[this.field.name].setValue(null);
         }
-    }, 300);
+    // }, 300);
   }
 
 
@@ -113,13 +113,13 @@ export class SelectItemComponent implements OnInit {
     }
    }
   
-  removeItem(index): void {
-    this.options.push(((this.group.get([this.field.name])).value.splice(index, 1))[0]);
-    if(((this.group.get([this.field.name])).value).length === 0) {
-      (this.group.get([this.field.name])).setValue(null);
-    }
-    this.group.get([this.field.name]).markAsDirty();
-  }
+  // removeItem(index): void {
+  //   this.options.push(((this.group.get([this.field.name])).value.splice(index, 1))[0]);
+  //   if(((this.group.get([this.field.name])).value).length === 0) {
+  //     (this.group.get([this.field.name])).setValue(null);
+  //   }
+  //   this.group.get([this.field.name]).markAsDirty();
+  // }
 
   allItems() {
     this.genral.getItemsCashew(this.field.collections).pipe(take(1)).subscribe(arg => {

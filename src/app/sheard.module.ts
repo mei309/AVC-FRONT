@@ -41,7 +41,8 @@ import { JustShowComponent } from './components/tablesinput/justshow.component';
 import { TableInfoComponent } from './components/tablesinput/tableinfo.component';
 import { TableInfoGroupComponent } from './components/tablesinput/tableinfogroup.component';
 import { TextarryComponent } from './components/textarry/textarry.component';
-import { ForEachEditComponent } from './detailes/for-each-edit.component';
+import { InsideDetailsComponent } from './detailes/inside-details.component';
+import { InsideFEEditComponent } from './detailes/inside-fe-edit.component';
 import { ShowDetailsTableGroupComponent } from './detailes/show-details-group-table.component';
 import { ShowOrdinalComponent } from './detailes/show-details-ordinal.component';
 import { ShowDetailsTableComponent } from './detailes/show-details-table.component';
@@ -97,7 +98,8 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     ShowDetailsTableComponent,
     ShowDetailsTableGroupComponent,
     ShowDetailsUpsideTableComponent,
-    ForEachEditComponent,
+    InsideFEEditComponent,
+    InsideDetailsComponent,
 
     TableCellPipe,
     ConfirmationDialog,
@@ -168,7 +170,8 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     ShowDetailsTableComponent,
     ShowDetailsTableGroupComponent,
     ShowDetailsUpsideTableComponent,
-    ForEachEditComponent,
+    InsideFEEditComponent,
+    InsideDetailsComponent,
     
     TableCellPipe,
 

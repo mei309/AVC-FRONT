@@ -70,13 +70,17 @@ export class SumListTablesComponent {
   
   doTotalSumParam(filtered, ele) {
     const tempTable = mapValues(groupBy(filtered, ele.name));
-    const weightSize1 = Object.keys(tempTable).length;
+    // const weightSize1 = Object.keys(tempTable).length;
     
-    var result1 = new Array<object>(weightSize1);
-    for (let t = 0; t < weightSize1; t++) {
-      result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
-    }
-    if (ele.collections && weightSize1) {
+    var result1 = new Array<object>();
+
+    Object.keys(tempTable).sort().forEach(a => {
+      result1.push({key: a, val: tempTable[a].reduce((b, c) => +b + +c[ele.option] , 0)})
+    })
+    // for (let t = 0; t < weightSize1; t++) {
+    //   result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
+    // }
+    if (ele.collections && result1.length) {
       result1.forEach(a => {
         a['key'] = ele.collections[a['key']];
       });
