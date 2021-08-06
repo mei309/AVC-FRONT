@@ -49,9 +49,9 @@ export class SelectComponent implements OnInit {
             }
           }
           if(this.field.collections === 'somewhere') {
-            this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filterSomewhere(val)));
+            this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => this.filterSomewhere(val)));
           } else {
-            this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filter(val)));
+            this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => this.filter(val)));
           }
       } 
     );
@@ -85,7 +85,10 @@ export class SelectComponent implements OnInit {
   }
 
   InputControl(event) {
-    // setTimeout(() => {
+        if (event.relatedTarget && event.relatedTarget.tagName === 'MAT-OPTION') {
+          // the input was blurred, but the user is still interacting with the component, they've simply selected a mat-option
+          return;
+        }
         let isValueTrue = this.options.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -93,7 +96,6 @@ export class SelectComponent implements OnInit {
         } else {
             this.group.controls[this.field.name].setValue(null);
         }
-    // }, 300);
   }
 
 

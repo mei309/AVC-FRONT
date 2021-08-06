@@ -14,6 +14,7 @@ export class Genral {
   standarts = new ReplaySubject<DropNormal[]>();
   ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
   allItemsCashew = new ReplaySubject<DropCashewItems[]>();
+  qcItemsCashew = new ReplaySubject<DropCashewItems[]>();
   ItemsGeneral = new ReplaySubject<DropNormal[]>();
   productionLine = new ReplaySubject<DropNormalPLine[]>();
   suppliersCashew = new ReplaySubject<DropNormal[]>();
@@ -45,6 +46,7 @@ export class Genral {
     this.standarts = new ReplaySubject<DropNormal[]>();
     this.ItemsWasteCashew = new ReplaySubject<DropNormal[]>();
     this.allItemsCashew = new ReplaySubject<DropCashewItems[]>();
+    this.qcItemsCashew = new ReplaySubject<DropCashewItems[]>();
     this.ItemsGeneral = new ReplaySubject<DropNormal[]>();
     this.productionLine = new ReplaySubject<DropNormalPLine[]>();
     this.suppliersCashew = new ReplaySubject<DropNormal[]>();
@@ -59,7 +61,8 @@ export class Genral {
       this.standarts.next(value[1]);
   
 
-      this.allItemsCashew.next(value[2]);
+      this.allItemsCashew.next(value[2].filter(w => w.group != 'QC'));
+      this.qcItemsCashew.next(value[2].filter(w => w.group === 'QC'));
 
       this.ItemsGeneral.next(value[3]); 
       this.globels.setGlobalProcessAuturtiy(value[4]);
@@ -188,6 +191,13 @@ export class Genral {
     if(!cashewGrades.length){
       return this.getItemsCashew(type);
     }
+    if(type === 'QC pack' || type === 6) {
+      return this.qcItemsCashew.asObservable().pipe(
+        map(value => {
+          return value.filter(w => w.grade && cashewGrades.some(a => a['value'] === w.grade['value']));
+        })
+      );
+    }
     return this.allItemsCashew.asObservable().pipe(
       map(value => { 
         switch (type) {
@@ -216,6 +226,9 @@ export class Genral {
     );
   }
   getItemsCashew(type: string | number): Observable<any> {
+    if(type === 'QC pack' || type === 6) {
+      return this.qcItemsCashew.asObservable();
+    }
     return this.allItemsCashew.asObservable().pipe(
       map(value => { 
         switch (type) {
@@ -241,9 +254,6 @@ export class Genral {
             return value.filter(w => ['ROAST', 'PACKED'].includes(w.productionUse));
           case 'Toffee':
             return value.filter(w => w.productionUse === 'TOFFEE');
-          case 'QC pack':
-          case 6:
-            return value.filter(w => w.group === 'QC');
           default:
             return value;
         }

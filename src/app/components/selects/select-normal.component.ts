@@ -33,9 +33,9 @@ export class SelectNormalComponent implements OnInit {
   ngOnInit() {
         this.options = this.field.options;
         if(this.field.collections === 'somewhere') {
-          this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => val ? this.filterSomewhere(val) : this.options.slice()));
+          this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => val ? this.filterSomewhere(val) : this.options.slice()));
         } else {
-          this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => val ? this.filter(val) : this.options.slice()));
+          this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter(val) : this.options.slice()));
         }
         if(this.field.inputType) {
           this.group.get([this.field.inputType]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
@@ -68,7 +68,10 @@ export class SelectNormalComponent implements OnInit {
   }
 
   InputControl(event) {
-    // setTimeout(() => {
+        if (event.relatedTarget && event.relatedTarget.tagName === 'MAT-OPTION') {
+          // the input was blurred, but the user is still interacting with the component, they've simply selected a mat-option
+          return;
+        }
         let isValueTrue = this.options.filter(opt =>
             opt.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -76,7 +79,6 @@ export class SelectNormalComponent implements OnInit {
         } else {
             this.group.controls[this.field.name].setValue(null);
         }
-    // }, 300);
   }
 
   ngOnDestroy() {

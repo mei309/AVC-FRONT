@@ -10,7 +10,7 @@ import { OneColumn } from '../field.interface';
         <th mat-header-cell *matHeaderCellDef>
           <h3>{{column.label}}</h3>
         </th>
-        <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
+        <td mat-cell class="cell-padding" *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
           <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
             {{element[column.name] | tableCellPipe: column.type : column.collections}}
           </span>
@@ -21,7 +21,7 @@ import { OneColumn } from '../field.interface';
             <th mat-header-cell *matHeaderCellDef>
                 <h3>{{column.label}}</h3>
             </th>
-            <td mat-cell *matCellDef="let element; let i = index">
+            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index">
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                   <ng-container *ngFor="let itemElem of element[column.name]">
                     <b>{{itemElem.item.value}}: </b>

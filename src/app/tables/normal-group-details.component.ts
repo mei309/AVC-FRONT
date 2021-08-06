@@ -13,9 +13,7 @@ import { OneColumn } from '../field.interface';
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
             </th>
-            <td mat-cell style="vertical-align: top;
-                padding-left: 16px;
-                padding-top: 14px;" *matCellDef="let element; let i = index"
+            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)">
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
@@ -28,9 +26,7 @@ import { OneColumn } from '../field.interface';
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
             </th>
-            <td mat-cell style="vertical-align: top;
-                padding-left: 16px; padding-right: 16px;
-                padding-top: 14px;" *matCellDef="let element; let i = index"
+            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)">
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">

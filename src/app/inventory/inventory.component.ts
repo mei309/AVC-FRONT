@@ -12,6 +12,7 @@ import { InventoryService } from './inventory.service';
   template: `
   <div class="centerButtons">
     <button mat-raised-button color="primary" routerLink='../MaterialUse' i18n>New Material Usage</button>
+    <button mat-raised-button color="primary" routerLink='../CashewUse' i18n>New Cashew Usage</button>
     <button mat-raised-button color="primary" routerLink='../Relocation' i18n>New Relocation</button>
   </div>
   <h1 style="text-align:center" i18n>Inventory reports</h1>

@@ -16,6 +16,8 @@ const namesMapper = {
     Cpacked: $localize`Cashew packed item`,
     Gbulk: $localize`General bulk item (material)`,
     Gpacked: $localize`General packed item`,
+    CbulkQC: $localize`QC bulk items (material)`,
+    CpackedQC: $localize`QC packed items`,
     waste: $localize`Waste item`,
     User: $localize`User`,
     UserPerson: $localize`User for person`,
@@ -25,7 +27,7 @@ const namesMapper = {
     name: 'namingPipe'
 })
 export class NamingPipe implements PipeTransform {
-
+    
     transform(element: string, type: string) {
         if(type === 'edit') {
             return $localize`Edit ` + namesMapper[element];

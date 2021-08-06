@@ -11,7 +11,7 @@ import { Validators } from '@angular/forms';
     selector: 'managment-setup',
     template: `
     <div style="text-align: center;">
-        <h1 i18n>Setup managment</h1>
+        <h1 class="no-print" i18n>Setup managment</h1>
         <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()" class="no-print">
             <mat-button-toggle value="Countries" i18n>Countries</mat-button-toggle>
             <mat-button-toggle value="Cities" i18n>Cities</mat-button-toggle>
@@ -27,7 +27,7 @@ import { Validators } from '@angular/forms';
             <mat-button-toggle value="ShippingPorts" i18n>Shipping ports</mat-button-toggle>
         </mat-button-toggle-group>
         <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
-        <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
+        <div *ngIf="choosedOne" style="text-align: left;">
             <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>

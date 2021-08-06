@@ -9,7 +9,7 @@ import { UserAccountService } from './user-account.service';
   template: `
   <h1 style="text-align:center" i18n>Messages center</h1>
   <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
-  <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
+  <mat-form-field style="margin-bottom:10px; margin-left:25px;" class="no-print">
     <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
       <mat-option value="">--all--</mat-option>
       <mat-option *ngFor="let item of myTypes" [value]="item">{{item}}</mat-option>

@@ -43,11 +43,11 @@ export class SelectItemComponent implements OnInit {
           if(this.group.controls[this.field.name].value && !arg.some(b => b.value === this.group.controls[this.field.name].value.value)) {
             this.genral.getItemsCashew(this.field.collections).pipe(take(1)).subscribe(arg1 => {
                 this.options = arg1;
-                this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filterSomewhere(val)));
+                this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => this.filterSomewhere(val)));
             });
           } else {
             this.options = arg;
-            this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(null), map((val: string) => this.filterSomewhere(val)));
+            this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => this.filterSomewhere(val)));
           }
           
           
@@ -95,7 +95,10 @@ export class SelectItemComponent implements OnInit {
   }
 
   InputControl(event) {
-    // setTimeout(() => {
+        if (event.relatedTarget && event.relatedTarget.tagName === 'MAT-OPTION') {
+          // the input was blurred, but the user is still interacting with the component, they've simply selected a mat-option
+          return;
+        }
         let isValueTrue = this.options.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {

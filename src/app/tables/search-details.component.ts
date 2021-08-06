@@ -48,7 +48,7 @@ import { OneColumn } from '../field.interface';
               <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
           </mat-form-field>
         </th>
-        <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
+        <td mat-cell class="cell-padding" *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
           <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                 {{element[column.name] | tableCellPipe: column.type : column.collections}}
           </span>

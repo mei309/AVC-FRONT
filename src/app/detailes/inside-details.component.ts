@@ -225,10 +225,20 @@ export class InsideDetailsComponent implements OnInit {
               },
             ]: [
               {
-                type: 'nameId',
-                label: $localize`Warehouse location`,
-                name: 'warehouseLocation',
-            },
+                  type: 'fromObj',
+                  name: 'storage',
+                  suffix: 'warehouseLocation',
+                  collections: {
+                      type: 'nameId',
+                      label: $localize`Warehouse location`,
+                      name: 'warehouseLocation',
+                  },
+              },
+            //   {
+            //     type: 'nameId',
+            //     label: $localize`Warehouse location`,
+            //     name: 'warehouseLocation',
+            // },
             ]
           ]
       },

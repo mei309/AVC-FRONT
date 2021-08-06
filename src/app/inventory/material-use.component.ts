@@ -44,12 +44,18 @@ export class MaterialUsageComponent implements OnInit {
                 data: {inventoryItem: cloneDeep(val), fromNew: true, type: $localize`Material usage`}
             });
             dialogRef.afterClosed().subscribe(result => {
-                if(result === 'Edit') {
-                    // this.isDataAvailable = false;
+                if(result === $localize`Edit`) {
                     this.isFormAvailable = false;
                     this.dataSource = null;
                     this.cdRef.detectChanges();
                     this.localService.getStroageUse(val['id']).pipe(take(1)).subscribe( val1 => {
+                        val1['storageMovesGroups']?.forEach(em => {
+                            em['storageMoves']?.forEach(el => {
+                                el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                            });
+                        });
+                        val1['materialUsed'] = val1['storageMovesGroups'];
+                        delete val1['storageMovesGroups'];
                         this.dataSource = val1;
                         this.isFormAvailable = true;
                     }); 
@@ -71,6 +77,11 @@ export class MaterialUsageComponent implements OnInit {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
                 this.localService.getStroageUse(+params.get('id')).pipe(take(1)).subscribe( val => {
+                    val['storageMovesGroups']?.forEach(em => {
+                        em['storageMoves']?.forEach(el => {
+                            el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                        });
+                    });   
                     val['materialUsed'] = val['storageMovesGroups'];
                     delete val['storageMovesGroups'];
                     this.dataSource = val;

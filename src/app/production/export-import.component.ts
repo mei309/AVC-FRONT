@@ -479,6 +479,7 @@ export class ExportImportComponent implements OnInit {
                         type: 'selectItem',
                         label: $localize`Item descrption`,
                         name: 'item',
+                        // for packing and QC pack
                         collections: this.mainLabel.endsWith('ack')? false : true,
                         options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? [] : cashewGrades),
                     },
@@ -562,134 +563,135 @@ export class ExportImportComponent implements OnInit {
                     },
                 ],
             },
-            {
-                type: 'bigexpand',
-                name: 'processItemsTable',
-                label: this.mainLabel+'d amounts',
-                // options: 'NoAdd',
-                collections: [
-                    {
-                        type: 'selectItem',
-                        label: $localize`Item descrption`,
-                        name: 'item',
-                        // disable: true,
-                        collections: this.mainLabel.endsWith('ack')? false : true,
-                        options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? []: cashewGrades),
-                    },
-                    {
-                        type: 'selectMU',
-                        label: $localize`Weight unit`,
-                        name: 'measureUnit',
-                    },
-                    {
-                        type: 'bignotexpand',
-                        name: 'storage',
-                        options: 'Inline',
-                        collections: [
-                            // {
-                            //     type: 'selectNormal',
-                            //     label: 'Weight unit',
-                            //     name: 'measureUnit',
-                            //     options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                            // },
-                            {
-                                type: 'select',
-                                label: $localize`Warehouse location`,
-                                name: 'warehouseLocation',
-                                collections: 'somewhere',
-                                options: this.genral.getWearhouses(),
-                            },
-                            // {
-                            //     type: 'input',
-                            //     label: 'Empty container weight',
-                            //     name: 'containerWeight',
-                            //     inputType: 'numeric',
-                            //     options: 3,
-                            // },
-                            {
-                                type: 'arrayordinal',
-                                label: $localize`Unit weight`,
-                                name: 'amounts',
-                                options: 3,
-                                collections: 30,
-                            },
-                        ],
-                        // validations: [
-                        //     {
-                        //         name: 'measureUnit',
-                        //         message: 'a received storage must have weight, measure unit and number of units',
-                        //     },
-                        // ]
-                    },
-                ],
-            },
-            {
-                type: 'bigexpand',
-                name: 'wasteItems',
-                label: $localize`Waste amounts`,
-                // options: 'alone',
-                collections: [
-                    {
-                        type: 'select',
-                        label: $localize`Item descrption`,
-                        name: 'item',
-                        options: this.genral.getItemsWasteCashew(),
-                    },
-                    {
-                        type: 'selectMU',
-                        label: $localize`Weight unit`,
-                        name: 'measureUnit',
-                    },
-                    {
-                        type: 'bigexpand',
-                        label: $localize`Amounts`,
-                        name: 'storageForms',
-                        options: 'aloneNoAddNoFrameInline',
-                        collections: [
-                            {
-                                type: 'input',
-                                label: $localize`Number of units`,
-                                name: 'numberUnits',
-                                // value: 1,
-                                inputType: 'numeric',
-                                options: 3,
-                            },
-                            // {
-                            //     type: 'inputselect',
-                            //     name: 'unitAmount',
-                            //     options: ['item'],
-                            //     inputType: 'second',
-                            //     collections: [
-                            //         {
-                            //             type: 'input',
-                            //             label: 'Unit weight',
-                            //             name: 'amount',
-                            //             inputType: 'numeric',
-                            //             options: 3,
-                            //         },
-                            //         {
-                            //             type: 'select',
-                            //             label: 'Weight unit',
-                            //             name: 'measureUnit',
-                            //             options: ['LBS', 'KG', 'OZ', 'GRAM'],
-                            //         },
-                            //     ]
-                            // },
-                            {
-                                type: 'select',
-                                label: $localize`Warehouse location`,
-                                name: 'warehouseLocation',
-                                collections: 'somewhere',
-                                options: this.genral.getWearhouses(),
-                            },
-                        ]
-                    },
-                    {
-                        type: 'divider',
-                        inputType: 'divide'
-                    },
-                ]
-            },
+            ...(this.mainLabel === 'QC pack')? []: [
+                {
+                    type: 'bigexpand',
+                    name: 'processItemsTable',
+                    label: this.mainLabel+'d amounts',
+                    // options: 'NoAdd',
+                    collections: [
+                        {
+                            type: 'selectItem',
+                            label: $localize`Item descrption`,
+                            name: 'item',
+                            collections: this.mainLabel.endsWith('ack')? false : true,
+                            options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? []: cashewGrades),
+                        },
+                        {
+                            type: 'selectMU',
+                            label: $localize`Weight unit`,
+                            name: 'measureUnit',
+                        },
+                        {
+                            type: 'bignotexpand',
+                            name: 'storage',
+                            options: 'Inline',
+                            collections: [
+                                // {
+                                //     type: 'selectNormal',
+                                //     label: 'Weight unit',
+                                //     name: 'measureUnit',
+                                //     options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                                // },
+                                {
+                                    type: 'select',
+                                    label: $localize`Warehouse location`,
+                                    name: 'warehouseLocation',
+                                    collections: 'somewhere',
+                                    options: this.genral.getWearhouses(),
+                                },
+                                // {
+                                //     type: 'input',
+                                //     label: 'Empty container weight',
+                                //     name: 'containerWeight',
+                                //     inputType: 'numeric',
+                                //     options: 3,
+                                // },
+                                {
+                                    type: 'arrayordinal',
+                                    label: $localize`Unit weight`,
+                                    name: 'amounts',
+                                    options: 3,
+                                    collections: 30,
+                                },
+                            ],
+                            // validations: [
+                            //     {
+                            //         name: 'measureUnit',
+                            //         message: 'a received storage must have weight, measure unit and number of units',
+                            //     },
+                            // ]
+                        },
+                    ],
+                },
+                {
+                    type: 'bigexpand',
+                    name: 'wasteItems',
+                    label: $localize`Waste amounts`,
+                    // options: 'alone',
+                    collections: [
+                        {
+                            type: 'select',
+                            label: $localize`Item descrption`,
+                            name: 'item',
+                            options: this.genral.getItemsWasteCashew(),
+                        },
+                        {
+                            type: 'selectMU',
+                            label: $localize`Weight unit`,
+                            name: 'measureUnit',
+                        },
+                        {
+                            type: 'bigexpand',
+                            label: $localize`Amounts`,
+                            name: 'storageForms',
+                            options: 'aloneNoAddNoFrameInline',
+                            collections: [
+                                {
+                                    type: 'input',
+                                    label: $localize`Number of units`,
+                                    name: 'numberUnits',
+                                    // value: 1,
+                                    inputType: 'numeric',
+                                    options: 3,
+                                },
+                                // {
+                                //     type: 'inputselect',
+                                //     name: 'unitAmount',
+                                //     options: ['item'],
+                                //     inputType: 'second',
+                                //     collections: [
+                                //         {
+                                //             type: 'input',
+                                //             label: 'Unit weight',
+                                //             name: 'amount',
+                                //             inputType: 'numeric',
+                                //             options: 3,
+                                //         },
+                                //         {
+                                //             type: 'select',
+                                //             label: 'Weight unit',
+                                //             name: 'measureUnit',
+                                //             options: ['LBS', 'KG', 'OZ', 'GRAM'],
+                                //         },
+                                //     ]
+                                // },
+                                {
+                                    type: 'select',
+                                    label: $localize`Warehouse location`,
+                                    name: 'warehouseLocation',
+                                    collections: 'somewhere',
+                                    options: this.genral.getWearhouses(),
+                                },
+                            ]
+                        },
+                        {
+                            type: 'divider',
+                            inputType: 'divide'
+                        },
+                    ]
+                },
+            ],
             ...isNotClean? [
                 {
                     type: 'bigexpand',

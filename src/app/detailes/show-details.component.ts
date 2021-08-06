@@ -114,6 +114,26 @@ export class ShowDetailsComponent implements OnInit {
   dataTable;
   @Input() set dataSource(value) {
       if(value){
+        if(value.hasOwnProperty('storageMovesGroups') && value['storageMovesGroups']) {
+          var titel = null;
+          switch (value['processName']) {
+            case 'CONTAINER_LOADING':
+              titel = $localize`Loaded amounts`;
+              break;
+            case 'PRODUCT_USE':
+            case 'GENERAL_USE':
+              titel = $localize`Used amounts`;
+              break;
+            default:
+              titel = $localize`Storage moved`;
+              break;
+          }
+          this.regShow.splice(26, 0, {
+            type: 'insideForEach',
+            label: titel,
+            name: 'storageMovesGroups',
+          });
+        }
         if(value.hasOwnProperty('processItems') && value['processItems']) {
           // var wasteView = value['processItems'].filter(eleme => eleme['groupName'] === 'waste');
           // value['processItems'] = value['processItems'].filter(eleme => eleme['groupName'] !== 'waste');
@@ -759,11 +779,6 @@ export class ShowDetailsComponent implements OnInit {
     // },
     
 
-    {
-      type: 'insideForEach',
-      label: $localize`Storage moved`,
-      name: 'storageMovesGroups',
-    },
 
     {
       type: 'insideForEach',

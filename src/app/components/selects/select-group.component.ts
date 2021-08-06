@@ -114,14 +114,14 @@ export class SelectgroupComponent implements OnInit {
         }
 
         if(this.field.collections[0].collections === 'somewhere') {
-          this.filteredOptions1 = this.selectFormFirst.valueChanges.pipe(startWith(null), map((val: string) => val ? this.filter1somewhere(val) : this.options1.slice()));
+          this.filteredOptions1 = this.selectFormFirst.valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter1somewhere(val) : this.options1.slice()));
         } else {
-          this.filteredOptions1 = this.selectFormFirst.valueChanges.pipe(startWith(null), map((val: string) => val ? this.filter1(val) : this.options1.slice()));
+          this.filteredOptions1 = this.selectFormFirst.valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter1(val) : this.options1.slice()));
         }
         if(this.field.collections[1].collections === 'somewhere') { 
-          this.filteredOptions2 = this.group.controls[this.field.collections[1].name].valueChanges.pipe(startWith(null), map((val: string) => val ? this.filter2somewhere(val) : this.options2.slice()));
+          this.filteredOptions2 = this.group.controls[this.field.collections[1].name].valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter2somewhere(val) : this.options2.slice()));
         } else {
-          this.filteredOptions2 = this.group.controls[this.field.collections[1].name].valueChanges.pipe(startWith(null), map((val: string) => val ? this.filter2(val) : this.options2.slice()));
+          this.filteredOptions2 = this.group.controls[this.field.collections[1].name].valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter2(val) : this.options2.slice()));
         }
 
         if(this.group.controls[this.field.collections[1].name].disabled) {
@@ -216,7 +216,7 @@ export class SelectgroupComponent implements OnInit {
    }
 
    InputControlOne(event) {
-    // setTimeout(() => {
+    setTimeout(() => {
         let isValueTrue = this.linkedone.filter(opt =>
             opt.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -234,24 +234,27 @@ export class SelectgroupComponent implements OnInit {
               this.group.controls[this.field.collections[1].name].setValue(null);
             }
             if(!this.group.controls[this.field.collections[1].name].value) {
-              setTimeout(() => {
+              // setTimeout(() => {
                 this.trigger.openPanel();
-              }, 100);
+              // }, 100);
             }
         } else {
             this.selectFormFirst.setValue(null);
             this.options2 = this.linkedtwo;
             this.group.controls[this.field.collections[1].name].updateValueAndValidity({ onlySelf: true, emitEvent: true });
-            setTimeout(() => {
+            // setTimeout(() => {
               this.trigger.openPanel();
-            }, 100);
+            // }, 100);
             
         }
-    // }, 300);
+    }, 300);
   }
 
   InputControlTwo(event) {
-    // setTimeout(() => {
+        if (event.relatedTarget && event.relatedTarget.tagName === 'MAT-OPTION') {
+          // the input was blurred, but the user is still interacting with the component, they've simply selected a mat-option
+          return;
+        }
         let isValueTrue = this.linkedtwo.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
@@ -262,7 +265,6 @@ export class SelectgroupComponent implements OnInit {
         } else {
             this.group.controls[this.field.collections[1].name].setValue('');
         }
-    // }, 300);
   }
 
   selectedTwo(event) {

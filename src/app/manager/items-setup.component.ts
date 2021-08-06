@@ -11,7 +11,7 @@ import { Genral } from '../genral.service';
     selector: 'items-setup',
     template: `
     <div style="text-align: center;">
-        <h1 i18n>Items setup</h1>
+        <h1 class="no-print" i18n>Items setup</h1>
         <mat-button-toggle-group [(ngModel)]="choosedOne" (change)="updateNew()" class="no-print">
             <mat-button-toggle value="Cbulk" i18n>Cashew bulk items (material)</mat-button-toggle>
             <mat-button-toggle value="Cpacked" i18n>Cashew packed items</mat-button-toggle>
@@ -22,7 +22,7 @@ import { Genral } from '../genral.service';
             <mat-button-toggle value="CpackedQC" i18n>QC packed items</mat-button-toggle>
         </mat-button-toggle-group>
         <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
-        <div *ngIf="choosedOne" style="display: inline-block; text-align: left;">
+        <div *ngIf="choosedOne" style="text-align: left;">
             <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
@@ -163,7 +163,7 @@ export class ItemsSetupComponent {
                 );
             }
         }
-        if(this.choosedOne.endsWith('packed')) {
+        if(this.choosedOne.includes('packed')) {
             this.columnsSetup.push(
                 {
                     type: 'weight',

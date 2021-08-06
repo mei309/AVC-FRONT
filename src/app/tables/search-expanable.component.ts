@@ -49,7 +49,7 @@ import { OneColumn } from '../field.interface';
               <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
           </mat-form-field>
         </th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell class="cell-padding" *matCellDef="let element">
           <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
             {{element[column.name] | tableCellPipe: column.type : column.collections}}
           </span>
@@ -61,7 +61,7 @@ import { OneColumn } from '../field.interface';
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsDisplay.length">
             <div class="example-element-detail"
                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                <div >
+                <div class="no-print">
                   <show-details [dataSource]="expandableMassage">
                   </show-details>
                   <div style="text-align:right">
@@ -76,8 +76,6 @@ import { OneColumn } from '../field.interface';
 
   <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
   <tr mat-row *matRowDef="let element; columns: columnsDisplay;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
       (click)="openExpanded(element)"
       [ngClass]="{'is-new': element.label === 'NEW', 'is-seen': element.label === 'SEEN'}">
   </tr>

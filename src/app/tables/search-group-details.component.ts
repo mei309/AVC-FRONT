@@ -46,9 +46,7 @@ import { OneColumn } from '../field.interface';
                     <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
                 </mat-form-field>
             </th>
-            <td mat-cell style="vertical-align: top;
-                padding-left: 16px; padding-right: 16px;
-                padding-top: 14px;" *matCellDef="let element; let i = index"
+            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
@@ -69,9 +67,7 @@ import { OneColumn } from '../field.interface';
                     </mat-select>
                 </mat-form-field>
             </th>
-            <td mat-cell style="vertical-align: top;
-                padding-left: 16px; padding-right: 16px;
-                padding-top: 14px;" *matCellDef="let element; let i = index"
+            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
@@ -94,9 +90,7 @@ import { OneColumn } from '../field.interface';
               <th mat-header-cell *matHeaderCellDef>
                 <h3>{{totalColumn.label}}</h3>
               </th>
-              <td mat-cell style="vertical-align: top;
-              padding-left: 16px; padding-right: 16px;
-              padding-top: 14px;" *matCellDef="let element; let i = index"
+              <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
                   [style.display]="getRowSpan(i, totalColumn.group) ? '' : 'none'"
                   [attr.rowspan]="getRowSpan(i, totalColumn.group)">
                   {{getTotel(i + this.paginator.pageIndex * this.paginator.pageSize) | tableCellPipe: totalColumn.type : totalColumn.collections}}
