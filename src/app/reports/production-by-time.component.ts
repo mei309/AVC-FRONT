@@ -9,7 +9,7 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'productions-by-time',
   template: `
-    <h1 style="text-align:center" i18n>All production</h1>
+    <h1 style="text-align:center" i18n>Productions Report</h1>
     <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSourceColumns" [totelColumn]="totelColumn" [totelAll]="totelAll" [withPaginator]="false">

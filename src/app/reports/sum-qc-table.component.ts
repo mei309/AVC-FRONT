@@ -3,15 +3,13 @@ import { groupBy, mapValues } from 'lodash-es';
 @Component({
   selector: 'sums-qc-table',
   template: `
-<h2 style="text-align:center" i18n>Total {{title}}</h2>
+<ng-container *ngIf="sumClumensshow.length > 1">
+<h2 style="text-align:center" i18n>{{title}}</h2>
 <table mat-table [dataSource]="sumDataSource" style="text-align: center !important;">
     
     <ng-container matColumnDef="key">
-      <th mat-header-cell *matHeaderCellDef>
-      </th>
-      <td mat-cell *matCellDef="let element">
-        {{element.key === 'null'? '' : element.key}}
-      </td>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">{{element.key === 'null'? 'other' : element.key}}</td>
     </ng-container>
     <ng-container matColumnDef="{{column}}" *ngFor="let column of sumClumensshow">
         <th mat-header-cell *matHeaderCellDef>
@@ -24,6 +22,7 @@ import { groupBy, mapValues } from 'lodash-es';
     <tr mat-header-row *matHeaderRowDef="sumClumensTable"></tr>
     <tr mat-row *matRowDef="let row; columns: sumClumensTable"></tr>
  </table>
+ </ng-container>
   `,
 })
 export class SumsQcsTableComponent {

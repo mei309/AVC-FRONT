@@ -9,9 +9,9 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'qcs-totals',
   template: `
-    <h1 style="text-align:center" i18n>QC totals</h1>
+    <h1 style="text-align:center" i18n>Suppliers QC Report</h1>
     <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
-    <mat-form-field style="margin-bottom:10px; margin-left:25px;" >
+    <mat-form-field class="no-print" style="margin-bottom:10px; margin-left:25px;" >
       <mat-select placeholder="Supplier" [formControl]="supplier" (selectionChange)="applySupplier($event.value)" i18n-placeholder>
         <mat-option value="">--all--</mat-option>
         <mat-option *ngFor="let sup of suppliers | async" [value]="sup.id">{{sup.value}}</mat-option>
@@ -20,15 +20,15 @@ import { ReportsService } from './reports.service';
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']" title="raw defects + damage" type="percentNormal" i18n-title>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']" title="Raw defects + damage" type="percentNormal" i18n-title>
       </sums-qc-table>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'roastDefectsAndDamage']" title="roast defects + damage" type="percentNormal" i18n-title>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'roastDefectsAndDamage']" title="Roast defects + damage" type="percentNormal" i18n-title>
       </sums-qc-table>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'loss']" title="loss" type="percent" i18n-title>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'loss']" title="Loss" type="percent" i18n-title>
       </sums-qc-table>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'badQuality']" title="bad quality (LBS)" type="decimalNumber" i18n-title>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'badQuality']" title="QC (LBS)" type="decimalNumber" i18n-title>
       </sums-qc-table>
-      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'waste']" title="waste (LBS)" type="decimalNumber" i18n-title>
+      <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'waste']" title="Waste (LBS)" type="decimalNumber" i18n-title>
       </sums-qc-table>
     </div>
     `,
@@ -100,13 +100,13 @@ export class QcsTotalsComponent implements OnInit {
       {
         type: 'percentNormal',
         name: 'rawDefectsAndDamage',
-        label: $localize`Total raw defects + damage`,
+        label: $localize`Raw defects + damage`,
         search: 'percentage',
       },
       {
         type: 'percentNormal',
         name: 'roastDefectsAndDamage',
-        label: $localize`Total roast defects + damage`,
+        label: $localize`Roast defects + damage`,
         search: 'percentage',
       },
       {
@@ -118,7 +118,7 @@ export class QcsTotalsComponent implements OnInit {
       {
         type: 'weight',
         name: 'badQuality',
-        label: $localize`Bad quality`,
+        label: $localize`QC`,
         search: 'object',
       },
       {

@@ -10,7 +10,7 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'inventory-by-type',
   template: `
-  <h1 style="text-align:center" i18n>Cashew inventory report</h1>
+  <h1 style="text-align:center" i18n>Inventory Stock Report</h1>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew material stock" i18n-label>
       </mat-tab>

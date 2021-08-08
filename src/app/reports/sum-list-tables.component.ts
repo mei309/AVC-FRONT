@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { groupBy, mapValues } from 'lodash-es';
+import { groupBy, mapValues, cloneDeep } from 'lodash-es';
 @Component({
   selector: 'sum-list-tables',
   template: `
@@ -13,7 +13,7 @@ import { groupBy, mapValues } from 'lodash-es';
                     <th mat-header-cell *matHeaderCellDef colspan="2">{{sum.label}}</th>
                 </ng-container>
                 <ng-container matColumnDef="key">
-                    <td mat-cell *matCellDef="let element">{{element.key}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.key === 'null'? 'other' : element.key}}</td>
                 </ng-container>
                 <ng-container matColumnDef="val" >
                     <td mat-cell *matCellDef="let element">{{element.val | tableCellPipe: 'decimalNumber' : null}}</td>
@@ -46,7 +46,7 @@ export class SumListTablesComponent {
 
   @Input() set mainDetailsSource(value) {
     if(value[0]) {
-        this.dataSource = <any[]>value[0];
+        this.dataSource = cloneDeep(<any[]>value[0]);
         this.listTotal = value[1];
         this.listTotal.forEach(ele => {
             switch (ele.type) {
@@ -89,3 +89,5 @@ export class SumListTablesComponent {
   }
 
 }
+
+

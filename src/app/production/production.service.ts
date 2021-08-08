@@ -95,6 +95,9 @@ export class ProductionService {
   getAllPosRoast() {
     return this.http.get(this.productionurl+'getAllPos/ROAST');
   }
+  getAllPosToPack() {
+    return this.http.get(this.productionurl+'getAllPos/TOFFEE');
+  }
   getAllPosQc(){
     return this.http.get(this.productionurl+'getAllPosQc');
   }
@@ -112,6 +115,9 @@ export class ProductionService {
   getStorageRoastPo (poCode: number): Observable<any> {
     return this.http.get(this.productionurl+'getStorageRoastPo/'+poCode);
   }
+  getStorageToPackPo (poCode: number): Observable<any> {
+    return this.http.get(this.productionurl+'getStorageToPackPo/'+poCode);
+  }
   getStorageQcPo (poCode: number): Observable<any> {
     return this.http.get(this.productionurl+'getStorageQcPo/'+poCode);
   }
@@ -126,6 +132,8 @@ export class ProductionService {
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageCleanPo/'+poCode)]);
       case 'roast':
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPo/'+poCode)]);
+      case 'toPack':
+        return forkJoin([response1, this.http.get(this.productionurl+'getStorageToPackPo/'+poCode)]);
       case 'qc':
         return forkJoin([response1, this.http.get(this.productionurl+'getStorageQcPo/'+poCode)]);
       default:
@@ -136,11 +144,11 @@ export class ProductionService {
 
   getMixProductionWithStorage(id: number, pos: string) {
     let response1 = this.http.get(this.productionurl+'getProduction/'+id);
-    return forkJoin([response1, this.http.get(this.productionurl+'getStorageRoastPos/'+pos)]);
+    return forkJoin([response1, this.http.get(this.productionurl+'getStorageToPackPos/'+pos)]);
   }
 
-  getMixStorageRoastPos(pos: Array<number>) {
-    return this.http.get(this.productionurl+'getStorageRoastPos/'+pos);
+  getMixStorageToPackPos(pos: Array<number>) {
+    return this.http.get(this.productionurl+'getStorageToPackPos/'+pos);
   }
 
 }

@@ -206,6 +206,9 @@ position:   fixed;
   }
   .mat-header-cell {
     min-width: 50px;
+    /* width: 100px; */
+    padding-left: 16px !important;
+    padding-right: 16px !important;
     text-align: center !important;
   }
   .cell-padding {
@@ -302,7 +305,7 @@ position:   fixed;
     } */
     .tables {
       
-      width: fit-content;
+      min-width: fit-content;
       margin: auto;
       max-width: 100%;
       overflow:visible;
@@ -330,6 +333,7 @@ position:   fixed;
       visibility: visible;
     }
     #print-section {
+      width: 100%;
       position: absolute;
       left: 0;
       top: 0;

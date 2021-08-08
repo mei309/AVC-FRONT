@@ -73,19 +73,19 @@ export class AllQcsComponent implements OnInit {
       {
         type: 'percentNormal',
         name: 'totalDamage',
-        label: $localize`Total damage`,
+        label: $localize`Damage`,
         search: 'percentage',
       },
       {
         type: 'percentNormal',
         name: 'totalDefects',
-        label: $localize`Total defects`,
+        label: $localize`Defects`,
         search: 'percentage',
       },
       {
         type: 'percentNormal',
         name: 'totalDefectsAndDamage',
-        label: $localize`Total defects + damage`,
+        label: $localize`Defects + damage`,
         search: 'percentage',
       },
       {

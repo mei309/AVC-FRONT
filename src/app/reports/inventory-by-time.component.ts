@@ -11,7 +11,8 @@ import { ReportsService } from './reports.service';
 @Component({
   selector: 'inventory-by-time',
   template: `
-    <h1 style="text-align:center" i18n>All inventory in point of time</h1>
+    <h1 style="text-align:center" class="no-print" i18n>Inventory History Report</h1>
+    <h1 style="text-align:center" class="only-print" i18n>Inventory At {{dateDay.value | date : 'medium'}}</h1>
     <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew raw material stock" i18n-label>
       </mat-tab>
@@ -20,7 +21,7 @@ import { ReportsService } from './reports.service';
       <mat-tab label="Cashew finished stock" i18n-label>
       </mat-tab>
     </mat-tab-group>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="no-print">
         <mat-label i18n>Day & time</mat-label>
         <input matInput [ngxMatDatetimePicker]="picker" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -106,7 +107,7 @@ export class InventoryByTimeComponent implements OnInit {
           {
             type: 'sumByParam', 
             name: 'productionFunctionality',
-            label: $localize`Total LBS raw`,
+            label: $localize`Total LBS`,
             option: 'weightInLbs',
             collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
           },

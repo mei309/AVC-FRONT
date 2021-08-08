@@ -52,7 +52,7 @@ export class ProductionPackingComponent implements OnInit {
                             this.isFormAvailable = true;
                         });
                     } else {
-                        this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'roast').pipe(take(1)).subscribe( val => {
+                        this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'toPack').pipe(take(1)).subscribe( val => {
                             this.putData = val[0];
                             this.newUsed = val[1];
                             this.isFormAvailable = true;
@@ -111,7 +111,7 @@ export class ProductionPackingComponent implements OnInit {
             if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
                 this.posArray = selectedValue['weightedPos'];
                 let pos = selectedValue['weightedPos'].map(a => a.poCode.id);
-                this.localService.getMixStorageRoastPos(pos).pipe(take(1)).subscribe( val => {
+                this.localService.getMixStorageToPackPos(pos).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 
@@ -120,7 +120,7 @@ export class ProductionPackingComponent implements OnInit {
         });
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) { 
-                this.localService.getStorageRoastPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageToPackPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 
@@ -132,7 +132,7 @@ export class ProductionPackingComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getAllPosRoast(),
+                options: this.localService.getAllPosToPack(),
                 collections: [
                     {
                         type: 'select',
@@ -160,7 +160,7 @@ export class ProductionPackingComponent implements OnInit {
                             {
                                 type: 'selectgroup',
                                 inputType: 'supplierName',
-                                options: this.localService.getAllPosRoast(),
+                                options: this.localService.getAllPosToPack(),
                                 collections: [
                                     {
                                         type: 'select',

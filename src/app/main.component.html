@@ -178,11 +178,11 @@ fxShow="true" fxHide.lt-md="true" -->
       <button mat-button [matMenuTriggerFor]="menuReports" i18n>Reports</button>
       <mat-menu #menuReports="matMenu">
         <button mat-menu-item routerLink='reports/FullPoReport' i18n>Full PO# Details</button>
-        <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions By Time</button>
-        <button mat-menu-item routerLink='reports/InventoryByType' i18n>Inventory By Type</button>
-        <button mat-menu-item routerLink='reports/InventoryByTime' i18n>Inventory By Time</button>
-        <button mat-menu-item routerLink='reports/ExportReport' i18n>Export Report</button>
-        <button mat-menu-item routerLink='reports/QCTotals' i18n>QC Totals</button>
+        <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions</button>
+        <button mat-menu-item routerLink='reports/InventoryByType' i18n>Inventory Stock</button>
+        <button mat-menu-item routerLink='reports/InventoryByTime' i18n>Inventory History</button>
+        <button mat-menu-item routerLink='reports/ExportReport' i18n>Export</button>
+        <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
       </mat-menu>
       
       <button mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>
@@ -244,7 +244,7 @@ fxShow="true" fxHide.lt-md="true" -->
 </mat-toolbar>
 
 
-<mat-sidenav-container fxFlexFill class="example-container" id="print-section">
+<mat-sidenav-container fxFlexFill id="print-section">
 
   <mat-sidenav  #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
     <div fxLayout="column">
