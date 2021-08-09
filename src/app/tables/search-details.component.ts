@@ -62,7 +62,7 @@ import { OneColumn } from '../field.interface';
     <mat-toolbar-row>
       <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
       <span class="example-spacer"></span>
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+      <mat-paginator class="no-print" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

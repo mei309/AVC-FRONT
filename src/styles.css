@@ -206,7 +206,7 @@ position:   fixed;
   }
   .mat-header-cell {
     min-width: 50px;
-    /* width: 100px; */
+    width: 140px;
     padding-left: 16px !important;
     padding-right: 16px !important;
     text-align: center !important;
@@ -285,6 +285,11 @@ position:   fixed;
 
   @media print {
     
+    
+      /* @page {
+        size: landscape;
+      } */
+    
     .only-print {
       display: block;
     }
@@ -304,7 +309,7 @@ position:   fixed;
       text-align: center !important;
     } */
     .tables {
-      
+      /* font-size: 2vw; */
       min-width: fit-content;
       margin: auto;
       max-width: 100%;

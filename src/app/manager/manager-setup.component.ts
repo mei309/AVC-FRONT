@@ -282,7 +282,7 @@ export class ManagmentSetupComponent {
                 // },
                 {
                     name: 'totalDamage',
-                    label: $localize`Total damage`,
+                    label: $localize`Damage`,
                     search: 'normal',
                 },
                 // {
@@ -322,17 +322,17 @@ export class ManagmentSetupComponent {
                 // },
                 { 
                     name: 'totalDefects',
-                    label: $localize`Total defects`,
+                    label: $localize`Defects`,
                     search: 'normal',
                 },
                 {
                     name: 'totalDefectsAndDamage',
-                    label: $localize`Total defects + damage`,
+                    label: $localize`Defects + damage`,
                     search: 'normal',
                 },
                 {
                     name: 'rostingWeightLoss',
-                    label: $localize`Total weight lost after roasting`,
+                    label: $localize`Weight lost after roasting`,
                     type: 'normal',
                 },
                 // {

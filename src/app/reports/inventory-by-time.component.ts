@@ -30,7 +30,7 @@ import { ReportsService } from './reports.service';
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
-      <sum-list-tables [mainDetailsSource]="[sumsSource, totelByType]">
+      <sum-list-tables *ngIf="totelByType" [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
     </div>
     `,
