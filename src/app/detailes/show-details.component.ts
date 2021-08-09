@@ -13,12 +13,14 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
-            <ng-container *ngIf="['object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImportEdit"> 
+            <ng-container *ngIf="['parent', 'object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImportEdit"> 
                 <ng-container *ngSwitchCase="'object'">
                     <h3>{{column.label}}</h3>
                     <inside-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
                     </inside-details>
                 </ng-container>
+                <inside-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
+                </inside-details>
                 
                       <fieldset [ngSwitch]="column.type" [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
@@ -53,14 +55,16 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
     <ng-template #noSecond>
         <ng-container *ngFor="let column of oneColumns">
             <ng-container *ngIf="checkNotEmpty(dataSource[column.name])">
-              <ng-container *ngIf="['object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImport">
+              <ng-container *ngIf="['parent', 'object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImport">
                   <ng-container [ngSwitch]="column.type">
                         <ng-container *ngSwitchCase="'object'">
                             <h3>{{column.label}}</h3>
                             <inside-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                             </inside-details>
                         </ng-container>
-
+                        <inside-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
+                        </inside-details>
+                        
                         <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
                           <ng-container [ngSwitch]="column.type">

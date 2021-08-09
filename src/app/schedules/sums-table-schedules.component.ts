@@ -6,7 +6,7 @@ import { groupBy, mapValues } from 'lodash-es';
 <table mat-table [dataSource]="sumDataSource" style="text-align: center !important;">
     
     <ng-container matColumnDef="key">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef i18n>Person in charge</th>
       <td mat-cell *matCellDef="let element">{{element.key === 'null'? 'other' : element.key}}</td>
     </ng-container>
     <ng-container matColumnDef="{{column}}" *ngFor="let column of sumClumensshow">

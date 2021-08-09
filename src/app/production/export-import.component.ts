@@ -563,67 +563,68 @@ export class ExportImportComponent implements OnInit {
                     },
                 ],
             },
+            
+            {
+                type: 'bigexpand',
+                name: 'processItemsTable',
+                label: this.mainLabel+'d amounts',
+                // options: 'NoAdd',
+                collections: [
+                    {
+                        type: 'selectItem',
+                        label: $localize`Item descrption`,
+                        name: 'item',
+                        collections: this.mainLabel.endsWith('ack')? false : true,
+                        options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? []: cashewGrades),
+                    },
+                    {
+                        type: 'selectMU',
+                        label: $localize`Weight unit`,
+                        name: 'measureUnit',
+                    },
+                    {
+                        type: 'bignotexpand',
+                        name: 'storage',
+                        options: 'Inline',
+                        collections: [
+                            // {
+                            //     type: 'selectNormal',
+                            //     label: 'Weight unit',
+                            //     name: 'measureUnit',
+                            //     options: ['KG', 'LBS', 'OZ', 'GRAM'],
+                            // },
+                            {
+                                type: 'select',
+                                label: $localize`Warehouse location`,
+                                name: 'warehouseLocation',
+                                collections: 'somewhere',
+                                options: this.genral.getWearhouses(),
+                            },
+                            // {
+                            //     type: 'input',
+                            //     label: 'Empty container weight',
+                            //     name: 'containerWeight',
+                            //     inputType: 'numeric',
+                            //     options: 3,
+                            // },
+                            {
+                                type: 'arrayordinal',
+                                label: $localize`Unit weight`,
+                                name: 'amounts',
+                                options: 3,
+                                collections: 30,
+                            },
+                        ],
+                        // validations: [
+                        //     {
+                        //         name: 'measureUnit',
+                        //         message: 'a received storage must have weight, measure unit and number of units',
+                        //     },
+                        // ]
+                    },
+                ],
+            },
             ...(this.mainLabel === 'QC pack')? []: [
-                {
-                    type: 'bigexpand',
-                    name: 'processItemsTable',
-                    label: this.mainLabel+'d amounts',
-                    // options: 'NoAdd',
-                    collections: [
-                        {
-                            type: 'selectItem',
-                            label: $localize`Item descrption`,
-                            name: 'item',
-                            collections: this.mainLabel.endsWith('ack')? false : true,
-                            options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? []: cashewGrades),
-                        },
-                        {
-                            type: 'selectMU',
-                            label: $localize`Weight unit`,
-                            name: 'measureUnit',
-                        },
-                        {
-                            type: 'bignotexpand',
-                            name: 'storage',
-                            options: 'Inline',
-                            collections: [
-                                // {
-                                //     type: 'selectNormal',
-                                //     label: 'Weight unit',
-                                //     name: 'measureUnit',
-                                //     options: ['KG', 'LBS', 'OZ', 'GRAM'],
-                                // },
-                                {
-                                    type: 'select',
-                                    label: $localize`Warehouse location`,
-                                    name: 'warehouseLocation',
-                                    collections: 'somewhere',
-                                    options: this.genral.getWearhouses(),
-                                },
-                                // {
-                                //     type: 'input',
-                                //     label: 'Empty container weight',
-                                //     name: 'containerWeight',
-                                //     inputType: 'numeric',
-                                //     options: 3,
-                                // },
-                                {
-                                    type: 'arrayordinal',
-                                    label: $localize`Unit weight`,
-                                    name: 'amounts',
-                                    options: 3,
-                                    collections: 30,
-                                },
-                            ],
-                            // validations: [
-                            //     {
-                            //         name: 'measureUnit',
-                            //         message: 'a received storage must have weight, measure unit and number of units',
-                            //     },
-                            // ]
-                        },
-                    ],
-                },
                 {
                     type: 'bigexpand',
                     name: 'wasteItems',

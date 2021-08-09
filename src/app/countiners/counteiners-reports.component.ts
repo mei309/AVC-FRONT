@@ -98,13 +98,14 @@ export class CountinersReportsComponent implements OnInit {
                 name: 'shipmentCode',
                 label: $localize`Shipment code`,
                 search: 'object',
-                group: 'shipmentCode',
+                // group: 'shipmentCode',
             },
             {
                 type: 'normal',
                 label: $localize`Container number`,
                 name: 'containerNumber',
                 search: 'normal',
+                // group: 'shipmentCode',
             },
             {
                 type: 'nameId',
@@ -172,6 +173,7 @@ export class CountinersReportsComponent implements OnInit {
                 label: $localize`Container number`,
                 name: 'containerNumber',
                 search: 'normal',
+                group: 'shipmentCode',
             },
             {
                 type: 'arrayVal',
@@ -206,6 +208,7 @@ export class CountinersReportsComponent implements OnInit {
                 label: $localize`Status`,
                 search: 'select',
                 options: this.genral.getProcessStatus(),
+                group: 'shipmentCode',
             },
             // {
             //     name: 'producedItems',
