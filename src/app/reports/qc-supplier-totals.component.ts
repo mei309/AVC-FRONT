@@ -10,14 +10,20 @@ import { ReportsService } from './reports.service';
   selector: 'qcs-totals',
   template: `
     <h1 style="text-align:center" i18n>Suppliers QC Report</h1>
-    <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
-    <mat-form-field class="no-print" style="margin-bottom:10px; margin-left:25px;" >
-      <mat-select placeholder="Supplier" [formControl]="supplier" (selectionChange)="applySupplier($event.value)" i18n-placeholder>
+    <date-range-select (submitRange)="getAllByDate($event)"></date-range-select>
+    <mat-form-field class="no-print" appearance="fill" style="margin-bottom:10px; margin-left:25px;">
+      <mat-label i18n>Supplier</mat-label>
+      <mat-select [formControl]="supplier" (selectionChange)="applySupplier($event.value)">
         <mat-option value="">--all--</mat-option>
-        <mat-option *ngFor="let sup of suppliers | async" [value]="sup.id">{{sup.value}}</mat-option>
+        <mat-option *ngFor="let sup of suppliers | async" [value]="sup">{{sup.value}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div *ngIf="isDataAvailable">
+    
+    
+    
+    <ng-container *ngIf="isDataAvailable">
+      <mat-chip class="only-print-search" *ngIf="supplier.value">Supplier: {{supplier.value | tableCellPipe: 'nameId' : null}}</mat-chip>
+    
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
       <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']" title="Raw defects + damage" type="percentNormal" i18n-title>
@@ -30,9 +36,8 @@ import { ReportsService } from './reports.service';
       </sums-qc-table>
       <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'waste']" title="Waste (LBS)" type="decimalNumber" i18n-title>
       </sums-qc-table>
-    </div>
+    </ng-container>
     `,
-    styleUrls: ['./final-report-tables.css']
 })
 export class QcsTotalsComponent implements OnInit {
   navigationSubscription;
@@ -161,7 +166,7 @@ export class QcsTotalsComponent implements OnInit {
   applySupplier($event) {
     this.isDataAvailable = true;
     this.qcSource = null;
-    this.localService.sumQcBySupplier($event, this.dateRange).pipe(take(1)).subscribe(value => {
+    this.localService.sumQcBySupplier($event.id, this.dateRange).pipe(take(1)).subscribe(value => {
       this.qcSource = <any[]>value;
     });
     this.cdRef.detectChanges();

@@ -34,7 +34,7 @@ export class InventoryByTypeComponent implements OnInit {
   totelAll: OneColumn = {
     type: 'weight2',
     name: 'totalBalance',
-    label: $localize`Total all`,
+    label: $localize`Sum`,
     options: ['KG', 'LBS']
   };
   

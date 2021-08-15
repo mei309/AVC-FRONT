@@ -198,13 +198,13 @@ export class InsideDetailsComponent implements OnInit {
             },
             {
                 type: 'normal',
-                label: $localize`Bag weight`,
+                label: $localize`Unit`,
                 name: 'unitAmount',
                 suffix: 'measureUnit',
             },
             {
                 type: 'normal',
-                label: $localize`Number of bags`,
+                label: $localize`Number of units`,
                 name: 'numberUsedUnits',
             },
             ...process.endsWith('Relocation')? [
@@ -340,7 +340,7 @@ export class InsideDetailsComponent implements OnInit {
               collections: [
                   {
                       type: 'normal',
-                      label: $localize`Bag weight`,
+                      label: $localize`Unit`,
                       name: 'unitAmount',
                       suffix: 'measureUnit',
                   },
@@ -353,7 +353,7 @@ export class InsideDetailsComponent implements OnInit {
             },
             {
                 type: 'normal',
-                label: $localize`Number of bags`,
+                label: $localize`Number of units`,
                 name: 'numberUsedUnits',
             },
             {

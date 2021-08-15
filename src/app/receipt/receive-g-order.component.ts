@@ -250,12 +250,13 @@ export class ReceiveGOrder implements OnInit {
                             },
                         ],
                         validations: [
-                            {
-                                name: 'unitAmount',
-                                message: $localize`a received storage must have weight and number of bags`,
-                            },
+                            // {
+                            //     name: 'unitAmount',
+                                
+                            // },
                             {
                                 name: 'numberUnits',
+                                message: $localize`a received storage must have number of bags`,
                             },
                         ]
                     },
@@ -320,9 +321,9 @@ export class ReceiveGOrder implements OnInit {
                     {
                         name: 'storageForms',
                         validator: [
-                            {
-                                name: 'unitAmount',
-                            },
+                            // {
+                            //     name: 'unitAmount',
+                            // },
                             {
                                 name: 'numberUnits',
                             }, 

@@ -5,7 +5,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'date-range-select',
   template: `
-    <mat-form-field appearance="fill" style="width: 400px">
+    <mat-form-field appearance="fill" class="date-range">
         <mat-label i18n>Showing results</mat-label>
         <mat-select [formControl]="choosedDate">
             <mat-select-trigger> 
@@ -48,7 +48,7 @@ import * as moment from 'moment';
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="withTime" appearance="fill">
+    <mat-form-field class="date-fit-search" *ngIf="withTime" appearance="fill">
         <mat-label i18n>Strat time</mat-label>
         <mat-select [formControl]="startTime" (selectionChange)="firstChanged($event.value)">
             <mat-option *ngFor="let hour of hours" [value]="hour.val">
@@ -56,7 +56,7 @@ import * as moment from 'moment';
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field *ngIf="choosedDate.value.endTime" appearance="fill">
+    <mat-form-field class="date-fit-search" *ngIf="choosedDate.value.endTime" appearance="fill">
         <mat-label i18n>End time</mat-label>
         <mat-select [formControl]="endTime" (selectionChange)="secondChanged($event.value)">
             <mat-option *ngFor="let hour of hours" [value]="hour.val">

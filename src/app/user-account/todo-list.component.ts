@@ -10,7 +10,7 @@ import { TodoMassagesPopupComponent } from './todo-massagess-popup.component';
   selector: 'todo-list',
   template: `
   <h1 style="text-align:center" i18n>Task center</h1>
-  <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
+  <date-range-select (submitRange)="getAllByDate($event)"></date-range-select>
   <search-details [dataSource]="tasksSource" [oneColumns]="columnsTasks" (details)="openDialog($event)">
   </search-details>
   `,

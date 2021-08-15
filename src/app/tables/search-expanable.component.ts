@@ -10,6 +10,11 @@ import { OneColumn } from '../field.interface';
 @Component({
   selector: 'search-expandable',
   template: `
+  <ng-container *ngIf="isPrint">
+    <ng-container *ngFor="let item of searchGroup.value | keyvalue">
+      <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.key}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
+    </ng-container>
+  </ng-container>
 <div class="tables mat-elevation-z8">
   <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows matTableExporter #exporter="matTableExporter">
     
@@ -103,14 +108,17 @@ import { OneColumn } from '../field.interface';
 
 })
 export class SearchExpandableComponent implements OnInit {
+  isPrint = false;
   @HostListener('window:beforeprint', ['$event'])
     onBeforePrint(event){
+      this.isPrint = true;
       this.paginator.pageSize = this.dataSource.filteredData.length;
       this.dataSource.paginator = this.paginator;
       this.cdRef.detectChanges();
     }
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event){
+      this.isPrint = false;
       this.paginator.pageSize = 10;
       this.dataSource.paginator = this.paginator;
       this.cdRef.detectChanges();

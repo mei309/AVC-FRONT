@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { groupBy, mapValues } from 'lodash-es';
+import { groupBy, mapValues, cloneDeep } from 'lodash-es';
 @Component({
   selector: 'sums-qc-table',
   template: `
@@ -37,7 +37,7 @@ export class SumsQcsTableComponent {
 
   @Input() set mainDetailsSource(value) {
     if(value) {
-        this.dataSource = <any[]>value[0];
+        this.dataSource = cloneDeep(<any[]>value[0]);
         this.sumCloumns = value[1];
         if(this.sumCloumns.length) {
             this.sumDataSource = [];

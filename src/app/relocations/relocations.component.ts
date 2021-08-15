@@ -18,7 +18,7 @@ import { ReplaySubject } from 'rxjs';
     <button mat-raised-button color="primary" [routerLink]="['../RelocationCount', {num: 1}]" i18n>New Cleaned Relocation Count</button>
   </div>
   <h1 style="text-align:center" i18n>Relocations reports</h1>
-  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
+  <date-range-select (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Raw relocation with weighing" i18n-label>

@@ -11,6 +11,9 @@ import { OneColumn } from '../field.interface';
 @Component({
   selector: 'search-group-details',
   template: `
+  <ng-container *ngFor="let item of searchGroup.value | keyvalue">
+    <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.key}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
+  </ng-container>
   <div class="tables mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
         
@@ -116,17 +119,24 @@ import { OneColumn } from '../field.interface';
   `,
 })
 export class SearchGroupDetailsComponent {
+    isPrint = false;
     @HostListener('window:beforeprint', ['$event'])
     onBeforePrint(event){
-      this.paginator.pageSize = this.dataSource.filteredData.length;
-      this.dataSource.paginator = this.paginator;
-      this.cdRef.detectChanges();
+      this.isPrint = true;
+      if(this.withPaginator) {
+        this.paginator.pageSize = this.dataSource.filteredData.length;
+        this.dataSource.paginator = this.paginator;
+        this.cdRef.detectChanges();
+      }
     }
     @HostListener('window:afterprint', ['$event'])
     onAfterPrint(event){
-      this.paginator.pageSize = 10;
-      this.dataSource.paginator = this.paginator;
-      this.cdRef.detectChanges();
+      this.isPrint = false;
+      if(this.withPaginator) {
+        this.paginator.pageSize = 10;
+        this.dataSource.paginator = this.paginator;
+        this.cdRef.detectChanges();
+      }
     }
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

@@ -209,7 +209,7 @@ export class ProductionsComponent implements OnInit {
       this.genral.getItemsCashew(this.type == 'QC Packing'? 6 : this.tabIndex).pipe(take(1)).subscribe(val => {
         this.ItemsChangable1.next(val);
       });
-      this.genral.getItemsCashew(this.tabIndex+1).pipe(take(1)).subscribe(val => {
+      this.genral.getItemsCashew(this.type == 'QC Packing'? 7 : this.tabIndex+1).pipe(take(1)).subscribe(val => {
         this.ItemsChangable2.next(val);
       });
     }

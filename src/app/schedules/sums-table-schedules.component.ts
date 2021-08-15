@@ -3,6 +3,7 @@ import { groupBy, mapValues } from 'lodash-es';
 @Component({
   selector: 'sums-table-schedules',
   template: `
+  <h1 style="text-align:center" i18n>Amounts</h1>
 <table mat-table [dataSource]="sumDataSource" style="text-align: center !important;">
     
     <ng-container matColumnDef="key">

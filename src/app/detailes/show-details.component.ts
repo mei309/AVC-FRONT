@@ -86,7 +86,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                                 <show-details class="change-color" [dataSource]="line" [withPo]="column.collections? true : false" [oneColumns]="column.collections">
                                 </show-details>
                               </div>
-                              <h2 *ngIf="dataSource['totalWeight'] && column.name === 'usedItemGroups' && dataSource[column.name].length > 1" class="bottom-legend">Total all: {{dataSource['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
+                              <h2 *ngIf="dataSource['totalWeight'] && column.name === 'usedItemGroups' && dataSource[column.name].length > 1" class="bottom-legend">Sum: {{dataSource['totalWeight'] | tableCellPipe: 'weight2' : null}}</h2>
                             </ng-container>
                           </ng-container>
                         </fieldset>
@@ -675,7 +675,7 @@ export class ShowDetailsComponent implements OnInit {
             collections: [
                 {
                     type: 'normal',
-                    label: $localize`Bag weight`,
+                    label: $localize`Unit`,
                     name: 'unitAmount',
                     suffix: 'measureUnit',
                 },
@@ -717,7 +717,7 @@ export class ShowDetailsComponent implements OnInit {
             collections: [
                 {
                     type: 'normal',
-                    label: $localize`Bag weight`,
+                    label: $localize`Unit`,
                     name: 'unitAmount',
                     suffix: 'measureUnit',
                 },

@@ -226,8 +226,11 @@ export class Genral {
     );
   }
   getItemsCashew(type: string | number): Observable<any> {
-    if(type === 'QC pack' || type === 6) {
+    if(type === 'QC pack' || type === 7) {
       return this.qcItemsCashew.asObservable();
+    }
+    if(type === 6) {
+      return this.ItemsWasteCashew.asObservable();
     }
     return this.allItemsCashew.asObservable().pipe(
       map(value => { 
@@ -319,16 +322,11 @@ export class Genral {
   }
 
   getProcess(): string[] {
-    return ['CASHEW_ORDER', 'GENERAL_ORDER', 'CASHEW_RECEIPT', 'GENERAL_RECEIPT',
-      'CASHEW_RECEIPT_QC', 'VINA_CONTROL_QC', 'SAMPLE_QC', 'SUPPLIER_QC',
-      'ROASTED_CASHEW_QC',
-      'STORAGE_TRANSFER', 'STORAGE_RELOCATION',
-      'CASHEW_CLEANING',
-      'CASHEW_ROASTING',
-      'CASHEW_TOFFEE',
-      'PACKING',
-      'CONTAINER_LOADING', 'CONTAINER_BOOKING', 'CONTAINER_ARRIVAL',
-      'GENERAL_USE', 'PRODUCT_USE'];
+    return ['Vina Control Qc', 'Supplier Qc', 'Storage Transfer', 'Storage Relocation', 'Sample Receipet', 'Sample Qc',
+    'Roasted Cashew Qc', 'Product Use', 'Packing', 'General Receipt', 'General Order', 'General Inventory Use',
+    'Container Loading', 'Container Booking', 'Container Arrival', 'Cashew Toffee',
+    'Cashew Roasting', 'Cashew Receipt Qc', 'Cashew Receipt', 'Cashew Order', 'Cashew Cleaning', 'Bad Quality Packing']
+
   }
 
   getDecisionType(): string[] {

@@ -24,8 +24,6 @@ import { InventoryService } from './inventory.service';
       </mat-tab>
       <mat-tab label="Cashew stock by PO#" i18n-label>
       </mat-tab>
-      <!-- <mat-tab label="Raw cashew stock and orders">
-      </mat-tab> -->
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSourceColumns" [totelAll]="totelAll" [withPaginator]="false">
   </search-group-details>
@@ -34,7 +32,6 @@ import { InventoryService } from './inventory.service';
 export class CashewInventoryComponent implements OnInit {
   navigationSubscription;
   
-  dateRangeDisp = {begin: new Date(2020, 7, 5), end: new Date(2020, 7, 25)};
   tabIndex: number = 0;
   columnsShow: OneColumn[];
 
@@ -46,7 +43,7 @@ export class CashewInventoryComponent implements OnInit {
   totelAll: OneColumn = {
     type: 'weight2',
     name: 'totalBalance',
-    label: $localize`Total all`,
+    label: $localize`Sum`,
     options: ['KG', 'LBS']
   };
   

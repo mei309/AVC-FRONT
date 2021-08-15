@@ -3,7 +3,7 @@
     <button mat-raised-button color="primary" routerLink='../Loading' i18n>New Loading</button>
 </div>
 <h1 style="text-align:center" i18n>Shipping reports</h1>
-<date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
+<date-range-select (submitRange)="setDateRange($event)"></date-range-select>
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Arrivals" i18n-label>

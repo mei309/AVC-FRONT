@@ -6,13 +6,13 @@ import { take } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 import { Genral } from './../genral.service';
 import { ReportsService } from './reports.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'inventory-by-time',
   template: `
     <h1 style="text-align:center" class="no-print" i18n>Inventory History Report</h1>
-    <h1 style="text-align:center" class="only-print" i18n>Inventory At {{dateDay.value | date : 'medium'}}</h1>
+    <h1 style="text-align:center" class="only-print" i18n>Inventory At {{dateDay.value | date : 'medium':"+0000"}}</h1>
     <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew raw material stock" i18n-label>
       </mat-tab>
@@ -42,7 +42,7 @@ export class InventoryByTimeComponent implements OnInit {
   
   isDataAvailable: boolean = false;
 
-  dateDay = new FormControl();
+  dateDay = new FormControl(moment().utc().add(moment().utcOffset(), 'm'));
 
   columnsShow: OneColumn[];
   
@@ -52,7 +52,7 @@ export class InventoryByTimeComponent implements OnInit {
   totelAll: OneColumn = {
     type: 'decimalNumber',
     name: 'weightInLbs',
-    label: $localize`Total all`,
+    label: $localize`Sum`,
     options: 'LBS',
   };
 
@@ -69,6 +69,7 @@ export class InventoryByTimeComponent implements OnInit {
       if(params.get('number')) {
         this.tabIndex = +params.get('number');
       }
+      this.changedAndDate(this.tabIndex, this.dateDay.value);
     });
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component

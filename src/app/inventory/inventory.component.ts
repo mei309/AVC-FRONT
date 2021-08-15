@@ -16,7 +16,7 @@ import { InventoryService } from './inventory.service';
     <button mat-raised-button color="primary" routerLink='../Relocation' i18n>New Relocation</button>
   </div>
   <h1 style="text-align:center" i18n>Inventory reports</h1>
-  <date-range-select class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
+  <date-range-select (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Material usages" i18n-label>
       </mat-tab>

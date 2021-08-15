@@ -100,6 +100,11 @@ export class SecurityExportDocComponent {
                     label: $localize`Number of bags`,
                     name: 'numberUnits',
                 },
+                {
+                    type: 'normal',
+                    label: $localize`Number of boxes`,
+                    name: 'numberBoxes',
+                },
             ]
         },
     ];

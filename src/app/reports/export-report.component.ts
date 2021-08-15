@@ -10,7 +10,7 @@ import { ReportsService } from './reports.service';
   selector: 'export-report',
   template: `
     <h1 style="text-align:center" i18n>Export Report</h1>
-    <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
+    <date-range-select (submitRange)="getAllByDate($event)"></date-range-select>
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
@@ -27,7 +27,7 @@ export class ExportReportComponent implements OnInit {
   totelAll: OneColumn = {
     type: 'decimalNumber',
     name: 'weightInLbs',
-    label: $localize`Total all`,
+    label: $localize`Sum`,
     options: 'LBS',
   };
 

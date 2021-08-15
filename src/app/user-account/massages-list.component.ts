@@ -8,7 +8,7 @@ import { UserAccountService } from './user-account.service';
   selector: 'massages-list',
   template: `
   <h1 style="text-align:center" i18n>Messages center</h1>
-  <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
+  <date-range-select (submitRange)="getAllByDate($event)"></date-range-select>
   <mat-form-field style="margin-bottom:10px; margin-left:25px;" class="no-print">
     <mat-select placeholder="Categories" (selectionChange)="applyFilter($event.value)">
       <mat-option value="">--all--</mat-option>

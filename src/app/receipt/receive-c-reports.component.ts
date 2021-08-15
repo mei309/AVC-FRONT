@@ -23,7 +23,7 @@ import { ReceiptService } from './receipt.service';
       <mat-tab label="All" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <date-range-select [hidden]="!tabIndex" class="no-print" (submitRange)="setDateRange($event)"></date-range-select>
+  <date-range-select [hidden]="!tabIndex" (submitRange)="setDateRange($event)"></date-range-select>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
   </search-group-details>
     `

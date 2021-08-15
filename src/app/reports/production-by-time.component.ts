@@ -10,11 +10,11 @@ import { ReportsService } from './reports.service';
   selector: 'productions-by-time',
   template: `
     <h1 style="text-align:center" i18n>Productions Report</h1>
-    <date-range-select class="no-print" (submitRange)="getAllByDate($event)"></date-range-select>
-    <div *ngIf="isDataAvailable">
+    <date-range-select (submitRange)="getAllByDate($event)"></date-range-select>
+    <ng-container *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSourceColumns" [totelColumn]="totelColumn" [totelAll]="totelAll" [withPaginator]="false">
       </search-group-details>
-    </div>
+    </ng-container>
     `,
 })
 export class ProductionsByTimeComponent implements OnInit {

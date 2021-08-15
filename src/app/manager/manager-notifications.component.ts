@@ -44,7 +44,16 @@ export class ManagmentNotificationsComponent implements OnInit {
       this.localService.getAllProcessTypeAlerts().pipe(take(1)).subscribe(value => {
         this.putNotfictions = value;
       });
-      this.proccesTypes = this.genral.getProcess();
+      this.proccesTypes = ['CASHEW_ORDER', 'GENERAL_ORDER', 'CASHEW_RECEIPT', 'GENERAL_RECEIPT',
+      'CASHEW_RECEIPT_QC', 'VINA_CONTROL_QC', 'SAMPLE_QC', 'SUPPLIER_QC',
+      'ROASTED_CASHEW_QC',
+      'STORAGE_TRANSFER', 'STORAGE_RELOCATION',
+      'CASHEW_CLEANING',
+      'CASHEW_ROASTING',
+      'CASHEW_TOFFEE',
+      'PACKING',
+      'CONTAINER_LOADING', 'CONTAINER_BOOKING', 'CONTAINER_ARRIVAL',
+      'GENERAL_USE', 'PRODUCT_USE'];
     }
 
 

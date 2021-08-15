@@ -18,7 +18,7 @@ import { OrdersService } from './orders.service';
       <mat-tab label="Open" i18n-label>
       </mat-tab>
       <mat-tab label="All" i18n-label>
-        <date-range-select class="no-print" [withTime]="false" (submitRange)="setDateRange($event)"></date-range-select>
+        <date-range-select [withTime]="false" (submitRange)="setDateRange($event)"></date-range-select>
       </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" (details)="openDialog($event)">
