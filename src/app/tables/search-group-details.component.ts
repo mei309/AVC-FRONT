@@ -12,7 +12,7 @@ import { OneColumn } from '../field.interface';
   selector: 'search-group-details',
   template: `
   <ng-container *ngFor="let item of searchGroup.value | keyvalue">
-    <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.key}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
+    <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.value.label}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
   </ng-container>
   <div class="tables mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
@@ -292,11 +292,11 @@ export class SearchGroupDetailsComponent {
       } else if(element.type === 'itemWeight') {
           this.localItemWeightColumns.push(element);
           this.columnsDisplay.push(element.name);
-          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search}));
+          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
       } else {
           this.localGroupOneColumns.push(element);
           this.columnsDisplay.push(element.name);
-          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search}));
+          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
       }
     });
     this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {

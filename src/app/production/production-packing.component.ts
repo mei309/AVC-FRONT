@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { distinctUntilChanged, take } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { cloneDeep } from 'lodash-es';
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
         <legend><h1 i18n>Packing cashew process</h1></legend>
+        <mat-checkbox style="padding-right: 10px" (change)="setWithPacked($event.checked)" i18n>With packed</mat-checkbox>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
@@ -32,6 +33,8 @@ export class ProductionPackingComponent implements OnInit {
 
     posArray;
 
+    withPacked: boolean = false;
+
     submit(value: any) {
         this.localService.addEditPackingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
@@ -43,16 +46,10 @@ export class ProductionPackingComponent implements OnInit {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
                     if(val['weightedPos']) {
-                        console.log(this.posArray);
-                        
                         let pos = val['weightedPos'].map(a => a.poCode.id);
-                        this.localService.getMixProductionWithStorage(val['id'], pos).pipe(take(1)).subscribe( val => {
-                            this.putData = val[0];
-                            this.newUsed = val[1]
-                            this.isFormAvailable = true;
-                        });
+                        this.setEditData(val['id'], pos, dialogRef.componentInstance.withPacked, dialogRef.componentInstance.addPos);
                     } else {
-                        this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'toPack').pipe(take(1)).subscribe( val => {
+                        this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], this.withPacked || dialogRef.componentInstance.withPacked? 'toPackWithPacked' : 'toPack').pipe(take(1)).subscribe( val => {
                             this.putData = val[0];
                             this.newUsed = val[1];
                             this.isFormAvailable = true;
@@ -66,6 +63,33 @@ export class ProductionPackingComponent implements OnInit {
         });
     }
 
+    setEditData(id, pos, withPacked, addPos) {
+        if(addPos) {
+            this.form = this.fb.group({});
+            this.form.addControl('mixPos', this.fb.control(''));
+            this.isDataAvailable = true;
+            this.form.get('mixPos').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
+                if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
+                    this.posArray = selectedValue['weightedPos'];
+                    pos = pos.concat(selectedValue['weightedPos'].map(a => a.poCode.id));
+                    this.localService.getMixProductionWithStorage(id, pos, withPacked).pipe(take(1)).subscribe( val => {
+                        this.putData = val[0];
+                        this.newUsed = val[1]
+                        this.isFormAvailable = true;
+                    });
+                    this.isDataAvailable = false;
+                }
+            });
+            this.setPoConfig(this.withPacked, true);
+        } else {
+            this.localService.getMixProductionWithStorage(id, pos, withPacked).pipe(take(1)).subscribe( val => {
+                this.putData = val[0];
+                this.newUsed = val[1]
+                this.isFormAvailable = true;
+            });
+        }
+    }
+
     constructor(private _Activatedroute:ActivatedRoute, private router: Router, private fb: FormBuilder, private cdRef: ChangeDetectorRef,
         private localService: ProductionService, public dialog: MatDialog) {
         }
@@ -74,11 +98,7 @@ export class ProductionPackingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.localService.getMixProductionWithStorage(+params.get('id'), params.get('poCodes')).pipe(take(1)).subscribe( val => {
-                    this.putData = val[0];
-                    this.newUsed = val[1]
-                    this.isFormAvailable = true;
-                });
+                this.setEditData(+params.get('id'), params.get('poCodes'), params.get('withPacked') === 'true', params.get('addPos') === 'true');
             } else {
                 this.setBeginChoose();
             }
@@ -111,7 +131,7 @@ export class ProductionPackingComponent implements OnInit {
             if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
                 this.posArray = selectedValue['weightedPos'];
                 let pos = selectedValue['weightedPos'].map(a => a.poCode.id);
-                this.localService.getMixStorageToPackPos(pos).pipe(take(1)).subscribe( val => {
+                this.localService.getMixStorageToPackPos(pos, this.withPacked).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 
@@ -120,7 +140,7 @@ export class ProductionPackingComponent implements OnInit {
         });
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) { 
-                this.localService.getStorageToPackPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+                this.localService.getStorageToPackPo(selectedValue['id'], this.withPacked).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
                 }); 
@@ -128,24 +148,30 @@ export class ProductionPackingComponent implements OnInit {
             }
         });
         this.isDataAvailable = true;
+        this.setPoConfig(false, false);
+    }
+
+    setPoConfig(withPack: boolean, onlyMix: boolean) {
         this.poConfig = [
-            {
-                type: 'selectgroup',
-                inputType: 'supplierName',
-                options: this.localService.getAllPosToPack(),
-                collections: [
-                    {
-                        type: 'select',
-                        label: $localize`Supplier`,
-                    },
-                    {
-                        type: 'select',
-                        label: $localize`#PO`,
-                        name: 'poCode',
-                        collections: 'somewhere',
-                    },
-                ]
-            },
+            ...onlyMix? [] : [
+                {
+                    type: 'selectgroup',
+                    inputType: 'supplierName',
+                    options: this.localService.getAllPosToPack(withPack),
+                    collections: [
+                        {
+                            type: 'select',
+                            label: $localize`Supplier`,
+                        },
+                        {
+                            type: 'select',
+                            label: $localize`#PO`,
+                            name: 'poCode',
+                            collections: 'somewhere',
+                        },
+                    ]
+                }
+            ],
             {
                 type: 'popup',
                 label: $localize`Mix #PO`,
@@ -160,7 +186,7 @@ export class ProductionPackingComponent implements OnInit {
                             {
                                 type: 'selectgroup',
                                 inputType: 'supplierName',
-                                options: this.localService.getAllPosToPack(),
+                                options: this.localService.getAllPosToPack(withPack),
                                 collections: [
                                     {
                                         type: 'select',
@@ -174,25 +200,6 @@ export class ProductionPackingComponent implements OnInit {
                                     },
                                 ]
                             },
-                            // {
-                            //     type: 'input',
-                            //     label: 'Weight percentage',
-                            //     name: 'weight',
-                            //     inputType: 'numeric',
-                            //     options: 3,
-                            //     validations: [
-                            //         {
-                            //             name: 'required',
-                            //             validator: Validators.required,
-                            //             message: 'Weight percentage Required',
-                            //         },
-                            //         {
-                            //             name: 'max',
-                            //             validator: Validators.max(1),
-                            //             message: '1 is the maximum',
-                            //         }
-                            //     ]
-                            // },
                             {
                                 type: 'divider',
                                 inputType: 'divide'
@@ -207,6 +214,11 @@ export class ProductionPackingComponent implements OnInit {
                 ]
             },
         ];
+    }
+
+    setWithPacked($event){
+        this.withPacked = $event;
+        this.setPoConfig($event, !this.form.contains('poCode'));
     }
 
     ngOnDestroy() {

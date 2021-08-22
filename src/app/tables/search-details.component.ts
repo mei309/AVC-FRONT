@@ -12,7 +12,7 @@ import { OneColumn } from '../field.interface';
   template: `
   <ng-container *ngIf="isPrint">
     <ng-container *ngFor="let item of searchGroup.value | keyvalue">
-      <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.key}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
+      <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.value.label}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
     </ng-container>
   </ng-container>
 <div class="tables mat-elevation-z8">
@@ -125,7 +125,7 @@ export class SearchDetailsComponent {
     this.searchGroup = this.fb.group({});
     this.oneColumns.forEach(element => {
           this.columnsDisplay.push(element.name);
-          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search}));
+          this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
     });
     this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {
       this.setFilters(filters);

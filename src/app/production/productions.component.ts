@@ -139,7 +139,8 @@ export class ProductionsComponent implements OnInit {
                     this.router.navigate(['../Toffee',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
                     break;
                 case 3:
-                    this.router.navigate(['../Packing',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../Packing',{id: event['id'], poCodes: event['poCodeIds'], withPacked: dialogRef.componentInstance.withPacked,
+                      addPos: dialogRef.componentInstance.addPos}], { relativeTo: this._Activatedroute });
                     break;
                   case 4:
                     this.router.navigate(['../QcPacking',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });

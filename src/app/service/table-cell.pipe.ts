@@ -102,6 +102,8 @@ export class TableCellPipe implements PipeTransform {
                 return str;
             case 'decimalNumber':
                 return new DecimalPipe(this.locale).transform(element);
+            case 'dates':
+                return new DatePipe(this.locale).transform(element.begin)+' - '+new DatePipe(this.locale).transform(element.end);
             default:
                 return element;
         }

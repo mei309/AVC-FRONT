@@ -66,12 +66,6 @@ position:   fixed;
     grid-template-columns: auto auto auto auto auto;
   }
   
-  .table-search {
-    width:130px;
-    max-width:90%;
-    min-width:80%
-  }
-  
   .div-fit {
     display: inline-block;
     padding-right: 10px;
@@ -207,15 +201,20 @@ position:   fixed;
   .mat-header-cell {
     min-width: 50px;
     width: 140px;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
     text-align: center !important;
   }
   .cell-padding {
     vertical-align: top !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
     padding-top: 14px !important;
+  }
+  .table-search {
+    width:130px;
+    max-width:100%;
+    min-width:80%
   }
   .is-alert {
     background-color: pink;

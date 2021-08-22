@@ -17,6 +17,10 @@ import { ProductionService } from './production.service';
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
+        <ng-container *ngIf="this.type === 'Packing'">
+            <mat-checkbox style="padding-right: 10px" [(ngModel)]="withPacked" i18n>Edit with packed</mat-checkbox>
+            <mat-checkbox *ngIf="productionCheck && productionCheck['weightedPos']" style="padding-right: 10px" [(ngModel)]="addPos" i18n>Edit add POS</mat-checkbox>
+        </ng-container>
         <ng-container *ngFor="let butt of buttons;">
             <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
@@ -31,6 +35,9 @@ export class ProductionDetailsDialogComponent {
     type: string;
     buttons: string[] = [];
     approveChange: boolean = false;
+
+    withPacked: boolean = false;
+    addPos: boolean = false;
 
     constructor(private LocalService: ProductionService, public dialogRef: MatDialogRef<ProductionDetailsDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
