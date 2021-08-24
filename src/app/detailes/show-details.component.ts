@@ -254,12 +254,12 @@ export class ShowDetailsComponent implements OnInit {
         if(result['process'] === 'confirm') {
           result['snapshot'] = this.dataSource;
           this.genral.approveTaskAndManagment('APPROVED' , result).pipe(take(1)).subscribe(value => {
-            this.dataSource['approvals'] = value['approvals'];
+            this.dataSource['approvals'] = value;
           });
         } else if(result['process'] === 'reject') {
           result['snapshot'] = this.dataSource;
           this.genral.approveTaskAndManagment('DECLINED' , result).pipe(take(1)).subscribe(value => {
-            this.dataSource['approvals'] = value['approvals'];
+            this.dataSource['approvals'] = value;
           });
         } else if(result['process'] === 'onSave') {
           this.genral.taskManagment(result).pipe(take(1)).subscribe(value => {
@@ -361,7 +361,7 @@ export class ShowDetailsComponent implements OnInit {
         name: 'endTime',
     },
     {
-        type: 'normal',
+        type: 'arrayVal',
         label: $localize`Approvals`,
         name: 'approvals',
     },
