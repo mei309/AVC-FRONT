@@ -181,6 +181,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions</button>
         <button mat-menu-item [matMenuTriggerFor]="inventorystock" i18n>Inventory Stock</button>
         <button mat-menu-item [matMenuTriggerFor]="inventoryhistory" i18n>Inventory History</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 0}]" i18n>General Inventory History</button>
         <button mat-menu-item routerLink='reports/ExportReport' i18n>Export</button>
         <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
       </mat-menu>
@@ -192,7 +193,6 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 0}]" i18n>Cashew Raw Material</button>
         <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 1}]" i18n>Cashew Items (bagged)</button>
         <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 2}]" i18n>Cashew Finished</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 3}]" i18n>General</button>
       </mat-menu>
 
       <button *ngIf="isManager" mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>

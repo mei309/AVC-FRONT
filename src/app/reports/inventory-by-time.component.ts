@@ -33,7 +33,7 @@ import * as moment from 'moment';
       </mat-form-field>
     </div>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="tabIndex === 3 ? {}:totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
+      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
       <sum-list-tables *ngIf="totelByType" [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
@@ -360,69 +360,6 @@ export class InventoryByTimeComponent implements OnInit {
               label: $localize`Status`,
               search: 'select',
               options: this.genral.getProcessStatus(),
-          },
-        ];
-        this.cdRef.detectChanges();
-        break;
-      case 3:
-        this.cashewSource = null;
-        this.totelByType = null;
-        this.localService.getGeneralInventoryByTime(normalizedDay).pipe(take(1)).subscribe(value => {
-          this.cashewSource = <any[]>value;
-        });
-        this.columnsShow = [
-          {
-            type: 'nameId',
-            name: 'item',
-            label: $localize`Item`,
-            search: 'selectObjObj',
-            options: this.genral.getItemsGeneral(),
-            group: 'item',
-          },
-          {
-            type: 'weight2',
-            name: 'totalStock',
-            label: $localize`Total stock`,
-            search: 'objArray',
-            group: 'item',
-          },
-          {
-            type: 'nameId',
-            name: 'poCode',
-            label: $localize`PO#`,
-            search: 'object',
-            group: 'poCode',
-          },
-          {
-            name: 'supplierName',
-            label: $localize`Supplier`,
-            search: 'selectObj',
-            options: this.genral.getSuppliersGeneral(),
-            group: 'poCode',
-          },
-          {
-            type: 'weight2',
-            name: $localize`totalBalance`,
-            label: 'Total balance',
-            search: 'objArray',
-            // group: 'poCode',
-          },
-          {
-            type: 'arrayVal',
-            name: 'warehouses',
-            label: $localize`Warehouse`,
-            search: 'selectObj',
-            options: this.genral.getWearhouses(),
-          },
-          {
-              type: 'date',
-              name: 'receiptDate',
-              label: $localize`Receipt date`,
-              search: 'dates',
-          },
-          {
-            name: 'poInventoryRows',
-            type: 'kidArray',
           },
         ];
         this.cdRef.detectChanges();

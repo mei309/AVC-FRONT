@@ -61,7 +61,7 @@ export class ExportReportComponent implements OnInit {
       type: 'recordAmountParam',
       name: 'containerSize',
       option: 'containerNumber',
-      label: $localize`Container amount`,
+      label: $localize`Containers`,
     }
   ];
 

@@ -19,14 +19,16 @@ import { CellsQcs } from './cells-qcs.component';
 import { QcsTotalsComponent } from './qc-supplier-totals.component';
 import { SumsQcsTableComponent } from './sum-qc-table.component';
 import { SumListTablesComponent } from './sum-list-tables.component';
+import { InventoryGeneralTimeComponent } from './inventory-general-time.component';
 
 
 
 
 @NgModule({
-  declarations: [FinalReportComponent, FinalReportChartsComponent, FinalReportTablesComponent, 
+  declarations: [FinalReportComponent, FinalReportChartsComponent, FinalReportTablesComponent,
     FinalReportFullComponent, FinalReportSummaryComponent, ProductionsByTimeComponent, QcsTotalsComponent,
-    InventoryByTypeComponent, InventoryByTimeComponent, ExportReportComponent, CellsProcesses, CellsLoading, CellsQcs, SumsQcsTableComponent, SumListTablesComponent],
+    InventoryByTypeComponent, InventoryByTimeComponent, InventoryGeneralTimeComponent,
+     ExportReportComponent, CellsProcesses, CellsLoading, CellsQcs, SumsQcsTableComponent, SumListTablesComponent],
   imports: [
     SheardModule,
     ReportsRoutingModule,

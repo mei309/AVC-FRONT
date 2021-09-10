@@ -46,11 +46,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class MaterialUsageComponent implements OnInit {
 
     form: FormGroup;
-    
+
     choosedItems = [];
     itemConfig: FieldConfig;
 
-    
+
   field: FieldConfig;
   group: FormGroup;
   inputField: string;
@@ -64,10 +64,10 @@ export class MaterialUsageComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({});
     this.form.addControl('items', this.fb.array([this.fb.group({item: null})]));
-    
+
     this.form.get('items').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
         selectedValue = selectedValue.filter(ele => ele.item && ele.item.id);
-        selectedValue = map(selectedValue, 'item'); 
+        selectedValue = map(selectedValue, 'item');
         if(selectedValue.length && !isEqual(selectedValue, this.choosedItems)) {
             var result = diff(this.choosedItems, selectedValue, 'id', { updatedValues: 1});
             result['added'].forEach(el => {
@@ -78,7 +78,7 @@ export class MaterialUsageComponent implements OnInit {
             this.choosedItems = selectedValue;
         }
     });
-    
+
     this.itemConfig =
         {
             type: 'bigexpand',
@@ -91,6 +91,7 @@ export class MaterialUsageComponent implements OnInit {
                     label: $localize`Item descrption`,
                     name: 'item',
                     options: this.genral.findAvailableItems(),
+                    collections: 'somewhere',
                 },
                 {
                     type: 'divider',
@@ -100,8 +101,8 @@ export class MaterialUsageComponent implements OnInit {
         };
 
 
-    this.dataSource = this.group.get(this.field.name).value; 
-    
+    this.dataSource = this.group.get(this.field.name).value;
+
 
     this.columnsSetup(this.field);
     this.kidSetup(this.field);
@@ -219,7 +220,7 @@ export class MaterialUsageComponent implements OnInit {
 
   addToForm(val): void {
     const items = this.group.get([this.field.name]) as FormArray;
-    val?.forEach(element => { 
+    val?.forEach(element => {
         if(element['storageForms']) {
             element['storageForms'].forEach(ele => {
                     var obj = {itemPo: element['poCode'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele};
@@ -229,20 +230,20 @@ export class MaterialUsageComponent implements OnInit {
             });
         }
     });
-    this.dataSource = this.group.get(this.field.name).value; 
+    this.dataSource = this.group.get(this.field.name).value;
     this.kidSetup(this.field);
   }
 
-  createItem(group2: FormGroup, field: FieldConfig, value) { 
+  createItem(group2: FormGroup, field: FieldConfig, value) {
     if(value.hasOwnProperty('id')) {
         group2.addControl('id', this.fb.control(value['id'], null));
     }
     if(value.hasOwnProperty('version')) {
         group2.addControl('version', this.fb.control(value['version'], null));
-    }             
+    }
     field.collections.forEach(kid => {
         if(kid.type === 'bignotexpand') {
-            group2.addControl(kid.name, this.createBigNotExpand(kid, value.hasOwnProperty([kid.name]) ? value[kid.name] : {}));           
+            group2.addControl(kid.name, this.createBigNotExpand(kid, value.hasOwnProperty([kid.name]) ? value[kid.name] : {}));
         } else if(kid.type === 'selectgroup') {
             const control = this.fb.control(
                 value.hasOwnProperty(kid.collections[1].name)? value[kid.collections[1].name] : kid.value,
@@ -267,7 +268,7 @@ export class MaterialUsageComponent implements OnInit {
     }
     if(value.hasOwnProperty('version')) {
         group3.addControl('version', this.fb.control(value['version'], null));
-    }  
+    }
     field.collections.forEach(kid => {
         const control = this.fb.control(
             value.hasOwnProperty(kid.name)? value[kid.name] : kid.value,
@@ -303,30 +304,29 @@ export class MaterialUsageComponent implements OnInit {
             <input matInput cdkFocusInitial numeric [formControl]="amountUsed" decimals="3" placeholder="Amount" type="text">
         </mat-form-field>
     </mat-dialog-content>
-    <mat-dialog-actions align="end">       
+    <mat-dialog-actions align="end">
         <button class="raised-margin" mat-raised-button color="accent" (click)="submitAmount()" i18n>Save</button>
         <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" i18n>Close</button>
     </mat-dialog-actions>
     `,
   })
   export class MaterialUsageDialog {
-  
+
     amountUsed = new FormControl('');
-    
+
     weight;
-  
+
     constructor(public dialogRef: MatDialogRef<MaterialUsageDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
         this.weight = data.weight;
       }
-  
-    
+
+
     submitAmount() {
       this.dialogRef.close(this.amountUsed.value);
     }
-  
+
     onNoClick() {
       this.dialogRef.close(null);
     }
-  
+
   }
-  
