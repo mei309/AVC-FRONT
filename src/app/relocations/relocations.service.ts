@@ -10,26 +10,16 @@ export class RelocationsService {
   inventorysurl = environment.baseUrl +'inventory/';
 
   constructor(private http: HttpClient) {
-  } 
+  }
 
   getTransferCounts() {
     return this.http.get(this.inventorysurl+'getTransferCounts');
   }
-  
+
   getStorageRelocations(functionality: string, rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.inventorysurl+'getStorageRelocations/'+functionality, {params});
   }
 
@@ -89,7 +79,7 @@ export class RelocationsService {
   getStorageTransfer (id: number): Observable<any> {
     return this.http.get(this.inventorysurl+'getStorageTransfer/'+id);
   }
-  
+
   getStorageRelocation (id: number): Observable<any> {
     return this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
   }
@@ -97,7 +87,7 @@ export class RelocationsService {
   getPoCashewCodesInventory (): Observable<any> {
     return this.http.get(this.inventorysurl+'getPoCashewCodesInventory');
   }
-  
+
   getStorageTransferWithStorage(id: number, pos: Array<number>, num: number) {
     let response1 = this.http.get(this.inventorysurl+'getStorageRelocation/'+id);
     switch (num) {

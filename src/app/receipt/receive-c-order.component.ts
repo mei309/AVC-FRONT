@@ -34,7 +34,7 @@ export class ReceiveCOrder implements OnInit {
     putData: any = null;
     isDataAvailable: boolean = false;
     isFirstDataAvailable: boolean = false;
-    
+
     fromNew: boolean = true;
 
     onlyBouns: boolean = false;
@@ -92,7 +92,7 @@ export class ReceiveCOrder implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) {
                 this.setUpOrderItems(selectedValue['id']);
                 this.isFirstDataAvailable = false;
                 this.poID = selectedValue['id'];
@@ -145,7 +145,7 @@ export class ReceiveCOrder implements OnInit {
     }
 
 
-    setUpEditRecieving(orderItems: any[], val) { 
+    setUpEditRecieving(orderItems: any[], val) {
             var recivingItems = [];
             val['receiptItems'].forEach(element => {
                 if(element['orderItem']) {
@@ -178,7 +178,7 @@ export class ReceiveCOrder implements OnInit {
             this.setUpRegConfig();
             this.isDataAvailable = true;
     }
-    
+
 
     setUpRegConfig () {
         this.regConfig = [
@@ -229,11 +229,11 @@ export class ReceiveCOrder implements OnInit {
                             {
                                 name: 'item',
                                 type: 'value'
-                            }, 
+                            },
                             {
                                 name: 'numberUnits',
                                 type: 'value'
-                            }, 
+                            },
                             // {
                             //     name: 'unitPrice',
                             //     type: 'value'
@@ -350,6 +350,7 @@ export class ReceiveCOrder implements OnInit {
                                 label: $localize`Number of bags`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
+                                options: 3,
                             },
                             {
                                 type: 'select',
@@ -498,7 +499,7 @@ export class ReceiveCOrder implements OnInit {
                             },
                             {
                                 name: 'numberUnits',
-                            }, 
+                            },
                         ],
                     }
                 ]
@@ -516,7 +517,7 @@ export class ReceiveCOrder implements OnInit {
       }
 
 
-      
+
     submit(value: any) {
             value['receiptItems'].forEach(element => {
                 if(element['bouns']) {
@@ -541,8 +542,8 @@ export class ReceiveCOrder implements OnInit {
                         delete ele['samplesWeight'];
                     }
                 });
-            }); 
-            
+            });
+
             this.localService.addEditRecivingCashewOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(ReceiptDialog, {
                     width: '80%',
@@ -555,10 +556,10 @@ export class ReceiveCOrder implements OnInit {
                         this.OrderdItems = new ReplaySubject<any[]>();
                         this.setOrderItemsEdit(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
-                    } 
+                    }
                     // else if(data === 'Edit order') {
                     //     this.router.navigate(['Main/ordready/NewCashewOrder',{id: val['poCode']['id']}]);
-                    // } 
+                    // }
                     else {
                         this.router.navigate(['../ReceiveCReports'], { relativeTo: this._Activatedroute });
                     }
@@ -728,7 +729,7 @@ export class ReceiveCOrder implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

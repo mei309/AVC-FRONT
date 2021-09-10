@@ -30,7 +30,6 @@ export class GenralInventoryComponent implements OnInit {
   tabIndex: number = 0;
   columnsShow: OneColumn[];
 
-  generalSource: any[];
   generalSourceColumns: any[];
 
   // totelAll: OneColumn = {
@@ -75,7 +74,7 @@ export class GenralInventoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
           switch (this.tabIndex) {
-                
+
               default:
                   break;
           }
@@ -86,7 +85,7 @@ export class GenralInventoryComponent implements OnInit {
     changed(event) {
       switch (+event) {
         case 0:
-          this.generalSourceColumns = null; 
+          this.generalSourceColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -143,13 +142,12 @@ export class GenralInventoryComponent implements OnInit {
             },
           ];
           this.localService.getGeneralInventoryItem().pipe(take(1)).subscribe(value => {
-            this.generalSource = <any[]>value;
-            this.generalSourceColumns = this.generalSource;
+            this.generalSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
         case 1:
-          this.generalSourceColumns = null; 
+          this.generalSourceColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -206,13 +204,12 @@ export class GenralInventoryComponent implements OnInit {
             }
           ];
           this.localService.getGeneralInventoryByPo().pipe(take(1)).subscribe(value => {
-            this.generalSource = <any[]>value;
-            this.generalSourceColumns = this.generalSource;
+            this.generalSourceColumns = <any[]>value;
           });
           this.cdRef.detectChanges();
           break;
         case 2:
-            this.generalSourceColumns = null; 
+            this.generalSourceColumns = null;
             this.columnsShow = [
               {
                 type: 'nameId',
@@ -236,7 +233,6 @@ export class GenralInventoryComponent implements OnInit {
               },
             ];
             this.localService.getGeneralInventoryOrder().pipe(take(1)).subscribe(value => {
-              this.generalSource = <any[]>value;
               this.generalSourceColumns = <any[]>value;
             });
             this.cdRef.detectChanges();
@@ -246,16 +242,11 @@ export class GenralInventoryComponent implements OnInit {
       }
     }
 
-    inlineRangeChange($event) {
-      let begin = $event.begin.value;
-      let end = $event.end.value;
-      // this.dataSource.data = this.dataSource.data.filter(e=>e[column] > begin && e[column] < end ) ;
-    }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }
-    
+
 }

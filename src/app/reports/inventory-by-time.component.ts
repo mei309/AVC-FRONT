@@ -20,15 +20,20 @@ import * as moment from 'moment';
       </mat-tab>
       <mat-tab label="Cashew finished stock" i18n-label>
       </mat-tab>
+      <mat-tab label="General stock" i18n-label>
+      </mat-tab>
     </mat-tab-group>
-    <mat-form-field appearance="fill" class="no-print">
-        <mat-label i18n>Day & time</mat-label>
-        <input matInput [ngxMatDatetimePicker]="picker" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
-    </mat-form-field>
+    <div style="text-align:center" class="no-print">
+      <h1 style="display: inline" i18n>Inventory At </h1>
+      <mat-form-field appearance="fill" class="no-print">
+          <mat-label i18n>Day & time</mat-label>
+          <input matInput [ngxMatDatetimePicker]="picker" (dateChange)="chosenDayHandler($event.value)" [formControl]="dateDay">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
+      </mat-form-field>
+    </div>
     <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
+      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="tabIndex === 3 ? {}:totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
       <sum-list-tables *ngIf="totelByType" [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
@@ -37,15 +42,15 @@ import * as moment from 'moment';
 })
 export class InventoryByTimeComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
-  
+
   isDataAvailable: boolean = false;
 
   dateDay = new FormControl(moment().utc().add(moment().utcOffset(), 'm'));
 
   columnsShow: OneColumn[];
-  
+
   cashewSource;
   sumsSource;
 
@@ -103,17 +108,17 @@ export class InventoryByTimeComponent implements OnInit {
     this.isDataAvailable = true;
     switch (+event) {
       case 0:
-        this.cashewSource = null; 
+        this.cashewSource = null;
         this.totelByType = [
           {
-            type: 'sumByParam', 
+            type: 'sumByParam',
             name: 'productionFunctionality',
             label: $localize`Total LBS`,
             option: 'weightInLbs',
             collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
           },
           {
-            type: 'sumByParam', 
+            type: 'sumByParam',
             name: 'productCompany',
             label: $localize`Total LBS by product company`,
             option: 'weightInLbs',
@@ -189,6 +194,12 @@ export class InventoryByTimeComponent implements OnInit {
               options: this.genral.getWearhouses(),
           },
           {
+              type: 'percentNormal',
+              name: 'rawDefectsAndDamage',
+              label: $localize`Defects + damage`,
+              search: 'percentage',
+          },
+          {
               type: 'normal',
               name: 'status',
               label: $localize`Status`,
@@ -199,20 +210,20 @@ export class InventoryByTimeComponent implements OnInit {
         this.cdRef.detectChanges();
         break;
       case 1:
-        this.cashewSource = null; 
+        this.cashewSource = null;
         this.totelByType = [
           {
-            type: 'sum', 
+            type: 'sum',
             name: 'boxQuantity',
             label: $localize`Total box quantity`,
           },
           {
-            type: 'sum', 
+            type: 'sum',
             name: 'bagQuantity',
             label: $localize`Total bag quantity`,
           },
           {
-            type: 'sumByParam', 
+            type: 'sumByParam',
             name: 'type',
             label: $localize`Total by type`,
             option: 'weightInLbs'
@@ -280,12 +291,12 @@ export class InventoryByTimeComponent implements OnInit {
               label: $localize`LBS weight`,
               search: 'normal',
           },
-          
+
         ];
         this.cdRef.detectChanges();
         break;
       case 2:
-        this.cashewSource = null; 
+        this.cashewSource = null;
         this.totelByType = null;
         this.localService.getCashewInventoryFinished(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
@@ -353,6 +364,69 @@ export class InventoryByTimeComponent implements OnInit {
         ];
         this.cdRef.detectChanges();
         break;
+      case 3:
+        this.cashewSource = null;
+        this.totelByType = null;
+        this.localService.getGeneralInventoryByTime(normalizedDay).pipe(take(1)).subscribe(value => {
+          this.cashewSource = <any[]>value;
+        });
+        this.columnsShow = [
+          {
+            type: 'nameId',
+            name: 'item',
+            label: $localize`Item`,
+            search: 'selectObjObj',
+            options: this.genral.getItemsGeneral(),
+            group: 'item',
+          },
+          {
+            type: 'weight2',
+            name: 'totalStock',
+            label: $localize`Total stock`,
+            search: 'objArray',
+            group: 'item',
+          },
+          {
+            type: 'nameId',
+            name: 'poCode',
+            label: $localize`PO#`,
+            search: 'object',
+            group: 'poCode',
+          },
+          {
+            name: 'supplierName',
+            label: $localize`Supplier`,
+            search: 'selectObj',
+            options: this.genral.getSuppliersGeneral(),
+            group: 'poCode',
+          },
+          {
+            type: 'weight2',
+            name: $localize`totalBalance`,
+            label: 'Total balance',
+            search: 'objArray',
+            // group: 'poCode',
+          },
+          {
+            type: 'arrayVal',
+            name: 'warehouses',
+            label: $localize`Warehouse`,
+            search: 'selectObj',
+            options: this.genral.getWearhouses(),
+          },
+          {
+              type: 'date',
+              name: 'receiptDate',
+              label: $localize`Receipt date`,
+              search: 'dates',
+          },
+          {
+            name: 'poInventoryRows',
+            type: 'kidArray',
+          },
+        ];
+        this.cdRef.detectChanges();
+        break;
       default:
         break;
     }
@@ -362,10 +436,10 @@ export class InventoryByTimeComponent implements OnInit {
     this.sumsSource = $event;
   }
 
-  
+
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }

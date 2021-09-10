@@ -53,6 +53,7 @@ import { ShowDetailsComponent } from './detailes/show-details.component';
 import { FormDirective } from './libraries/autofocus.directive';
 import { MyDurationPickerDirective } from './libraries/duration.directive';
 import { NumericDirective } from './libraries/numeric.directive';
+import { SwitchCasesDirective } from './libraries/switch-cases.directive';
 import { PercentageDirective } from './libraries/percentage.directive';
 import { PrintLazyLoadDirective } from './libraries/print-lazy-load.directive';
 import { WeekPickerDirective } from './libraries/weekPicker.directive';
@@ -84,7 +85,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     SearchGroupDetailsComponent,
     NormalGroupDetailsComponent,
     DateRangeSelect,
-    
+
 
     FormDirective,
     NumericDirective,
@@ -92,7 +93,8 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     PercentageDirective,
     PrintLazyLoadDirective,
     WeekPickerDirective,
-    
+    SwitchCasesDirective,
+
     ShowOrdinalComponent,
     ShowDetailsComponent,
     ShowDetailsTableComponent,
@@ -156,7 +158,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     SearchGroupDetailsComponent,
     NormalGroupDetailsComponent,
     DateRangeSelect,
-    
+
 
     FormDirective,
     NumericDirective,
@@ -164,7 +166,8 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     PercentageDirective,
     PrintLazyLoadDirective,
     WeekPickerDirective,
-    
+    SwitchCasesDirective,
+
     ShowOrdinalComponent,
     ShowDetailsComponent,
     ShowDetailsTableComponent,
@@ -172,7 +175,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     ShowDetailsUpsideTableComponent,
     InsideFEEditComponent,
     InsideDetailsComponent,
-    
+
     TableCellPipe,
 
     DynamicFieldDirective,
@@ -209,7 +212,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     BigoutsideComponent,
     PopupformDialog, PopupformComponent,
     CalculateFewComponent,
-    
+
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
@@ -231,7 +234,7 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     MaterialUsageDialog,
     SelectMeasureUnitComponent,
 
-    
+
     InputComponent,
     InputReadonlyComponent,
     SelectComponent,
@@ -266,6 +269,6 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
 
     ConfirmationDialog,
   ],
-  
+
 })
 export class SheardModule {}

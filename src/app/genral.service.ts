@@ -21,8 +21,8 @@ export class Genral {
   suppliersGeneral = new ReplaySubject<DropNormal[]>();
 
   genralID: number;
-  
-  
+
+
   numOfTodo = new Subject<number>();
   numOfMassages = new Subject<number>();
 
@@ -39,7 +39,7 @@ export class Genral {
     this.getUserMassagesNumber().pipe(take(1)).subscribe(value => {
       this.setNumOfMassages(<number>value);
     });
-  } 
+  }
 
   backToInitil() {
     this.wearhouses = new ReplaySubject<DropNormal[]>();
@@ -54,17 +54,17 @@ export class Genral {
     this.setInitiel();
   }
 
-  
+
   setInitiel() {
     this.getMainSetUp().pipe(take(1)).subscribe(value => {
       this.wearhouses.next(value[0]);
       this.standarts.next(value[1]);
-  
+
 
       this.allItemsCashew.next(value[2].filter(w => w.group != 'QC'));
       this.qcItemsCashew.next(value[2].filter(w => w.group === 'QC'));
 
-      this.ItemsGeneral.next(value[3]); 
+      this.ItemsGeneral.next(value[3]);
       this.globels.setGlobalProcessAuturtiy(value[4]);
 
       this.productionLine.next(value[5]);
@@ -76,23 +76,13 @@ export class Genral {
 
     });
   }
-  
 
-  
+
+
   getUserMassages(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.mainurl+'getUserMassages', {params}).pipe(
       map(value => {
         this.setNumOfMassages((<any[]>value).length);
@@ -110,19 +100,9 @@ export class Genral {
   // }
 
   getUserTasks(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.mainurl+'getUserTasks', {params}).pipe(
       map(value => {
         this.setNumOfTodo((<any[]>value).length);
@@ -199,7 +179,7 @@ export class Genral {
       );
     }
     return this.allItemsCashew.asObservable().pipe(
-      map(value => { 
+      map(value => {
         switch (type) {
           case 0:
           case 'Raw':
@@ -233,7 +213,7 @@ export class Genral {
       return this.ItemsWasteCashew.asObservable();
     }
     return this.allItemsCashew.asObservable().pipe(
-      map(value => { 
+      map(value => {
         switch (type) {
           case 0:
           case 'Raw':
@@ -263,7 +243,7 @@ export class Genral {
       })
     );
   }
-     
+
   getAllItemsCashew (): Observable<any> {
     return this.allItemsCashew.asObservable();
   }
@@ -272,7 +252,7 @@ export class Genral {
   }
   getProductionLine (type: string): Observable<any> {
     return this.productionLine.asObservable().pipe(
-      map(value => { 
+      map(value => {
         switch (type) {
           case 'Clean':
             return value.filter(a => a.productionFunctionality === 'SCREEN_TABLE');
@@ -316,7 +296,7 @@ export class Genral {
   findAvailableItems(): Observable<any> {
     return this.http.get(this.mainurl+'findAvailableItems');
   }
-  
+
   getRoles(): string[] {
     return ['ROLE_MANAGER', 'ROLE_SYSTEM_MANAGER'];
   }
@@ -336,11 +316,11 @@ export class Genral {
   getApprovalType(): string[] {
     return ['APPROVAL', 'REVIEW', 'MANAGER'];
   }
-  
+
   getSupplyGroup(): string[] {
     return ['CASHEW', 'GENERAL', 'SHIPPED_PRODUCT', 'LOGISTICS', 'NONE'];
   }
-  
+
   getItemCategory(): string[] {
     return ['RAW_KERNEL', 'CLEAN', 'ROAST', 'PACKED', 'INGREDIENTS', 'PACKING_SUPPLYES', 'WASTE'];
   }
@@ -354,7 +334,7 @@ export class Genral {
   getBulkMU(): string[] {
     return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT'];
   }
-  
+
   getQcCheckOrganzition(): string[] {
     return ['avc lab', 'supllier sample', 'supllier check', 'vina control'];
   }

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Login.component';
 import { MainComponent } from './main.component';
 import { AuthGaurdService } from './service/auth-gaurd.service';
+import { RolesGaurdService} from './service/roles-gaurd.service';
 
 const routes: Routes = [
     { path: '', component: LoginComponent},
@@ -20,7 +21,7 @@ const routes: Routes = [
           { path: 'schedules', loadChildren: () => import('./schedules/schedules.module').then(m => m.SchedulesModule) },
           { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
           { path: 'countiners', loadChildren: () => import('./countiners/countiners.module').then(m => m.CountinersModule)},
-          { path: 'manager', loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule)},
+          { path: 'manager', loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule), canLoad:[RolesGaurdService]},
           { path: 'useraccount', loadChildren: () => import('./user-account/user-account.module').then(m => m.UserAccountModule)},
           { path: 'test', loadChildren: () => import('./my-tests/my-tests.module').then(m => m.MyTestsModule)},
           { path: 'onlymine', loadChildren: () => import('./onlymine/onlymine.module').then(m => m.OnlymineModule), canLoad:[AuthGaurdService]},

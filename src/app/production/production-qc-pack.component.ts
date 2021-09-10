@@ -6,6 +6,7 @@ import { distinctUntilChanged, take } from 'rxjs/operators';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
 import { cloneDeep } from 'lodash-es';
+import { Genral } from '../genral.service';
 @Component({
     selector: 'production-qc-pack',
     template: `
@@ -49,12 +50,12 @@ export class ProductionQcPackComponent implements OnInit {
                     this.router.navigate(['../Productions', {number: 4}], { relativeTo: this._Activatedroute });
                   }
               });
-            
+
         });
     }
 
       constructor(private _Activatedroute:ActivatedRoute, private router: Router, private fb: FormBuilder, private cdRef: ChangeDetectorRef,
-         private localService: ProductionService, public dialog: MatDialog) {
+         private localService: ProductionService, public dialog: MatDialog, private genral: Genral) {
         }
 
 
@@ -67,8 +68,8 @@ export class ProductionQcPackComponent implements OnInit {
                     this.isFormAvailable = true;
                 });
             } else {
-                this.setBeginChoose(); 
-            } 
+                this.setBeginChoose();
+            }
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
@@ -89,18 +90,26 @@ export class ProductionQcPackComponent implements OnInit {
     }
     setBeginChoose() {
         this.form = this.fb.group({});
+        this.form.addControl('items', this.fb.control(null));
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id')) { 
-                this.localService.getStorageQcPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
+            if(selectedValue && selectedValue.hasOwnProperty('id')) {
+                this.localService.getStorageQcPo(selectedValue['id'], this.form.get('items').value?.id).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
-                }); 
+                });
                 this.isDataAvailable = false;
             }
         });
         this.isDataAvailable = true;
         this.poConfig = [
+            {
+                type: 'select',
+                label: $localize`QC items`,
+                name: 'items',
+                collections: 'somewhere',
+                options: this.genral.getItemsWasteCashew(),
+            },
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
@@ -122,7 +131,7 @@ export class ProductionQcPackComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

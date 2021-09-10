@@ -8,7 +8,7 @@
   </div>
 </ng-container>
 <mat-toolbar color="accent" class="my-toolbar no-print">
-  
+
   <!-- <div fxShow="true" fxHide.gt-sm="true">
     <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon>menu</mat-icon>
@@ -19,7 +19,7 @@ fxShow="true" fxHide.lt-md="true" -->
     <span class="menu-spacer"></span>
 
     <div>
-         
+
       <button mat-button [matMenuTriggerFor]="menuQc" i18n>QC</button>
       <mat-menu #menuQc="matMenu" >
         <button mat-menu-item [matMenuTriggerFor]="qcnew" i18n>New</button>
@@ -106,7 +106,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 0}]" i18n>Raw Relocations</button>
         <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 1}]" i18n>Cleaned Relocations</button>
       </mat-menu>
-      
+
       <button mat-button [matMenuTriggerFor]="menuProduction" i18n>Production</button>
       <mat-menu #menuProduction="matMenu" >
         <button mat-menu-item [matMenuTriggerFor]="productionnew" i18n>New</button>
@@ -179,13 +179,23 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-menu #menuReports="matMenu">
         <button mat-menu-item routerLink='reports/FullPoReport' i18n>Full PO# Details</button>
         <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions</button>
-        <button mat-menu-item routerLink='reports/InventoryByType' i18n>Inventory Stock</button>
-        <button mat-menu-item routerLink='reports/InventoryByTime' i18n>Inventory History</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventorystock" i18n>Inventory Stock</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventoryhistory" i18n>Inventory History</button>
         <button mat-menu-item routerLink='reports/ExportReport' i18n>Export</button>
         <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
       </mat-menu>
-      
-      <button mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>
+      <mat-menu #inventorystock="matMenu" >
+        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Cashew Material</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 1}]" i18n>Cashew Items</button>
+      </mat-menu>
+      <mat-menu #inventoryhistory="matMenu" >
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 0}]" i18n>Cashew Raw Material</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 1}]" i18n>Cashew Items (bagged)</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 2}]" i18n>Cashew Finished</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 3}]" i18n>General</button>
+      </mat-menu>
+
+      <button *ngIf="isManager" mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>
       <mat-menu #menuManager="matMenu">
         <button mat-menu-item routerLink='manager/ManagerUsers' i18n>Users</button>
         <button mat-menu-item routerLink='manager/ManagerSetup' i18n>Setup</button>
@@ -210,7 +220,7 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='test/managment'>managment</button>
         <button mat-menu-item routerLink='test/xlxsImport'>xlxsImport</button>
       </mat-menu> -->
-      
+
     </div>
     <span class="example-spacer"></span>
     <button class="example-icon" mat-mini-fab (click)="onPrint()">
@@ -248,7 +258,7 @@ fxShow="true" fxHide.lt-md="true" -->
 
   <mat-sidenav  #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
     <div fxLayout="column">
-      
+
     </div>
   </mat-sidenav>
   <mat-sidenav-content fxFlexFill>

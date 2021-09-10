@@ -8,7 +8,7 @@ import { groupBy, mapValues, cloneDeep } from 'lodash-es';
         <ng-container *ngIf="sum.type.includes('Param'); else oneSum">
 
             <table mat-table [dataSource]="sum.val" style="text-align: center !important;">
-    
+
                 <ng-container matColumnDef="head">
                     <th mat-header-cell *matHeaderCellDef colspan="2">{{sum.label}}</th>
                 </ng-container>
@@ -40,7 +40,7 @@ import { groupBy, mapValues, cloneDeep } from 'lodash-es';
   `,
 })
 export class SumListTablesComponent {
-  
+
   dataSource;
   listTotal = [];
 
@@ -56,8 +56,8 @@ export class SumListTablesComponent {
               case 'sum':
                 ele.val = this.dataSource.reduce((b, c) => +b + +c[ele.name] , 0);
                 break;
-              case 'recordAmountGroup':
-                ele.val = (new Set(this.dataSource.map(a => a[ele.name]))).size;
+              case 'recordAmountParam':
+                ele.val = this.doTotalCountParam(this.dataSource, ele); //(new Set(this.dataSource.map(a => a[ele.name]))).size;
                 break;
               case 'sumByParamCond':
                 ele.val = this.doTotalSumParam(ele.condision(this.dataSource), ele);
@@ -67,23 +67,41 @@ export class SumListTablesComponent {
         });
     }
   }
-  
+
   doTotalSumParam(filtered, ele) {
     const tempTable = mapValues(groupBy(filtered, ele.name));
-    // const weightSize1 = Object.keys(tempTable).length;
-    
+
     var result1 = new Array<object>();
 
     Object.keys(tempTable).sort().forEach(a => {
-      result1.push({key: a, val: tempTable[a].reduce((b, c) => +b + +c[ele.option] , 0)})
-    })
-    // for (let t = 0; t < weightSize1; t++) {
-    //   result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
-    // }
+      result1.push({key: a, val: tempTable[a].reduce((b, c) => +b + +c[ele.option] , 0)});
+    });
     if (ele.collections && result1.length) {
       result1.forEach(a => {
         a['key'] = ele.collections[a['key']];
       });
+    }
+    if(result1.length > 1) {
+      result1.push({key: 'Total', val: result1.reduce((b, c) => b + c['val'] , 0)});
+    }
+    return result1;
+  }
+
+  doTotalCountParam(filtered, ele) {
+    const tempTable = mapValues(groupBy(filtered, ele.name));
+
+    var result1 = new Array<object>();
+
+    Object.keys(tempTable).sort().forEach(a => {
+      result1.push({key: a, val: (new Set(tempTable[a].map(b => b[ele.option]))).size})
+    });
+    // if (ele.collections && result1.length) {
+    //   result1.forEach(a => {
+    //     a['key'] = ele.collections[a['key']];
+    //   });
+    // }
+    if(result1.length > 1) {
+      result1.push({key: 'Total', val: result1.reduce((b, c) => b + c['val'] , 0)});
     }
     return result1;
   }

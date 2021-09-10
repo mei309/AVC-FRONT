@@ -13,6 +13,13 @@ export class HttpInterceptorService implements HttpInterceptor {
     constructor(private authenticateService: AuthenticateService, private loadingService: LoadingService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
+      let params = req.params;
+        for (const key of req.params.keys()) {
+            if (params.get(key) == undefined) {
+                params = params.delete(key, undefined);
+            }
+        }
+        req = req.clone({ params });
         if (this.authenticateService.isLoggedIn) {
             req = req.clone({
                 setHeaders: {
@@ -34,7 +41,7 @@ export class HttpInterceptorService implements HttpInterceptor {
             })
           );
         }
-        
+
         return this.handleIntercept(req, next);
     }
 
@@ -62,7 +69,7 @@ export class HttpInterceptorService implements HttpInterceptor {
               if(error.status === 401){
                 return this.handle401Error(req, next);
               }
-              
+
               let errorMessage = '';
               if (error.error instanceof ErrorEvent) {
                   // client-side error
@@ -72,7 +79,7 @@ export class HttpInterceptorService implements HttpInterceptor {
                   errorMessage = `Error Code: ${error.status}\nMessage: ${error.error}`;
               }
               console.log(error);
-              
+
               window.alert(errorMessage);
               return throwError(errorMessage);
         }),
@@ -85,7 +92,7 @@ export class HttpInterceptorService implements HttpInterceptor {
             if (this.totalRequests === 0) {
               this.loadingService.visibility.next(false);
             }
-          } 
+          }
         })
       )
     }

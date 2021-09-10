@@ -4,8 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { isEqual } from 'lodash-es';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 
 @Component({
@@ -16,7 +16,7 @@ import { OneColumn } from '../field.interface';
   </ng-container>
   <div class="tables mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
-        
+
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns" [formGroup]="searchGroup">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
@@ -25,17 +25,19 @@ import { OneColumn } from '../field.interface';
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
                     </mat-select>
-                    <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" formControlName="val" i18n-placeholder>
-                        <mat-option value="">--all--</mat-option>
-                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-                    </mat-select>
-                    <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" formControlName="val" i18n-placeholder>
-                        <mat-option value="">--all--</mat-option>
-                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-                    </mat-select>
-                    
-                    
+
+                    <ng-container *jrSwitchCases="['selectObj', 'selectObjObj']">
+                      <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
+                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  panelWidth="fit-content">
+                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">
+                          {{item.value}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </ng-container>
+
+
                     <input *ngSwitchCase="'none'" matInput readonly>
+
 
                     <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" [rangePicker]="picker4" i18n-placeholder>
                       <input matStartDate placeholder="Start date" #dateRangeStart (focus)="picker4.open()" i18n-placeholder>
@@ -140,13 +142,13 @@ export class SearchGroupDetailsComponent {
     }
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-    
+
     destroySubject$: Subject<void> = new Subject();
 
     @Input() withPaginator: boolean = true;
 
     searchGroup: FormGroup;
-    
+
     totalColumn: OneColumn;
     @Input() set totelColumn(value) {
         this.totalColumn = value;
@@ -196,7 +198,7 @@ export class SearchGroupDetailsComponent {
   }
 
   oneColumns: OneColumn[] = [];
-  
+
   secondToUpload: boolean = false;
   secondTimer;
 
@@ -209,13 +211,13 @@ export class SearchGroupDetailsComponent {
 
   localGroupOneColumns = [];
   localItemWeightColumns = [];
-  
+
   waitForCols: boolean = false;
 
   t0;
 
   paginatorSize: number = 0;
-  
+
   constructor(private fb: FormBuilder, private cdRef:ChangeDetectorRef) {
     // this.t0 = performance.
   }
@@ -298,12 +300,27 @@ export class SearchGroupDetailsComponent {
           this.columnsDisplay.push(element.name);
           this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
       }
+      if(element.search && element.search.startsWith('selectObj')) {
+          (element.options as Observable<string[]>).pipe(take(1)).subscribe(arg => {
+              element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
+          });
+      }
     });
     this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {
       this.setFilters(filters);
     });
   }
 
+
+  private _filter(arg, value: string): string[] {
+    if(value && typeof(value) === 'string') {
+      const filterValue = value.toLowerCase();
+      return arg.filter(option =>
+        option.value.toLowerCase().includes(filterValue));
+    } else {
+      return arg;
+    }
+  }
   setFilters(filters) {
       let newFilters = [];
       Object.keys(filters).forEach(filt => {
@@ -347,12 +364,12 @@ export class SearchGroupDetailsComponent {
   }
 
 
-  customFilterPredicate(data: any, filters): boolean {        
+  customFilterPredicate(data: any, filters): boolean {
     for (let i = 0; i < filters.length; i++) {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
-          const fitsObjObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
           if (!fitsObjObj) {
             return false;
           }
@@ -376,7 +393,7 @@ export class SearchGroupDetailsComponent {
           }
           break;
         case 'percentage':
-          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)/100).toString());
+          const fitsPercentage = (data[filters[i].cloumn].toString()).includes((filters[i].val).toString());
           if (!fitsPercentage) {
             return false;
           }
@@ -464,7 +481,7 @@ export class SearchGroupDetailsComponent {
   //     }
   //     this.spans[i][key] = count;
   //     i += count;
-  //   }  
+  //   }
   // }
 
   getRowSpan(index, key) {
@@ -526,7 +543,7 @@ export class SearchGroupDetailsComponent {
       }
       this.spans[i][key] = count;
       i += count;
-    }  
+    }
   }
 
 
@@ -621,7 +638,7 @@ export class SearchGroupDetailsComponent {
           var result1 = new Array<object>(weightSize1);
           for (let t = 0; t < weightSize1; t++) {
             let nested = this.dataSource.filteredData.map(a => a[this.totelAll.name]? a[this.totelAll.name].map(b => b['amountList'].find(c => c['measureUnit'] === this.totelAll.options[t])) : []);
-            
+
             let flat = [].concat.apply([], nested);
             result1[t] = {amount: flat.reduce((sum, record) => record? sum + record['amount'] : sum, 0), measureUnit: this.totelAll.options[t]};
           }
@@ -693,7 +710,7 @@ export class SearchGroupDetailsComponent {
   // doTotalSumParam(filtered, ele) {
   //   const tempTable = mapValues(groupBy(filtered, ele.name));
   //   const weightSize1 = Object.keys(tempTable).length;
-    
+
   //   var result1 = new Array<object>(weightSize1);
   //   for (let t = 0; t < weightSize1; t++) {
   //     result1[t] = {key: Object.keys(tempTable)[t], val: tempTable[Object.keys(tempTable)[t]].reduce((b, c) => +b + +c[ele.option] , 0)};
@@ -715,11 +732,11 @@ export class SearchGroupDetailsComponent {
   //   );
   //   csv.unshift(header.join(','));
   //   const csvArray = csv.join('\r\n');
-  
+
   //   const a = document.createElement('a');
   //   const blob = new Blob([csvArray], { type: 'text/csv' });
   //   const url = window.URL.createObjectURL(blob);
-  
+
   //   a.href = url;
   //   a.download = 'myFile.csv';
   //   a.click();

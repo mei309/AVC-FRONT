@@ -10,8 +10,8 @@ export class ReceiptService {
   receipturl = environment.baseUrl +'orders/';
 
   constructor(private http: HttpClient) {
-  } 
-  
+  }
+
   addEditRecivingCashewOrder (value, fromNew: boolean): Observable<any> {
     if(fromNew) {
       return this.http.post(this.receipturl+'receiveCashewOrder', value);
@@ -49,70 +49,27 @@ export class ReceiptService {
   }
 
   getPendingCashew() {
-    // let params: HttpParams;
-    // if(rangeDate.begin) {
-    //   if(rangeDate.end) {
-    //     params = new HttpParams().
-    //     set('begin',  rangeDate.begin).
-    //     set('end', rangeDate.end);
-    //   } else {
-    //     params = new HttpParams().
-    //     set('begin',  rangeDate.begin);
-    //   }
-    // } else {
-    //   params = new HttpParams()
-    // }
     return this.http.get(this.receipturl+'getPendingCashew');
   }
 
   getReceivedCashew(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.receipturl+'getReceivedCashew',{params});
   }
 
   findCashewReceiptsHistory(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.receipturl+'findCashewReceiptsHistory',{params});
   }
-  
+
   findGeneralReceiptsHistory(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.receipturl+'findGeneralReceiptsHistory',{params});
   }
 
@@ -121,23 +78,13 @@ export class ReceiptService {
   }
 
   getReceivedGeneral(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.receipturl+'getReceivedGeneral',{params});
   }
 
-  
+
   getPoCashewCodesOpen (): Observable<any> {
     return this.http.get(this.receipturl+'getCashewPoOpen');
   }

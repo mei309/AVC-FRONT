@@ -51,14 +51,24 @@ export class ItemsSetupComponent {
                 name: 'value',
                 label: $localize`Descrption`,
                 search: 'normal',
-            }
+            },
+            {
+                name: 'code',
+                label: $localize`Code`,
+                search: 'normal',
+            },
         ];
         this.regConfigTemp = [
             {
                 name: 'value',
                 label: $localize`Descrption`,
                 type: 'input',
-            }
+            },
+            {
+                name: 'code',
+                label: $localize`Code`,
+                type: 'input',
+            },
         ];
         if(this.choosedOne.startsWith('C')) {
             this.columnsSetup.push(
@@ -98,12 +108,6 @@ export class ItemsSetupComponent {
                         search: 'normal',
                     },
                     {
-                        name: 'code',
-                        label: $localize`Code`,
-                        search: 'select',
-                        options: this.getSaltLevel(),
-                    },
-                    {
                         name: 'numBags',
                         label: $localize`Bags in box`,
                         search: 'select',
@@ -132,11 +136,6 @@ export class ItemsSetupComponent {
                     {
                         name: 'brand',
                         label: $localize`Brand`,
-                        type: 'input',
-                    },
-                    {
-                        name: 'code',
-                        label: $localize`Code`,
                         type: 'input',
                     },
                     {
@@ -230,7 +229,7 @@ export class ItemsSetupComponent {
                 options: this.getProductionUse(this.choosedOne.charAt(0)),
             }
         );
-        
+
         this.regConfigTemp.push(
             {
                 name: 'submit',
@@ -292,7 +291,7 @@ export class ItemsSetupComponent {
     //     });
     //     dialogRef.afterClosed().subscribe(data => {
     //         if(!data || data === 'closed') {
-    //         } 
+    //         }
     //         // else if(data === 'remove') {
     //         //     this.localService.removeItem(this.choosedOne, value).pipe(take(1)).subscribe( val => {
     //         //         this.setupSource.pop(value);

@@ -28,12 +28,18 @@ export class MainComponent {
   todo: number = 0;
   massages: number = 0;
 
-  roleNumber: number = 0;
+  roleNumber: boolean = false;
+  isManager: boolean = false;
 
   constructor(@Inject(LOCALE_ID) private _locale: string, private router: Router, private _adapter: DateAdapter<any>,
     private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {
     if (sessionStorage.getItem('username') === 'isral') {
-      this.roleNumber = 1;
+      this.roleNumber = true;
+    }
+    console.log(sessionStorage.getItem('roles'));
+    
+    if (sessionStorage.getItem('roles').includes('ROLE_SYSTEM_MANAGER')) {
+      this.isManager = true;
     }
     this.language = new FormControl(this.languageList.find(lang => lang.code === this._locale));
     this._adapter.setLocale(this._locale);

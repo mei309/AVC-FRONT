@@ -1,4 +1,4 @@
-import { forkJoin } from 'rxjs'; 
+import { forkJoin } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -11,22 +11,12 @@ export class ProductionService {
   productionurl = environment.baseUrl +'production/';
 
   constructor(private http: HttpClient) {
-  } 
+  }
 
   getAllProduction(processName: string, rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.productionurl+'allProduction/'+processName, {params});
   }
   getAllCleaning(rangeDate) {
@@ -118,8 +108,10 @@ export class ProductionService {
   getStorageToPackPo (poCode: number, withPacked: boolean): Observable<any> {
     return this.http.get(this.productionurl+'getStorageToPackPo/'+poCode+'/'+withPacked);
   }
-  getStorageQcPo (poCode: number): Observable<any> {
-    return this.http.get(this.productionurl+'getStorageQcPo/'+poCode);
+  getStorageQcPo (poCode: number, itemId: string): Observable<any> {
+    let params = new HttpParams().
+        set('itemId',  itemId);
+    return this.http.get(this.productionurl+'getStorageQcPo/'+poCode, {params});
   }
 
   getProductionWithStorage(id: number, poCode: number, processType: string) {

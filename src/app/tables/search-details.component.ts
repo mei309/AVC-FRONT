@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 
 @Component({
@@ -30,14 +30,14 @@ import { OneColumn } from '../field.interface';
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" formControlName="val" i18n-placeholder>
-                  <mat-option value="">--all--</mat-option>
-                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-              </mat-select>
-              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" formControlName="val" i18n-placeholder>
-                  <mat-option value="">--all--</mat-option>
-                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-              </mat-select>
+              <ng-container *jrSwitchCases="['selectObj', 'selectObjObj']">
+                <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  panelWidth="fit-content">
+                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">
+                    {{item.value}}
+                  </mat-option>
+                </mat-autocomplete>
+              </ng-container>
 
               <input *ngSwitchCase="'none'" matInput readonly>
 
@@ -119,22 +119,37 @@ export class SearchDetailsComponent {
     }
   }
   get oneColumns() { return this.columns}
-  
+
 
   preperColumns() {
     this.searchGroup = this.fb.group({});
     this.oneColumns.forEach(element => {
           this.columnsDisplay.push(element.name);
           this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
+          if(element.search && element.search.startsWith('selectObj')) {
+            (element.options as Observable<string[]>).pipe(take(1)).subscribe(arg => {
+                element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
+            });
+          }
     });
     this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {
       this.setFilters(filters);
     });
   }
 
+  private _filter(arg, value: string): string[] {
+    if(value && typeof(value) === 'string') {
+      const filterValue = value.toLowerCase();
+      return arg.filter(option =>
+        option.value.toLowerCase().includes(filterValue));
+    } else {
+      return arg;
+    }
+  }
+
   @Output() details: EventEmitter<any> = new EventEmitter<any>();
 
-  
+
   columnsDisplay: string[] = [];
 
 
@@ -157,7 +172,7 @@ export class SearchDetailsComponent {
     this.dataSource.filter = newFilters;
   }
 
-  customFilterPredicate(data: any, filters): boolean {        
+  customFilterPredicate(data: any, filters): boolean {
     for (let i = 0; i < filters.length; i++) {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
@@ -186,7 +201,7 @@ export class SearchDetailsComponent {
           }
           break;
         case 'percentage':
-          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)/100).toString());
+          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)).toString());
           if (!fitsPercentage) {
             return false;
           }
@@ -264,7 +279,7 @@ export class SearchDetailsComponent {
         } else {
           return this.operators[column.compare.type](element[column.name], element[column.compare.name]);
         }
-        
+
       }
     } else {
       if(element[column.name]) {

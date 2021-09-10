@@ -4,8 +4,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 @Component({
   selector: 'search-expandable',
@@ -17,12 +17,12 @@ import { OneColumn } from '../field.interface';
   </ng-container>
 <div class="tables mat-elevation-z8">
   <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows matTableExporter #exporter="matTableExporter">
-    
+
   <ng-container matColumnDef="position">
     <th mat-header-cell *matHeaderCellDef mat-sort-header><h3>N.O.</h3> </th>
     <td mat-cell *matCellDef="let i = dataIndex">{{ this.paginator.pageIndex == 0 ?  1 + i : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}</td>
   </ng-container>
-  
+
     <ng-container matColumnDef="{{column.name}}" *ngFor="let column of oneColumns" [formGroup]="searchGroup">
         <th mat-header-cell *matHeaderCellDef>
           <h3 mat-sort-header>{{column.label}}</h3>
@@ -31,16 +31,17 @@ import { OneColumn } from '../field.interface';
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
               </mat-select>
-              <mat-select *ngSwitchCase="'selectObj'" placeholder="Search" formControlName="val" i18n-placeholder>
-                  <mat-option value="">--all--</mat-option>
-                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-              </mat-select>
-              <mat-select *ngSwitchCase="'selectObjObj'" placeholder="Search" formControlName="val" i18n-placeholder>
-                  <mat-option value="">--all--</mat-option>
-                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-              </mat-select>
+              <ng-container *jrSwitchCases="['selectObj', 'selectObjObj']">
+                <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  panelWidth="fit-content">
+                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">
+                    {{item.value}}
+                  </mat-option>
+                </mat-autocomplete>
+              </ng-container>
 
               <input *ngSwitchCase="'none'" matInput readonly>
+
 
               <mat-date-range-input *ngSwitchCase="'dates'" placeholder="Choose dates" (focus)="picker4.open()" [rangePicker]="picker4" i18n-placeholder>
                 <input matStartDate placeholder="Start date" #dateRangeStart i18n-placeholder>
@@ -147,15 +148,15 @@ export class SearchExpandableComponent implements OnInit {
   @Output() expanded: EventEmitter<any> = new EventEmitter<any>();
   @Output() elemnetClick: EventEmitter<any> = new EventEmitter<any>();
 
-  
-  
+
+
   dateRangeDisp = {begin: new Date(2018, 7, 5), end: new Date(2018, 7, 25)};
   columnsDisplay: string[] = ['position'];
-  
-  
-  
+
+
+
   expandedElement: any;
-  
+
 
   constructor(private fb: FormBuilder, private cdRef:ChangeDetectorRef) {
   }
@@ -165,10 +166,25 @@ export class SearchExpandableComponent implements OnInit {
     this.oneColumns.forEach(element => {
       this.columnsDisplay.push(element.name);
       this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
+      if(element.search && element.search.startsWith('selectObj')) {
+        (element.options as Observable<string[]>).pipe(take(1)).subscribe(arg => {
+            element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
+        });
+      }
     });
     this.searchGroup.valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(filters => {
       this.setFilters(filters);
     });
+  }
+
+  private _filter(arg, value: string): string[] {
+    if(value && typeof(value) === 'string') {
+      const filterValue = value.toLowerCase();
+      return arg.filter(option =>
+        option.value.toLowerCase().includes(filterValue));
+    } else {
+      return arg;
+    }
   }
 
   expandableText;
@@ -177,10 +193,8 @@ export class SearchExpandableComponent implements OnInit {
   }
   get expandableMassage() { return this.expandableText; }
 
-  
+
   openExpanded(element) {
-    console.log('lll');
-    
     if(this.expandedElement === element){
       this.expandedElement = null;
     } else {
@@ -207,12 +221,12 @@ export class SearchExpandableComponent implements OnInit {
   }
 
 
-  customFilterPredicate(data: any, filters): boolean {        
+  customFilterPredicate(data: any, filters): boolean {
     for (let i = 0; i < filters.length; i++) {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
-          const fitsObjObj = data[filters[i].cloumn]['value'].includes(filters[i].val);
+          const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
           if (!fitsObjObj) {
             return false;
           }
@@ -236,7 +250,7 @@ export class SearchExpandableComponent implements OnInit {
           }
           break;
         case 'percentage':
-          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)/100).toString());
+          const fitsPercentage = data[filters[i].cloumn].toString().includes(((filters[i].val)).toString());
           if (!fitsPercentage) {
             return false;
           }

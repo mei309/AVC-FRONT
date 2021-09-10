@@ -16,8 +16,8 @@ height:100vh;
 width:100%;
 background-color:rgba(0, 0, 0, 0.286);
 z-index:    10;
-top:        0; 
-left:       0; 
+top:        0;
+left:       0;
 position:   fixed;
 }
 
@@ -37,9 +37,9 @@ position:   fixed;
     width: fit-content;
     min-width: 10ch;
 } */
-  
- 
-  
+
+
+
 
   .one-field-space {
     display: inline-block;
@@ -52,8 +52,8 @@ position:   fixed;
     border: 1px solid black;
     /* background-color: blue; */
   }
-  
-  
+
+
   .array-field {
     width: fit-content;
     display: inline-flex;
@@ -65,37 +65,37 @@ position:   fixed;
     /* grid-template-columns: repeat(auto-fill, 200px); */
     grid-template-columns: auto auto auto auto auto;
   }
-  
+
   .div-fit {
     display: inline-block;
     padding-right: 10px;
   }
-  
+
   .inside-right {
     display: inherit;
     align-self: flex-end;
     /* text-align: right;
     width: fit-content; */
   }
-  
+
   .div-inline {
     /* width: 400px; */
     display: inline-block;
     /* width: max-content;*/
     vertical-align: top;
   }
-  
-  /* 
+
+  /*
   .div-inline-flex {
     display: inline;
   } */
-  
-  .put-down { 
+
+  .put-down {
     margin-right: 10px;
     border: 2px solid lightgray;
     float: right;
   }
-  
+
   #putsuprdown {
     margin-right: 10px;
     border: 2px solid lightgray;
@@ -104,17 +104,17 @@ position:   fixed;
     bottom: 0;
     top: 50px;
   }
-  
-  
+
+
   .one-group {
     padding-right: 10px;
     min-width: fit-content;
   }
-  
+
   .one-group .mat-form-field-infix {
     display: inherit;
   }
-  
+
   .pad-right {
     padding-right: 40px;
   }
@@ -124,16 +124,16 @@ position:   fixed;
   .margin-left {
     margin-left: 10px;
   }
-  
-  
+
+
   .mat-raised-button.raised-margin {
     margin-right: 20px !important;
     margin-left: 20px !important;
     margin-top: 20px !important;
     margin-bottom: 20px !important;
   }
-  
-  
+
+
   .form {
     margin: auto;
     /**border: 2px solid lightgray;
@@ -147,8 +147,8 @@ position:   fixed;
     padding-left: 15px;
     margin-top: 10px;
   }
-  
-  
+
+
   .add-button {
     margin-right: 16px;
     color: blue;
@@ -156,24 +156,24 @@ position:   fixed;
   .mat-button:hover {
     background: rgb(206, 20, 144);
   }
-  
+
   .mat-spinner {
     position: relative;
     margin-left: 50%;
     margin-right: 50%;
   }
-  
+
   .example-card {
     display: inline-block;
     width: fit-content;
     padding-right: 10px;
     padding-top: 10px;
   }
-  
+
   ::ng-deep .mat-horizontal-stepper-header{
     pointer-events: none !important;
   }
-  
+
   .centerButtons {
     position:relative;
     left:10%;
@@ -185,7 +185,7 @@ position:   fixed;
   .centerButtons *{
     margin-right: 5px !important;
   }
-  
+
   /* table {
     width: 90%;
     margin: auto;
@@ -200,7 +200,7 @@ position:   fixed;
   }
   .mat-header-cell {
     min-width: 50px;
-    width: 140px;
+    /* width: 120px; */
     padding-left: 14px !important;
     padding-right: 14px !important;
     text-align: center !important;
@@ -212,33 +212,33 @@ position:   fixed;
     padding-top: 14px !important;
   }
   .table-search {
-    width:130px;
+    width:90px;
     max-width:100%;
     min-width:80%
   }
   .is-alert {
     background-color: pink;
   }
-  
-  /* 
+
+  /*
   .mat-row:nth-child(even){
     background-color:rgb(211, 211, 211);
     }
     .mat-header-row {
       background-color: rgba(119, 148, 153, 0.904);
     }
-  
+
     .mat-row:hover {
       background: tomato;
       outline: none;
     } */
-  
+
     .mat-cell{
       border-left: 1px solid rgba(0, 0, 0, 0.12);
       border-right: 1px solid rgba(0, 0, 0, 0.12);
-    } 
-  
-      
+    }
+
+
     .my-toolbar {
       position: sticky;
       position: -webkit-sticky; /* For macOS/iOS Safari */
@@ -251,20 +251,20 @@ position:   fixed;
       display: inline-flex;
       flex-direction: column;
       margin: 15px 0;
-    }  
-  
+    }
+
     .mat-checbox-group {
       display: inline-flex;
       text-align: left;
       flex-direction: column;
       margin: 0 15px;
-    } 
-  
+    }
+
     .pre {
       font-size: 20px;
     }
 
-    
+
     .date-range {
       width: 400px;
     }
@@ -290,10 +290,10 @@ position:   fixed;
 
 
 
-  
+
   .mat-form-field-label {
     color: green !important;
-  } 
+  }
   .only-print {
     display: none;
   }
@@ -305,12 +305,12 @@ position:   fixed;
   }
 
   @media print {
-    
-    
+
+
       /* @page {
         size: landscape;
       } */
-    
+
     .only-print {
       display: block;
     }
@@ -366,8 +366,8 @@ position:   fixed;
     /* .my-toolbar {
       display: none !important;
     } */
-    
-    
+
+
     #print-section, #print-section * {
       overflow: visible;
       visibility: visible;

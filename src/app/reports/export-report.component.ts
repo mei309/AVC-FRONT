@@ -21,7 +21,7 @@ import { ReportsService } from './reports.service';
 })
 export class ExportReportComponent implements OnInit {
   navigationSubscription;
-  
+
   isDataAvailable: boolean = false;
 
   totelAll: OneColumn = {
@@ -32,10 +32,10 @@ export class ExportReportComponent implements OnInit {
   };
 
   columnsShow: OneColumn[];
-  
+
   totelByType = [
     {
-      type: 'sumByParamCond', 
+      type: 'sumByParamCond',
       name: 'whole',
       label: $localize`25/50 LBS packaging (LBS)`,
       option: 'weightInLbs',
@@ -43,7 +43,7 @@ export class ExportReportComponent implements OnInit {
       condision: (arr) => arr.filter(d => d['bagSize']['amount'] === 25 || d['bagSize']['amount'] === 50),
     },
     {
-      type: 'sumByParamCond', 
+      type: 'sumByParamCond',
       name: 'whole',
       label: $localize`Items packaging`,
       option: 'weightInLbs',
@@ -51,15 +51,16 @@ export class ExportReportComponent implements OnInit {
       condision: (arr) => arr.filter(d => d['bagSize']['amount'] !== 25 && d['bagSize']['amount'] !== 50),
     },
     {
-      type: 'sumByParam', 
+      type: 'sumByParam',
       name: 'whole',
       label: $localize`all (LBS)`,
       option: 'weightInLbs',
       collections: {true: 'WHOLE', false: 'H&P'}
     },
     {
-      type: 'recordAmountGroup', 
-      name: 'containerNumber',
+      type: 'recordAmountParam',
+      name: 'containerSize',
+      option: 'containerNumber',
       label: $localize`Container amount`,
     }
   ];
@@ -96,6 +97,13 @@ export class ExportReportComponent implements OnInit {
             group: 'containerNumber',
         },
         {
+            type: 'date',
+            name: 'processDate',
+            label: $localize`Process dates`,
+            search: 'dates',
+            group: 'containerNumber',
+        },
+        {
             type: 'normal',
             name: 'poCode',
             label: $localize`PO#`,
@@ -106,14 +114,8 @@ export class ExportReportComponent implements OnInit {
             type: 'nameId',
             name: 'item',
             label: $localize`Commodity`,
-            search: 'selectObj',
+            search: 'selectObjObj',
             options: this.genral.getItemsCashew('RoastPacked'),
-        },
-        {
-            type: 'date',
-            name: 'processDate',
-            label: $localize`Process dates`,
-            search: 'dates',
         },
         {
             name: 'saltLevel',
@@ -154,7 +156,7 @@ export class ExportReportComponent implements OnInit {
       ];
   }
 
-    
+
   getAllByDate($event) {
     this.isDataAvailable = true;
     this.cashewSource = null;
@@ -169,7 +171,7 @@ export class ExportReportComponent implements OnInit {
   }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }

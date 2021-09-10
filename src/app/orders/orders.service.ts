@@ -11,7 +11,7 @@ export class OrdersService {
   ordersurl = environment.baseUrl +'orders/';
 
   constructor(private http: HttpClient) {
-  } 
+  }
 
   addEditCashewOrder (value, fromNew: boolean): Observable<any> {
     if(fromNew) {
@@ -29,7 +29,7 @@ export class OrdersService {
       return this.http.put(this.ordersurl+'editOrder', value);
     }
   }
-  
+
   addEditRecivingCashewOrder (value, fromNew: boolean): Observable<any> {
     if(fromNew) {
       return this.http.post(this.ordersurl+'receiveCashewOrder', value);
@@ -106,7 +106,7 @@ export class OrdersService {
   findCashewReceiptsHistory() {
     return this.http.get(this.ordersurl+'findCashewReceiptsHistory');
   }
-  
+
   getAllCashewReciveRejected() {
     return this.http.get(this.ordersurl+'getAllCashewReciveRejected');
   }
@@ -124,23 +124,13 @@ export class OrdersService {
   }
 
   getAllGeneralOrders(rangeDate) {
-    let params: HttpParams;
-    if(rangeDate.begin) {
-      if(rangeDate.end) {
-        params = new HttpParams().
+    let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
-      } else {
-        params = new HttpParams().
-        set('begin',  rangeDate.begin);
-      }
-    } else {
-      params = new HttpParams()
-    }
     return this.http.get(this.ordersurl+'getAllGeneralOrders', {params});
   }
 
-  
+
   getPoCashewCodesOpen (): Observable<any> {
     return this.http.get(this.ordersurl+'getCashewPoOpen');
   }
@@ -215,7 +205,7 @@ export class OrdersService {
     getCashewContractTypes (): Observable<any> {
       return this.http.get(this.ordersurl+'getCashewContractTypes');
     }
-  
+
     getGeneralContractTypes (): Observable<any> {
       return this.http.get(this.ordersurl+'getGeneralContractTypes');
     }
@@ -223,6 +213,6 @@ export class OrdersService {
     getSuppliersGroups (): Observable<any> {
       return this.http.get(this.ordersurl+'getSuppliersGroups');
     }
-    
+
 
 }

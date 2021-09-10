@@ -30,7 +30,7 @@ export class ReceiveGOrder implements OnInit {
     putData: any = null;
     isDataAvailable: boolean = false;
     isFirstDataAvailable: boolean = false;
-    
+
     fromNew: boolean = true;
 
     poConfig: FieldConfig[];
@@ -81,7 +81,7 @@ export class ReceiveGOrder implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) {
                 this.setUpOrderItems(selectedValue['id']);
                 this.isFirstDataAvailable = false;
                 this.poID = selectedValue['id'];
@@ -143,7 +143,7 @@ export class ReceiveGOrder implements OnInit {
             this.setUpRegConfig();
             this.isDataAvailable = true;
     }
-    
+
 
     setUpRegConfig () {
         this.regConfig = [
@@ -194,7 +194,7 @@ export class ReceiveGOrder implements OnInit {
                             {
                                 name: 'item',
                                 type: 'value'
-                            }, 
+                            },
                             {
                                 name: 'numberUnits',
                                 type: 'value'
@@ -236,6 +236,7 @@ export class ReceiveGOrder implements OnInit {
                                 label: $localize`Number of units`,
                                 name: 'numberUnits',
                                 inputType: 'numeric',
+                                options: 3,
                             },
                             {
                                 type: 'select',
@@ -252,7 +253,7 @@ export class ReceiveGOrder implements OnInit {
                         validations: [
                             // {
                             //     name: 'unitAmount',
-                                
+
                             // },
                             {
                                 name: 'numberUnits',
@@ -326,7 +327,7 @@ export class ReceiveGOrder implements OnInit {
                             // },
                             {
                                 name: 'numberUnits',
-                            }, 
+                            },
                         ],
                     }
                 ]
@@ -352,7 +353,7 @@ export class ReceiveGOrder implements OnInit {
                     delete element['receivedOrderUnits'];
                 }
             });
-            
+
             this.localService.addEditRecivingGenralOrder(value, this.fromNew).pipe(take(1)).subscribe( val => {
                 const dialogRef = this.dialog.open(ReceiptDialog, {
                     width: '80%',
@@ -364,10 +365,10 @@ export class ReceiveGOrder implements OnInit {
                         this.isDataAvailable = false;
                         this.setOrderItemsEdit(+val['poCode']['id'], val);
                         this.cdRef.detectChanges();
-                    } 
+                    }
                     // else if(data === 'Edit order') {
                     //     this.router.navigate(['Main/ordready/NewGenralOrder',{id: val['poCode']['id']}]);
-                    // } 
+                    // }
                     else {
                         this.router.navigate(['../ReceiveGReports'], { relativeTo: this._Activatedroute });
                     }
@@ -376,7 +377,7 @@ export class ReceiveGOrder implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

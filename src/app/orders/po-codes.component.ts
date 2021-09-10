@@ -34,7 +34,7 @@ export class PoCodesComponent implements OnInit {
 
     suppliersChangable = new ReplaySubject<any[]>();
     contractTypesChangable = new ReplaySubject<any[]>();
-    
+
     constructor(private router: Router, private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef,
         private genral: Genral, private localService: OrdersService, public dialog: MatDialog) {
       }
@@ -161,7 +161,7 @@ export class PoCodesComponent implements OnInit {
       }
 
     ngOnDestroy(){
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
             this.navigationSubscription.unsubscribe();
         }
         this.suppliersChangable.unsubscribe();
@@ -179,7 +179,7 @@ export class PoCodesComponent implements OnInit {
   `,
 })
 export class AddEditPoDialog {
- 
+
     poConfig;
     putData;
     mainLabel: string;
@@ -228,7 +228,7 @@ export class AddEditPoDialog {
                 {
                     type: 'input',
                     label: $localize`#PO`,
-                    inputType: 'number',
+                    inputType: 'text',
                     name: 'code',
                     disable: true,
                 },
@@ -247,14 +247,14 @@ export class AddEditPoDialog {
                 }
             ];
     }
-    
+
     constructor(private localService: OrdersService, public dialogRef: MatDialogRef<AddEditPoDialog>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.poCode = data.poCode;
             this.tab = data.tab;
         }
-    
+
     submit(value: any) {
         if(this.tab === 0) {
             this.localService.addEditPoCode(value, this.poCode? false : true).pipe(take(1)).subscribe( val => {
@@ -274,9 +274,9 @@ export class AddEditPoDialog {
             return this.localService.getGeneralSuppliers();
         }
       }
-  
-  
-  
+
+
+
       getContractTypes(tab: number): Observable<any> {
         if(tab === 0) {
             return this.localService.getCashewContractTypes();
