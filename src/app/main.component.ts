@@ -21,10 +21,10 @@ export class MainComponent {
     // { code: 'en-UK', label: 'UK' },
     { code: 'vi', label: 'Tiếng Việt' },
     // { code: 'INDIA', label: 'हिंदी' },
-  ]; 
-  
+  ];
+
   destroySubject$: Subject<void> = new Subject();
-  
+
   todo: number = 0;
   massages: number = 0;
 
@@ -36,8 +36,6 @@ export class MainComponent {
     if (sessionStorage.getItem('username') === 'isral') {
       this.roleNumber = true;
     }
-    console.log(sessionStorage.getItem('roles'));
-    
     if (sessionStorage.getItem('roles').includes('ROLE_SYSTEM_MANAGER')) {
       this.isManager = true;
     }
@@ -45,7 +43,7 @@ export class MainComponent {
     this._adapter.setLocale(this._locale);
     this.genral.doInitiel();
   }
-  
+
   ngOnInit() {
     this.genral.getNumOfTodo().pipe(takeUntil(this.destroySubject$)).subscribe(value => {
       this.todo = value;

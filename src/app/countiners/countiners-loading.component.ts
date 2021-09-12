@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { isEqual, map } from 'lodash-es';
-import { distinctUntilChanged, take } from 'rxjs/operators';
+import { distinctUntilChanged, take, throttleTime } from 'rxjs/operators';
 import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
@@ -11,7 +11,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
 import { CountinersService } from './countiners.service';
 import { cloneDeep } from 'lodash-es';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
 @Component({
     selector: 'countiners-loading',
     template: `
@@ -27,7 +27,7 @@ import { ReplaySubject } from 'rxjs';
             </div>
     </ng-container>
     <div class="margin-top" style="text-align:right" *ngIf="isFormAvailable">
-        <button type="button" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" (click)="onSubmitBoth()" i18n>Submit</button>
+        <button type="button" (click)="oneClickChanged.next($event)" style="min-width:150px; margin-right: 45px" mat-raised-button color="primary" i18n>Submit</button>
         <button type="button" style="min-width:150px" mat-raised-button color="primary" (click)="onResetBoth()" i18n>Reset</button>
     </div>
     `
@@ -42,12 +42,16 @@ export class CountinersLoadingComponent {
     allContainers = new ReplaySubject<any[]>();
 
     form: FormGroup;
-    
+
     choosedPos = [];
     poConfig: FieldConfig;
     regConfig: FieldConfig[] = [];
     beginConfig: FieldConfig[];
-    
+
+    oneClickChanged: Subject<any> = new Subject<any>();
+    private oneClickOnlySubscription: Subscription;
+
+
     dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
     isNew: boolean = true;
     isFormAvailable: boolean = false;
@@ -133,7 +137,7 @@ export class CountinersLoadingComponent {
                                 case $localize`Export Doc`:
                                     this.router.navigate(['../SecurityExportDoc',{id: val['id'], docType: 'Export'}], { relativeTo: this._Activatedroute });
                                     break;
-                            
+
                                 default:
                                     this.router.navigate(['../CountinerReports', {number: 1}], { relativeTo: this._Activatedroute });
                                     break;
@@ -165,14 +169,14 @@ export class CountinersLoadingComponent {
             }
         }
     }
-      
+
 
     constructor(private fb: FormBuilder, private _Activatedroute:ActivatedRoute, private router: Router, private cdRef:ChangeDetectorRef,
         private localService: CountinersService, private genral: Genral, public dialog: MatDialog) {
     }
 
 
-    addToForm(val) { 
+    addToForm(val) {
         var arrNormal = [];
         var arrTable = [];
         var arrDeclared = [];
@@ -239,10 +243,10 @@ export class CountinersLoadingComponent {
     preperChoosingPO() {
         this.form = this.fb.group({});
         this.form.addControl('poCodes', this.fb.array([this.fb.group({poCode: null})]));
-        
+
         this.form.get('poCodes').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             selectedValue = selectedValue.filter(ele => ele.poCode && ele.poCode.id);
-            selectedValue = map(selectedValue, 'poCode'); 
+            selectedValue = map(selectedValue, 'poCode');
             if(selectedValue.length && !isEqual(selectedValue, this.choosedPos)) {
                 this.setRawSecondValue();
                 var result = diff(this.choosedPos, selectedValue, 'id', { updatedValues: 1});
@@ -270,7 +274,7 @@ export class CountinersLoadingComponent {
                 this.choosedPos = selectedValue;
             }
         });
-        
+
         this.poConfig =
             {
                 type: 'bigexpand',
@@ -550,6 +554,16 @@ export class CountinersLoadingComponent {
             // },
         ];
         this.preperChoosingPO();
+        this.oneClickOnlySubscription = this.oneClickChanged
+          .pipe(
+            throttleTime(1100),
+            distinctUntilChanged()
+          )
+          .subscribe(event => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.onSubmitBoth();
+          });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
@@ -633,7 +647,7 @@ export class CountinersLoadingComponent {
      }
 
      addNormal(){
-         this.regConfig.splice(0, 0, 
+         this.regConfig.splice(0, 0,
             {
                 type: 'bigexpand',
                 name: 'usedItemsNormal',
@@ -796,11 +810,11 @@ export class CountinersLoadingComponent {
      }
 
      ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
         this.allShipmentCodes.unsubscribe();
         this.allContainers.unsubscribe();
+        this.oneClickOnlySubscription.unsubscribe();
       }
-
 }

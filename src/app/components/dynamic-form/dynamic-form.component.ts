@@ -3,12 +3,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {cloneDeep} from 'lodash-es';
+import { Subject, Subscription, throttleTime, distinctUntilChanged } from 'rxjs';
 import { allOrNoneRequired, FieldConfig, atLeastOneRequired } from '../../field.interface';
 
 @Component({
   selector: 'dynamic-form',
   template: `
-  <form autocomplete="off" class="dynamic-form" [formGroup]="form" (ngSubmit)="onSubmit($event)" focusInvalidInput [popup]="popup">
+  <form autocomplete="off" class="dynamic-form" [formGroup]="form" (ngSubmit)="oneClickChanged.next($event)" focusInvalidInput [popup]="popup">
   <fieldset [ngStyle]="{'width':'90%'}">
   <legend *ngIf="mainLabel"><h1>{{mainLabel}}</h1></legend>
   <ng-container *ngFor="let field of fields;" dynamicField [edit]="edit" [field]="field" [group]="form">
@@ -39,14 +40,14 @@ export class DynamicFormComponent implements OnInit {
   submitText: string;
   form: FormGroup;
 
-  // detailedDiff = require("deep-object-diff").detailedDiff;
-  // diff = require('deep-diff').diff;
-  // observableDiff = require('deep-diff').observableDiff;
+  oneClickChanged: Subject<any> = new Subject<any>();
+  private oneClickOnlySubscription: Subscription;
 
   get value() {
     return this.form.value;
   }
   constructor(private fb: FormBuilder, private _snackBar: MatSnackBar) {}
+
 
   ngOnInit() {
     if(this.putData) {
@@ -56,6 +57,17 @@ export class DynamicFormComponent implements OnInit {
       this.form = this.createControl();
     }
     this.putData = JSON.parse(JSON.stringify(this.form.value));
+
+    this.oneClickOnlySubscription = this.oneClickChanged
+      .pipe(
+        throttleTime(1100),
+        distinctUntilChanged()
+      )
+      .subscribe(event => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.onSubmit();
+      });
   }
 
   reset(){
@@ -88,9 +100,7 @@ export class DynamicFormComponent implements OnInit {
     this.form.markAllAsTouched();
     return false;
   }
-  onSubmit(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
+  onSubmit() {
     /**if(this.putData !== null && this.putData !== undefined) {
         console.log(this.diff(this.putData, this.form.value));
         if(this.form.dirty) {
@@ -103,7 +113,7 @@ export class DynamicFormComponent implements OnInit {
     if (this.form.valid) {
       //this.emptyNull(this.form.value)
       // console.log(this.form.value);
-      
+
       /**if(this.putData !== null && this.putData !== undefined) {
         if(this.form.dirty) {
           console.log(this.getDirtyValues(this.form));
@@ -112,7 +122,7 @@ export class DynamicFormComponent implements OnInit {
         }
       } else {*/
       // var emptyNull = this.form.getRawValue();
-      
+
       const mmm = cloneDeep(this.form) as FormGroup;
       mmm.enable();
       this.emptyEmptyArray(mmm);
@@ -131,10 +141,10 @@ export class DynamicFormComponent implements OnInit {
     }
     this.form.markAllAsTouched();
   }
-  
+
 
   emptyEmptyArray(formValue: FormGroup) {
-    
+
     const controls = Object.values(formValue.controls);
     controls.forEach(fc => {
         if(fc instanceof FormGroup){
@@ -146,7 +156,7 @@ export class DynamicFormComponent implements OnInit {
           const controls1 = Object.values(fc.controls);
           controls1.forEach(fa => {
             this.emptyEmptyArray(fa as FormGroup);
-             
+
             if(!Object.values((fa as FormGroup).controls).length) {
               fc.removeAt(fc.controls.indexOf(fa));
             } else if(fa.pristine && !(fa as FormGroup).contains('id')) {
@@ -186,7 +196,7 @@ export class DynamicFormComponent implements OnInit {
 
 
   emptyNull(formValue): boolean {
-    
+
     for (let prop in formValue) {
       if (!formValue[prop]) {
         delete formValue[prop];
@@ -198,7 +208,7 @@ export class DynamicFormComponent implements OnInit {
           }
         });
       } else if(formValue[prop] instanceof Date){
-        
+
       } else if(typeof formValue[prop] == "object") {
         if(this.emptyNull(formValue[prop])){
             delete formValue[prop];
@@ -283,12 +293,12 @@ export class DynamicFormComponent implements OnInit {
             group.addControl(field.name, this.fb.array([this.createItem(field)], atLeastOneRequired()));
           } else {
             group.addControl(field.name, this.fb.array([this.createItem(field)]));
-          }         
+          }
           break;
         }
         case 'bigoutside':
         case 'bignotexpand': {
-          group.addControl(field.name, this.createItem(field));          
+          group.addControl(field.name, this.createItem(field));
           break;
         }
         default: {
@@ -311,7 +321,7 @@ export class DynamicFormComponent implements OnInit {
       group2 = this.fb.group({});
     }
     field.collections.forEach(kid => {
-      let temp: FieldConfig = Object.assign({}, kid); 
+      let temp: FieldConfig = Object.assign({}, kid);
       switch (temp.type) {
         case 'divider': {
           break;
@@ -367,12 +377,12 @@ export class DynamicFormComponent implements OnInit {
             group2.addControl(temp.name, this.fb.array([this.createItem(temp)], atLeastOneRequired()));
           } else {
             group2.addControl(temp.name, this.fb.array([this.createItem(temp)]));
-          }         
+          }
           break;
         }
         case 'bigoutside':
         case 'bignotexpand': {
-          group2.addControl(temp.name, this.createItem(temp));          
+          group2.addControl(temp.name, this.createItem(temp));
           break;
         }
         default: {
@@ -422,9 +432,9 @@ export class DynamicFormComponent implements OnInit {
         } else {
           kid.collections.forEach(element => {
             const control = this.fb.control(
-              { 
+              {
                 value: value.hasOwnProperty([element.name]) ? value[element.name] : element.value,
-                disabled: element.disable 
+                disabled: element.disable
               },
               this.bindValidations(element.validations || [])
             );
@@ -433,9 +443,9 @@ export class DynamicFormComponent implements OnInit {
         }
       } else {
         const control = this.fb.control(
-          { 
+          {
             value: value.hasOwnProperty([kid.name]) ? value[kid.name] : kid.value,
-            disabled: kid.disable 
+            disabled: kid.disable
           },
           this.bindValidations(kid.validations || [])
         );
@@ -474,14 +484,14 @@ export class DynamicFormComponent implements OnInit {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
       //control.markAllAsTouched();
-      
+
     });
   }
 
   setValue(value: any) {
     this.form.patchValue(value);
   }
-  
+
 
   createControlWithData() {
     let value = this.putData;
@@ -560,7 +570,7 @@ export class DynamicFormComponent implements OnInit {
           if(field.inputType === 'choose') {
             if(groupJson && groupJson.length !== 0) {
               group.addControl(field.name, this.fb.array([this.fb.group({storageId: groupJson[0].storageId, storageVersion: groupJson[0].storageVersion, take: groupJson[0].take? true: false, id: groupJson[0].id, version: groupJson[0].version, ordinal: groupJson[0].ordinal, amount: this.fb.control(groupJson[0].amount, this.bindValidations(field.validations || []) )})]));
-              for(let i = 1; i < groupJson.length; i++) {  
+              for(let i = 1; i < groupJson.length; i++) {
                   (group.get([field.name]) as FormArray).push(this.fb.group({storageId: groupJson[i].storageId, storageVersion: groupJson[i].storageVersion, take: groupJson[i].take? true: false, id: groupJson[i].id, version: groupJson[i].version, ordinal: groupJson[i].ordinal, amount: this.fb.control(groupJson[i].amount, this.bindValidations(field.validations || []) )}));
               }
               (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
@@ -626,7 +636,7 @@ export class DynamicFormComponent implements OnInit {
           }
           (group.get([field.name]) as FormArray).controls.forEach(lm => lm.markAsDirty());
           break;
-        } 
+        }
         case 'bigexpand': {
           let groupJson = null;
           if(value.hasOwnProperty(field.name)) {
@@ -689,7 +699,7 @@ export class DynamicFormComponent implements OnInit {
       group2.addControl('version', this.fb.control(value['version'], null));
     }
     field.collections.forEach(kid => {
-      let temp: FieldConfig = Object.assign({}, kid); 
+      let temp: FieldConfig = Object.assign({}, kid);
       switch (temp.type) {
         case 'divider': {
           break;
@@ -750,7 +760,7 @@ export class DynamicFormComponent implements OnInit {
           if(temp.inputType === 'choose') {
             if(groupJson && groupJson.length !== 0) {
               group2.addControl(temp.name, this.fb.array([this.fb.group({storageId: groupJson[0].storageId, storageVersion: groupJson[0].storageVersion, take: groupJson[0].take? true: false, id: groupJson[0].id, version: groupJson[0].version, ordinal: groupJson[0].ordinal, amount: this.fb.control(groupJson[0].amount, this.bindValidations(temp.validations || []) )})]));
-              for(let i = 1; i < groupJson.length; i++) {  
+              for(let i = 1; i < groupJson.length; i++) {
                   (group2.get([temp.name]) as FormArray).push(this.fb.group({storageId: groupJson[i].storageId, storageVersion: groupJson[i].storageVersion, take: groupJson[i].take? true: false, id: groupJson[i].id, version: groupJson[i].version, ordinal: groupJson[i].ordinal, amount: this.fb.control(groupJson[i].amount, this.bindValidations(temp.validations || []) )}));
               }
               (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
@@ -765,7 +775,7 @@ export class DynamicFormComponent implements OnInit {
                 group2.addControl(temp.name, this.fb.array([this.fb.group({ordinal: 1, amount: this.fb.control(temp.value, this.bindValidations(temp.validations || []) )})]));
               }
               const num = temp.collections+1;
-              for(let i = 2; i < num; i++) {  
+              for(let i = 2; i < num; i++) {
                 if(groupLocation < groupJson.length && groupJson[groupLocation].ordinal === i) {
                   (group2.get([temp.name]) as FormArray).push(this.fb.group({id: groupJson[groupLocation].id, version: groupJson[groupLocation].version, ordinal: i, amount: this.fb.control(groupJson[groupLocation].amount, this.bindValidations(temp.validations || []) )}));
                   groupLocation++;
@@ -861,7 +871,11 @@ export class DynamicFormComponent implements OnInit {
     });
     return group2;
   }
-  
+
+  ngOnDestroy() {
+    this.oneClickOnlySubscription.unsubscribe();
+  }
+
 }
 
 
