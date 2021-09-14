@@ -20,6 +20,7 @@ import { QcsTotalsComponent } from './qc-supplier-totals.component';
 import { SumsQcsTableComponent } from './sum-qc-table.component';
 import { SumListTablesComponent } from './sum-list-tables.component';
 import { InventoryGeneralTimeComponent } from './inventory-general-time.component';
+import { SumsProductTypeComponent } from './sum-product-type.component';
 
 
 
@@ -28,7 +29,8 @@ import { InventoryGeneralTimeComponent } from './inventory-general-time.componen
   declarations: [FinalReportComponent, FinalReportChartsComponent, FinalReportTablesComponent,
     FinalReportFullComponent, FinalReportSummaryComponent, ProductionsByTimeComponent, QcsTotalsComponent,
     InventoryByTypeComponent, InventoryByTimeComponent, InventoryGeneralTimeComponent,
-     ExportReportComponent, CellsProcesses, CellsLoading, CellsQcs, SumsQcsTableComponent, SumListTablesComponent],
+     ExportReportComponent, CellsProcesses, CellsLoading, CellsQcs, SumsQcsTableComponent, SumListTablesComponent,
+     SumsProductTypeComponent],
   imports: [
     SheardModule,
     ReportsRoutingModule,

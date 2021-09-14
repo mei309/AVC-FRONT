@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { groupBy, mapValues, cloneDeep } from 'lodash-es';
 @Component({
-  selector: 'sums-qc-table',
+  selector: 'sums-product-type',
   template: `
 <ng-container *ngIf="sumClumensshow.length > 1">
 <h2 style="text-align:center" i18n>{{title}}</h2>
@@ -25,7 +25,7 @@ import { groupBy, mapValues, cloneDeep } from 'lodash-es';
  </ng-container>
   `,
 })
-export class SumsQcsTableComponent {
+export class SumsProductTypeComponent {
 
   dataSource;
   sumDataSource = [];
@@ -53,7 +53,7 @@ export class SumsQcsTableComponent {
             const tempTable = nest(this.dataSource, this.sumCloumns);
             this.sumClumensTable = ['key'];
 
-            var newSumLine = {key: $localize`Average`};
+            var newSumLine = {key: $localize`Total`};
 
             Object.keys(tempTable).forEach(key => {
               var newLine = {};
@@ -63,11 +63,7 @@ export class SumsQcsTableComponent {
               Object.keys(tempTable[key]).forEach(val => {
                 var temp = tempTable[key][val].filter(f => f[value[2]] !== null && f[value[2]] !== undefined);
                 if(temp.length) {
-                  if(this.type === 'decimalNumber') {
-                    newLine[val] = (temp.reduce((b, c) => +b + +c[value[2]]['amount'] , 0))/temp.length;
-                  } else {
-                    newLine[val] = (temp.reduce((b, c) => +b + +c[value[2]] , 0))/temp.length;
-                  }
+                  newLine[val] = (temp.reduce((b, c) => +b + +c[value[2]] , 0));
                   this.sumClumensTable.push(val);
                   sum += newLine[val];
                   diveder ++;
@@ -76,16 +72,16 @@ export class SumsQcsTableComponent {
                 }
               });
               if(numChecks) {
-                newLine['key'] = key !== 'null'? key + ' (' + numChecks +')' : 'other (' + numChecks +')';
-                newLine[$localize`Average`] = sum/diveder;
+                newLine['key'] = (key !== 'null')? key + ' (' + numChecks +')' : 'other (' + numChecks +')';
+                newLine[$localize`Total`] = sum;
                 this.sumDataSource.push(newLine);
               }
             });
             this.sumClumensTable = [...new Set(this.sumClumensTable)];
-            this.sumClumensTable.push($localize`Average`);
+            this.sumClumensTable.push($localize`Total`);
 
             this.sumClumensTable.forEach(newCloumn => {
-              if(newCloumn === $localize`Average`) {
+              if(newCloumn === $localize`Total`) {
                 var sum = 0;
                 var diveder = 0;
                 this.sumDataSource.forEach(aLine => {
@@ -94,13 +90,13 @@ export class SumsQcsTableComponent {
                     diveder ++;
                   }
                 });
-                newSumLine[newCloumn] = sum/diveder;
+                newSumLine[newCloumn] = sum;
               } else if(newCloumn !== 'key') {
                 var sum = 0;
                 this.sumDataSource.forEach(aLine => {
                   sum += aLine[newCloumn]? aLine[newCloumn] : 0;
                 });
-                newSumLine[newCloumn] = sum/newSumLine[newCloumn];
+                newSumLine[newCloumn] = sum;
               }
             });
             this.sumDataSource.push(newSumLine);

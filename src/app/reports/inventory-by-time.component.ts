@@ -37,6 +37,8 @@ import * as moment from 'moment';
       </search-group-details>
       <sum-list-tables *ngIf="totelByType" [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
+      <sums-product-type *ngIf="tabIndex < 2" class="sums-qc" [mainDetailsSource]="[sumsSource, ['productCompany', 'type'], 'weightInLbs']" title="Total LBS by product company" type="decimalNumber" i18n-title>
+      </sums-product-type>
     </div>
     `,
 })
@@ -290,12 +292,12 @@ export class InventoryByTimeComponent implements OnInit {
             option: 'weightInLbs',
             collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
           },
-          {
-            type: 'sumByParam',
-            name: 'productCompany',
-            label: $localize`Total LBS by product company`,
-            option: 'weightInLbs',
-          }
+          // {
+          //   type: 'sumByParam',
+          //   name: 'productCompany',
+          //   label: $localize`Total LBS by product company`,
+          //   option: 'weightInLbs',
+          // }
         ];
         this.columnsShow = [
           {

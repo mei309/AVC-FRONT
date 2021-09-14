@@ -84,6 +84,12 @@ export class ItemsSetupComponent {
                     label: $localize`Salt level`,
                     search: 'select',
                     options: this.getSaltLevel(),
+                },
+                {
+                    type: 'checkBool',
+                    name: 'whole',
+                    label: $localize`Whole`,
+                    search: 'none',
                 }
             );
             this.regConfigTemp.push(
@@ -98,6 +104,11 @@ export class ItemsSetupComponent {
                     label: $localize`Salt level`,
                     type: 'selectNormal',
                     options: this.getSaltLevel(),
+                },
+                {
+                    type: 'checkbox',
+                    label: $localize`Whole`,
+                    name: 'whole',
                 }
             );
             if(this.choosedOne.includes('packed')) {
@@ -112,12 +123,6 @@ export class ItemsSetupComponent {
                         label: $localize`Bags in box`,
                         search: 'select',
                         options: this.getSaltLevel(),
-                    },
-                    {
-                        type: 'checkBool',
-                        name: 'whole',
-                        label: $localize`Whole`,
-                        search: 'none',
                     },
                     {
                         type: 'checkBool',
@@ -143,11 +148,6 @@ export class ItemsSetupComponent {
                         label: $localize`Bags in box`,
                         name: 'numBags',
                         inputType: 'numeric',
-                    },
-                    {
-                        type: 'checkbox',
-                        label: $localize`Whole`,
-                        name: 'whole',
                     },
                     {
                         type: 'checkbox',
