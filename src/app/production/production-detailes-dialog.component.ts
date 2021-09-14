@@ -17,7 +17,7 @@ import { ProductionService } from './production.service';
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <ng-container *ngIf="this.type === 'Packing'">
+        <ng-container *ngIf="this.type.includes('Pack')">
             <mat-checkbox style="padding-right: 10px" [(ngModel)]="withPacked" i18n>Edit with packed</mat-checkbox>
             <mat-checkbox *ngIf="productionCheck && productionCheck['weightedPos']" style="padding-right: 10px" [(ngModel)]="addPos" i18n>Edit add POS</mat-checkbox>
         </ng-container>

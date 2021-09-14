@@ -62,6 +62,11 @@ export class ReportsService {
       .set('date', moment.utc(date).toISOString());
     return this.http.get(this.reportsurl+'getCashewInventoryRaw',{params});
   }
+  getCashewInventoryClean (date: moment.Moment) {
+    const params = new HttpParams()
+      .set('date', moment.utc(date).toISOString());
+    return this.http.get(this.reportsurl+'getCashewInventoryClean',{params});
+  }
 
   getGeneralInventoryByTime(date: moment.Moment) {
     const params = new HttpParams()
@@ -69,11 +74,30 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getGeneralInventoryByTime',{params});
   }
 
+  getGeneralInventoryByPo(date: moment.Moment) {
+    const params = new HttpParams()
+      .set('date', moment.utc(date).toISOString());
+    return this.http.get(this.reportsurl+'getGeneralInventoryByPo',{params});
+  }
+
+  getGeneralInventoryOrder(date: moment.Moment) {
+    const params = new HttpParams()
+      .set('date', moment.utc(date).toISOString());
+    return this.http.get(this.reportsurl+'getGeneralInventoryOrder',{params});
+  }
+
   getCashewExportReport (rangeDate) {
     let params = new HttpParams().
         set('begin',  rangeDate.begin).
         set('end', rangeDate.end);
     return this.http.get(this.reportsurl+'getCashewExportReport',{params});
+  }
+
+  getCashewExportBagged (rangeDate) {
+    let params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+    return this.http.get(this.reportsurl+'getCashewExportBagged',{params});
   }
 
   sumQcBySupplier (supplier ,rangeDate) {

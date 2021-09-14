@@ -31,21 +31,30 @@ export class ProductionQcPackComponent implements OnInit {
     putData;
     newUsed;
 
+    posArray;
+
     submit(value: any) {
         this.localService.addEditQcPackingTransfer(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(ProductionDetailsDialogComponent, {
                 width: '80%',
-                data: {productionCheck: cloneDeep(val), fromNew: true, type: 'QC pack'}
+                data: {productionCheck: cloneDeep(val), fromNew: true, type: 'QC Pack'}
               });
               dialogRef.afterClosed().subscribe(result => {
                   if (result === $localize`Edit`) {
                     this.isFormAvailable = false;
                     this.cdRef.detectChanges();
-                    this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'qc').pipe(take(1)).subscribe( val => {
-                        this.putData = val[0];
-                        this.newUsed = val[1];
-                        this.isFormAvailable = true;
-                    });
+
+
+                    if(val['weightedPos']) {
+                        let pos = val['weightedPos'].map(a => a.poCode.id);
+                        this.setEditData(val['id'], pos, dialogRef.componentInstance.addPos);
+                    } else {
+                        this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], 'qc').pipe(take(1)).subscribe( val => {
+                            this.putData = val[0];
+                            this.newUsed = val[1];
+                            this.isFormAvailable = true;
+                        });
+                    }
                   } else {
                     this.router.navigate(['../Productions', {number: 4}], { relativeTo: this._Activatedroute });
                   }
@@ -59,14 +68,38 @@ export class ProductionQcPackComponent implements OnInit {
         }
 
 
+      setEditData(id, pos: Array<number>, addPos) {
+          if(addPos) {
+              this.form = this.fb.group({});
+              this.form.addControl('mixPos', this.fb.control(''));
+              this.isDataAvailable = true;
+              this.form.get('mixPos').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
+                  if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {
+                      this.posArray = selectedValue['weightedPos'];
+                      pos = pos.concat(selectedValue['weightedPos'].map(a => a.poCode.id));
+                      this.localService.getMixQcProductionWithStorage(id, pos, this.form.get('items').value?.id).pipe(take(1)).subscribe( val => {
+                          this.putData = val[0];
+                          this.newUsed = val[1]
+                          this.isFormAvailable = true;
+                      });
+                      this.isDataAvailable = false;
+                  }
+              });
+              this.setPoConfig(true);
+          } else {
+              this.localService.getMixQcProductionWithStorage(id, pos, null).pipe(take(1)).subscribe( val => {
+                  this.putData = val[0];
+                  this.newUsed = val[1]
+                  this.isFormAvailable = true;
+              });
+          }
+      }
+
+
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.localService.getProductionWithStorage(+params.get('id'), +params.get('poCode'), 'qc').pipe(take(1)).subscribe( val => {
-                    this.putData = val[0];
-                    this.newUsed = val[1];
-                    this.isFormAvailable = true;
-                });
+                this.setEditData(+params.get('id'), (params.get('poCodes')).split(',').map(Number), params.get('addPos') === 'true');
             } else {
                 this.setBeginChoose();
             }
@@ -78,8 +111,10 @@ export class ProductionQcPackComponent implements OnInit {
                 this.isFormAvailable = false;
                 this.putData = null;
                 this.newUsed = null;
+                this.posArray = null;
                 if(this.poConfig) {
                     this.form.get('poCode').setValue(null);
+                    this.form.get('mixPos').setValue(null);
                 } else {
                     this.setBeginChoose();
                 }
@@ -92,6 +127,18 @@ export class ProductionQcPackComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('items', this.fb.control(null));
         this.form.addControl('poCode', this.fb.control(''));
+        this.form.addControl('mixPos', this.fb.control(''));
+        this.form.get('mixPos').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
+            if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
+                this.posArray = selectedValue['weightedPos'];
+                let pos = selectedValue['weightedPos'].map(a => a.poCode.id);
+                this.localService.getMixStorageQcPos(pos, this.form.get('items').value?.id).pipe(take(1)).subscribe( val => {
+                    this.newUsed = val;
+                    this.isFormAvailable = true;
+                });
+                this.isDataAvailable = false;
+            }
+        });
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 this.localService.getStorageQcPo(selectedValue['id'], this.form.get('items').value?.id).pipe(take(1)).subscribe( val => {
@@ -102,6 +149,10 @@ export class ProductionQcPackComponent implements OnInit {
             }
         });
         this.isDataAvailable = true;
+        this.setPoConfig(false);
+      }
+
+      setPoConfig(onlyMix: boolean) {
         this.poConfig = [
             {
                 type: 'select',
@@ -110,25 +161,69 @@ export class ProductionQcPackComponent implements OnInit {
                 collections: 'somewhere',
                 options: this.genral.getItemsWasteCashew(),
             },
+            ...onlyMix? [] : [
+                {
+                    type: 'selectgroup',
+                    inputType: 'supplierName',
+                    options: this.localService.getAllPosQc(),
+                    collections: [
+                        {
+                            type: 'select',
+                            label: $localize`Supplier`,
+                        },
+                        {
+                            type: 'select',
+                            label: $localize`#PO`,
+                            name: 'poCode',
+                            collections: 'somewhere',
+                        },
+                    ]
+                }
+            ],
             {
-                type: 'selectgroup',
-                inputType: 'supplierName',
-                options: this.localService.getAllPosQc(),
+                type: 'popup',
+                label: $localize`Mix #PO`,
+                name: 'mixPos',
                 collections: [
                     {
-                        type: 'select',
-                        label: $localize`Supplier`,
+                        type: 'bigexpand',
+                        name: 'weightedPos',
+                        label: $localize`Mixed PO#s`,
+                        options: 'aloneInline',
+                        collections: [
+                            {
+                                type: 'selectgroup',
+                                inputType: 'supplierName',
+                                options: this.localService.getAllPosQc(),
+                                collections: [
+                                    {
+                                        type: 'select',
+                                        label: $localize`Supplier`,
+                                    },
+                                    {
+                                        type: 'select',
+                                        label: $localize`#PO`,
+                                        name: 'poCode',
+                                        collections: 'somewhere',
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'divider',
+                                inputType: 'divide'
+                            },
+                        ]
                     },
                     {
-                        type: 'select',
-                        label: $localize`#PO`,
-                        name: 'poCode',
-                        collections: 'somewhere',
-                    },
+                        type: 'button',
+                        label: $localize`Submit`,
+                        name: 'submit',
+                    }
                 ]
             },
         ];
     }
+
 
     ngOnDestroy() {
         if (this.navigationSubscription) {

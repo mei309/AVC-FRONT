@@ -179,20 +179,30 @@ fxShow="true" fxHide.lt-md="true" -->
       <mat-menu #menuReports="matMenu">
         <button mat-menu-item routerLink='reports/FullPoReport' i18n>Full PO# Details</button>
         <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventorystock" i18n>Inventory Stock</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventoryhistory" i18n>Inventory History</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 0}]" i18n>General Inventory History</button>
-        <button mat-menu-item routerLink='reports/ExportReport' i18n>Export</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventorystock" i18n>Cashew Inventory Stock</button>
+        <button mat-menu-item [matMenuTriggerFor]="inventoryhistory" i18n>Cashew Inventory History</button>
+        <button mat-menu-item [matMenuTriggerFor]="generalinventoryhistory" i18n>General Inventory History</button>
+        <button mat-menu-item [matMenuTriggerFor]="exporthistory" i18n>Export</button>
         <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
       </mat-menu>
       <mat-menu #inventorystock="matMenu" >
-        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Cashew Material</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 1}]" i18n>Cashew Items</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Material</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 1}]" i18n>Items</button>
       </mat-menu>
       <mat-menu #inventoryhistory="matMenu" >
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 0}]" i18n>Cashew Raw Material</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 1}]" i18n>Cashew Items (bagged)</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 2}]" i18n>Cashew Finished</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 0}]" i18n>Raw Material</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 1}]" i18n>Clean Material</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 2}]" i18n>Items (bagged)</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 3}]" i18n>Finished</button>
+      </mat-menu>
+      <mat-menu #generalinventoryhistory="matMenu" >
+        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 0}]" i18n>By Item</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 1}]" i18n>By PO#</button>
+        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 2}]" i18n>Stock/Order</button>
+      </mat-menu>
+      <mat-menu #exporthistory="matMenu" >
+        <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 0}]" i18n>By Container</button>
+        <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 1}]" i18n>Bagged Items</button>
       </mat-menu>
 
       <button *ngIf="isManager" mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>

@@ -52,7 +52,7 @@ export class CountinersLoadingComponent {
     private oneClickOnlySubscription: Subscription;
 
 
-    dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+    dataSource = {usedItemsTable: [], usedItemsNormal: [], materialUsed: []};
     isNew: boolean = true;
     isFormAvailable: boolean = false;
     beginPage: boolean = true;
@@ -92,6 +92,15 @@ export class CountinersLoadingComponent {
                     arr = arr.concat(secondData['usedItemsTable']);
                     delete secondData['usedItemsTable'];
                 }
+                if(secondData['materialUsed']) {
+                    secondData['materialUsed'].forEach(element => {
+                        element['storageMoves'] = element['storageMoves'].filter(amou => amou.numberUsedUnits);
+                        element['groupName'] = 'meterialUsedPos';
+                    });
+                    secondData['materialUsed'] = secondData['materialUsed'].filter(amou => amou.storageMoves.length);
+                    arr = arr.concat(secondData['materialUsed']);
+                    delete secondData['materialUsed'];
+                }
                 firstData['storageMovesGroups'] = arr;
                 // firstData['loadedItems'] = secondData['loadedItems'];
 
@@ -122,7 +131,7 @@ export class CountinersLoadingComponent {
                                 case $localize`Edit`:
                                     this.beginPage = false;
                                     this.choosedPos = [];
-                                    this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                                    this.dataSource = {usedItemsTable: [], usedItemsNormal: [], materialUsed: []};
                                     this.putFirstData = null;
                                     this.removeIds = [];
                                     // this.removeIdsTable = [];
@@ -164,9 +173,9 @@ export class CountinersLoadingComponent {
             if(!this.dataSource['usedItemsNormal']){
                 this.dataSource['usedItemsNormal'] = [];
             }
-            if(!this.dataSource['loadedItems']){
-                this.dataSource['loadedItems'] = [];
-            }
+            // if(!this.dataSource['loadedItems']){
+            //     this.dataSource['loadedItems'] = [];
+            // }
         }
     }
 
@@ -179,7 +188,7 @@ export class CountinersLoadingComponent {
     addToForm(val) {
         var arrNormal = [];
         var arrTable = [];
-        var arrDeclared = [];
+        // var arrDeclared = [];
         var arrUsedItems = [];
         val?.forEach(element => {
             if(element['storage']) {
@@ -204,7 +213,7 @@ export class CountinersLoadingComponent {
                     }
                 });
             }
-            arrDeclared.push({poCode: element['poCode'], item: element['item']});
+            // arrDeclared.push({poCode: element['poCode'], item: element['item']});
         });
         if(arrUsedItems.length) {
             arrNormal.push({storageMoves: arrUsedItems});
@@ -215,9 +224,9 @@ export class CountinersLoadingComponent {
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = this.dataSource['usedItemsNormal'].concat(arrNormal);
         }
-        if(arrDeclared.length) {
-            this.dataSource['loadedItems'] = this.dataSource['loadedItems'].concat(arrDeclared);
-        }
+        // if(arrDeclared.length) {
+        //     this.dataSource['loadedItems'] = this.dataSource['loadedItems'].concat(arrDeclared);
+        // }
     }
 
     addWanted() {
@@ -311,6 +320,7 @@ export class CountinersLoadingComponent {
     fillEdit(val) {
         var arrNormal = [];
         var arrTable = [];
+        var arrMaterial = [];
         val['storageMovesGroups']?.forEach(element => {
             if(element['groupName'].startsWith('table')) {
                 element['storageMove']['amounts'].forEach(ele => {
@@ -324,6 +334,11 @@ export class CountinersLoadingComponent {
                     this.removeIds.push(el['storage']['id']);
                 });
                 arrNormal.push(element);
+            } else if(element['groupName'].startsWith('meterial')) {
+                element['storageMoves'].forEach(el => {
+                    el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
+                });
+                arrMaterial.push(element);
             }
         });
         delete val['storageMovesGroups'];
@@ -336,6 +351,9 @@ export class CountinersLoadingComponent {
         }
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = arrNormal;
+        }
+        if(arrMaterial.length) {
+            this.dataSource['materialUsed'] = arrMaterial;
         }
         this.addWanted();
         this.isNew = false;
@@ -367,6 +385,7 @@ export class CountinersLoadingComponent {
                 });
             }
         });
+        this.isFormAvailable = true;
         this.beginConfig = [
             {
                 type: 'date',
@@ -570,7 +589,7 @@ export class CountinersLoadingComponent {
                 this.beginPage = false;
                 this.isFormAvailable = false;
                 this.choosedPos = [];
-                this.dataSource = {usedItemsTable: [], usedItemsNormal: [], loadedItems: []};
+                this.dataSource = {usedItemsTable: [], usedItemsNormal: [], materialUsed: []};
                 this.removeIds = [];
                 // this.removeIdsTable = [];
                 this.putFirstData = null;
@@ -589,60 +608,100 @@ export class CountinersLoadingComponent {
 
     addLoaded(){
         this.regConfig = [
-            // {
-            //     type: 'bigexpand',
-            //     name: 'loadedItems',
-            //     label: 'Declared amounts',
-            //     options: 'aloneNoAdd',
-            //     collections: [
-            //         {
-            //             type: 'selectgroup',
-            //             inputType: 'supplierName',
-            //             options: this.localService.getAllPosRoastPacked(),
-            //             collections: [
-            //                 {
-            //                     type: 'select',
-            //                     label: 'Supplier',
-            //                 },
-            //                 {
-            //                     type: 'select',
-            //                     label: '#PO',
-            //                     name: 'poCode',
-            //                     collections: 'somewhere',
-            //                 },
-            //             ]
-            //         },
-            //         {
-            //             type: 'select',
-            //             label: 'Item descrption',
-            //             name: 'item',
-            //             options: this.genral.getAllItemsCashew(),
-            //         },
-            //         {
-            //             type: 'inputselect',
-            //             name: 'declaredAmount',
-            //             collections: [
-            //                 {
-            //                     type: 'input',
-            //                     label: 'Declared amount',
-            //                     name: 'amount',
-            //                     inputType: 'numeric',
-            //                     options: 3,
-            //                 },
-            //                 {
-            //                     type: 'select',
-            //                     label: 'Weight unit',
-            //                     name: 'measureUnit',
-            //                     options: ['KG', 'LBS', 'OZ', 'GRAM'],
-            //                 },
-            //             ]
-            //         },
-            //         {
-            //             type: 'divider',
-            //             inputType: 'divide'
-            //         },
-            //     ]
-            // },
+          {
+              type: 'bigexpand',
+              name: 'materialUsed',
+              label: $localize`Material used`,
+              options: 'aloneNoAdd',
+              collections: [
+                  {
+                      type: 'materialUsage',
+                      // label: 'Transfer from',
+                      name: 'storageMoves',
+                      options: 'numberUsedUnits',
+                      collections: [
+                          {
+                              type: 'selectgroup',
+                              inputType: 'supplierName',
+                              // options: this.localService.getAllPosRoastPacked(),
+                              disable: true,
+                              collections: [
+                                  {
+                                      type: 'select',
+                                      label: $localize`Supplier`,
+                                  },
+                                  {
+                                      type: 'select',
+                                      label: $localize`#PO`,
+                                      name: 'itemPo',
+                                      collections: 'somewhere',
+                                  },
+                              ]
+                          },
+                          {
+                              type: 'select',
+                              label: $localize`Item`,
+                              name: 'item',
+                              disable: true,
+                          },
+                          {
+                              type: 'date',
+                              label: $localize`Process date`,
+                              name: 'itemProcessDate',
+                              disable: true,
+                          },
+                          {
+                              type: 'input',
+                              label: $localize`Weight unit`,
+                              name: 'measureUnit',
+                              disable: true,
+                          },
+                          {
+                              type: 'bignotexpand',
+                              name: 'storage',
+                              collections: [
+                                  {
+                                      type: 'input',
+                                      label: $localize`Number of units`,
+                                      name: 'numberUnits',
+                                      disable: true,
+                                  },
+                                  {
+                                      type: 'input',
+                                      name: 'unitAmount',
+                                      label: $localize`Unit weight`,
+                                      disable: true,
+                                  //     collections: [
+                                  //         {
+                                  //             type: 'input',
+                                  //             label: 'Unit weight',
+                                  //             name: 'amount',
+                                  //         },
+                                  //         {
+                                  //             type: 'select',
+                                  //             label: 'Weight unit',
+                                  //             name: 'measureUnit',
+                                  //         },
+                                  //     ]
+                                  },
+                                  {
+                                      type: 'select',
+                                      label: $localize`Warehouse location`,
+                                      name: 'warehouseLocation',
+                                      disable: true,
+                                  },
+                                  {
+                                      type: 'input',
+                                      label: $localize`Number available units`,
+                                      name: 'numberAvailableUnits',
+                                      disable: true,
+                                  },
+                              ]
+                          },
+                      ],
+                  },
+              ]
+          },
         ];
      }
 

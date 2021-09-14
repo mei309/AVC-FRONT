@@ -16,11 +16,11 @@ import * as moment from 'moment';
     <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew raw material stock" i18n-label>
       </mat-tab>
+      <mat-tab label="Cashew clean material stock" i18n-label>
+      </mat-tab>
       <mat-tab label="Cashew items stock (bagged)" i18n-label>
       </mat-tab>
       <mat-tab label="Cashew finished stock" i18n-label>
-      </mat-tab>
-      <mat-tab label="General stock" i18n-label>
       </mat-tab>
     </mat-tab-group>
     <div style="text-align:center" class="no-print">
@@ -109,107 +109,19 @@ export class InventoryByTimeComponent implements OnInit {
     switch (+event) {
       case 0:
         this.cashewSource = null;
-        this.totelByType = [
-          {
-            type: 'sumByParam',
-            name: 'productionFunctionality',
-            label: $localize`Total LBS`,
-            option: 'weightInLbs',
-            collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
-          },
-          {
-            type: 'sumByParam',
-            name: 'productCompany',
-            label: $localize`Total LBS by product company`,
-            option: 'weightInLbs',
-          }
-        ];
         this.localService.getCashewInventoryRaw(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
-        this.columnsShow = [
-          {
-              type: 'normal',
-              name: 'supplier',
-              label: $localize`Supplier`,
-              search: 'selectObj',
-              options: this.genral.getSuppliersCashew(),
-          },
-          {
-              type: 'select',
-              label: $localize`Product company`,
-              name: 'productCompany',
-              search: 'selectObj',
-              options: this.localService.getSuppliersGroups(),
-          },
-          {
-              type: 'normal',
-              name: 'item',
-              label: $localize`Material`,
-              search: 'selectObj',
-              options: this.genral.getItemsCashew('Raw'),
-          },
-          {
-              type: 'normal',
-              name: 'poCode',
-              label: $localize`PO#`,
-              search: 'normal',
-          },
-          {
-              type: 'date',
-              name: 'receiptDate',
-              label: $localize`Receipt date`,
-              search: 'dates',
-          },
-          {
-              type: 'arrayVal',
-              name: 'bags',
-              label: $localize`Bags`,
-              search: 'normal',
-          },
-          {
-              type: 'decimalNumber',
-              name: 'weightInLbs',
-              label: $localize`LBS weight`,
-              search: 'normal',
-          },
-          {
-              type: 'currency',
-              name: 'unitPrice',
-              label: $localize`Price per unit`,
-              search: 'object',
-          },
-          {
-              type: 'normal',
-              name: 'currency',
-              label: $localize`Currency`,
-              search: 'select',
-              options: ['USD', 'VND'],
-          },
-          {
-              type: 'arrayVal',
-              name: 'warehouses',
-              label: $localize`Storage`,
-              search: 'selectObj',
-              options: this.genral.getWearhouses(),
-          },
-          {
-              type: 'percentNormal',
-              name: 'rawDefectsAndDamage',
-              label: $localize`Defects + damage`,
-              search: 'percentage',
-          },
-          {
-              type: 'normal',
-              name: 'status',
-              label: $localize`Status`,
-              search: 'select',
-              options: this.genral.getProcessStatus(),
-          },
-        ];
-        this.cdRef.detectChanges();
+        this.setRawClean();
         break;
       case 1:
+        this.cashewSource = null;
+        this.localService.getCashewInventoryClean(normalizedDay).pipe(take(1)).subscribe(value => {
+          this.cashewSource = <any[]>value;
+        });
+        this.setRawClean();
+        break;
+      case 2:
         this.cashewSource = null;
         this.totelByType = [
           {
@@ -295,7 +207,7 @@ export class InventoryByTimeComponent implements OnInit {
         ];
         this.cdRef.detectChanges();
         break;
-      case 2:
+      case 3:
         this.cashewSource = null;
         this.totelByType = null;
         this.localService.getCashewInventoryFinished(normalizedDay).pipe(take(1)).subscribe(value => {
@@ -367,6 +279,105 @@ export class InventoryByTimeComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  setRawClean() {
+        this.totelByType = [
+          {
+            type: 'sumByParam',
+            name: 'productionFunctionality',
+            label: $localize`Total LBS`,
+            option: 'weightInLbs',
+            collections: {RAW_STATION: 'RAW STATION', null: 'STORAGE'}
+          },
+          {
+            type: 'sumByParam',
+            name: 'productCompany',
+            label: $localize`Total LBS by product company`,
+            option: 'weightInLbs',
+          }
+        ];
+        this.columnsShow = [
+          {
+              type: 'normal',
+              name: 'supplier',
+              label: $localize`Supplier`,
+              search: 'selectObj',
+              options: this.genral.getSuppliersCashew(),
+          },
+          {
+              type: 'select',
+              label: $localize`Product company`,
+              name: 'productCompany',
+              search: 'selectObj',
+              options: this.localService.getSuppliersGroups(),
+          },
+          {
+              type: 'normal',
+              name: 'item',
+              label: $localize`Material`,
+              search: 'selectObj',
+              options: this.genral.getItemsCashew('Raw'),
+          },
+          {
+              type: 'normal',
+              name: 'poCode',
+              label: $localize`PO#`,
+              search: 'normal',
+          },
+          {
+              type: 'date',
+              name: 'receiptDate',
+              label: $localize`Receipt date`,
+              search: 'dates',
+          },
+          {
+              type: 'arrayVal',
+              name: 'bags',
+              label: $localize`Bags`,
+              search: 'normal',
+          },
+          {
+              type: 'decimalNumber',
+              name: 'weightInLbs',
+              label: $localize`LBS weight`,
+              search: 'normal',
+          },
+          {
+              type: 'currency',
+              name: 'unitPrice',
+              label: $localize`Price per unit`,
+              search: 'object',
+          },
+          {
+              type: 'normal',
+              name: 'currency',
+              label: $localize`Currency`,
+              search: 'select',
+              options: ['USD', 'VND'],
+          },
+          {
+              type: 'arrayVal',
+              name: 'warehouses',
+              label: $localize`Storage`,
+              search: 'selectObj',
+              options: this.genral.getWearhouses(),
+          },
+          {
+              type: 'percentNormal',
+              name: 'rawDefectsAndDamage',
+              label: $localize`Defects + damage`,
+              search: 'percentage',
+          },
+          {
+              type: 'normal',
+              name: 'status',
+              label: $localize`Status`,
+              search: 'select',
+              options: this.genral.getProcessStatus(),
+          },
+        ];
+        this.cdRef.detectChanges();
   }
 
   filteredSums($event) {

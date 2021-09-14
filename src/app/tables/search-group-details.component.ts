@@ -28,8 +28,8 @@ import { OneColumn } from '../field.interface';
 
                     <ng-container *jrSwitchCases="['selectObj', 'selectObjObj']">
                       <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
-                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  panelWidth="fit-content">
-                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">
+                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" panelWidth="fit-content">
+                        <mat-option *ngFor="let item of column.options | async" [value]="item">
                           {{item.value}}
                         </mat-option>
                       </mat-autocomplete>
@@ -252,6 +252,11 @@ export class SearchGroupDetailsComponent {
       // }
   }
 
+  getOptionText(option) {
+    if(option !== null) {
+      return option.value;
+    }
+   }
 
   preperData() {
     this.oneColumns.forEach(element => {
@@ -369,9 +374,15 @@ export class SearchGroupDetailsComponent {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
-          const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
-          if (!fitsObjObj) {
-            return false;
+          if(typeof filters[i].val === 'string') {
+            const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
+            if (!fitsObjObj) {
+              return false;
+            }
+          } else {
+            if (data[filters[i].cloumn]['value'] != filters[i].val['value']) {
+              return false;
+            }
           }
           break;
         case 'object':
@@ -404,6 +415,18 @@ export class SearchGroupDetailsComponent {
             return false;
           }
           break;
+        case 'select':
+          if (data[filters[i].cloumn] != filters[i].val) {
+            return false;
+          }
+          break;
+        case 'selectObj':
+          if(typeof filters[i].val !== 'string') {
+            if (data[filters[i].cloumn] != filters[i].val['value']) {
+              return false;
+            }
+            break;
+          }
         default:
           const fitsThisFilter = data[filters[i].cloumn].toString().toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisFilter) {
@@ -577,43 +600,23 @@ export class SearchGroupDetailsComponent {
     if(this.spans[index]) {
       switch (this.totalColumn.type) {
         case 'weight2':
-          if(!this.dataSource.filteredData[index][this.totalColumn.name]) return;
-          var weightSize: number = this.dataSource.filteredData[index][this.totalColumn.name].length;
-          var startNumber = 0;
-          var totalAll = 0;
-          var totalLoss = 0;
-          if(this.dataSource.filteredData[index][this.totalColumn.name][0]['measureUnit'] === '%') {
-            var startNumber = 1;
-          }
-          var myNumbers = new Array<number>(weightSize);
-          var myMesareUnit = new Array<number>(weightSize);
-          for (let i = startNumber; i < weightSize; i++) {
-            myNumbers[i] = 0;
-            myMesareUnit[i] = this.dataSource.filteredData[index][this.totalColumn.name][i]['measureUnit'];
-          }
-          for (let ind = index; ind < index+this.spans[index][this.totalColumn.group]; ind++) {
-            if(this.dataSource.filteredData[ind][this.totalColumn.name]) {
-              if(startNumber) {
-                totalLoss += this.dataSource.filteredData[ind]['uniformTotals']['loss'];
-                totalAll += this.dataSource.filteredData[ind]['uniformTotals']['used'];
-              }
-              for (let m = startNumber; m < weightSize; m++) {
-                myNumbers[m] += this.dataSource.filteredData[ind][this.totalColumn.name][m]['amount'];
-              }
-            } else {
-              return;
-            }
-          }
+          const weightSize = (this.totalColumn.options as string[]).length;
           var result = new Array<object>(weightSize);
-          if(startNumber) {
-            if(totalAll) {
+          var startNumber = 0;
+          if(this.totalColumn.options[0] === '%') {
+            var startNumber = 1;
+            const totalLoss = ((this.dataSource.filteredData.slice(index, index+this.spans[index][this.totalColumn.group]))
+              .map(a => a['uniformTotals']['loss'])
+              .reduce((sum, record) => sum + record, 0));
+            const totalAll = ((this.dataSource.filteredData.slice(index, index+this.spans[index][this.totalColumn.group]))
+              .map(a => a['uniformTotals']['used'])
+              .reduce((sum, record) => sum + record, 0));
               result[0] = {amount: (totalLoss/totalAll)*100, measureUnit: '%'};
-            } else {
-              result[0] = {amount: 0, measureUnit: '%'};
-            }
           }
           for (let t = startNumber; t < weightSize; t++) {
-            result[t] = {amount: myNumbers[t], measureUnit: myMesareUnit[t]};
+            result[t] = {amount: ((this.dataSource.filteredData.slice(index, index+this.spans[index][this.totalColumn.group]))
+              .map(a => a[this.totalColumn.name].find(b => b['measureUnit'] === this.totalColumn.options[t])))
+              .reduce((sum, record) => record? sum + record['amount'] : sum, 0), measureUnit: this.totalColumn.options[t]};
           }
           return result;
         default:

@@ -13,7 +13,8 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
-            <ng-container *ngIf="['parent', 'object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImportEdit"> 
+            <ng-container *ngIf="['parent', 'object', 'arrayGroup', 'array', 'detailsUpside', 'arrayForEach', 'insideForEach'].includes(column.type); else notImportEdit">
+              <ng-container [ngSwitch]="column.type">
                 <ng-container *ngSwitchCase="'object'">
                     <h3>{{column.label}}</h3>
                     <inside-details [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
@@ -21,7 +22,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                 </ng-container>
                 <inside-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
                 </inside-details>
-                
+
                       <fieldset [ngSwitch]="column.type" [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
                           <show-details-table *ngSwitchCase="'array'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
@@ -30,18 +31,19 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                           </show-details-group-table>
                           <show-details-upside-table *ngSwitchCase="'detailsUpside'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]" [processName]="column.processName">
                           </show-details-upside-table>
-                          
+
                           <inside-fe-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]" [oneColumns]="column.collections">
-                          </inside-fe-edit> 
+                          </inside-fe-edit>
                       </fieldset>
+              </ng-container>
             </ng-container>
             <ng-template #notImportEdit>
-                  
+
 
                   <div class="half">
                         <label>{{column.label}}</label>
                         <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">
-                          <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>   
+                          <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
                         </ng-container>
                         <ng-template  #notEqual1>
                           <span class="half added-item">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
@@ -64,7 +66,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                         </ng-container>
                         <inside-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                         </inside-details>
-                        
+
                         <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
                           <ng-container [ngSwitch]="column.type">
@@ -93,12 +95,12 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
                   </ng-container>
               </ng-container>
               <ng-template #notImport>
-                    
+
                     <div class="half">
                           <label>{{column.label}}</label>
                           <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
                     </div>
-                   
+
               </ng-template>
             </ng-container>
         </ng-container>
@@ -208,8 +210,8 @@ export class ShowDetailsComponent implements OnInit {
     }
   }
   get secondSource() { return this.secondSourceTemp; }
-  
-  
+
+
   @Input() set oneColumns(value) {
     if(value){
       this.regShow = value;
@@ -264,7 +266,7 @@ export class ShowDetailsComponent implements OnInit {
         } else if(result['process'] === 'onSave') {
           this.genral.taskManagment(result).pipe(take(1)).subscribe(value => {
             // this.dataSource = value;
-            
+
           });
         }
       }
@@ -697,7 +699,7 @@ export class ShowDetailsComponent implements OnInit {
             name: 'totalAmount',
             bold: 'true',
             // collections: 'measureUnit',
-          }, 
+          },
         ]
     },
     {
@@ -732,7 +734,7 @@ export class ShowDetailsComponent implements OnInit {
                     name: 'warehouseLocation',
                 },
               ]
-          }, 
+          },
         ]
     },
     // {
@@ -781,7 +783,7 @@ export class ShowDetailsComponent implements OnInit {
     // },
     //     ]
     // },
-    
+
 
 
     {

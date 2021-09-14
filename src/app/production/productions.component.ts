@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { DropNormal, OneColumn } from './../field.interface';
+import { OneColumn } from './../field.interface';
 import { Genral } from './../genral.service';
 import { ProductionDetailsDialogComponent } from './production-detailes-dialog.component';
 import { ProductionService } from './production.service';
@@ -14,9 +13,9 @@ import { ProductionService } from './production.service';
 })
 export class ProductionsComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
-  
+
   columnsShow: OneColumn[];
 
   totelColumn: OneColumn = {
@@ -24,9 +23,10 @@ export class ProductionsComponent implements OnInit {
       name: 'processGain',
       label: $localize`Total difference`,
       group: 'poCodes',
+      options: ['%', 'LBS']
   };
   type: string = '';
-  
+
   cashewSourceColumns;
 
   dateRange;
@@ -143,7 +143,8 @@ export class ProductionsComponent implements OnInit {
                       addPos: dialogRef.componentInstance.addPos}], { relativeTo: this._Activatedroute });
                     break;
                   case 4:
-                    this.router.navigate(['../QcPacking',{id: event['id'], poCodes: event['poCodeIds']}], { relativeTo: this._Activatedroute });
+                    this.router.navigate(['../QcPacking',{id: event['id'], poCodes: event['poCodeIds'],
+                    addPos: dialogRef.componentInstance.addPos}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;
@@ -217,7 +218,7 @@ export class ProductionsComponent implements OnInit {
 
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
       this.ItemsChangable1.unsubscribe();

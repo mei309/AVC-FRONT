@@ -33,8 +33,8 @@ import { OneColumn } from '../field.interface';
               </mat-select>
               <ng-container *jrSwitchCases="['selectObj', 'selectObjObj']">
                 <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  panelWidth="fit-content">
-                  <mat-option *ngFor="let item of column.options | async" [value]="item.value">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" panelWidth="fit-content">
+                  <mat-option *ngFor="let item of column.options | async" [value]="item">
                     {{item.value}}
                   </mat-option>
                 </mat-autocomplete>
@@ -221,14 +221,26 @@ export class SearchExpandableComponent implements OnInit {
   }
 
 
+  getOptionText(option) {
+    if(option !== null) {
+      return option.value;
+    }
+   }
+
   customFilterPredicate(data: any, filters): boolean {
     for (let i = 0; i < filters.length; i++) {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
-          const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
-          if (!fitsObjObj) {
-            return false;
+          if(typeof filters[i].val === 'string') {
+            const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
+            if (!fitsObjObj) {
+              return false;
+            }
+          } else {
+            if (data[filters[i].cloumn]['value'] != filters[i].val['value']) {
+              return false;
+            }
           }
           break;
         case 'object':
@@ -261,6 +273,18 @@ export class SearchExpandableComponent implements OnInit {
             return false;
           }
           break;
+        case 'select':
+          if (data[filters[i].cloumn] != filters[i].val) {
+            return false;
+          }
+          break;
+        case 'selectObj':
+          if(typeof filters[i].val !== 'string') {
+            if (data[filters[i].cloumn] != filters[i].val['value']) {
+              return false;
+            }
+            break;
+          }
         default:
           const fitsThisFilter = data[filters[i].cloumn].toString().toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisFilter) {

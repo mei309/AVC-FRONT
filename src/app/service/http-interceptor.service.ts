@@ -13,10 +13,10 @@ export class HttpInterceptorService implements HttpInterceptor {
     constructor(private authenticateService: AuthenticateService, private loadingService: LoadingService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-      let params = req.params;
+        let params = req.params;
         for (const key of req.params.keys()) {
-            if (!params.get(key)) {
-                params = params.delete(key, undefined);
+            if (params.get(key) === 'undefined' || params.get(key) === 'null') {
+              params = params.delete(key);
             }
         }
         req = req.clone({ params });

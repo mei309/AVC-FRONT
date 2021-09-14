@@ -136,13 +136,26 @@ export class ProductionService {
     // return forkJoin([response1, response2]);
   }
 
-  getMixProductionWithStorage(id: number, pos: string, withPacked: boolean) {
+  getMixProductionWithStorage(id: number, pos: Array<number>, withPacked: boolean) {
     let response1 = this.http.get(this.productionurl+'getProduction/'+id);
     return forkJoin([response1, this.http.get(this.productionurl+'getStorageToPackPos/'+pos+'/'+withPacked)]);
   }
 
   getMixStorageToPackPos(pos: Array<number>, withPacked: boolean) {
     return this.http.get(this.productionurl+'getStorageToPackPos/'+pos+'/'+withPacked);
+  }
+
+  getMixQcProductionWithStorage(id: number, pos: Array<number>, itemId: string) {
+    let params = new HttpParams().
+        set('itemId',  itemId);
+    let response1 = this.http.get(this.productionurl+'getProduction/'+id);
+    return forkJoin([response1, this.http.get(this.productionurl+'getStorageQcPos/'+pos, {params})]);
+  }
+
+  getMixStorageQcPos(pos: Array<number>, itemId: string) {
+    let params = new HttpParams().
+        set('itemId',  itemId);
+    return this.http.get(this.productionurl+'getStorageQcPos/'+pos, {params});
   }
 
 }

@@ -8,13 +8,13 @@ import { isEqualWith } from 'lodash-es';
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
-            <ng-container *ngIf="['parent', 'arrayGroup', 'array', 'arrayOrdinal', 'putArray'].includes(column.type); else notImportEdit"> 
+            <ng-container *ngIf="['parent', 'arrayGroup', 'array', 'arrayOrdinal', 'putArray'].includes(column.type); else notImportEdit">
                 <ng-container [ngSwitch]="column.type">
                         <show-details-ordinal *ngSwitchCase="'arrayOrdinal'" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
                         </show-details-ordinal>
                         <inside-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
                         </inside-details>
-                        
+
 
                         <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
@@ -28,12 +28,12 @@ import { isEqualWith } from 'lodash-es';
                   </ng-container>
             </ng-container>
             <ng-template #notImportEdit>
-                  
+
 
                   <div class="half">
                         <label>{{column.label}}</label>
                         <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">
-                          <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>   
+                          <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
                         </ng-container>
                         <ng-template  #notEqual1>
                           <span class="half added-item">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
@@ -53,7 +53,7 @@ import { isEqualWith } from 'lodash-es';
                         </show-details-ordinal>
                         <inside-details *ngSwitchCase="'parent'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name]">
                         </inside-details>
-                        
+
 
                         <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
                           <legend><h1>{{column.label}}</h1></legend>
@@ -67,12 +67,12 @@ import { isEqualWith } from 'lodash-es';
                   </ng-container>
               </ng-container>
               <ng-template #notImport>
-                    
+
                     <div class="half">
                           <label>{{column.label}}</label>
                           <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
                     </div>
-                   
+
               </ng-template>
             </ng-container>
         </ng-container>
@@ -90,6 +90,8 @@ export class InsideDetailsComponent implements OnInit {
   @Input() set dataSource(value) {
       if(value){
         if(!this.regShow) {
+          console.log(value);
+
           if(value.hasOwnProperty('groupName') && value['groupName']) {
             if(value['groupName'].includes('Used') || value['groupName'].endsWith('Relocation') || value['groupName'].endsWith('Loading')) {
               this.setReloaction(value['groupName']);
@@ -104,8 +106,8 @@ export class InsideDetailsComponent implements OnInit {
         if(this.secondSource && this.secondSource['version'] === this.dataTable['version']) {
           this.secondSourceTemp = undefined;
         }
-        
-    
+
+
       }
   }
   get dataSource() { return this.dataTable; }
@@ -120,17 +122,17 @@ export class InsideDetailsComponent implements OnInit {
     }
   }
   get secondSource() { return this.secondSourceTemp; }
-  
-  
+
+
   @Input() set oneColumns(value) {
     if(value){
       this.regShow = value;
     }
   }
   get oneColumns() { return this.regShow; }
-  
+
   regShow;
- 
+
 
   constructor(public dialog: MatDialog) {
   }

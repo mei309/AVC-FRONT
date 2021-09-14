@@ -12,7 +12,7 @@ import { CountinersService } from './countiners.service';
 })
 export class CountinersReportsComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
 
   type: string;
@@ -20,7 +20,7 @@ export class CountinersReportsComponent implements OnInit {
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];
-  
+
   mainSourceColumns;
 
   totelColumn: OneColumn;
@@ -159,6 +159,7 @@ export class CountinersReportsComponent implements OnInit {
             name: 'totalRow',
             label: $localize`Total loaded`,
             group: 'poCodes',
+            options: ['LBS', 'KG']
           };
           this.columnsShow = [
             {
@@ -236,7 +237,7 @@ export class CountinersReportsComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }

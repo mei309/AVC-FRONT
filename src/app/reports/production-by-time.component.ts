@@ -19,16 +19,17 @@ import { ReportsService } from './reports.service';
 })
 export class ProductionsByTimeComponent implements OnInit {
   navigationSubscription;
-  
+
   isDataAvailable: boolean = false;
 
   columnsShow: OneColumn[];
-  
+
   totelColumn: OneColumn = {
       type: 'weight2',
       name: 'processGain',
       label: $localize`Total difference`,
       group: 'poCodes',
+      options: ['%', 'LBS']
   };
 
   totelAll: OneColumn = {
@@ -37,7 +38,7 @@ export class ProductionsByTimeComponent implements OnInit {
     label: $localize`Total all produced`,
     options: ['LBS']
   };
-  
+
   cashewSourceColumns;
 
   constructor(private router: Router, public dialog: MatDialog, private localService: ReportsService,
@@ -68,6 +69,12 @@ export class ProductionsByTimeComponent implements OnInit {
               options: this.genral.getProcess(),
           },
           {
+              name: 'productionLine',
+              label: $localize`Production line`,
+              search: 'select',
+              options: this.genral.getProductionLine(''),
+          },
+          {
               type: 'itemWeight',
               name: 'usedItems',
               label: $localize`Used items`,
@@ -95,6 +102,30 @@ export class ProductionsByTimeComponent implements OnInit {
           },
           {
               type: 'normal',
+              name: 'startTime',
+              label: $localize`Start time`,
+              search: 'normal',
+          },
+          {
+              type: 'normal',
+              name: 'endTime',
+              label: $localize`End time`,
+              search: 'normal',
+          },
+          {
+              type: 'normal',
+              name: 'duration',
+              label: $localize`Duration`,
+              search: 'normal',
+          },
+          {
+              type: 'normal',
+              name: 'numOfWorkers',
+              label: $localize`Labor`,
+              search: 'normal',
+          },
+          {
+              type: 'normal',
               name: 'status',
               label: $localize`Status`,
               search: 'select',
@@ -113,7 +144,7 @@ export class ProductionsByTimeComponent implements OnInit {
   }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }

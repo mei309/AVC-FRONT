@@ -14,7 +14,11 @@ import * as moment from 'moment';
     <h1 style="text-align:center" class="no-print" i18n>General Inventory History Report</h1>
     <h1 style="text-align:center" class="only-print" i18n>Inventory At {{dateDay.value | date : 'medium':"+0000"}}</h1>
     <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
-      <mat-tab label="General stock" i18n-label>
+      <mat-tab label="General stock by item" i18n-label>
+      </mat-tab>
+      <mat-tab label="General stock by PO#" i18n-label>
+      </mat-tab>
+      <mat-tab label="General stock and orders" i18n-label>
       </mat-tab>
     </mat-tab-group>
     <div style="text-align:center" class="no-print">
@@ -150,6 +154,97 @@ export class InventoryGeneralTimeComponent implements OnInit {
             type: 'kidArray',
           },
         ];
+        this.cdRef.detectChanges();
+        break;
+      case 1:
+        this.cashewSource = null;
+        this.columnsShow = [
+          {
+            type: 'nameId',
+            name: 'poCode',
+            label: $localize`PO#`,
+            search: 'object',
+            group: 'poCode',
+          },
+          {
+            name: 'supplierName',
+            label: $localize`Supplier`,
+            search: 'selectObj',
+            options: this.genral.getSuppliersGeneral(),
+            group: 'poCode',
+          },
+          // {
+          //   type: 'weight2',
+          //   name: 'totalStock',
+          //   label: 'Total stock',
+          //   search: 'object',
+          //   group: 'poCode',
+          // },
+          {
+            type: 'nameId',
+            name: 'item',
+            label: $localize`Item`,
+            search: 'selectObjObj',
+            options: this.genral.getItemsGeneral(),
+            group: 'item',
+          },
+          {
+            type: 'weight2',
+            name: 'totalBalance',
+            label: $localize`Total balance`,
+            search: 'objArray',
+            // group: 'item',
+          },
+          {
+            type: 'arrayVal',
+            name: 'warehouses',
+            label: $localize`Warehouse`,
+            search: 'selectObj',
+            options: this.genral.getWearhouses(),
+          },
+          {
+              type: 'date',
+              name: 'receiptDate',
+              label: $localize`Receipt date`,
+              search: 'dates',
+          },
+          {
+            name: 'poInventoryRows',
+            type: 'kidArray',
+          }
+        ];
+        this.localService.getGeneralInventoryByPo(normalizedDay).pipe(take(1)).subscribe(value => {
+          this.cashewSource = <any[]>value;
+        });
+        this.cdRef.detectChanges();
+        break;
+    case 2:
+        this.cashewSource = null;
+        this.columnsShow = [
+          {
+            type: 'nameId',
+            name: 'item',
+            label: $localize`Item`,
+            search: 'selectObjObj',
+            options: this.genral.getItemsGeneral(),
+            group: 'item',
+          },
+          {
+            type: 'weight',
+            name: 'inventoryAmount',
+            label: $localize`Inventory amount`,
+            search: 'object',
+          },
+          {
+            type: 'weight',
+            name: 'orderedAmount',
+            label: $localize`Orderd amount`,
+            search: 'object',
+          },
+        ];
+        this.localService.getGeneralInventoryOrder(normalizedDay).pipe(take(1)).subscribe(value => {
+          this.cashewSource = <any[]>value;
+        });
         this.cdRef.detectChanges();
         break;
       default:

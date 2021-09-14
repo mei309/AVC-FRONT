@@ -8,7 +8,7 @@ import * as moment from 'moment';
     <mat-form-field appearance="fill" class="date-range">
         <mat-label i18n>Showing results</mat-label>
         <mat-select [formControl]="choosedDate">
-            <mat-select-trigger> 
+            <mat-select-trigger>
                 <span *ngIf="choosedDate.value">
                     <ng-container [ngSwitch]="choosedDate.value.type">
                         <ng-container *ngSwitchCase="'range'">
@@ -117,45 +117,45 @@ export class DateRangeSelect {
         {
             format: 'mediumDate',
             label: $localize`For date`,
-            value: null,
+            value: undefined,
         },
         {
             type: 'range',
             format: 'mediumDate',
             label: $localize`For week`,
-            value: {begin: null, end: null},
+            value: {begin: undefined, end: undefined},
         },
         {
             format: 'LLL yyyy',
             label: $localize`For month`,
-            value: null,
+            value: undefined,
         },
         {
             format: 'yyyy',
             label: $localize`For year`,
-            value: null,
+            value: undefined,
         },
         {
             endTime: true,
             type: 'range',
             format: 'mediumDate',
             label: $localize`For range`,
-            value: {begin: null, end: null},
+            value: {begin: undefined, end: undefined},
         },
         {
             // type: 'range',
             format: 'mediumDate',
             label: $localize`From date`,
-            value: {begin: null, end: null},
+            value: {begin: undefined, end: undefined},
         },
         {
             type: 'none',
             label: $localize`Of all records`,
-            value: null,
+            value: undefined,
         },
     ];
     choosedDate = new FormControl();
-  
+
   constructor() {
   }
 
@@ -166,7 +166,7 @@ export class DateRangeSelect {
   last2Weeks() {
     this.datesList[5]['value'] = moment().subtract(13, "day").startOf("day").toDate();
     this.choosedDate.setValue(this.datesList[5]);
-    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.startTime.value, 'hours').toDate().toISOString(), end: null});
+    this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add(this.startTime.value, 'hours').toDate().toISOString(), end: undefined});
   }
   allTimes(){
     this.choosedDate.setValue(this.datesList[6]);
@@ -227,7 +227,7 @@ export class DateRangeSelect {
                 this.submitRange.emit({begin: moment.utc(this.choosedDate.value.value).add($event, 'hours').toISOString(), end: (moment.utc(this.choosedDate.value.value)).add(1, 'days').add($event, 'hours').toISOString()});
                 break;
             case $localize`From date`:
-                this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add($event, 'hours').toDate().toISOString(), end: null});
+                this.submitRange.emit({begin: moment.utc().subtract(13, "day").startOf("day").add($event, 'hours').toDate().toISOString(), end: undefined});
             default:
                 break;
         }

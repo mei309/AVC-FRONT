@@ -11,7 +11,7 @@ import { cloneDeep } from 'lodash-es';
     template: `
     <fieldset *ngIf="isDataAvailable" [ngStyle]="{'width':'90%'}">
         <legend><h1 i18n>Packing cashew process</h1></legend>
-        <mat-checkbox style="padding-right: 10px" (change)="setWithPacked($event.checked)" i18n>With packed</mat-checkbox>
+        <mat-checkbox [checked]="withPacked" style="padding-right: 10px" (change)="setWithPacked($event.checked)" i18n>With packed</mat-checkbox>
         <ng-container *ngFor="let field of poConfig;" dynamicField [field]="field" [group]="form">
         </ng-container>
     </fieldset>
@@ -59,20 +59,23 @@ export class ProductionPackingComponent implements OnInit {
                     this.router.navigate(['../Productions', {number: 3}], { relativeTo: this._Activatedroute });
                 }
             });
-            
+
         });
     }
 
-    setEditData(id, pos, withPacked, addPos) {
+    setEditData(id, pos: Array<number>, withPacked, addPos) {
+        this.withPacked = withPacked;
         if(addPos) {
             this.form = this.fb.group({});
             this.form.addControl('mixPos', this.fb.control(''));
             this.isDataAvailable = true;
             this.form.get('mixPos').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-                if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {//&& selectedValue['poCode']
+                if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {
                     this.posArray = selectedValue['weightedPos'];
+                    console.log(pos);
+
                     pos = pos.concat(selectedValue['weightedPos'].map(a => a.poCode.id));
-                    this.localService.getMixProductionWithStorage(id, pos, withPacked).pipe(take(1)).subscribe( val => {
+                    this.localService.getMixProductionWithStorage(id, pos, this.withPacked).pipe(take(1)).subscribe( val => {
                         this.putData = val[0];
                         this.newUsed = val[1]
                         this.isFormAvailable = true;
@@ -82,7 +85,7 @@ export class ProductionPackingComponent implements OnInit {
             });
             this.setPoConfig(this.withPacked, true);
         } else {
-            this.localService.getMixProductionWithStorage(id, pos, withPacked).pipe(take(1)).subscribe( val => {
+            this.localService.getMixProductionWithStorage(id, pos, this.withPacked).pipe(take(1)).subscribe( val => {
                 this.putData = val[0];
                 this.newUsed = val[1]
                 this.isFormAvailable = true;
@@ -98,7 +101,7 @@ export class ProductionPackingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.setEditData(+params.get('id'), params.get('poCodes'), params.get('withPacked') === 'true', params.get('addPos') === 'true');
+                this.setEditData(+params.get('id'), (params.get('poCodes')).split(',').map(Number), params.get('withPacked') === 'true', params.get('addPos') === 'true');
             } else {
                 this.setBeginChoose();
             }
@@ -122,7 +125,7 @@ export class ProductionPackingComponent implements OnInit {
             }
         });
     }
-    
+
     setBeginChoose() {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
@@ -134,16 +137,16 @@ export class ProductionPackingComponent implements OnInit {
                 this.localService.getMixStorageToPackPos(pos, this.withPacked).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
-                }); 
+                });
                 this.isDataAvailable = false;
             }
         });
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id')) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 this.localService.getStorageToPackPo(selectedValue['id'], this.withPacked).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
-                }); 
+                });
                 this.isDataAvailable = false;
             }
         });
@@ -222,7 +225,7 @@ export class ProductionPackingComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }
