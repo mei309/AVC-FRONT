@@ -17,11 +17,11 @@ import { SchedulesService } from './schedules.service';
 export class ReceivingGeneralScheduleComponent implements OnInit {
 
   cashewSource;
-  
+
   columnsShow: OneColumn[];
-  
+
   constructor(public dialog: MatDialog, private localService: SchedulesService) {
-    
+
   }
 
   ngOnInit() {
@@ -79,27 +79,24 @@ export class ReceivingGeneralScheduleComponent implements OnInit {
         type: 'arrayVal',
         name: 'approvals',
         label: $localize`Approvals`,
-        search: 'object',
       },
       {
         type: 'arrayVal',
         name: 'orderStatus',
         label: $localize`Status`,
-        search: 'select',
-        options: ['OPEN', 'RECEIVED', 'REJECTED'],
       },
       // {
       //   name: 'poRows',
       //   titel: 'Supplier',
       //   type: 'kidArray',
       //   collections: [
-          
+
       //   ]
       // }
     ];
   }
 
- 
+
   inlineRangeChange($event) {
     this.localService.getAllGeneralOrders($event).pipe(take(1)).subscribe(value => {
       this.cashewSource = <any[]>value;

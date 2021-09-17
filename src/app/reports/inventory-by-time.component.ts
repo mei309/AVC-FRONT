@@ -265,7 +265,7 @@ export class InventoryByTimeComponent implements OnInit {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Storage`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getWearhouses(),
           },
           {
@@ -362,7 +362,7 @@ export class InventoryByTimeComponent implements OnInit {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Storage`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getWearhouses(),
           },
           {

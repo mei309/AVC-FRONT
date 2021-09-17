@@ -21,7 +21,7 @@ export class AllQcsComponent implements OnInit {
   columnsShow: OneColumn[];
 
   type: string;
-  
+
   cashewSourceColumns;
 
   dateRange;
@@ -98,7 +98,7 @@ export class AllQcsComponent implements OnInit {
         type: 'arrayVal',
         name: 'approvals',
         label: $localize`Approvals`,
-        search: 'object',
+        search: 'normal',
       },
     ];
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -136,7 +136,7 @@ export class AllQcsComponent implements OnInit {
             this.router.navigate(['../Raw',{id: event['id'], roast: true}], { relativeTo: this._Activatedroute });
           }
         }
-        
+
       } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
@@ -185,7 +185,7 @@ export class AllQcsComponent implements OnInit {
 
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
       this.ItemsChangable1.unsubscribe();

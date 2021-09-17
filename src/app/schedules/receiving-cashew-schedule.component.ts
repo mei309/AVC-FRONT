@@ -16,13 +16,13 @@ import { SchedulesService } from './schedules.service';
   `,
 })
 export class ReceivingCashewScheduleComponent implements OnInit {
-  
+
   cashewSource;
-  
+
   columnsShow: OneColumn[];
 
   constructor(public dialog: MatDialog, private localService: SchedulesService) {
-    
+
   }
 
   ngOnInit() {
@@ -84,21 +84,18 @@ export class ReceivingCashewScheduleComponent implements OnInit {
         type: 'arrayVal',
         name: 'approvals',
         label: $localize`Approvals`,
-        search: 'object',
       },
       {
         type: 'arrayVal',
         name: 'orderStatus',
         label: $localize`Status`,
-        search: 'select',
-        options: ['OPEN', 'RECEIVED', 'REJECTED'],
       },
       // {
       //   name: 'poRows',
       //   titel: 'Supplier',
       //   type: 'kidArray',
       //   collections: [
-          
+
       //   ]
       // }
     ];
@@ -143,19 +140,19 @@ export class ReceivingCashewScheduleComponent implements OnInit {
 //     start: new FormControl(),
 //     end: new FormControl()
 //   });
-  
+
 //   cashewSourceColumns;
 //   sumsSource;
 
 //   seeAll: boolean;
 //   columnsShow: OneColumn[];
-  
+
 //   ordersSource: any[];
 //   mainSource: any[];
 //   dataSum: any[] = [];
 
 //   constructor(public dialog: MatDialog, private localService: SchedulesService) {
-    
+
 //   }
 
 //   ngOnInit() {
@@ -236,7 +233,7 @@ export class ReceivingCashewScheduleComponent implements OnInit {
 //       //   titel: 'Supplier',
 //       //   type: 'kidArray',
 //       //   collections: [
-          
+
 //       //   ]
 //       // }
 //     ];
@@ -249,8 +246,8 @@ export class ReceivingCashewScheduleComponent implements OnInit {
 //   inlineRangeChange() {
 //       var dates = this.dateRangeDisp.value;
 //       if(dates.end) {
-//         this.ordersSource = this.mainSource.filter(e=> 
-//           (moment(e['deliveryDate']).isBetween(dates.start, dates.end.add(1, "day")))); 
+//         this.ordersSource = this.mainSource.filter(e=>
+//           (moment(e['deliveryDate']).isBetween(dates.start, dates.end.add(1, "day"))));
 //         this.cashewSourceColumns = this.ordersSource;
 //         this.sumsSource = [this.ordersSource, ['personInCharge', 'itemName'], ['item', 'itemName']];
 //         if(this.ordersSource.length < this.mainSource.length) {

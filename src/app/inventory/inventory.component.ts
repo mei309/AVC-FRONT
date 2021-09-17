@@ -31,7 +31,7 @@ import { InventoryService } from './inventory.service';
 })
 export class InventoryReportsComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
   columnsShow: OneColumn[];
 
@@ -103,7 +103,7 @@ export class InventoryReportsComponent implements OnInit {
   changedAndDate(event) {
       switch (+event) {
         case 0:
-          this.inventorySource = null; 
+          this.inventorySource = null;
           this.setUsageCols();
           this.localService.getMaterialUses(this.dateRange).pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
@@ -112,7 +112,7 @@ export class InventoryReportsComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 1:
-          this.inventorySource = null; 
+          this.inventorySource = null;
           this.setUsageCols();
           this.localService.getCashewUses(this.dateRange).pipe(take(1)).subscribe(value => {
             this.inventorySource = <any[]>value;
@@ -134,7 +134,7 @@ export class InventoryReportsComponent implements OnInit {
                 type: 'arrayVal',
                 name: 'suppliers',
                 label: $localize`Supplier`,
-                search: 'selectObj',
+                search: 'selectObjArr',
                 options: this.genral.getSuppliersCashew(),
                 group: 'poCodes',
             },
@@ -183,7 +183,7 @@ export class InventoryReportsComponent implements OnInit {
             type: 'arrayVal',
             name: 'suppliers',
             label: $localize`Supplier`,
-            search: 'selectObj',
+            search: 'selectObjArr',
             options: this.genral.getSuppliersCashew(),
             group: 'poCodes',
         },
@@ -217,9 +217,9 @@ export class InventoryReportsComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }
-    
+
 }

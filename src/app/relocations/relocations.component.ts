@@ -32,13 +32,13 @@ import { ReplaySubject } from 'rxjs';
 })
 export class RelocationsComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
 
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];
-  
+
   mainSourceColumns;
 
   ItemsChangable1 = new ReplaySubject<any[]>();
@@ -62,7 +62,7 @@ export class RelocationsComponent implements OnInit {
             type: 'arrayVal',
             name: 'suppliers',
             label: $localize`Supplier`,
-            search: 'selectObj',
+            search: 'selectObjArr',
             options: this.genral.getSuppliersCashew(),
             group: 'poCodes',
         },
@@ -180,7 +180,7 @@ export class RelocationsComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
       this.ItemsChangable1.unsubscribe();

@@ -23,7 +23,7 @@ import { ReportsService } from './reports.service';
 })
 export class InventoryByTypeComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
   columnsShow: OneColumn[];
 
@@ -37,7 +37,7 @@ export class InventoryByTypeComponent implements OnInit {
     label: $localize`Sum`,
     options: ['KG', 'LBS']
   };
-  
+
 
   constructor(public dialog: MatDialog, private localService: ReportsService, private genral: Genral,
     private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
@@ -93,7 +93,7 @@ export class InventoryByTypeComponent implements OnInit {
           type: 'arrayVal',
           name: 'warehouses',
           label: $localize`Warehouse`,
-          search: 'selectObj',
+          search: 'selectObjArr',
           options: this.genral.getWearhouses(),
         },
         {
@@ -131,7 +131,7 @@ export class InventoryByTypeComponent implements OnInit {
     changed(event) {
       switch (+event) {
         case 0:
-          this.cashewSource = null; 
+          this.cashewSource = null;
           this.localService.getCashewInventoryBullk().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
           });
@@ -141,7 +141,7 @@ export class InventoryByTypeComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 1:
-          this.cashewSource = null; 
+          this.cashewSource = null;
           this.localService.getCashewInventoryPacked().pipe(take(1)).subscribe(value => {
             this.cashewSource = <any[]>value;
           });
@@ -156,10 +156,10 @@ export class InventoryByTypeComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
       this.ItemsChangable.unsubscribe();
     }
-    
+
 }

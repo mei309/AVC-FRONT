@@ -27,11 +27,11 @@ import { OneColumn } from '../field.interface';
         <th mat-header-cell *matHeaderCellDef>
           <h3 mat-sort-header>{{column.label}}</h3>
           <mat-form-field [ngSwitch]="column.search" class="no-print table-search" [formGroupName]="column.name">
-              <mat-select *ngSwitchCase="'select'" placeholder="Search" formControlName="val" i18n-placeholder>
+              <mat-select *jrSwitchCases="['select', 'selectArr']" placeholder="Search" formControlName="val" i18n-placeholder>
                   <mat-option value="">--all--</mat-option>
                   <mat-option *ngFor="let item of column.options" [value]="item">{{item}}</mat-option>
               </mat-select>
-              <ng-container *jrSwitchCases="['selectObj', 'selectObjObj']">
+              <ng-container *jrSwitchCases="['selectObj', 'selectObjObj', 'selectObjArr']">
                 <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" panelWidth="fit-content">
                   <mat-option *ngFor="let item of column.options | async" [value]="item">
@@ -278,12 +278,26 @@ export class SearchExpandableComponent implements OnInit {
             return false;
           }
           break;
+        case 'selectArr':
+          if (data[filters[i].cloumn].some(a => a === filters[i].val)) {
+            return true;
+          } else {
+            return false;
+          }
         case 'selectObj':
           if(typeof filters[i].val !== 'string') {
             if (data[filters[i].cloumn] != filters[i].val['value']) {
               return false;
             }
             break;
+          }
+        case 'selectObjArr':
+          if(typeof filters[i].val !== 'string') {
+            if (data[filters[i].cloumn].some(a => a === filters[i].val['value'])) {
+              return true;
+            } else {
+              return false;
+            }
           }
         default:
           const fitsThisFilter = data[filters[i].cloumn].toString().toLowerCase().includes((filters[i].val).trim().toLowerCase());

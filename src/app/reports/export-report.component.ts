@@ -187,7 +187,7 @@ export class ExportReportComponent implements OnInit {
             {
                 type: 'decimalNumber',
                 name: 'qcBox',
-                label: $localize`OQ box`,
+                label: $localize`QC box`,
                 search: 'normal',
             },
             {

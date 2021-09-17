@@ -46,7 +46,7 @@ export class MassagesListComponent {
           type: 'arrayVal',
           name: 'suppliers',
           label: $localize`Supplier`,
-          search: 'selectObj',
+          search: 'selectObjArr',
           options: this.genral.getSuppliersCashew(),
       },
       {
@@ -66,7 +66,7 @@ export class MassagesListComponent {
   source: any[];
   poInfromtion;
   constructor(private genral: Genral, private LocalService: UserAccountService) {}
-  
+
   ngOnInit() {
   }
 
@@ -96,7 +96,7 @@ export class MassagesListComponent {
       this.genral.setMassageTask(obj.dataRow['id'], 'NEW').pipe(take(1)).subscribe(value => {
         obj.dataRow['label'] = 'NEW';
       });
-    } 
+    }
   }
 
   applyFilter($event) {

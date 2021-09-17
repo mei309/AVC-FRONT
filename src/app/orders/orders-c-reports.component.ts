@@ -27,13 +27,13 @@ import { OrdersService } from './orders.service';
 })
 export class OrdersCReports implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
 
   columnsShow: OneColumn[];
 
   columnsOpenPending: OneColumn[];
-  
+
   cashewSource;
 
   dateRange;
@@ -177,7 +177,7 @@ export class OrdersCReports implements OnInit {
                 type: 'arrayVal',
                 name: 'orderStatus',
                 label: $localize`Status`,
-                search: 'select',
+                search: 'selectArr',
                 options: this.genral.getOrderStatus(),
               });
               this.columnsShow = this.columnsShow.slice();
@@ -193,7 +193,7 @@ export class OrdersCReports implements OnInit {
     }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }

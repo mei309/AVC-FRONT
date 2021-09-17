@@ -58,7 +58,7 @@ export class ProductionsByTimeComponent implements OnInit {
               type: 'arrayVal',
               name: 'suppliers',
               label: $localize`Supplier`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getSuppliersCashew(),
               group: 'poCodes',
           },

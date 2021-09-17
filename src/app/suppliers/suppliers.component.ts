@@ -19,10 +19,10 @@ import { SuppliersService } from './suppliers.service';
   `,
 })
 export class SuppliersComponent implements OnInit {
-  
+
   supplySource: any[];
   columnsSupply: OneColumn[];
-  
+
 
   constructor(private _Activatedroute: ActivatedRoute, private router: Router, public dialog: MatDialog,
     private localService: SuppliersService, private genral: Genral) {
@@ -54,7 +54,7 @@ export class SuppliersComponent implements OnInit {
         type: 'arrayVal',
         name: 'supplyCategories',
         label: $localize`Supply category`,
-        search: 'selectObj',
+        search: 'selectObjArr',
         options: this.localService.getSupplyType(),
       },
     ];

@@ -38,7 +38,7 @@ export class TodoListComponent {
           type: 'arrayVal',
           name: 'suppliers',
           label: $localize`Supplier`,
-          search: 'selectObj',
+          search: 'selectObjArr',
           options: this.genral.getSuppliersCashew(),
       },
       {
@@ -61,11 +61,11 @@ export class TodoListComponent {
     ];
 
   tasksSource: any[];
-  
+
   dateRange;
 
   constructor(private genral: Genral, public dialog: MatDialog, private router: Router) {}
-  
+
   ngOnInit() {
   }
 
@@ -76,7 +76,7 @@ export class TodoListComponent {
     });
   }
 
-  
+
   openDialog($event: any): void {
     const dialogRef = this.dialog.open(TodoMassagesPopupComponent, {
       width: '80%',
@@ -96,5 +96,5 @@ export class TodoListComponent {
       }
     });
   }
-  
+
 }

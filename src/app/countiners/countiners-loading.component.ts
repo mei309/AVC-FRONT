@@ -198,11 +198,11 @@ export class CountinersLoadingComponent {
                     element['storage']['itemSuppliers'] = element['suppliers'];
                     element['storage']['measureUnit'] = element['measureUnit'];
                     element['storage']['itemProcessDate'] = element['itemProcessDate'];
-                    arrTable.push({storageMove: element['storage']});
                     element['storage']['amounts'].forEach(ele => {
-                        ele['amount'] = ele['numberAvailableUnits'];
-                        // this.removeIdsTable.push(ele['id']);
+                      ele['amount'] = ele['numberAvailableUnits'];
+                      // this.removeIdsTable.push(ele['id']);
                     });
+                    arrTable.push({storageMove: element['storage']});
                 // }
             } else if(element['storageForms']) {
                 element['storageForms'].forEach(ele => {

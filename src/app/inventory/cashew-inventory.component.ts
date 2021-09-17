@@ -31,7 +31,7 @@ import { InventoryService } from './inventory.service';
 })
 export class CashewInventoryComponent implements OnInit {
   navigationSubscription;
-  
+
   tabIndex: number = 0;
   columnsShow: OneColumn[];
 
@@ -46,7 +46,7 @@ export class CashewInventoryComponent implements OnInit {
     label: $localize`Sum`,
     options: ['KG', 'LBS']
   };
-  
+
 
   constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
     private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
@@ -85,7 +85,7 @@ export class CashewInventoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data === 'Edit') {
           switch (this.tabIndex) {
-                
+
               default:
                   break;
           }
@@ -98,7 +98,7 @@ export class CashewInventoryComponent implements OnInit {
     changed(event) {
       switch (+event) {
         case 0:
-          this.cashewSourceColumns = null; 
+          this.cashewSourceColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -140,7 +140,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Warehouse`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getWearhouses(),
             },
             {
@@ -167,7 +167,7 @@ export class CashewInventoryComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 1:
-          this.cashewSourceColumns = null; 
+          this.cashewSourceColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -209,7 +209,7 @@ export class CashewInventoryComponent implements OnInit {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Warehouse`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getWearhouses(),
             },
             {
@@ -236,7 +236,7 @@ export class CashewInventoryComponent implements OnInit {
           this.cdRef.detectChanges();
           break;
         case 2:
-          this.cashewSourceColumns = null; 
+          this.cashewSourceColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -285,9 +285,9 @@ export class CashewInventoryComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      if (this.navigationSubscription) {  
+      if (this.navigationSubscription) {
          this.navigationSubscription.unsubscribe();
       }
     }
-    
+
 }

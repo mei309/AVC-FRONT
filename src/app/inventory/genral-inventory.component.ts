@@ -127,7 +127,7 @@ export class GenralInventoryComponent implements OnInit {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Warehouse`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getWearhouses(),
             },
             {
@@ -189,7 +189,7 @@ export class GenralInventoryComponent implements OnInit {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Warehouse`,
-              search: 'selectObj',
+              search: 'selectObjArr',
               options: this.genral.getWearhouses(),
             },
             {
