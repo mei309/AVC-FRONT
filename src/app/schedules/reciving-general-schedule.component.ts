@@ -9,7 +9,7 @@ import { SchedulesService } from './schedules.service';
   selector: 'receiving-general-schedule',
   template: `
   <h1 style="text-align:center" i18n>Receiving general schedule</h1>
-  <date-range-select [withTime]="false" (submitRange)="inlineRangeChange($event)"></date-range-select>
+  <date-range-select [fromNow]="true" (submitRange)="inlineRangeChange($event)"></date-range-select>
   <normal-group-details [mainDetailsSource]="cashewSource" [mainColumns]="columnsShow">
   </normal-group-details>
   `,

@@ -71,6 +71,8 @@ export class MassagesListComponent {
   }
 
   getAllByDate($event) {
+    this.massagesSource = null;
+    this.source = null;
     this.genral.getUserMassages($event).pipe(take(1)).subscribe(value => {
       this.massagesSource = <any[]>value;
       this.source = <any[]>value;

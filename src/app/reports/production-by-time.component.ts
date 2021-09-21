@@ -11,16 +11,12 @@ import { ReportsService } from './reports.service';
   template: `
     <h1 style="text-align:center" i18n>Productions Report</h1>
     <date-range-select (submitRange)="getAllByDate($event)"></date-range-select>
-    <ng-container *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSourceColumns" [totelColumn]="totelColumn" [totelAll]="totelAll" [withPaginator]="false">
-      </search-group-details>
-    </ng-container>
+    <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSourceColumns" [totelColumn]="totelColumn" [totelAll]="totelAll" [withPaginator]="false">
+    </search-group-details>
     `,
 })
 export class ProductionsByTimeComponent implements OnInit {
   navigationSubscription;
-
-  isDataAvailable: boolean = false;
 
   columnsShow: OneColumn[];
 
@@ -135,7 +131,6 @@ export class ProductionsByTimeComponent implements OnInit {
   }
 
   getAllByDate($event) {
-    this.isDataAvailable = true;
     this.cashewSourceColumns = null;
     this.localService.allProductionByTime($event).pipe(take(1)).subscribe(value => {
       this.cashewSourceColumns = <any[]>value;

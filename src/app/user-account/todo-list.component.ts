@@ -70,6 +70,7 @@ export class TodoListComponent {
   }
 
   getAllByDate($event) {
+    this.tasksSource = null;
     this.dateRange = $event;
     this.genral.getUserTasks($event).pipe(take(1)).subscribe(value => {
       this.tasksSource = <any[]>value;

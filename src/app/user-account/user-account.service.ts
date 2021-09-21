@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class UserAccountService {
   todourl = environment.baseUrl;
 
   constructor(private http: HttpClient) {
-  } 
+  }
 
    getMassage(processId, maasageId, value: string) {
     return this.http.get(this.todourl+'getMassage/'+processId + '/' + maasageId +'/'+ value);
@@ -27,7 +27,7 @@ export class UserAccountService {
   // setMassageTask(id, approve: string): Observable<any> {
   //   return this.http.get(this.todourl+'setMassageTask/' + id + '/' + approve);
   // }
-  
+
   passChange(passwords): Observable<any> {
     return this.http.post(this.todourl+'passChange', passwords);
   }

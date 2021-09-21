@@ -45,6 +45,9 @@ import * as moment from 'moment';
             <mat-option (click)="allTimes()" [value]="datesList[6]">
                 <mat-label i18n>All records</mat-label>
             </mat-option>
+            <mat-option (click)="fromToday()" [value]="datesList[7]">
+                <mat-label i18n>From today</mat-label>
+            </mat-option>
         </mat-select>
     </mat-form-field>
 
@@ -108,6 +111,7 @@ export class DateRangeSelect {
     @Output() submitRange: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() withTime: boolean = true;
+    @Input() fromNow: boolean = false;
 
     startTime = new FormControl(6);
     endTime = new FormControl(6);
@@ -153,6 +157,12 @@ export class DateRangeSelect {
             label: $localize`Of all records`,
             value: undefined,
         },
+        {
+            // type: 'range',
+            format: 'mediumDate',
+            label: $localize`From Today`,
+            value: {begin: undefined, end: undefined},
+        },
     ];
     choosedDate = new FormControl();
 
@@ -160,7 +170,18 @@ export class DateRangeSelect {
   }
 
   ngOnInit() {
-    this.last2Weeks();
+    if(this.fromNow) {
+      this.withTime = false;
+      this.fromToday();
+    } else {
+      this.last2Weeks();
+    }
+  }
+
+  fromToday() {
+    this.datesList[7]['value'] = moment().startOf("day").toDate();
+    this.choosedDate.setValue(this.datesList[7]);
+    this.submitRange.emit({begin: moment.utc().startOf("day").add(this.startTime.value, 'hours').toDate().toISOString(), end: undefined});
   }
 
   last2Weeks() {

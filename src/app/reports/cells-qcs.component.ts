@@ -34,8 +34,8 @@ import { Component, Input } from "@angular/core";
                 <div class="cell title"><h3>{{el.label}}</h3></div>
                 <ng-container *ngFor="let ele of dataSource">
                     <ng-container *ngFor="let elem of ele['itemQcs']">
-                        <div class="cell" *ngIf="elem[el.name] != null">
-                            <span style="white-space: pre-wrap;">
+                        <div class="cell">
+                            <span *ngIf="elem[el.name] != null" style="white-space: pre-wrap;">
                                 {{elem[el.name] | tableCellPipe: el.type : null}}
                             </span>
                         </div>
@@ -43,7 +43,7 @@ import { Component, Input } from "@angular/core";
                 </ng-container>
             </div>
         </ng-container>
-        
+
 
     </div>
       `,

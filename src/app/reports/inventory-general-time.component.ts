@@ -30,18 +30,14 @@ import * as moment from 'moment';
           <ngx-mat-datetime-picker #picker [showSpinners]="false"></ngx-mat-datetime-picker>
       </mat-form-field>
     </div>
-    <div *ngIf="isDataAvailable">
-      <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [withPaginator]="false">
-      </search-group-details>
-    </div>
+    <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [withPaginator]="false">
+    </search-group-details>
     `,
 })
 export class InventoryGeneralTimeComponent implements OnInit {
   navigationSubscription;
 
   tabIndex: number = 0;
-
-  isDataAvailable: boolean = false;
 
   dateDay = new FormControl(moment().utc().add(moment().utcOffset(), 'm'));
 
@@ -87,12 +83,9 @@ export class InventoryGeneralTimeComponent implements OnInit {
   changed(event) {
     if(this.dateDay.value) {
       this.changedAndDate(+event, this.dateDay.value);
-    } else {
-      this.isDataAvailable = false;
     }
   }
   changedAndDate(event, normalizedDay: moment.Moment) {
-    this.isDataAvailable = true;
     switch (+event) {
       case 0:
         this.cashewSource = null;

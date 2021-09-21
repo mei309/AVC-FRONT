@@ -90,8 +90,6 @@ export class InsideDetailsComponent implements OnInit {
   @Input() set dataSource(value) {
       if(value){
         if(!this.regShow) {
-          console.log(value);
-
           if(value.hasOwnProperty('groupName') && value['groupName']) {
             if(value['groupName'].includes('Used') || value['groupName'].endsWith('Relocation') || value['groupName'].endsWith('Loading')) {
               this.setReloaction(value['groupName']);

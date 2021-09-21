@@ -15,10 +15,10 @@ import { CountinersService } from './countiners.service';
     `
   })
 export class ShipmentCodesComponent implements OnInit {
-    
+
     shipmentSource;
     columnsShipment;
-    
+
     constructor(private localService: CountinersService, public dialog: MatDialog) {
       }
 
@@ -56,7 +56,7 @@ export class ShipmentCodesComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(data => {
-            if(data === $localize`success`) {
+            if(data === 'success') {
                 this.localService.findShipmentCodes().pipe(take(1)).subscribe(value => {
                     this.shipmentSource = value;
                 });
@@ -73,7 +73,7 @@ export class ShipmentCodesComponent implements OnInit {
   `,
 })
 export class AddEditShipmentDialog {
- 
+
     shipConfig;
     putData;
 
@@ -90,6 +90,7 @@ export class AddEditShipmentDialog {
                     type: 'select',
                     label: $localize`Destination port`,
                     name: 'portOfDischarge',
+                    value: this.putData? this.putData['portOfDischargeValue'] : null,
                     options: this.localService.getShippingPorts(),
                     validations: [
                           {
@@ -106,16 +107,16 @@ export class AddEditShipmentDialog {
                 }
             ];
     }
-    
+
     constructor(private localService: CountinersService, public dialogRef: MatDialogRef<AddEditShipmentDialog>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.putData = data.putData;
         }
-    
+
     submit(value: any) {
         this.localService.addEditShipmentCode(value, this.putData? false : true).pipe(take(1)).subscribe( val => {
-            this.dialogRef.close($localize`success`);
+            this.dialogRef.close('success');
         });
     }
 
