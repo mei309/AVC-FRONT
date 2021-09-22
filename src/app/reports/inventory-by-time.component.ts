@@ -37,7 +37,7 @@ import * as moment from 'moment';
       </search-group-details>
       <sum-list-tables *ngIf="totelByType" [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
-      <sums-product-type *ngIf="tabIndex < 2" class="sums-qc" [mainDetailsSource]="[sumsSource, ['productCompany', 'type'], 'weightInLbs']" title="Total LBS by product company" type="decimalNumber" i18n-title>
+      <sums-product-type *ngIf="tabIndex < 1" class="sums-qc" [mainDetailsSource]="[sumsSource, ['productCompany', 'type'], 'weightInLbs']" title="Total LBS by product company" type="decimalNumber" i18n-title>
       </sums-product-type>
     </div>
     `,
@@ -114,14 +114,14 @@ export class InventoryByTimeComponent implements OnInit {
         this.localService.getCashewInventoryRaw(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
-        this.setRawClean();
+        this.setRaw();
         break;
       case 1:
         this.cashewSource = null;
         this.localService.getCashewInventoryClean(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
-        this.setRawClean();
+        this.setFinished();
         break;
       case 2:
         this.cashewSource = null;
@@ -211,71 +211,10 @@ export class InventoryByTimeComponent implements OnInit {
         break;
       case 3:
         this.cashewSource = null;
-        this.totelByType = null;
         this.localService.getCashewInventoryFinished(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
-        this.columnsShow = [
-          {
-              type: 'nameId',
-              name: 'item',
-              label: $localize`product`,
-              search: 'selectObjObj',
-              options: this.genral.getItemsCashew('RoastPacked'),
-              group: 'item',
-          },
-          {
-              type: 'arrayVal',
-              name: 'poCodes',
-              label: $localize`PO#`,
-              search: 'normal',
-              group: 'poCodes',
-          },
-          {
-              type: 'arrayVal',
-              name: 'receiptDates',
-              label: $localize`Receipt dates`,
-              search: 'dates',
-          },
-          {
-              type: 'arrayVal',
-              name: 'processDates',
-              label: $localize`Process dates`,
-              search: 'dates',
-          },
-          {
-              type: 'decimalNumber',
-              name: 'boxes',
-              label: $localize`Box quantity`,
-              search: 'normal',
-          },
-          {
-              type: 'weight',
-              name: 'boxWeight',
-              label: $localize`Box weight`,
-              search: 'object',
-          },
-          {
-              type: 'decimalNumber',
-              name: 'weightInLbs',
-              label: $localize`LBS weight`,
-              search: 'normal',
-          },
-          {
-              type: 'arrayVal',
-              name: 'warehouses',
-              label: $localize`Storage`,
-              search: 'selectObjArr',
-              options: this.genral.getWearhouses(),
-          },
-          {
-              type: 'normal',
-              name: 'status',
-              label: $localize`Status`,
-              search: 'select',
-              options: this.genral.getProcessStatus(),
-          },
-        ];
+        this.setFinished();
         this.cdRef.detectChanges();
         break;
       default:
@@ -283,7 +222,7 @@ export class InventoryByTimeComponent implements OnInit {
     }
   }
 
-  setRawClean() {
+  setRaw() {
         this.totelByType = [
           {
             type: 'sumByParam',
@@ -380,6 +319,72 @@ export class InventoryByTimeComponent implements OnInit {
           },
         ];
         this.cdRef.detectChanges();
+  }
+
+  setFinished() {
+        this.totelByType = null;
+
+        this.columnsShow = [
+          {
+              type: 'nameId',
+              name: 'item',
+              label: $localize`product`,
+              search: 'selectObjObj',
+              options: this.genral.getItemsCashew('RoastPacked'),
+              group: 'item',
+          },
+          {
+              type: 'arrayVal',
+              name: 'poCodes',
+              label: $localize`PO#`,
+              search: 'normal',
+              group: 'poCodes',
+          },
+          {
+              type: 'arrayVal',
+              name: 'receiptDates',
+              label: $localize`Receipt dates`,
+              search: 'dates',
+          },
+          {
+              type: 'arrayVal',
+              name: 'processDates',
+              label: $localize`Process dates`,
+              search: 'dates',
+          },
+          {
+              type: 'decimalNumber',
+              name: 'boxes',
+              label: $localize`Box quantity`,
+              search: 'normal',
+          },
+          {
+              type: 'weight',
+              name: 'boxWeight',
+              label: $localize`Box weight`,
+              search: 'object',
+          },
+          {
+              type: 'decimalNumber',
+              name: 'weightInLbs',
+              label: $localize`LBS weight`,
+              search: 'normal',
+          },
+          {
+              type: 'arrayVal',
+              name: 'warehouses',
+              label: $localize`Storage`,
+              search: 'selectObjArr',
+              options: this.genral.getWearhouses(),
+          },
+          {
+              type: 'normal',
+              name: 'status',
+              label: $localize`Status`,
+              search: 'select',
+              options: this.genral.getProcessStatus(),
+          },
+        ];
   }
 
   filteredSums($event) {

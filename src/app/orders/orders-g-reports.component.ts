@@ -50,6 +50,7 @@ export class OrdersGReports implements OnInit {
         name: 'contractDate',
         label: $localize`Contract date`,
         search: 'dates',
+        group: 'poCode',
       },
       {
         type: 'nameId',

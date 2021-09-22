@@ -738,7 +738,7 @@ export class CountinersLoadingComponent {
                                 disable: true,
                             },
                             {
-                                type: 'date',
+                                type: 'dateTime',
                                 label: $localize`Process date`,
                                 name: 'itemProcessDate',
                                 disable: true,

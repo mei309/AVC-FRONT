@@ -91,13 +91,13 @@ export class SecurityExportDocComponent {
                 },
                 {
                     type: 'weight',
-                    label: $localize`Bag amount`,
+                    label: $localize`Unit amount`,
                     name: 'unitAmount',
                     // collections: 'measureUnit',
                 },
                 {
                     type: 'normal',
-                    label: $localize`Number of bags`,
+                    label: $localize`Number of units`,
                     name: 'numberUnits',
                 },
                 {

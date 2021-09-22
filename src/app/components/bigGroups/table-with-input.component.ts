@@ -39,7 +39,7 @@ export class TableWithInputComponent implements OnInit {
 
   constructor(@Inject(LOCALE_ID) private locale: string) {}
   ngOnInit() {
-    this.dataSource = this.group.get(this.field.name).value; 
+    this.dataSource = this.group.get(this.field.name).value;
     this.kidSetup(this.field);
   }
 
@@ -134,6 +134,13 @@ export class TableWithInputComponent implements OnInit {
             case 'date':
                 this.dataSource.forEach(ele => {
                     ele[element.name] = new DatePipe(this.locale).transform(ele[element.name]);
+                });
+                this.oneColumns.push(element);
+                this.displayedColumns.push(element.name);
+                break;
+              case 'dateTime':
+                this.dataSource.forEach(ele => {
+                    ele[element.name] = new DatePipe(this.locale).transform(ele[element.name], 'medium');
                 });
             default:
                 this.oneColumns.push(element);

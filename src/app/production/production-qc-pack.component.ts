@@ -16,7 +16,7 @@ import { Genral } from '../genral.service';
         </ng-container>
     </fieldset>
     <div *ngIf="isFormAvailable">
-        <export-import [beginData]="putData" [newUsed]="newUsed" [mainLabel]="'QC pack'" (submitExIm)="submit($event)">
+        <export-import [beginData]="putData" [newUsed]="newUsed" [posArray]="posArray" [mainLabel]="'QC pack'" (submitExIm)="submit($event)">
         </export-import>
     </div>
     `

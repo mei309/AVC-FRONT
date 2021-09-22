@@ -26,7 +26,7 @@ export class ExportImportComponent implements OnInit {
     dataSource;
     onSubmit(value: any) {
     //     console.log(value);
-        
+
     // }
     // onSubmit1(value: any) {
         var arr = [];
@@ -123,12 +123,12 @@ export class ExportImportComponent implements OnInit {
                         el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                     });
                     arrMaterial.push(element);
-                } 
+                }
             });
 
 
             delete this.beginData['usedItemGroups'];
-            
+
             var processNormal = [];
             var processTable = [];
             var wasteNormal = [];
@@ -151,7 +151,7 @@ export class ExportImportComponent implements OnInit {
             }
             if(processNormal.length) {
                 this.dataSource['processItemsNormal'] = processNormal;
-            } 
+            }
             // else {
             //     this.dataSource['processItemsNormal'] = [{item: this.dataSource['processItemsTable'][0]['item']}];
             // }
@@ -183,7 +183,7 @@ export class ExportImportComponent implements OnInit {
                 });
                 arrTable.push({usedItem: element['storage']});
             } else if(element['storageForms']) {
-                element['storageForms'].forEach(ele => { 
+                element['storageForms'].forEach(ele => {
                     if(!removeIds.includes(ele['id'])) {
                         arrUsedItems.push({itemPoCodes: element['poCodes'], itemSuppliers: element['suppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
@@ -200,7 +200,7 @@ export class ExportImportComponent implements OnInit {
         if(arrNormal.length) {
             this.dataSource['usedItemsNormal'] = arrNormal;
         }
-        this.preper(this.mainLabel === 'Clean' || this.mainLabel === 'QC pack'? false : true, arrTable.length > 0, arrNormal.length > 0, cashewGrades);
+        this.preper(this.mainLabel === 'Clean'? false : true, arrTable.length > 0, arrNormal.length > 0, cashewGrades);
         this.isDataAvailable = true;
     }
 
@@ -341,7 +341,7 @@ export class ExportImportComponent implements OnInit {
                                     disable: true,
                                 },
                                 {
-                                    type: 'date',
+                                    type: 'dateTime',
                                     label: $localize`Process date`,
                                     name: 'itemProcessDate',
                                     disable: true,
@@ -563,7 +563,7 @@ export class ExportImportComponent implements OnInit {
                     },
                 ],
             },
-            
+
             {
                 type: 'bigexpand',
                 name: 'processItemsTable',
@@ -789,7 +789,7 @@ export class ExportImportComponent implements OnInit {
                     ]
                 },
             ]: [],
-            
+
             // {
             //     type: 'bigexpand',
             //     name: 'materialUsed',
@@ -852,6 +852,6 @@ export class ExportImportComponent implements OnInit {
             }
         ];
     }
-    
+
 
   }

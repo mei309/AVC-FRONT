@@ -116,7 +116,7 @@ export class ExpImpRelocationComponent implements OnInit {
                 });
                 arrTable.push({storageMove: element['storage']});
             } else if(element['storageForms']) {
-                element['storageForms'].forEach(ele => { 
+                element['storageForms'].forEach(ele => {
                     if(!removeIds.includes(ele['id'])) {
                         arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
@@ -204,7 +204,7 @@ export class ExpImpRelocationComponent implements OnInit {
                                     disable: true,
                                 },
                                 {
-                                    type: 'date',
+                                    type: 'dateTime',
                                     label: $localize`Process date`,
                                     name: 'itemProcessDate',
                                     disable: true,
@@ -363,6 +363,6 @@ export class ExpImpRelocationComponent implements OnInit {
                 return 'ROASTER_IN';
         }
    }
-    
+
 
   }
