@@ -7,6 +7,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 91vh !important;
 }
 
+h1 {
+  margin-bottom: 8px !important;
+}
+
 /* spinner over all page in case of post request delay */
 .overlay{
   height:100vh;
@@ -87,9 +91,11 @@ span .half {float: left; width: 175px; padding: 1%;}
 /* date and time range */
 .date-range {
   width: 300px;
+  height: 10px;
 }
 .date-fit-search {
   width: 130px;
+  height: 10px;
 }
 
 /* butoons and link buttons in tables */
