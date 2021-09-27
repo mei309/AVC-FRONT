@@ -22,7 +22,7 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 
-<button type="button" *ngIf="field.collections" class="raised-margin" mat-raised-button color="accent" (click)="allItems()" i18n>All items</button>
+<button type="button" *ngIf="field.collections" mat-raised-button color="accent" (click)="allItems()" i18n>All items</button>
 `,
 })
 export class SelectItemComponent implements OnInit {
@@ -34,7 +34,7 @@ export class SelectItemComponent implements OnInit {
   temp: Observable<any>;
   options = [];
   filteredOptions: Observable<any[]>;
-  
+
   constructor(private genral: Genral) {}
   ngOnInit() {
     this.temp = this.field.options;
@@ -49,8 +49,8 @@ export class SelectItemComponent implements OnInit {
             this.options = arg;
             this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => this.filterSomewhere(val)));
           }
-          
-          
+
+
           // if(typeof this.group.controls[this.field.name].value == 'string' && this.field.value !== undefined) {
           //   let putNull: boolean = true;
           //   this.options.forEach(option => {
@@ -63,7 +63,7 @@ export class SelectItemComponent implements OnInit {
           //     this.group.controls[this.field.name].setValue(null);
           //   }
           // }
-      } 
+      }
     );
     if(this.field.inputType) {
       this.group.get([this.field.inputType]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
@@ -73,7 +73,7 @@ export class SelectItemComponent implements OnInit {
       });
     }
   }
-  
+
   // filter(val: string): any[] {
   //   if(val && typeof(val) === 'string') {
   //     const filterValue = val.toLowerCase();
@@ -102,9 +102,9 @@ export class SelectItemComponent implements OnInit {
         let isValueTrue = this.options.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
-            this.group.controls[this.field.name].setValue(isValueTrue[0]);
+            this.group.controls[this.field.name].setValue(isValueTrue[0], {emitEvent: false});
         } else {
-            this.group.controls[this.field.name].setValue(null);
+            this.group.controls[this.field.name].setValue(null, {emitEvent: false});
         }
     // }, 300);
   }
@@ -115,7 +115,7 @@ export class SelectItemComponent implements OnInit {
       return option.value;
     }
    }
-  
+
   // removeItem(index): void {
   //   this.options.push(((this.group.get([this.field.name])).value.splice(index, 1))[0]);
   //   if(((this.group.get([this.field.name])).value).length === 0) {
@@ -127,11 +127,11 @@ export class SelectItemComponent implements OnInit {
   allItems() {
     this.genral.getItemsCashew(this.field.collections).pipe(take(1)).subscribe(arg => {
         this.options = arg;
+        this.group.controls[this.field.name].setValue(this.group.controls[this.field.name].value);
         setTimeout(() => {
           this.trigger.openPanel();
-        }, 300);
+        }, 100);
     });
-      
   }
 
   ngOnDestroy() {

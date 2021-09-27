@@ -12,8 +12,13 @@ import { OneColumn } from '../field.interface';
 @Component({
   selector: 'search-group-details',
   template: `
-  <ng-container *ngFor="let item of searchGroup.value | keyvalue">
-    <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.value.label}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
+  <ng-container *ngIf="isPrint">
+    <ng-container *ngFor="let item of searchGroup.value | keyvalue">
+      <div *ngIf="item.value.val" class="half">
+        <label>{{item.value.label}}</label>
+        <span class="half">{{item.value.val | tableCellPipe: item.value.type : null}}</span>
+      </div>
+    </ng-container>
   </ng-container>
   <div class="tables mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
@@ -52,7 +57,7 @@ import { OneColumn } from '../field.interface';
                     <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
                 </mat-form-field>
             </th>
-            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
+            <td mat-cell *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
@@ -66,14 +71,14 @@ import { OneColumn } from '../field.interface';
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localItemWeightColumns" [formGroup]="searchGroup">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
-                <mat-form-field style="width:90%" class="no-print" [formGroupName]="column.name">
+                <mat-form-field class="no-print table-search" [formGroupName]="column.name">
                     <mat-select placeholder="Search" formControlName="val" i18n-placeholder>
                         <mat-option value="">--all--</mat-option>
                         <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </th>
-            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
+            <td mat-cell *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)"
                     [ngClass]="{'is-alert': column.compare && compare(element, column)}">
@@ -96,7 +101,7 @@ import { OneColumn } from '../field.interface';
               <th mat-header-cell *matHeaderCellDef>
                 <h3>{{totalColumn.label}}</h3>
               </th>
-              <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
+              <td mat-cell *matCellDef="let element; let i = index"
                   [style.display]="getRowSpan(i, totalColumn.group) ? '' : 'none'"
                   [attr.rowspan]="getRowSpan(i, totalColumn.group)">
                   {{getTotel(i + this.paginator.pageIndex * this.paginator.pageSize) | tableCellPipe: totalColumn.type : totalColumn.collections}}
@@ -109,7 +114,7 @@ import { OneColumn } from '../field.interface';
     <mat-toolbar>
       <mat-toolbar-row>
         <button class="no-print"><mat-icon (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
-        <span class="example-spacer"></span>
+        <span class="row-spacer"></span>
         <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: 'weight2' : null}}</span>
         <mat-paginator class="no-print" [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
       </mat-toolbar-row>
@@ -118,7 +123,7 @@ import { OneColumn } from '../field.interface';
   <ng-container *ngIf="!dataSource">
     <mat-spinner *ngIf="secondToUpload"></mat-spinner>
   </ng-container>
-  <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2 i18n>No records found</h2></div>
+  <h2 style="text-align:center" *ngIf="dataSource?.data.length === 0" i18n>No records found</h2>
   `,
 })
 export class SearchGroupDetailsComponent {

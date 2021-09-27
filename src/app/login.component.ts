@@ -67,10 +67,10 @@ export class LoginComponent {
 		if(value['name'] && value['password']) {
 			this.genralService.authenticate(value['name'], value['password']).pipe(take(1)).subscribe((result)=> {
         this.router.navigate(['/Main']);
-			}, () => {		  
+			}, () => {
 				// alert('Either invalid credentials or something went wrong');
 			});
-		} 
+		}
 	}
 
 }

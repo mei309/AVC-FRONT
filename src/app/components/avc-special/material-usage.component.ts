@@ -305,8 +305,8 @@ export class MaterialUsageComponent implements OnInit {
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button class="raised-margin" mat-raised-button color="accent" (click)="submitAmount()" i18n>Save</button>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" i18n>Close</button>
+        <button mat-raised-button color="accent" (click)="submitAmount()" i18n>Save</button>
+        <button mat-raised-button color="accent" (click)="onNoClick()" i18n>Close</button>
     </mat-dialog-actions>
     `,
   })

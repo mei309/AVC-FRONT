@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route } from '@angular/router';
+import { Globals } from '../global-params.component';
 @Injectable({
   providedIn: 'root'
 })
 export class RolesGaurdService implements CanLoad {
-  constructor() { }
+  constructor(private myGlobal: Globals) { }
 
   canLoad(route: Route): boolean {
-    if(sessionStorage.getItem('roles').includes('ROLE_SYSTEM_MANAGER')) {
+    if(this.myGlobal.isManager) {
       return true;
     }
     return false;

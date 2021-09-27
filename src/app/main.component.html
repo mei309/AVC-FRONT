@@ -1,173 +1,163 @@
 
 <ng-container *ngIf="loadingService.visibility | async">
   <div class="overlay">
-      <div class="center">
-        <h2 style="text-align: center;">We are working on your requset please wait</h2>
+      <div>
+        <h2>We are working on your requset please wait</h2>
         <mat-spinner></mat-spinner>
       </div>
   </div>
 </ng-container>
-<mat-toolbar color="accent" class="my-toolbar no-print">
+<mat-toolbar color="accent" class="no-print">
+  <h1 style="color: lightcoral;">AVC</h1>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menuQc" i18n>QC</button>
+    <mat-menu #menuQc="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="qcnew" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="qcreports" i18n>Reports</button>
+    </mat-menu>
+    <mat-menu #qcnew="matMenu">
+      <button mat-menu-item routerLink='qcready/Raw' i18n>Raw Check (weights)</button>
+      <button mat-menu-item routerLink='qcready/RawPercntage' i18n>Raw Check (percntage)</button>
+      <button mat-menu-item [routerLink]="['qcready/Raw', {roast: true}]" i18n>Roast Check (weights)</button>
+      <button mat-menu-item [routerLink]="['qcready/RawPercntage', {roast: true}]" i18n>Roast Check (percntage)</button>
+    </mat-menu>
+    <mat-menu #qcreports="matMenu" >
+      <button mat-menu-item [routerLink]="['qcready/AllQC', {number: 0}]" i18n>Raw Checks</button>
+      <button mat-menu-item [routerLink]="['qcready/AllQC', {number: 1}]" i18n>Roast Checks</button>
+    </mat-menu>
 
-  <!-- <div fxShow="true" fxHide.gt-sm="true">
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-  </div>
-fxShow="true" fxHide.lt-md="true" -->
-    <h1 style="color: lightcoral;">AVC</h1>
-    <span class="menu-spacer"></span>
+    <button mat-button [matMenuTriggerFor]="menuSchedules" i18n>Schedules</button>
+    <mat-menu #menuSchedules="matMenu" >
+      <button mat-menu-item routerLink='schedules/ReceivingCashewSchedule' i18n>Receiving Cashew</button>
+      <button mat-menu-item routerLink='schedules/ReceivingGeneralSchedule' i18n>Receiving General</button>
+    </mat-menu>
 
-    <div>
+    <button mat-button [matMenuTriggerFor]="menuPOOrder" i18n>Purchase Orders</button>
+    <mat-menu #menuPOOrder="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="poordernew" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="orderscreports" i18n>Cashew Reports</button>
+      <button mat-menu-item [matMenuTriggerFor]="ordersgreports" i18n>General Reports</button>
+      <button mat-menu-item [matMenuTriggerFor]="postab" i18n>#POS</button>
+      <button mat-menu-item [matMenuTriggerFor]="menuSupp" i18n>Suppliers</button>
+    </mat-menu>
+    <mat-menu #poordernew="matMenu" >
+      <button mat-menu-item routerLink='ordready/NewCashewOrder' cdkFocusRegionStart i18n>Cashew</button>
+      <button mat-menu-item routerLink='ordready/NewGenralOrder' i18n>General</button>
+    </mat-menu>
+    <mat-menu #orderscreports="matMenu" >
+      <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 0}]" i18n>Open</button>
+      <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 1}]" i18n>All</button>
+    </mat-menu>
+    <mat-menu #ordersgreports="matMenu" >
+      <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 0}]" i18n>Open</button>
+      <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 1}]" i18n>All</button>
+    </mat-menu>
+    <mat-menu #postab="matMenu" >
+      <button mat-menu-item [routerLink]="['ordready/PoCodesComponent', {number: 0}]" i18n>Cashew</button>
+      <button mat-menu-item [routerLink]="['ordready/PoCodesComponent', {number: 1}]" i18n>General</button>
+    </mat-menu>
+    <mat-menu #menuSupp="matMenu" >
+      <button mat-menu-item routerLink='supready/NewSupplier' cdkFocusRegionStart i18n>New Supplier</button>
+      <button mat-menu-item routerLink='supready/Suppliers' i18n>Suppliers</button>
+    </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="menuQc" i18n>QC</button>
-      <mat-menu #menuQc="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="qcnew" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="qcreports" i18n>Reports</button>
-      </mat-menu>
-      <mat-menu #qcnew="matMenu">
-        <button mat-menu-item routerLink='qcready/Raw' i18n>Raw Check (weights)</button>
-        <button mat-menu-item routerLink='qcready/RawPercntage' i18n>Raw Check (percntage)</button>
-        <button mat-menu-item [routerLink]="['qcready/Raw', {roast: true}]" i18n>Roast Check (weights)</button>
-        <button mat-menu-item [routerLink]="['qcready/RawPercntage', {roast: true}]" i18n>Roast Check (percntage)</button>
-      </mat-menu>
-      <mat-menu #qcreports="matMenu" >
-        <button mat-menu-item [routerLink]="['qcready/AllQC', {number: 0}]" i18n>Raw Checks</button>
-        <button mat-menu-item [routerLink]="['qcready/AllQC', {number: 1}]" i18n>Roast Checks</button>
-      </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuReceiving" i18n>Receivings</button>
+    <mat-menu #menuReceiving="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="newreceive" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="receivecreports" i18n>Cashew Reports</button>
+      <button mat-menu-item [matMenuTriggerFor]="receivegreports" i18n>General Reports</button>
+    </mat-menu>
+    <mat-menu #newreceive="matMenu" >
+      <button mat-menu-item routerLink='receiptready/ReceiveCOrder' i18n>Cashew</button>
+      <button mat-menu-item routerLink='receiptready/ReceiveGOrder' i18n>General</button>
+      <button mat-menu-item routerLink='receiptready/ReceiveCAlone' i18n>Cashew Without Order</button>
+    </mat-menu>
+    <mat-menu #receivecreports="matMenu" >
+      <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 0}]" i18n>Pending (Received)</button>
+      <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 1}]" i18n>Received</button>
+      <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 2}]" i18n>All</button>
+    </mat-menu>
+    <mat-menu #receivegreports="matMenu" >
+      <button mat-menu-item [routerLink]="['receiptready/ReceiveGReports', {number: 0}]" i18n>Pending (Received)</button>
+      <button mat-menu-item [routerLink]="['receiptready/ReceiveGReports', {number: 1}]" i18n>Received</button>
+      <button mat-menu-item [routerLink]="['receiptready/ReceiveGReports', {number: 2}]" i18n>All</button>
+    </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="menuSchedules" i18n>Schedules</button>
-      <mat-menu #menuSchedules="matMenu" >
-        <button mat-menu-item routerLink='schedules/ReceivingCashewSchedule' i18n>Receiving Cashew</button>
-        <button mat-menu-item routerLink='schedules/ReceivingGeneralSchedule' i18n>Receiving General</button>
-      </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuReloc" i18n>Relocation</button>
+    <mat-menu #menuReloc="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="inventorysnew" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="inventoryreports" i18n>Reports</button>
+    </mat-menu>
+    <mat-menu #inventorysnew="matMenu" >
+      <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 0}]" i18n>Raw Relocation Count</button>
+      <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 1}]" i18n>Cleaned Relocation Count</button>
+    </mat-menu>
+    <mat-menu #inventoryreports="matMenu" >
+      <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 0}]" i18n>Raw Relocations</button>
+      <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 1}]" i18n>Cleaned Relocations</button>
+    </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="menuPOOrder" i18n>Purchase Orders</button>
-      <mat-menu #menuPOOrder="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="poordernew" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="orderscreports" i18n>Cashew Reports</button>
-        <button mat-menu-item [matMenuTriggerFor]="ordersgreports" i18n>General Reports</button>
-        <button mat-menu-item [matMenuTriggerFor]="postab" i18n>#POS</button>
-        <button mat-menu-item [matMenuTriggerFor]="menuSupp" i18n>Suppliers</button>
-      </mat-menu>
-      <mat-menu #poordernew="matMenu" >
-        <button mat-menu-item routerLink='ordready/NewCashewOrder' cdkFocusRegionStart i18n>Cashew</button>
-        <button mat-menu-item routerLink='ordready/NewGenralOrder' i18n>General</button>
-      </mat-menu>
-      <mat-menu #orderscreports="matMenu" >
-        <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 0}]" i18n>Open</button>
-        <button mat-menu-item [routerLink]="['ordready/OrdersCReports', {number: 1}]" i18n>All</button>
-      </mat-menu>
-      <mat-menu #ordersgreports="matMenu" >
-        <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 0}]" i18n>Open</button>
-        <button mat-menu-item [routerLink]="['ordready/OrdersGReports', {number: 1}]" i18n>All</button>
-      </mat-menu>
-      <mat-menu #postab="matMenu" >
-        <button mat-menu-item [routerLink]="['ordready/PoCodesComponent', {number: 0}]" i18n>Cashew</button>
-        <button mat-menu-item [routerLink]="['ordready/PoCodesComponent', {number: 1}]" i18n>General</button>
-      </mat-menu>
-      <mat-menu #menuSupp="matMenu" >
-        <button mat-menu-item routerLink='supready/NewSupplier' cdkFocusRegionStart i18n>New Supplier</button>
-        <button mat-menu-item routerLink='supready/Suppliers' i18n>Suppliers</button>
-      </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuProduction" i18n>Production</button>
+    <mat-menu #menuProduction="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="productionnew" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="productionreports" i18n>Reports</button>
+    </mat-menu>
+    <mat-menu #productionnew="matMenu" >
+      <button mat-menu-item routerLink='production/Cleaning' i18n>Cleaning</button>
+      <button mat-menu-item routerLink='production/Roasting' i18n>Roasting</button>
+      <button mat-menu-item routerLink='production/Toffee' i18n>Toffee</button>
+      <button mat-menu-item routerLink='production/Packing' i18n>Packing</button>
+      <button mat-menu-item routerLink='production/QcPacking' i18n>QC Packing</button>
+    </mat-menu>
+    <mat-menu #productionreports="matMenu" >
+      <button mat-menu-item [routerLink]="['production/Productions', {number: 0}]" i18n>Cleaning</button>
+      <button mat-menu-item [routerLink]="['production/Productions', {number: 1}]" i18n>Roasting</button>
+      <button mat-menu-item [routerLink]="['production/Productions', {number: 2}]" i18n>Toffee</button>
+      <button mat-menu-item [routerLink]="['production/Productions', {number: 3}]" i18n>Packing</button>
+      <button mat-menu-item [routerLink]="['production/Productions', {number: 4}]" i18n>QC Packing</button>
+    </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="menuReceiving" i18n>Receivings</button>
-      <mat-menu #menuReceiving="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="newreceive" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="receivecreports" i18n>Cashew Reports</button>
-        <button mat-menu-item [matMenuTriggerFor]="receivegreports" i18n>General Reports</button>
-      </mat-menu>
-      <mat-menu #newreceive="matMenu" >
-        <button mat-menu-item routerLink='receiptready/ReceiveCOrder' i18n>Cashew</button>
-        <button mat-menu-item routerLink='receiptready/ReceiveGOrder' i18n>General</button>
-        <button mat-menu-item routerLink='receiptready/ReceiveCAlone' i18n>Cashew Without Order</button>
-      </mat-menu>
-      <mat-menu #receivecreports="matMenu" >
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 0}]" i18n>Pending (Received)</button>
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 1}]" i18n>Received</button>
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveCReports', {number: 2}]" i18n>All</button>
-      </mat-menu>
-      <mat-menu #receivegreports="matMenu" >
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveGReports', {number: 0}]" i18n>Pending (Received)</button>
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveGReports', {number: 1}]" i18n>Received</button>
-        <button mat-menu-item [routerLink]="['receiptready/ReceiveGReports', {number: 2}]" i18n>All</button>
-      </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuCountiners" i18n>Shipping</button>
+    <mat-menu #menuCountiners="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="countinersnew" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="countinersreports" i18n>Reports</button>
+      <button mat-menu-item routerLink='countiners/ShipmentCodes' i18n>Shipment Codes</button>
+    </mat-menu>
+    <mat-menu #countinersnew="matMenu" >
+      <button mat-menu-item routerLink='countiners/Arrival' i18n>Arrival</button>
+      <button mat-menu-item routerLink='countiners/Loading' i18n>Loading</button>
+    </mat-menu>
+    <mat-menu #countinersreports="matMenu" >
+      <button mat-menu-item [routerLink]="['countiners/CountinerReports', {number: 0}]" i18n>Arrivals</button>
+      <button mat-menu-item [routerLink]="['countiners/CountinerReports', {number: 1}]" i18n>Loadings</button>
+    </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="menuReloc" i18n>Relocation</button>
-      <mat-menu #menuReloc="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="inventorysnew" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventoryreports" i18n>Reports</button>
-      </mat-menu>
-      <mat-menu #inventorysnew="matMenu" >
-        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 0}]" i18n>Raw Relocation Count</button>
-        <button mat-menu-item [routerLink]="['relocat/RelocationCount', {num: 1}]" i18n>Cleaned Relocation Count</button>
-      </mat-menu>
-      <mat-menu #inventoryreports="matMenu" >
-        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 0}]" i18n>Raw Relocations</button>
-        <button mat-menu-item [routerLink]="['relocat/RelocationsReports', {number: 1}]" i18n>Cleaned Relocations</button>
-      </mat-menu>
-
-      <button mat-button [matMenuTriggerFor]="menuProduction" i18n>Production</button>
-      <mat-menu #menuProduction="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="productionnew" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="productionreports" i18n>Reports</button>
-      </mat-menu>
-      <mat-menu #productionnew="matMenu" >
-        <button mat-menu-item routerLink='production/Cleaning' i18n>Cleaning</button>
-        <button mat-menu-item routerLink='production/Roasting' i18n>Roasting</button>
-        <button mat-menu-item routerLink='production/Toffee' i18n>Toffee</button>
-        <button mat-menu-item routerLink='production/Packing' i18n>Packing</button>
-        <button mat-menu-item routerLink='production/QcPacking' i18n>QC Packing</button>
-      </mat-menu>
-      <mat-menu #productionreports="matMenu" >
-        <button mat-menu-item [routerLink]="['production/Productions', {number: 0}]" i18n>Cleaning</button>
-        <button mat-menu-item [routerLink]="['production/Productions', {number: 1}]" i18n>Roasting</button>
-        <button mat-menu-item [routerLink]="['production/Productions', {number: 2}]" i18n>Toffee</button>
-        <button mat-menu-item [routerLink]="['production/Productions', {number: 3}]" i18n>Packing</button>
-        <button mat-menu-item [routerLink]="['production/Productions', {number: 4}]" i18n>QC Packing</button>
-      </mat-menu>
-
-      <button mat-button [matMenuTriggerFor]="menuCountiners" i18n>Shipping</button>
-      <mat-menu #menuCountiners="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="countinersnew" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="countinersreports" i18n>Reports</button>
-        <button mat-menu-item routerLink='countiners/ShipmentCodes' i18n>Shipment Codes</button>
-      </mat-menu>
-      <mat-menu #countinersnew="matMenu" >
-        <button mat-menu-item routerLink='countiners/Arrival' i18n>Arrival</button>
-        <button mat-menu-item routerLink='countiners/Loading' i18n>Loading</button>
-      </mat-menu>
-      <mat-menu #countinersreports="matMenu" >
-        <button mat-menu-item [routerLink]="['countiners/CountinerReports', {number: 0}]" i18n>Arrivals</button>
-        <button mat-menu-item [routerLink]="['countiners/CountinerReports', {number: 1}]" i18n>Loadings</button>
-      </mat-menu>
-
-      <button mat-button [matMenuTriggerFor]="menuInve" i18n>Inventory</button>
-      <mat-menu #menuInve="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="inventorycashews" i18n>Cashew Stock</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventorygeneral" i18n>General Stock</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventorynew" i18n>New</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventoryreport" i18n>Reports</button>
-      </mat-menu>
-      <mat-menu #inventorycashews="matMenu" >
-        <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 0}]" i18n>By Item</button>
-        <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 1}]" i18n>By PO#</button>
-      </mat-menu>
-      <mat-menu #inventorygeneral="matMenu" >
-        <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 0}]" i18n>By Item</button>
-        <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 1}]" i18n>By PO#</button>
-        <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 2}]" i18n>Stock/Order</button>
-      </mat-menu>
-      <mat-menu #inventorynew="matMenu" >
-        <button mat-menu-item routerLink='invready/MaterialUse' i18n>Material Usage</button>
-        <button mat-menu-item routerLink='invready/CashewUse' i18n>Cashew Usage</button>
-        <button mat-menu-item routerLink='invready/Relocation' i18n>Relocation</button>
-      </mat-menu>
-      <mat-menu #inventoryreport="matMenu" >
-        <button mat-menu-item [routerLink]="['invready/Reports', {number: 0}]" i18n>Material Usage</button>
-        <button mat-menu-item [routerLink]="['invready/Reports', {number: 1}]" i18n>Cashew Usage</button>
-        <button mat-menu-item [routerLink]="['invready/Reports', {number: 2}]" i18n>Relocations</button>
-      </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuInve" i18n>Inventory</button>
+    <mat-menu #menuInve="matMenu" >
+      <button mat-menu-item [matMenuTriggerFor]="inventorycashews" i18n>Cashew Stock</button>
+      <button mat-menu-item [matMenuTriggerFor]="inventorygeneral" i18n>General Stock</button>
+      <button mat-menu-item [matMenuTriggerFor]="inventorynew" i18n>New</button>
+      <button mat-menu-item [matMenuTriggerFor]="inventoryreport" i18n>Reports</button>
+    </mat-menu>
+    <mat-menu #inventorycashews="matMenu" >
+      <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 0}]" i18n>By Item</button>
+      <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 1}]" i18n>By PO#</button>
+    </mat-menu>
+    <mat-menu #inventorygeneral="matMenu" >
+      <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 0}]" i18n>By Item</button>
+      <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 1}]" i18n>By PO#</button>
+      <button mat-menu-item [routerLink]="['invready/GenralInventory', {number: 2}]" i18n>Stock/Order</button>
+    </mat-menu>
+    <mat-menu #inventorynew="matMenu" >
+      <button mat-menu-item routerLink='invready/MaterialUse' i18n>Material Usage</button>
+      <button mat-menu-item routerLink='invready/CashewUse' i18n>Cashew Usage</button>
+      <button mat-menu-item routerLink='invready/Relocation' i18n>Relocation</button>
+    </mat-menu>
+    <mat-menu #inventoryreport="matMenu" >
+      <button mat-menu-item [routerLink]="['invready/Reports', {number: 0}]" i18n>Material Usage</button>
+      <button mat-menu-item [routerLink]="['invready/Reports', {number: 1}]" i18n>Cashew Usage</button>
+      <button mat-menu-item [routerLink]="['invready/Reports', {number: 2}]" i18n>Relocations</button>
+    </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>
       <mat-menu #menuProducts="matMenu" >
@@ -175,53 +165,51 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='products/Materials'>Materials</button>
       </mat-menu> -->
 
-      <button mat-button [matMenuTriggerFor]="menuReports" i18n>Reports</button>
-      <mat-menu #menuReports="matMenu">
-        <button mat-menu-item routerLink='reports/FullPoReport' i18n>Full PO# Details</button>
-        <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventorystock" i18n>Cashew Inventory Stock</button>
-        <button mat-menu-item [matMenuTriggerFor]="inventoryhistory" i18n>Cashew Inventory History</button>
-        <button mat-menu-item [matMenuTriggerFor]="generalinventoryhistory" i18n>General Inventory History</button>
-        <button mat-menu-item [matMenuTriggerFor]="exporthistory" i18n>Export</button>
-        <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
-      </mat-menu>
-      <mat-menu #inventorystock="matMenu" >
-        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Material</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 1}]" i18n>Items</button>
-      </mat-menu>
-      <mat-menu #inventoryhistory="matMenu" >
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 0}]" i18n>Raw Material</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 1}]" i18n>Clean Material</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 2}]" i18n>Items (bagged)</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 3}]" i18n>Finished</button>
-      </mat-menu>
-      <mat-menu #generalinventoryhistory="matMenu" >
-        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 0}]" i18n>By Item</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 1}]" i18n>By PO#</button>
-        <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 2}]" i18n>Stock/Order</button>
-      </mat-menu>
-      <mat-menu #exporthistory="matMenu" >
-        <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 0}]" i18n>By Container</button>
-        <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 1}]" i18n>Bagged Items</button>
-      </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuReports" i18n>Reports</button>
+    <mat-menu #menuReports="matMenu">
+      <button mat-menu-item routerLink='reports/FullPoReport' i18n>Full PO# Details</button>
+      <button mat-menu-item routerLink='reports/ProductionsByTime' i18n>Productions</button>
+      <button mat-menu-item [matMenuTriggerFor]="inventorystock" i18n>Cashew Inventory Stock</button>
+      <button mat-menu-item [matMenuTriggerFor]="inventoryhistory" i18n>Cashew Inventory History</button>
+      <button mat-menu-item [matMenuTriggerFor]="generalinventoryhistory" i18n>General Inventory History</button>
+      <button mat-menu-item [matMenuTriggerFor]="exporthistory" i18n>Export</button>
+      <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
+    </mat-menu>
+    <mat-menu #inventorystock="matMenu" >
+      <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Material</button>
+      <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 1}]" i18n>Items</button>
+    </mat-menu>
+    <mat-menu #inventoryhistory="matMenu" >
+      <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 0}]" i18n>Raw Material</button>
+      <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 1}]" i18n>Clean Material</button>
+      <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 2}]" i18n>Items (bagged)</button>
+      <button mat-menu-item [routerLink]="['reports/InventoryByTime', {number: 3}]" i18n>Finished</button>
+    </mat-menu>
+    <mat-menu #generalinventoryhistory="matMenu" >
+      <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 0}]" i18n>By Item</button>
+      <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 1}]" i18n>By PO#</button>
+      <button mat-menu-item [routerLink]="['reports/InventoryGeneralTime', {number: 2}]" i18n>Stock/Order</button>
+    </mat-menu>
+    <mat-menu #exporthistory="matMenu" >
+      <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 0}]" i18n>By Container</button>
+      <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 1}]" i18n>Bagged Items</button>
+    </mat-menu>
 
-      <button *ngIf="isManager" mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>
-      <mat-menu #menuManager="matMenu">
-        <button mat-menu-item routerLink='manager/ManagerUsers' i18n>Users</button>
-        <button mat-menu-item routerLink='manager/ManagerSetup' i18n>Setup</button>
-        <button mat-menu-item routerLink='manager/ItemsSetup' i18n>Items Setup</button>
-        <button mat-menu-item routerLink='manager/ManagmentNotifications' i18n>Notifications</button>
-        <button mat-menu-item routerLink='manager/RemoveManagment' i18n>Remove Managment</button>
-        <!-- <button mat-menu-item routerLink='manager/ProductionPlan'>Production Plan</button> -->
-      </mat-menu>
+    <button *ngIf="myGlobal.isManager" mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>
+    <mat-menu #menuManager="matMenu">
+      <button mat-menu-item routerLink='manager/ManagerUsers' i18n>Users</button>
+      <button mat-menu-item routerLink='manager/ManagerSetup' i18n>Setup</button>
+      <button mat-menu-item routerLink='manager/ItemsSetup' i18n>Items Setup</button>
+      <button mat-menu-item routerLink='manager/ManagmentNotifications' i18n>Notifications</button>
+      <button *ngIf="myGlobal.isSysManager" mat-menu-item routerLink='manager/RemoveManagment' i18n>Remove Managment</button>
+      <!-- <button mat-menu-item routerLink='manager/ProductionPlan'>Production Plan</button> -->
+    </mat-menu>
 
-      <button *ngIf="roleNumber" mat-button routerLink='onlymine'>onlymine</button>
+      <button *ngIf="myGlobal.isMe" mat-button routerLink='onlymine'>onlymine</button>
 
-
-      <button mat-button [matBadge]="todo" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Todo' i18n>Tasks</button>
-      <button mat-button [matBadge]="massages" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Massages' i18n>Messages</button>
-
-
+    <button mat-button [matBadge]="todo" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Todo' i18n>Tasks</button>
+    <button mat-button [matBadge]="massages" matBadgePosition="above after" matBadgeColor="accent" routerLink='useraccount/Massages' i18n>Messages</button>
+  </div>
       <!-- <button mat-button [matMenuTriggerFor]="menuTests">tests</button>
       <mat-menu #menuTests="matMenu">
         <button mat-menu-item routerLink='test/suppliers'>suppliers</button>
@@ -231,31 +219,19 @@ fxShow="true" fxHide.lt-md="true" -->
         <button mat-menu-item routerLink='test/xlxsImport'>xlxsImport</button>
       </mat-menu> -->
 
-    </div>
-    <span class="example-spacer"></span>
-    <button class="example-icon" mat-mini-fab (click)="onPrint()">
-      <mat-icon>print</mat-icon>
-    </button>
-    &nbsp;
-    <button class="example-icon" mat-mini-fab routerLink='useraccount/PassChange'>
-      <mat-icon>account_circle</mat-icon>
-    </button>
-    &nbsp;
-    <button class="example-icon" mat-mini-fab (click)="logout()">
-      <mat-icon>logout</mat-icon>
-    </button>
-    &nbsp;
-    <button class="example-icon" mat-mini-fab (click)="onInitilRefresh()">
-      <mat-icon >refresh</mat-icon>
-    </button>
+    <span class="row-spacer"></span>
+    <button mat-mini-fab (click)="onPrint()"><mat-icon>print</mat-icon></button>&nbsp;
+    <button mat-mini-fab routerLink='useraccount/PassChange'><mat-icon>account_circle</mat-icon></button>&nbsp;
+    <button mat-mini-fab (click)="logout()"><mat-icon>logout</mat-icon></button>&nbsp;
+    <button mat-mini-fab (click)="onInitilRefresh()"><mat-icon >refresh</mat-icon></button>&nbsp;
 
-    <mat-form-field appearance="none" style="width: 100px;">
+    <mat-form-field appearance="none" class="flag-select">
       <mat-select (selectionChange)="navigateTo($event.value)" [formControl]="language">
         <mat-select-trigger>
-          <img width="100px" height="30px" src="assets/countries/{{language.value.code}}.svg">
+          <img class="flag-img" src="assets/countries/{{language.value.code}}.svg">
         </mat-select-trigger>
         <mat-option *ngFor="let lang of languageList" [value]="lang">
-            <img width="100px" height="30px" src="assets/countries/{{lang.code}}.svg">
+            <img class="flag-img" src="assets/countries/{{lang.code}}.svg">
             {{lang.label}}
         </mat-option>
       </mat-select>

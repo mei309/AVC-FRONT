@@ -18,7 +18,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                     [attr.rowspan]="getRowSpanParent(i, column.group)"
                     [ngClass]="{'bold-cell': column.bold}">
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
-                    {{element[column.name] | tableCellPipe: column.type : column.collections}} 
+                    {{element[column.name] | tableCellPipe: column.type : column.collections}}
                 </span>
                 <span *ngIf="column.suffix && element[column.suffix]" style="white-space: pre-wrap;">
                     {{element[column.suffix] | tableCellPipe: 'normal' : null}}
@@ -57,7 +57,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                 [attr.rowspan]="getRowSpan(i)"
                 [ngClass]="{'bold-cell': column.bold}">
             <ng-container *ngIf="element.changeStatus === 'updated'; else notUpdated">
-                <ng-container *ngIf="isEqualObj(element[1][column.name], element[0][column.name]); else notEqual">      
+                <ng-container *ngIf="isEqualObj(element[1][column.name], element[0][column.name]); else notEqual">
                     <span *ngIf="element[0][column.name]" style="white-space: pre-wrap;">
                         {{element[0][column.name] | tableCellPipe: column.type : column.collections}}
                     </span>
@@ -72,7 +72,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                 </ng-template>
 
                 <ng-container *ngIf="column.suffix">
-                    <ng-container *ngIf="isEqualObj(element[1][column.suffix], element[0][column.suffix]); else notEqualSuffix">      
+                    <ng-container *ngIf="isEqualObj(element[1][column.suffix], element[0][column.suffix]); else notEqualSuffix">
                         <span *ngIf="element[0][column.suffix]" style="white-space: pre-wrap;">
                             {{element[0][column.suffix] | tableCellPipe: 'normal' : null}}
                         </span>
@@ -105,7 +105,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
         </th>
         <td mat-cell *matCellDef="let element" [ngClass]="{'bold-cell': column.bold}">
             <ng-container *ngIf="element.changeStatus === 'updated'; else notUpdated1">
-                <ng-container *ngIf="isEqualObj(element[1][column.name], element[0][column.name]); else notEqual1">      
+                <ng-container *ngIf="isEqualObj(element[1][column.name], element[0][column.name]); else notEqual1">
                     <span *ngIf="element[0][column.name]" style="white-space: pre-wrap;">
                         {{element[0][column.name] | tableCellPipe: column.type : column.collections}}
                     </span>
@@ -120,7 +120,7 @@ import { diff } from '../libraries/diffArrayObjects.interface';
                 </ng-template>
 
                 <ng-container *ngIf="column.suffix">
-                    <ng-container *ngIf="isEqualObj(element[1][column.suffix], element[0][column.suffix]); else notEqualSuffix1">      
+                    <ng-container *ngIf="isEqualObj(element[1][column.suffix], element[0][column.suffix]); else notEqualSuffix1">
                         <span *ngIf="element[0][column.suffix]" style="white-space: pre-wrap;">
                             {{element[0][column.suffix] | tableCellPipe: 'normal' : null}}
                         </span>
@@ -159,22 +159,22 @@ import { diff } from '../libraries/diffArrayObjects.interface';
   styleUrls: ['show-details-table.css'],
 })
 export class ShowDetailsTableGroupComponent implements OnInit {
-    
+
   @Input() dataSource;
 
   @Input() secondSource;
 
   @Input() oneColumns = [];
-  
+
   noChanges: boolean = true;
-  
+
   localOneColumns = [];
   localGroupOneColumns = [];
   columnsDisplay: string[] = [];
   spans = [];
   constructor() {
   }
-  
+
   ngOnInit() {
     // var parent = false;
     this.oneColumns.forEach(element => {
@@ -183,7 +183,7 @@ export class ShowDetailsTableGroupComponent implements OnInit {
             this.cloumnCareParant(element.collections, this.localGroupOneColumns);
         } else if(element.type === 'kidArray'){
             this.cloumnCareKidArray(element);
-        } 
+        }
         // else if(element.type === 'parentArray'){
         //     parent = true;
         //     if(this.getPremmisions(this.processName).includes('MANAGER')) {
@@ -203,7 +203,7 @@ export class ShowDetailsTableGroupComponent implements OnInit {
         //         this.columnsDisplay.push('APPROVAL');
         //     }
         //     this.cloumnCareParentArray(element);
-        // } 
+        // }
         else {
             this.localGroupOneColumns.push(element);
             this.columnsDisplay.push(element.name);
@@ -235,7 +235,7 @@ export class ShowDetailsTableGroupComponent implements OnInit {
                     this.dataParantRemove(element.collections, element.name);
                 } else if(element.type === 'kidArray'){
                     this.dataCareKidArray(element);
-                } 
+                }
                 // else if(element.type === 'parentArray'){
                 //     this.dataCareParentArray(element);
                 // }
@@ -350,7 +350,7 @@ export class ShowDetailsTableGroupComponent implements OnInit {
                 newDataSource.push(element);
             });
             this.dataSource = newDataSource;
-            
+
             this.oneColumns.forEach(element => {
                 if(element.type === 'parent') {
                     this.dataParantUpdatedRemove(element.collections, element.name);
@@ -392,7 +392,7 @@ export class ShowDetailsTableGroupComponent implements OnInit {
                           return key === 'version' ? true : undefined;
                       })
               } });
-              
+
               result1['same'].forEach(element => {
                   var copied1 = Object.assign({}, element, line[0]);
                   delete copied1[element.name];
@@ -445,33 +445,33 @@ export class ShowDetailsTableGroupComponent implements OnInit {
     });
   }
 
-  
+
   spanRow(accessor, key) {
     for (let i = 0; i < this.dataSource.length;) {
       let currentValue = accessor(this.dataSource[i]);
       let count = 1;
- 
+
       // Iterate through the remaining rows to see how many match
       // the current value as retrieved through the accessor.
       for (let j = i + 1; j < this.dataSource.length; j++) {
         if (currentValue != accessor(this.dataSource[j])) {
           break;
         }
- 
+
         count++;
       }
 
       if (!this.spans[i]) {
         this.spans[i] = {};
       }
- 
+
       // Store the number of similar values that were found (the span)
       // and skip i to the next unique row.
       this.spans[i][key] = count;
       i += count;
-    }  
+    }
   }
- 
+
   getRowSpan(index) {
     return this.spans[index] && this.spans[index]['id'];
   }

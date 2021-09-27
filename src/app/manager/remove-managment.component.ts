@@ -9,7 +9,7 @@ import { ManagerService } from './manager.service';
     JUST FILL ONE OF THEM
     <ng-container *ngFor="let field of removalConfig;" dynamicField [field]="field" [group]="form">
     </ng-container>
-    <button type="button" class="raised-margin" mat-raised-button color="accent" (click)="submit()">Submit</button>
+    <button type="button"  mat-raised-button color="accent" (click)="submit()">Submit</button>
     `
   })
 export class RemoveManagment {
@@ -38,8 +38,8 @@ export class RemoveManagment {
             },
         ];
     }
-    
-    
+
+
 
     submit() {
         let val = this.form.value;

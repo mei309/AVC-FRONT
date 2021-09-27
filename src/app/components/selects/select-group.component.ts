@@ -32,7 +32,7 @@ import { FieldConfig } from '../../field.interface';
   </ng-container>
 </mat-form-field>
 
-<button type="button" *ngIf="field.label === 'withAllPos'" class="raised-margin" mat-raised-button color="accent" (click)="allPos()" i18n>All #POS</button>
+<button type="button" *ngIf="field.label === 'withAllPos'" mat-raised-button color="accent" (click)="allPos()" i18n>All #POS</button>
 `,
 })
 export class SelectgroupComponent implements OnInit {
@@ -45,7 +45,7 @@ export class SelectgroupComponent implements OnInit {
   options1;
   options2 = [];
   temp: Observable<any>;
-  
+
   filteredOptions1: Observable<any[]>;
   filteredOptions2: Observable<any[]>;
 
@@ -69,7 +69,7 @@ export class SelectgroupComponent implements OnInit {
         // this.options2 = arg;
         this.linkedone = uniq(arg.map(opt => opt[this.genralLink]));
         this.options1 = this.linkedone;
-      
+
         if(this.group.controls[this.field.collections[1].name].value && typeof this.group.controls[this.field.collections[1].name].value === 'object'){
           this.selectFormFirst.setValue(this.group.controls[this.field.collections[1].name].value[this.genralLink]);
           linkId = this.selectFormFirst;
@@ -84,7 +84,7 @@ export class SelectgroupComponent implements OnInit {
           }
         }
 
-      
+
 
         if(typeof this.group.controls[this.field.collections[1].name].value == 'string' && this.field.collections[1].value !== undefined) {
           let putNull: boolean = true;
@@ -118,7 +118,7 @@ export class SelectgroupComponent implements OnInit {
         } else {
           this.filteredOptions1 = this.selectFormFirst.valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter1(val) : this.options1.slice()));
         }
-        if(this.field.collections[1].collections === 'somewhere') { 
+        if(this.field.collections[1].collections === 'somewhere') {
           this.filteredOptions2 = this.group.controls[this.field.collections[1].name].valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter2somewhere(val) : this.options2.slice()));
         } else {
           this.filteredOptions2 = this.group.controls[this.field.collections[1].name].valueChanges.pipe(startWith(''), map((val: string) => val ? this.filter2(val) : this.options2.slice()));
@@ -157,14 +157,14 @@ export class SelectgroupComponent implements OnInit {
   }
 
 
-  public twoChangedHandler(e: MatAutocompleteSelectedEvent){     
+  public twoChangedHandler(e: MatAutocompleteSelectedEvent){
     this.linkedone.forEach(option => {
         if (option.id === e.option.value[this.genralLink]) {
             this.group.controls[this.field.collections[0].name].setValue(option);
         }
     });
   }*/
-  
+
   filter1(val: string): any[] {
     if(val && typeof(val) === 'string') {
       const filterValue = val.toLowerCase();
@@ -173,7 +173,7 @@ export class SelectgroupComponent implements OnInit {
     } else {
       return this.options1;
     }
-    
+
   }
 
   filter2(val: string): any[] {
@@ -184,7 +184,7 @@ export class SelectgroupComponent implements OnInit {
     } else {
       return this.options2;
     }
-    
+
   }
 
   filter1somewhere(val: string): any[] {
@@ -195,7 +195,7 @@ export class SelectgroupComponent implements OnInit {
     } else {
       return this.options1;
     }
-    
+
   }
 
   filter2somewhere(val: string): any[] {
@@ -206,7 +206,7 @@ export class SelectgroupComponent implements OnInit {
     } else {
       return this.options2;
     }
-    
+
   }
 
   getOptionText(option) {
@@ -220,18 +220,18 @@ export class SelectgroupComponent implements OnInit {
         let isValueTrue = this.linkedone.filter(opt =>
             opt.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
-            this.selectFormFirst.setValue(isValueTrue[0]);
+            this.selectFormFirst.setValue(isValueTrue[0], {emitEvent: false});
             let options = [];
             this.linkedtwo.forEach(option => {
                 if (isEqual(option[this.genralLink] ,isValueTrue[0])) {
                     options.push(option);
                 }
-            }); 
+            });
             this.options2 = options;
             let isExist = options.filter(opt =>
               opt === this.group.controls[this.field.collections[1].name].value);
             if (isExist.length === 0) {
-              this.group.controls[this.field.collections[1].name].setValue(null);
+              this.group.controls[this.field.collections[1].name].setValue(null, {emitEvent: false});
             }
             if(!this.group.controls[this.field.collections[1].name].value) {
               // setTimeout(() => {
@@ -239,13 +239,13 @@ export class SelectgroupComponent implements OnInit {
               // }, 100);
             }
         } else {
-            this.selectFormFirst.setValue(null);
+            this.selectFormFirst.setValue(null, {emitEvent: false});
             this.options2 = this.linkedtwo;
             this.group.controls[this.field.collections[1].name].updateValueAndValidity({ onlySelf: true, emitEvent: true });
             // setTimeout(() => {
               this.trigger.openPanel();
             // }, 100);
-            
+
         }
     }, 300);
   }
@@ -258,21 +258,21 @@ export class SelectgroupComponent implements OnInit {
         let isValueTrue = this.linkedtwo.filter(opt =>
             opt.value.toLowerCase() === event.target.value.toLowerCase());
         if (isValueTrue.length !== 0) {
-            this.group.controls[this.field.collections[1].name].setValue(isValueTrue[0]);
+            this.group.controls[this.field.collections[1].name].setValue(isValueTrue[0], {emitEvent: false});
             if (!this.selectFormFirst || this.selectFormFirst !== isValueTrue[0][this.genralLink]) {
                   this.selectFormFirst.setValue(isValueTrue[0][this.genralLink]);
             }
         } else {
-            this.group.controls[this.field.collections[1].name].setValue('');
+            this.group.controls[this.field.collections[1].name].setValue('', {emitEvent: false});
         }
   }
 
   selectedTwo(event) {
     setTimeout(() => {
-        this.selectFormFirst.setValue(event[this.genralLink]);
+        this.selectFormFirst.setValue(event[this.genralLink], {emitEvent: false});
     }, 100);
   }
-  
+
 
   bindValidations(validations: any) {
     if (validations.length > 0) {
@@ -292,11 +292,12 @@ export class SelectgroupComponent implements OnInit {
         this.linkedone = uniq(arg.map(opt => opt[this.genralLink]));
         this.options1 = this.linkedone;
         this.options2 = arg;
+        this.group.controls[this.field.collections[1].name].setValue(this.group.controls[this.field.collections[1].name].value)
         setTimeout(() => {
           this.trigger.openPanel();
-        }, 300);
+        }, 100);
     });
-      
+
   }
 
   ngOnDestroy() {

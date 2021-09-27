@@ -326,11 +326,18 @@ export class ExpImpRelocationComponent implements OnInit {
                        collections: 'relocation',
                        options: this.genral.getItemsCashewGrades(this.num, cashewGrades),
                    },
-                   {
-                       type: 'selectMU',
-                       label: $localize`Weight unit`,
-                       name: 'measureUnit',
-                   },
+                  //  {
+                  //      type: 'selectMU',
+                  //      label: $localize`Weight unit`,
+                  //      name: 'measureUnit',
+                  //  },
+                    {
+                        type: 'selectNormal',
+                        label: $localize`Weight unit`,
+                        name: 'measureUnit',
+                        value: 'KG',
+                        options: this.genral.getMeasureUnit(),
+                    },
                    {
                        type: 'input',
                        label: $localize`All bags weight`,

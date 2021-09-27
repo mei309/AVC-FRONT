@@ -29,11 +29,11 @@ import { diff } from '../libraries/diffArrayObjects.interface';
         </mat-card>
       </div>
     </div>
-    
+
     `
   })
 export class ManagmentNotificationsComponent implements OnInit {
-    
+
     proccesTypes;
     putNotfictions;
 
@@ -75,7 +75,7 @@ export class ManagmentNotificationsComponent implements OnInit {
 
 @Component({
   selector: 'app-edit-notifiction-dialog',
-  template: ` 
+  template: `
   <h1 style="text-align:center" i18n>Alert for {{proccesName}}</h1>
   <div *ngIf="isDataAvailable" class="tables mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
@@ -93,32 +93,32 @@ export class ManagmentNotificationsComponent implements OnInit {
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="['user'].concat(displayedColumns)"></tr>
-        
+
         <tr mat-row *matRowDef="let row; columns: ['user'].concat(displayedColumns)"></tr>
 
     </table>
   </div>
   <div style="text-align: right;">
-    <button class="raised-margin" mat-raised-button color="primary" (click)="submit()" i18n>Submit</button>
+    <button  mat-raised-button color="primary" (click)="submit()" i18n>Submit</button>
   </div>
   `,
 })
 export class EditNotifictionsDialogComponent {
 
   isDataAvailable = false;
-  
+
   displayedColumns: string[] = [];
 
   firstSource: any[] = [];
   dataSource: any[] = [];
   putData: any = null;
   proccesName;
- 
+
   submit() {
     var addAlerts = [];
     var removeAlerts = [];
     var result = diff(this.firstSource, this.dataSource, 'user', { updatedValues: 3});
-    
+
     result['updated'].forEach(element => {
       const userExisting = this.putData.find(elem => elem['username']['id'] === element[0]['id']);
       Object.keys(element[0]).forEach(ele => {
@@ -166,7 +166,7 @@ export class EditNotifictionsDialogComponent {
     });
     this.displayedColumns = this.genral.getApprovalType();
   }
-  
+
   constructor(private localService: ManagerService, private genral: Genral, public dialogRef: MatDialogRef<EditNotifictionsDialogComponent>,
       @Inject(MAT_DIALOG_DATA)
       public data: any) {

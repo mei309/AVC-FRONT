@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route } from '@angular/router';
+import { Globals } from '../global-params.component';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGaurdService implements CanLoad {
-  constructor() { }
+  constructor(private myGlobal: Globals) { }
 
   canLoad(): boolean {
-    if (sessionStorage.getItem('username') === 'isral') {
-      // const token = JSON.parse(sessionStorage.getItem('roles'));
-      
-      // if(token[0]['authority'] === 'ROLE_MANAGER') {
-      //   return true;
-      // } 
+    if (this.myGlobal.isMe) {
       return true;
     }
-    // alert('only manager welcomed here');
     return false;
   }
 

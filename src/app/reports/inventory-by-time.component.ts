@@ -121,7 +121,7 @@ export class InventoryByTimeComponent implements OnInit {
         this.localService.getCashewInventoryClean(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
-        this.setFinished();
+        this.setFinished(true);
         break;
       case 2:
         this.cashewSource = null;
@@ -214,7 +214,7 @@ export class InventoryByTimeComponent implements OnInit {
         this.localService.getCashewInventoryFinished(normalizedDay).pipe(take(1)).subscribe(value => {
           this.cashewSource = <any[]>value;
         });
-        this.setFinished();
+        this.setFinished(false);
         this.cdRef.detectChanges();
         break;
       default:
@@ -321,7 +321,7 @@ export class InventoryByTimeComponent implements OnInit {
         this.cdRef.detectChanges();
   }
 
-  setFinished() {
+  setFinished(isCleaned: boolean) {
         this.totelByType = null;
 
         this.columnsShow = [
@@ -352,37 +352,40 @@ export class InventoryByTimeComponent implements OnInit {
               label: $localize`Process dates`,
               search: 'dates',
           },
-          {
-              type: 'decimalNumber',
-              name: 'boxes',
-              label: $localize`Box quantity`,
-              search: 'normal',
-          },
-          {
-              type: 'weight',
-              name: 'boxWeight',
-              label: $localize`Box weight`,
-              search: 'object',
-          },
+          ...isCleaned? []: [
+            {
+                type: 'decimalNumber',
+                name: 'boxes',
+                label: $localize`Box quantity`,
+                search: 'normal',
+            },
+            {
+                type: 'weight',
+                name: 'boxWeight',
+                label: $localize`Box weight`,
+                search: 'object',
+            },
+          ],
           {
               type: 'decimalNumber',
               name: 'weightInLbs',
               label: $localize`LBS weight`,
               search: 'normal',
           },
+          ...isCleaned? [
+            {
+                type: 'percentNormal',
+                name: 'rawDefectsAndDamage',
+                label: $localize`Defects + damage`,
+                search: 'percentage',
+            },
+          ] : [],
           {
               type: 'arrayVal',
               name: 'warehouses',
               label: $localize`Storage`,
               search: 'selectObjArr',
               options: this.genral.getWearhouses(),
-          },
-          {
-              type: 'normal',
-              name: 'status',
-              label: $localize`Status`,
-              search: 'select',
-              options: this.genral.getProcessStatus(),
           },
         ];
   }

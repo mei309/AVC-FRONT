@@ -6,7 +6,7 @@ import { ReceiptService } from './receipt.service';
 @Component({
     selector: 'receipt-dialog',
     template: `
-    <button printTitle="{{type}} receive details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+    <button printTitle="{{type}} receive details" printSectionId="print-section-orders" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title i18n>{{type}} receive details</h1>
@@ -15,11 +15,11 @@ import { ReceiptService } from './receipt.service';
         <show-details [dataSource]="receipt" (approveChange)="setApproveChange()">
         </show-details>
     </mat-dialog-content>
-    <mat-dialog-actions align="end">       
+    <mat-dialog-actions align="end">
         <ng-container *ngFor="let butt of buttons;">
-            <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
+            <button  mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+        <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -40,7 +40,7 @@ export class ReceiptDialog {
             this.receipt = data.receipt;
         }
 
-    ngOnInit() {  
+    ngOnInit() {
         if(!this.fromNew) {
             this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
                 this.receipt = val;

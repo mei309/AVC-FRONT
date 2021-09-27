@@ -6,7 +6,7 @@ import { CountinersService } from './countiners.service';
 @Component({
   selector: 'security-export-doc',
   template:`
-  <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+  <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title id="print" i18n>{{type}} details</h1>
@@ -16,7 +16,7 @@ import { CountinersService } from './countiners.service';
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+        <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
   ` ,
 })

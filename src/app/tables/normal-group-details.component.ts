@@ -8,12 +8,12 @@ import { OneColumn } from '../field.interface';
   template: `
   <div class="tables mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter">
-        
+
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localGroupOneColumns">
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
             </th>
-            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
+            <td mat-cell *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)">
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
@@ -26,7 +26,7 @@ import { OneColumn } from '../field.interface';
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
             </th>
-            <td mat-cell class="cell-padding" *matCellDef="let element; let i = index"
+            <td mat-cell *matCellDef="let element; let i = index"
                     [style.display]="getRowSpan(i, column.group) ? '' : 'none'"
                     [attr.rowspan]="getRowSpan(i, column.group)">
                 <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
@@ -50,7 +50,7 @@ import { OneColumn } from '../field.interface';
     <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
   </div>
   <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
-  <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data.length === 0"><h2 i18n>No records found</h2></div>
+  <h2 style="text-align:center" *ngIf="dataSource?.data.length === 0" i18n>No records found</h2>
   `,
 })
 export class NormalGroupDetailsComponent {
@@ -142,7 +142,7 @@ export class NormalGroupDetailsComponent {
       }
     });
   }
-  
+
 
   preperColumns() {
     if(this.oneColumns[0].type === 'idGroup'){
@@ -204,7 +204,7 @@ export class NormalGroupDetailsComponent {
       }
       this.spans[i][key] = count;
       i += count;
-    }  
+    }
   }
 
   getRowSpan(index, key) {

@@ -9,7 +9,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
   selector: 'show-details',
   template: `
 <ng-container *ngIf="dataSource; else noData">
-    <button *ngIf="getUserManagment(dataSource.processName)" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(dataSource.processName)">Managment</button>
+    <button *ngIf="getUserManagment(dataSource.processName)" class="no-print" mat-raised-button color="accent" (click)="openManagment(dataSource.processName)">Managment</button>
     <ng-container *ngIf="secondSource; else noSecond">
         <ng-container *ngFor="let column of oneColumns">
           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">

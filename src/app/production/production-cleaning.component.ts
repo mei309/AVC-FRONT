@@ -45,11 +45,13 @@ export class ProductionCleaningComponent implements OnInit {
                         this.newUsed = val[1];
                         this.isFormAvailable = true;
                     });
+                  } else if(result === $localize`Go to full production report`) {
+                    this.router.navigate(['Main/reports/ProductionsByTime']);
                   } else {
                     this.router.navigate(['../Productions'], { relativeTo: this._Activatedroute });
                   }
               });
-            
+
         });
     }
 
@@ -67,8 +69,8 @@ export class ProductionCleaningComponent implements OnInit {
                     this.isFormAvailable = true;
                 });
             } else {
-                this.setBeginChoose(); 
-            } 
+                this.setBeginChoose();
+            }
         });
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
@@ -91,11 +93,11 @@ export class ProductionCleaningComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id')) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 this.localService.getStorageRawPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
-                }); 
+                });
                 this.isDataAvailable = false;
             }
         });
@@ -122,7 +124,7 @@ export class ProductionCleaningComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

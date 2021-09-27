@@ -1,11 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Globals } from '../global-params.component';
-
 
 @Component({
   selector: 'confirm-dialog',
-  template: ` 
+  template: `
     <h1 mat-dialog-title i18n>Process Managment</h1>
     <h3 style="color: red">{{message}}</h3>
     <mat-dialog-content>
@@ -15,16 +13,16 @@ import { Globals } from '../global-params.component';
         <mat-checkbox [(ngModel)]="toCancal" i18n>Cancel process</mat-checkbox>
       </div>
     </mat-dialog-content>
-    <mat-dialog-actions align="end"> 
+    <mat-dialog-actions align="end">
       <ng-container *ngIf="aprove">
         <mat-form-field class="one-field">
             <textarea autocomplete="chrome-off" matInput [(ngModel)]="remarks" placeholder="Remarks"></textarea>
         </mat-form-field>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="confirm()" i18n>Confirm</button>       
-        <button class="raised-margin" mat-raised-button color="accent" (click)="reject()" i18n>Reject</button>
+        <button  mat-raised-button color="accent" (click)="confirm()" i18n>Confirm</button>
+        <button  mat-raised-button color="accent" (click)="reject()" i18n>Reject</button>
       </ng-container>
-      <button *ngIf="manager" class="raised-margin" mat-raised-button color="accent" (click)="onSave()" i18n>Save</button>
-      <button class="raised-margin" mat-raised-button color="accent" (click)="dialogRef.close('closed')" i18n>Close</button>
+      <button *ngIf="manager"  mat-raised-button color="accent" (click)="onSave()" i18n>Save</button>
+      <button  mat-raised-button color="accent" (click)="dialogRef.close('closed')" i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -42,7 +40,7 @@ export class ConfirmationDialog {
   manager: boolean = false;
   aprove: boolean = false;
 
-  constructor(public globals: Globals, public dialogRef: MatDialogRef<ConfirmationDialog>,
+  constructor(public dialogRef: MatDialogRef<ConfirmationDialog>,
     @Inject(MAT_DIALOG_DATA)
     public data: any) {
       this.aprove = data.premmisions.includes('APPROVAL');

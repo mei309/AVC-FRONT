@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Genral } from './genral.service';
 import { AuthenticateService } from './service/authenticate.service';
 import { LoadingService } from './service/loading-service.service';
-
+import { Globals } from './global-params.component';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -28,17 +28,8 @@ export class MainComponent {
   todo: number = 0;
   massages: number = 0;
 
-  roleNumber: boolean = false;
-  isManager: boolean = false;
-
-  constructor(@Inject(LOCALE_ID) private _locale: string, private router: Router, private _adapter: DateAdapter<any>,
+  constructor(@Inject(LOCALE_ID) private _locale: string, private _adapter: DateAdapter<any>, public myGlobal: Globals,
     private genral: Genral, private genralService: AuthenticateService, public loadingService: LoadingService) {
-    if (sessionStorage.getItem('username') === 'isral') {
-      this.roleNumber = true;
-    }
-    if (sessionStorage.getItem('roles').includes('ROLE_SYSTEM_MANAGER')) {
-      this.isManager = true;
-    }
     this.language = new FormControl(this.languageList.find(lang => lang.code === this._locale));
     this._adapter.setLocale(this._locale);
     this.genral.doInitiel();

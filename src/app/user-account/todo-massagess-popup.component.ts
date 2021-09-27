@@ -8,7 +8,7 @@ import { UserAccountService } from './user-account.service';
     <ng-container *ngFor="let po of poCodes;">
       <button mat-raised-button color="accent" (click)="goFullPo(po.id)" style="float: right;" i18n>Go to full {{po.value}} details</button>
     </ng-container>
-    <button printTitle="Task Details" printSectionId="print-section-task" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+    <button printTitle="Task Details" printSectionId="print-section-task" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title i18n>Task Details</h1>
@@ -17,8 +17,8 @@ import { UserAccountService } from './user-account.service';
         <show-details [dataSource]="task" [secondSource]="processSnapshot" (approveChange)="setApproveChange()">
         </show-details>
     </mat-dialog-content>
-    <mat-dialog-actions align="end">  
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+    <mat-dialog-actions align="end">
+        <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -33,7 +33,7 @@ export class TodoMassagesPopupComponent {
     approveChange: boolean = false;
 
     poCodes;
-    
+
     constructor(private LocalService: UserAccountService, public dialog: MatDialog, public dialogRef: MatDialogRef<TodoMassagesPopupComponent>,
       @Inject(MAT_DIALOG_DATA)
       public data: any) {
@@ -43,7 +43,7 @@ export class TodoMassagesPopupComponent {
             this.processSnapshot = JSON.parse(data.allLine['processSnapshot']);
         }
     }
-    
+
     ngOnInit() {
         this.LocalService.getTask(this.processId, this.processType).pipe(take(1)).subscribe(value => {
             this.task = value;
@@ -71,9 +71,9 @@ export class TodoMassagesPopupComponent {
         this.approveChange = true;
     }
 
-    
-    // public printWindow(): void { 
-    //     let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
+
+    // public printWindow(): void {
+    //     let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800');
     //     virtualWindow.document.write('<html><head><title>Print</title>');
     //     virtualWindow.document.write('</head><body>' + document.getElementById('print-section-task').innerHTML + '</body></html>');
     //     virtualWindow.document.close();
@@ -84,6 +84,6 @@ export class TodoMassagesPopupComponent {
     //   window.print();
     // //   document.getElementById("newDivId").setAttribute("id", "section-to-print");
     // }
-    
-    
+
+
 }

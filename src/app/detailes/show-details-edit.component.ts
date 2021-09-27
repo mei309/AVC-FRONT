@@ -9,11 +9,11 @@
 //   selector: 'show-details',
 //   template: `
 // <ng-container *ngIf="dataSource; else noData">
-//     <button *ngIf="getUserManagment(dataSource.processName)" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(dataSource.processName)">Managment</button>
+//     <button *ngIf="getUserManagment(dataSource.processName)"  mat-raised-button color="accent" (click)="openManagment(dataSource.processName)">Managment</button>
 //     <ng-container *ngIf="secondSource; else noSecond">
 //         <ng-container *ngFor="let column of oneColumns">
 //           <ng-container *ngIf="checkNotEmpty(dataSource[column.name]) || checkNotEmpty(secondSource[column.name])">
-//             <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside'].includes(column.type); else notImportEdit"> 
+//             <ng-container *ngIf="['object', 'parent', 'parentArray', 'parentArrayObject', 'arrayGroup', 'array', 'detailsUpside'].includes(column.type); else notImportEdit">
 //                 <ng-container *ngIf="['parent', 'parentArray', 'object', 'arrayOrdinal'].includes(column.type); else legendBoxEdit">
 //                       <ng-container *ngIf="'arrayOrdinal' === column.type; else notArrayOrdinalEdit">
 //                           <show-details-ordinal [dataSource]="dataSource[column.name]" [secondSource]="secondSource[column.name]">
@@ -44,17 +44,17 @@
 //                           </show-details>
 
 //                           <for-each-edit *ngSwitchCase="'arrayForEach'" class="change-color" [dataSource]="dataSource[column.name][0]" [secondSource]="secondSource[column.name][0]" [oneColumns]="column.collections">
-//                           </for-each-edit> 
+//                           </for-each-edit>
 //                       </fieldset>
 //                 </ng-template>
 //             </ng-container>
 //             <ng-template #notImportEdit>
-                  
+
 
 //                   <div class="half">
 //                         <label>{{column.label}}</label>
 //                         <ng-container *ngIf="isEqualObj(dataSource[column.name], secondSource[column.name]); else notEqual1">
-//                           <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>   
+//                           <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
 //                         </ng-container>
 //                         <ng-template  #notEqual1>
 //                           <span class="half added-item">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
@@ -82,7 +82,7 @@
 //                         <show-details *ngSwitchCase="'parentArray'" [oneColumns]="column.collections" [dataSource]="dataSource[column.name][0]">
 //                         </show-details>
 
-                        
+
 
 //                         <fieldset *ngSwitchDefault  [ngClass]="{'no-legend': !column.label}">
 //                           <legend><h1>{{column.label}}</h1></legend>
@@ -109,12 +109,12 @@
 //                   </ng-container>
 //               </ng-container>
 //               <ng-template #notImport>
-                    
+
 //                     <div class="half">
 //                           <label>{{column.label}}</label>
 //                           <span class="half">{{dataSource[column.name] | tableCellPipe: column.type : column.collections}}</span>
 //                     </div>
-                   
+
 //               </ng-template>
 //             </ng-container>
 //         </ng-container>
@@ -238,8 +238,8 @@
 //     }
 //   }
 //   get secondSource() { return this.secondSourceTemp; }
-  
-  
+
+
 //   @Input() set oneColumns(value) {
 //     if(value){
 //       this.regShow = value;
@@ -293,7 +293,7 @@
 //         } else if(result['process'] === 'onSave') {
 //           this.genral.taskManagment(result).pipe(take(1)).subscribe(value => {
 //             // this.dataSource = value;
-            
+
 //           });
 //         }
 //       }
@@ -811,7 +811,7 @@
 //             name: 'totalAmount',
 //             bold: 'true',
 //             // collections: 'measureUnit',
-//           }, 
+//           },
 //         ]
 //     },
 //     {
@@ -846,7 +846,7 @@
 //                     name: 'warehouseLocation',
 //                 },
 //               ]
-//           }, 
+//           },
 //         ]
 //     },
 //     // {

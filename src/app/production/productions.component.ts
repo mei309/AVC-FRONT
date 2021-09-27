@@ -144,7 +144,7 @@ export class ProductionsComponent implements OnInit {
                     break;
                   case 4:
                     this.router.navigate(['../QcPacking',{id: event['id'], poCodes: event['poCodeIds'],
-                    addPos: dialogRef.componentInstance.addPos}], { relativeTo: this._Activatedroute });
+                    addPos: dialogRef.componentInstance.addPos, withCleaned: dialogRef.componentInstance.withCleaned}], { relativeTo: this._Activatedroute });
                     break;
               default:
                   break;

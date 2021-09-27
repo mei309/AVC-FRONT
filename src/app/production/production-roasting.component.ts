@@ -45,11 +45,13 @@ export class ProductionRoastingComponent implements OnInit {
                         this.newUsed = val[1];
                         this.isFormAvailable = true;
                     });
+                } else if(result === $localize`Go to full production report`) {
+                    this.router.navigate(['Main/reports/ProductionsByTime']);
                 } else {
                     this.router.navigate(['../Productions', {number: 1}], { relativeTo: this._Activatedroute });
                 }
             });
-            
+
         });
     }
 
@@ -91,11 +93,11 @@ export class ProductionRoastingComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id')) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 this.localService.getStorageCleanPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.newUsed = val;
                     this.isFormAvailable = true;
-                }); 
+                });
                 this.isDataAvailable = false;
             }
         });
@@ -122,7 +124,7 @@ export class ProductionRoastingComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

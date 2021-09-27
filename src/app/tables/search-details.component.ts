@@ -12,7 +12,10 @@ import { OneColumn } from '../field.interface';
   template: `
   <ng-container *ngIf="isPrint">
     <ng-container *ngFor="let item of searchGroup.value | keyvalue">
-      <mat-chip class="only-print-search" *ngIf="item.value.val">{{item.value.label}}: {{item.value.val | tableCellPipe: item.value.type : null}}</mat-chip>
+      <div *ngIf="item.value.val" class="half">
+        <label>{{item.value.label}}</label>
+        <span class="half">{{item.value.val | tableCellPipe: item.value.type : null}}</span>
+      </div>
     </ng-container>
   </ng-container>
 <div class="tables mat-elevation-z8">
@@ -53,7 +56,7 @@ import { OneColumn } from '../field.interface';
               <input *ngSwitchDefault matInput autocomplete="off" type="search" formControlName="val" placeholder="Search" i18n-placeholder>
           </mat-form-field>
         </th>
-        <td mat-cell class="cell-padding" *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
+        <td mat-cell *matCellDef="let element" [ngClass]="{'is-alert': column.compare && compare(element, column)}">
           <span *ngIf="element[column.name]" style="white-space: pre-wrap;">
                 {{element[column.name] | tableCellPipe: column.type : column.collections}}
           </span>
@@ -66,13 +69,13 @@ import { OneColumn } from '../field.interface';
   <mat-toolbar>
     <mat-toolbar-row>
       <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
-      <span class="example-spacer"></span>
+      <span class="row-spacer"></span>
       <mat-paginator class="no-print" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>
 <mat-spinner *ngIf="dataSource == undefined"></mat-spinner>
-<div [ngStyle]="{'width':'fit-content', 'margin':'auto'}" *ngIf="dataSource?.data?.length === 0"><h2 i18n>No records found</h2></div>
+<h2 style="text-align:center" *ngIf="dataSource?.data?.length === 0" i18n>No records found</h2>
   `,
 })
 export class SearchDetailsComponent {

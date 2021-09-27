@@ -1,13 +1,13 @@
   tr.example-detail-row {
     height: 0;
   }
-  
+
   .example-element-detail {
     overflow: hidden;
     display: auto;
   }
-  
-  
+
+
 tr.is-new {
   background: burlywood;
 }
@@ -16,13 +16,5 @@ tr.is-seen {
   background: yellowgreen;
 }
 
-.cell-padding {
-  vertical-align: top !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-  padding-top: 14px !important;
-}
 
 
-  
-  

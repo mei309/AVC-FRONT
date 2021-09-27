@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 @Component({
     selector: 'app-supplier-details-dialog',
     template: `
-    <button printTitle="Supplier Details" printSectionId="print-section-supplier" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+    <button printTitle="Supplier Details" printSectionId="print-section-supplier" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title i18n>Supplier Details</h1>
@@ -15,11 +15,11 @@ import { take } from 'rxjs/operators';
         <show-details [oneColumns]="regShow" [dataSource]="supllier">
         </show-details>
     </mat-dialog-content>
-    <mat-dialog-actions align="end">       
-      <button class="raised-margin" mat-raised-button color="accent" (click)="editClick()" i18n>Edit</button>
-      <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+    <mat-dialog-actions align="end">
+      <button  mat-raised-button color="accent" (click)="editClick()" i18n>Edit</button>
+      <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
-    
+
     `,
 })
 export class SupplierDetailsDialogComponent {
@@ -37,7 +37,7 @@ export class SupplierDetailsDialogComponent {
         type: 'nameId',
         label: $localize`Supply category`,
         name: 'supplyCategories',
-      },    
+      },
       {
         type: 'normal',
         label: $localize`Legal english name`,
@@ -124,7 +124,7 @@ export class SupplierDetailsDialogComponent {
                     label: $localize`Branch`,
                     name: 'branch',
                     collections: 'bankName',
-                  },  
+                  },
                 ]
               },
             ]
@@ -236,7 +236,7 @@ export class SupplierDetailsDialogComponent {
     ngOnInit() {
       if(!this.fromNew) {
         this.LocalService.getSupplier(this.id).pipe(take(1)).subscribe( val => {
-          this.supllier = val;  
+          this.supllier = val;
         });
       }
     }
@@ -249,5 +249,5 @@ export class SupplierDetailsDialogComponent {
     editClick(): void {
       this.dialogRef.close($localize`edit`);
     }
-    
+
 }

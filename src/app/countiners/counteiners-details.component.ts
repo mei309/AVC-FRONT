@@ -7,7 +7,7 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
 @Component({
     selector: 'counteiners-details-dialog',
     template: `
-    <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+    <button printTitle="{{type}} details" printSectionId="print-section-continers" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title i18n>{{type}} details</h1>
@@ -18,9 +18,9 @@ import { SecurityExportDocComponent } from './security-export-doc.component';
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <ng-container *ngFor="let butt of buttons;">
-            <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
+            <button  mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+        <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -32,7 +32,7 @@ export class CounteinersDetailsDialogComponent {
     buttons: string[] = [];
     approveChange: boolean = false;
 
-    
+
 
     constructor(private LocalService: CountinersService, private dialog: MatDialog, public dialogRef: MatDialogRef<CounteinersDetailsDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
@@ -66,7 +66,7 @@ export class CounteinersDetailsDialogComponent {
         }
         this.buttons.push($localize`Edit`);
     }
-    
+
     onNoClick(): void {
         this.dialogRef.close('closed');
     }

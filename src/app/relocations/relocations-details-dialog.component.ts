@@ -6,7 +6,7 @@ import { RelocationsService } from './relocations.service';
 @Component({
     selector: 'app-relocations-details-dialog',
     template: `
-    <button printTitle="{{type}} details" printSectionId="print-section-relocations" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+    <button printTitle="{{type}} details" printSectionId="print-section-relocations" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title i18n>{{type}} details</h1>
@@ -17,9 +17,9 @@ import { RelocationsService } from './relocations.service';
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <ng-container *ngFor="let butt of buttons;">
-            <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
+            <button  mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+        <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -30,7 +30,7 @@ export class RelocationsDetailsDialogComponent {
     type: string;
     buttons: string[] = [];
     approveChange: boolean = false;
-    
+
 
     constructor(private LocalService: RelocationsService, public dialogRef: MatDialogRef<RelocationsDetailsDialogComponent>,
         @Inject(MAT_DIALOG_DATA)

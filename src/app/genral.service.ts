@@ -326,13 +326,13 @@ export class Genral {
   }
 
   getMeasureUnit(): string[] {
-    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
+    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'TON', 'UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
   }
   getPackedMU(): string[] {
     return ['UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
   }
   getBulkMU(): string[] {
-    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT'];
+    return ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'TON'];
   }
 
   getQcCheckOrganzition(): string[] {

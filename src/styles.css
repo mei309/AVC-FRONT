@@ -2,7 +2,22 @@
 /* html, body { height: 100%; } */
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.center {
+/* keeps the bottom scroll in the view */
+.mat-drawer-content {
+  height: 91vh !important;
+}
+
+/* spinner over all page in case of post request delay */
+.overlay{
+  height:100vh;
+  width:100%;
+  background-color:rgba(0, 0, 0, 0.286);
+  z-index:    2000;
+  top:        0;
+  left:       0;
+  position:   fixed;
+}
+.overlay div {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -11,23 +26,106 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   transform: translateX(-50%) translateY(-50%);
 }
 
-.overlay{
-height:100vh;
-width:100%;
-background-color:rgba(0, 0, 0, 0.286);
-z-index:    10;
-top:        0;
-left:       0;
-position:   fixed;
+/* main page flag */
+.flag-select {
+  width: 100px;
+  top: 10px;
+}
+.flag-img{
+  width:100px;
+  height:30px;
 }
 
-.mat-drawer-content {
-  /* position: relative;
-  z-index: 1;
-  display: block; */
-  height: 91vh !important;
-  /* overflow: auto; */
+/* main page and tables fotter */
+.row-spacer {
+  flex: 1 1 auto;
 }
+
+/* fields that look like input */
+.half label{
+  float:left;
+  width:100%;
+  color: green;
+  font-size: 0.8em;
+}
+span .half {float: left; width: 175px; padding: 1%;}
+.half { display: inline-block; width: 180px; overflow-wrap: break-word;}
+
+/* input label */
+.mat-form-field-label {
+  color: green !important;
+}
+
+/* tables */
+.tables {
+  width: fit-content;
+  margin: auto;
+  max-width: 100vw;
+}
+.mat-header-cell {
+  min-width: 50px;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  text-align: center !important;
+}
+.table-search {
+  width:90px;
+  max-width:98%;
+  min-width: 88%;
+}
+.is-alert {
+  background-color: pink;
+}
+.mat-cell{
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  vertical-align: top !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-top: 7px !important;
+}
+
+/* date and time range */
+.date-range {
+  width: 300px;
+}
+.date-fit-search {
+  width: 130px;
+}
+
+/* butoons and link buttons in tables */
+.mat-raised-button {
+  margin-right: 15px !important;
+}
+.centerButtons .mat-raised-button {
+  margin-right: 5px !important;
+}
+/* .mat-raised-button[color=primary] {
+  margin-right: 5px !important;
+} */
+.mat-button:hover {
+  background: rgb(206, 20, 144);
+}
+.add-button {
+  margin-right: 16px;
+  color: blue;
+}
+.centerButtons {
+  position:relative;
+  left:10%;
+  display: inline-block;
+  width: fit-content;
+  padding-top: 5px;
+}
+
+.mat-spinner {
+  position: relative;
+  margin-left: 50%;
+  margin-right: 50%;
+}
+
+
+
+
 
 .one-field {
     padding-right: 10px;
@@ -35,18 +133,6 @@ position:   fixed;
     display: flex;
     flex-direction: column;
   }
-
-  /* ::ng-deep mat-autocomplete .mat-autocomplete-value {
-    width: fit-content;
-    min-width: 2ch;
-    max-width: 25ch;
-}
-::ng-deep mat-autocomplete .mat-autocomplete-placeholder {
-    width: fit-content;
-    min-width: 10ch;
-} */
-
-
 
 
   .one-field-space {
@@ -134,14 +220,6 @@ position:   fixed;
   }
 
 
-  .mat-raised-button.raised-margin {
-    margin-right: 20px !important;
-    margin-left: 20px !important;
-    margin-top: 20px !important;
-    margin-bottom: 20px !important;
-  }
-
-
   .form {
     margin: auto;
     /**border: 2px solid lightgray;
@@ -157,19 +235,6 @@ position:   fixed;
   }
 
 
-  .add-button {
-    margin-right: 16px;
-    color: blue;
-  }
-  .mat-button:hover {
-    background: rgb(206, 20, 144);
-  }
-
-  .mat-spinner {
-    position: relative;
-    margin-left: 50%;
-    margin-right: 50%;
-  }
 
   .example-card {
     display: inline-block;
@@ -181,77 +246,6 @@ position:   fixed;
   ::ng-deep .mat-horizontal-stepper-header{
     pointer-events: none !important;
   }
-
-  .centerButtons {
-    position:relative;
-    left:10%;
-    display: inline-block;
-    width: fit-content;
-    padding-top: 5px;
-  }
-
-  .centerButtons *{
-    margin-right: 5px !important;
-  }
-
-  /* table {
-    width: 90%;
-    margin: auto;
-    max-width: 100vw;
-    overflow-x: scroll;
-  } */
-  .tables {
-    width: fit-content;
-    margin: auto;
-    max-width: 100vw;
-  }
-  .mat-header-cell {
-    min-width: 50px;
-    /* width: 120px; */
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-    text-align: center !important;
-  }
-  .cell-padding {
-    vertical-align: top !important;
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-    padding-top: 14px !important;
-  }
-  .table-search {
-    width:90px;
-    max-width:100%;
-    min-width:80%
-  }
-  .is-alert {
-    background-color: pink;
-  }
-
-  /*
-  .mat-row:nth-child(even){
-    background-color:rgb(211, 211, 211);
-    }
-    .mat-header-row {
-      background-color: rgba(119, 148, 153, 0.904);
-    }
-
-    .mat-row:hover {
-      background: tomato;
-      outline: none;
-    } */
-
-    .mat-cell{
-      border-left: 1px solid rgba(0, 0, 0, 0.12);
-      border-right: 1px solid rgba(0, 0, 0, 0.12);
-    }
-
-
-    .my-toolbar {
-      position: sticky;
-      position: -webkit-sticky; /* For macOS/iOS Safari */
-      top: 0; /* Sets the sticky toolbar to be on top */
-      z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
-    }
 
 
     .mat-radio-group {
@@ -272,19 +266,6 @@ position:   fixed;
     }
 
 
-    .date-range {
-      width: 400px;
-    }
-    .date-fit-search {
-      width: 180px;
-    }
-
-.example-icon {
-    padding: 0 14px;
-  }
-  .example-spacer {
-    flex: 1 1 auto;
-  }
 
   .sums-qc {
     float: right;
@@ -296,27 +277,14 @@ position:   fixed;
 
 
 
-
-
-  .mat-form-field-label {
-    color: green !important;
-  }
   .only-print {
     display: none;
   }
   .only-print-block {
     display: none;
   }
-  .only-print-search {
-    display: none;
-  }
 
   @media print {
-
-
-      /* @page {
-        size: landscape;
-      } */
 
     .only-print {
       display: block;
@@ -325,29 +293,13 @@ position:   fixed;
       display: inline-block;
     }
 
-    /* body * {
-      visibility: hidden;
-    } */
-    /* mat-form-field {
-      display: none !important;
-    } */
-    /* .mat-header-cell {
-      width:fit-content;
-      min-width: 50px;
-      text-align: center !important;
-    } */
+
     .tables {
       /* font-size: 2vw; */
       min-width: fit-content;
       margin: auto;
       max-width: 100%;
       overflow:visible;
-    }
-    .cell-padding {
-      vertical-align: top !important;
-      padding-left: 4px !important;
-      padding-right: 4px !important;
-      padding-top: 14px !important;
     }
     .mat-header-cell {
       min-width: 45px;
@@ -363,17 +315,9 @@ position:   fixed;
       border: none !important;
     }
 
-    .date-range, .date-fit-search {
-      width:fit-content;
-    }
-
     .spac-print .mat-tab-label:not(.mat-tab-label-active) {
       display: none !important;
     }
-    /* .my-toolbar {
-      display: none !important;
-    } */
-
 
     #print-section, #print-section * {
       overflow: visible;
@@ -386,15 +330,13 @@ position:   fixed;
       top: 0;
     }
 
-    .only-print-search {
-      display: inline-block;
-      padding-left: 20px;
-    }
-    span .half {float: left; width: 175px; padding: 1%;}
-    span .title {
-      float:left;
-      width:100%;
-      color: green;
-      font-size: 0.8em;
-    }
+
   }
+
+
+  /*main page tool-bar .my-toolbar {
+  position: sticky;
+  position: -webkit-sticky; For macOS/iOS Safari
+  top: 0; Sets the sticky toolbar to be on top
+  z-index: 1000; Ensure that your app's content doesn't overlap the toolbar
+} */

@@ -28,12 +28,12 @@ import { Validators } from '@angular/forms';
         </mat-button-toggle-group>
         <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
         <div *ngIf="choosedOne" style="text-align: left;">
-            <button class="raised-margin" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
+            <button  mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>
     </div>
-    
+
     `
   })
 export class ManagmentSetupComponent {
@@ -320,7 +320,7 @@ export class ManagmentSetupComponent {
                 //     titel: 'Deep spot',
                 //     name: 'deepSpot',
                 // },
-                { 
+                {
                     name: 'totalDefects',
                     label: $localize`Defects`,
                     search: 'normal',
@@ -447,7 +447,7 @@ export class ManagmentSetupComponent {
                             type: 'percentinput',
                             label: $localize`Testa`,
                             name: 'testa',
-                        }, 
+                        },
                     ]
                 },
                 {
@@ -499,7 +499,7 @@ export class ManagmentSetupComponent {
                             type: 'percentinput',
                             label: $localize`Total damage`,
                             name: 'totalDamage',
-                        }, 
+                        },
                         {
                             type: 'input',
                             label: $localize`Total defects`,
@@ -566,12 +566,12 @@ export class ManagmentSetupComponent {
     //     });
     //     dialogRef.afterClosed().subscribe(data => {
     //         if(!data || data === 'closed') {
-    //         } 
+    //         }
     //         // else if(data === 'remove') {
     //         //     this.localService.removeSetup(this.choosedOne, value).pipe(take(1)).subscribe( val => {
     //         //         this.setupSource.pop(value);
     //         //     });
-    //         // } 
+    //         // }
     //         else if (!isEqual(value, data)) {
     //             this.localService.editSetup(this.choosedOne, data).pipe(take(1)).subscribe( val => {
     //                 this.columnsSetup.forEach(va => {

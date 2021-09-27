@@ -43,11 +43,11 @@ export class AuthenticateService {
     this.tokenSubject.next(null);
   }
 
-  
+
 	authenticate(username, password) {
       return this.http.post<any>(this.mainurl+'authenticate',{username,password}).pipe(
        map(
-         userData => { 
+         userData => {
           sessionStorage.setItem('username',username);
           let tokenStr= 'Bearer '+userData.token;
           sessionStorage.setItem('token', tokenStr);
@@ -60,15 +60,16 @@ export class AuthenticateService {
          })
       );
     }
-  
+
   logOut() {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('roles');
+    sessionStorage.removeItem('id');
     this.tokenSubject.next(null);
     this.router.navigate(['/']);
   }
-  
+
   // isUserLoggedIn() {
   //   let user = sessionStorage.getItem('username');
   //   return !(user === null);

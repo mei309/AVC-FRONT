@@ -23,24 +23,24 @@ table {
   display: inline-block;
 }
 
-  
+
   .mat-row{
     background-color: white;
     }
     .mat-header-row {
       background-color: white;
     }
- 
+
     tr.is-new {
       background: greenyellow;
     }
-    
+
 
     tr.is-removed {
       text-decoration: line-through;
       /* background: red; */
     }
-    
+
     /* tr.is-updated {
       background: gold;
     } */
@@ -57,7 +57,7 @@ table {
     .bold-cell {
       font-weight: bold;
     }
-       
+
 
     .bottom-legend {
       position: absolute;
@@ -67,15 +67,6 @@ table {
     }
 
 
-    label{
-      float:left;
-      width:100%;
-      color: green;
-      font-size: 0.8em;
-   }
-
-   span .half {float: left; width: 175px; padding: 1%;}
-   .half { display: inline-block; width: 180px; overflow-wrap: break-word;}
 
    /* white-space:normal; word-wrap:break-word;*/
    h3 {

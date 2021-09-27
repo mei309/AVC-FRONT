@@ -4,7 +4,7 @@ import { SpecialOrdersService } from './special-orders.service';
 @Component({
     selector: 'special-orders-dialog',
     template: `
-    <button class="example-icon" mat-mini-fab (click)="printWindow()">
+    <button mat-mini-fab (click)="printWindow()">
       <mat-icon >print</mat-icon>
     </button>
     <div id="mmss">
@@ -30,7 +30,7 @@ export class SpecialOrdersDialogComponent {
 
     ngOnInit() {
         this.LocalService.getSupplier(this.id).toPromise().then( val => {
-            this.supllier = {"name":"fcvgbhn","categories":[{"id":1,"name":"Raw Cashew"}, 
+            this.supllier = {"name":"fcvgbhn","categories":[{"id":1,"name":"Raw Cashew"},
             {"id":5,"name":"Salt"}],"company":{"contactInfo":{"street":"Other Hageonim","country":{"name":"Israel","id":1},"city":{"name":"Jerusalem","id":1,"countryID":1},"phones":["549701959"],"emails":["isral309@gmail.com","isral309@gmail.com"],"faxes":[null]},"contacts":[{"person":{"contactInfo":{"name":"Sarah Lieberman","street":"Other Hageonim","country":{"name":"Israel","id":1},"city":{"name":"Jerusalem","id":1,"countryID":1},"phones":["549701959"],"emails":["isral309@gmail.com"],"faxes":[null]},"posisions":{"id":2,"name":"Driver"},"idCard":null,"dob":null},
             }],"legelInfo":{"englishName":null,"vietnamName":null,"companyLicence":null,"taxCode":null,"registedCode":null},"bankAccount":[{"name":"bbbb","number":null,"bank":{"name":"Vietnam","id":2},"Branch":{"name":"Jerusalem","id":1,"countryID":1}}, {"name":"aaaa","number":null,"bank":{"name":"Vietnam","id":2},"Branch":{"name":"Jerusalem","id":1,"countryID":1}}]}};
         });
@@ -49,9 +49,9 @@ export class SpecialOrdersDialogComponent {
         this.dialogRef.close('edit');
     }
 
-    
-    public printWindow(): void { 
-        // let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
+
+    public printWindow(): void {
+        // let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800');
         // virtualWindow.document.write('<html><head><title>Print</title>');
         // virtualWindow.document.write('</head><body>' + document.getElementById('mmss').innerHTML + '</body></html>');
         // virtualWindow.document.close();
@@ -59,6 +59,6 @@ export class SpecialOrdersDialogComponent {
         // setTimeout(t => { virtualWindow.print();
         // virtualWindow.close(); }, 1000);
     }
-        
-    
+
+
 }

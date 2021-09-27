@@ -47,7 +47,8 @@ export class ProductionPackingComponent implements OnInit {
                     this.cdRef.detectChanges();
                     if(val['weightedPos']) {
                         let pos = val['weightedPos'].map(a => a.poCode.id);
-                        this.setEditData(val['id'], pos, dialogRef.componentInstance.withPacked, dialogRef.componentInstance.addPos);
+                        this.withPacked = dialogRef.componentInstance.withPacked;
+                        this.setEditData(val['id'], pos, dialogRef.componentInstance.addPos);
                     } else {
                         this.localService.getProductionWithStorage(val['id'], val['poCode']['id'], this.withPacked || dialogRef.componentInstance.withPacked? 'toPackWithPacked' : 'toPack').pipe(take(1)).subscribe( val => {
                             this.putData = val[0];
@@ -55,6 +56,8 @@ export class ProductionPackingComponent implements OnInit {
                             this.isFormAvailable = true;
                         });
                     }
+                } else if(result === $localize`Go to full production report`) {
+                    this.router.navigate(['Main/reports/ProductionsByTime']);
                 } else {
                     this.router.navigate(['../Productions', {number: 3}], { relativeTo: this._Activatedroute });
                 }
@@ -63,8 +66,7 @@ export class ProductionPackingComponent implements OnInit {
         });
     }
 
-    setEditData(id, pos: Array<number>, withPacked, addPos) {
-        this.withPacked = withPacked;
+    setEditData(id, pos: Array<number>, addPos) {
         if(addPos) {
             this.form = this.fb.group({});
             this.form.addControl('mixPos', this.fb.control(''));
@@ -72,8 +74,6 @@ export class ProductionPackingComponent implements OnInit {
             this.form.get('mixPos').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
                 if(selectedValue && selectedValue.hasOwnProperty('weightedPos')) {
                     this.posArray = selectedValue['weightedPos'];
-                    console.log(pos);
-
                     pos = pos.concat(selectedValue['weightedPos'].map(a => a.poCode.id));
                     this.localService.getMixProductionWithStorage(id, pos, this.withPacked).pipe(take(1)).subscribe( val => {
                         this.putData = val[0];
@@ -101,7 +101,8 @@ export class ProductionPackingComponent implements OnInit {
     ngOnInit() {
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
             if(params.get('id')) {
-                this.setEditData(+params.get('id'), (params.get('poCodes')).split(',').map(Number), params.get('withPacked') === 'true', params.get('addPos') === 'true');
+                this.withPacked = params.get('withPacked') === 'true';
+                this.setEditData(+params.get('id'), (params.get('poCodes')).split(',').map(Number), params.get('addPos') === 'true');
             } else {
                 this.setBeginChoose();
             }

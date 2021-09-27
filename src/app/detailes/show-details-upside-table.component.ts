@@ -19,7 +19,7 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
             <th mat-header-cell *matHeaderCellDef
               [attr.colspan]="column1.lSize"
               [style.display]="column1.lSize ? '' : 'none'">
-              <button *ngIf="iCol1" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(column1, iCol1)">Managment</button>
+              <button *ngIf="iCol1"  mat-raised-button color="accent" (click)="openManagment(column1, iCol1)">Managment</button>
             </th>
         </ng-container>
     </ng-container>
@@ -29,14 +29,14 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
             <h3>{{column.titel}}</h3>
           </th>
 
-          <td mat-cell *matCellDef="let element; let iRow = index" 
+          <td mat-cell *matCellDef="let element; let iRow = index"
             [attr.colspan]="getColSpan(iRow, iCol)"
             [style.display]="getColSpan(iRow, iCol) ? '' : 'none'"
            [ngClass]="{'is-alert': column.compare && element[column.compare] && compare(element, column), 'bold-cell': element.bold}">
             <ng-container *ngIf="column.collections; else justText">
               <span *ngIf="element[column.name] != null" style="white-space: pre-wrap;">
                   {{element[column.name] | tableCellPipe: column.group? element.pipes1 : element.pipes : element.collections? element[element.collections+column.name] : column.collections}}
-              
+
                   <ng-container *ngIf="element[column.compare]">
                     ({{element[column.compare] | tableCellPipe: element.pipes : 100}})
                   </ng-container>
@@ -58,26 +58,26 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
  </ng-container>
  <ng-template  #elseblock>
     <table mat-table [dataSource]="bottomDataSource" class="mat-elevation-z2">
-    
+
       <ng-container *ngIf="isWithTop && getUserManagment(processName)">
           <ng-container matColumnDef="manage{{iCol1}}" *ngFor="let column1 of topGroups; let iCol1 = index">
               <th mat-header-cell *matHeaderCellDef
                 [attr.colspan]="column1.lSize"
                 [style.display]="column1.lSize ? '' : 'none'">
-                <button *ngIf="iCol1" class="raised-margin" mat-raised-button color="accent" (click)="openManagment(column1, iCol1)">Managment</button>
+                <button *ngIf="iCol1"  mat-raised-button color="accent" (click)="openManagment(column1, iCol1)">Managment</button>
               </th>
           </ng-container>
       </ng-container>
-    
-    
+
+
       <ng-container matColumnDef="{{column.name}}" *ngFor="let column of bottomCloumns; let iCol = index">
           <th mat-header-cell *matHeaderCellDef>
               <h3>{{column.titel}}</h3>
           </th>
-          <td mat-cell *matCellDef="let element; let iRow = index" 
+          <td mat-cell *matCellDef="let element; let iRow = index"
           [attr.colspan]="getColSpan(iRow, iCol)"
           [style.display]="getColSpan(iRow, iCol) ? '' : 'none'" [ngClass]="{'is-alert': column.compare && compare(element, column), 'bold-cell': element.bold}">
-            <ng-container *ngIf="column.collections; else justTextEdit"> 
+            <ng-container *ngIf="column.collections; else justTextEdit">
               <ng-container *ngIf="element.hasOwnProperty(column.name+'edit'); else notUpdated">
                       <span class="added-item" *ngIf="element[column.name] != null" style="white-space: pre-wrap;">
                           {{element[column.name] | tableCellPipe: column.type : element.collections? element[element.collections+column.name] : column.collections}}
@@ -115,13 +115,13 @@ import { ConfirmationDialog } from '../service/confirm-dialog.component';
   styleUrls: ['show-details-table.css'],
 })
 export class ShowDetailsUpsideTableComponent {
- 
+
   @Input() dataSource;
 
   @Input() secondSource;
 
   @Input() oneColumns;
-  
+
   @Input() processName;
   noChanges: boolean = true;
 
@@ -229,7 +229,7 @@ export class ShowDetailsUpsideTableComponent {
       }
     }
 
-  
+
   operators = {
     // '+' : function(a: number[]) { return a.reduce((b, c) => { return b + c}, 0); },
     '>' : function(a, b) { return a > b; },
@@ -240,7 +240,7 @@ export class ShowDetailsUpsideTableComponent {
   };
   compare (element, column) {
     if (element) {
-      
+
     }
     if(column.group) {
       switch (element.pipes1) {
@@ -272,7 +272,7 @@ export class ShowDetailsUpsideTableComponent {
     return false;
   }
 
-  
+
 
   uniq(array: any[]) {
     return uniq(array);
@@ -307,7 +307,7 @@ export class ShowDetailsUpsideTableComponent {
                     } else {
                       nameOfRow = element[heder.name];
                     }
-                    
+
                     if(element['changeStatus'] && element['changeStatus'] !== 'same') {
                       if(element['changeStatus'] !== 'updated') {
                         kids.forEach(ele => {
@@ -342,7 +342,7 @@ export class ShowDetailsUpsideTableComponent {
                     });
 
                     const target = heder['accessor'](arg, nameOfRow);
-                    
+
                     if(target) {
                         removingNodes.forEach(element => {
                           merge(target, target[element]);
@@ -396,7 +396,7 @@ export class ShowDetailsUpsideTableComponent {
 
   openManagment(col, indexNum) {
     const keyToChange = Object.keys(this.bottomDataSource[1]).find(key => key.endsWith((indexNum-1).toString()));
-    
+
     const dialogRef = this.dialog.open(ConfirmationDialog, {
       width: '80%',
       data: {

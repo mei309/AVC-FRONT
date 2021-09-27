@@ -18,12 +18,14 @@ import { ReportsService } from './reports.service';
         <mat-option *ngFor="let sup of suppliers | async" [value]="sup">{{sup.value}}</mat-option>
       </mat-select>
     </mat-form-field>
-    
-    
-    
+
+
+
     <ng-container *ngIf="isDataAvailable">
-      <mat-chip class="only-print-search" *ngIf="supplier.value">Supplier: {{supplier.value | tableCellPipe: 'nameId' : null}}</mat-chip>
-    
+      <div *ngIf="supplier.value" class="half only-print">
+        <label>Supplier</label>
+        <span class="half">{{supplier.value | tableCellPipe: 'nameId' : null}}</span>
+      </div>
       <search-group-details [mainColumns]="columnsShow"  [detailsSource]="qcSource" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
       <sums-qc-table class="sums-qc" [mainDetailsSource]="[sumsSource, ['supplier', 'receivedItem'], 'rawDefectsAndDamage']" title="Raw defects + damage" type="percentNormal" i18n-title>
@@ -41,7 +43,7 @@ import { ReportsService } from './reports.service';
 })
 export class QcsTotalsComponent implements OnInit {
   navigationSubscription;
-  
+
   suppliers = new ReplaySubject<DropNormal[]>();
 
   supplier = new FormControl(null);
@@ -175,9 +177,9 @@ export class QcsTotalsComponent implements OnInit {
   filteredSums($event) {
     this.sumsSource = $event;
   }
-  
+
   ngOnDestroy() {
-    if (this.navigationSubscription) {  
+    if (this.navigationSubscription) {
        this.navigationSubscription.unsubscribe();
     }
     this.suppliers.unsubscribe();

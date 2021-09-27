@@ -5,7 +5,7 @@ import { OrdersService } from './orders.service';
 @Component({
     selector: 'app-order-details-dialog',
     template: `
-    <button printTitle="{{type}} order details" printSectionId="print-section-orders" printLazyLoad class="example-icon" mat-mini-fab style="float: right;" i18n-printTitle>
+    <button printTitle="{{type}} order details" printSectionId="print-section-orders" printLazyLoad mat-mini-fab style="float: right;" i18n-printTitle>
       <mat-icon>print</mat-icon>
     </button>
     <h1 mat-dialog-title i18n>{{type}} order details</h1>
@@ -14,11 +14,11 @@ import { OrdersService } from './orders.service';
         <show-details [dataSource]="order" (approveChange)="setApproveChange()">
         </show-details>
     </mat-dialog-content>
-    <mat-dialog-actions align="end">       
+    <mat-dialog-actions align="end">
         <ng-container *ngFor="let butt of buttons;">
-            <button class="raised-margin" mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
+            <button  mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
-        <button class="raised-margin" mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
+        <button  mat-raised-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n>Close</button>
     </mat-dialog-actions>
     `,
 })
@@ -39,7 +39,7 @@ export class OrderDetailsDialogComponent {
             this.order = data.order;
         }
 
-    ngOnInit() {    
+    ngOnInit() {
         if(!this.fromNew) {
             this.LocalService.getOrder(this.id).pipe(take(1)).subscribe( val => {
                 this.order = val;
@@ -53,7 +53,7 @@ export class OrderDetailsDialogComponent {
             this.buttons.push($localize`Edit order`, $localize`Receive`);
         }
     }
-    
+
     onNoClick(): void {
         this.dialogRef.close('closed');
     }

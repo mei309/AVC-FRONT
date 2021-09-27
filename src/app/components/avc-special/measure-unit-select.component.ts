@@ -27,9 +27,9 @@ export class SelectMeasureUnitComponent implements OnInit {
   field: FieldConfig;
   group: FormGroup;
   temp: Observable<any>;
-  options = ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
+  options = ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'TON', 'UNIT', 'BOX', 'TANK', 'BAG', 'ROLL'];
   filteredOptions: Observable<any[]>;
-  
+
   constructor() {}
   ngOnInit() {
         if(this.field.collections === 'somewhere') {
@@ -39,16 +39,16 @@ export class SelectMeasureUnitComponent implements OnInit {
         }
         this.group.get('item').valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
             if(val && val[this.field.name]) {
-                if(['KG', 'LBS', 'OZ', 'GRAM', 'LOT'].includes(val[this.field.name])) {
-                    this.options = ['KG', 'LBS', 'OZ', 'GRAM', 'LOT'];
+                if(['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'TON'].includes(val[this.field.name])) {
+                    this.options = ['KG', 'LBS', 'OZ', 'GRAM', 'LOT', 'TON'];
                 } else {
                     this.options = [val[this.field.name]];
                 }
-                this.group.get(this.field.name).setValue(val[this.field.name]);  
+                this.group.get(this.field.name).setValue(val[this.field.name]);
             }
         });
   }
-  
+
   filter(val: string): any[] {
     if(val && typeof(val) === 'string') {
       const filterValue = val.toLowerCase();

@@ -88,8 +88,8 @@ export class ProductionService {
   getAllPosToPack(withPacked: boolean): Observable<any> {
     return this.http.get(this.productionurl+'getAllPosToPack/'+withPacked);
   }
-  getAllPosQc(){
-    return this.http.get(this.productionurl+'getAllPosQc');
+  getAllPosQc(withCleaned: boolean){
+    return this.http.get(this.productionurl+'getAllPosQc/'+withCleaned);
   }
 
   findFreeMixPoCodes() {
@@ -108,10 +108,8 @@ export class ProductionService {
   getStorageToPackPo (poCode: number, withPacked: boolean): Observable<any> {
     return this.http.get(this.productionurl+'getStorageToPackPo/'+poCode+'/'+withPacked);
   }
-  getStorageQcPo (poCode: number, itemId: string): Observable<any> {
-    let params = new HttpParams().
-        set('itemId',  itemId);
-    return this.http.get(this.productionurl+'getStorageQcPo/'+poCode, {params});
+  getStorageQcPo (poCode: number, withCleaned: boolean): Observable<any> {
+    return this.http.get(this.productionurl+'getStorageQcPo/'+poCode+'/'+withCleaned);
   }
 
   getProductionWithStorage(id: number, poCode: number, processType: string) {
@@ -145,17 +143,13 @@ export class ProductionService {
     return this.http.get(this.productionurl+'getStorageToPackPos/'+pos+'/'+withPacked);
   }
 
-  getMixQcProductionWithStorage(id: number, pos: Array<number>, itemId: string) {
-    let params = new HttpParams().
-        set('itemId',  itemId);
+  getMixQcProductionWithStorage(id: number, pos: Array<number>, withCleaned: boolean) {
     let response1 = this.http.get(this.productionurl+'getProduction/'+id);
-    return forkJoin([response1, this.http.get(this.productionurl+'getStorageQcPos/'+pos, {params})]);
+    return forkJoin([response1, this.http.get(this.productionurl+'getStorageQcPos/'+pos+'/'+withCleaned)]);
   }
 
-  getMixStorageQcPos(pos: Array<number>, itemId: string) {
-    let params = new HttpParams().
-        set('itemId',  itemId);
-    return this.http.get(this.productionurl+'getStorageQcPos/'+pos, {params});
+  getMixStorageQcPos(pos: Array<number>, withCleaned: boolean) {
+    return this.http.get(this.productionurl+'getStorageQcPos/'+pos+'/'+withCleaned);
   }
 
 }
