@@ -67,7 +67,7 @@ import { OneColumn } from '../field.interface';
 
 
     <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsDisplay.length">
+        <td mat-cell *matCellDef="let element" class="cell-no-padding" [attr.colspan]="columnsDisplay.length">
             <div class="example-element-detail"
                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 <div class="no-print">

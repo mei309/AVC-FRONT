@@ -82,16 +82,21 @@ span .half {float: left; width: 175px; padding: 1%;}
 }
 .mat-cell{
   border-left: 1px solid rgba(0, 0, 0, 0.12);
-  vertical-align: top !important;
+  /* vertical-align: top !important; */
   padding-left: 10px !important;
   padding-right: 10px !important;
   padding-top: 7px !important;
+}
+.mat-cell.cell-no-padding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
 }
 
 /* date and time range */
 .date-range {
   width: 300px;
-  height: 10px;
+  height: 60px;
 }
 .date-fit-search {
   width: 130px;
@@ -114,6 +119,10 @@ span .half {float: left; width: 175px; padding: 1%;}
 .add-button {
   margin-right: 16px;
   color: blue;
+}
+.left30-button {
+  left:20%;
+  margin-bottom: 10px !important;
 }
 .centerButtons {
   position:relative;

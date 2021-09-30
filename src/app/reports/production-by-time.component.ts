@@ -113,8 +113,8 @@ export class ProductionsByTimeComponent implements OnInit {
           },
           {
               type: 'normal',
-              name: 'duration',
-              label: $localize`Duration`,
+              name: 'downtime',
+              label: $localize`Down time`,
               search: 'normal',
           },
           {

@@ -23,7 +23,7 @@ import { Genral } from '../genral.service';
         </mat-button-toggle-group>
         <h2 *ngIf="choosedOne">{{choosedOne | namingPipe : 'none'}}</h2>
         <div *ngIf="choosedOne" style="text-align: left;">
-            <button  mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
+            <button class="left30-button" mat-raised-button color="primary" (click)="newDialog()">{{choosedOne | namingPipe : 'add'}}</button>
             <search-details [dataSource]="setupSource" [oneColumns]="columnsSetup" (details)="newDialog($event)">
             </search-details>
         </div>
