@@ -5,6 +5,7 @@ import { ManagmentNotificationsComponent } from './manager-notifications.compone
 import { ManagmentSetupComponent } from './manager-setup.component';
 import { ManagmentUsersComponent } from './manager-users.component';
 import { PlanProductionComponent } from './plan-production.component';
+import { PlanScheduleComponent } from './plan-new-schedule.component';
 import { RemoveManagment } from './remove-managment.component';
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
   { path: 'ManagerSetup', component: ManagmentSetupComponent},
   { path: 'ItemsSetup', component: ItemsSetupComponent},
   { path: 'ManagmentNotifications', component: ManagmentNotificationsComponent},
-  { path: 'ProductionPlan', component: PlanProductionComponent },
+  { path: 'ProductionPlan', component: PlanScheduleComponent },
   { path: 'RemoveManagment', component: RemoveManagment },
 ];
 

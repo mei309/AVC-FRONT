@@ -8,7 +8,6 @@ import { Genral } from '../genral.service';
 import { OrderDetailsDialogComponent } from './order-details-dialog-component';
 import { OrdersService } from './orders.service';
 import { cloneDeep } from 'lodash-es';
-import * as moment from 'moment';
 @Component({
     selector: 'new-cashew-order',
     template: `
@@ -20,7 +19,7 @@ import * as moment from 'moment';
   })
 export class NewCashewOrder implements OnInit {
     navigationSubscription;
-    
+
     putData: any = null;
     isDataAvailable = false;
     regConfig: FieldConfig[];
@@ -171,7 +170,7 @@ export class NewCashewOrder implements OnInit {
                     },
                     {
                         name: 'deliveryDate',
-                    }, 
+                    },
                 ]
             },
             {
@@ -203,7 +202,7 @@ export class NewCashewOrder implements OnInit {
    }
 
 
-    submit(value: any) { 
+    submit(value: any) {
         value['orderItems'].forEach(element => {
             if(!element['unitPrice']['amount']) {
                 delete element['unitPrice'];
@@ -231,7 +230,7 @@ export class NewCashewOrder implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }
