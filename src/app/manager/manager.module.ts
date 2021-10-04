@@ -8,16 +8,17 @@ import { ManagmentSetupComponent } from './manager-setup.component';
 import { ManagmentUsersComponent } from './manager-users.component';
 import { NamingPipe } from './naming-setup.pipe';
 import { PlanProductionComponent } from './plan-production.component';
-import { PlanScheduleComponent } from './plan-new-schedule.component';
+import { PlanScheduleComponent, PlanScheduleDialogComponent } from './plan-new-schedule.component';
 import { RemoveManagment } from './remove-managment.component';
+import { ConfirmCloseOrderDialog, OrdersCloseComponent } from './close-orders.component';
 
 @NgModule({
   declarations: [EditDialogComponent, EditNotifictionsDialogComponent, ManagmentNotificationsComponent, ManagmentUsersComponent, ManagmentSetupComponent,
-    ItemsSetupComponent, PlanProductionComponent, PlanScheduleComponent, RemoveManagment, NamingPipe],
+    ItemsSetupComponent, PlanProductionComponent, PlanScheduleComponent, PlanScheduleDialogComponent, RemoveManagment, NamingPipe, OrdersCloseComponent, ConfirmCloseOrderDialog],
   imports: [
     SheardModule,
     ManagerRoutingModule
   ],
-  entryComponents: [EditDialogComponent, EditNotifictionsDialogComponent]
+  entryComponents: [EditDialogComponent, EditNotifictionsDialogComponent, PlanScheduleDialogComponent, ConfirmCloseOrderDialog]
 })
 export class ManagerModule { }

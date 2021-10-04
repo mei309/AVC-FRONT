@@ -29,7 +29,7 @@ import { FieldConfig } from '../../field.interface';
 
     <mat-form-field *ngSwitchDefault class="one-field margin-top" [formGroup]="group">
       <input matInput type="date" [formControlName]="field.name" [placeholder]="field.label">
-      
+
       <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
         <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
       </ng-container>
@@ -46,7 +46,7 @@ export class DateComponent implements OnInit {
   // date = new FormControl(Date());
   field: FieldConfig;
   group: FormGroup;
-  
+
   constructor() {
   }
   ngOnInit() {
@@ -95,7 +95,7 @@ export class DateComponent implements OnInit {
 //   });
 //   if(this.group.controls[this.field.name].disabled) {
 //     this.dateControl.disable();
-//   } 
+//   }
 //   // if(!this.group.get(this.field.name).value && this.field.options) {
 //   //   this.group.get(this.field.name).setValue(toISOLocal(this.field.options))
 //   // }
@@ -111,11 +111,11 @@ export class DateComponent implements OnInit {
 //   return d.getFullYear() + '-'
 //          + z(d.getMonth()+1) + '-' +
 //          z(d.getDate()); //+ 'T' +
-//         //  z(d.getHours()) + ':'  + 
+//         //  z(d.getHours()) + ':'  +
 //         //  z(d.getMinutes()) + ':' +
 //         //  z(d.getSeconds()) + '.' +
 //         //  zz(d.getMilliseconds()) +
-//         //  sign + z(off/60|0) + ':' + z(off%60); 
+//         //  sign + z(off/60|0) + ':' + z(off%60);
 // }
 
 // function toISOLocal(d) {
@@ -128,11 +128,11 @@ export class DateComponent implements OnInit {
 //   return d.getFullYear() + '-'
 //          + z(d.getMonth()+1) + '-' +
 //          z(d.getDate()) + 'T' +
-//          z(d.getHours()) + ':'  + 
+//          z(d.getHours()) + ':'  +
 //          z(d.getMinutes()) + ':' +
 //          z(d.getSeconds()) + '.' +
 //          zz(d.getMilliseconds()) +
-//          sign + z(off/60|0) + ':' + z(off%60); 
+//          sign + z(off/60|0) + ':' + z(off%60);
 // }
 
 

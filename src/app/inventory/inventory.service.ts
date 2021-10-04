@@ -115,7 +115,7 @@ export class InventoryService {
         return this.http.get(id? this.inventorysurl+'getStoragePo/'+poCode+'/'+id : this.inventorysurl+'getStoragePo/'+poCode);
   }
 
-  getAllPos (): Observable<any> {
+  getAllCGPos (): Observable<any> {
       return this.http.get(this.inventorysurl+'findAllPoCodes');
   }
 

@@ -10,9 +10,9 @@ import { environment } from '../../environments/environment';
 export class ManagerService {
 
   usersurl = environment.baseUrl +'managment/';
-  
+
   constructor(private http: HttpClient) {
-  } 
+  }
 
   getAllProcessTypeAlerts() {
     return this.http.get(this.usersurl+'getAllProcessTypeAlerts');
@@ -38,7 +38,7 @@ export class ManagerService {
   getAllUsers() {
     return this.http.get(this.usersurl+'getAllUsers');
   }
-  
+
   // getAllBasicUsers() {
   //   return this.http.get(this.usersurl+'getAllBasicUsers');
   // }
@@ -75,7 +75,7 @@ export class ManagerService {
         return this.http.post(this.usersurl+'addUser', value);
       case 'editUser':
         return this.http.put(this.usersurl+'editUser', value);
-    
+
       default:
         break;
     }
@@ -88,7 +88,7 @@ export class ManagerService {
   // addNewItem(table: string, value) {
   //   return this.http.post(this.usersurl+'addNewItem/'+table, value);
   // }
-  
+
   // editSetup(table: string, value) {
   //   return this.http.put(this.usersurl+'editSetup/'+table, value);
   // }
@@ -123,6 +123,14 @@ export class ManagerService {
 
   removeProcess (val: number): Observable<any> {
     return this.http.delete(this.usersurl+'removeProcess/'+val);
+  }
+
+  getCashewOrdersOpen (){
+    return this.http.get(this.usersurl+'getCashewOrdersOpen');
+  }
+
+  closeOrder(processId: number) {
+    return this.http.patch(this.usersurl+'closeOrder/'+processId, {});
   }
 
 }

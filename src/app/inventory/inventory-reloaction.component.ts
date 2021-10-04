@@ -35,7 +35,7 @@ export class InventoryRelocationComponent implements OnInit {
     isNew: boolean = true;
 
     num: number = 0;
-    
+
     submit(value: any) {
         var arr = [];
         var newWarehouse = value['newWarehouse']? value['newWarehouse']['warehouseLocation'] : null;
@@ -99,7 +99,7 @@ export class InventoryRelocationComponent implements OnInit {
                     this.cdRef.detectChanges();
                     this.localService.getStorageByPo(val['poCode']['id'], val['id']).pipe(take(1)).subscribe( val1 => {
                         this.fillEdit([val, val1]);
-                    }); 
+                    });
                 } else {
                     this.router.navigate(['../Reports', {number: 2}], { relativeTo: this._Activatedroute });
                 }
@@ -111,7 +111,7 @@ export class InventoryRelocationComponent implements OnInit {
         private localService: InventoryService, private genral: Genral, public dialog: MatDialog,
         private _Activatedroute:ActivatedRoute, private router: Router,) {
        }
-    
+
        fillEdit(val) {
            var arrTable = [];
            var arrNormal = [];
@@ -171,16 +171,16 @@ export class InventoryRelocationComponent implements OnInit {
         this.form = this.fb.group({});
         this.form.addControl('poCode', this.fb.control(''));
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
-            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) { 
+            if(selectedValue && selectedValue.hasOwnProperty('id') && this.poID != selectedValue['id']) {
                 this.localService.getStorageByPo(selectedValue['id']).pipe(take(1)).subscribe( val => {
                     this.dataSource = {poCode: selectedValue, usedItemsTable: [], usedItemsNormal: [], itemCounts: []};
                     this.setAfterChoose(val);
                     this.cleanUnwanted();
-                }); 
+                });
                 this.isDataAvailable = false;
                 this.poID = selectedValue['id'];
             }
-        });      
+        });
         this.isDataAvailable = true;
         this.setPoConfig();
     }
@@ -189,7 +189,7 @@ export class InventoryRelocationComponent implements OnInit {
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getAllPos(),
+                options: this.localService.getAllCGPos(),
                 collections: [
                     {
                         type: 'select',
@@ -208,7 +208,7 @@ export class InventoryRelocationComponent implements OnInit {
     setAfterChoose(val, removeIdsNormal?, removeIdsTable?) {
         var arrNormal = [];
         var arrTable = [];
-        var arrUsedItems = [];  
+        var arrUsedItems = [];
         val?.forEach(element => {
             if(element['storage']) {
                 if(!removeIdsTable || (element['storage']['amounts'] = element['storage']['amounts'].filter(amou => !removeIdsTable.includes(amou.id))).length) {
@@ -221,7 +221,7 @@ export class InventoryRelocationComponent implements OnInit {
                     arrTable.push({storageMove: element['storage']});
                 }
             } else if(element['storageForms']) {
-                element['storageForms'].forEach(ele => { 
+                element['storageForms'].forEach(ele => {
                     if(!removeIdsNormal || !removeIdsNormal.includes(ele['id'])) {
                         arrUsedItems.push({item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
@@ -265,9 +265,9 @@ export class InventoryRelocationComponent implements OnInit {
             }
         });
         this.setRegConfig();
-       
 
-       
+
+
        this.navigationSubscription = this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
             this.isDataAvailable = false;
@@ -475,10 +475,9 @@ export class InventoryRelocationComponent implements OnInit {
 
 
    ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
             this.navigationSubscription.unsubscribe();
         }
     }
   }
 
-  

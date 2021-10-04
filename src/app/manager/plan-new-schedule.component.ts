@@ -1,13 +1,11 @@
-import { CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, take } from 'rxjs';
 import { FieldConfig } from '../field.interface';
 import { Genral } from '../genral.service';
 import { PlanScheduleService } from './plan-schedule.service';
-import { cloneDeep } from 'lodash-es';
 @Component({
   selector: 'plan-schedule',
   template: `
@@ -40,7 +38,7 @@ import { cloneDeep } from 'lodash-es';
           <div class="example-parent-scroll" cdkScrollable>
             <div cdkDropList [cdkDropListData]="em.value" (cdkDropListDropped)="drop($event, line.type)" class="example-list-line">
               <div [cdkDragData]="item" (mouseout)="setLocalCheck('')" (mouseover)="setLocalCheck(item.poCode)" [ngStyle]="{'background-color':item.poCode === localCheck ? 'red' : 'white' }" *ngFor="let item of em.value" cdkDrag class="example-line">
-                <span>{{item.name}} </span><span>{{item.poCode}} </span><span>{{item.amount}}</span>
+                <span>{{item.item}} </span><span>{{item.poCode}} </span><span>{{item.amount}}</span>
               </div>
               <button mat-button [ngStyle]="{'color': 'red'}" *ngIf="em.value.length === 0">empty list ...</button>
             </div>
@@ -55,7 +53,7 @@ import { cloneDeep } from 'lodash-es';
       <h2>{{process.title}}</h2>
       <div cdkDropList [cdkDropListData]="dictionary[process.type]" class="example-list" (cdkDropListDropped)="drop($event, process.type)">
         <div [cdkDragData]="item" (mouseout)="setLocalCheck('')" (mouseover)="setLocalCheck(item.poCode)" [ngStyle]="{'background-color':item.poCode === localCheck ? 'red' : 'white' }" class="example-box" *ngFor="let item of dictionary[process.type]" cdkDrag>
-          <span>{{item.name}}</span>
+          <span>{{item.item}}</span>
           <span>{{item.poCode}}</span>
           <mat-form-field style="width:80px">
             <input matInput type="number" (focus)="setLocalLimit(item.amount)" (keyup)="valideta(item, $event)" (blur)="onChange(item, $event, process.type)" placeholder="Amount" [(ngModel)]="item.amount">
@@ -74,32 +72,32 @@ export class PlanScheduleComponent implements OnInit, OnDestroy {
 
   productionLinesList = [
     {
-      type: 'raw',
+      type: 'Raw',
       label: 'Cleaning',
       rowArray: {sunn: [], mond: [], monn: [], thed: [], then: [], wedd: [], wedn: [], thud: [], thun: [], fri: []}
     },
     {
-      type: 'clean',
+      type: 'Clean',
       label: 'Small roaster',
       rowArray: {sunn: [], mond: [], monn: [], thed: [], then: [], wedd: [], wedn: [], thud: [], thun: [], fri: []}
     },
     {
-      type: 'clean',
+      type: 'Clean',
       label: 'Big roaster',
       rowArray: {sunn: [], mond: [], monn: [], thed: [], then: [], wedd: [], wedn: [], thud: [], thun: [], fri: []}
     },
     {
-      type: 'roast',
+      type: 'Roast',
       label: 'Hand pack',
       rowArray: {sunn: [], mond: [], monn: [], thed: [], then: [], wedd: [], wedn: [], thud: [], thun: [], fri: []}
     },
     {
-      type: 'roast',
+      type: 'Roast',
       label: 'Machine pack',
       rowArray: {sunn: [], mond: [], monn: [], thed: [], then: [], wedd: [], wedn: [], thud: [], thun: [], fri: []}
     },
     {
-      type: 'pack',
+      type: 'Pack',
       label: 'Loading',
       rowArray: {sunn: [], mond: [], monn: [], thed: [], then: [], wedd: [], wedn: [], thud: [], thun: [], fri: []}
     }
@@ -118,27 +116,27 @@ export class PlanScheduleComponent implements OnInit, OnDestroy {
   processList = [
     {
       title: 'Raw materiel',
-      type: 'raw'
+      type: 'Raw'
     },
     {
       title: 'Clean materiel',
-      type: 'clean'
+      type: 'Clean'
     },
     {
       title: 'Roast materiel',
-      type: 'roast'
+      type: 'Roast'
     },
     {
       title: 'Packed materiel',
-      type: 'pack'
+      type: 'Pack'
     }
   ];
 
   dictionary = {
-    'raw': this.rawList,
-    'clean': this.cleanList,
-    'roast': this.roastList,
-    'pack': this.packList
+    'Raw': this.rawList,
+    'Clean': this.cleanList,
+    'Roast': this.roastList,
+    'Pack': this.packList
   };
 
   destroySubject$: Subject<void> = new Subject();
@@ -150,12 +148,12 @@ export class PlanScheduleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.localService.getCashewInventoryRaw().pipe(take(1)).subscribe(value => {
       (<any[]>value).forEach(a => {
-        this.rawList.push({name: a['item'], amount: a['weightInLbs'], poCode: a['poCode'], type: 'raw'});
+        this.rawList.push({item: a['item'], amount: a['weightInLbs'], poCode: a['poCode'], type: 'Raw'});
       });
     });
     this.localService.getCashewInventoryClean().pipe(take(1)).subscribe(value => {
       (<any[]>value).forEach(a => {
-        this.cleanList.push({name: a['item']['value'], amount: a['weightInLbs'], poCode: a['poCodes'], type: 'clean'});
+        this.cleanList.push({item: a['item']['value'], amount: a['weightInLbs'], poCode: a['poCodes'], type: 'Clean'});
       });
     });
   }
@@ -192,15 +190,15 @@ export class PlanScheduleComponent implements OnInit, OnDestroy {
         event.container.data,
         event.previousIndex,
         event.currentIndex);
-      const newCopy: Elemnt = cloneDeep(event.item.data);
-      this.getNext(newCopy, type);
+      // const newCopy: Elemnt = cloneDeep();
+      this.getNext(event.item.data);
     }
   }
 
 
   onChange(item, eve, type) {
     if(eve.target.value < this.localLimit) {
-      this.dictionary[type].push({name: item.name, amount: this.localLimit-eve.target.value, poCode: item.poCode, type: type});
+      this.dictionary[type].push({item: item.item, amount: this.localLimit-eve.target.value, poCode: item.poCode, type: type});
     }
   }
 
@@ -221,22 +219,41 @@ export class PlanScheduleComponent implements OnInit, OnDestroy {
     return products.reduce((acc, product) => acc + product.amount, 0)
   }
 
-  getNext(ele: Elemnt, type: string) {
+  getNext(ele: Elemnt) {
+    const dialogRef = this.dialog.open(PlanScheduleDialogComponent, {
+      width: '80%',
+      height: '80%',
+      data: {item: ele, type: this.getNextType(ele.type)},
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if(data && data !== 'closed'){
+        data.type = this.getNextType(ele.type);
+        data.item = data.item.value;
+        data.poCode = ele.poCode;
+        switch (ele.type) {
+          case 'Raw':
+            this.cleanList.push(data);
+            break;
+          case 'Clean':
+            this.roastList.push(data);
+            break;
+          case 'Roast':
+            this.packList.push(data);
+            break;
+          default:
+            break;
+        }
+      }
+    });
+  }
+  getNextType(type: string){
     switch (type) {
-      case 'raw':
-        ele.type = 'clean';
-        this.cleanList.push(ele);
-        break;
-      case 'clean':
-        ele.type = 'roast';
-        this.roastList.push(ele);
-        break;
-      case 'roast':
-        ele.type = 'pack';
-        this.packList.push(ele);
-        break;
-      default:
-        break;
+      case 'Raw':
+        return 'Clean';
+      case 'Clean':
+        return 'Roast';
+      case 'Roast':
+        return 'Pack';
     }
   }
 
@@ -246,38 +263,88 @@ export class PlanScheduleComponent implements OnInit, OnDestroy {
 
 }
 
-export interface Supllier {
-  CompanyID: number;
-  Name: string;
-  IsActive: number;
-}
-
-
-export interface PeriodicElement {
-  bag?: number;
-  orders?: string;
-  previous?: number;
-  previousPlan?: string;
-  analytical_Function: Elemnt[];
-}
 
 export interface Elemnt {
-  name: string;
+  item: string;
   amount: number;
   poCode: string;
   type: string;
 }
-export interface ProductionList {
-  days: string;
-  cleaning: Elemnt[];
-  smallRoaster: Elemnt[];
-  bigRoaster: Elemnt[];
-  handPack: Elemnt[];
-  machinePack: Elemnt[];
-  loading: Elemnt[];
+
+
+
+
+@Component({
+  selector: 'plan-schedule-dialog',
+  template: `
+  <dynamic-form [fields]="regConfig" mainLabel="Plan outcome" (submitForm)="submit($event)" popup="true">
+  </dynamic-form>
+  `,
+})
+export class PlanScheduleDialogComponent {
+
+  regConfig: FieldConfig[];
+  putData: any = null;
+  item: Elemnt;
+  type: string;
+
+  ngOnInit(){
+    this.regConfig = [
+      {
+          type: 'selectItem',
+          label: $localize`Item descrption`,
+          name: 'item',
+          // for packing and QC pack
+          // collections: this.mainLabel.endsWith('ack')? false : true,
+          options: this.genral.getItemsCashewGrades(this.type, []),
+      },
+      {
+          type: 'inputselect',
+          // name: 'numberUnits',
+          options: 'item',
+          inputType: 'second',
+          collections: [
+              {
+                  type: 'input',
+                  label: $localize`Weight`,
+                  name: 'amount',
+                  inputType: 'numeric',
+                  options: 3,
+              },
+              {
+                  type: 'select',
+                  label: $localize`Weight unit`,
+                  name: 'measureUnit',
+                  value: 'LBS',
+                  options: this.genral.getMeasureUnit(),
+              },
+          ]
+      },
+      {
+          name: 'submit',
+          label: $localize`Submit`,
+          type: 'button',
+      }
+    ];
+  }
+
+  constructor(private genral: Genral, public dialogRef: MatDialogRef<PlanScheduleDialogComponent>,
+      @Inject(MAT_DIALOG_DATA)
+      public data: any) {
+          this.type = data.type;
+          this.item = data.item;
+  }
+
+  submit(value: any) {
+    this.dialogRef.close(value);
+  }
+
+
+  onNoClick(): void {
+      this.dialogRef.close('closed');
+  }
+
 }
 
-export interface Workforce {
-  day: string; workforceDay: number; workforceNight: number; countinerLimt: number; workingTime: number;
-}
+
 

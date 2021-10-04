@@ -1,5 +1,5 @@
 # AvcVietnam
-## VERSION 23.6.1
+## VERSION 23.6.2
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.6.
 
 ## Development server
