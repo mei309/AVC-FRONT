@@ -635,7 +635,7 @@ export class SearchGroupDetailsComponent {
           }
           for (let t = startNumber; t < weightSize; t++) {
             result[t] = {amount: ((this.dataSource.filteredData.slice(index, index+this.spans[index][this.totalColumn.group]))
-              .map(a => a[this.totalColumn.name].find(b => b['measureUnit'] === this.totalColumn.options[t])))
+              .map(a => a[this.totalColumn.name]?.find(b => b['measureUnit'] === this.totalColumn.options[t])))
               .reduce((sum, record) => record? sum + record['amount'] : sum, 0), measureUnit: this.totalColumn.options[t]};
           }
           return result;
