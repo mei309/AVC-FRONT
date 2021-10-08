@@ -299,6 +299,10 @@ export class Genral {
     return this.http.get(this.mainurl+'findAvailableItems');
   }
 
+  getProductBomInventory(itemId: number): Observable<any> {
+    return this.http.get(this.mainurl+'getProductBomInventory/'+itemId);
+  }
+
   getRoles(): string[] {
     return ['ROLE_MANAGER', 'ROLE_SYSTEM_MANAGER'];
   }

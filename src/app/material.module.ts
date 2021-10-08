@@ -36,7 +36,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 // import { MomentDateAdapter } from '@angular/material-moment-adapter';
 // import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+// import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     // MatSliderModule,
     MatExpansionModule,
     //  MatSidenavModule
-    NgxMatSelectSearchModule
+    // NgxMatSelectSearchModule,
+    MatSelectFilterModule
   ],
   exports: [
     NgxMatDatetimePickerModule, NgxMatTimepickerModule,
@@ -92,6 +94,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatExpansionModule,
     // MatSidenavModule,
     // NgxMatSelectSearchModule,
+    MatSelectFilterModule
   ],
   providers: [
   ],

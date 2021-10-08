@@ -145,13 +145,19 @@ export class MaterialUsageComponent implements OnInit {
     this.displayedColumns.push('weightAmount');
     if(tempField.options) {
       (this.group.parent.parent.get('processItemsNormal') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(item => {
-        console.log(item);
-
+        if(item && typeof item === 'object') {
+          this.genral.getProductBomInventory(item.id).pipe(take(1)).subscribe( val => {
+            this.addToForm(val);
+          });
+        }
       });
       (this.group.parent.parent.get('processItemsTable') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(item => {
-        console.log(item);
-
-      })
+        if(item && typeof item === 'object') {
+          this.genral.getProductBomInventory(item.id).pipe(take(1)).subscribe( val => {
+            this.addToForm(val);
+          });
+        }
+      });
     }
   }
 
@@ -265,7 +271,7 @@ export class MaterialUsageComponent implements OnInit {
             group2.addControl(kid.name, control);
         }
     });
-    group2.addControl(field.options, this.fb.control(null, null));
+    group2.addControl('numberUsedUnits', this.fb.control(null, null));
   }
 
   createBigNotExpand(field: FieldConfig, value): FormGroup {

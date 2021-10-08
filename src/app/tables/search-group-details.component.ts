@@ -32,12 +32,13 @@ import { OneColumn } from '../field.interface';
                     </mat-select>
 
                     <ng-container *jrSwitchCases="['selectObj', 'selectObjObj', 'selectObjArr']">
-                      <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
-                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" panelWidth="fit-content">
-                        <mat-option *ngFor="let item of column.options | async" [value]="item">
+                      <mat-select #select1 placeholder="Search" formControlName="val" i18n-placeholder multiple>
+                        <mat-select-filter *ngIf="select1.focused" [displayMember]="'value'" [array]="column.options[0]" (filteredReturn)="column.options[1] =$event"></mat-select-filter>
+                        <mat-option *ngFor="let item of column.options[1]" [value]="item">
                           {{item.value}}
                         </mat-option>
-                      </mat-autocomplete>
+                      </mat-select>
+
                     </ng-container>
 
 
@@ -312,7 +313,9 @@ export class SearchGroupDetailsComponent {
       }
       if(element.search && element.search.startsWith('selectObj')) {
           (element.options as Observable<string[]>).pipe(take(1)).subscribe(arg => {
-              element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
+            element.options[0] = arg;
+            element.options[1] = arg.slice();
+              // element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
           });
       }
     });
@@ -322,15 +325,15 @@ export class SearchGroupDetailsComponent {
   }
 
 
-  private _filter(arg, value: string): string[] {
-    if(value && typeof(value) === 'string') {
-      const filterValue = value.toLowerCase();
-      return arg.filter(option =>
-        option.value.toLowerCase().includes(filterValue));
-    } else {
-      return arg;
-    }
-  }
+  // private _filter(arg, value: string): string[] {
+  //   if(value && typeof(value) === 'string') {
+  //     const filterValue = value.toLowerCase();
+  //     return arg.filter(option =>
+  //       option.value.toLowerCase().includes(filterValue));
+  //   } else {
+  //     return arg;
+  //   }
+  // }
   setFilters(filters) {
       let newFilters = [];
       Object.keys(filters).forEach(filt => {
@@ -379,17 +382,11 @@ export class SearchGroupDetailsComponent {
       if(!data[filters[i].cloumn]) return false;
       switch (filters[i].type) {
         case 'selectObjObj':
-          if(typeof filters[i].val === 'string') {
-            const fitsObjObj = data[filters[i].cloumn]['value'].toLowerCase().includes(filters[i].val.trim().toLowerCase());
-            if (!fitsObjObj) {
-              return false;
-            }
-          } else {
-            if (data[filters[i].cloumn]['value'] != filters[i].val['value']) {
-              return false;
-            }
+          if(!filters[i].val.length) return true;
+          if(filters[i].val.some(a => a['value'] == data[filters[i].cloumn]['value'])) {
+            return true;
           }
-          break;
+          return false;
         case 'object':
           const fitsThisObj = data[filters[i].cloumn]['value'].toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisObj) {
@@ -432,20 +429,17 @@ export class SearchGroupDetailsComponent {
             return false;
           }
         case 'selectObj':
-          if(typeof filters[i].val !== 'string') {
-            if (data[filters[i].cloumn] != filters[i].val['value']) {
-              return false;
-            }
-            break;
+          if(!filters[i].val.length) return true;
+          if(filters[i].val.some(a => a['value'] == data[filters[i].cloumn])) {
+            return true;
           }
+          return false;
         case 'selectObjArr':
-          if(typeof filters[i].val !== 'string') {
-            if (data[filters[i].cloumn].some(a => a === filters[i].val['value'])) {
-              return true;
-            } else {
-              return false;
-            }
+          if(!filters[i].val.length) return true;
+          if (data[filters[i].cloumn].some(a => filters[i].val.some(b => b['value'] == a))) {
+            return true;
           }
+          return false;
         default:
           const fitsThisFilter = data[filters[i].cloumn].toString().toLowerCase().includes((filters[i].val).trim().toLowerCase());
           if (!fitsThisFilter) {
