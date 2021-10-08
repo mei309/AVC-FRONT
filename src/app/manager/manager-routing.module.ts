@@ -7,7 +7,7 @@ import { ManagmentUsersComponent } from './manager-users.component';
 import { PlanProductionComponent } from './plan-production.component';
 import { PlanScheduleComponent } from './plan-new-schedule.component';
 import { RemoveManagment } from './remove-managment.component';
-import { OrdersCloseComponent } from './close-orders.component';
+import { BillOfMaterialsComponent } from './bill-of-materials.component';
 
 const routes: Routes = [
   { path: 'ManagerUsers', component: ManagmentUsersComponent},
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'ManagmentNotifications', component: ManagmentNotificationsComponent},
   { path: 'ProductionPlan', component: PlanScheduleComponent },
   { path: 'RemoveManagment', component: RemoveManagment },
-  { path: 'OrdersCloseComponent', component: OrdersCloseComponent },
+  { path: 'BillOfMaterials', component: BillOfMaterialsComponent },
 ];
 
 @NgModule({

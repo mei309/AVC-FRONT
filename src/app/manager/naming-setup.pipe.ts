@@ -21,13 +21,14 @@ const namesMapper = {
     waste: $localize`Waste item`,
     User: $localize`User`,
     UserPerson: $localize`User for person`,
-    CashewGrades: $localize`Cashew grades`
+    CashewGrades: $localize`Cashew grades`,
+    Bom: $localize`Bill Of materials`,
   };
 @Pipe({
     name: 'namingPipe'
 })
 export class NamingPipe implements PipeTransform {
-    
+
     transform(element: string, type: string) {
         if(type === 'edit') {
             return $localize`Edit ` + namesMapper[element];

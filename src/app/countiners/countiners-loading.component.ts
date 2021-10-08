@@ -618,7 +618,6 @@ export class CountinersLoadingComponent {
                       type: 'materialUsage',
                       // label: 'Transfer from',
                       name: 'storageMoves',
-                      options: 'numberUsedUnits',
                       collections: [
                           {
                               type: 'selectgroup',

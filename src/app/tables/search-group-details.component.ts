@@ -1,4 +1,3 @@
-import { E } from '@angular/cdk/keycodes';
 import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -631,7 +630,12 @@ export class SearchGroupDetailsComponent {
             const totalAll = ((this.dataSource.filteredData.slice(index, index+this.spans[index][this.totalColumn.group]))
               .map(a => a['uniformTotals']['used'])
               .reduce((sum, record) => sum + record, 0));
+            if(totalAll) {
               result[0] = {amount: (totalLoss/totalAll)*100, measureUnit: '%'};
+            } else {
+              result[0] = {amount: undefined, measureUnit: '%'};
+            }
+
           }
           for (let t = startNumber; t < weightSize; t++) {
             result[t] = {amount: ((this.dataSource.filteredData.slice(index, index+this.spans[index][this.totalColumn.group]))

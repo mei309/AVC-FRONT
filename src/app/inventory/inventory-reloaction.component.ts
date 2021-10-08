@@ -330,6 +330,7 @@ export class InventoryRelocationComponent implements OnInit {
         {
             type: 'select',
             label: $localize`Production line`,
+            value: 'firstVal',
             name: 'productionLine',
             options: this.genral.getProductionLine('PRODUCT_STORAGE'),
         },

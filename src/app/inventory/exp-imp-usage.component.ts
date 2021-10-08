@@ -53,7 +53,7 @@ export class ExportUsageComponent implements OnInit {
         }
         value['storageMovesGroups'] = arr;
 
-        
+
         this.submitExIm.emit(value);
     }
 
@@ -85,7 +85,7 @@ export class ExportUsageComponent implements OnInit {
 
 
             delete this.beginData['storageMovesGroups'];
-            
+
             this.dataSource = this.beginData;
         } else {
             if(this.posArray) {
@@ -108,7 +108,7 @@ export class ExportUsageComponent implements OnInit {
                 });
                 arrTable.push({storageMove: element['storage']});
             } else if(element['storageForms']) {
-                element['storageForms'].forEach(ele => { 
+                element['storageForms'].forEach(ele => {
                     if(!removeIds.includes(ele['id'])) {
                         arrUsedItems.push({itemPoCodes: element['poCodes'], itemSuppliers: element['suppliers'], item: element['item'], itemProcessDate: element['itemProcessDate'], measureUnit: element['measureUnit'], storage: ele});
                         delete ele['numberUsedUnits'];
@@ -204,7 +204,7 @@ export class ExportUsageComponent implements OnInit {
             {
                 type: 'select',
                 label: $localize`Production line`,
-                value: 'Product Use',
+                value: 'firstVal',
                 name: 'productionLine',
                 options: this.genral.getProductionLine('PRODUCT_USE'),
                 validations: [
@@ -390,6 +390,6 @@ export class ExportUsageComponent implements OnInit {
             }
         ];
     }
-    
+
 
   }

@@ -36,6 +36,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 // import { MomentDateAdapter } from '@angular/material-moment-adapter';
 // import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     // MatSliderModule,
     MatExpansionModule,
     //  MatSidenavModule
+    NgxMatSelectSearchModule
   ],
   exports: [
     NgxMatDatetimePickerModule, NgxMatTimepickerModule,
@@ -87,8 +89,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSnackBarModule, MatDividerModule, MatProgressSpinnerModule, MatListModule,
     MatButtonToggleModule,
     // MatSliderModule,
-    MatExpansionModule, 
+    MatExpansionModule,
     // MatSidenavModule,
+    // NgxMatSelectSearchModule,
   ],
   providers: [
   ],

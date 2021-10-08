@@ -173,7 +173,7 @@ export class ExpImpRelocationComponent implements OnInit {
             {
                 type: 'select',
                 label: $localize`Production line`,
-                value: this.num? 'Roaster In' : 'Raw Station',
+                value: 'firstVal',
                 name: 'productionLine',
                 options: this.genral.getProductionLine(this.getFunctionality()),
                 validations: [

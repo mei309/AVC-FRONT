@@ -50,7 +50,7 @@ export class QcReceiveComponent implements OnInit {
                     data: {qcCheck: cloneDeep(val), fromNew: true, type: $localize`Raw cashew check`}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === $localize`Edit`) { 
+                    if (data === $localize`Edit`) {
                         this.isDataAvailable = false;
                         this.putData = val;
                         this.cdRef.detectChanges();
@@ -58,7 +58,7 @@ export class QcReceiveComponent implements OnInit {
                     } else {
                         this.router.navigate(['../AllQC', {number:0}], { relativeTo: this._Activatedroute });
                     }
-                    
+
                 });
             });
         } else {
@@ -68,7 +68,7 @@ export class QcReceiveComponent implements OnInit {
                     data: {qcCheck: cloneDeep(val), fromNew: true, type: $localize`Roast cashew check`}
                 });
                 dialogRef.afterClosed().subscribe(data => {
-                    if (data === $localize`Edit`) { 
+                    if (data === $localize`Edit`) {
                         this.isDataAvailable = false;
                         this.putData = val;
                         this.cdRef.detectChanges();
@@ -76,12 +76,12 @@ export class QcReceiveComponent implements OnInit {
                     } else {
                         this.router.navigate(['../AllQC', {number:1}], { relativeTo: this._Activatedroute });
                     }
-                    
+
                 });
             });
         }
     }
-      
+
 
     constructor(private router: Router, private _Activatedroute:ActivatedRoute, private cdRef: ChangeDetectorRef,
         private localService: QcService, private genral: Genral, public dialog: MatDialog) {
@@ -210,6 +210,20 @@ export class QcReceiveComponent implements OnInit {
                 type: 'input',
                 label: $localize`Sample taker`,
                 name: 'sampleTaker',
+            },
+            {
+                type: 'select',
+                label: $localize`Production line`,
+                value: 'firstVal',
+                name: 'productionLine',
+                options: this.genral.getProductionLine('QC_CHECK'),
+                validations: [
+                    {
+                        name: 'required',
+                        validator: Validators.required,
+                        message: $localize`Production line Required`,
+                    }
+                ]
             },
             {
                 type: 'bigexpand',
@@ -342,7 +356,7 @@ export class QcReceiveComponent implements OnInit {
                                 name: 'testa',
                                 inputType: 'numeric',
                                 options: 3,
-                            },  
+                            },
                         ]
                     },
                     {
@@ -540,7 +554,7 @@ export class QcReceiveComponent implements OnInit {
             //                             type: 'percentinput',
             //                             label: 'Testa',
             //                             name: 'testa',
-            //                         },  
+            //                         },
             //                     ]
             //                 },
             //                 {
@@ -667,11 +681,11 @@ export class QcReceiveComponent implements OnInit {
                 name: 'submit',
             }
         ];
-          
+
       }
 
       ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

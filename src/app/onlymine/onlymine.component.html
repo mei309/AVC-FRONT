@@ -2,12 +2,21 @@
 
 
 <input  type="file" (change)="onFileSelected($event)"/>
-<button (click)="onUpload()" > Upload to S3 </button> 
- 
+<button (click)="onUpload()" > Upload to S3 </button>
+
+<div *ngIf="progress > 0">
+  <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+</div>
+
 <div *ngFor="let img of images">
     <button (click)="onGet(img)" > {{img}} </button>
 </div>
 
 <div *ngIf="fileUrl">
-<img mat-card-image src="{{fileUrl}}" alt="Photo of a Shiba Inu">
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile><img mat-card-image src="{{fileUrl}}" alt="Photo of a Shiba Inu"></mat-grid-tile>
+    <mat-grid-tile>2</mat-grid-tile>
+    <mat-grid-tile>3</mat-grid-tile>
+    <mat-grid-tile>4</mat-grid-tile>
+  </mat-grid-list>
 </div>

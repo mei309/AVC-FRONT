@@ -37,7 +37,7 @@ export class MaterialUsageComponent implements OnInit {
             delete value['materialUsed'];
         }
         value['storageMovesGroups'] = arr;
-        
+
         this.localService.addEditMaterialUse(value, this.dataSource? false : true).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
                 width: '80%',
@@ -58,7 +58,7 @@ export class MaterialUsageComponent implements OnInit {
                         delete val1['storageMovesGroups'];
                         this.dataSource = val1;
                         this.isFormAvailable = true;
-                    }); 
+                    });
                 } else {
                     this.router.navigate(['../Reports', {number: 0}], { relativeTo: this._Activatedroute });
                 }
@@ -70,7 +70,7 @@ export class MaterialUsageComponent implements OnInit {
         private localService: InventoryService, private genral: Genral, public dialog: MatDialog,
         private _Activatedroute:ActivatedRoute, private router: Router,) {
        }
-    
+
 
 
    ngOnInit() {
@@ -81,7 +81,7 @@ export class MaterialUsageComponent implements OnInit {
                         em['storageMoves']?.forEach(el => {
                             el['storage']['numberAvailableUnits'] = el['numberAvailableUnits'];
                         });
-                    });   
+                    });
                     val['materialUsed'] = val['storageMovesGroups'];
                     delete val['storageMovesGroups'];
                     this.dataSource = val;
@@ -92,9 +92,9 @@ export class MaterialUsageComponent implements OnInit {
             }
         });
         this.setRegConfig();
-       
 
-       
+
+
        this.navigationSubscription = this.router.events.subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
@@ -125,7 +125,7 @@ export class MaterialUsageComponent implements OnInit {
         {
             type: 'select',
             label: $localize`Production line`,
-            value: 'General Use',
+            value: 'firstVal',
             name: 'productionLine',
             options: this.genral.getProductionLine('GENERAL_USE'),
             validations: [
@@ -152,7 +152,6 @@ export class MaterialUsageComponent implements OnInit {
                     type: 'materialUsage',
                     // label: 'Transfer from',
                     name: 'storageMoves',
-                    options: 'numberUsedUnits',
                     collections: [
                         {
                             type: 'selectgroup',
@@ -247,10 +246,9 @@ export class MaterialUsageComponent implements OnInit {
 
 
    ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
             this.navigationSubscription.unsubscribe();
         }
     }
   }
 
-  

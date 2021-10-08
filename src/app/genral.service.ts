@@ -272,6 +272,8 @@ export class Genral {
             return value.filter(a => a.productionFunctionality === 'PRODUCT_STORAGE');
           case 'QC pack':
               return;
+            case 'QC_CHECK':
+              return value.filter(a => a.productionFunctionality === 'QUALITY_CONTROL_CHECK');
           default:
             return value;
         }
@@ -357,7 +359,7 @@ export class Genral {
 
   getProductionFunctionality(): string[] {
     return ['RAW_STORAGE', 'RAW_STATION', 'SCREEN_TABLE', 'ROASTER_IN', 'ROASTER', 'ROASTER_OUT', 'PACKING',
-    'FINAL_PRODUCT', 'LOADING', 'PRODUCT_STORAGE', 'TOFFEE', 'PACKING_STATION', 'GENERAL_USE', 'PRODUCT_USE'];
+    'FINAL_PRODUCT', 'LOADING', 'PRODUCT_STORAGE', 'TOFFEE', 'PACKING_STATION', 'GENERAL_USE', 'PRODUCT_USE', 'QUALITY_CONTROL_CHECK'];
   }
 
 }

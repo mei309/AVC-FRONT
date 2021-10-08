@@ -10,15 +10,15 @@ import { NamingPipe } from './naming-setup.pipe';
 import { PlanProductionComponent } from './plan-production.component';
 import { PlanScheduleComponent, PlanScheduleDialogComponent } from './plan-new-schedule.component';
 import { RemoveManagment } from './remove-managment.component';
-import { ConfirmCloseOrderDialog, OrdersCloseComponent } from './close-orders.component';
+import { BillOfMaterialsComponent } from './bill-of-materials.component';
 
 @NgModule({
-  declarations: [EditDialogComponent, EditNotifictionsDialogComponent, ManagmentNotificationsComponent, ManagmentUsersComponent, ManagmentSetupComponent,
-    ItemsSetupComponent, PlanProductionComponent, PlanScheduleComponent, PlanScheduleDialogComponent, RemoveManagment, NamingPipe, OrdersCloseComponent, ConfirmCloseOrderDialog],
+  declarations: [EditDialogComponent, EditNotifictionsDialogComponent, ManagmentNotificationsComponent, ManagmentUsersComponent, ManagmentSetupComponent, BillOfMaterialsComponent,
+    ItemsSetupComponent, PlanProductionComponent, PlanScheduleComponent, PlanScheduleDialogComponent, RemoveManagment, NamingPipe],
   imports: [
     SheardModule,
     ManagerRoutingModule
   ],
-  entryComponents: [EditDialogComponent, EditNotifictionsDialogComponent, PlanScheduleDialogComponent, ConfirmCloseOrderDialog]
+  entryComponents: [EditDialogComponent, EditNotifictionsDialogComponent, PlanScheduleDialogComponent]
 })
 export class ManagerModule { }

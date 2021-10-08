@@ -197,6 +197,10 @@ export class OrdersService {
     }
   }
 
+  closeOrder(processId: number, close: boolean) {
+    return this.http.patch(this.ordersurl+'closeOrder/'+processId, close);
+  }
+
   getAllSuppliers (): Observable<any> {
       return this.http.get(this.ordersurl+'getAllSuppliers');
     }

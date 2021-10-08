@@ -33,6 +33,7 @@
     "lodash-es": "^4.17.21",
     "mat-table-exporter": "^10.2.3",
     "moment": "^2.29.1",
+    "ngx-mat-select-search": "^3.3.0",
     "protractor-fail-fast": "^3.1.0",
     "rxjs": "^7.3.0",
     "tslib": "^2.3.1",

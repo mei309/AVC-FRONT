@@ -96,11 +96,9 @@ span .half {float: left; width: 175px; padding: 1%;}
 /* date and time range */
 .date-range {
   width: 300px;
-  height: 60px;
 }
 .date-fit-search {
   width: 130px;
-  height: 10px;
 }
 
 /* butoons and link buttons in tables */

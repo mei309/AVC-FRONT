@@ -29,13 +29,20 @@ export class SelectComponent implements OnInit {
   temp: Observable<any>;
   options = [];
   filteredOptions: Observable<any[]>;
-  
+
   constructor() {}
   ngOnInit() {
     this.temp = this.field.options;
     this.temp.pipe(take(1)).subscribe(
       arg => {
           this.options = arg;
+          if(this.group.controls[this.field.name].value == 'firstVal' && this.field.value == 'firstVal') {
+            if(this.options.length) {
+              this.group.controls[this.field.name].setValue(this.options[0]);
+            } else {
+              this.group.controls[this.field.name].setValue(null);
+            }
+          }
           if(typeof this.group.controls[this.field.name].value == 'string' && this.field.value !== undefined) {
             let putNull: boolean = true;
             this.options.forEach(option => {
@@ -53,7 +60,7 @@ export class SelectComponent implements OnInit {
           } else {
             this.filteredOptions = this.group.controls[this.field.name].valueChanges.pipe(startWith(''), map((val: string) => this.filter(val)));
           }
-      } 
+      }
     );
     if(this.field.inputType) {
       this.group.get([this.field.inputType]).valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(val => {
@@ -63,7 +70,7 @@ export class SelectComponent implements OnInit {
       });
     }
   }
-  
+
   filter(val: string): any[] {
     if(val && typeof(val) === 'string') {
       const filterValue = val.toLowerCase();
@@ -104,7 +111,7 @@ export class SelectComponent implements OnInit {
       return option.value;
     }
    }
-  
+
   // removeItem(index): void {
   //   this.options.push(((this.group.get([this.field.name])).value.splice(index, 1))[0]);
   //   if(((this.group.get([this.field.name])).value).length === 0) {

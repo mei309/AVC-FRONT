@@ -51,6 +51,14 @@ export class ManagerService {
     return this.http.get(this.usersurl+'getAllPersons');
   }
 
+  getItemBom (productId: number): Observable<any> {
+    return this.http.get(this.usersurl+'getItemBom/'+productId);
+  }
+
+  getAllBoms(){
+    return this.http.get(this.usersurl+'getAllBoms');
+  }
+
   getAllSetupTable(table: string){
     return this.http.get(this.usersurl+'getAllSetupTable/'+table);
   }
@@ -75,11 +83,15 @@ export class ManagerService {
         return this.http.post(this.usersurl+'addUser', value);
       case 'editUser':
         return this.http.put(this.usersurl+'editUser', value);
-
+      case 'Bom':
+        return this.http.post(this.usersurl+'addItemBom', value);
+      case 'editBom':
+        return this.http.put(this.usersurl+'editItemBom', value);
       default:
         break;
     }
   }
+
 
   // addNewSetup(table: string, value) {
   //   return this.http.post(this.usersurl+'addNewSetup/'+table, value);
@@ -123,14 +135,6 @@ export class ManagerService {
 
   removeProcess (val: number): Observable<any> {
     return this.http.delete(this.usersurl+'removeProcess/'+val);
-  }
-
-  getCashewOrdersOpen (){
-    return this.http.get(this.usersurl+'getCashewOrdersOpen');
-  }
-
-  closeOrder(processId: number) {
-    return this.http.patch(this.usersurl+'closeOrder/'+processId, {});
   }
 
 }

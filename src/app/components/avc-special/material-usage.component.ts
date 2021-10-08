@@ -24,7 +24,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
                 <th mat-header-cell *matHeaderCellDef i18n>Amount of units</th>
                 <td mat-cell *matCellDef="let element; let i = index;" [formGroupName]="i">
                     <mat-form-field class="one-field">
-                        <input matInput [formControlName]="inputField" numeric decimals="3" type="text" maxlength="255">
+                        <input matInput formControlName="numberUsedUnits" numeric decimals="3" type="text" maxlength="255">
                     </mat-form-field>
                 </td>
             </ng-container>
@@ -53,7 +53,7 @@ export class MaterialUsageComponent implements OnInit {
 
   field: FieldConfig;
   group: FormGroup;
-  inputField: string;
+
   dataSource;
   displayedColumns = [];
   oneColumns = [];
@@ -144,7 +144,14 @@ export class MaterialUsageComponent implements OnInit {
     this.displayedColumns.push('inputField')
     this.displayedColumns.push('weightAmount');
     if(tempField.options) {
-        this.inputField = tempField.options;
+      (this.group.parent.parent.get('processItemsNormal') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(item => {
+        console.log(item);
+
+      });
+      (this.group.parent.parent.get('processItemsTable') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(item => {
+        console.log(item);
+
+      })
     }
   }
 
@@ -285,8 +292,8 @@ export class MaterialUsageComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
         if(result) {
-            (this.group.get([this.field.name]) as FormArray).at(index).get(this.inputField).setValue(result/+this.dataSource[index]['unitAmount']);
-            (this.group.get([this.field.name]) as FormArray).at(index).get(this.inputField).markAsDirty();
+            (this.group.get([this.field.name]) as FormArray).at(index).get('numberUsedUnits').setValue(result/+this.dataSource[index]['unitAmount']);
+            (this.group.get([this.field.name]) as FormArray).at(index).get('numberUsedUnits').markAsDirty();
         }
     });
   }
