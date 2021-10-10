@@ -39,7 +39,7 @@ export class OnlymineComponent implements OnInit {
         reportProgress: true,
         observe: 'events'
       })
-      .subscribe((event: HttpEvent<any>) => {
+      .subscribe(event => {
         switch (event.type) {
           case HttpEventType.Sent:
             console.log('Request has been made!');
@@ -52,9 +52,9 @@ export class OnlymineComponent implements OnInit {
             console.log(`Uploaded! ${this.progress}%`);
             break;
           case HttpEventType.Response:
-            console.log('User successfully created!', event.body);
+            console.log('File successfully uploaded!', event.body);
             setTimeout(() => {
-              this.progress = 0;
+              this.progress = 100;
             }, 1500);
 
         }

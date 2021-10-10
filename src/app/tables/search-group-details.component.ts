@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { isEqual } from 'lodash-es';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
 
@@ -33,8 +33,8 @@ import { OneColumn } from '../field.interface';
 
                     <ng-container *jrSwitchCases="['selectObj', 'selectObjObj', 'selectObjArr']">
                       <mat-select #select1 placeholder="Search" formControlName="val" i18n-placeholder multiple>
-                        <mat-select-filter *ngIf="select1.focused" [displayMember]="'value'" [array]="column.options[0]" (filteredReturn)="column.options[1] =$event"></mat-select-filter>
-                        <mat-option *ngFor="let item of column.options[1]" [value]="item">
+                        <mat-option><ngx-mat-select-search placeholderLabel="search" [formControl]="column.options[0]"></ngx-mat-select-search></mat-option>
+                        <mat-option *ngFor="let item of column.options[1] | async" [value]="item">
                           {{item.value}}
                         </mat-option>
                       </mat-select>
@@ -312,10 +312,24 @@ export class SearchGroupDetailsComponent {
           this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
       }
       if(element.search && element.search.startsWith('selectObj')) {
-          (element.options as Observable<string[]>).pipe(take(1)).subscribe(arg => {
-            element.options[0] = arg;
-            element.options[1] = arg.slice();
-              // element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
+          (element.options as Observable<any[]>).pipe(take(1)).subscribe(arg => {
+            element.options[0] = new FormControl();
+            element.options[1] = new ReplaySubject<any[]>(1);
+            element.options[1].next(arg.slice());
+            element.options[0].valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(() => {
+              if (!arg) {return;}
+              // get the search keyword
+              let search = element.options[0].value;
+              if (!search) {
+                element.options[1].next(arg.slice());
+                return;
+              } else {
+                search = search.toLowerCase();
+              }
+              element.options[1].next(
+                arg.filter(b => b.value.toLowerCase().indexOf(search) > -1)
+              );
+            });
           });
       }
     });

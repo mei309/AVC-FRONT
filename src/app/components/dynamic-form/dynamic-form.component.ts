@@ -616,6 +616,7 @@ export class DynamicFormComponent implements OnInit {
             group.addControl(field.name, this.fb.array([]));
             break;
           }
+          field.options= 'numberUsedUnits';
         }
         case 'tableWithInput': {
           let groupJson = null;
@@ -806,25 +807,26 @@ export class DynamicFormComponent implements OnInit {
             group2.addControl(temp.name, this.fb.array([]));
             break;
           }
+          temp.options= 'numberUsedUnits';
         }
         case 'tableWithInput': {
           let groupJson = null;
           if(value.hasOwnProperty(temp.name)) {
             groupJson = value[temp.name];
           }
-            group2.addControl(temp.name, this.fb.array([this.createItemWithData(temp, groupJson[0])]));
+          group2.addControl(temp.name, this.fb.array([this.createItemWithData(temp, groupJson[0])]));
+          control = this.fb.control(
+            groupJson[0][temp.options]
+          );
+          ((group2.get([temp.name]) as FormArray).at(0) as FormGroup).addControl(temp.options, control);
+          for(let i = 1; i < groupJson.length; i++) {
+            (group2.get([temp.name]) as FormArray).push(this.createItemWithData(temp, groupJson[i]));
             control = this.fb.control(
-              groupJson[0][temp.options]
+              groupJson[i][temp.options]
             );
-            ((group2.get([temp.name]) as FormArray).at(0) as FormGroup).addControl(temp.options, control);
-            for(let i = 1; i < groupJson.length; i++) {
-              (group2.get([temp.name]) as FormArray).push(this.createItemWithData(temp, groupJson[i]));
-              control = this.fb.control(
-                groupJson[i][temp.options]
-              );
-              ((group2.get([temp.name]) as FormArray).at(i) as FormGroup).addControl(temp.options, control);
-            }
-            (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
+            ((group2.get([temp.name]) as FormArray).at(i) as FormGroup).addControl(temp.options, control);
+          }
+          (group2.get([temp.name]) as FormArray).controls.forEach(tm => tm.markAsDirty());
           break;
         }
         case 'bigexpand': {

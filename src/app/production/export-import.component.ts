@@ -704,7 +704,7 @@ export class ExportImportComponent implements OnInit {
                             type: 'materialUsage',
                             // label: 'Transfer from',
                             name: 'usedItems',
-                            options: true,
+                            inputType: true,
                             collections: [
                                 {
                                     type: 'selectgroup',

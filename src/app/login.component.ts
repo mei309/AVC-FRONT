@@ -8,7 +8,7 @@ import { AuthenticateService } from './service/authenticate.service';
 @Component({
   selector: 'app-login',
   template:`
-  <span style="color: LightGray">version 8.8</span>
+  <span style="color: LightGray">version 9</span>
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}">
     <dynamic-form [fields]="regConfig" mainLabel="Login Form" (submitForm)="doLogin($event)" i18n-mainLabel>
     </dynamic-form>

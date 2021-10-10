@@ -49,7 +49,7 @@ export class MaterialUsageComponent implements OnInit {
 
     choosedItems = [];
     itemConfig: FieldConfig;
-
+  productItems = [];
 
   field: FieldConfig;
   group: FormGroup;
@@ -103,7 +103,6 @@ export class MaterialUsageComponent implements OnInit {
 
     this.dataSource = this.group.get(this.field.name).value;
 
-
     this.columnsSetup(this.field);
     this.kidSetup(this.field);
   }
@@ -143,20 +142,26 @@ export class MaterialUsageComponent implements OnInit {
     });
     this.displayedColumns.push('inputField')
     this.displayedColumns.push('weightAmount');
-    if(tempField.options) {
-      (this.group.parent.parent.get('processItemsNormal') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(item => {
-        if(item && typeof item === 'object') {
-          this.genral.getProductBomInventory(item.id).pipe(take(1)).subscribe( val => {
-            this.addToForm(val);
-          });
-        }
+    if(tempField.inputType) {
+      (this.group.parent.parent.get('processItemsNormal') as FormArray).valueChanges.pipe(distinctUntilChanged()).subscribe(arr => {
+        arr.forEach(ele => {
+          if(ele && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
+            this.productItems.push(ele['item']['id']);
+            this.genral.getProductBomInventory(ele['item']['id']).pipe(take(1)).subscribe( val => {
+              this.addToForm(val);
+            });
+          }
+        });
       });
-      (this.group.parent.parent.get('processItemsTable') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(item => {
-        if(item && typeof item === 'object') {
-          this.genral.getProductBomInventory(item.id).pipe(take(1)).subscribe( val => {
-            this.addToForm(val);
-          });
-        }
+      (this.group.parent.parent.get('processItemsTable') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(arr => {
+        arr.forEach(ele => {
+          if(ele && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
+            this.productItems.push(ele['item']['id']);
+            this.genral.getProductBomInventory(ele['item']['id']).pipe(take(1)).subscribe( val => {
+              this.addToForm(val);
+            });
+          }
+        });
       });
     }
   }
