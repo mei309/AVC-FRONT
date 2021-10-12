@@ -1,5 +1,19 @@
 <p>onlymine works!</p>
 
+<mat-form-field>
+  <mat-label *ngIf="selectedFiles; else newFile">
+    <ng-container *ngFor="let img of selectedFiles"> {{img.name}}
+    </ng-container>
+    </mat-label>
+  <ng-template #newFile>
+      <mat-label>Choose file</mat-label>
+  </ng-template>
+  <input matInput disabled>
+  <button mat-icon-button matSuffix (click)="fileInput.click()">
+      <mat-icon>attach_file</mat-icon>
+  </button>
+  <input hidden (change)="selectFile($event)" multiple #fileInput type="file" id="file">
+</mat-form-field>
 
 <input  type="file" (change)="onFileSelected($event)"/>
 <button (click)="onUpload()" > Upload to S3 </button>

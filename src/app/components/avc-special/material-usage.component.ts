@@ -153,7 +153,7 @@ export class MaterialUsageComponent implements OnInit {
           }
         });
       });
-      (this.group.parent.parent.get('processItemsTable') as FormArray).at(0).get('item').valueChanges.pipe(distinctUntilChanged()).subscribe(arr => {
+      (this.group.parent.parent.get('processItemsTable') as FormArray).valueChanges.pipe(distinctUntilChanged()).subscribe(arr => {
         arr.forEach(ele => {
           if(ele && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
             this.productItems.push(ele['item']['id']);

@@ -174,6 +174,7 @@
       <button mat-menu-item [matMenuTriggerFor]="generalinventoryhistory" i18n>General Inventory History</button>
       <button mat-menu-item [matMenuTriggerFor]="exporthistory" i18n>Export</button>
       <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
+      <button mat-menu-item routerLink='reports/GeneralMaterialUsages' i18n>General Material Usages</button>
     </mat-menu>
     <mat-menu #inventorystock="matMenu" >
       <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Material</button>

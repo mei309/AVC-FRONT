@@ -16,7 +16,6 @@ import { OrdersService } from './orders.service';
         </show-details>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button *ngIf="order && myGlobal.isSysManager" mat-raised-button color="accent" (click)="closeOrder()">{{order['closed']? 'Open order' : 'Close order'}}</button>
         <ng-container *ngFor="let butt of buttons;">
             <button  mat-raised-button color="accent" (click)="onClickElement(butt)">{{butt}}</button>
         </ng-container>
@@ -32,7 +31,7 @@ export class OrderDetailsDialogComponent {
     buttons: string[] = [];
     approveChange: boolean = false;
 
-    constructor(public myGlobal: Globals, private LocalService: OrdersService, public dialogRef: MatDialogRef<OrderDetailsDialogComponent>,
+    constructor(private LocalService: OrdersService, public dialogRef: MatDialogRef<OrderDetailsDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.id = data.id;
@@ -62,13 +61,6 @@ export class OrderDetailsDialogComponent {
 
     setApproveChange() {
         this.approveChange = true;
-    }
-
-    closeOrder(){
-      this.setApproveChange();
-      this.LocalService.closeOrder(this.id, !this.order['closed']).pipe(take(1)).subscribe(value => {
-        this.dialogRef.close('closedOrder');
-      });
     }
 
     onClickElement(opartion: string): void {

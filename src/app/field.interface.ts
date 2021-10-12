@@ -1,5 +1,5 @@
 import { FormArray, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 export interface Validator {
   name: string;
   validator?: any;
@@ -40,7 +40,7 @@ export interface OneColumn {
   name: string;
   label?: string;
   titel?: string;
-  options?: string[] | Observable<string[]> | string;
+  options?: string[] | Observable<string[]> | string | ReplaySubject<any[]>;
   search?: string;
   compare?: Compare | string;
   collections?: any;
@@ -73,8 +73,8 @@ export function allOrNoneRequired(kids: Validator[]): ValidatorFn {
     if(checkEmpty(fg)) {
       return null;
     }
-    return (kidsValdaite(kids, fg))  
-             ? null 
+    return (kidsValdaite(kids, fg))
+             ? null
              : {allOrNoneRequired: true};
   };
 }

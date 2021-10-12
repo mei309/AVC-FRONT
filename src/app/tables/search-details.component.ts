@@ -130,7 +130,7 @@ export class SearchDetailsComponent {
           this.columnsDisplay.push(element.name);
           this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
           if(element.search && element.search.startsWith('selectObj')) {
-            (element.options as Observable<string[]>).pipe(take(1)).subscribe(arg => {
+            (element.options as Observable<any[]>).pipe(take(1)).subscribe(arg => {
                 element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
             });
           }
@@ -234,7 +234,7 @@ export class SearchDetailsComponent {
           break;
         case 'selectArr':
           if (data[filters[i].cloumn].some(a => a === filters[i].val)) {
-            return true;
+            break;
           } else {
             return false;
           }
@@ -248,7 +248,7 @@ export class SearchDetailsComponent {
         case 'selectObjArr':
           if(typeof filters[i].val !== 'string') {
             if (data[filters[i].cloumn].some(a => a === filters[i].val['value'])) {
-              return true;
+              break;
             } else {
               return false;
             }

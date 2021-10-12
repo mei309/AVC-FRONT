@@ -11,6 +11,7 @@ export class OnlymineComponent implements OnInit {
   progress: number = 0;
 
   selectedFile: File = null;
+  selectedFiles;
   fileUrl = null;
   images = ['mmexport1568785553247.jpg'];
   private httpClient: HttpClient;
@@ -22,6 +23,11 @@ export class OnlymineComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+    console.log(event.target.files);
+
+  }
 
   onFileSelected(event:any){
     this.selectedFile = <File> event.target.files[0];
@@ -56,15 +62,9 @@ export class OnlymineComponent implements OnInit {
             setTimeout(() => {
               this.progress = 100;
             }, 1500);
-
         }
       });
-      // upload.then(data => {
-      //   console.log('=> ', data )
-      // }).catch(err => console.log('error: ', err))
     });
-
-
   }
 
   async onGet(path: string) {

@@ -9,7 +9,7 @@ export class TableCellPipe implements PipeTransform {
     constructor(@Inject(LOCALE_ID) private locale: string) {
     }
     transform(element, type, second) {
-        switch (type) {    
+        switch (type) {
             case 'normal':
                 return element;
             case 'nameId':
@@ -35,7 +35,7 @@ export class TableCellPipe implements PipeTransform {
             case 'currency':
                 return new CurrencyPipe(this.locale).transform(element['amount'], element['currency'], 'symbol', '1.0-3');
             case 'weight':
-            case 'weight2': 
+            case 'weight2':
                 if(element) {
                     if (Array.isArray(element)) {
                         var str = '';
@@ -78,6 +78,8 @@ export class TableCellPipe implements PipeTransform {
                 return element.join(', ');
             case 'array':
                 return uniq(element.split(',')).toString();
+            case 'stringComma':
+                return element.replace(',', ', ')
             case 'itemWeight':
                 var str = '';
                 element.forEach(elem => {
@@ -108,5 +110,5 @@ export class TableCellPipe implements PipeTransform {
                 return element;
         }
     }
-  
+
 }

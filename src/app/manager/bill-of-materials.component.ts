@@ -32,7 +32,7 @@ export class BillOfMaterialsComponent {
     ngOnInit() {
         this.setupSource = null;
         this.localService.getAllBoms().pipe(take(1)).subscribe(value => {
-            this.setupSource = <any[]>value;
+            this.setupSource = value? value : [];
         });
         this.columnsSetup = [
           {
@@ -45,7 +45,7 @@ export class BillOfMaterialsComponent {
           {
             type: 'weight',
             name: 'defaultBatch',
-            label: $localize`Payable units`,
+            label: $localize`Amount`,
             search: 'object',
           },
         ];
@@ -65,14 +65,14 @@ export class BillOfMaterialsComponent {
               collections: [
                   {
                       type: 'input',
-                      label: $localize`Weight`,
+                      label: $localize`Amount`,
                       name: 'amount',
                       inputType: 'numeric',
                       options: 3,
                   },
                   {
                       type: 'select',
-                      label: $localize`Weight unit`,
+                      label: $localize`Unit`,
                       name: 'measureUnit',
                       value: 'LBS',
                       options: this.genral.getMeasureUnit(),
@@ -98,14 +98,14 @@ export class BillOfMaterialsComponent {
                   collections: [
                       {
                           type: 'input',
-                          label: $localize`Weight`,
+                          label: $localize`Amount`,
                           name: 'amount',
                           inputType: 'numeric',
                           options: 3,
                       },
                       {
                           type: 'select',
-                          label: $localize`Weight unit`,
+                          label: $localize`Unit`,
                           name: 'measureUnit',
                           value: 'LBS',
                           options: this.genral.getMeasureUnit(),
@@ -141,7 +141,7 @@ export class BillOfMaterialsComponent {
           dialogRef.afterClosed().subscribe(data => {
             if(data === 'success') {
                 this.localService.getAllBoms().pipe(take(1)).subscribe(value => {
-                    this.setupSource = <any[]>value;
+                    this.setupSource = value? value : [];
                 });
             }
           });
@@ -155,7 +155,7 @@ export class BillOfMaterialsComponent {
         dialogRef.afterClosed().subscribe(data => {
           if(data === 'success') {
               this.localService.getAllBoms().pipe(take(1)).subscribe(value => {
-                  this.setupSource = <any[]>value;
+                  this.setupSource = value? value : [];
               });
           }
         });

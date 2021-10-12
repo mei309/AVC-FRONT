@@ -246,6 +246,7 @@ export class ShowDetailsComponent implements OnInit {
         toLock: this.dataSource['editStatus'] === 'LOCKED',
         toFinal: this.dataSource['processStatus'] === 'FINAL',
         toCancal: this.dataSource['processStatus'] === 'CANCELLED',
+        closeManagment: (['CASHEW_ORDER', 'GENERAL_ORDER'].includes(processName))? {toClose: this.dataSource['closed']} : null,
       },
     });
     dialogRef.afterClosed().subscribe(result => {

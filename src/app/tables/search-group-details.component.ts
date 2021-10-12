@@ -32,13 +32,12 @@ import { OneColumn } from '../field.interface';
                     </mat-select>
 
                     <ng-container *jrSwitchCases="['selectObj', 'selectObjObj', 'selectObjArr']">
-                      <mat-select #select1 placeholder="Search" formControlName="val" i18n-placeholder multiple>
-                        <mat-option><ngx-mat-select-search placeholderLabel="search" [formControl]="column.options[0]"></ngx-mat-select-search></mat-option>
-                        <mat-option *ngFor="let item of column.options[1] | async" [value]="item">
+                      <mat-select placeholder="Search" formControlName="val" i18n-placeholder multiple>
+                        <mat-option><ngx-mat-select-search placeholderLabel="search" formControlName="control"></ngx-mat-select-search></mat-option>
+                        <mat-option *ngFor="let item of column.options | async" [value]="item">
                           {{item.value}}
                         </mat-option>
                       </mat-select>
-
                     </ng-container>
 
 
@@ -72,10 +71,13 @@ import { OneColumn } from '../field.interface';
             <th mat-header-cell *matHeaderCellDef>
                 <h3 mat-sort-header>{{column.label}}</h3>
                 <mat-form-field class="no-print table-search" [formGroupName]="column.name">
-                    <mat-select placeholder="Search" formControlName="val" i18n-placeholder>
-                        <mat-option value="">--all--</mat-option>
-                        <mat-option *ngFor="let item of column.options | async" [value]="item.value">{{item.value}}</mat-option>
-                    </mat-select>
+                    <input matInput placeholder="Search" formControlName="val" i18n-placeholder [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" panelWidth="fit-content">
+                      <mat-option *ngFor="let item of column.options | async" [value]="item">
+                        {{item.value}}
+                      </mat-option>
+                    </mat-autocomplete>
+
                 </mat-form-field>
             </th>
             <td mat-cell *matCellDef="let element; let i = index"
@@ -306,27 +308,33 @@ export class SearchGroupDetailsComponent {
           this.localItemWeightColumns.push(element);
           this.columnsDisplay.push(element.name);
           this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
+          if(element.search) {
+            (element.options as Observable<any[]>).pipe(take(1)).subscribe(arg => {
+                element.options = this.searchGroup.get(element.name).get('val').valueChanges.pipe(startWith(''), map(value => this._filter(arg, value)));
+            });
+          }
       } else {
           this.localGroupOneColumns.push(element);
           this.columnsDisplay.push(element.name);
           this.searchGroup.addControl(element.name, this.fb.group({val: '', type: element.search, label: element.label}));
       }
       if(element.search && element.search.startsWith('selectObj')) {
+          (this.searchGroup.get(element.name) as FormGroup).addControl('control', new FormControl());
           (element.options as Observable<any[]>).pipe(take(1)).subscribe(arg => {
-            element.options[0] = new FormControl();
-            element.options[1] = new ReplaySubject<any[]>(1);
-            element.options[1].next(arg.slice());
-            element.options[0].valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(() => {
+            // element.options['control'] = new FormControl();
+            element.options = new ReplaySubject<any[]>(1);
+            (element.options as ReplaySubject<any[]>).next(arg.slice());
+            this.searchGroup.get(element.name).get('control').valueChanges.pipe(takeUntil(this.destroySubject$)).subscribe(() => {
               if (!arg) {return;}
               // get the search keyword
-              let search = element.options[0].value;
+              let search = this.searchGroup.get(element.name).get('control').value;
               if (!search) {
-                element.options[1].next(arg.slice());
+                (element.options as ReplaySubject<any[]>).next(arg.slice());
                 return;
               } else {
                 search = search.toLowerCase();
               }
-              element.options[1].next(
+              (element.options as ReplaySubject<any[]>).next(
                 arg.filter(b => b.value.toLowerCase().indexOf(search) > -1)
               );
             });
@@ -339,15 +347,15 @@ export class SearchGroupDetailsComponent {
   }
 
 
-  // private _filter(arg, value: string): string[] {
-  //   if(value && typeof(value) === 'string') {
-  //     const filterValue = value.toLowerCase();
-  //     return arg.filter(option =>
-  //       option.value.toLowerCase().includes(filterValue));
-  //   } else {
-  //     return arg;
-  //   }
-  // }
+  private _filter(arg, value: string): any[] {
+    if(value && typeof(value) === 'string') {
+      const filterValue = value.toLowerCase();
+      return arg.filter(option =>
+        option.value.toLowerCase().includes(filterValue));
+    } else {
+      return arg;
+    }
+  }
   setFilters(filters) {
       let newFilters = [];
       Object.keys(filters).forEach(filt => {
@@ -398,7 +406,7 @@ export class SearchGroupDetailsComponent {
         case 'selectObjObj':
           if(!filters[i].val.length) return true;
           if(filters[i].val.some(a => a['value'] == data[filters[i].cloumn]['value'])) {
-            return true;
+            break;
           }
           return false;
         case 'object':
@@ -414,9 +422,16 @@ export class SearchGroupDetailsComponent {
           }
           break;
         case 'listAmountWithUnit':
-          const fitsThisList = data[filters[i].cloumn].some(a => a['item']['value'].includes(filters[i].val));
-          if (!fitsThisList) {
-            return false;
+          if(typeof filters[i].val === 'string') {
+            const fitsObjObj = data[filters[i].cloumn].some(a => (a['item']['value'].toLowerCase()).includes(filters[i].val.toLowerCase()));
+            if (!fitsObjObj) {
+              return false;
+            }
+          } else {
+            const fitsThisList = data[filters[i].cloumn].some(a => a['item']['id'] == filters[i].val['id']);
+            if (!fitsThisList) {
+              return false;
+            }
           }
           break;
         case 'percentage':
@@ -438,20 +453,19 @@ export class SearchGroupDetailsComponent {
           break;
         case 'selectArr':
           if (data[filters[i].cloumn].some(a => a === filters[i].val)) {
-            return true;
-          } else {
-            return false;
+            break;
           }
+          return false;
         case 'selectObj':
           if(!filters[i].val.length) return true;
           if(filters[i].val.some(a => a['value'] == data[filters[i].cloumn])) {
-            return true;
+            break;
           }
           return false;
         case 'selectObjArr':
           if(!filters[i].val.length) return true;
           if (data[filters[i].cloumn].some(a => filters[i].val.some(b => b['value'] == a))) {
-            return true;
+            break;
           }
           return false;
         default:

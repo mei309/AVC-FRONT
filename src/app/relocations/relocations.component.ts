@@ -71,7 +71,7 @@ export class RelocationsComponent implements OnInit {
             name: 'usedItems',
             label: $localize`Used items`,
             search: 'listAmountWithUnit',
-            options: this.ItemsChangable1,
+            options: this.ItemsChangable1.asObservable(),
         },
         {
             type: 'itemWeight',
