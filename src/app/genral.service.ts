@@ -275,7 +275,7 @@ export class Genral {
             case 'QC_CHECK':
               return value.filter(a => a.productionFunctionality === 'QUALITY_CONTROL_CHECK');
           default:
-            return value;
+            return value.slice();
         }
       })
     );
@@ -299,8 +299,8 @@ export class Genral {
     return this.http.get(this.mainurl+'findAvailableItems');
   }
 
-  getProductBomInventory(itemId: number): Observable<any> {
-    return this.http.get(this.mainurl+'getProductBomInventory/'+itemId);
+  getProductBomInventoryMissing(itemId: number): Observable<any> {
+    return this.http.get(this.mainurl+'getProductBomInventoryMissing/'+itemId);
   }
 
   getRoles(): string[] {

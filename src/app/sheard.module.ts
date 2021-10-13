@@ -66,7 +66,9 @@ import { NormalGroupDetailsComponent } from './tables/normal-group-details.compo
 import { SearchDetailsComponent } from './tables/search-details.component';
 import { SearchExpandableComponent } from './tables/search-expanable.component';
 import { SearchGroupDetailsComponent } from './tables/search-group-details.component';
-
+import { FileUploaderComponent } from './s3-files/file-uploader.component';
+import { FileViewerComponent } from './s3-files/files-viewer.component';
+import { DndDirective } from './s3-files/dnd.directive';
 @NgModule({
   declarations: [
     MaterialUsageComponent,
@@ -140,6 +142,10 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     BigoutsideComponent,
     PopupformDialog, PopupformComponent,
     CalculateFewComponent,
+
+    FileUploaderComponent,
+    FileViewerComponent,
+    DndDirective,
   ],
   exports: [
     MaterialUsageComponent,
@@ -219,6 +225,9 @@ import { SearchGroupDetailsComponent } from './tables/search-group-details.compo
     CommonModule,
     // MatTableExporterModule,
     // BrowserModule,
+
+    FileUploaderComponent,
+    FileViewerComponent,
 ],
   imports: [
     ReactiveFormsModule,

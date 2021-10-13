@@ -1,40 +1,3 @@
-<p>onlymine works!</p>
-
-<mat-form-field>
-  <mat-label *ngIf="selectedFiles; else newFile">
-    <ng-container *ngFor="let img of selectedFiles"> {{img.name}}
-    </ng-container>
-    </mat-label>
-  <ng-template #newFile>
-      <mat-label>Choose file</mat-label>
-  </ng-template>
-  <input matInput disabled>
-  <button mat-icon-button matSuffix (click)="fileInput.click()">
-      <mat-icon>attach_file</mat-icon>
-  </button>
-  <input hidden (change)="selectFile($event)" multiple #fileInput type="file" id="file">
-</mat-form-field>
-
-<input  type="file" (change)="onFileSelected($event)"/>
-<button (click)="onUpload()" > Upload to S3 </button>
-
-
-
-<div *ngFor="let img of images">
-    <button (click)="onGet(img)" > {{img}} </button>
-</div>
-
-<div *ngIf="fileUrl">
-  <mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile><img mat-card-image src="{{fileUrl}}" alt="Photo of a Shiba Inu"></mat-grid-tile>
-    <mat-grid-tile>2</mat-grid-tile>
-    <mat-grid-tile>3</mat-grid-tile>
-    <mat-grid-tile>4</mat-grid-tile>
-  </mat-grid-list>
-</div>
-
-
-
 <div class="container" appDnd (fileDropped)="onFileDropped($event)">
 	<input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)" />
 	<svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
@@ -52,7 +15,7 @@
 	<h3>or</h3>
 	<label for="fileDropRef">Browse for file</label>
 </div>
-<div class="files-list">
+<div *ngIf="files.length" class="files-list">
 	<div class="single-file" *ngFor="let file of files; let i = index">
 		<div class="file-icon" style="width: 50px">
 			<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -80,7 +43,10 @@
 			<p class="size">
 				{{ formatBytes(file?.size, 2) }}
 			</p>
-
+      <div class="progress-cont">
+        <div class="progress" [style.width]="file?.progress + '%'">
+        </div>
+      </div>
 		</div>
 
 		<div class="delete" (click)="deleteFile(i)">
@@ -90,5 +56,5 @@
 			</svg>
 		</div>
 	</div>
-  <button mat-raised-button (click)="oneClickChanged.next($event)" i18n>Upload</button>
+  <button mat-raised-button color="primary" class="upload-button" (click)="oneClickChanged.next($event)" i18n>Upload</button>
 </div>

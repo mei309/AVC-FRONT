@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Genral } from 'src/app/genral.service';
 import { FieldConfig } from '../../field.interface';
 import { isEqual, map } from 'lodash-es';
@@ -33,7 +34,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
             <ng-container matColumnDef="weightAmount">
                 <th mat-header-cell *matHeaderCellDef i18n></th>
                 <td mat-cell *matCellDef="let element; let i = index;">
-                    <button type="button" [disabled]="this.dataSource[i]['unitAmount'] === 1" mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
+                    <button type="button" [disabled]="this.dataSource[i]['unitAmount'] === null || this.dataSource[i]['unitAmount'] === 1" mat-raised-button color="accent" (click)="openDialog(i)" i18n>Weight amount</button>
                 </td>
             </ng-container>
 
@@ -60,7 +61,7 @@ export class MaterialUsageComponent implements OnInit {
 
   constructor(@Inject(LOCALE_ID) private locale: string,
   private fb: FormBuilder, public dialog: MatDialog,
-         private genral: Genral) {}
+         private genral: Genral, private _snackBar: MatSnackBar) {}
   ngOnInit() {
     this.form = this.fb.group({});
     this.form.addControl('items', this.fb.array([this.fb.group({item: null})]));
@@ -145,22 +146,39 @@ export class MaterialUsageComponent implements OnInit {
     if(tempField.inputType) {
       (this.group.parent.parent.get('processItemsNormal') as FormArray).valueChanges.pipe(distinctUntilChanged()).subscribe(arr => {
         arr.forEach(ele => {
-          if(ele && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
+          if(ele && ele['item'] && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
             this.productItems.push(ele['item']['id']);
-            this.genral.getProductBomInventory(ele['item']['id']).pipe(take(1)).subscribe( val => {
-              this.addToForm(val);
+            this.genral.getProductBomInventoryMissing(ele['item']['id']).pipe(take(1)).subscribe( val => {
+              if(val) {
+                this.inputFromParentItem(val);
+              }
             });
           }
         });
       });
       (this.group.parent.parent.get('processItemsTable') as FormArray).valueChanges.pipe(distinctUntilChanged()).subscribe(arr => {
         arr.forEach(ele => {
-          if(ele && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
+          if(ele && ele['item'] && ele['item']['id'] && !this.productItems.includes(ele['item']['id'])) {
             this.productItems.push(ele['item']['id']);
-            this.genral.getProductBomInventory(ele['item']['id']).pipe(take(1)).subscribe( val => {
-              this.addToForm(val);
+            this.genral.getProductBomInventoryMissing(ele['item']['id']).pipe(take(1)).subscribe( val => {
+              if(val) {
+                this.inputFromParentItem(val);
+              }
             });
           }
+        });
+      });
+    }
+  }
+
+  inputFromParentItem(val) {
+    this.addToForm(val[0]);
+    if(val[1].length) {
+      this.genral.getItemsGeneral().pipe(take(1)).subscribe(proucts => {
+        this._snackBar.open((proucts.filter(a => val[1].includes(a['id']))).map(c => c['value']).join(', ')+$localize` are missing from inventory`, 'ok', {
+          duration: 5000,
+          // panelClass: 'blue-snackbar',
+          verticalPosition:'top'
         });
       });
     }

@@ -1,24 +1,23 @@
 import { HttpBackend, HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Subject, Subscription, throttleTime, distinctUntilChanged } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-onlymine',
-  templateUrl: './onlymine.component.html',
-  styleUrls: ['./progress.component.scss']
+  selector: 'file-uploader',
+  templateUrl: './file-uploader.component.html',
+  styleUrls: ['./files.component.scss']
 })
-export class OnlymineComponent implements OnInit {
+export class FileUploaderComponent implements OnInit {
 
   oneClickChanged: Subject<any> = new Subject<any>();
   private oneClickOnlySubscription: Subscription;
 
-  progress: number = 0;
+  @Input() functionUrl;
+  @Input() processId;
 
-  selectedFile: File = null;
-  selectedFiles;
-  fileUrl = null;
-  images = ['mmexport1568785553247.jpg'];
+  files: any[] = [];
+
   private httpClient: HttpClient;
     constructor(private http: HttpClient, private handler: HttpBackend) {
           this.httpClient = new HttpClient(handler);
@@ -38,70 +37,6 @@ export class OnlymineComponent implements OnInit {
       });
   }
 
-  selectFile(event) {
-    this.selectedFiles = event.target.files;
-    console.log(event.target.files);
-
-  }
-
-  onFileSelected(event:any){
-    this.selectedFile = <File> event.target.files[0];
-  }
-
-  async onUpload() {
-    console.log('1. SelectedFile: ', this.selectedFile);
-    const body = { fileName: this.selectedFile.name }
-    this.http.post(environment.baseUrl+'urli', body).subscribe(preSignedUrl => {
-      console.log('2. PreSignedURL: ', preSignedUrl)
-      console.log('3. Upoloading File (binary) to S3')
-
-
-      this.httpClient.put(preSignedUrl.toString(), this.selectedFile, {
-        reportProgress: true,
-        observe: 'events'
-      })
-      .subscribe(event => {
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Request has been made!');
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round(event.loaded / event.total * 100);
-            console.log(`Uploaded! ${this.progress}%`);
-            break;
-          case HttpEventType.Response:
-            console.log('File successfully uploaded!', event.body);
-            setTimeout(() => {
-              this.progress = 100;
-            }, 1500);
-        }
-      });
-    });
-  }
-
-  async onGet(path: string) {
-    const body = { fileName: path }
-    this.http.post(environment.baseUrl+'getUrls', body).subscribe(preSignedUrl => {
-      console.log('2. PreSignedURL: ', preSignedUrl)
-      console.log('3. Get File (binary) from S3')
-
-      // let reader = new FileReader();
-      this.fileUrl = preSignedUrl.toString();
-      // window.open(preSignedUrl.toString());
-      // const upload = this.httpClient.get(preSignedUrl.toString(),{ responseType: 'blob' }).toPromise();
-      // upload.then(() => {
-      //   this.showFile = reader.result;
-      //   console.log('=> ' )
-      // }).catch(err => console.log('error: ', err))
-    });
-  }
-
-
-
-  files: any[] = [];
 
   /**
    * on file drop handler
@@ -161,13 +96,13 @@ export class OnlymineComponent implements OnInit {
   uploadFilesList() {
     for (const item of this.files) {
       console.log('1. SelectedFile: ', item.name);
-      const body = { fileName: item.name }
-      this.http.post(environment.baseUrl+'urli', body).subscribe(preSignedUrl => {
+      const body = { processId: this.processId, address: item.name }
+      this.http.post(environment.baseUrl+'files/'+this.functionUrl, body).subscribe(preSignedUrl => {
         console.log('2. PreSignedURL: ', preSignedUrl)
         console.log('3. Upoloading File (binary) to S3')
 
 
-        this.httpClient.put(preSignedUrl.toString(), this.selectedFile, {
+        this.httpClient.put(preSignedUrl.toString(), item, {
           reportProgress: true,
           observe: 'events'
         })

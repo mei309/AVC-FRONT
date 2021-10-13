@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { QcService } from './qc.service';
 import { take } from 'rxjs/operators';
+import { Globals } from '../global-params.component';
 
 @Component({
     selector: 'app-qc-details-dialog',
@@ -14,6 +15,10 @@ import { take } from 'rxjs/operators';
         <h1 class="only-print" i18n>{{type}} details</h1>
         <show-details [dataSource]="qcCheck" (approveChange)="setApproveChange()">
         </show-details>
+        <ng-container *ngIf="globels.isMe">
+          <file-uploader *ngIf="id" functionUrl="addQcImage" [processId]="id"></file-uploader>
+          <file-viewer *ngIf="fileList && fileList.length" [fileList]="fileList"></file-viewer>
+        </ng-container>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <ng-container *ngFor="let butt of buttons;">
@@ -25,13 +30,14 @@ import { take } from 'rxjs/operators';
 })
 export class QcDetailsDialogComponent {
     id;
+    fileList;
     fromNew: boolean;
     qcCheck: any;
     type: string;
     buttons: string[] = [];
     approveChange: boolean = false;
 
-    constructor(private LocalService: QcService, public dialogRef: MatDialogRef<QcDetailsDialogComponent>,
+    constructor(public globels: Globals, private LocalService: QcService, public dialogRef: MatDialogRef<QcDetailsDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
         public data: any) {
             this.id = data.id;
@@ -44,7 +50,10 @@ export class QcDetailsDialogComponent {
         if(!this.fromNew) {
             this.LocalService.getQcCheck(this.id).pipe(take(1)).subscribe( val => {
                 this.qcCheck = val;
+                this.fileList = val['processFiles'];
             });
+        } else {
+          this.id = this.qcCheck['id'];
         }
         this.buttons.push($localize`Edit`);
     }

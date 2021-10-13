@@ -78,7 +78,7 @@ export class GeneralMaterialUsagesComponent implements OnInit {
           {
               name: 'productionLine',
               label: $localize`Production line`,
-              search: 'select',
+              search: 'selectObj',
               options: this.genral.getProductionLine(''),
           },
           {
@@ -95,14 +95,14 @@ export class GeneralMaterialUsagesComponent implements OnInit {
           },
           {
               type: 'weight',
-              name: 'amountAdded',
-              label: $localize`Amount added`,
+              name: 'amountSubtracted',
+              label: $localize`Amount subtracted`,
               search: 'objArray',
           },
           {
               type: 'weight',
-              name: 'amountSubtracted',
-              label: $localize`Amount subtracted`,
+              name: 'amountAdded',
+              label: $localize`Amount added`,
               search: 'objArray',
           },
           {

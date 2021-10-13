@@ -70,7 +70,7 @@ export class ProductionsByTimeComponent implements OnInit {
           {
               name: 'productionLine',
               label: $localize`Production line`,
-              search: 'select',
+              search: 'selectObj',
               options: this.genral.getProductionLine(''),
           },
           {
