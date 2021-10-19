@@ -1,9 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { V } from '@angular/cdk/keycodes';
 import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatTableExporterDirective } from 'mat-table-exporter';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
@@ -92,7 +94,7 @@ import { OneColumn } from '../field.interface';
  </table>
   <mat-toolbar>
     <mat-toolbar-row>
-      <mat-icon class="no-print" (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon>
+      <mat-icon class="no-print" (click)="onExportCvs();" title="Export as CSV">save_alt</mat-icon>
       <span class="row-spacer"></span>
       <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
     </mat-toolbar-row>
@@ -112,6 +114,7 @@ import { OneColumn } from '../field.interface';
 
 })
 export class SearchExpandableComponent implements OnInit {
+  @ViewChild(MatTableExporterDirective) exporter: MatTableExporterDirective;
   isPrint = false;
   @HostListener('window:beforeprint', ['$event'])
     onBeforePrint(event){
@@ -159,7 +162,6 @@ export class SearchExpandableComponent implements OnInit {
 
 
   expandedElement: any;
-
 
   constructor(private fb: FormBuilder, private cdRef:ChangeDetectorRef) {
   }
@@ -351,6 +353,15 @@ export class SearchExpandableComponent implements OnInit {
         var dateStamp = (new Date(data[column])).getTime();
         return (dateStamp > filter.begin.setHours(0,0,0,0) && dateStamp < filter.end.setHours(23,59,59,999));
       };
+  }
+
+
+
+  onExportCvs(){
+    for (let index = 0; index < this.dataSource.filteredData.length-1; index++) {
+      this.exporter.toggleRow(index*2);
+    }
+    this.exporter.exportTable('csv');
   }
 
 }

@@ -69,6 +69,7 @@ export class ExportImportComponent implements OnInit {
 
         value['processItems'] = [];
         if(value['processItemsNormal']) {
+            value['processItemsNormal'] = value['processItemsNormal'].filter(amou => amou.storageForms);
             value['processItems'] = value['processItems'].concat(value['processItemsNormal']);
             delete value['processItemsNormal'];
         }

@@ -19,7 +19,7 @@ import { InventoryService } from './inventory.service';
       <mat-tab label="General stock and orders" i18n-label>
       </mat-tab>
   </mat-tab-group>
-  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [withPaginator]="false">
+  <search-group-details [mainColumns]="columnsShow" [detailsSource]="generalSourceColumns" [cvsColumns]="cvsColumns" [withPaginator]="false">
   </search-group-details>
     `
 })
@@ -32,6 +32,7 @@ export class GenralInventoryComponent implements OnInit {
 
   generalSourceColumns: any[];
 
+  cvsColumns;
   // totelAll: OneColumn = {
   //   type: 'weight2',
   //   name: 'totalBalance',
@@ -86,6 +87,7 @@ export class GenralInventoryComponent implements OnInit {
       switch (+event) {
         case 0:
           this.generalSourceColumns = null;
+          this.cvsColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -148,6 +150,7 @@ export class GenralInventoryComponent implements OnInit {
           break;
         case 1:
           this.generalSourceColumns = null;
+          this.cvsColumns = null;
           this.columnsShow = [
             {
               type: 'nameId',
@@ -210,6 +213,28 @@ export class GenralInventoryComponent implements OnInit {
           break;
         case 2:
             this.generalSourceColumns = null;
+            this.cvsColumns = [
+              {
+                type: 'decimalNumber',
+                name: 'inventoryAmountNumber',
+                label: $localize`Inventory amount`,
+              },
+              {
+                type: 'normal',
+                name: 'inventoryAmountUnit',
+                label: $localize`Inventory unit`,
+              },
+              {
+                type: 'decimalNumber',
+                name: 'orderedAmountNumber',
+                label: $localize`Orderd amount`,
+              },
+              {
+                type: 'normal',
+                name: 'orderedAmountUnit',
+                label: $localize`Orderd unit`,
+              },
+            ];
             this.columnsShow = [
               {
                 type: 'nameId',

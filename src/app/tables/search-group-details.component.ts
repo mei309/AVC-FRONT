@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { isEqual } from 'lodash-es';
+import { MatTableExporterDirective } from 'mat-table-exporter';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { OneColumn } from '../field.interface';
@@ -99,6 +100,19 @@ import { OneColumn } from '../field.interface';
             </td>
         </ng-container>
 
+
+        <ng-container matColumnDef="{{column.name}}" *ngFor="let column of localCvsColumns">
+            <th mat-header-cell *matHeaderCellDef>
+                <h3 mat-sort-header>{{column.label}}</h3>
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <span *ngIf="element[column.name] && getRowSpan(i, column.group)" style="white-space: pre-wrap;">
+                  {{element[column.name] | tableCellPipe: column.type : column.collections}}
+                </span>
+            </td>
+        </ng-container>
+
+
           <ng-container matColumnDef="totealCol" *ngIf="totalColumn">
               <th mat-header-cell *matHeaderCellDef>
                 <h3>{{totalColumn.label}}</h3>
@@ -115,7 +129,7 @@ import { OneColumn } from '../field.interface';
     </table>
     <mat-toolbar>
       <mat-toolbar-row>
-        <button class="no-print"><mat-icon (click)="exporter.exportTable('csv')" title="Export as CSV">save_alt</mat-icon></button>
+        <button class="no-print"><mat-icon (click)="onExportCvs()" title="Export as CSV">save_alt</mat-icon></button>
         <span class="row-spacer"></span>
         <span *ngIf="currentTotalAll">{{totelAll.label}}: {{currentTotalAll | tableCellPipe: 'weight2' : null}}</span>
         <mat-paginator class="no-print" [ngStyle]="{display: withPaginator ? 'block' : 'none'}" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
@@ -129,6 +143,7 @@ import { OneColumn } from '../field.interface';
   `,
 })
 export class SearchGroupDetailsComponent {
+    @ViewChild(MatTableExporterDirective) exporter: MatTableExporterDirective;
     isPrint = false;
     @HostListener('window:beforeprint', ['$event'])
     onBeforePrint(event){
@@ -206,6 +221,11 @@ export class SearchGroupDetailsComponent {
   }
 
   oneColumns: OneColumn[] = [];
+
+  @Input() set cvsColumns(val){
+    this.localCvsColumns = val
+  }
+  localCvsColumns: OneColumn[];
 
   secondToUpload: boolean = false;
   secondTimer;
@@ -792,6 +812,22 @@ export class SearchGroupDetailsComponent {
   //   window.URL.revokeObjectURL(url);
   //   a.remove();
   // }
+
+
+
+  onExportCvs(){
+    if(this.localCvsColumns) {
+      this.columnsDisplay = this.columnsDisplay.filter(a => !['inventoryAmount', 'orderedAmount'].includes(a));
+      this.columnsDisplay = this.columnsDisplay.concat(['inventoryAmountNumber', 'inventoryAmountUnit', 'orderedAmountNumber', 'orderedAmountUnit']);
+      setTimeout(() => {
+        this.exporter.exportTable('csv');
+        this.columnsDisplay = this.columnsDisplay.filter(a => !['inventoryAmountNumber', 'inventoryAmountUnit', 'orderedAmountNumber', 'orderedAmountUnit'].includes(a));
+        this.columnsDisplay = this.columnsDisplay.concat(['inventoryAmount', 'orderedAmount']);
+      }, 300);
+    } else {
+      this.exporter.exportTable('csv');
+    }
+  }
 
   ngOnDestroy() {
     this.destroySubject$.next();

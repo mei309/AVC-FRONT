@@ -24,6 +24,8 @@ import { InventoryService } from './inventory.service';
       </mat-tab>
       <mat-tab label="Relocations" i18n-label>
       </mat-tab>
+      <mat-tab label="General Inventory Transactions" i18n-label>
+      </mat-tab>
   </mat-tab-group>
   <search-group-details [mainColumns]="columnsShow" [detailsSource]="inventorySource" (details)="openDialog($event)">
   </search-group-details>
@@ -67,6 +69,7 @@ export class InventoryReportsComponent implements OnInit {
   }
 
   openDialog(event): void {
+    if(this.tabIndex === 3) return;
     const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
       width: '80%',
       data: {id: event['id'], fromNew: false, type: this.type},
@@ -165,6 +168,80 @@ export class InventoryReportsComponent implements OnInit {
           this.type = $localize`Relocation`;
           this.cdRef.detectChanges();
           break;
+        case 3:
+          this.inventorySource = null;
+          this.columnsShow = [
+            {
+                type: 'nameId',
+                name: 'item',
+                label: $localize`Item`,
+                search: 'selectObjObj',
+                options: this.genral.getItemsGeneral(),
+                group: 'item',
+            },
+            {
+                type: 'stringComma',
+                name: 'poCodes',
+                label: $localize`PO#`,
+                search: 'normal',
+                group: 'poCodes',
+            },
+            {
+                type: 'stringComma',
+                name: 'suppliers',
+                label: $localize`Supplier`,
+                search: 'selectObj',
+                options: this.genral.getSuppliersGeneral(),
+                group: 'poCodes',
+            },
+            {
+                name: 'processName',
+                label: $localize`Process name`,
+                search: 'select',
+                options: this.genral.getProcess(),
+            },
+            {
+                name: 'productionLine',
+                label: $localize`Production line`,
+                search: 'selectObj',
+                options: this.genral.getProductionLine(''),
+            },
+            {
+                type: 'date',
+                name: 'receiptDate',
+                label: $localize`Receipt date`,
+                search: 'dates',
+            },
+            {
+                type: 'date',
+                name: 'transactionDate',
+                label: $localize`Transaction date`,
+                search: 'dates',
+            },
+            {
+                type: 'weight',
+                name: 'amountSubtracted',
+                label: $localize`Amount subtracted`,
+                search: 'objArray',
+            },
+            {
+                type: 'weight',
+                name: 'amountAdded',
+                label: $localize`Amount added`,
+                search: 'objArray',
+            },
+            {
+                type: 'normal',
+                label: $localize`Remarks`,
+                name: 'remarks',
+                search: 'normal',
+            },
+        ];
+        this.localService.getInventoryTransactions(this.dateRange).pipe(take(1)).subscribe(value => {
+          this.inventorySource = <any[]>value;
+        });
+        this.cdRef.detectChanges();
+        break;
         default:
           break;
       }

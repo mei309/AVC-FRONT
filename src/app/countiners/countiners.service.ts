@@ -100,6 +100,13 @@ export class CountinersService {
     return this.http.get(this.contianerurl+'findContainerArrivals', {params});
   }
 
+  getAllRealEta (rangeDate) {
+    let params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+    return this.http.get(this.contianerurl+'getAllRealEta', {params});
+  }
+
   getShippingPorts (): Observable<any> {
     return this.shippingPorts.asObservable();
   }

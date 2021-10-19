@@ -34,7 +34,7 @@ export class FileViewerComponent implements OnInit {
     this.imagesShow = true;
     this.fileList.forEach(ele => {
       const body = { fileName: ele.address }
-      this.http.post(environment.baseUrl+'files/getImage', body).subscribe(preSignedUrl => {
+      this.http.post(environment.baseUrl+'files/getImageQc', body).subscribe(preSignedUrl => {
         console.log('2. PreSignedURL: ', preSignedUrl)
         console.log('3. Get File (binary) from S3')
 

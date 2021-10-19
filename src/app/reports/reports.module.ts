@@ -21,7 +21,6 @@ import { SumsQcsTableComponent } from './sum-qc-table.component';
 import { SumListTablesComponent } from './sum-list-tables.component';
 import { InventoryGeneralTimeComponent } from './inventory-general-time.component';
 import { SumsProductTypeComponent } from './sum-product-type.component';
-import { GeneralMaterialUsagesComponent } from './general-material-usages.component';
 
 
 
@@ -31,7 +30,7 @@ import { GeneralMaterialUsagesComponent } from './general-material-usages.compon
     FinalReportFullComponent, FinalReportSummaryComponent, ProductionsByTimeComponent, QcsTotalsComponent,
     InventoryByTypeComponent, InventoryByTimeComponent, InventoryGeneralTimeComponent,
      ExportReportComponent, CellsProcesses, CellsLoading, CellsQcs, SumsQcsTableComponent, SumListTablesComponent,
-     SumsProductTypeComponent, GeneralMaterialUsagesComponent],
+     SumsProductTypeComponent],
   imports: [
     SheardModule,
     ReportsRoutingModule,

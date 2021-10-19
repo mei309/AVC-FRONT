@@ -108,7 +108,7 @@ const componentMapper = {
       <button type="button" style="margin-top: 10px; width: 100%;" class="add-button" (click)="addItem()" i18n>Add {{field.label}}</button>
     </div>
   </ng-container>
-  
+
   <ng-container *ngSwitchCase="'aloneNoAddNoFrameInline'">
     <div class="div-inline">
       <ng-container ngProjectAs="mat-error">
@@ -182,7 +182,7 @@ export class BigexpandComponent implements AfterViewInit {
 
   components = [];
   selectedTab: number = 0;
-  
+
   constructor(private fb: FormBuilder, private cdRef:ChangeDetectorRef) {}
   ngAfterViewInit() {
     let num = (this.group.get([this.field.name]) as FormArray).length;
@@ -197,7 +197,7 @@ export class BigexpandComponent implements AfterViewInit {
           if(this.field.hasOwnProperty('validations')) {
             this.componentRef.instance.message = this.field.validations[0].message;
           }
-          this.componentRef.instance.group = (this.group.get([this.field.name])  as FormArray).controls[this.longth] as FormGroup; 
+          this.componentRef.instance.group = (this.group.get([this.field.name])  as FormArray).controls[this.longth] as FormGroup;
           this.componentRef.instance.removing.subscribe($event => {
             this.removeIndex($event);
           });
@@ -238,7 +238,7 @@ export class BigexpandComponent implements AfterViewInit {
           this.componentRef.instance.field = element;
           this.componentRef.instance.group = (this.group.get([this.field.name])  as FormArray).controls[this.longth] as FormGroup;
         }
-        
+
       });
       this.longth = this.longth + 1;
     }
@@ -261,7 +261,7 @@ export class BigexpandComponent implements AfterViewInit {
     const items = this.group.get([this.field.name]) as FormArray;
     var group2 = this.fb.group({});
     items.push(group2);
-    this.createItem(group2); 
+    this.createItem(group2);
   }
 
   get formArray() { return <FormArray>this.group.get(this.field.name); }
@@ -442,11 +442,11 @@ export class BigexpandComponent implements AfterViewInit {
           componentMapper[temp.type]
         );
       }
-      
+
       this.componentRef = this._vcr.createComponent(factory);
       // this.components.push(this.componentRef);
       this.componentRef.instance.field = temp;
-      this.componentRef.instance.group = (this.group.get([this.field.name])  as FormArray).controls[this.longth] as FormGroup; 
+      this.componentRef.instance.group = (this.group.get([this.field.name])  as FormArray).controls[this.longth] as FormGroup;
       switch (temp.type) {
         case 'divider': {
           break;
@@ -496,12 +496,12 @@ export class BigexpandComponent implements AfterViewInit {
         }
         case 'bigexpand': {
           this.componentRef.instance.resolver = this.resolver;
-          group2.addControl(temp.name, this.fb.array([this.createItemOnly(temp)]));          
+          group2.addControl(temp.name, this.fb.array([this.createItemOnly(temp)]));
           break;
         }
         case 'bignotexpand': {
           this.componentRef.instance.resolver = this.resolver;
-          group2.addControl(temp.name, this.createItemOnly(temp));          
+          group2.addControl(temp.name, this.createItemOnly(temp));
           break;
         }
         /**case 'select': {
@@ -520,7 +520,7 @@ export class BigexpandComponent implements AfterViewInit {
           group2.addControl(temp.name, control);
         }
       }
-      
+
     });
     this.longth = this.longth + 1;
   }
@@ -533,7 +533,7 @@ export class BigexpandComponent implements AfterViewInit {
       group2 = this.fb.group({});
     }
     field.collections.forEach(kid => {
-      let temp: FieldConfig = Object.assign({}, kid); 
+      let temp: FieldConfig = Object.assign({}, kid);
       switch (temp.type) {
         case 'divider': {
           break;
@@ -581,11 +581,11 @@ export class BigexpandComponent implements AfterViewInit {
           break;
         }
         case 'bigexpand': {
-          group2.addControl(temp.name, this.fb.array([this.createItemOnly(temp)]));          
+          group2.addControl(temp.name, this.fb.array([this.createItemOnly(temp)]));
           break;
         }
         case 'bignotexpand': {
-          group2.addControl(temp.name, this.createItemOnly(temp));          
+          group2.addControl(temp.name, this.createItemOnly(temp));
           break;
         }
         /**case 'select': {
@@ -638,7 +638,7 @@ export class BigexpandComponent implements AfterViewInit {
       {return this.checkAllTouched(fm as FormGroup)};
     });
   }
-  
+
   checkAllTouched(fg: FormGroup): boolean{
     const controls = Object.values(fg.controls);
     return controls.every(fc => {

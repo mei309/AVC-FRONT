@@ -7,6 +7,7 @@
 <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex"
 (selectedIndexChange)="changed($event)" class="spac-print">
     <mat-tab label="Arrivals" i18n-label>
+      <mat-checkbox *ngIf="myGlobal.isMe" [(ngModel)]="withRealEta" (ngModelChange)="getRealEta()" [disabled]="withRealEta" i18n>Get real ETA (now only for one line later will add OOCL too)</mat-checkbox>
     </mat-tab>
     <mat-tab label="Loadings" i18n-label>
     </mat-tab>

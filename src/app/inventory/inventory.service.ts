@@ -81,6 +81,13 @@ export class InventoryService {
     return this.http.get(this.inventorysurl+'getCashewUses', {params});
   }
 
+  getInventoryTransactions (rangeDate) {
+    let params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+    return this.http.get(this.inventorysurl+'getInventoryTransactions', {params});
+  }
+
   getGeneralInventoryOrder() {
     return this.http.get(this.inventorysurl+'getGeneralInventoryOrder');
   }

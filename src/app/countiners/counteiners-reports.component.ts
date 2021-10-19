@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { Globals } from '../global-params.component';
 import { OneColumn } from './../field.interface';
 import { Genral } from './../genral.service';
 import { CounteinersDetailsDialogComponent } from './counteiners-details.component';
@@ -14,6 +15,8 @@ export class CountinersReportsComponent implements OnInit {
   navigationSubscription;
 
   tabIndex: number = 0;
+
+  withRealEta: boolean = false;
 
   type: string;
 
@@ -28,7 +31,7 @@ export class CountinersReportsComponent implements OnInit {
   dateRange;
 
   constructor(private router: Router, private dialog: MatDialog, private localService: CountinersService,
-    private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef) {
+    private _Activatedroute: ActivatedRoute, private genral: Genral, private cdRef:ChangeDetectorRef, public myGlobal: Globals) {
   }
 
   ngOnInit() {
@@ -75,6 +78,33 @@ export class CountinersReportsComponent implements OnInit {
       } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }
+    });
+  }
+
+  getRealEta(){
+    this.localService.getAllRealEta(this.dateRange).pipe(take(1)).subscribe(value => {
+      let array = [];
+      Object.keys(value).forEach(a => {
+        array.push({key: a, newEta: value[a]});
+      });
+      let merged = [];
+      for(let i=0; i<this.mainSourceColumns.length; i++) {
+        merged.push({
+        ...this.mainSourceColumns[i],
+        ...(array.find((itmInner) => itmInner.key === this.mainSourceColumns[i]['containerNumber']))}
+        );
+      }
+      this.columnsShow.push(
+        {
+          type: 'date',
+          label: $localize`Real ETA`,
+          name: 'newEta',
+          search: 'dates',
+        }
+      );
+      this.mainSourceColumns = merged;
+      this.columnsShow = this.columnsShow.slice();
+      this.cdRef.detectChanges();
     });
   }
 

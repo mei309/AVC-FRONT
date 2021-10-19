@@ -16,7 +16,7 @@ import { Globals } from '../global-params.component';
         <show-details [dataSource]="qcCheck" (approveChange)="setApproveChange()">
         </show-details>
         <ng-container *ngIf="globels.isMe">
-          <file-uploader *ngIf="id" functionUrl="addQcImage" [processId]="id"></file-uploader>
+          <file-uploader *ngIf="qcCheck" functionUrl="addQcImage" [processId]="id"></file-uploader>
           <file-viewer *ngIf="fileList && fileList.length" [fileList]="fileList"></file-viewer>
         </ng-container>
     </mat-dialog-content>

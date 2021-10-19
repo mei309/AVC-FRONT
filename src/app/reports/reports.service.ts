@@ -37,13 +37,6 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'allProductionByTime', {params});
   }
 
-  getInventoryTransactions (rangeDate) {
-    let params = new HttpParams().
-        set('begin',  rangeDate.begin).
-        set('end', rangeDate.end);
-    return this.http.get(this.reportsurl+'getInventoryTransactions', {params});
-  }
-
   getCashewInventoryPacked () {
     return this.http.get(this.reportsurl+'getCashewInventoryPacked');
   }

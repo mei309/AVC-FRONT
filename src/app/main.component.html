@@ -157,6 +157,7 @@
       <button mat-menu-item [routerLink]="['invready/Reports', {number: 0}]" i18n>Material Usage</button>
       <button mat-menu-item [routerLink]="['invready/Reports', {number: 1}]" i18n>Cashew Usage</button>
       <button mat-menu-item [routerLink]="['invready/Reports', {number: 2}]" i18n>Relocations</button>
+      <button mat-menu-item [routerLink]="['invready/Reports', {number: 3}]" i18n>General Inventory Transactions</button>
     </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>
@@ -174,7 +175,6 @@
       <button mat-menu-item [matMenuTriggerFor]="generalinventoryhistory" i18n>General Inventory History</button>
       <button mat-menu-item [matMenuTriggerFor]="exporthistory" i18n>Export</button>
       <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
-      <button mat-menu-item routerLink='reports/GeneralMaterialUsages' i18n>General Material Usages</button>
     </mat-menu>
     <mat-menu #inventorystock="matMenu" >
       <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Material</button>
@@ -204,7 +204,7 @@
       <button mat-menu-item routerLink='manager/BillOfMaterials' i18n>Bill Of Materials</button>
       <button mat-menu-item routerLink='manager/ManagmentNotifications' i18n>Notifications</button>
       <button *ngIf="myGlobal.isSysManager" mat-menu-item routerLink='manager/RemoveManagment' i18n>Remove Managment</button>
-      <button mat-menu-item routerLink='manager/ProductionPlan' i18n>Production Plan</button>
+      <button *ngIf="myGlobal.isMe" mat-menu-item routerLink='manager/ProductionPlan' i18n>Production Plan</button>
     </mat-menu>
 
       <button *ngIf="myGlobal.isMe" mat-button routerLink='onlymine'>onlymine</button>

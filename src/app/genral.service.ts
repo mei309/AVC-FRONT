@@ -270,6 +270,10 @@ export class Genral {
             return value.filter(a => a.productionFunctionality === 'LOADING');
           case 'PRODUCT_STORAGE':
             return value.filter(a => a.productionFunctionality === 'PRODUCT_STORAGE');
+          case 'PRODUCT_USE':
+            return value.filter(a => a.productionFunctionality === 'PRODUCT_USE');
+          case 'GENERAL_USE':
+            return value.filter(a => a.productionFunctionality === 'GENERAL_USE');
           case 'QC pack':
               return;
             case 'QC_CHECK':
