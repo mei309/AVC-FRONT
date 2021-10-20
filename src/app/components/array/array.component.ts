@@ -9,8 +9,8 @@ import { FieldConfig } from '../../field.interface';
   <ng-container [formArrayName]="field.name">
     <div *ngFor="let item of formArray.controls; let i = index;">
       <mat-form-field class="one-field" [formGroupName]="i">
-        <input matInput #input *ngIf="field.inputType !== 'numeric'" formControlName="value" [placeholder]="field.label" [type]="field.inputType" maxlength="255">
-        <input matInput #input *ngIf="field.inputType === 'numeric'" numeric formControlName="value" [decimals]="field.options" [placeholder]="field.label" type="text" maxlength="255">
+        <input [autocomplete]="field.autocomplete" matInput #input *ngIf="field.inputType !== 'numeric'" formControlName="value" [placeholder]="field.label" [type]="field.inputType" maxlength="255">
+        <input [autocomplete]="field.autocomplete" matInput #input *ngIf="field.inputType === 'numeric'" numeric formControlName="value" [decimals]="field.options" [placeholder]="field.label" type="text" maxlength="255">
         <button *ngIf="i!=0 && group.enabled" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeItem(i)">
           <mat-icon>close</mat-icon>
         </button>
@@ -27,12 +27,12 @@ import { FieldConfig } from '../../field.interface';
 })
 export class ArrayComponent {
   @ViewChildren('input') inputs: QueryList<ElementRef>;
-  
+
   field: FieldConfig;
   group: FormGroup;
 
   constructor(private fb: FormBuilder) {}
-  
+
   get formArray() { return <FormArray>this.group.get(this.field.name); }
 
   addItem(): void {
@@ -74,7 +74,7 @@ keyDown(event: KeyboardEvent, ind) {
             break;
           }
           const elem1 = this.inputs.find((element, index) => index === ind-6);
-          elem1.nativeElement.focus();   
+          elem1.nativeElement.focus();
           break;
         case 39: // this is the ascii of right
           if(ind === this.inputs.length) {
@@ -88,7 +88,7 @@ keyDown(event: KeyboardEvent, ind) {
             break;
           }
           const elem3 = this.inputs.find((element, index) => index === ind+6);
-          elem3.nativeElement.focus();   
+          elem3.nativeElement.focus();
           break;
   }
 }

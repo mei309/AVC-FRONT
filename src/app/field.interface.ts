@@ -16,6 +16,7 @@ export class FieldConfig {
   value?: any;
   validations?: Validator[];
   disable?: boolean;
+  autocomplete?: string;
 }
 
 export interface DropNormal {

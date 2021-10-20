@@ -7,7 +7,7 @@ import { FieldConfig } from '../../field.interface';
   selector: 'app-textarry',
   template: `
 <mat-form-field class="one-field" [formGroup]="group">
-  <textarea matInput [formControlName]="field.name" [placeholder]="field.label" [type]="field.inputType"></textarea>
+  <textarea [autocomplete]="field.autocomplete" matInput [formControlName]="field.name" [placeholder]="field.label" [type]="field.inputType"></textarea>
   <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
     <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
   </ng-container>

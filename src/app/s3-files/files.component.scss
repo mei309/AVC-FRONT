@@ -154,3 +154,40 @@
     transform: translate(1px, -2px) rotate(-1deg);
   }
 }
+mat-grid-tile {
+  display: inline-block;
+  margin: 20px;
+  border: 1px solid black;
+  overflow: hidden;            /* clip the excess when child gets bigger than parent */
+
+  display: block;
+  transition: transform .4s;   /* smoother zoom */
+}
+mat-grid-tile:active:nth-child(even) {
+  transform: scale(1.8) translate(-26%);
+  z-index: 100;
+  transform-origin: 50% 50%;
+}
+mat-grid-tile:active:nth-child(odd) {
+  transform: scale(1.8) translate(27%);
+  z-index: 100;
+  transform-origin: 50% 50%;
+}
+
+// .overlay{
+//   height:100vh;
+//   width:100%;
+//   background-color:rgba(0, 0, 0, 0.286);
+//   z-index:    2000;
+//   top:        0;
+//   left:       0;
+//   position:   fixed;
+// }
+// .overlay div {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   -moz-transform: translateX(-50%) translateY(-50%);
+//   -webkit-transform: translateX(-50%) translateY(-50%);
+//   transform: translateX(-50%) translateY(-50%);
+// }

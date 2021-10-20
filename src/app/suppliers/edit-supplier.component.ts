@@ -52,7 +52,7 @@ export class EditSupplierComponent implements OnInit {
   isDataAvalible: boolean = false;
 
 
-  
+
   constructor(private _Activatedroute:ActivatedRoute, private cdRef:ChangeDetectorRef,
     private LocalService: SuppliersService, private genral: Genral, public dialog: MatDialog) {
   }
@@ -85,7 +85,7 @@ export class EditSupplierComponent implements OnInit {
             message: $localize`Required`,
           }
         ]
-      },    
+      },
       {
         type: 'input',
         label: $localize`Legal english name`,
@@ -110,10 +110,10 @@ export class EditSupplierComponent implements OnInit {
         type: 'input',
         label: $localize`Registered location`,
         name: 'registrationLocation',
-      },   
+      },
       {
         type: 'button',
-        label: $localize`Save`,
+        label: $localize`Submit`,
         name: 'submit'
       }
     ];
@@ -133,6 +133,7 @@ export class EditSupplierComponent implements OnInit {
                 label: $localize`Street address`,
                 inputType: 'text',
                 name: 'streetAddress',
+                autocomplete: 'my-streetAddress',
               },
               {
                 type: 'selectgroup',
@@ -142,11 +143,13 @@ export class EditSupplierComponent implements OnInit {
                   {
                     type: 'select',
                     label: $localize`Country`,
+                    autocomplete: 'my-country',
                   },
                   {
                     type: 'select',
                     label: $localize`City/State`,
                     name: 'city',
+                    autocomplete: 'my-city',
                   },
                 ]
               },
@@ -166,12 +169,14 @@ export class EditSupplierComponent implements OnInit {
             label: $localize`Phone`,
             inputType: 'number',
             name: 'phones',
+            autocomplete: 'my-phones',
           },
           {
             type: 'array',
             label: $localize`Email`,
             inputType: 'text',
             name: 'emails',
+            autocomplete: 'my-emails',
             validations: [
               {
                 name: 'pattern',
@@ -187,12 +192,13 @@ export class EditSupplierComponent implements OnInit {
             label: $localize`Fax`,
             inputType: 'number',
             name: 'faxes',
+            autocomplete: 'my-faxes',
           },
         ]
       },
       {
         type: 'button',
-        label: $localize`Save`,
+        label: $localize`Submit`,
         name: 'submit'
       }
     ];
@@ -228,6 +234,7 @@ export class EditSupplierComponent implements OnInit {
                         label: $localize`Street address`,
                         inputType: 'text',
                         name: 'streetAddress',
+                        autocomplete: 'my-streetAddress',
                       },
                       {
                         type: 'selectgroup',
@@ -237,11 +244,13 @@ export class EditSupplierComponent implements OnInit {
                           {
                             type: 'select',
                             label: $localize`Country`,
+                            autocomplete: 'my-country',
                           },
                           {
                             type: 'select',
                             label: $localize`City/State`,
                             name: 'city',
+                            autocomplete: 'my-city',
                           },
                         ]
                       },
@@ -261,12 +270,14 @@ export class EditSupplierComponent implements OnInit {
                     label: $localize`Phone`,
                     inputType: 'number',
                     name: 'phones',
+                    autocomplete: 'my-phones',
                   },
                   {
                     type: 'array',
                     label: $localize`Email`,
                     inputType: 'text',
                     name: 'emails',
+                    autocomplete: 'my-emails',
                     validations: [
                       {
                         name: 'pattern',
@@ -282,6 +293,7 @@ export class EditSupplierComponent implements OnInit {
                     label: $localize`Fax`,
                     inputType: 'number',
                     name: 'faxes',
+                    autocomplete: 'my-faxes',
                   },
                 ]
               },
@@ -346,16 +358,13 @@ export class EditSupplierComponent implements OnInit {
                   name: 'name',
                 },
               ],
-              message: $localize`a person must have a name and position`,
-            },
-            {
-              name: 'position',
+              message: $localize`a person must have a name`,
             },
         ]
       },
       {
         type: 'button',
-        label: $localize`Save`,
+        label: $localize`Submit`,
         name: 'submit'
       }
     ];
@@ -425,7 +434,7 @@ export class EditSupplierComponent implements OnInit {
       },
       {
         type: 'button',
-        label: $localize`Save`,
+        label: $localize`Submit`,
         name: 'submit'
       }
     ];
@@ -471,7 +480,7 @@ export class EditSupplierComponent implements OnInit {
         data: {supplier: cloneDeep(val), fromNew: true},
       });
       dialogRef.afterClosed().subscribe(data => {
-        
+
         this.isDataAvalible = false;
         this.cdRef.detectChanges();
         this.preperDetailes(val);
@@ -502,7 +511,7 @@ export class EditSupplierComponent implements OnInit {
   submitAccounts(value: any) {
     this.cleanAndOrdinal(this.putData3);
     var resultNew = diff(this.putData3['paymentAccounts'] ? this.putData3['paymentAccounts'] : [], value['paymentAccounts'], 'id');
-    
+
     this.LocalService.editPaymentAccounts(resultNew, this.putData1['contactDetails']['id'], this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',
@@ -542,7 +551,7 @@ export class EditSupplierComponent implements OnInit {
     return true;
   }
 
-  
+
 
 }
 

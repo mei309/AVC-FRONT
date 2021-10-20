@@ -95,11 +95,11 @@ export class FileUploaderComponent implements OnInit {
 
   uploadFilesList() {
     for (const item of this.files) {
-      console.log('1. SelectedFile: ', item.name);
+      // console.log('1. SelectedFile: ', item.name);
       const body = { processId: this.processId, address: item.name }
       this.http.post(environment.baseUrl+'files/'+this.functionUrl, body).subscribe(preSignedUrl => {
-        console.log('2. PreSignedURL: ', preSignedUrl)
-        console.log('3. Upoloading File (binary) to S3')
+        // console.log('2. PreSignedURL: ', preSignedUrl)
+        // console.log('3. Upoloading File (binary) to S3')
 
 
         this.httpClient.put(preSignedUrl.toString(), item, {

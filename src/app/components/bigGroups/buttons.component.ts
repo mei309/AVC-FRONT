@@ -28,7 +28,7 @@ export class ButtonsComponent {
   group: FormGroup;
   index: number;
   message: string;
-  
+
   constructor() {}
 
   onRemoving() {

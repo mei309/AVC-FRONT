@@ -12,11 +12,15 @@ import { environment } from 'src/environments/environment';
     <button mat-raised-button color="primary" (click)="getImages()" i18n>View images</button>
 </div>
   <ng-template #seeImage>
-    <mat-grid-list cols="2" rowHeight="2:1">
-      <mat-grid-tile *ngFor="let item of fileList"><ng-container ><img mat-card-image src="{{item.file}}" alt="item.address"></ng-container></mat-grid-tile>
+    <mat-grid-list cols="2" rowHeight="2:1.3">
+      <mat-grid-tile *ngFor="let item of fileList">
+        <mat-grid-tile-header>{{item.address}}</mat-grid-tile-header>
+        <img mat-card-image style="width: 100%;" [src]="item.file" [alt]="item.address">
+      </mat-grid-tile>
     </mat-grid-list>
   </ng-template>
-    `
+    `,
+    styleUrls: ['./files.component.scss']
 })
 export class FileViewerComponent implements OnInit {
 
@@ -35,8 +39,8 @@ export class FileViewerComponent implements OnInit {
     this.fileList.forEach(ele => {
       const body = { fileName: ele.address }
       this.http.post(environment.baseUrl+'files/getImageQc', body).subscribe(preSignedUrl => {
-        console.log('2. PreSignedURL: ', preSignedUrl)
-        console.log('3. Get File (binary) from S3')
+        // console.log('2. PreSignedURL: ', preSignedUrl)
+        // console.log('3. Get File (binary) from S3')
 
         // let reader = new FileReader();
         ele.file = preSignedUrl.toString();

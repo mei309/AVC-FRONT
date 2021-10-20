@@ -23,7 +23,7 @@ export class NewSupplierComponent implements OnInit {
 
   constructor(private _Activatedroute:ActivatedRoute, private router: Router, private cdRef:ChangeDetectorRef,
     private LocalService: SuppliersService, private genral: Genral, private dialog: MatDialog) {
-      
+
   }
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class NewSupplierComponent implements OnInit {
             message: $localize`Required`,
           }
         ]
-      },  
+      },
       {
         type: 'input',
         label: $localize`Legal english name`,
@@ -102,6 +102,7 @@ export class NewSupplierComponent implements OnInit {
                 label: $localize`Street address`,
                 inputType: 'text',
                 name: 'streetAddress',
+                autocomplete: 'my-streetAddress',
               },
               {
                 type: 'selectgroup',
@@ -112,11 +113,13 @@ export class NewSupplierComponent implements OnInit {
                     type: 'select',
                     label: $localize`Country`,
                     value: 'Vietnam',
+                    autocomplete: 'my-contry',
                   },
                   {
                     type: 'select',
                     label: $localize`City/State`,
                     name: 'city',
+                    autocomplete: 'my-city',
                   },
                 ]
               },
@@ -137,6 +140,7 @@ export class NewSupplierComponent implements OnInit {
             inputType: 'number',
             name: 'phones',
             collections: 'phonesmain',
+            autocomplete: 'my-phones',
             // validations: [
             //   {
             //     name: 'pattern',
@@ -152,6 +156,7 @@ export class NewSupplierComponent implements OnInit {
             label: $localize`Email`,
             inputType: 'text',
             name: 'emails',
+            autocomplete: 'my-emails',
             validations: [
               {
                 name: 'pattern',
@@ -167,6 +172,7 @@ export class NewSupplierComponent implements OnInit {
             label: $localize`Fax`,
             inputType: 'number',
             name: 'faxes',
+            autocomplete: 'my-faxes',
             // validations: [
             //   {
             //     name: 'pattern',
@@ -267,6 +273,7 @@ export class NewSupplierComponent implements OnInit {
                         label: $localize`Street address`,
                         inputType: 'text',
                         name: 'streetAddress',
+                        autocomplete: 'my-streetAddress',
                       },
                       {
                         type: 'selectgroup',
@@ -276,11 +283,13 @@ export class NewSupplierComponent implements OnInit {
                           {
                             type: 'select',
                             label: $localize`Country`,
+                            autocomplete: 'my-country'
                           },
                           {
                             type: 'select',
                             label: $localize`City/State`,
                             name: 'city',
+                            autocomplete: 'my-city'
                           },
                         ]
                       },
@@ -300,13 +309,15 @@ export class NewSupplierComponent implements OnInit {
                     label: $localize`Phone`,
                     inputType: 'number',
                     name: 'phones',
-                    collections: 'phoneschild'
+                    collections: 'phoneschild',
+                    autocomplete: 'my-phones',
                   },
                   {
                     type: 'array',
                     label: $localize`Email`,
                     inputType: 'text',
                     name: 'emails',
+                    autocomplete: 'my-emails',
                     validations: [
                       {
                         name: 'pattern',
@@ -322,6 +333,7 @@ export class NewSupplierComponent implements OnInit {
                     label: $localize`Fax`,
                     inputType: 'number',
                     name: 'faxes',
+                    autocomplete: 'my-faxes',
                   },
                 ]
               },
@@ -392,13 +404,13 @@ export class NewSupplierComponent implements OnInit {
       },
       {
         type: 'button',
-        label: $localize`Save`,
+        label: $localize`Submit`,
         name: 'submit'
       }
     ];
   }
 
-  submit(value: any) {       
+  submit(value: any) {
     this.LocalService.addSupplier(value).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
           width: '80%',
@@ -415,7 +427,7 @@ export class NewSupplierComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.navigationSubscription) {  
+    if (this.navigationSubscription) {
        this.navigationSubscription.unsubscribe();
     }
   }

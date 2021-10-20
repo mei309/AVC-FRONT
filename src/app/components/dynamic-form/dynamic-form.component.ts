@@ -1,4 +1,3 @@
-/* eslint-disable no-prototype-builtins */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -110,7 +109,7 @@ export class DynamicFormComponent implements OnInit {
         }
       }
     */
-    if (this.form.valid) {
+    if (!this.form.invalid) {
       //this.emptyNull(this.form.value)
       // console.log(this.form.value);
 

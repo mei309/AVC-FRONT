@@ -12,7 +12,7 @@ import { FieldConfig } from '../../field.interface';
   selector: 'app-selectgroup',
   template: `
 <mat-form-field class="one-field margin-top">
-  <input matInput (blur)="InputControlOne($event)" [placeholder]="field.collections[0].label" [matAutocomplete]="auto" [value]="selectFormFirst.value" [formControl]="selectFormFirst">
+  <input matInput [autocomplete]="field.collections[0].autocomplete" (blur)="InputControlOne($event)" [placeholder]="field.collections[0].label" [matAutocomplete]="auto" [value]="selectFormFirst.value" [formControl]="selectFormFirst">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let item of filteredOptions1 | async" [value]="item">
         {{item}}
@@ -21,7 +21,7 @@ import { FieldConfig } from '../../field.interface';
 </mat-form-field>
 
 <mat-form-field class="one-field margin-top" [formGroup]="group">
-  <input #trigger matInput (blur)="InputControlTwo($event)" [placeholder]="field.collections[1].label" [matAutocomplete]="auto2" [formControlName]="field.collections[1].name">
+  <input [autocomplete]="field.collections[1].autocomplete" #trigger matInput (blur)="InputControlTwo($event)" [placeholder]="field.collections[1].label" [matAutocomplete]="auto2" [formControlName]="field.collections[1].name">
   <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="getOptionText" (optionSelected)="selectedTwo($event.option.value)">
     <mat-option *ngFor="let item of filteredOptions2 | async" [value]="item">
       {{item.value}}
@@ -263,7 +263,7 @@ export class SelectgroupComponent implements OnInit {
                   this.selectFormFirst.setValue(isValueTrue[0][this.genralLink]);
             }
         } else {
-            this.group.controls[this.field.collections[1].name].setValue('', {emitEvent: false});
+            this.group.controls[this.field.collections[1].name].setValue(null, {emitEvent: false});
         }
   }
 

@@ -50,10 +50,28 @@ export class QcDetailsDialogComponent {
         if(!this.fromNew) {
             this.LocalService.getQcCheck(this.id).pipe(take(1)).subscribe( val => {
                 this.qcCheck = val;
-                this.fileList = val['processFiles'];
+                this.fileList =
+                // [
+                //   {address: '/assets/qc-images/DECAY.jpg', file: '/assets/qc-images/DECAY.jpg'},
+                //   {address: 'assets/qc-images/DEEP CUT.jpg', file: 'assets/qc-images/DEEP CUT.jpg'},
+                //   {address: 'assets/qc-images/DEEP SPOT.jpg', file: 'assets/qc-images/DEEP SPOT.jpg'},
+                //   {address: '/assets/qc-images/DIRTY.jpg', file: '/assets/qc-images/DIRTY.jpg'},
+                //   {address: '/assets/qc-images/MOLD.jpg', file: '/assets/qc-images/MOLD.jpg'},
+                //   {address: 'assets/qc-images/OFF COLOUR.jpg', file: 'assets/qc-images/OFF COLOUR.jpg'},
+                //   {address: '/assets/qc-images/ROASTED TESTA.jpg', file: '/assets/qc-images/ROASTED TESTA.jpg'},
+                //   {address: 'assets/qc-images/BREAKAGE.jpg', file: 'assets/qc-images/BREAKAGE.jpg'},
+                //   {address: 'assets/qc-images/RAW.jpg', file: 'assets/qc-images/RAW.jpg'},
+                //   {address: 'assets/qc-images/ROASTED.jpg', file: 'assets/qc-images/ROASTED.jpg'},
+                //   {address: 'assets/qc-images/SMALL SIZE.jpg', file: 'assets/qc-images/SMALL SIZE.jpg'},
+                //   {address: 'assets/qc-images/TOTAL DEFECT ROASTING.jpg', file: 'assets/qc-images/TOTAL DEFECT ROASTING.jpg'},
+                //   {address: 'assets/qc-images/TOTAL DEFECT.jpg', file: 'assets/qc-images/TOTAL DEFECT.jpg'},
+                //   {address: 'assets/qc-images/TESTA.jpg', file: 'assets/qc-images/TESTA.jpg'},
+                // ];
+                val['processFiles'];
             });
         } else {
-          this.id = this.qcCheck['id'];
+            this.id = this.qcCheck['id'];
+            this.fileList = this.qcCheck['processFiles'];
         }
         this.buttons.push($localize`Edit`);
     }

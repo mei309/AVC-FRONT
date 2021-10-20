@@ -44,3 +44,17 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+src/assets/qc-images/BREAKAGE.jpg
+src/assets/qc-images/DECAY.jpg
+src/assets/qc-images/DEEP CUT.jpg
+src/assets/qc-images/DEEP SPOT.jpg
+src/assets/qc-images/DIRTY.jpg
+src/assets/qc-images/MOLD.jpg
+src/assets/qc-images/OFF COLOUR.jpg
+src/assets/qc-images/RAW.jpg
+src/assets/qc-images/ROASTED TESTA.jpg
+src/assets/qc-images/ROASTED.jpg
+src/assets/qc-images/SMALL SIZE.jpg
+src/assets/qc-images/TESTA.jpg
+src/assets/qc-images/TOTAL DEFECT ROASTING.jpg
+src/assets/qc-images/TOTAL DEFECT.jpg

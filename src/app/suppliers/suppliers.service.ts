@@ -25,7 +25,7 @@ export class SuppliersService {
         this.supplyType.next(value[3]);
         this.branches.next(value[4]);
     });
-  } 
+  }
 
   addSupplier (value): Observable<any> {
     return this.http.post(this.supplyurl+'addSupplier', value);
