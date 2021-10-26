@@ -122,7 +122,7 @@ export class AllQcsComponent implements OnInit {
       data: {id: event['id'], fromNew: false, type: this.type+' QC'},
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
+      if (data === $localize`Edit`) {
         if(this.type === 'Raw') {
           if(event['precentage']) {
             this.router.navigate(['../RawPercntage',{id: event['id']}], { relativeTo: this._Activatedroute });
@@ -136,7 +136,11 @@ export class AllQcsComponent implements OnInit {
             this.router.navigate(['../Raw',{id: event['id'], roast: true}], { relativeTo: this._Activatedroute });
           }
         }
-
+      } else if(data === $localize`Upload photos`) {
+        this.localService.addImagesQc(event['id']);
+        if(dialogRef.componentInstance.approveChange) {
+          this.changedAndDate(this.tabIndex);
+        }
       } else if(dialogRef.componentInstance.approveChange) {
         this.changedAndDate(this.tabIndex);
       }

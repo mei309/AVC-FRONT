@@ -474,6 +474,13 @@ export class EditSupplierComponent implements OnInit {
   }
 
   submitContact(value: any) {
+    if(value['contactDetails']){
+      value['contactDetails']['phones'] = value['contactDetails']['phones']?.filter(a => a.value);
+      value['contactDetails']['emails'] = value['contactDetails']['emails']?.filter(a => a.value);
+      value['contactDetails']['faxes'] = value['contactDetails']['faxes']?.filter(a => a.value);
+    }
+
+
     this.LocalService.editContactInfo(value['contactDetails'], this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',
@@ -491,8 +498,16 @@ export class EditSupplierComponent implements OnInit {
   }
 
   submitPeople(value: any) {
+    value['companyContacts']?.forEach(ele => {
+      if(ele['person'] && ele['person']['contactDetails']) {
+        ele['person']['contactDetails']['phones'] = ele['person']['contactDetails']['phones']?.filter(a => a.value);
+        ele['person']['contactDetails']['emails'] = ele['person']['contactDetails']['emails']?.filter(a => a.value);
+        ele['person']['contactDetails']['faxes'] = ele['person']['contactDetails']['faxes']?.filter(a => a.value);
+      }
+    });
+
     this.cleanAndOrdinal(this.putData2);
-    var resultNew = diff(this.putData2['companyContacts'] ? this.putData2['companyContacts'] : [], value['companyContacts'], 'id');
+    var resultNew = diff(this.putData2['companyContacts'], value['companyContacts'], 'id');
     this.LocalService.editContactPersons(resultNew, this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {
         width: '80%',
@@ -510,7 +525,7 @@ export class EditSupplierComponent implements OnInit {
 
   submitAccounts(value: any) {
     this.cleanAndOrdinal(this.putData3);
-    var resultNew = diff(this.putData3['paymentAccounts'] ? this.putData3['paymentAccounts'] : [], value['paymentAccounts'], 'id');
+    var resultNew = diff(this.putData3['paymentAccounts'], value['paymentAccounts'], 'id');
 
     this.LocalService.editPaymentAccounts(resultNew, this.putData1['contactDetails']['id'], this.id).pipe(take(1)).subscribe( val => {
       const dialogRef = this.dialog.open(SupplierDetailsDialogComponent, {

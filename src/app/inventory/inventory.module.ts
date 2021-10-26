@@ -11,11 +11,12 @@ import { InventoryReportsComponent } from './inventory.component';
 import { InventoryRelocationComponent } from './inventory-reloaction.component';
 import { CashewUseComponent } from './cashew-use.component';
 import { ExportUsageComponent } from './exp-imp-usage.component';
+import { InventoryTransactionsComponent } from './transactions.component';
 @NgModule({
   declarations: [GenralInventoryComponent, CashewInventoryComponent, CashewCountComponent, GenralCountComponent,
-  // MaterialExportPoComponent, MaterialExportItemComponent, 
+  // MaterialExportPoComponent, MaterialExportItemComponent,
   InventoryDetailsDialogComponent, MaterialUsageComponent, InventoryReportsComponent, InventoryRelocationComponent,
-  CashewUseComponent, ExportUsageComponent
+  CashewUseComponent, ExportUsageComponent, InventoryTransactionsComponent
   // TransferCountComponent,
   ],
   imports: [

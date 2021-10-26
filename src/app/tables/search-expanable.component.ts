@@ -85,7 +85,7 @@ import { OneColumn } from '../field.interface';
         </td>
     </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
+  <tr mat-header-row *matHeaderRowDef="columnsDisplay; sticky: true"></tr>
   <tr mat-row *matRowDef="let element; columns: columnsDisplay;"
       (click)="openExpanded(element)"
       [ngClass]="{'is-new': element.label === 'NEW', 'is-seen': element.label === 'SEEN'}">

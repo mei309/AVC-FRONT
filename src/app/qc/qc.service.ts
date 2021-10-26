@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { FileUploaderComponent } from '../s3-files/file-uploader.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +11,7 @@ export class QcService {
 
   qcurl = environment.baseUrl +'qc/';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
   }
 
 
@@ -53,6 +55,17 @@ export class QcService {
 
   getItemsCashewBulk (roast: boolean): Observable<any> {
       return this.http.get(this.qcurl+'getItemsCashewBulk/'+ roast);
+  }
+
+  addImagesQc(processId: number) {
+    const dialogRef = this.dialog.open(FileUploaderComponent, {
+      width: '80%',
+      disableClose: true,
+      data: {processId: processId, functionUrl: 'addQcImage', type: 'QC', fileNames: ['RAW', 'ROASTED', 'SMALL SIZE', 'BREAKAGE', 'MOLD', 'DIRTY',
+      'TESTA', 'ROASTED TESTA', 'DECAY', 'DEEP CUT', 'OFF COLOUR', 'DEEP SPOT', 'TOTAL DEFECT', 'TOTAL DEFECT ROASTING']},
+    });
+    dialogRef.afterClosed().subscribe(data => {
+    });
   }
 
 }

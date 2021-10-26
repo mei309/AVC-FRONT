@@ -46,7 +46,7 @@
     padding: 8px 16px;
   }
 
-  h3 {
+  h2, h3 {
     font-size: 20px;
     font-weight: 600;
     color: #38424c;
@@ -76,6 +76,19 @@
       margin-left: 0.5rem;
       cursor: pointer;
       align-self: flex-end;
+    }
+
+    .file-check {
+      display: flex;
+      margin-left: 0.5rem;
+      // cursor: pointer;
+      align-self: flex-end;
+      color: green;
+    }
+
+    .file-error{
+      color: red;
+      font-weight: bold;
     }
 
 

@@ -63,7 +63,7 @@ import { OneColumn } from '../field.interface';
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnsDisplay; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: columnsDisplay" (dblclick)="openDetails(row)"></tr>
  </table>
   <mat-toolbar>

@@ -19,6 +19,12 @@ const updatedValues = {
 };
 
 export function diff(first, second, idField, options = {}): object {
+  if(!first) {
+    first = [];
+  }
+  if(!second) {
+    second = [];
+  }
   // set defaults for "options"
   const opts = {
     compareFunction: isEqual, // set default compareFunction to lodash isEqual
@@ -61,14 +67,14 @@ export function diff(first, second, idField, options = {}): object {
 
   // this creates the "added", "same" and "updated" results
   const result = groupBy(second, groupingFunction);
-  
+
   // check what value should be returned for "updated" results
   // updatedValues.second is the default so doesn't have an "if" here
   if (opts.updatedValues === updatedValues.first) {
     result.updated = map(result.updated, u => firstIndex[u[idField]]);
   } else if (opts.updatedValues === updatedValues.both) {
     result.updated = map(result.updated, u => [firstIndex[u[idField]], u]);
-  } 
+  }
   // else if (opts.updatedValues === updatedValues.bothWithDeepDiff) {
   //   result.updated = map((u) => {
   //     const f = firstIndex[u[idField]];
@@ -80,9 +86,9 @@ export function diff(first, second, idField, options = {}): object {
 
   // now add "removed" and return
   const removedIds = difference(firstIds, secondIds);
-  
+
   const removed = map(removedIds, id => firstIndex[id]);
-  
+
   return { same: [], added: [], updated: [], ...result, removed };
 };
 

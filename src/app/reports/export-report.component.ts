@@ -19,9 +19,9 @@ import { ReportsService } from './reports.service';
         <mat-tab label="Exported bagged items" i18n-label>
         </mat-tab>
     </mat-tab-group>
-    <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="tabIndex? false : true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
+    <search-group-details [mainColumns]="columnsShow"  [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
     </search-group-details>
-    <sum-list-tables *ngIf="!tabIndex" [mainDetailsSource]="[sumsSource, totelByType]">
+    <sum-list-tables  [mainDetailsSource]="[sumsSource, totelByType]">
     </sum-list-tables>
     `,
 })
@@ -221,19 +221,21 @@ export class ExportReportComponent implements OnInit {
           this.cashewSource = null;
           this.totelByType = [
             {
-              type: 'sum',
-              name: 'boxQuantity',
+              type: 'sumByParam',
+              name: 'type',
+              option: 'boxQuantity',
               label: $localize`Total box quantity`,
             },
             {
-              type: 'sum',
-              name: 'bagQuantity',
+              type: 'sumByParam',
+              name: 'type',
+              option: 'bagQuantity',
               label: $localize`Total bag quantity`,
             },
             {
               type: 'sumByParam',
               name: 'type',
-              label: $localize`Total by type`,
+              label: $localize`Total (LBS)`,
               option: 'weightInLbs'
             }
           ];

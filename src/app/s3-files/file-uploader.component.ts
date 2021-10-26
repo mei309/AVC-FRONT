@@ -1,6 +1,6 @@
-import { HttpBackend, HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { Subject, Subscription, throttleTime, distinctUntilChanged } from 'rxjs';
+import { HttpBackend, HttpClient, HttpEventType } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,46 +10,44 @@ import { environment } from 'src/environments/environment';
 })
 export class FileUploaderComponent implements OnInit {
 
-  oneClickChanged: Subject<any> = new Subject<any>();
-  private oneClickOnlySubscription: Subscription;
+  allFileProcess = { all: 0, done: 0, err: 0 };
 
-  @Input() functionUrl;
-  @Input() processId;
+  functionUrl;
+  processId;
+  type: string;
+  fileNames: string[] = [];
 
   files: any[] = [];
 
-  private httpClient: HttpClient;
-    constructor(private http: HttpClient, private handler: HttpBackend) {
-          this.httpClient = new HttpClient(handler);
+  newFiles: boolean = true;
 
+  private httpClient: HttpClient;
+    constructor(private http: HttpClient, private handler: HttpBackend, public dialogRef: MatDialogRef<FileUploaderComponent>,
+      @Inject(MAT_DIALOG_DATA)
+      public data: any) {
+          this.functionUrl = data.functionUrl;
+          this.processId = data.processId;
+          this.type = data.type;
+          this.fileNames = data.fileNames
+          this.httpClient = new HttpClient(handler);
     }
 
   ngOnInit(): void {
-    this.oneClickOnlySubscription = this.oneClickChanged
-      .pipe(
-        throttleTime(1100),
-        distinctUntilChanged()
-      )
-      .subscribe(event => {
-        event.preventDefault();
-        event.stopPropagation();
-        this.uploadFilesList();
-      });
   }
 
 
   /**
    * on file drop handler
    */
-  onFileDropped($event) {
-    this.prepareFilesList($event);
+  onFileDropped($event, name?: string) {
+    this.prepareFilesList($event, name);
   }
 
   /**
    * handle file from browsing
    */
-  fileBrowseHandler(files) {
-    this.prepareFilesList(files);
+  fileBrowseHandler(files, name?: string) {
+    this.prepareFilesList(files, name);
   }
 
   /**
@@ -63,37 +61,48 @@ export class FileUploaderComponent implements OnInit {
   /**
    * Simulate the upload process
    */
-  uploadFilesSimulator(index: number) {
-    setTimeout(() => {
-      if (index === this.files.length) {
-        return;
-      } else {
-        const progressInterval = setInterval(() => {
-          if (this.files[index].progress === 100) {
-            clearInterval(progressInterval);
-            this.uploadFilesSimulator(index + 1);
-          } else {
-            this.files[index].progress += 5;
-          }
-        }, 200);
-      }
-    }, 1000);
-  }
+  // uploadFilesSimulator(index: number) {
+  //   setTimeout(() => {
+  //     if (index === this.files.length) {
+  //       return;
+  //     } else {
+  //       const progressInterval = setInterval(() => {
+  //         if (this.files[index].progress === 100) {
+  //           clearInterval(progressInterval);
+  //           this.uploadFilesSimulator(index + 1);
+  //         } else {
+  //           this.files[index].progress += 5;
+  //         }
+  //       }, 200);
+  //     }
+  //   }, 1000);
+  // }
 
   /**
    * Convert Files list to normal array list
    * @param files (Files List)
    */
-  prepareFilesList(files: Array<any>) {
+  prepareFilesList(files: Array<any>, name?: string) {
     for (const item of files) {
-      item.progress = 0;
-      this.files.push(item);
+
+      if(name) {
+        item.name = name+'.jpg';
+      }
+      console.log(this.files);
+
+      if(this.files.some(a => a.name === item.name)) {
+        alert('Avoiding duplicates');
+      } else {
+        item.progress = 0;
+        this.files.push(item);
+      }
     }
-    // this.uploadFilesSimulator(0);
   }
 
 
   uploadFilesList() {
+    this.newFiles = false;
+    this.allFileProcess.all = this.files.length;
     for (const item of this.files) {
       // console.log('1. SelectedFile: ', item.name);
       const body = { processId: this.processId, address: item.name }
@@ -106,23 +115,30 @@ export class FileUploaderComponent implements OnInit {
           reportProgress: true,
           observe: 'events'
         })
-        .subscribe(event => {
-          switch (event.type) {
-            case HttpEventType.Sent:
-              console.log('Request has been made!');
-              break;
-            case HttpEventType.ResponseHeader:
-              console.log('Response header has been received!');
-              break;
-            case HttpEventType.UploadProgress:
-              item.progress = Math.round(event.loaded / event.total * 100);
-              console.log(`Uploaded! ${item.progress}%`);
-              break;
-            case HttpEventType.Response:
-              console.log('File successfully uploaded!', event.body);
-              setTimeout(() => {
-                item.progress = 100;
-              }, 1500);
+        .subscribe({
+          next: (event) => {
+            switch (event.type) {
+              case HttpEventType.Sent:
+                console.log('Request has been made!');
+                break;
+              case HttpEventType.ResponseHeader:
+                console.log('Response header has been received!');
+                break;
+              case HttpEventType.UploadProgress:
+                item.progress = Math.round(event.loaded / event.total * 100);
+                console.log(`Uploaded! ${item.progress}%`);
+                break;
+              case HttpEventType.Response:
+                console.log('File successfully uploaded!', event.body);
+                setTimeout(() => {
+                  item.progress = 100;
+                  this.allFileProcess.done += 1;
+                }, 1500);
+            }
+          },
+          error: (e) => {
+            item.error = e.statusText;
+            this.allFileProcess.err += 1;
           }
         });
       });
@@ -146,8 +162,12 @@ export class FileUploaderComponent implements OnInit {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
+  onNoClick(): void {
+    this.dialogRef.close('closed');
+  }
+
   ngOnDestroy() {
-    this.oneClickOnlySubscription.unsubscribe();
+    // this.oneClickOnlySubscription.unsubscribe();
   }
 
 }

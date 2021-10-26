@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { take } from 'rxjs/operators';
 import { FieldConfig } from './field.interface';
 import { AuthenticateService } from './service/authenticate.service';
@@ -8,7 +9,7 @@ import { AuthenticateService } from './service/authenticate.service';
 @Component({
   selector: 'app-login',
   template:`
-  <span style="color: LightGray">version 9.3</span>
+  <span style="color: LightGray">version 9.5</span>
   <div [ngStyle]="{'width':'fit-content', 'margin':'auto'}">
     <dynamic-form [fields]="regConfig" mainLabel="Login Form" (submitForm)="doLogin($event)" i18n-mainLabel>
     </dynamic-form>
@@ -55,7 +56,15 @@ export class LoginComponent {
     }
   ];
 
-  constructor(private router: Router, private genralService: AuthenticateService) {}
+  constructor(private router: Router, private genralService: AuthenticateService, updates: SwUpdate) {
+    updates.available.pipe(take(1)).subscribe(event => {
+        console.log(event);
+
+      // if (promptUser(event)) {
+        updates.activateUpdate().then(() => document.location.reload());
+      // }
+    });
+  }
 
   ngOnInit() {
 		if(this.genralService.isLoggedIn) {

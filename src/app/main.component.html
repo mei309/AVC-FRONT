@@ -138,6 +138,7 @@
       <button mat-menu-item [matMenuTriggerFor]="inventorygeneral" i18n>General Stock</button>
       <button mat-menu-item [matMenuTriggerFor]="inventorynew" i18n>New</button>
       <button mat-menu-item [matMenuTriggerFor]="inventoryreport" i18n>Reports</button>
+      <button mat-menu-item [matMenuTriggerFor]="transactionsreport" i18n>Inventory Transactions</button>
     </mat-menu>
     <mat-menu #inventorycashews="matMenu" >
       <button mat-menu-item [routerLink]="['invready/CashewInventory', {number: 0}]" i18n>By Item</button>
@@ -157,7 +158,10 @@
       <button mat-menu-item [routerLink]="['invready/Reports', {number: 0}]" i18n>Material Usage</button>
       <button mat-menu-item [routerLink]="['invready/Reports', {number: 1}]" i18n>Cashew Usage</button>
       <button mat-menu-item [routerLink]="['invready/Reports', {number: 2}]" i18n>Relocations</button>
-      <button mat-menu-item [routerLink]="['invready/Reports', {number: 3}]" i18n>General Inventory Transactions</button>
+    </mat-menu>
+    <mat-menu #transactionsreport="matMenu" >
+      <button mat-menu-item [routerLink]="['invready/InventoryTransactions', {number: 0}]" i18n>Cashew</button>
+      <button mat-menu-item [routerLink]="['invready/InventoryTransactions', {number: 1}]" i18n>General</button>
     </mat-menu>
 
       <!-- <button mat-button [matMenuTriggerFor]="menuProducts" >Products</button>

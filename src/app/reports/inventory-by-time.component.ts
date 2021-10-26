@@ -35,7 +35,7 @@ import * as moment from 'moment';
     <div *ngIf="isDataAvailable">
       <search-group-details [mainColumns]="columnsShow" [detailsSource]="cashewSource" [totelAll]="totelAll" [listTotals]="true" [withPaginator]="false" (filteredInfo)="filteredSums($event)">
       </search-group-details>
-      <sum-list-tables *ngIf="totelByType" [mainDetailsSource]="[sumsSource, totelByType]">
+      <sum-list-tables *ngIf="totelByType" class="sums-qc" [mainDetailsSource]="[sumsSource, totelByType]">
       </sum-list-tables>
       <sums-product-type *ngIf="tabIndex < 1" class="sums-qc" [mainDetailsSource]="[sumsSource, ['productCompany', 'type'], 'weightInLbs']" title="Total LBS by product company" type="decimalNumber" i18n-title>
       </sums-product-type>

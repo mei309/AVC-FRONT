@@ -46,8 +46,8 @@ export class SumsProductTypeComponent {
                   return seq;
               var first = keys[0];
               var rest = keys.slice(1);
-              return mapValues(groupBy(seq, first), function (value) {
-                  return nest(value, rest)
+              return mapValues(groupBy(seq, first), function (valu) {
+                  return nest(valu, rest)
               });
             };
             const tempTable = nest(this.dataSource, this.sumCloumns);
@@ -83,11 +83,9 @@ export class SumsProductTypeComponent {
             this.sumClumensTable.forEach(newCloumn => {
               if(newCloumn === $localize`Total`) {
                 var sum = 0;
-                var diveder = 0;
                 this.sumDataSource.forEach(aLine => {
                   if(aLine[newCloumn]) {
                     sum += aLine[newCloumn];
-                    diveder ++;
                   }
                 });
                 newSumLine[newCloumn] = sum;
