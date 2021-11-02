@@ -21,8 +21,7 @@ import { SumsQcsTableComponent } from './sum-qc-table.component';
 import { SumListTablesComponent } from './sum-list-tables.component';
 import { InventoryGeneralTimeComponent } from './inventory-general-time.component';
 import { SumsProductTypeComponent } from './sum-product-type.component';
-
-
+import { ReceiptUsageComponent } from './recipit-usage.component';
 
 
 @NgModule({
@@ -30,7 +29,7 @@ import { SumsProductTypeComponent } from './sum-product-type.component';
     FinalReportFullComponent, FinalReportSummaryComponent, ProductionsByTimeComponent, QcsTotalsComponent,
     InventoryByTypeComponent, InventoryByTimeComponent, InventoryGeneralTimeComponent,
      ExportReportComponent, CellsProcesses, CellsLoading, CellsQcs, SumsQcsTableComponent, SumListTablesComponent,
-     SumsProductTypeComponent],
+     SumsProductTypeComponent, ReceiptUsageComponent],
   imports: [
     SheardModule,
     ReportsRoutingModule,

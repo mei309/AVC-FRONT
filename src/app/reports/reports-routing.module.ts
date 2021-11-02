@@ -7,7 +7,7 @@ import { InventoryByTypeComponent } from './inventory-by-type.component';
 import { InventoryGeneralTimeComponent } from './inventory-general-time.component';
 import { ProductionsByTimeComponent } from './production-by-time.component';
 import { QcsTotalsComponent } from './qc-supplier-totals.component';
-
+import { ReceiptUsageComponent } from './recipit-usage.component';
 
 const routes: Routes = [
   { path: 'FullPoReport', component: FinalReportComponent},
@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'InventoryGeneralTime', component: InventoryGeneralTimeComponent},
   { path: 'ExportReport', component: ExportReportComponent},
   { path: 'QCTotals', component: QcsTotalsComponent},
+  { path: 'ReceiptUsage', component: ReceiptUsageComponent},
 ];
 
 @NgModule({

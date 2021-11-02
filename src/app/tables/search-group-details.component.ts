@@ -340,7 +340,7 @@ export class SearchGroupDetailsComponent {
       }
       if(element.search && element.search.startsWith('selectObj')) {
           (this.searchGroup.get(element.name) as FormGroup).addControl('control', new FormControl());
-          (element.options as Observable<any[]>).pipe(take(1)).subscribe(arg => {
+          (element.options as Observable<any[]>).pipe(takeUntil(this.destroySubject$)).subscribe(arg => {
             // element.options['control'] = new FormControl();
             element.options = new ReplaySubject<any[]>(1);
             (element.options as ReplaySubject<any[]>).next(arg.slice());

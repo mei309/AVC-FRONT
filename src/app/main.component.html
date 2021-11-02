@@ -179,6 +179,7 @@
       <button mat-menu-item [matMenuTriggerFor]="generalinventoryhistory" i18n>General Inventory History</button>
       <button mat-menu-item [matMenuTriggerFor]="exporthistory" i18n>Export</button>
       <button mat-menu-item routerLink='reports/QCTotals' i18n>Suppliers QC</button>
+      <button mat-menu-item [matMenuTriggerFor]="receiptusagereport" i18n>Receipt Usage</button>
     </mat-menu>
     <mat-menu #inventorystock="matMenu" >
       <button mat-menu-item [routerLink]="['reports/InventoryByType', {number: 0}]" i18n>Material</button>
@@ -198,6 +199,10 @@
     <mat-menu #exporthistory="matMenu" >
       <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 0}]" i18n>By Container</button>
       <button mat-menu-item [routerLink]="['reports/ExportReport', {number: 1}]" i18n>Bagged Items</button>
+    </mat-menu>
+    <mat-menu #receiptusagereport="matMenu" >
+      <button mat-menu-item [routerLink]="['reports/ReceiptUsage', {number: 0}]" i18n>Cashew</button>
+      <button mat-menu-item [routerLink]="['reports/ReceiptUsage', {number: 1}]" i18n>General</button>
     </mat-menu>
 
     <button *ngIf="myGlobal.isManager" mat-button [matMenuTriggerFor]="menuManager" i18n>Management</button>

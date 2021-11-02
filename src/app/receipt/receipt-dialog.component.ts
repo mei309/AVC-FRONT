@@ -50,15 +50,18 @@ export class ReceiptDialog {
                     // }
                     this.buttons.push($localize`Edit receive`);
                 }
+                if(this.type.includes('Cashew')) {
+                  this.buttons.push($localize`Receive extra`);
+                }
             });
         } else {
             // if(this.receipt['referencedOrder']) {
             //     this.buttons.push('Edit order');
             // }
             this.buttons.push($localize`Edit receive`);
-        }
-        if(this.type.includes('Cashew')) {
-            this.buttons.push($localize`Receive extra`);
+            if(this.type.includes('Cashew')) {
+              this.buttons.push($localize`Receive extra`);
+            }
         }
     }
     onNoClick(): void {

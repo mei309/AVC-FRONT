@@ -108,6 +108,13 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'sumQcBySupplier',{params});
   }
 
+  getReceiptUsage (rangeDate, itemGroup: string) {
+    let params = new HttpParams().
+        set('begin',  rangeDate.begin).
+        set('end', rangeDate.end);
+    return this.http.get(this.reportsurl+'getReceiptUsage/'+itemGroup, {params});
+  }
+
   getBulkPackCashewItems (packageType: string) {
     return this.http.get(this.reportsurl+'getBulkPackCashewItems/'+packageType);
   }

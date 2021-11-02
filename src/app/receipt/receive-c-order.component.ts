@@ -59,7 +59,7 @@ export class ReceiveCOrder implements OnInit {
                                 this.putData = val;
                                 this.setUpRegConfigLock();
                             } else{
-                                this.setOrderItemsEdit(po, val);
+                                this.setOrderItemsEdit(val);
                             }
                         });
                         this.fromNew = false;
@@ -130,17 +130,17 @@ export class ReceiveCOrder implements OnInit {
         this.setUpRegConfig();
     }
 
-    setOrderItemsEdit(ponum: number, val) {
+    setOrderItemsEdit(val) {
         if(val['referencedOrder']) {
             this.localService.getOrder(val['referencedOrder']).pipe(take(1)).subscribe( value => {
                 this.OrderdItems.next(value? value['orderItems'] : []);
                 this.setUpEditRecieving(value? value['orderItems'] : [], val);
             });
         } else {
-            this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
-                this.OrderdItems.next(value? value['orderItems'] : []);
-                this.setUpEditRecieving(value? value['orderItems'] : [], val);
-            });
+            // this.localService.getOrderPO(ponum).pipe(take(1)).subscribe( value => {
+            //     this.OrderdItems.next(value? value['orderItems'] : []);
+                this.setUpEditRecieving([], val);
+            // });
         }
     }
 
@@ -554,7 +554,7 @@ export class ReceiveCOrder implements OnInit {
                         this.fromNew = false;
                         this.isDataAvailable = false;
                         this.OrderdItems = new ReplaySubject<any[]>();
-                        this.setOrderItemsEdit(+val['poCode']['id'], val);
+                        this.setOrderItemsEdit(val);
                         this.cdRef.detectChanges();
                     }
                     // else if(data === 'Edit order') {

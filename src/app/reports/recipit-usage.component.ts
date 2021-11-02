@@ -4,12 +4,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Genral } from '../genral.service';
-import { InventoryService } from './inventory.service';
+import { ReportsService } from './reports.service';
 
 @Component({
-  selector: 'app-inventory-transactions',
+  selector: 'app-receipt-usage',
   template: `
-  <h1 style="text-align:center" i18n>Inventory transactions</h1>
+  <h1 style="text-align:center" i18n>Receipt Usage</h1>
   <date-range-select (submitRange)="setDateRange($event)"></date-range-select>
   <mat-tab-group mat-stretch-tabs [(selectedIndex)]="tabIndex" (selectedIndexChange)="changed($event)" class="spac-print">
       <mat-tab label="Cashew" i18n-label>
@@ -21,7 +21,7 @@ import { InventoryService } from './inventory.service';
   </search-group-details>
     `
 })
-export class InventoryTransactionsComponent implements OnInit {
+export class ReceiptUsageComponent implements OnInit {
 
     navigationSubscription;
 
@@ -34,39 +34,30 @@ export class InventoryTransactionsComponent implements OnInit {
 
     columnsShow = [
       {
-          type: 'nameId',
-          name: 'item',
-          label: $localize`Item`,
-          search: 'selectObjObj',
-          options: this.ItemsChangable,
-          group: 'item',
-      },
-      {
-          type: 'stringComma',
-          name: 'poCodes',
+          type: 'normal',
+          name: 'poCode',
           label: $localize`PO#`,
           search: 'normal',
-          group: 'poCodes',
       },
       {
           type: 'stringComma',
-          name: 'suppliers',
+          name: 'supplier',
           label: $localize`Supplier`,
           search: 'selectObj',
           options: this.SuppliersChangable,
-          group: 'poCodes',
       },
       {
-          name: 'processName',
-          label: $localize`Process name`,
-          search: 'select',
-          options: this.genral.getProcess(),
-      },
-      {
-          name: 'productionLine',
-          label: $localize`Production line`,
+          type: 'normal',
+          name: 'item',
+          label: $localize`Item`,
           search: 'selectObj',
-          options: this.genral.getProductionLine(''),
+          options: this.ItemsChangable,
+      },
+      {
+          type: 'normal',
+          name: 'measureUnit',
+          label: $localize`Measure unit`,
+          search: 'normal',
       },
       {
           type: 'date',
@@ -75,34 +66,53 @@ export class InventoryTransactionsComponent implements OnInit {
           search: 'dates',
       },
       {
-          type: 'date',
-          name: 'transactionDate',
-          label: $localize`Transaction date`,
+          type: 'decimalNumber',
+          name: 'importedAmount',
+          label: $localize`Receipt amount`,
+          search: 'normal',
+      },
+      {
+          type: 'arrayVal',
+          name: 'usedDates',
+          label: $localize`Used dates`,
           search: 'dates',
       },
       {
-          type: 'weight',
-          name: 'amountSubtracted',
-          label: $localize`Amount subtracted`,
-          search: 'objArray',
+          type: 'decimalNumber',
+          name: 'usedAmount',
+          label: $localize`Used amount`,
+          search: 'normal',
       },
       {
-          type: 'weight',
-          name: 'amountAdded',
-          label: $localize`Amount added`,
-          search: 'objArray',
+          type: 'decimalNumber',
+          name: 'balance',
+          label: $localize`Balance`,
+          search: 'normal',
       },
       {
-          type: 'normal',
-          label: $localize`Remarks`,
-          name: 'remarks',
+          type: 'arrayVal',
+          name: 'warehouses',
+          label: $localize`Warehouse`,
+          search: 'selectObjArr',
+          options: this.genral.getWearhouses(),
+      },
+      {
+          type: 'currency',
+          name: 'unitPrice',
+          label: $localize`Unit price`,
+          search: 'object',
+      },
+      {
+          type: 'arrayVal',
+          name: 'bags',
+          label: $localize`Bags`,
           search: 'normal',
       },
   ];
 
     dateRange;
 
-    constructor(public dialog: MatDialog, private localService: InventoryService, private genral: Genral,
+    constructor(public dialog: MatDialog, private localService: ReportsService, private genral: Genral,
       private _Activatedroute: ActivatedRoute, private cdRef:ChangeDetectorRef, private router: Router) {
     }
 
@@ -139,7 +149,7 @@ export class InventoryTransactionsComponent implements OnInit {
         switch (+event) {
           case 0:
             this.inventorySource = null;
-            this.localService.getInventoryTransactions(this.dateRange, 'PRODUCT').pipe(take(1)).subscribe(value => {
+            this.localService.getReceiptUsage(this.dateRange, 'PRODUCT').pipe(take(1)).subscribe(value => {
               this.inventorySource = <any[]>value;
             });
             this.genral.getItemsCashew('').pipe(take(1)).subscribe(val => {
@@ -152,7 +162,7 @@ export class InventoryTransactionsComponent implements OnInit {
             break;
           case 1:
             this.inventorySource = null;
-            this.localService.getInventoryTransactions(this.dateRange, 'GENERAL').pipe(take(1)).subscribe(value => {
+            this.localService.getReceiptUsage(this.dateRange, 'GENERAL').pipe(take(1)).subscribe(value => {
               this.inventorySource = <any[]>value;
             });
             this.genral.getItemsGeneral().pipe(take(1)).subscribe(val => {

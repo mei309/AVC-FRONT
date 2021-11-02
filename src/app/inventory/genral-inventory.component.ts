@@ -67,21 +67,21 @@ export class GenralInventoryComponent implements OnInit {
     });
   }
 
-  openDialog(event): void {
-    const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
-      width: '80%',
-      data: {id: event['id'], fromNew: false, type: $localize`Inventory item`},
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data === 'Edit') {
-          switch (this.tabIndex) {
+  // openDialog(event): void {
+  //   const dialogRef = this.dialog.open(InventoryDetailsDialogComponent, {
+  //     width: '80%',
+  //     data: {id: event['id'], fromNew: false, type: $localize`Inventory item`},
+  //   });
+  //   dialogRef.afterClosed().subscribe(data => {
+  //     if (data === 'Edit') {
+  //         switch (this.tabIndex) {
 
-              default:
-                  break;
-          }
-      }
-    });
-  }
+  //             default:
+  //                 break;
+  //         }
+  //     }
+  //   });
+  // }
 
     changed(event) {
       switch (+event) {
