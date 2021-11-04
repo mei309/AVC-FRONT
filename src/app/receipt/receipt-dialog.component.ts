@@ -41,6 +41,9 @@ export class ReceiptDialog {
         }
 
     ngOnInit() {
+        if(this.type.includes('Cashew')) {
+          this.buttons.push($localize`Receive extra`);
+        }
         if(!this.fromNew) {
             this.LocalService.getReceive(this.id).pipe(take(1)).subscribe( val => {
                 this.receipt = val;
@@ -50,18 +53,13 @@ export class ReceiptDialog {
                     // }
                     this.buttons.push($localize`Edit receive`);
                 }
-                if(this.type.includes('Cashew')) {
-                  this.buttons.push($localize`Receive extra`);
-                }
+
             });
         } else {
             // if(this.receipt['referencedOrder']) {
             //     this.buttons.push('Edit order');
             // }
             this.buttons.push($localize`Edit receive`);
-            if(this.type.includes('Cashew')) {
-              this.buttons.push($localize`Receive extra`);
-            }
         }
     }
     onNoClick(): void {

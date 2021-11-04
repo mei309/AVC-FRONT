@@ -81,40 +81,16 @@ export const NGX_MAT_MOMENT_FORMATS_MY: NgxMatDateFormats = {
     MatListModule,
     MatMomentDateModule,
     NgxMatMomentModule,
-    // NgxMatDateFnsDateModule,
-    // MatNativeDateModule,
-    // NgxMatDateFnsDateModule,
-    // DateFnsModule.forRoot(),
-    // NgxMatDateFnsDateModule,
-    // NgxMatNativeDateModule,
   ],
   bootstrap: [AppComponent],
   entryComponents: [],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
-
-    // {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }},
-    // // {provide: MAT_DATE_LOCALE, useValue: "en-US"},
-    // {provide: NGX_MAT_DATEFNS_LOCALES, useValue: [enUS, vi]},
-    // { provide: LOCALE_ID, useValue: 'en-GB' },
-    // { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-    // { provide: DateFnsConfigurationService, useValue: enGBConfig },
-    // {provide: NgxMatDateAdapter, useClass: NgxDateFnsDateAdapterMine},
-    // {provide: NGX_MAT_DATEFNS_DATE_ADAPTER_OPTIONS_MINE, useValue: { useUtc: true }},
-    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: NGX_MAT_DATE_FORMATS, useValue: NGX_MAT_MOMENT_FORMATS_MY},
-    // {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS_MY},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-
-
-    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    // {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    {provide: NGX_MAT_DATE_FORMATS, useValue: NGX_MAT_MOMENT_FORMATS_MY},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS_MY},
     {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
     {provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
-    // {provide: NgxMatDateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS]}
-    // { provide: }
-    //otherProviders...
     Globals,
     LoadingService,
   ],
