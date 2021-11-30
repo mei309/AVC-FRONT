@@ -19,7 +19,7 @@ import { CountinersService } from './countiners.service';
   })
 export class CountinersArrivalComponent implements OnInit, OnDestroy {
     navigationSubscription;
-    
+
     putData: any = null;
     isDataAvailable = false;
     regConfig: FieldConfig[];
@@ -66,13 +66,6 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                         label: $localize`Loading port`,
                         name: 'portOfLoading',
                         options: this.localService.getShippingPorts(),
-                        validations: [
-                            {
-                                name: 'required',
-                                validator: Validators.required,
-                                message: $localize`Loading port Required`,
-                            }
-                        ]
                     },
                     {
                         type: 'date',
@@ -84,6 +77,13 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
                         label: $localize`Destination port`,
                         name: 'portOfDischarge',
                         options: this.localService.getShippingPorts(),
+                        validations: [
+                          {
+                              name: 'required',
+                              validator: Validators.required,
+                              message: $localize`Destination port Required`,
+                          }
+                        ]
                     },
                     {
                         type: 'date',
@@ -170,7 +170,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
    }
 
 
-    submit(value: any) { 
+    submit(value: any) {
         const fromNew: boolean = this.putData === null || this.putData === undefined;
         this.localService.addEditContainerArrival(value, fromNew).pipe(take(1)).subscribe( val => {
             const dialogRef = this.dialog.open(CounteinersDetailsDialogComponent, {
@@ -191,7 +191,7 @@ export class CountinersArrivalComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }

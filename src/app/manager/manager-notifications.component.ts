@@ -13,11 +13,11 @@ import { diff } from '../libraries/diffArrayObjects.interface';
       <div class="example-card" *ngFor="let process of proccesTypes">
         <mat-card (click)="editProcessAlerts(process)">
           <mat-card-header>
-            <mat-card-title>{{process}}</mat-card-title>
+            <mat-card-title>{{process['name']}}</mat-card-title>
           </mat-card-header>
           <mat-card-content *ngIf="putNotfictions">
             <ul>
-              <li *ngFor="let item of putNotfictions[process]">
+              <li *ngFor="let item of putNotfictions[process['name']]">
                   {{item['username']['value']}}: [
                     <ng-container *ngFor="let proccesAlert of item['procecces']">
                         {{proccesAlert['value']}}
@@ -37,23 +37,35 @@ export class ManagmentNotificationsComponent implements OnInit {
     proccesTypes;
     putNotfictions;
 
-    constructor(private localService: ManagerService, private genral: Genral, public dialog: MatDialog) {
+    constructor(private localService: ManagerService, public dialog: MatDialog) {
       }
 
     ngOnInit() {
       this.localService.getAllProcessTypeAlerts().pipe(take(1)).subscribe(value => {
         this.putNotfictions = value;
       });
-      this.proccesTypes = ['CASHEW_ORDER', 'GENERAL_ORDER', 'CASHEW_RECEIPT', 'GENERAL_RECEIPT',
-      'CASHEW_RECEIPT_QC', 'VINA_CONTROL_QC', 'SAMPLE_QC', 'SUPPLIER_QC',
-      'ROASTED_CASHEW_QC',
-      'STORAGE_TRANSFER', 'STORAGE_RELOCATION',
-      'CASHEW_CLEANING',
-      'CASHEW_ROASTING',
-      'CASHEW_TOFFEE',
-      'PACKING',
-      'CONTAINER_LOADING', 'CONTAINER_BOOKING', 'CONTAINER_ARRIVAL',
-      'GENERAL_USE', 'PRODUCT_USE'];
+      this.proccesTypes = [
+        {name: 'Cashew Order', val: 'CASHEW_ORDER'},
+        {name: 'General Order', val: 'GENERAL_ORDER'},
+        {name: 'Cashew Receipt', val: 'CASHEW_RECEIPT'},
+        {name: 'General Receipt', val: 'GENERAL_RECEIPT'},
+        {name: 'Cashew Receipt QC', val: 'CASHEW_RECEIPT_QC'},
+        {name: 'Vina Control QC', val: 'VINA_CONTROL_QC'},
+        {name: 'Sample QC', val: 'SAMPLE_QC'},
+        {name: 'Supplier QC', val: 'SUPPLIER_QC'},
+        {name: 'Roasted Cashew QC', val: 'ROASTED_CASHEW_QC'},
+        {name: 'Storage Transfer', val: 'STORAGE_TRANSFER'},
+        {name: 'Storage Relocation', val: 'STORAGE_RELOCATION'},
+        {name: 'Cashew Roasting', val: 'CASHEW_ROASTING'},
+        {name: 'Cashew Toffee', val: 'CASHEW_TOFFEE'},
+        {name: 'Packing', val: 'PACKING'},
+        {name: 'Cashew Cleaning', val: 'CASHEW_CLEANING'},
+        {name: 'Container Loading', val: 'CONTAINER_LOADING'},
+        {name: 'Container Booking', val: 'CONTAINER_BOOKING'},
+        {name: 'Container Arrival', val: 'CONTAINER_ARRIVAL'},
+        {name: 'General Use', val: 'GENERAL_USE'},
+        {name: 'Product Use', val: 'PRODUCT_USE'},
+      ];
     }
 
 
@@ -61,7 +73,7 @@ export class ManagmentNotificationsComponent implements OnInit {
       const dialogRef = this.dialog.open(EditNotifictionsDialogComponent, {
         width: '80%',
         height: '80%',
-        data: {putData: this.putNotfictions[localValue], proccesName: localValue},
+        data: {putData: this.putNotfictions[localValue['name']], proccesName: localValue},
       });
       dialogRef.afterClosed().subscribe(data => {
         if(data === 'succses') {
@@ -76,7 +88,7 @@ export class ManagmentNotificationsComponent implements OnInit {
 @Component({
   selector: 'app-edit-notifiction-dialog',
   template: `
-  <h1 style="text-align:center" i18n>Alert for {{proccesName}}</h1>
+  <h1 style="text-align:center" i18n>Alert for {{proccesName['name']}}</h1>
   <div *ngIf="isDataAvailable" class="tables mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
@@ -139,7 +151,7 @@ export class EditNotifictionsDialogComponent {
         }
       });
     });
-    this.localService.addAlertUsers({adding: addAlerts, removing: removeAlerts, processName: this.proccesName}).pipe(take(1)).subscribe(value => {
+    this.localService.addAlertUsers({adding: addAlerts, removing: removeAlerts, processName: this.proccesName['val']}).pipe(take(1)).subscribe(value => {
       this.dialogRef.close('succses');
     });
   }

@@ -228,15 +228,16 @@ export class SelectgroupComponent implements OnInit {
                 }
             });
             this.options2 = options;
+
             let isExist = options.filter(opt =>
               opt === this.group.controls[this.field.collections[1].name].value);
             if (isExist.length === 0) {
-              this.group.controls[this.field.collections[1].name].setValue(null, {emitEvent: false});
+              this.group.controls[this.field.collections[1].name].setValue(null);
             }
             if(!this.group.controls[this.field.collections[1].name].value) {
               // setTimeout(() => {
                 this.trigger.openPanel();
-              // }, 100);
+              // }, 1000);
             }
         } else {
             this.selectFormFirst.setValue(null, {emitEvent: false});
@@ -244,8 +245,7 @@ export class SelectgroupComponent implements OnInit {
             this.group.controls[this.field.collections[1].name].updateValueAndValidity({ onlySelf: true, emitEvent: true });
             // setTimeout(() => {
               this.trigger.openPanel();
-            // }, 100);
-
+            // }, 1000);
         }
     }, 300);
   }
@@ -287,7 +287,7 @@ export class SelectgroupComponent implements OnInit {
 
 
   allPos() {
-    this.genral.findAllPoCodes().pipe(take(1)).subscribe(arg => {
+    this.genral.findAllProductPoCodes().pipe(take(1)).subscribe(arg => {
         this.linkedtwo = arg;
         this.linkedone = uniq(arg.map(opt => opt[this.genralLink]));
         this.options1 = this.linkedone;

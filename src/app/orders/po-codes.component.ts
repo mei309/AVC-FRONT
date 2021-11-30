@@ -130,7 +130,7 @@ export class PoCodesComponent implements OnInit {
                     });
                 this.columnsPos = this.columnsPos.slice();
             }
-            this.localService.findAllPoCodes().pipe(take(1)).subscribe(value => {
+            this.localService.findAllProductPoCodes().pipe(take(1)).subscribe(value => {
                 this.posSource = value;
             });
             this.cdRef.detectChanges();

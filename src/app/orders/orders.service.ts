@@ -161,8 +161,8 @@ export class OrdersService {
     return this.http.get(this.ordersurl+'findFreeGeneralPoCodes');
   }
 
-  findAllPoCodes (): Observable<any> {
-    return this.http.get(this.ordersurl+'findAllPoCodes');
+  findAllProductPoCodes (): Observable<any> {
+    return this.http.get(this.ordersurl+'findAllProductPoCodes');
   }
 
   findAllGeneralPoCodes (): Observable<any> {

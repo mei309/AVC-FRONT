@@ -579,10 +579,17 @@ export class ExportImportComponent implements OnInit {
                         options: this.genral.getItemsCashewGrades(this.mainLabel, this.mainLabel.endsWith('ack')? []: cashewGrades),
                     },
                     {
-                        type: 'selectMU',
+                        type: 'selectNormal',
                         label: $localize`Weight unit`,
                         name: 'measureUnit',
+                        value: 'KG',
+                        options: this.genral.getMeasureUnit(),
                     },
+                    // {
+                    //     type: 'selectMU',
+                    //     label: $localize`Weight unit`,
+                    //     name: 'measureUnit',
+                    // },
                     {
                         type: 'bignotexpand',
                         name: 'storage',

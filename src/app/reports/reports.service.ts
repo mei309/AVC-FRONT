@@ -26,8 +26,8 @@ export class ReportsService {
     return this.http.get(this.reportsurl+'getFinalSummery/'+po);
   }
 
-  getAllPoCodes (): Observable<any> {
-    return this.http.get(this.reportsurl+'getAllPoCodes');
+  findAllPoCodes (): Observable<any> {
+    return this.http.get(this.reportsurl+'findAllPoCodes');
   }
 
   allProductionByTime (rangeDate) {

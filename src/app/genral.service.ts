@@ -291,8 +291,8 @@ export class Genral {
     return this.suppliersGeneral.asObservable();
   }
 
-  findAllPoCodes (): Observable<any> {
-    return this.http.get(this.mainurl+'findAllPoCodes');
+  findAllProductPoCodes (): Observable<any> {
+    return this.http.get(this.mainurl+'findAllProductPoCodes');
   }
 
   getStorageGeneralItem(itemId: number): Observable<any> {

@@ -59,7 +59,7 @@ export class FinalReportComponent {
     navigationSubscription;
 
     currentDate = new Date();
-    
+
     form: FormGroup;
     poCode: number;
     poConfig: FieldConfig[];
@@ -67,7 +67,7 @@ export class FinalReportComponent {
     isDataAvailable = false;
 
     constructor(private router: Router, private cdRef:ChangeDetectorRef, private fb: FormBuilder, private localService: ReportsService, private _Activatedroute: ActivatedRoute, private genral: Genral) {}
-    
+
     ngOnInit() {
         this.form = this.fb.group({poCode: this.fb.control('')});
         this._Activatedroute.paramMap.pipe(take(1)).subscribe(params => {
@@ -81,11 +81,11 @@ export class FinalReportComponent {
                 this.localService.getPoFinalReport(this.poCode).pipe(take(1)).subscribe( val1 => {
                     this.finalReport = val1;
                 });
-                this.localService.getAllPoCodes().pipe(take(1)).subscribe( val1 => {
+                this.localService.findAllPoCodes().pipe(take(1)).subscribe( val1 => {
                     this.form.get('poCode').setValue(val1.find(element => element.id === this.poCode));
                 });
             }
-        });  
+        });
         this.form.get('poCode').valueChanges.pipe(distinctUntilChanged()).subscribe(selectedValue => {
             if(selectedValue && selectedValue.hasOwnProperty('id')) {
                 if(selectedValue['id'] !== this.poCode) {
@@ -102,14 +102,14 @@ export class FinalReportComponent {
                         this.finalReport = val1;
                     });
                 }
-                
+
             }
-        }); 
+        });
         this.poConfig = [
             {
                 type: 'selectgroup',
                 inputType: 'supplierName',
-                options: this.localService.getAllPoCodes(),
+                options: this.localService.findAllPoCodes(),
                 collections: [
                     {
                         type: 'select',
@@ -133,13 +133,13 @@ export class FinalReportComponent {
               this.cdRef.detectChanges();
               this.isDataAvailable = true;
             }
-        }); 
+        });
     }
 
 
 
       ngOnDestroy() {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
            this.navigationSubscription.unsubscribe();
         }
       }
